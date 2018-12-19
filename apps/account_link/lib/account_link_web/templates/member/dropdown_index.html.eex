@@ -1,0 +1,108 @@
+<% member = @member%>
+<div class="menued-rows__item">
+  <%= if member.status == "Active" do %>
+  <button class="ui dropdown button request_loa" memberID="<%= member.id %>" memberCardNo="<%= member.card_no %>" memberName="<%= member.first_name <> " " <> name_checker(member.middle_name) <> " " <> member.last_name <> " " <> name_checker(member.suffix) %>" memberBirthDate="<%= member.birthdate %>">
+    <i class="edit icon"></i>
+    <span class="mobile-hide"><%= gettext "Request LOA" %></span>
+    <div class="menu">
+      <% coverages = get_member_coverages(member) %>
+      <%= if Enum.empty?(coverages) == false do %>
+      <%= for coverage <- coverages do %>
+      <div class="item modal-open-requestloa" data-value="<%= coverage.id %>">
+        <%= coverage.name %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+  </button>
+  <% else %>
+  <button class="ui button disabled">
+    <i class="edit icon"></i>
+    <span class="mobile-hide"><%= gettext "Request LOA" %></span>
+  </button>
+  <% end %>
+
+  <button class="ui button modal-open-viewlog" member_id="<%= member.id %>"><i class="file text outline icon"></i><span class="mobile-hide"><%= gettext "View Log" %></span></button>
+
+  <%= if member.step == 5 || member.step == 4 do %>
+    <a class="ui small primary basic button" href= "/<%= @locale %>/members/<%= member.id %>/show"><i class="unhide icon"></i><span class="mobile-hide"><%= gettext "View Details" %></span></a>
+  <% else %>
+    <a class="ui small primary basic button" href= "/<%= @locale %>/members/<%= member.id %>/setup?step=<%= member.step %>"><i class="unhide icon"></i><span class="mobile-hide"><%= gettext "View Details" %></span></a>
+  <% end %>
+  <div class="menued-rows__dropdown">
+    <div>
+      <i class="ellipsis vertical icon large blue mr-0 mr-0"></i>
+    </div>
+    <div class="container">
+      <div class="ui vertical buttons">
+        <%= if member.status == "Active" do %>
+        <button class="ui basic button modal-open-actionConfirmation-suspend"
+          member_id="<%= member.id %>"
+          member_name="<%= member.first_name %> <%= member.middle_name %> <%= member.last_name %>"
+          member_status="<%= member.status %>"
+          member_effect_date="<%= member.effectivity_date %>"
+          member_expire_date="<%= member.expiry_date %>"
+          member_suspend_date="<%= member.suspend_date %>"
+          member_suspend_reason="<%= member.suspend_reason %>"
+          member_suspend_remarks="<%= member.suspend_remarks %>"
+          member_cancel_date="<%= member.cancel_date%>"
+          account_suspend_date="<%= @account.suspend_date %>"
+          account_cancel_date="<%= @account.cancel_date %>">
+          <i class="pause icon"></i>
+          <%= gettext "Suspend" %>
+        </button>
+        <% else %>
+        <button class="ui basic button modal-open-actionConfirmation-suspend" disabled="disabled">
+          <i class="pause icon"></i>
+          <%= gettext "Suspend" %>
+        </button>
+        <% end %>
+        <%= if member.status == "Suspended" do %>
+        <button class="ui basic button modal-open-actionConfirmation-reactivate"
+          member_id="<%= member.id %>"
+          member_name="<%= member.first_name %> <%= member.middle_name %> <%= member.last_name %>"
+          member_status="<%= member.status %>"
+          member_effect_date="<%= member.effectivity_date %>"
+          member_expire_date="<%= member.expiry_date %>"
+          member_reactivate_date="<%= member.reactivate_date %>"
+          member_reactivate_reason="<%= member.reactivate_reason %>"
+          member_reactivate_remarks="<%= member.reactivate_remarks%>"
+          member_cancel_date="<%= member.cancel_date%>"
+          account_suspend_date="<%= @account.suspend_date %>"
+          account_cancel_date="<%= @account.cancel_date %>">
+          <i class="refresh icon"></i>
+          <%= gettext "Reactivate" %>
+        </button>
+        <% else %>
+        <button class="ui basic button modal-open-actionConfirmation-reactivate" disabled="disabled">
+          <i class="refresh icon"></i>
+          <%= gettext "Reactivate" %>
+        </button>
+        <% end %>
+        <%= if member.status == "Suspended" or member.status == "Active" do %>
+        <button class="ui basic button modal-open-actionConfirmation-cancel"
+          member_id="<%= member.id %>"
+          member_name="<%= member.first_name %> <%= member.middle_name %> <%= member.last_name %>"
+          member_status="<%= member.status %>"
+          member_effect_date="<%= member.effectivity_date %>"
+          member_expire_date="<%= member.expiry_date %>"
+          member_cancel_date="<%= member.cancel_date %>"
+          member_cancel_reason="<%= member.cancel_reason %>"
+          member_cancel_remarks="<%= member.cancel_remarks%>"
+          member_suspend_date="<%= member.suspend_date%>"
+          member_reactivate_date="<%= member.reactivate_date%>"
+          account_suspend_date="<%= @account.suspend_date %>"
+          account_cancel_date="<%= @account.cancel_date %>">
+          <i class="remove icon"></i>
+          <%= gettext "Cancel" %>
+        </button>
+        <% else %>
+        <button class="ui basic button modal-open-actionConfirmation-cancel" disabled="disabled">
+          <i class="pause icon"></i>
+          <%= gettext "Cancel" %>
+        </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

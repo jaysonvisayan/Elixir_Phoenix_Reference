@@ -1,0 +1,41 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Coverage</h1>
+          <div class="ui breadcrumb">
+              <a href="/coverages" class="section">Coverage</a>
+              <div class="divider"> / </div>
+              <a href="/coverages" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Coverage</div>
+          </div>  
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+              <%= render "form.html",
+                  changeset: @changeset,
+                  conn: @conn,
+                  action: coverage_path(@conn, :create) %>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="ui basic modal">
+  <div class="ui icon header">
+    <i class="send icon"></i>
+    Submit Coverage Details
+  </div>
+  <div class="content ui grid centered">
+    <p>Do you really want to create this Coverage?</p>
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>

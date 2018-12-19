@@ -1,0 +1,145 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Member
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Members</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <button class="ui basic button mt-1-small modal-open-procedure hidden">Batch Upload</button>
+        <button class="modal-open-benefit ui primary button mt-1-small">Add Member</button>
+      </div>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="member_index_page">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+        <div class="sixteen wide computer column">
+          <div class="ui three steps mobile-also">
+            <div class="active step">
+              <div class="content">
+                <div class="title hide-for-mobile">Member List</div>
+              </div>
+            </div>
+            <a href="members/batch_processing" class="step">
+              <div class="content">
+                <div class="title hide-for-mobile">Batch Processing</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <br><br>
+
+        <div class="sixteen wide column">
+          <br><br>
+          <div class="ui right aligned grid">
+            <div class="left floated left aligned eight wide column">
+
+            </div>
+            <div class="right floated right aligned ten wide column">
+              <!-- <a class="ui primary basic button">Skipping Hierarchy</a> -->
+              <a class="ui primary basic button" href="/members/reports/generate"><i class=" green download icon"></i>Reports</a>
+              <a class="ui primary basic button" href="/members/skipping/hierarchy">Skipping Hierarchy</a>
+              <a class="ui primary basic button hidden" href="/members/enrollment/import"><i class="green upload icon"></i>Batch Upload</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide computer column">
+          <br><br>
+          <table id="member_table" role="data-table" class="full-width ui celled striped table" width="100%">
+            <input type="hidden" value="<%= Plug.CSRFProtection.get_csrf_token() %>" name="_csrf_token">
+            <thead>
+              <tr>
+                <th>Member ID</th>
+                <th>Member Name</th>
+                <th>Card No.</th>
+                <th>Account</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div><!-- row ends here -->
+    </div><!-- grid ends here -->
+  </div><!-- .white-bg -->
+</div><!-- container ends here -->
+
+<div class="">
+  <div class="ui tiny modal benefit">
+    <i class="close icon left"></i>
+    <div class="content">
+      <h2>Choose your upload type </h2>
+      <div class="description mb-1">Please select the type of member you would like to add</div>
+      <%= form_for @conn, main_member_path(@conn, :choose_member_upload_type), fn f -> %>
+        <div class="ui grid">
+          <div class="eight wide column">
+            <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+              <div class="selection-button">
+                <div class="option" value="batch">Batch Member</div>
+              </div>
+            </a>
+          </div>
+          <div class="eight wide column">
+            <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+              <div class="selection-button">
+                <div class="option" value="single">Single Member</div>
+              </div>
+            </a>
+          </div>
+          <div class="twelve wide column centered">
+            <button class="fluid ui primary button large" type="submit">Proceed</button>
+          </div>
+        </div>
+        <%= hidden_input f, :member_type %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="ui tiny modal procedure">
+    <i class="close icon left"></i>
+    <div class="content">
+      <h2>Batch Upload </h2>
+      <div class="description mb-1">Please select the type of template you would like to upload</div>
+      <div class="ui grid form">
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title">Upload Template</label>
+            <input type="file" name="upload-lab-order" id="upload-lab-order" class="hide">
+            <div class="mt-1">
+              <div class="ui basic icon buttons upload-order fluid">
+                <label class="ui button" for="upload-lab-order"><span class="mr-1">Upload Templage</span><i class="upload icon"></i>
+                </label>
+                <label class="ui text-left"><i class="photo icon"></i></label>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label-title">Upload type</label>
+            <select class="ui fluid search selection dropdown">
+              <option>Select upload Type</option>
+              <option value="addition">Addition</option>
+              <option value="deletion">Deletion</option>
+            </select>
+          </div>
+          <div class="field">
+            <a href="#">Download Template</a>
+          </div>
+        </div>
+        <div class="ten wide computer sixteen wide mobile column centered">
+          <button class="ui primary basic button cancel">Cancel</button>
+          <button class="ui primary button float-right close">Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<%# <div class="ui large modal" id="modalAddACUProcedure"> %>
+<%#   <i class="close icon"></i> %>
+<%#   <div class="header"> %>
+<%#     Add Package %>
+<%#   </div> %>
+<%#   <div class="content"> %>
+<%#     <%= form_for @conn, @action, [as: :benefit, class: "ui form", id: "formAddPackage"], fn f -> %1> %>
+<%#     <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %1>"> %>
+<%#     <div class="field"> %>
+<%#       <div class="field"> %>
+<%#         <%= label f, :package_id, "Package" %1> %>
+<%#         <%= select f, :package_id, map_packages(@packages), class: "ui fluid search selection dropdown", prompt: "Select Package", id: "benefitPackage", "data-validate": "package" %1> %>
+<%#         <%= error_tag f, :package_id %1> %>
+<%#       </div> %>
+<%#     </div> %>
+<%#     <table role="datatable" class="ui striped table" id="tblPackage"> %>
+<%#       <thead> %>
+<%#         <tr> %>
+<%#           <th>Standard CPT Code</th> %>
+<%#           <th>Standard CPT Description</th> %>
+<%#           <th>Payor CPT Code</th> %>
+<%#           <th>Payor CPT Description</th> %>
+<%#           <th>Gender</th> %>
+<%#           <th>Age</th> %>
+<%#         </tr> %>
+<%#       </thead> %>
+<%#       <tbody id="packageBody"> %>
+<%#       </tbody> %>
+<%#     </table> %>
+<%#   </div> %>
+<%#   <div class="actions"> %>
+<%#     <a class="ui deny button"> %>
+<%#       <i class="remove icon"></i> %>
+<%#       Cancel %>
+<%#     </a> %>
+<%#     <button class="ui blue button" type="submit"> %>
+<%#       <i class="plus icon"></i> %>
+<%#       Add %>
+<%#     </button> %>
+<%#   </div> %>
+<%#   <% end %1> %>
+<%# </div> %>
+
+<%# <%= for package <- @packages do %1> %>
+<%#   <div id="<%= package.id %1>" class="hidden"> %>
+<%#     <table> %>
+<%#       <%= for package_payor_procedure <- package.package_payor_procedure do %1> %>
+<%#         <tr> %>
+<%#           <td><%= package_payor_procedure.payor_procedure.procedure.code %1></td> %>
+<%#           <td><%= package_payor_procedure.payor_procedure.procedure.description %1></td> %>
+<%#           <td><%= package_payor_procedure.payor_procedure.code %1></td> %>
+<%#           <td><%= package_payor_procedure.payor_procedure.code %1></td> %>
+<%#           <td><%= if package_payor_procedure.male, do: "M" %1> <%= if package_payor_procedure.female, do: "F" %1></td> %>
+<%#           <td><%= package_payor_procedure.age_from %1> - <%= package_payor_procedure.age_to %1></td> %>
+<%#         </tr> %>
+<%#       <% end %1> %>
+<%#     </table> %>
+<%#   </div> %>
+<%# <% end %1> %>
+
+
+<div class="ui large modal" id="modalAddPackage">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Package
+  </div>
+  <div class="content" style="overflow: auto;">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        At least one Package must be added!
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :benefit, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="benefit[package_ids_main]">
+    <table role="datatable" class="ui stripped table" id="package_table_modal">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAllPackages">
+          </th>
+          <th>Package Code</th>
+          <th>Package Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for package <- filter_benefit_packages(@benefit.benefit_packages, @packages) do %>
+          <%= if package.step != 0 do %>
+            <%= else %>
+          <tr>
+            <td>
+              <input type="checkbox" style="width:20px; height:20px" name="benefit[package_ids][]" value="<%= package.id %>" class="selection" />
+            </td>
+            <td><a href="/packages/<%= package.id %>/summary" target="_blank"><%= package.code %></a></td>
+            <td><%= package.name %></td>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit" id="addBtn">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

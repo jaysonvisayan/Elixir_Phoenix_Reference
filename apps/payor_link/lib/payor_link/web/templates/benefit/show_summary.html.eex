@@ -1,0 +1,262 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Benefits</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" target="_blank" href="/benefits">Benefits</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Show</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="row">
+            <div class="column" id="step" >
+
+          <!-- GENERAL -->
+          <h4 class="ui dividing header">General</h4>
+          <div class="ui grid container">
+            <div class="six wide computer six wide tablet column">
+              Coverages
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= display_coverages(@benefit) %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Code
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @benefit.code %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Name
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @benefit.name %></b>
+            </div>
+          </div>
+          <!-- END OF GENERAL -->
+
+          <!-- PROCEDURES -->
+          <h4 class="ui dividing header">Procedures</h4>
+          <%= if acu_coverage?(@benefit.benefit_coverages) do %>
+            <div class="ui grid centered container">
+              <div class="four wide computer six wide tablet column">
+                <b>Code</b>
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b>Name</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Gender</b>
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b>Age</b>
+              </div>
+              <%= for benefit_procedure <- @benefit.benefit_procedures do %>
+                <div class="four wide computer six wide tablet column">
+                  <%= benefit_procedure.procedure.code %>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <%= benefit_procedure.procedure.description %>
+                </div>
+                <div class="four wide computer six wide tablet column">
+                  <%= benefit_procedure.gender %>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <%= "#{benefit_procedure.age_from} - #{benefit_procedure.age_to}" %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="ui grid centered container">
+              <div class="six wide computer six wide tablet column">
+                <b>Code</b>
+              </div>
+              <div class="six wide computer ten wide tablet column">
+                <b>Name</b>
+              </div>
+              <%= for benefit_procedure <- @benefit.benefit_procedures do %>
+                <div class="six wide computer six wide tablet column">
+                  <%= benefit_procedure.procedure.code %>
+                </div>
+                <div class="six wide computer ten wide tablet column">
+                  <b><%= benefit_procedure.procedure.description %></b>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <!-- END OF PROCEDURES -->
+
+          <%= if acu_coverage?(@benefit.benefit_coverages) == false do %>
+            <!-- DIAGNOSIS -->
+            <h4 class="ui dividing header">Diagnosis</h4>
+            <div class="ui grid container">
+              <div class="six wide computer six wide tablet column">
+                <b>Code</b>
+              </div>
+              <div class="six wide computer ten wide tablet column">
+                <b>Name</b>
+              </div>
+              <%= for benefit_diagnosis <- @benefit.benefit_diagnoses do %>
+                <div class="six wide computer six wide tablet column">
+                  <%= benefit_diagnosis.diagnosis.code %>
+                </div>
+                <div class="six wide computer ten wide tablet column">
+                  <%= benefit_diagnosis.diagnosis.description %>
+                </div>
+              <% end %>
+            </div>
+            <!-- END OF DIAGNOSIS -->
+          <% end %>
+
+            <!-- PACKAGES -->
+
+            <%= for benefit_package <- @benefit.benefit_packages do %>
+              <h4 class="ui dividing header">Packages</h4>
+              <div class="ui grid container">
+                <div class="four wide computer six wide tablet column">
+                  <b>Package Code</b>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <b>Package Description</b>
+                </div>
+                <div class="four wide computer six wide tablet column">
+                  <b>Payor Procedure Code</b>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <b>Payor Procedure Description</b>
+                </div>
+                <div class="four wide computer six wide tablet column">
+                  <%= benefit_package.package.code %>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <%= benefit_package.package.name %>
+                </div>
+                <div class="four wide computer six wide tablet column">
+                  <%= benefit_package.payor_procedure_code %>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <%= benefit_package.payor_procedure_name %>
+                </div>
+              </div>
+
+            <% end %>
+            <!-- END OF PACKAGES -->
+
+
+          <%= if ruv_coverage?(@benefit.benefit_coverages) do %>
+            <!-- RUV -->
+            <h4 class="ui dividing header">RUV</h4>
+            <div class="ui grid container">
+              <div class="six wide computer six wide tablet column">
+                <b>Code</b>
+              </div>
+              <div class="six wide computer ten wide tablet column">
+                <b>Description</b>
+              </div>
+              <%= for benefit_ruv <- @benefit.benefit_ruvs do %>
+                <div class="six wide computer six wide tablet column">
+                  <%= benefit_ruv.ruv.code %>
+                </div>
+                <div class="six wide computer ten wide tablet column">
+                  <%= benefit_ruv.ruv.description %>
+                </div>
+              <% end %>
+            </div>
+            <!-- END OF RUV -->
+          <% end %>
+
+          <!-- LIMITS -->
+          <h4 class="ui dividing header">Limits</h4>
+          <div class="ui grid container">
+            <div class="four wide computer ten wide tablet column">
+              <b>Coverage</b>
+            </div>
+            <div class="four wide computer ten wide tablet column">
+              <b>Limit Type</b>
+            </div>
+            <div class="four wide computer ten wide tablet column">
+              <b>Limit Amount</b>
+            </div>
+            <div class="four wide computer ten wide tablet column">
+              <b>Limit Classification</b>
+            </div>
+            <%= for benefit_limit <- @benefit.benefit_limits do %>
+              <div class="four wide computer six wide tablet column">
+                <%= benefit_limit.coverages %>
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <%= benefit_limit.limit_type %>
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <td><%= display_limit_amount(benefit_limit) %></td>
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <td><%= benefit_limit.limit_classification %></td>
+              </div>
+            <% end %>
+          </div>
+          <!-- END OF LIMITS -->
+
+          <!-- Pharmacy -->
+          <h4 class="ui dividing header">Pharmacy</h4>
+          <div class="ui grid container">
+            <div class="five wide computer ten wide tablet column">
+              <b>Drug Code</b>
+            </div>
+            <div class="five wide computer ten wide tablet column">
+              <b>Generic Name</b>
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b>Brand</b>
+            </div>
+            <%= for benefit_pharmacy <- @benefit.benefit_pharmacies do %>
+              <div class="five wide computer six wide tablet column">
+                <%= benefit_pharmacy.drug_code %>
+              </div>
+              <div class="five wide computer ten wide tablet column">
+                <%= benefit_pharmacy.generic_name %>
+              </div>
+              <div class="six wide computer ten wide tablet column">
+                <%= benefit_pharmacy.brand %>
+              </div>
+            <% end %>
+          </div>
+          <!-- END OF Pharmacy -->
+
+          <!-- Miscellaneous -->
+          <h4 class="ui dividing header">Miscellaneous</h4>
+          <div class="ui grid container">
+            <div class="five wide computer ten wide tablet column">
+              <b>Code</b>
+            </div>
+            <div class="five wide computer ten wide tablet column">
+              <b>Description</b>
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b>Price</b>
+            </div>
+            <%= for benefit_miscellaneous <- @benefit.benefit_miscellaneous do %>
+              <div class="five wide computer six wide tablet column">
+                <%= benefit_miscellaneous.code %>
+              </div>
+              <div class="five wide computer ten wide tablet column">
+                <%= benefit_miscellaneous.description %>
+              </div>
+              <div class="six wide computer ten wide tablet column">
+                <%= benefit_miscellaneous.price %>
+              </div>
+            <% end %>
+          </div>
+          <!-- END OF miscellaneous  -->
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

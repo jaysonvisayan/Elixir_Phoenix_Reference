@@ -1,0 +1,59 @@
+<div class="pusher">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <h1 class="ui huge header">Bank KYC Requirements</h1>
+        <div class="ui breadcrumb">
+          <a href="/<%= @locale %>/kyc/new" class="section">Please fill out the form, we require all the information in order to process your insurance.</a>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui stackable grid">
+          <div class="row">
+            <div class="sixteen wide column">
+              <div class="ui four steps form-step">
+                <div class="  step">
+                  <i class="user icon"></i>
+                  <div class="content">
+                    <div class="title">Bank KYC Requirements</div>
+                    <div class="description">To safeguard  your account</div>
+                  </div>
+                </div>
+                <div class=" active step">
+                  <i class="mail icon"></i>
+                  <div class="content">
+                    <div class="title">Update Contact Info</div>
+                    <div class="description">Confirm that we have your updated contact info</div>
+                  </div>
+                </div>
+                <div class="  step">
+                  <i class="mail icon"></i>
+                  <div class="content">
+                    <div class="title">Submit Requirements to bank</div>
+                    <div class="description">Required to process reimbursements</div>
+                  </div>
+                </div>
+                <div class="  step">
+                  <i class="money icon"></i>
+                  <div class="content">
+                    <div class="title">Summary</div>
+                    <div class="description">Funding arrangement</div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui header form-header">
+                <i class="user icon"></i>
+                <div class="content">
+                  General
+                  <div class="sub header">Account name, type, etc.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%= render "step2_form.html", changeset: @changeset, member: @member, locale: @locale, countries: @countries, kyc: @kyc, cities: @cities, action: kyc_path(@conn, :update_setup, @locale, @kyc, step: "2") %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

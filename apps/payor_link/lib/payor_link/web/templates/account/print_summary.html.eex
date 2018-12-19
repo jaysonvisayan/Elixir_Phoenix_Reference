@@ -1,0 +1,612 @@
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+  }
+
+  .panel {
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  }
+  .panel-default {
+    border-color: gray;
+  }
+  .panel-default>.panel-heading {
+    color: #FFF;
+    background-color: #388e3c;
+    border-color: gray;
+    text-align: center;
+  }
+  .panel-heading {
+    padding: 7px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    font-size: 12px;
+  }
+
+  .panel-body {
+    padding: 15px;
+  }
+
+  table {
+    text-align: left;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 12px;
+  }
+
+  /*th:first-child,
+  td:first-child {
+    padding: 0 15px 0 15px;
+  }*/
+
+
+  tbody tr:last-child td {
+    border: none;
+  }
+
+  tbody td {
+    line-height: 20px;
+  }
+
+  .ui.small.images .image,
+  .ui.small.images img,
+  .ui.small.images svg,
+  .ui.small.image {
+    width: 150px;
+    height: auto;
+    font-size: 0.92857143rem;
+  }
+
+  .ui.medium.images .image,
+  .ui.medium.images img,
+  .ui.medium.images svg,
+  .ui.medium.image {
+    width: 300px;
+    height: auto;
+    font-size: 1rem;
+  }
+
+  .no-border {
+    border: none !important;
+  }
+
+  .pl {
+    padding-left: 25px !important;
+  }
+
+  .mt_zero {
+    margin-top: 0 !important;
+  }
+
+  .header {
+    border-bottom: 1px solid rgba(34, 36, 38, 0.1) !important;
+  }
+
+  .text-white {
+    color: #fff !important;
+  }
+
+  /*h5{
+    font-size: 9px !important;
+    margin: 10px 15px !important;
+  }*/
+
+  .header {
+    border: none;
+    margin: calc(2rem - 0.14285714em ) 0em 1rem;
+    padding: 0em 0em;
+    font-weight: bold;
+    line-height: 1.28571429em;
+    text-transform: none;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .dividing.header {
+    padding-bottom: 0.21428571rem;
+    border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+  }
+
+  .ui.basic.table {
+    /*background: transparent;*/
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    box-shadow: none;
+  }
+
+  .ui.basic.table thead,
+  .ui.basic.table tfoot {
+    box-shadow: none;
+  }
+
+  .ui.basic.table th {
+    /*background: transparent;*/
+    border-left: none;
+  }
+
+  .ui.basic.table tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .ui.basic.table td {
+    background: transparent;
+  }
+
+  .ui.basic.striped.table tbody tr:nth-child(2n) {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .ui[class*="very basic"].table {
+    border: none;
+  }
+
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) th,
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) td {
+    padding: '';
+  }
+
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) th:first-child,
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) td:first-child {
+    padding-left: 0em;
+  }
+
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) th:last-child,
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) td:last-child {
+    padding-right: 0em;
+  }
+
+  .ui[class*="very basic"].table:not(.sortable):not(.striped) thead tr:first-child th {
+    padding-top: 0em;
+  }
+
+  .ui.table {
+    width: 100%;
+    /*background: #FFFFFF;*/
+    margin: 1em 0em;
+    /*border: 1px solid rgba(34, 36, 38, 0.15);*/
+    box-shadow: none;
+    /*border-radius: 0.28571429rem;*/
+    text-align: left;
+    color: rgba(0, 0, 0, 0.87);
+    border-collapse: separate;
+    border-spacing: 0px;
+    padding: 0 15px 0 15px;
+  }
+
+  .ui.table:first-child {
+    margin-top: 0em;
+  }
+
+  .ui.table:last-child {
+    margin-bottom: 0em;
+  }
+
+  .ui.table th,
+  .ui.table td {
+    -webkit-transition: background 0.1s ease, color 0.1s ease;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+
+  .ui.table thead {
+    box-shadow: none;
+  }
+
+  .ui.table thead th {
+    cursor: auto;
+    /*background: #F9FAFB;*/
+    text-align: inherit;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 0.92857143em 0.78571429em;
+    vertical-align: inherit;
+    font-style: none;
+    font-weight: bold;
+    text-transform: none;
+    border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+    border-left: none;
+  }
+
+  .ui.table thead tr > th:first-child {
+    border-left: none;
+  }
+
+  .ui.table thead tr:first-child > th:first-child {
+    border-radius: 0.28571429rem 0em 0em 0em;
+  }
+
+  .ui.table thead tr:first-child > th:last-child {
+    border-radius: 0em 0.28571429rem 0em 0em;
+  }
+
+  .ui.table thead tr:first-child > th:only-child {
+    border-radius: 0.28571429rem 0.28571429rem 0em 0em;
+  }
+
+  .ui.table tr td {
+    padding-bottom: 0rem !important;
+    padding-top: 0rem !important;
+  }
+
+  .ui.table tr:first-child td {
+    border-top: none;
+  }
+
+  .ui.table td {
+    padding: 0.78571429em 0.78571429em;
+    text-align: inherit;
+  }
+
+  .hide {
+    display: none;
+  }
+</style>
+<body>
+  <center>
+    <%# <img class="ui medium image" src="https://preview.ibb.co/f51hRG/Medilink_Payor.png"> %>
+    <img class="ui medium image" src="data:image/png;base64,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">
+  </center>
+
+  <div class="ui divider"></div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">General</div>
+    <div class="panel-body">
+      <table id="table_general">
+        <tr>
+          <td style="width:50%">
+            <table>
+              <tr>
+                <td><b>Account Code</b></td>
+                <td><%= @account_group.code %></td>
+              </tr>
+              <tr>
+                <td><b>Account Type</b></td>
+                <td><%= @account_group.type %></td>
+              </tr>
+              <tr>
+                <td><b>Industry</b></td>
+                <td><%= if is_nil(@account_group.industry) == false, do: @account_group.industry.code %></td>
+              </tr>
+              <tr>
+                <td><b>Effective Date</b></td>
+                <td><%= @account.start_date %></td>
+              </tr>
+              <tr>
+                <td><b>Telephone Number</b></td>
+                <td><%= @account_group.phone_no %></td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table>
+              <tr>
+                <td><b>Account Name</b></td>
+                <td><%= @account_group.name %></td>
+              </tr>
+              <tr>
+                <td><b>Account Status</b></td>
+                <td><%= @account.status %></td>
+              </tr>
+              <tr>
+                <td><b>Segment</b></td>
+                <td><%= @account_group.segment %></td>
+              </tr>
+              <tr>
+                <td><b>Expiry Date</b></td>
+                <td><%= @account.end_date %></td>
+              </tr>
+              <tr>
+                <td><b>Website / Email Address</b></td>
+                <td><%= @account_group.email %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Address</div>
+    <div class="panel-body">
+      <table>
+        <tr>
+          <td style="width:50%">
+            <%= for address <- @account_group.account_group_address do %>
+              <table id="table_address">
+                <p><b><%= address.type %></b></p>
+                <tr>
+                  <td><b>Address Line 1</b></td>
+                  <td><%= address.line_1 %></td>
+                </tr>
+                <tr>
+                  <td><b>Address Line 2</b></td>
+                  <td><%= address.line_2 %></td>
+                </tr>
+                <tr>
+                  <td><b>City / Municipal</b></td>
+                  <td><%= address.city %></td>
+                </tr>
+                <tr>
+                  <td><b>Region</b></td>
+                  <td><%= address.region %></td>
+                </tr>
+                <tr>
+                  <td><b>Province</b></td>
+                  <td><%= address.province %></td>
+                </tr>
+                <tr>
+                  <td><b>Country</b></td>
+                  <td><%= address.country %></td>
+                </tr>
+                <tr>
+                  <td><b>Postal Code</b></td>
+                  <td><%= address.postal_code %></td>
+                </tr>
+              </table>
+            <% end %>
+          </td>
+          <td>
+            <%= if Enum.count(@account_group.account_group_address) == 1 && Enum.at(@account_group.account_group_address, 0).is_check do %>
+              <%= for address <- @account_group.account_group_address do %>
+                <table id="table_billing_address">
+                  <p><b>Billing Address</b></p>
+                  <tr>
+                    <td><b>Address Line 1</b></td>
+                    <td><%= address.line_1 %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Address Line 2</b></td>
+                    <td><%= address.line_2 %></td>
+                  </tr>
+                  <tr>
+                    <td><b>City / Municipal</b></td>
+                    <td><%= address.city %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Region</b></td>
+                    <td><%= address.region %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Province</b></td>
+                    <td><%= address.province %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Country</b></td>
+                    <td><%= address.country %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Postal Code</b></td>
+                    <td><%= address.postal_code %></td>
+                  </tr>
+                </table>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Contact</div>
+    <div class="panel-body">
+      <table id="table_contact" class="very basic table">
+        <thead>
+          <tr >
+            <th>Contact Type</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Telephone No</th>
+            <th>Mobile No</th>
+            <th>Fax No</th>
+            <th>Email Address</th>
+            <%# <th>CTC</th> %>
+            <%# <th>Date Issued</th> %>
+            <%# <th>Place Issued</th> %>
+            <%# <th>Passport Number</th> %>
+            <%# <th>Date Issued</th> %>
+            <%# <th>Place Issued</th> %>
+          </tr>
+        </thead>
+        <tbody>
+          <%= if Enum.empty?(@account_group.account_group_contacts) do %>
+            <tr>
+              <td colspan="13">No Records Found!</td>
+            </tr>
+          <% else %>
+            <%= for contacts <- @account_group.account_group_contacts do %>
+              <tr>
+                <td><%= contacts.contact.type %></td>
+                <td><%= contacts.contact.first_name %> <%= contacts.contact.last_name %></td>
+                <td><%= contacts.contact.designation %></td>
+                <td>
+                  <%= if Enum.empty?(contacts.contact.fax) do %>
+                    No Record
+                  <% else %>
+                    <%= for telephone <- contacts.contact.phones do %>
+                      <%= if telephone.type == "telephone" do %>
+                        <%= "(" <> telephone.country_code <> ") " <> area_code(telephone.area_code) <> " " <> telephone.number <> " " <> local(telephone.local) %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= for mobile <- contacts.contact.phones do %>
+                    <%= if mobile.type == "mobile" do %>
+                      <%= if is_nil(mobile.country_code) do %>
+                        <%= mobile.number %>
+                      <% else %>
+                        <p><%= Enum.join(["(", mobile.country_code, ")", mobile.number]) %></p>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= if Enum.empty?(contacts.contact.fax) do %>
+                    No Record
+                  <% else %>
+                    <%= for mobile <- contacts.contact.phones do %>
+                      <%= if mobile.type == "fax" do %>
+                        <%= "(" <> mobile.country_code <> ") " <> area_code(mobile.area_code) <> " " <> mobile.number <> " " <> local(mobile.local) %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td><%= contacts.contact.email %></td>
+                <%# <td><%= contacts.contact.ctc %1></td> %>
+                <%# <td><%= contacts.contact.ctc_date_issued %1></td> %>
+                <%# <td><%= contacts.contact.ctc_place_issued %1></td> %>
+                <%# <td><%= contacts.contact.passport_no %1></td> %>
+                <%# <td><%= contacts.contact.passport_date_issued %1></td> %>
+                <%# <td><%= contacts.contact.passport_place_issued %1></td> %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Financial</div>
+    <div class="panel-body" id="table_financial">
+      <%= if is_nil(@account_group.payment_account) do %>
+        <h4>No Records Found!</h4>
+      <% else %>
+        <table>
+          <tr>
+            <td valign="top" style="width:50%">
+              <table>
+                <tr>
+                  <td><b>Funding Arrangement</b></td>
+                  <td><%= @account_group.payment_account.funding_arrangement %></td>
+                </tr>
+                <tr>
+                  <td><b>Tax Identification Number</b></td>
+                  <td><%= @account_group.payment_account.account_tin %></td>
+                </tr>
+                <tr>
+                  <td><b>Previous Carrier</b></td>
+                  <td>
+                    <%= if is_nil(@account_group.payment_account.previous_carrier) do %>
+                      None
+                    <% else %>
+                      <%= @account_group.payment_account.previous_carrier %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Mode of Payment</b></td>
+                  <td><%= @account_group.payment_account.mode_of_payment %></td>
+                </tr>
+                <tr>
+                  <td><b>Bank Name</b></td>
+                  <td>
+                    <%= if is_nil(@account_group.bank) do %>
+                      None
+                    <% else %>
+                      <%= @account_group.bank.account_name %>
+                    <% end %>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td valign="top">
+              <table>
+                <tr>
+                  <td><b>VAT Status</b></td>
+                  <td><%= @account_group.payment_account.vat_status %></td>
+                </tr>
+                <tr>
+                  <td><b>Attached Point</b></td>
+                  <td>
+                    <%= if is_nil(@account_group.payment_account.attached_point) do %>
+                      None
+                    <% else %>
+                      <%= @account_group.payment_account.attached_point %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Bank Account Number</b></td>
+                  <td>
+                    <%= if is_nil(@account_group.bank) do %>
+                      None
+                    <% else %>
+                      <%= @account_group.bank.account_no %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Branch</b></td>
+                  <td>None</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <%= if Enum.count(@account_group.account_group_coverage_funds) > 0 do %>
+          <br/>
+          <table>
+            <p style="font-size:12px"><b>Coverage Funds</b></p>
+            <thead>
+              <tr>
+                <th>Coverage</th>
+                <th>Revolving Fund</th>
+                <th>Replenish Threshold</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for coverage_fund <- @account_group.account_group_coverage_funds do %>
+                <tr>
+                  <td><%= coverage_fund.coverage.name %></td>
+                  <td><%= coverage_fund.revolving_fund %></td>
+                  <td><%= coverage_fund.replenish_threshold %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Hierarchy of Eligible Dependents</div>
+    <div class="panel-body" id="table_hoed">
+      <table>
+        <tr>
+          <td valign="top">
+            <table>
+              <tr><th><b>Married Employe</b></th></tr>
+              <%= for result <- load_ahoed_summary(@account_group.account_hierarchy_of_eligible_dependents, "Married Employee") do %>
+                <tr><td><%= result %></td></tr>
+              <% end %>
+            </table>
+          </td>
+          <td valign="top">
+            <table>
+              <tr><th><b>Single Employe</b></th></tr>
+              <%= for result <- load_ahoed_summary(@account_group.account_hierarchy_of_eligible_dependents, "Single Employee") do %>
+                <tr><td><%= result %></td></tr>
+              <% end %>
+            </table>
+          </td>
+          <td valign="top">
+            <table>
+              <tr><th><b>Single Parent Employe</b></th></tr>
+              <%= for result <- load_ahoed_summary(@account_group.account_hierarchy_of_eligible_dependents, "Single Parent Employee") do %>
+                <tr><td><%= result %></td></tr>
+              <% end %>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,70 @@
+<div class="ui small modal" id="add_procedure">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Exempted Procedure
+  </div>
+  <div class="content">
+    <%= if @changeset_risk_share_facility_procedure.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+
+    <%= form_for @changeset_risk_share_facility_procedure, product_path(@conn, :save, @product, tab: "risk_share_facility_procedure"), [as: :product, class: "ui form rs_p_valid", id: "rs_procedure_validation"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <input type="hidden" name="product[pcrsfpp]" id="pcrsfpp">
+      <input type="hidden" name="product[product_risk_share_facility_id]" id="p_prsfID">
+      <div class="field disable_all">
+        <%= label f, :procedure_id, "Procedure (Code/Name)", class: "control-label"  %>
+        <%= select f, :procedure_id, [], class: "ui std_facility search selection dropdown", prompt: "Select Procedure", id: "p_name" %>
+        <%= error_tag f, :procedure_id %>
+      </div>
+
+      <div class="two wide fields">
+        <div class="field disable_all disable_field">
+          <%= label f, :type, "Risk Share", class: "control-label"  %>
+          <%= select f, :type, ["": "", "Copayment": "Copayment", "CoInsurance": "CoInsurance"], class: "ui selection dropdown", id: "p_type" %>
+          <%= error_tag f, :type %>
+        </div>
+
+        <div class="field disable_all disable_field">
+          <%= label f, :value, "Value", class: "control-label"  %>
+          <div class="ui right labeled input">
+            <%= text_input f, :value, class: "form-control", id: "p_value"%>
+            <div class="ui basic label" id="procedure_value_label">
+              %
+            </div>
+          </div>
+          <%= error_tag f, :value %>
+        </div>
+      </div>
+      <div class="field disable_all disable_field">
+        <%= label f, :covered, "Covered after Risk Share", class: "control-label"  %>
+        <div class="ui right labeled input">
+          <%= number_input f, :covered, class: "form-control", id: "p_covered"%>
+          <div class="ui basic label">
+            <span class="p_covered_label">%</span>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <div class="actions">
+    <a href="#" class="ui red button" id="btn_delete_procedure">
+      <i class="trash icon"></i>
+      Remove
+    </a>
+
+    <a class="ui small button" id="btnpEdit">
+      <i class="pencil icon"></i>
+      Edit
+    </a>
+
+    <button class="ui button" type="submit" id="btnpSubmit">
+      <i class="save icon"></i>
+      Save
+    </button>
+  </div>
+<% end %>
+</div>

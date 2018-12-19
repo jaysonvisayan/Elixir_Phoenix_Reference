@@ -1,0 +1,106 @@
+<%= form_for @changeset, @action, [as: :practitioner_account, multipart: true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="ui centered container">
+    <%# Start of 1st row%>
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet column">
+        <h2>Corporate Retainer</h2>
+      </div>
+      </div>
+    <%# Start of 2nd row %>
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet column">
+        <div class="field">
+          <%= label f, :account_group_id, "Account Code/ Account Name" %>
+          <%= select f, :account_group_id, @accounts, class: "ui dropdown" %>
+          <%= error_tag f, :account_group_id %>
+        </div>
+      </div>
+    </div>
+    <%# End of 2nd row %>
+    <%# Start of 3rd row %>
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet column">
+        <div class="two fields" role="form-telephone">
+          <div class="field sixteen wide column">
+            <%= label f, "Telephone" %>
+            <input type="number" name="practitioner_account[telephone][]" minlength=7 maxlength=7 id="contact" placeholder="Minimum of 7 characters">
+            <p role="validate" style="color:red">Minimum length is 7</p>
+            <%= error_tag f, :account_group_ids %>
+          </div>
+          <div class="field two wide column">
+            <%= label f, "telephone", class: "control-label", style: "color:white" %>
+            <a class="small ui blue button" add="telephone">
+              <i class="icon add"></i>
+            </a>
+          </div>
+        </div>
+          <p role="append-telephone"></p>
+      </div>
+    </div>
+    <%# End of 3rd row %>
+    <%# Start of 4th row %>
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet column">
+        <div class="two fields">
+          <div class="field sixteen wide column">
+            <%= label f, "Fax", class: "control-label" %>
+            <input type="number" name="practitioner_account[fax][]"/>
+            <%= error_tag f, :fax %>
+          </div>
+          <div class="field two wide column">
+            <%= label f, "fax", class: "control-label", style: "color:white" %>
+            <a class="small ui blue button" add="fax">
+              <i class="icon add"></i>
+            </a>
+          </div>
+        </div>
+        <p role="append-fax"></p>
+      </div>
+    </div>
+    <%# End of 4th row %>
+    <%# Start of 5th row %>
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet column">
+        <div class="two fields">
+          <div class="field sixteen wide column">
+            <%= label f, "Mobile", class: "control-label" %>
+            <input type="number" name="practitioner_account[mobile][]" minlength=11 maxlength=11 id="contact" required/>
+            <p role="validate" style="color:red">Minimum length is 11</p>
+            <%= error_tag f, :mobile%>
+          </div>
+          <div class="field two wide column">
+            <%= label f, "mobile", class: "control-label", style: "color:white" %>
+            <a class="small ui blue button" add="mobile">
+              <i class="icon add"></i>
+            </a>
+          </div>
+        </div>
+        <p role="append-mobile"></p>
+      </div>
+    </div>
+    <%# End of 5th row %>
+    <%# Start of 6th row %>
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet column">
+      <div class="field">
+        <%= label f, "Email Address", class: "control-label" %>
+        <%= email_input f, :email, name: "practitioner_account[email]", class: "form-control", required: "required" %>
+        <%= error_tag f, :email%>
+      </div>
+      </div>
+    </div>
+    <%# End of 6th row %>
+    <%= hidden_input f, :id %>
+  </div>
+  <%# Navigation buttons start %>
+  <button class="ui blue right floated button" type="submit">
+    Next
+   <i class="chevron right icon"></i>
+  </button>
+  <a href="/practitioners/<%=@practitioner.id%>?active=affiliation" class="ui button">
+    <i class="remove icon"></i>
+    Cancel
+  </a>
+  <%# Navigation buttons end %>
+<% end %>

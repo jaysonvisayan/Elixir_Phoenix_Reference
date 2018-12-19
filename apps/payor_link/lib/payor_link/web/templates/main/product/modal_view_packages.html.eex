@@ -1,0 +1,19 @@
+<div class="ui large modal modal_packages" id="view_packages">
+  <i class="close icon"></i>
+    <div class="header">View Packages</div>
+      <div class="content">
+        <div class="ui segment">
+				<div class="content-section white-bg mt-0">
+        <table id="modal_package_table" class="full-width ui celled striped table">
+        <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+              </tr>
+        </thead>
+        </table>
+        </div>
+        </div>  
+</div>
+</div>
+

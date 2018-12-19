@@ -1,0 +1,73 @@
+<div class="ui small modal acu_limit">
+  <i class="close icon"></i>
+  <div class="header" id="add_acu_limit_header">Add ACU Limit
+    <div class="decsription small dim">Please select the type of benefit you would like to add</div>
+  </div>
+
+  <div class="content">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+
+        <form id="acu_limit_form">
+          <div class="ui form">
+
+            <div class="field">
+              <label class="label-title">Coverage</label>
+              <input type="text" name="limit_coverage" readonly>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <label class="label-title">Limit Type</label>
+                <input type="text" name="limit_type" readonly>
+              </div>
+              <div class="field" id="">
+                <label class="label-title">Amount</label>
+                <div class="ui right labeled input">
+                  <input type="text" name="limit_session" readonly>
+                  <div class="ui basic label">Session</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <input type="text" value="" name="limit_type_peso" readonly>
+              </div>
+              <div class="field" id="">
+                <div class="ui right labeled input">
+                  <input type="text" name="acu_limit_amount" placeholder="Limit Amount">
+                  <div class="ui basic label" id="limit_amount_label">PHP</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label-title">Limit classification</label>
+              <div class="two fields mt-1 mb-1">
+                <div class="field">
+                  <div class="ui radio checkbox full-width">
+                    <input name="acu_limit_class" type="radio" value="Per Transaction">
+                    <label>Per Transaction</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input name="acu_limit_class" type="radio" value="Per Coverage Period">
+                    <label>Per Coverage Period</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="limit_id">
+        </form>
+
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class="ui primary basic button"  id="cancel_limit_form" state="add">Cancel</button>
+      <button class="send-rtp right floated ui primary button" id="acu_submit_limit_form">Add Limit</button>
+    </div>
+  </div>
+</div>

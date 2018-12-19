@@ -1,0 +1,150 @@
+<%= form_for @changeset, @action, [class: "ui form", id: "approval"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="sections-wrapper" id="special_details">
+    <section>
+      <div class="section-title section-title--with-button">
+        <span><%= gettext "Member Details" %></span>
+        <%= case @special.status do %>
+          <%= "Approved" -> %>
+            <div class="status-tag status-tag--green"><%= gettext "Approved" %></div>
+            <% "For Approval" -> %>
+              <div class="status-tag status-tag--orange"><%= gettext "Pending" %></div>
+              <% _ -> %>
+                <div class="status-tag status-tag--red"><%= gettext "Rejected" %></div>
+              <% end %>
+      </div>
+      <div class="ui container">
+        <div class="ui grid">
+          <div class="row">
+            <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="data-label"><%= gettext "Reference No." %></td>
+                    <td class="f-blue bold"> <%= @special.member.policy_no %> </td>
+                  </tr>
+                  <tr>
+                    <td class="data-label"><%= gettext "Card No." %></td>
+                    <td> <%= @special.member.card_no %> </td>
+                  </tr>
+                  <tr>
+                    <td class="data-label"><%= gettext "Employee No." %></td>
+                    <td> <%= @special.member.employee_no %> </td>
+                  </tr>
+                  <tr>
+                    <td class="data-label"><%= gettext "Coverage" %></td>
+                    <td> <%= @special.coverage.description %> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="data-label"><%= gettext "Member No." %></td>
+                    <td class="f-blue bold">
+                      <%=
+Enum.join([
+@special.member.first_name,
+@special.member.middle_name,
+@special.member.last_name,
+@special.member.suffix
+], " ")
+                                    %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="data-label"><%= gettext "Member Type" %></td>
+                    <td> <%= @special.member.type %> </td>
+                  </tr>
+                  <tr>
+                    <td class="data-label"><%= gettext "Date Requested" %></td>
+                    <td>
+                      <%= Enum.join([
+load_date(@special.inserted_at),
+display_time(@special.inserted_at)
+], " ")
+                      %>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <span><%= gettext "Assessed Amounts" %></span>
+      </div>
+      <form class="ui form">
+        <div class="ui three column grid">
+          <div class="column">
+            <div class="field">
+              <label class="label-title"><i class="user icon"></i><%= gettext "Member pays" %></label>
+              <div class="ui disabled input">
+                <%= text_input f, :member_covered, type: "number", min: "0" %>
+                <%= error_tag f, :member_covered %>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label-title"><i class="heartbeat icon"></i><%= gettext "Maxicare pays" %></label>
+              <div class="ui disabled input">
+                <%= text_input f, :payor_covered %>
+                <%= error_tag f, :payor_covered %>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label-title"><i class="building icon"></i><%= gettext "Company pays" %></label>
+              <%= if @special.status == "For Approval" do  %>
+                <div class="ui input">
+                <% else %>
+                  <div class="ui disabled input">
+                  <% end %>
+                  <%= text_input f, :company_covered, type: "number", min: "0" %>
+                  <%= error_tag f, :company_covered %>
+                  </div>
+                </div>
+            </div>
+            <div class="sixteen wide column bold">
+              <div class="dim"><%= gettext "Total" %></div>
+
+              <div class="fs-20">
+                Php <%= compute_total_amount(@special.authorization_amounts) %>
+                <span class="hide" name="total_amount"><%= compute_total_amount(@special.authorization_amounts) %></span>
+              </div>
+
+            </div>
+          </div>
+
+          <hr class="hide" name="_hr">
+          <div class="field hide" name="reason_field">
+            <label class="label-title"><%= gettext "Reason for Rejection" %></label>
+            <%= textarea f, :reason, cols: "30", rows: "3", placeholder: gettext "Explain the problem, complain or your condition"  %>
+          </div>
+          <%= if @special.status == "For Approval" do %>
+            <%= text_input f, :action, class: "hide" %>
+            <div class="text-center">
+              <button class="ui basic button" name="btn_reject">
+                <i class="remove icon"></i>
+                <%= gettext "Reject Request"%>
+              </button>
+              <button class="ui button" name="btn_approve">
+                <i class="checkmark icon"></i>
+                <%= gettext "Approve Request" %>
+              </button>
+            </div>
+            <% end %>
+      </form>
+
+    </section>
+        </div>
+      <% end %>

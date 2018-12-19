@@ -1,0 +1,28 @@
+<div class= "ui tiny modal complete">
+  <div class="header">
+    <div class="content">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <div class="ui form">
+            <div class="two fields">
+              <div class="five wide field">
+                <i class="massive icon-success icon"></i>
+              </div>
+              <div class="twelve wide field">
+                <h3>Benefit Successfully Created.</h3>
+                <div class="description" id="complete-description"></div>
+                <div class="button-label text mb-1">Do you want to create another Rider?</div>
+                <div class="ui grid">
+                  <div class="twelve wide computer sixteen wide mobile column">
+                    <button class="ui primary basic button deny">No</button>
+                    <button class="ui primary button float-right close approve">Yes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

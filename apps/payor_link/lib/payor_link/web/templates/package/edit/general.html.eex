@@ -1,0 +1,65 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Packages</h2>
+  <div class="ui small breadcrumb">
+    <a href="/packages" class="section">Packages</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages/<%= @package.id %>?active=procedures" class="section">View Package</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit <%= @package.code %></div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" name="PackageValidation">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment" id="Package">
+          <div class="ui two item menu">
+            <a class="active item">General</a>
+            <a href="/packages/<%= @package.id %>/edit?tab=facility" class="item">Facility</a>
+          </div>
+
+          <div class="ui bottom attached segment">
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= form_for @changeset, package_path(@conn, :update_edit_setup, @package, tab: "general"), [as: :package, multipart: true], fn f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <%= if @changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+          <% end %>
+          <div class="two fields">
+            <div class="disabled field">
+              <%= label f, "Package Code", class: "control-label" %>
+              <%= text_input f, :code, class: "form-control" %>
+              <font color="red"><%= error_tag f, :code %></font>
+            </div>
+            <div class="field">
+              <%= label f, "Package Name", class: "control-label" %>
+              <%= text_input f, :name, class: "form-control" %>
+              <font color="red"><%= error_tag f, :name %></font>
+            </div>
+          </div>
+
+          <button class="ui blue right floated button" type="submit">
+        <i class="save left icon"></i>
+        Save
+      </button>
+      <a href="/packages/<%= @package.id %>?active=procedures" class="ui button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,264 @@
+<%= if @conn.params["disapprove"] do %>
+  <input type="hidden" id="disapprove">
+<% end %>
+<%= if @conn.params["approve"] do %>
+  <input type="hidden" id="approve">
+<% end %>
+
+<div class="ui main container" id="skipping_hierarchy_index">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+        <div class="left floated left aligned eight wide column">
+          <h1 class="ui huge header with-button">Skipping Hierarchy</h1>
+        </div>
+        <div class="right floated right aligned eight wide column">
+          <a class="ui primary basic button" href="#" id="download_skipping"><i class="download icon"></i> Download Result</a>
+        </div>
+      </div>
+      <!--<h1 class="ui huge header">Account</h1>-->
+      <div class="ui breadcrumb">
+        <a class="section" href="/members">Members</a>
+        <div class="divider"> / </div>
+        <a href="#" class="section">Skipping Hierarchy</a>
+        <div class="divider"> / </div>
+        <div class="active section">Search</div>
+      </div>
+      <div class="ui divider"></div>
+    </div>
+  </div>
+  <div class="ui top attached tabular menu">
+    <a class="active item" data-tab="pending">Pending</a>
+    <a class="item" data-tab="processed">Processed</a>
+  </div>
+  <div class="ui bottom attached active tab segment" data-tab="pending">
+    <table role="datatable" class="ui very basic striped selectable table" id="skip_pending" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th><input type="checkbox" style="width:20px; height:20px" id="select_all"></th>
+          <th>Member Information</th>
+          <th>Date Requested</th>
+          <th>Requested By</th>
+          <th>Requested From</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for member <- @members do %>
+          <%= if member.step >= 5 and !Enum.empty?(member.skipped_dependents) and is_nil(Enum.at(member.skipped_dependents,0).status) do %>
+            <tr>
+              <td>
+                <input style="width:20px; height:20px" type="checkbox" class="selection" name="skipped_dependent[id][]" value="<%= member.id %>" />
+              </td>
+              <td><a href="#" class="skip_code" skipped_dependent="<%= get_skipping(member) %>" principal="<%= member.principal.first_name <> " " <> member.principal.last_name%>" member="<%= member.first_name <> " " <> member.last_name %>" account="<%= member.account_code <> " " <> member.account_group.name %>" member_id="<%= member.id %>"><%= member.id %>
+                <br>
+                <%= member.first_name <> " " <> member.last_name %>
+                <br>
+                <%= member.account_code <> " " <> member.account_group.name %></a></td>
+              <td class="valid_timezone date-only"><%= DateTime.to_date(Enum.at(member.skipped_dependents, 0).inserted_at) %></td>
+              <td><%= Enum.at(member.skipped_dependents, 0).created_by.username %></td>
+              <td>Payorlink</td>
+            </tr>
+          <%end%>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="ui centered grid">
+      <div class="four wide column">
+        <a class="ui primary basic button" href="#" id="disapprove_many" user_id="<%= @conn.assigns.current_user.id %>">Disapprove</a>
+        <a class="ui primary basic button" href="#" id="approve_many" user_id="<%= @conn.assigns.current_user.id %>">Approve</a>
+      </div>
+    </div>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="processed">
+    <table role="datatable" class="ui very basic striped selectable table" id="skip_processed" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Member Information</th>
+          <th>Date Requested</th>
+          <th>Requested By</th>
+          <th>Requested From</th>
+          <th>Date Processed</th>
+          <th>Processed By</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for member <- @members do %>
+          <%= if member.step >= 5 and !Enum.empty?(member.skipped_dependents) and not is_nil(Enum.at(member.skipped_dependents,0).status) do %>
+            <tr>
+              <td><a href="#" class="skip_code_view" skipped_dependent="<%= get_skipping(member) %>" principal="<%= member.principal.first_name <> " " <> member.principal.last_name%>" member="<%= member.first_name <> " " <> member.last_name %>" account="<%= member.account_code <> " " <> member.account_group.name %>" member_id="<%= member.id %>"><%= member.id %>
+                  <br>
+                  <%= member.first_name <> " " <> member.last_name %>
+                  <br>
+                  <%= member.account_code <> " " <> member.account_group.name %></a></td>
+              <td class="valid_timezone date-only"><%= DateTime.to_date(Enum.at(member.skipped_dependents, 0).inserted_at) %></td>
+              <td><%= Enum.at(member.skipped_dependents, 0).created_by.username %></td>
+              <td>Payorlink</td>
+              <td class="valid_timezone date-only"><%= DateTime.to_date(Enum.at(member.skipped_dependents, 0).updated_at) %></td>
+              <td><%= Enum.at(member.skipped_dependents, 0).updated_by.username %></td>
+              <td><%= Enum.at(member.skipped_dependents, 0).status %></td>
+            </tr>
+          <%end%>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="ui large modal details_skipping_hierarchy">
+  <i class="close icon"></i>
+  <div class="header">
+    Skipping Hierarchy Details
+  </div>
+  <div class="content">
+    <%= form_for @conn, member_path(@conn, :skipping_hierarchy), [as: :member, class: "ui form",  id: "submit_skipping_hierarchy_approval"], fn _f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui centered grid">
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for=""><b>Member Name</b></label>
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label id="member_name_view"></label>
+          </div>
+        </div>
+      </div>
+      <div class="ui centered grid">
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for=""><b>Account Name</b></label>
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label id="account_name_view"></label>
+          </div>
+        </div>
+      </div>
+      <div class="ui centered grid">
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for=""><b>Principal Name</b></label>
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label id="principal_name_view"></label>
+          </div>
+        </div>
+      </div>
+      <table class="ui very basic striped selectable table" cellspacing="0" width="100%" id="skipped_dependent_table">
+        <thead>
+          <tr>
+            <th>Skipped Dependent</th>
+            <th>Relationship</th>
+            <th>Birth Date</th>
+            <th>Gender</th>
+            <th>Reason for Skipping</th>
+            <th>Supporting Document</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+  <div class="actions">
+    <div class="ui centered grid">
+      <div class="four wide column">
+        <a class="ui primary basic button" href="#" id="disapprove_single" user_id="<%= @conn.assigns.current_user.id %>">Disapprove</a>
+        <a class="ui primary basic button" href="#" id="approve_single" user_id="<%= @conn.assigns.current_user.id %>">Approve</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui large modal details_skipping_hierarchy_view">
+  <i class="close icon"></i>
+  <div class="header">
+    Skipping Hierarchy Details
+  </div>
+  <div class="content">
+    <%= form_for @conn, member_path(@conn, :skipping_hierarchy), [as: :member, class: "ui form",  id: "submit_skipping_hierarchy_approval"], fn _f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui centered grid">
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for=""><b>Member Name</b></label>
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label id="member_name_view_processed"></label>
+          </div>
+        </div>
+      </div>
+      <div class="ui centered grid">
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for=""><b>Account Name</b></label>
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label id="account_name_view_processed"></label>
+          </div>
+        </div>
+      </div>
+      <div class="ui centered grid">
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for=""><b>Principal Name</b></label>
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label id="principal_name_view_processed"></label>
+          </div>
+        </div>
+      </div>
+      <table class="ui very basic striped selectable table" cellspacing="0" width="100%" id="skipped_dependent_table">
+        <thead>
+          <tr>
+            <th>Skipped Dependent</th>
+            <th>Relationship</th>
+            <th>Birth Date</th>
+            <th>Gender</th>
+            <th>Reason for Skipping</th>
+            <th>Supporting Document</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+<div class="ui small modal approve_skipping_hierarchy">
+  <i class="close icon"></i>
+  <div class="header">
+    Skipping Hierarchy Approval
+  </div>
+  <div class="content">
+    <%= form_for @conn, member_path(@conn, :skipping_hierarchy), [as: :skipping_hierarchy, class: "ui form",  id: "submit_skipping_hierarchy_approval"], fn _f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui grid">
+        <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for="">Reason</label>
+            <input class="person name" name="member_first_name" type="text">
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="ui centered grid">
+      <div class="six wide column">
+        <a class="ui primary basic button" href="#">Disapprove</a>
+        <a class="ui primary basic button" href="#">Approve</a>
+      </div>
+    </div>
+  </div>
+</div>

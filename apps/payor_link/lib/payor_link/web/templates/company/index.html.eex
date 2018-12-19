@@ -1,0 +1,50 @@
+<div class="ui main container grid">
+  <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+          <div class="left floated left aligned eight wide column">
+              <h1 class="ui huge header with-button">Companies</h1>
+          </div>
+          <div class="right floated right aligned eight wide column">
+              <a class="ui primary basic button" href="/companies/new"><i class="plus icon"></i>Add Company</a>
+          </div>
+      </div>
+      <div class="ui breadcrumb">
+          <a href="/companies" class="section">Companies</a>
+          <div class="divider"> / </div>
+          <div class="active section">Search</div>
+      </div>
+      <div class="ui divider"></div>
+  </div>
+</div>
+
+<br>
+
+<div class="ui container"  id="company_index">
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Company Code</th>
+          <th>Company Name</th>
+        </tr>
+    </thead>
+    <tbody>
+
+      <%= for company <- @companies do %>
+        <tr>
+          <td><a href="/companies/<%= company.id %>?active=procedures"> <%= company.code %></a></td>
+          <td field="company_name"><%=company.name %></td>
+        </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <%=
+render "modal.html",
+#changeset: @changeset,
+conn: @conn,
+action: company_path(@conn, :create)
+    %>
+  <% end %>

@@ -1,0 +1,66 @@
+<div class="ui longer large modal" id="new_add_asm">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Members
+    <span class="small dim" style="float: right !important; padding-right: 20px; font-size: 15px !important;" >Total Members: <i class="benefit_modal_product_limit_amt" style="font-size: 15px !important;"><%= @removed %></i></span>
+  </div>
+  <div class="scrolling content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, main_acu_schedule_path(@conn, :update_multiple_asm_status), [as: :asm, class: "form3", id: "asm_form"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" name="asm[asm_ids]">
+
+    <div class="ui segment" id="loader_acu_schedule_tbl">
+      <table role="datatable" id="acu_schedule_member_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th><input name="select_all" type="checkbox" id="checkAllacu" style='width:20px; height:20px'></th>
+            <th>Card No</th>
+            <th>Full Name</th>
+            <th>Gender</th>
+            <th>Birthdate</th>
+            <th>Age</th>
+            <th>Package Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for asm <- @asm_removes do %>
+            <tr>
+              <td><input id='<%= asm.id %>' type='checkbox' role="member-checkbox" style='width:20px; height:20px' value='<%= asm.id %>'' card_no='<%= asm.card_no %>'' fullname='<%= Enum.join([asm.first_name, asm.middle_name, asm.last_name], " ") %>' package_code='<%= asm.package %>' class='selection'></td>
+              <td><%= asm.card_no %></td>
+              <td><%= Enum.join([asm.first_name, asm.middle_name, asm.last_name], " ") %></td>
+              <td><%= asm.gender %></td>
+              <td><%= asm.birthdate %></td>
+              <td><%= member_age(asm.birthdate) %></td>
+              <td><%= asm.package %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="ui dimmer">
+        <div class="ui loader"></div>
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <a href="#" class="ui deny basic button">
+        Cancel
+      </a>
+      <button class="ui blue button" type="button" id="asm_submit_button">
+        Add
+      </button>
+    </div>
+  </div>
+  <input type="hidden" name="asm[as_id]" value="<%= @acu_schedule_id %>" id="as_id"/>
+  <div id="overlay3" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div> <p></p>
+  <% end %>
+</div>

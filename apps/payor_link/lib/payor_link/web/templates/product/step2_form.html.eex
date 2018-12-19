@@ -1,0 +1,241 @@
+<div class="row">
+  <div class="column">
+    <div class="ui negative message hidden" id="optionValidation">
+      <i class="close icon"></i>
+      <div class="header">
+        No Exclusion selected.
+      </div>
+      <p>Atleast one of both general and pre-existing exclusion must be added.</p>
+    </div>
+
+
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">General Exclusion</h4>
+      </div>
+      <div class="right floated right aligned six wide column">
+        <%= if @product.product_base == "Benefit-based" do %>
+          <a class="ui disabled small primary add button genex"><i class="plus icon"></i>General Exclusion</a>
+        <% else %>
+          <a class="ui small primary add button genex"><i class="plus icon"></i>General Exclusion</a>
+        <% end %>
+      </div>
+    </div>
+    <div class="ui divider mrg0T mrg1B"></div>
+    <div class="ui grid">
+      <div class="twelve wide column">
+      </div>
+      <div class="four wide column right aligned">
+
+        <label>Search<input type="search" id="genex_search"></label>
+      </div>
+    </div>
+    <div class="ui cards centered" id="genex_validation">
+
+      <%= for product_exclusion <- check_exclusion_genex(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+        <div class="ui card g_card">
+          <div class="content">
+            <div class="ui icon top right floated pointing dropdown basic">
+              <i class="ellipsis horizontal icon"></i>
+              <div class="left menu">
+                <div class="item clickable-row" href="#"  onclick="window.open('/exclusions/<%= product_exclusion.exclusion.id %>');" >
+                  <i class="unhide icon"></i>
+                  View Exclusion
+                </div>
+                <div class="item clickable-row deleting_product_exclusion" href="#" exclusionID="<%= product_exclusion.exclusion.id %>" productID="<%= @product.id %>" productExclusionID="<%= product_exclusion.id %>">
+                  <i class="trash icon"></i>
+                    Remove
+                </div>
+              </div>
+            </div>
+            <div class="header"><%= product_exclusion.exclusion.name %></div>
+          </div>
+          <div class="content">
+            <div class="ui small feed">
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui grid">
+                      <div class="doubling two column row">
+                        <div class="column description">
+                          Exclusion Code
+                        </div>
+                        <div class="column">
+                          <%= product_exclusion.exclusion.code %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui grid">
+                      <div class="doubling two column row">
+                        <div class="column description">
+                          No. of Diseases
+                        </div>
+                        <div class="column">
+                          <%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui grid">
+                      <div class="doubling two column row">
+                        <div class="column description">
+                          No. of Procedures
+                        </div>
+                        <div class="column">
+                          <%= Enum.count(product_exclusion.exclusion.exclusion_procedures) %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+
+    </div>
+
+<br>
+<br>
+<div class="row">
+  <div class="column">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Pre-Existing Condition</h4>
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small primary add button pre-existing"><i class="plus icon"></i>Pre-Existing Condition</a>
+      </div>
+    </div>
+    <div class="ui divider mrg0T mrg1B"></div>
+    <div class="ui grid">
+      <div class="twelve wide column">
+      </div>
+      <div class="four wide column right aligned">
+
+        <label>Search<input type="search" id="pre_search"></label>
+      </div>
+    </div>
+    <div class="ui cards centered" id="pre_validation">
+        <%= for product_exclusion <- check_pre_existing(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+        <div class="ui card p_card">
+          <div class="content">
+            <div class="ui icon top right floated pointing dropdown basic">
+              <i class="ellipsis horizontal icon"></i>
+              <div class="left menu">
+                  <div class="item clickable-row" href="#"  onclick="window.open('/exclusions/<%= product_exclusion.exclusion.id %>');" >
+                    <i class="unhide icon"></i>
+                    View Exclusion
+                  </div>
+                    <div class="item clickable-row edit_pec_limit" href="#" exclusion_id ="<%= product_exclusion.exclusion.id %>" limit_type="<%= product_exclusion.product_exclusion_limit.limit_type %>" limit_peso="<%= product_exclusion.product_exclusion_limit.limit_peso %>" limit_session="<%= product_exclusion.product_exclusion_limit.limit_session %>" limit_percentage="<%= product_exclusion.product_exclusion_limit.limit_percentage %>" >
+                      <i class="edit icon"></i>
+                    Edit Limit
+                    </div>
+                  <div class="item clickable-row deleting_product_exclusion" href="#" exclusionID="<%= product_exclusion.exclusion.id %>" productID="<%= @product.id %>" productExclusionID="<%= product_exclusion.id %>">
+                    <i class="trash icon"></i>
+                    Remove
+                  </div>
+              </div>
+            </div>
+            <div class="header"><%= product_exclusion.exclusion.name %></div>
+          </div>
+          <div class="content">
+            <div class="ui small feed">
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui grid">
+                      <div class="doubling two column row">
+                        <div class="column description">
+                          Exclusion Code
+                        </div>
+                        <div class="column">
+                          <%= product_exclusion.exclusion.code %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui grid">
+                      <div class="doubling two column row">
+                        <div class="column description">
+                          No. of Diseases
+                        </div>
+                        <div class="column">
+                          <%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+
+
+  </div>
+  <div class="ui middle aligned  right aligned grid mrg1T">
+    <div class="left floated left aligned six wide column">
+      <a href="#" class="ui negative button" id="delete_draft" productID="<%= @product.id %>">
+        <i class="trash left icon"></i>
+        Delete Draft
+      </a>
+    </div>
+    <div class="right floated right aligned six wide column">
+      <a href="/products/<%= @product.id %>/setup?step=1" class="ui button">
+        <i class="chevron left icon"></i> Back
+      </a>
+      <a href="#" productID="<%= @product.id %>" class="ui blue button" id="nxtBtnStep2" nxt_step="<%= product_base_link(@product) %>" >
+        Next
+        <i class="chevron right icon"></i>
+      </a>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

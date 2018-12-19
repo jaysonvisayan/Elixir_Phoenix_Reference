@@ -1,0 +1,44 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="facility-formValidate">
+        <div class="ui form segment" id="formStep4Facility">
+          <div class="ui ordered six steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Address</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Contact Details</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Financial</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Service Fee</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= render "step5_grid.html", conn: @conn, coverages: @coverages, facility: @facility, service_fee_types: @service_fee_types %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

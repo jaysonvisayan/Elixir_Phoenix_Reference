@@ -1,0 +1,96 @@
+<div class="ui modal" role="cancel_account" >
+  <i class="close icon"></i>
+  <div class="header">
+   Cancel Account
+  </div>
+  <p role ="append_cluster_cancel"></p>
+
+  <div class="content" id="cancel" >
+    <%= form_for @changeset, @action, [class: "ui form", id: "cancel_form" , multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    <% end %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+      <%= hidden_input f, :account_id %>
+      <%= hidden_input f, :cluster_id %>
+      <%= hidden_input f, :account_group_id %>
+      <%= hidden_input f, :status, value: "Cancelled" %>
+        <div class="two fields">
+          <div class="field">
+            <%= label f, "Account Code" %>
+             <input type="text"  id="account_code" readonly>
+            <font color="red"><%= error_tag f, :name %></font>
+          </div>
+
+          <div class="field">
+            <%= label f, "Account Name" %>
+             <input type="text"  id="account_name" readonly>
+            <font color="red"><%= error_tag f, :name %></font>
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="disabled field">
+            <%= label f, :account_start_date, "Current Effective Date" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="text" id="account_start_date" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="disabled field">
+            <%= label f, :account_end_date, "Current Expiry Date" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="text" id="account_end_date" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field" id="cancellation_date">
+            <%= label f, :cancel_date, "Cancellation Date" %>
+            <div class="ui calendar" id="cancelDatePicker">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :cancel_date, required: "required", placeholder: "YYYY-MM-DD", readonly: true, id: "cancel_date" %>
+                <font color="red"> <%= error_tag f, :cancel_date %></font>
+              </div>
+            </div>
+          </div>
+          <div class="field" id="cancellation_reason">
+            <%= label f, :cancel_reason, "Reason" %>
+            <%= text_input f, :cancel_reason, id: "cancel_reason" %>
+            <font color="red"><%= error_tag f, :cancel_reason%></font>
+          </div>
+        </div>
+        <div>
+          <div class="field">
+            <%= label f, :cancel_remarks, "Remarks (Optional)" %>
+            <%= textarea f, :cancel_remarks, id: "cancel_remarks" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <span>
+    <button type="button" class="small ui blue button" id="btn_cancel_account_in_cluster">
+      <i class="icon add"></i>
+      Cancel Account
+    </button>
+    </span>
+  </div>
+</div>
+<% end %>
+</div>

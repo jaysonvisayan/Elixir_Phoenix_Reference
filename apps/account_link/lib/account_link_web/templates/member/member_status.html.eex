@@ -1,0 +1,34 @@
+<%= case @member.status do %>
+<% "Active" -> %>
+  <div class="status-tag status-tag--green">
+    <span>Active</span>
+  </div>
+<% "Pending" -> %>
+  <div class="status-tag status-tag--orange">
+    <span>Pending</span>
+  </div>
+<% "Cancelled" -> %>
+  <div class="status-tag status-tag--red">
+    <span>Cancelled</span>
+  </div>
+<% "Suspended" -> %>
+  <div class="status-tag status-tag--red">
+    <span>Suspended</span>
+  </div>
+<% "Lapsed" -> %>
+  <div class="status-tag status-tag--red">
+    <span>Lapsed</span>
+  </div>
+<% "Disapprove" -> %>
+  <div class="status-tag status-tag--red">
+    <span>Disapprove</span>
+  </div>
+<% "For Approval" -> %>
+  <div class="status-tag status-tag--orange">
+    <span>For Approval</span>
+  </div>
+<% _ -> %>
+  <div class="status-tag status-tag--orange">
+    <span>Pending</span>
+  </div>
+<% end %>

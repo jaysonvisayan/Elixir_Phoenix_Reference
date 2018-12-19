@@ -1,0 +1,14 @@
+<%= form_for @changeset, @action, [class: "form2"], fn _f -> %>
+<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+<div class="field">
+  <%= render "permissions.html", role: @role, permissions: @permissions %>
+</div>
+<div class="two inline fields">
+  <div class="field">
+    <a class="ui button" href="/roles/<%= @role.id %>/setup?step=1">Previous</a>
+  </div>
+  <div class="field">
+    <%= submit "Next", class: "ui right floated blue submit button" %>
+  </div>
+</div>
+<% end %>

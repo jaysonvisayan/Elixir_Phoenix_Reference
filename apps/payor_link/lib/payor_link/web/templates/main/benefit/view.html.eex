@@ -1,0 +1,262 @@
+<div id="show_benefit_dental" code="<%= @code %>" token="<%= Innerpeace.PayorLink.Web.LayoutView.generate_api_token(@conn) %>">
+  <div id="view_benefit_dental">
+    <div class="page-title">
+      <div class="ui clearing segment">
+        <div class="ui container">
+          <h1 class="ui left floated header">
+            View Benefit
+            <div class="clearfix"></div>
+            <div class="ui breadcrumb">
+              <a href="/">Dashboard</a>
+              <i class="right angle icon divider"></i>
+              <a href="/web/benefits">Benefits</a>
+              <i class="right angle icon divider"></i>
+              {{results.code}}
+              <div class="active section dim thin"></div>
+            </div>
+          </h1>
+        </div>
+      </div><!-- .ui.clearing.segment -->
+    </div><!-- .page-title -->
+
+    <div class="ui container">
+      <div class="content-section white-bg">
+        <div class="ui grid">
+          <div class="row">
+            <div class="two wide computer sixteen wide mobile column">
+              <div class="mb-2 center aligned">
+                <div class="mr-2"><img src="/images/tooth.png" height="82" width="82"></div>
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Riders</label>
+              </div>
+            </div>
+            <div class="six wide computer eight wide tablet eight wide mobile column">
+              <p class="member-name" style="color: #00B24F">{{results.code}}</p>
+              <div class="section-title mt-2">
+                <h1>
+                  <div class="title-name">{{results.name}}</div>
+                </h1>
+              </div>
+            </div>
+
+            <!-- ellipsis space -->
+
+            <div class="eight wide computer eight wide tablet eight wide mobile column">
+              <div class="two wide computer sixteen wide mobile column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+                <div class="ui dropdown">
+                  <i class="ellipsis vertical icon"></i>
+                  <div class="menu">
+                    <div class="item">
+                      <i class="edit outline icon"></i>
+                      Edit
+                    </div>
+                    <div class="item">
+                      <i class="clone outline icon"></i>
+                      Versions
+                    </div>
+                    <div class="item">
+                      <i class="icon-product icon"></i>
+                      View plans
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item">
+                      <i class="trash alternate icon"></i>
+                      Discontinue
+                    </div>
+                    <div class="item">
+                      <i class="trash alternate icon"></i>
+                      Delete
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="eight wide computer eight wide tablet eight wide mobile column">
+
+              <div class="ui grid">
+                <div class="nine wide column">
+                  <br>
+                  <div style="height: 9px"><br></div>
+                  <div class="ui form">
+
+                    <div class="three fields">
+                      <div class="field dim">
+                        LAST UPDATE
+                      </div>
+                      <div class="field">
+                      </div>
+                      <div class="field">
+                        {{results.updated_at}}
+                      </div>
+                    </div>
+                    <div class="three fields">
+                      <div class="field dim">
+                        UPDATED BY
+                      </div>
+                      <div class="field"></div>
+                      <div class="field">
+                        {{results.updated_by}}
+                      </div>
+                    </div>
+                    <div class="three fields">
+                      <div class="field dim">
+                        COVERAGE
+                      </div>
+                      <div class="field"></div>
+                      <div class="field">
+                        <div v-for="limit in results.coverages">
+                          {{limit.name}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="three fields">
+                      <div class="field dim">
+                        CATEGORY
+                      </div>
+                      <div class="field"></div>
+                      <div class="field">
+                      <div v-if='(results.type == "Policy")'>
+                        {{results.type}}
+
+                      </div>
+
+                      <div v-else-if='(results.type == "Availment")'>
+
+                        <div class="field"></div>
+                        <div class="field">
+                          <div v-if='(results.loa_facilitated == true && results.reimbursement == false)'>LOA
+                            Facilitated</div>
+                          <div v-else-if='(results.reimbursement == true && results.loa_facilitated == false )'>Reimbursement</div>
+                          <div v-else-if='(results.reimbursement == true && results.loa_facilitated == true )'>LOA
+                            Facilitated, Reimbursement</div>
+                          <div v-else>N/A</div>
+                        </div>
+                      </div>
+
+
+                      </div>
+                    </div>
+
+                    <div class="three fields">
+                      <div class="field dim">
+                        LIMIT TYPE
+                      </div>
+                      <div class="field"></div>
+                      <div class="field">
+                        <div v-for="limit in results.limits">
+                          <div v-if='(limit.limit_type == null)'>
+                            N/A
+                          </div>
+                          <div v-else>
+                            {{limit.limit_type}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div v-for="limit in results.limits">
+
+                      <div v-if='(limit.limit_type == "Area")'>
+
+                        <div class="three fields">
+                          <div class="field dim">
+                            AREA
+                          </div>
+                          <div class="field"></div>
+                          <div class="field" role="array" :id='limit.limit_area_type.join(", ")'>
+                          </div>
+                        </div>
+                        <div class="three fields">
+                          <div class="field dim">
+                            SITE
+                          </div>
+                          <div class="field"></div>
+                          <div v-if='(limit.limit_area == null)'></div>
+                          <div v-else class="field" role="array" :id='limit.limit_area.join(", ")'></div>
+                        </div>
+                      </div>
+
+                      <div v-else>
+
+                        <div class="three fields">
+                          <div class="field dim">
+                            LIMIT
+                          </div>
+                          <div class="field"></div>
+                          <div class="field">
+                            <div v-if='(limit.limit_type == "Peso")'>
+                              {{limit.limit_amount}}
+                            </div>
+                            <div v-else-if='(limit.limit_type == "Plan Limit Percentage")'>
+                              {{limit.limit_percentage}}
+                            </div>
+                            <div v-else-if='(limit.limit_type == "Quadrant")'>
+                              {{limit.limit_quadrant}}
+                            </div>
+                            <div v-else-if='(limit.limit_type == "Tooth")'>
+                              <div v-if='(limit.limit_amount == null)'>
+                                {{limit.limit_session}}
+                              </div>
+                              <div v-else-if='(limit.limit_session == null)'>
+                                {{limit.limit_amount}}
+                              </div>
+                              <div v-else-if='(limit.limit_session == null && limit.limit_amount == null)'>
+                                {{limit.limit_tooth}}
+                              </div>
+                              <div v-else-if='(limit.limit_session == null && limit.limit_amount == null && limit.limit_tooth == null)'>
+                                N/A
+                              </div>
+                            </div>
+                            <div v-else-if='(limit.limit_type == "Sessions") || (limit.limit_type == "Session")'>
+                              {{limit.limit_session}}
+                              <div v-if='(limit.limit_session == null)'>
+                                N/A
+                              </div>
+                            </div>
+                            <div v-else>
+                              N/A
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="three fields">
+                      <div class="field dim">
+                        FREQUENCY
+                      </div>
+                      <div class="field"></div>
+                      <div class="field">
+                        <div v-if='(results.frequency == null || results.frequency == "")'>N/A</div>
+                        <div v-else>{{results.frequency}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sixteen wide computer column ui divider"></div>
+
+            <h3>CDT</h3>
+
+            <table id="cdt_tbl" class="full width ui celled striped selectable table">
+              <thead>
+                <tr>
+                  <th width="25%">CDT Code</th>
+                  <th width="25%">CDT Description</th>
+                </tr>
+
+              </thead>
+            </table>
+
+
+          </div> <!-- end of row -->
+        </div> <!-- end of ui grid -->
+      </div> <!-- end of content-section white-bg -->
+    </div> <!-- end of ui container -->
+  </div>
+</div>

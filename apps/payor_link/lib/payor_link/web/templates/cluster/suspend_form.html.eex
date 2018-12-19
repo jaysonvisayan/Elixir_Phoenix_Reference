@@ -1,0 +1,103 @@
+<div class="ui modal" role="suspend_account" >
+  <i class="close icon"></i>
+  <div class="header">
+   Suspend Account
+  </div>
+
+  <div class="content" id="modal_suspend" >
+    <%= form_for @changeset, @action, [class: "ui form",id: "suspend" , multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    <% end %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+      <%= hidden_input f, :account_id, class: "form-control", required: "required" %>
+      <%= hidden_input f, :cluster_id, class: "form-control" %>
+      <%= hidden_input f, :account_group_id, class: "form-control" %>
+        <div class="two fields">
+          <div class="field">
+            <%= label f, "Account Code/Name", class: "control-label" %>
+             <input type="text"  id="account_code_name" readonly>
+            <p style="color:red"><%= error_tag f, :name%></p>
+          </div>
+
+          <div class="field">
+            <%= label f, "Status", class: "control-label" %>
+            <div class="ui large green label">
+               <%= hidden_input f, :status, class: "form-control" %>
+              <span id="account_status"></span>
+            </div>
+         </div>
+        </div>
+
+        <div class="two fields">
+          <div class="disabled field">
+            <%= label f, :account_start_date, "Current Effective Date", class: "control-label" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="text" id="account_start_date" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="disabled field">
+            <%= label f, :account_end_date, "Current Expiry Date", class: "control-label" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="text" id="account_end_date" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="two fields" >
+          <div class="field">
+            <%= label f, :suspend_date, "Suspension Date", class: "control-label" %>
+            <div class="ui calendar" id="suspend_date_picker" >
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :suspend_date, class: "form-control", required: "required", placeholder: "YYYY-MM-DD"  %>
+                <p style="color:red"> <%= error_tag f, :suspend_date%></p>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <%= label f, :suspend_reason, "Reason", class: "control-label" %>
+            <%= select f, :suspend_reason, ["": "", "Others": "others"], class: "" %>
+            <p style="color:red"><%= error_tag f, :suspend_reason%></p>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <%= label f, :suspend_remarks, "Remarks", class: "control-label" %>
+            <%= text_input f, :suspend_remarks, class: "form-control" %>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="" class="ui button">
+      <i class="close left icon"></i>
+      Cancel
+    </a>
+    <span>
+    <button type="button" class="small ui blue button" id="btn_suspend_account_in_cluster">
+      <i class="icon add"></i>
+      Suspend Account
+    </button>
+    </span>
+  </div>
+</div>
+<% end %>
+</div>
+
+

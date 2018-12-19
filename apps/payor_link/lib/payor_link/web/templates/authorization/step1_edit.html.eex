@@ -1,0 +1,84 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">Validate Member</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Facility</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Coverage</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Details</div>
+              </div>
+            </div>
+          </div>
+          <div class="ui equal width left aligned padded grid stackable">
+            <div class="column">
+              <div class="ui horizontal segments">
+
+                <div class="ui segment">
+                  <h3 class="ui centered dividing header">Card Details</h3>
+                  <div class="field">
+                    <label>Card Number: </label>
+                    <input type="number" value="<%= @authorization.member.card_no %>" disabled/>
+                  </div>
+                  <div class="field">
+                    <label>CVV Number: </label>
+                    <input type="text", value="" disabled/>
+                  </div>
+                </div>
+                <div class="ui segment">
+                  <h3 class="ui centered dividing header">Member Information</h3>
+                  <div class="field" id="dateFormPicker">
+                    <label> Birth Date: </label>
+                    <input type="text", value="<%= @authorization.member.birthdate %>" disabled/>
+                  </div>
+                  <div class="field">
+                    <label> Full Name: </label>
+                    <input type="text", value="<%=
+                          Enum.join([
+                            @authorization.member.first_name,
+                            @authorization.member.middle_name,
+                            @authorization.member.last_name,
+                            @authorization.member.suffix
+                          ], " ")
+                          %>" disabled />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <%# Navigation buttons start %>
+          <div class="sixteen wide computer sixteen wide tablet column">
+            <a href="/authorizations/<%= @authorization.id%>/setup?step=2" class="ui green right floated button">
+              Next
+              <i class="chevron right icon"></i>
+            </a>
+            <a href="/authorizations/" class="ui button">
+              <i class="remove icon"></i>
+              Cancel
+            </a>
+          </div>
+          <%# Navigation buttons end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

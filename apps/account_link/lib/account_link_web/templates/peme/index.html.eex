@@ -1,0 +1,160 @@
+<div class="main-wrapper peme" id="peme_index">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "PEME" %></li>
+    </ul>
+  </div><!-- breadcrumbs ends here-->
+  
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <div class="section-control">
+                <div class="ui grid">
+                  <div style="padding-bottom: 0rem; !important;" class="row">
+                    <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                      <h2 style="padding-top: 1rem" class="row"><b><%= gettext "PEME" %></b><h2>
+                        </div>
+                        <div class="eight wide computer eight wide tablet sixteen wide mobile right floated column text-right mobile-text-left mobile-pull">
+                          <%= form_for @changeset, peme_path(@conn, :export_evoucher, @locale), [as: :peme, class: "ui form", multipart: true, method: "post", id: "peme_export_evoucher_form"], fn f -> %>
+
+                            <input type="hidden", name="peme[peme_ids]" id="peme_ids" value="" />
+                            <button type="button" class="large ui basic primary button export_evoucher_button"><i class="download icon"></i><%= gettext "Export" %></button>
+                            <a href="/<%= @locale %>/peme/new" class="large ui button"><i class="add icon"></i><%= gettext "PEME E-Voucher" %></a>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="checkbox-container" class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                <table role="datatable" id="peme_table" class="full-width ui celled table">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" style="width:20px; height:20px" id="select_all"></th>
+                      <th><%= gettext "Evoucher Number" %></th>
+                      <th><%= gettext "Package" %></th>
+                      <th><%= gettext "Issuance Date" %></th>
+                      <th><%= gettext "Registration Date" %></th>
+                      <th><%= gettext "Availment Date" %></th>
+                      <th><%= gettext "Facility" %></th>
+                      <th><%= gettext "Status" %></th>
+                      <th><%= gettext "" %></th>
+                    </tr>
+                  </thead>
+                  <tbody class="padded-rows menued-rows">
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal-main small modal" id="cancel_confirm">
+  <i class="close icon"></i>
+  <div class="scrolling content">
+    <div class="ui grid">
+      <div class="one wide computer column"></div>
+      <div class="fourteen wide computer column">
+        <div class="text-center">
+          <div class="header-icon--container text-centered">
+            <i class="yellow massive question exclamation circle icon" style="size: 5rem"></i>
+          </div><br><br>
+          <div class="section-title">
+            <h3><%= gettext "Are you sure you want to cancel this e-voucher?" %></h3>
+          </div>
+          <div class="content" >
+            <%= form_for @changeset, peme_path(@conn, :cancel_evoucher, @locale), [as: :member, id: "cancel_evoucher_form"], fn f -> %>
+              <%= hidden_input f, :member_id, value: "asd"%>
+              <%= hidden_input f, :peme_id, value: "asd"%>
+              <%= hidden_input f, :evn, value: "asd"%>
+              <%=# hidden_input f, :dateTo, value: @peme.date_from %>
+              <%=# hidden_input f, :dateFrom, value: @peme.date_to %>
+              <div class="ui grid">
+                <div class="three wide column"></div>
+                <div class="ten wide column">
+                  <div class="ui form">
+                    <div class="two fields">
+                      <div class="field">
+                        <label><%= gettext "E-voucher Number" %></label>
+                      </div>
+                      <div class="field">
+                        <p><span id="evoucher_num_modal"><%=# @peme.evoucher_number %></span></p>
+                      </div>
+                    </div>
+                    <div class="two fields">
+                      <div class="field">
+                        <label><%= gettext "PEME Date From" %></label>
+                      </div>
+                      <div class="field">
+                        <p><span id="evoucher_date_from"><%=# @peme.date_from %></span></p>
+                      </div>
+                    </div>
+                    <div class="two fields">
+                      <div class="field">
+                        <label><%= gettext "PEME Date To" %></label>
+                      </div>
+                      <div class="field">
+                        <p><span id="evoucher_date_to"><%=# @peme.date_to %></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ui grid">
+                <div class="three wide column"></div>
+                <div class="ten wide column">
+                  <b><%= label f, :cancel_reason, "Reason", style: "float: left" %></b>
+                  <%# <label style="float: left"><b>Reason</b></label> %>
+                  <br>
+                  <%= select f, :cancel_reason, ["Availment did not push through": "Availment did not push through", "Procedure currently not available": "Procedure currently not available", "Others": "Others"], class: "ui fluid dropdown", prompt: "Select Reason", "data-validate": "reason", id: "reason_dropdown" %>
+                  <%# <select name="reason" class="ui fluid dropdown" id="reason_dropdown"> %>
+                  <%#   <option value="">Select Reason</option> %>
+                  <%#   <option value="availment">Availment did not push through</option> %>
+                  <%#   <option value="procedure">Procedure currently not available</option> %>
+                  <%#   <option value="others">Others</option> %>
+                  <%# </select> %>
+                  <br>
+                  <div class="ui form">
+                    <div class="field">
+                      <%# <textarea type="text" placeholder="Please specify others" rows="2" style="margin-top: 0px; margin-bottom: 0px; height: 59px;" id="reason_text_area"></textarea> %>
+                      <%= textarea f, :cancel_others, prompt: "Please specify others", rows: "2", style: "margin-top: 0px; margin-bottom: 0px; height: 59px", id: "reason_text_area" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="three wide column"></div>
+              </div><br>
+
+              <div class="ui form">
+                <div class="two fields">
+                  <div class="field"><br><br>
+                    <a href="#" style="font-size: 16px" id="cancel_confirm_no">
+                      <b><%= gettext "No, keep this e-voucher" %></b>
+                    </a>
+                  </div>
+                  <div class="field"><br>
+                    <a href="#" class="ui button cancel_evoucher_button">
+                      <b><%= gettext "Yes, cancel this e-voucher" %></b>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <br>
+              <br>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="one wide computer column"></div>
+  </div>
+</div>
+

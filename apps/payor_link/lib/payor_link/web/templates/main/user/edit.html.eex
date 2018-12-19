@@ -1,0 +1,293 @@
+<div class="page-title">
+	<div class="ui clearing segment">
+		<div class="ui container">
+			<h1 class="ui left floated header">
+				Edit User
+				<div class="clearfix"></div>
+				<div class="ui breadcrumb">
+					<a href="/">Dashboard</a>
+					<i class="right angle icon divider"></i>
+					<a href="/web/users">Users</a>
+					<i class="right angle icon divider"></i>
+					<div class="active section dim thin">Edit User</div>
+				</div>
+			</h1>
+			<div class="ui header float-right-medium">
+				<%= case @user.status do %>
+					<% "Active" -> %>
+						<button id="deactivateBtn" userID="<%= @user.id %>" type="button" class="ui basic positive button mt-1-small">Deactivate User</button>
+					<% "Deactivated" -> %>
+						<button id="activateBtn" userID="<%= @user.id %>" type="button" class="ui basic positive button mt-1-small">Reactivate User</button>
+					<% _ -> %>
+						<button id="activateBtn" userID="<%= @user.id %>" type="button" class="ui basic positive button mt-1-small">Reactivate User</button>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<input type="hidden" id="currentEmail" value="<%= @changeset.data.email %>">
+<input type="hidden" id="currentMobile" value="<%= @changeset.data.mobile %>">
+<input type="hidden" id="currentPayroll" value="<%= @changeset.data.payroll_code %>">
+
+<div class="ui container" id="newUser">
+	<div class="content-section white-bg">
+		<div class="ui grid">
+			<div class="row">
+
+				<div class="sixteen wide computer column">
+					<%= form_for @changeset, main_user_path(@conn, :save, @changeset.data), [id: "userForm"], fn f -> %>
+						<div class="ui form">
+							<div class="bottom-border pb-2 mb-2">
+								<div class="section-title mt-2">
+									<div class="title-name">User Login</div>
+								</div>
+								<div class="two fields">
+									<div class="field">
+										<label class="label-title">Username (required)</label>
+                		<%= text_input f, :username, class: "email", placeholder: "Enter Username", disabled: true %>
+									</div>
+								</div>
+								<div class="two fields">
+									<div class="field">
+										<label class="label-title">Email Address (required)</label>
+                		<%= text_input f, :email, class: "email", placeholder: "Enter Email Address" %>
+									</div>
+									<div class="field">
+										<label class="label-title">Mobile Number (required)</label>
+                		<%= text_input f, :mobile, class: "mobile", placeholder: "Enter Mobile Number" %>
+									</div>
+								</div>
+								<br>
+							</div>
+							<div class="two fields">
+								<div class="field" id="roleHeader">
+									<div class="ui header">
+										<div class="section-title mt-2">
+											<div class="title-name">Role</div>
+										</div>
+									</div>
+									<% role = List.first(@user.roles) %>
+									<%= if is_nil(role) do %>
+										<input type="hidden" name="user[role_id]" id="roleID" value="">
+									<% else %>
+										<input type="hidden" name="user[role_id]" id="roleID" value="<%= role.id %>">
+									<% end %>
+								</div>
+								<div class="field" style="text-align: right;padding-top: 1.4rem">
+									<a class="ui primary button" id="btnAddRole">
+										<i class="white"></i>
+										Select Role
+									</a>
+								</div>
+							</div>
+							<table class="full-width ui celled striped table">
+								<thead>
+									<tr>
+										<th width="30%">Role Name</th>
+										<th width="30%%">Application</th>
+										<th width="30%">Description</th>
+										<th width="10%"></th>
+								</tr>
+								</thead>
+								<tbody id="roleBody">
+									<%= if not is_nil(role) do %>
+										<tr>
+											<td><%= role.name %></td>
+											<td><%= display_role_applications(role.role_applications) %></td>
+											<td><%= role.description %></td>
+											<td class="table-icon--holder">
+						            <div class="ui icon top right floated pointing dropdown">
+						              <i class="primary medium ellipsis vertical icon"></i>
+						              <div class="left menu transition hidden">
+						                <div class="item remove-role">
+						                  Remove
+						                </div>
+						              </div>
+						            </div>
+						          </td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+							<%# <% role_applications = display_role_applications(role.role_applications) %1> %>
+							<%# <% acu_sched_permission = Innerpeace.PayorLink.Web.Main.RoleView.get_permission_by_module("ProviderLink_Acu_Schedules", role.id) %1> %>
+              <%# <% is_provider = role_applications == "ProviderLink"  && acu_sched_permission == "Full Access" %1> %>
+
+              <input type="hidden" name="role_application" value="<%= if not is_nil(role), do: display_role_applications(role.role_applications) %>">
+              <input type="hidden" name="acu_schedule_permission" value="<%= if not is_nil(role), do: Innerpeace.PayorLink.Web.Main.RoleView.get_permission_by_module("ProviderLink_Acu_Schedules", role.id) %>">
+
+              <div class="ui checkbox" id="acu_sched_notify">
+								<input type="checkbox" name="user[acu_schedule_notification]" value="true" <%= if @user.acu_schedule_notification, do: 'checked', else: '' %>>
+								<label>Notify user every time there is an ACU Schedule.</label>
+							</div>
+							<div class="bottom-border pb-2 mb-2">
+							</div>
+							<br>
+							<div class="bottom-border pb-2 mb-2">
+								<div class="section-title mt-2">
+									<div class="title-name">User Information</div>
+								</div>
+								<div class="two fields">
+									<div class="field">
+										<label class="label-title">First Name (required)</label>
+                		<%= text_input f, :first_name, class: "person name", placeholder: "Enter First Name" %>
+									</div>
+									<div class="field">
+										<label class="label-title">Middle Name</label>
+										<%= text_input f, :middle_name, class: "person name", placeholder: "Enter Middle Name" %>
+									</div>
+								</div>
+								<div class="two fields">
+									<div class="field">
+										<label class="label-title">Last Name (required)</label>
+										<%= text_input f, :last_name, class: "person name", placeholder: "Enter Last Name" %>
+									</div>
+									<div class="field">
+										<label class="label-title">Suffix</label>
+										<%= text_input f, :suffix, class: "person name", placeholder: "Enter Suffix", maxlength: 10 %>
+									</div>
+								</div>
+								<div class="two fields">
+									<div class="field">
+				            <label class="label-title">Gender</label>
+				            <%= error_tag f, :gender %>
+				            <div class="two fields mt-1">
+				              <div class="field">
+				                <div class="ui radio checkbox seven wide column">
+				                  <%= radio_button f, :gender, "Male", class: "", checked: true %>
+				                  <label for="male" class="">Male</label>
+				                </div>
+				              </div>
+				              <div class="field">
+				                <div class="ui radio checkbox eight wide column">
+				                  <%= radio_button f, :gender, "Female", class: "" %>
+				                  <label for="female">Female</label>
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+								</div>
+								<div class="two fields other_app">
+									<div class="field">
+										<%= label f, :company_id, "Company Name (required)" %>
+					          <%= select f, :company_id, map_companies(@companies), class: "ui dropdown", "data-validate": "relationship", prompt: "Select Company name", id: "companyDropdown" %>
+					        	<%= error_tag f, :company_id %>
+									</div>
+									<div class="field">
+										<label class="label-title">Payroll Code</label>
+										<%= text_input f, :payroll_code, class: "email", placeholder: "Enter Payroll Code" %>
+									</div>
+								</div>
+								<div class="two fields other_app">
+									<div class="field" id="reportToContainer">
+										<div class="field">
+											<label class="label-title">Reporting To</label>
+											<div class="ui search">
+											  <div class="ui icon input">
+												  <input type="text" class="prompt email reporting-to-primary" name="user[reporting_to][]" placeholder="Enter lead name">
+												  <i class="inverted circular green active add link icon add-reporting-to"></i>
+											  </div>
+											  <div class="results"></div>
+											</div>
+										</div>
+										<%= for reporting_to <- @user.reporting_to do %>
+											<div class="field txtbox-reporting-to">
+								  			<br>
+									  		<div class="ui search">
+												  <div class="ui icon input">
+													  <input type="text" class="prompt email reporting-to-secondary" name="user[reporting_to][]" placeholder="Enter lead name" value="<%= reporting_to.lead.username %>">
+													  <i class="inverted circular green active minus link icon remove-reporting-to"></i>
+												  </div>
+												  <div class="results"></div>
+												</div>
+											</div>
+										<% end %>
+									</div>
+									<div class="field">
+										<div class="field">
+											<%= label f, :location, "Location" %>
+											<%= select f, :location, [], class: "ui dropdown", "data-validate": "relationship", prompt: "Select Location", id: "relationship" %>
+											<%= error_tag f, :location %>
+											</div>
+										</div>
+								</div>
+								<div class="two fields provider_app hidden">
+									<div class="field">
+										<label class="label-title">Select Facility</label>
+										<input type="hidden" id="current_facility_id" value="<%= @user.facility_id %>">
+										<div class="ui search selection dropdown" id="facility_dropdown">
+											<input name="user[facility_id]" type="hidden">
+											<i class="dropdown icon"></i>
+											<div class="default text">Select Facility</div>
+											<div class="menu">
+											</div>
+										</div>
+									</div>
+							</div>
+								<br>
+							</div>
+              <div class="ui vertical segment mb-2">
+                <div class="text-right">
+                  <!-- <button type="submit" class="ui primary button large modal-open-complete"> -->
+                  <button type="button" id="userFormSubmit" class="ui primary button large">
+                    Update
+									</button>
+                </div>
+              </div>
+						<% end %>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui large modal add-role-modal">
+  <div class="header">Select Role</div>
+  <i class="close icon"></i>
+  <div class="content">
+		<div>
+				<table role="datatable" id="modal_role_dt" class="full-width ui celled table">
+					<thead>
+						<tr>
+							<th width="30%">Role Name</th>
+							<th width="30%">Application</th>
+							<th width="30%">Description</th>
+							<th width="10%" class="center-align">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%= for role <- @roles do %>
+							<% role_applications = display_role_applications(role.role_applications) %>
+							<% acu_sched_permission = Innerpeace.PayorLink.Web.Main.RoleView.get_permission_by_module("ProviderLink_Acu_Schedules", role.id) %>
+							<tr>
+								<td class="centered">
+									<input
+										type="checkbox"
+										roleID="<%= role.id %>"
+										rolename="<%= role.name %>"
+										applications="<%= role_applications %>"
+										description="<%= role.description %>"
+										class="select-role"
+										style="width:20px; height:20px"
+										acu_sched_permission="<%= acu_sched_permission %>"
+									/>
+								</td>
+								<td><%= role.name %></td>
+								<td><%= role_applications %></td>
+								<td><%= role.description %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+		</div>
+		<br>
+		<div>
+			<button class="ui primary basic cancel button">No</button>
+			<button class="ui primary button float-right approve">Yes</button>
+		</div>
+  </div>
+</div>
+
+<%= render "modal_confirmation.html" %>

@@ -1,0 +1,150 @@
+<d.ccount_status == "Active" end)
+class="ui modal large" id="validate_member">
+  <div class="header">Please select member that will request for letter of Authorization</div>
+  <div class="content">
+    <%# Con(ent %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+        <div id="message" class="ui negative message" style="display: none">
+        </div>
+        <div class="ui grid">
+        <%# LOOP start %>
+        <%= for member <- @members do %>
+          <div class="sixteen wide tablet eight wide computer column">
+            <div class="ui card" MemberID="<%=Enum.at(member, 0)%>" MemberStatus="<%= Enum.at(member, 10) %>" AccountStatus="<%= get_account_status(Enum.at(member, 11)) %>">
+              <div class="content" style="cursor:pointer">
+                <div class="ui small feed">
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Full Name: </b>
+                              <%= Enum.join([
+                                    Enum.at(member, 1),
+                                    Enum.at(member, 2),
+                                    Enum.at(member, 3)
+                                ], " ")
+                              %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Birthdate: </b>
+                              <%= Enum.at(member, 5) %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                   <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Expiry Date: </b>
+                              <%= Enum.at(member, 12) %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Account Code: </b>
+                              <%= Enum.at(member, 8) %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Account Name: </b>
+                              <%= Enum.at(member, 9) %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Mobile Number: </b>
+                              <%= Enum.at(member, 7) %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui grid">
+                          <div class="one column row">
+                            <div class="column description">
+                              <b>Email Address: </b>
+                              <%= Enum.at(member, 6) %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% end %>
+          <%# LOOP end %>
+        </div>
+      </div>
+    </div>
+    <%# Content End %>
+  </div>
+
+  <div class="actions">
+    <%= form_for @conn, authorization_path(@conn, :select_member), [multipart: true, as: :authorization], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= hidden_input f, :member_id, value: "" %>
+      <input id="member_status" type="hidden" value="">
+      <input id="account_status" type="hidden" value="">
+      <a href="#" class="ui deny button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+
+      <button class="ui blue button" id="select_validate_member" role="submit_member">
+        <i class="send icon"></i>
+        Submit
+      </button>
+    <% end %>
+  </div>
+
+</div>

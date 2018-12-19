@@ -1,0 +1,38 @@
+@import '../variables';
+.ui.steps {
+    border: 0;
+    border-radius: 0;
+    .step {
+        color: rgba(48, 125, 251, 0.3);
+        border-right: 0;
+        border-bottom: 2px solid rgba(48, 125, 251, 0.3);
+        .svg-fill {
+            fill: rgba(48, 125, 251, 0.3);
+        }
+        &:after {
+            content: none;
+        }
+        &:first-child {
+            border-radius: 0;
+            background: transparent;
+        }
+        &:last-child {
+            border-radius: 0;
+            background: transparent;
+        }
+    }
+    .step.link {
+        &:hover {
+            color: rgba(48, 125, 251, 0.3);
+        }
+    }
+    .step.active {
+        background-color: transparent;
+        color: $brand_color;
+        font-weight: 700;
+        border-bottom: 2px solid $brand_color;
+        .svg-fill {
+            fill: $brand_color;
+        }
+    }
+}

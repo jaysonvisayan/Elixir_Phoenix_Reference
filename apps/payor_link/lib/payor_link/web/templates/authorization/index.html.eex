@@ -1,0 +1,58 @@
+<div class="ui main container" id="auth_index">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+        <div class="left floated left aligned eight wide column">
+          <h1 class="ui huge header with-button">Authorization</h1>
+        </div>
+        <div class="right floated right aligned eight wide column">
+          <a class="ui primary basic button" href="/authorizations/new"><i class="plus icon"></i>Request Authorization</a>
+        </div>
+      </div>
+      <!--<h1 class="ui huge header">Account</h1>-->
+      <div class="ui breadcrumb">
+        <a href="/authorizations" class="section">Authorization</a>
+        <div class="divider"> / </div>
+        <div class="active section">Search</div>
+      </div>
+      <div class="ui divider"></div>
+    </div>
+  </div>
+  <table role="datatable" id="auth_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>LOA No.</th>
+        <th>LOE No.</th>
+        <th>Member</th>
+        <th>Account Code</th>
+        <th>Coverage</th>
+        <th>Created By</th>
+        <th>Last Processed By</th>
+        <th>Date and Time Created</th>
+        <th>Generated From</th>
+        <th>Version</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+<div class="ui modal" id="authorizationLogsModal">
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="column" style="overflow:scroll;height:500px;overflow:auto">
+        <div class="ui segments">
+          <div class="ui segment" id="logsContainer">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

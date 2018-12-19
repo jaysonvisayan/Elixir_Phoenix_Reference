@@ -1,0 +1,72 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Practitioners</h1>
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioners</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Practitioners</div>
+          </div>  
+          <div class="ui divider"></div>
+          <div class="ui stackable grid" id="practitioner_new_contact">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui four steps form-step">
+                        <div class=" step">
+                            <i class="user icon"></i>
+                            <div class="content">
+                                <div class="title">General</div>
+                                <div class="description">Account name, type, etc.</div>
+                            </div>
+                        </div>
+                        <div class="active  step">
+                            <i class="mail icon"></i>
+                            <div class="content">
+                                <div class="title">Contact</div>
+                                <div class="description">Contact info</div>
+                            </div>
+                        </div>
+                        <div class="  step">
+                            <i class="money icon"></i>
+                            <div class="content">
+                                <div class="title">Financial</div>
+                                <div class="description">Funding arrangement</div>
+                            </div>
+                        </div>
+                        <div class="  step">
+                            <i class="file text outline icon"></i>
+                            <div class="content">
+                                <div class="title">Summary</div>
+                                <div class="description">Confirm your information</div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="ui header form-header">
+                        <i class="user icon"></i>
+                        <div class="content">
+                            Contact
+                            <div class="sub header">Contact info</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <h3 class="ui center aligned primary header">
+                        <%= @practitioner.code %> - <%= Enum.join([@practitioner.first_name, @practitioner.last_name], "  ")%>
+                    </h3>
+                </div>
+            </div>
+             <%= 
+              render "form-contact.html", 
+              changeset: @changeset, 
+              practitioner: @practitioner, 
+              conn: @conn, 
+              contacts: @contacts, 
+              action: practitioner_path(@conn, :create_contact, @practitioner.id) %>
+          </div><!--grid-->
+      </div>
+  </div>
+</div>

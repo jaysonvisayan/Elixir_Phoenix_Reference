@@ -1,0 +1,64 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Edit <%= @product.product_category %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/products">Plans</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Add Plan</div>
+        </div>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="ui container" >
+  <div class="content-section white-bg" id="main_product_condition">
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+            <a href="/web/products/<%= @product.id %>/edit?tab=general" class="step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </a>
+            <a href="/web/products/<%= @product.id %>/edit?tab=benefit" class="step">
+              <i class="icon-benefit-card icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Benefit</div>
+              </div>
+            </a>
+
+            <div class="active step">
+              <i class="icon-condition icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Condition</div>
+              </div>
+            </div>
+
+            <%= if @product.product_category != "PEME Plan" do %>
+              <a href="/web/products/<%= @product.id %>/edit?tab=coverage" class="step">
+                <i class="icon-coverage icon small"></i>
+                <div class="content">
+                  <div class="title hide-for-mobile">Coverage</div>
+                </div>
+              </a>
+            <% end %>
+          </div>
+        </div>
+
+        <%= render "edit/condition_form.html", changeset_condition: @changeset_condition, product: @product, action: main_product_path(@conn, :update_condition, @product) %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "modal_confirmation.html" %>

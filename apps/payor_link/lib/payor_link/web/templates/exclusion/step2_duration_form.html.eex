@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="column">
+  <p role ="append_duration_form"></p>
+    <div class="ui middle aligned right aligned grid">
+      <div class="left floated left aligned six wide column">
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small add button" id="add_duration"><i class="plus icon"></i>Duration</a>
+      </div>
+    </div>
+    <table role="datatable" id="duration_table" class="ui striped table">
+      <thead>
+        <tr>
+          <th>Disease Type</th>
+          <th>Duration</th>
+          <th>Covered After Duration</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+          <%= for exclusion_duration <- Enum.sort_by(@exclusion.exclusion_durations, &(&1.disease_type)) do %>
+            <tr>
+              <td field="exclusion_type"><%= exclusion_duration.disease_type %></td>
+              <td field="exclusion_duration"><%= exclusion_duration.duration %> Months</td>
+              <%= if exclusion_duration.covered_after_duration == "Percentage" do %>
+                <td field="exclusion_percentage"><%= exclusion_duration.cad_percentage %> %</td>
+              <% else %>
+                <td field="exclusion_amount"><%= exclusion_duration.cad_amount %> php</td>
+              <% end %>
+              <td>
+              <a style="cursor: pointer" class="delete" exclusion_id="<%= @exclusion.id %>" duration_id="<%= exclusion_duration.id %>">
+                  <i class="trash icon"></i>
+              </a>
+              </td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br />
+
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui red button mrg1T" id="deleteExclusion" exclusionID="<%= @exclusion.id %>" type="button">
+      <i class="trash left icon"></i>Delete Draft
+    </button>
+  </div>
+  <div class="column eight wide">
+    <a href="/exclusions/<%= @exclusion.id %>/setup?step=1" class="ui button mrgIT">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <%= if Enum.empty?(@exclusion.exclusion_durations) do %>
+      <button class="ui primary button mrg1T" type="button" id="empty_duration">
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+    <% else %>
+      <a href="/exclusions/<%= @exclusion.id %>/setup?step=3" class="ui primary button mrgIT">
+        Next
+        <i class="chevron right icon"></i>
+      </a>
+    <% end %>
+  </div>
+</div>
+
+<div class="ui modal" id="DeleteModal">
+  <i class="close icon"></i>
+  <div class="header">
+      Remove Duration?
+  </div>
+  <div class="actions">
+    <%= if @dreaded == 1 do %>
+      <button type="button" class="ui right floated primary button" id="last_duration" >Yes, Remove Duration</button>
+    <% else %>
+      <%= if @non_dreaded == 1 do %>
+        <button type="button" class="ui right floated primary button" id="last_duration" >Yes, Remove Duration</button>
+      <% else %>
+        <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "2.1"), method: :delete, id: "delete_duration" do %>
+        <button type="button" class="ui right floated primary button">Yes, Remove Duration</button>
+        <% end %>
+      <% end %>
+    <% end %>
+    <button type="button" class="ui cancel right floated button">No, Keep Duration</button>
+  </div>
+</div>
+
+<div class="ui modal" id="DeleteConfirmDreadedModal">
+  <i class="close icon"></i>
+  <div class="header">
+      Remove Duration?
+  </div>
+  <div class="content">
+  <label> Removing this duration shall remove all added dreaded type diseases </label>
+  </div>
+  <div class="actions">
+            <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "2.1"), method: :delete, id: "delete_duration" do %>
+            <button type="button" class="ui right floated primary button">Yes, Remove Duration</button>
+        <% end %>
+    <button type="button" class="ui cancel right floated button">No, Keep Duration</button>
+  </div>
+</div>
+
+<div class="ui modal" id="DeleteConfirmNonDreadedModal">
+  <i class="close icon"></i>
+  <div class="header">
+      Remove Duration?
+  </div>
+  <div class="content">
+  <label> Removing this duration shall remove all added non-dreaded type diseases </label>
+  </div>
+  <div class="actions">
+            <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "2.1"), method: :delete, id: "delete_duration" do %>
+            <button type="button" class="ui right floated primary button">Yes, Remove Duration</button>
+        <% end %>
+    <button type="button" class="ui cancel right floated button">No, Keep Duration</button>
+  </div>
+</div>

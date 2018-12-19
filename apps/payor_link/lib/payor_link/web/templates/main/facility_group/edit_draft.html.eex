@@ -1,0 +1,36 @@
+<div class="page-title">
+    <div class="ui clearing segment">
+      <div class="ui container">
+        <h1 class="ui left floated header">
+          Facility Group
+          <div class="clearfix"></div>
+          <div class="ui breadcrumb">
+            <a href="/web/facility_groups">Dashboard</a>
+            <i class="right angle icon divider"></i>
+            <a href="/web/facility_groups">Facility Group</a>
+            <i class="right angle icon divider"></i>
+            <div class="active section dim thin">Edit Facility Group</div>
+          </div>
+        </h1>
+        <%# <div class="ui header float-right-medium" id="benefit_header_btn"> %>
+        <%#   <button id="btnDiscard" class="ui basic button mt-1-small">Discard</button> %>
+        <%#   <button id="btnDraft" class="ui primary button mt-1-small">Save as Draft</button> %>
+        <%# </div> %>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui container" id="edit_draft_facility_group_id">
+    <div class="content-section white-bg" id="benefit_form_dim">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <%= render "modal_facility.html" %>
+            <%= render "edit_form_draft.html", regions: @regions, swal: @swal, selected_regions: @selected_regions, changeset: @changeset, location_group: @location_group, action: main_facility_group_path(@conn, :update_draft, @location_group.id) %>
+            <input type="hidden" id="facility_group_name_draft" value="<%= @location_group.name %>">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

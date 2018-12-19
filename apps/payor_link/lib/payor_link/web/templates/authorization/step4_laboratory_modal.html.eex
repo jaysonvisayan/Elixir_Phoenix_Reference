@@ -1,0 +1,59 @@
+<div class="ui large modal" role="dp_laboratory_modal" id="add_dp">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Diagnosis/Procedure
+  </div>
+  <div class="content">
+    <p id="no_procedure"></p>
+    <%= form_for @changeset, @action, [as: :authorization,  multipart: true, class: "ui form", id: "diagnosis_form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <input type="hidden" name="authorization[date]">
+      <input type="hidden" name="authorization[chief_complaint]">
+      <input type="hidden" name="authorization[practitioner_id]">
+      <input type="hidden" id="hidden_procedure" >
+      <%= hidden_input f, :authorization_type, value: "oplab" %>
+      <div class="field" id="diagnosis_field">
+        <%= label f, :diagnosis_id, "Diagnosis", class: "label-title" %>
+        <%= select f, :diagnosis_id, map_diagnoses(@authorization_diagnosis, @diagnoses), prompt: "", id: "diagnosis"  %>
+        <%= error_tag f, :diagnosis_id %>
+      </div>
+      <div id="procedure">
+        <div class="procedure field" id="procedure_select">
+          <div class="fields">
+            <div class="seven wide field" id="procedure_field">
+              <label class="label-title" id="procedure_label" >Procedure</label>
+              <%= select f, :procedure_ids, map_payor_procedures(@authorization_procedures, @procedures), prompt: "", role: "procedures", id: "procedures", category: "procedures" %>
+            <%= error_tag f, :procedure_ids %>
+            </div>
+            <div class="four wide field" id="unit_field">
+              <%= label f, :unit, "Unit", class: "label-title index", id: "unit_label" %>
+              <input type="text" name="authorization[unit]" id="unit" role="unit" readonly="true">
+            </div>
+            <div class="four wide field" id="amount_field">
+              <%= label f, :amount, "Amount", class: "label-title index", id: "amount_label"%>
+              <input type="text" name="authorization[amount]" id="amount" role="amount" readonly="true">
+            </div>
+            <div class="one wide field " id="add">
+              <label class="label-title" id="add_label" style="visibility:hidden">Add</label>
+              <button class="ui floated green button icon" type="button" id="append_procedure" class="validate_required"><i class="plus icon"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="append"></div>
+      <input type="hidden" id="number" value="0">
+      <input type="hidden" name="authorization[authorization_id]" value="<%= @authorization.id %>">
+  </div>
+
+  <div class="actions">
+      <a class="ui deny button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+      <button class="ui primary button btnAddProcedure" type="button" id="submit" >
+        <i class="plus icon"></i>
+        Add
+      </button>
+    </div>
+    <% end %>
+</div>

@@ -1,0 +1,109 @@
+<div class="ui one column right aligned grid" role="facility-modal">
+  <div class="column sixteen wide">
+    <button class="small ui blue button" name="modal_contact">
+      <i class="icon add"></i>
+      Contact
+    </button>
+  </div>
+</div>
+<div class="ui grid">
+  <div class="sixteen wide tablet sixteen wide computer column">
+    <table class="ui stripped table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Telephone No.</th>
+          <th>Mobile No.</th>
+          <th>Fax No.</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.empty?(@contacts) do %>
+          <tr>
+            <td colspan="5">No Record Found</td>
+          </tr>
+          <% else %>
+          <%= for contact <- @contacts do %>
+            <tr>
+              <td><%= name(contact.first_name, contact.last_name, contact.suffix) %></td>
+              <td><%= contact.department %></td>
+              <td><%= contact.designation %></td>
+              <td><%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                  <%= else %>
+                  <%= for phone <- contact.phones do %>
+                    <%= if phone.type == "telephone" do %>
+                      <p><%= phone.country_code %><%= if is_nil(phone.area_code) do "" else " " <> phone.area_code end %>
+                         <%= phone.number%><%= if is_nil(phone.local) do "" else "; " <> phone.local end %></p>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                  <%= else %>
+                  <%= for phone <- contact.phones do %>
+                    <%= if phone.type == "mobile" do %>
+                      <p><%= "#{phone.country_code} #{phone.number}" %></p>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                  <%= else %>
+                  <%= for phone <- contact.phones do %>
+                    <%= if phone.type == "fax" do %>
+                      <p><%= phone.country_code %><%= if is_nil(phone.area_code) do "" else " " <> phone.area_code end %>
+                         <%= phone.number%><%= if is_nil(phone.local) do "" else "; " <> phone.local end %></p>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= if contact.emails == nil || Enum.empty?(contact.emails) do %>
+                  <%= else %>
+                  <%= for email <- contact.emails do %>
+                    <p><%= email.address %></p>
+                  <% end %>
+                <% end %>
+              </td>
+              <td class="ui right aligned">
+                <div class="mini ui buttons">
+                  <button class="small ui gray button" name="edit_modal_contact" contactID="<%= contact.id %>" facilityID="<%= @facility.id %>">
+                    <i class="icon edit"></i>
+                              Edit
+                  </button>
+                  <%= link "Delete", to: facility_path(@conn, :delete_facility_contact, contact.id), method: :delete, data: [confirm: "Are you sure?"], class: "mini negative ui button" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>
+<%# Navigation buttons start %>
+<div class = "ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <div class="ui red button" role="delete-facility" facilityId="<%= @facility.id %>">
+      <i class="trash icon"></i>
+      Delete Draft
+    </div>
+  </div>
+  <div class="column eight wide">
+    <a href="/facilities/<%= @facility.id %>/setup?step=2" class="ui button">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <a href="/facilities/<%= @facility.id %>/next_contact" class="ui blue button">
+      Next
+      <i class="chevron right icon"></i>
+    </a>
+  </div>
+</div>
+<%# Navigation buttons end %>
+<%= render "step3_form.html", changeset: @changeset, conn: @conn, action: facility_path(@conn, :create_contact, @facility) %>
+<%= render "step3_update_form.html", changeset: @changeset, conn: @conn, action: facility_path(@conn, :update_contact, @facility) %>

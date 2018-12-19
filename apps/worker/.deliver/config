@@ -1,0 +1,60 @@
+APP="worker"
+DB="db"
+SOLUTION="payorsuite"
+
+BUILD_HOST="172.16.45.17"
+BUILD_USER="medi"
+BUILD_AT="/tmp/edeliver/$SOLUTION/builds"
+RELEASE_STORE=medi@172.16.45.17:/data/releases/$SOLUTION/$APP
+RELEASE_DIR="$BUILD_AT/_build/$TARGET_MIX_ENV/rel/$APP"
+TEST_AT="/home/medi/payorsuite"
+
+STAGING_HOSTS="172.16.45.27 172.16.45.29 172.16.20.182"
+STAGING_USER="medi"
+
+PRODUCTION_HOSTS="172.16.24.206"
+PRODUCTION_USER="medi"
+DELIVER_TO="/home/medi/prod"
+
+BUILD_CMD=mix
+RELEASE_CMD=mix
+USING_DISTILLERY=true
+
+# Set different envs
+if [[ "$DEPLOY_ENVIRONMENT" = "ist" ]]; then
+  STAGING_HOSTS="172.16.45.27 172.16.45.29"
+elif [[ "$DEPLOY_ENVIRONMENT" = "migration" ]]; then
+  STAGING_HOSTS="172.16.20.182"
+elif [[ "$DEPLOY_ENVIRONMENT" = "autotest" ]]; then
+  STAGING_HOSTS="172.16.45.16"
+elif [[ "$DEPLOY_ENVIRONMENT" = "uat" ]]; then
+  STAGING_HOSTS="172.16.45.34"
+fi
+
+pre_erlang_clean_compile() {
+  status "Preparing assets with: brunch build and phoenix.digest"
+  __sync_remote "
+    # runs the commands on the build host
+    [ -f ~/.profile ] && source ~/.profile # load profile (optional)
+
+    # fail if any command fails (recommended)
+    set -e
+
+    # enter the build directory on the build host (required)
+    cd '$BUILD_AT/apps/worker/assets'
+
+    # Loads NVM
+    [ -s "/home/medi/.nvm/nvm.sh" ] && \. "/home/medi/.nvm/nvm.sh"
+    [ -s "/home/medi/.nvm/bash_completion" ] && \. "/home/medi/.nvm/bash_completion"
+
+    # installing npm dependencies
+    nvm use 7
+    npm install
+
+    # building brunch
+    node_modules/brunch/bin/brunch build -p
+
+    cd ..
+    MIX_ENV=$TARGET_MIX_ENV mix phx.digest
+  "
+}

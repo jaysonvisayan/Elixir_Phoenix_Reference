@@ -1,0 +1,46 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Packages</h2>
+  <div class="ui small breadcrumb">
+    <a href="/packages" class="section">Packages</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages/<%= @package.id %>?active=procedures" class="section">View Package</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit <%= @package.code %> </div>
+  </div>
+</div>
+
+<div id="package_facility" class="ui equal width left aligned padded grid stackable" name="PackageValidations">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment" id="Step3Package">
+          <div class="ui two item menu">
+            <a href="/packages/<%= @package.id %>/edit?tab=general" class="item">General</a>
+            <a class="active item">Facility</a>
+          </div>
+           <%= render "edit/facility_form.html",
+           package: @package,
+           packages: @packages,
+           package_facilities: @package_facilities,
+           facilities: @facilities,
+           changeset: @changeset,
+           conn: @conn, action:
+           package_path(@conn, :create)
+           %>
+           <%= render "edit/facility_modal.html",
+           package: @package,
+           changeset: @changeset,
+           facilities: @facilities,
+           all_package_facilities: @all_package_facilities,
+           conn: @conn,
+           action: package_path(@conn, :update_edit_setup, @package, tab: "facility") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

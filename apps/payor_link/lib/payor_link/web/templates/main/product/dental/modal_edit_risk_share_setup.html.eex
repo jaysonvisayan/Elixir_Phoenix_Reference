@@ -1,0 +1,76 @@
+<div class="content">
+  <div class="ui tiny modal edit_risk_share_setup">
+    <input type="hidden" value="" id="edit_s_handling">
+    <input type="hidden" value="" id="edit_amount_type">
+    <input type="hidden" value="" id="edit_rs_amount">
+        <i class="close icon"></i>
+        <div class="ui grid form" id="edit_risk_share_form">
+          <div class="sixteen wide column">
+            <br>
+            <p>
+              <a><text id="rs_facility_code" value=""></text></a><br>
+              <b style="font-size:25px;"><text id="rs_facility_name"></text></b>
+            </p>
+            <div class="field">
+              <h3>Risk Share</h3>
+    <input type="hidden" value="" id="pcdrs_id">
+            </div>
+
+            <br>
+            <div class="field">
+              <div class="three fields">
+                <div class="field">
+                    <div style="height: 9px"><br></div>
+                  <div class="ui radio checkbox radio_edit_risk_share_setup" id="edit_copay_radio_rss">
+                    <input id="edit_facility_risk_share_type" name="product[edit_facility_risk_share_type]" type="radio" value="Copay">
+                    <label>Copay</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui input edit-copay-risk-share-setup-textbox hidden">
+                    <input type="text" name="edit_copay_textbox" id="edit_copay_rss">
+                  </div>
+                </div>
+              </div><br><br>
+              <div class="three fields">
+                <div class="field">
+                  <div class="field">
+                      <div style="height: 9px"><br></div>
+                    <div class="ui radio checkbox radio_edit_risk_share_setup" id="edit_coinsurance_radio_rss">
+                      <input id="edit_facility_risk_share_type" name="product[edit_facility_risk_share_type]" type="radio" value="Coinsurance">
+                      <label>Coinsurance</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui input edit-coinsurance-risk-share-setup-text hidden">
+                    <input type="text" name="edit_coinsurance_textbox" id="edit_coinsurance_rss">
+                  </div>
+                </div>
+              </div><br><br>
+            </div>
+            <div class="field">
+              <h4>Special Handling</h4>
+            </div>
+            <div class="two fields">
+            <div class="ield">
+              <select class="ui dropdown" id="edit_special_handling_dropdown_rss" name="product[edit_special_handling_dropdown_rss]">
+                <option value="">Select One</option>
+                <option value="Corporate Guarantee">Corporate Guarantee</option>
+                <option value="ASO Override">ASO Override</option>
+                <option value="Fee of Service">Fee of Service</option>
+                <option value="Member Pays">Member Pays</option>
+              </select>
+            </div><br>
+            <div class="field">
+            </div>
+            </div>
+            <br>
+            <br>
+            <button class="ui primary left floated button approve" type="submit" id="update_risk_share_setup">
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>

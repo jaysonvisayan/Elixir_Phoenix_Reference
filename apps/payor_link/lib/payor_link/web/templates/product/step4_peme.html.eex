@@ -1,0 +1,71 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/products">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Plan</div>
+  </div>
+</div>
+
+<div id="product_facilities" class="ui equal width left aligned padded grid stackable gi">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <%# <div class="disabled step"> %>
+            <%#   <div class="content"> %>
+            <%#     <div class="title">Exclusion</div> %>
+            <%#   </div> %>
+            <%# </div> %>
+            <div class="completed step cov-ben">
+              <div class="content">
+                <div class="title">Benefits</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Conditions</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Facility Access</div>
+              </div>
+            </div>
+            <%# <div class="disabled step"> %>
+            <%#   <div class="content"> %>
+            <%#     <div class="title">Risk Share</div> %>
+            <%#   </div> %>
+            <%# </div> %>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= if assigns[:modal_open] do %>
+            <input type="hidden" id="open_modal_facilities_v2" value="show">
+          <% end %>
+
+          <%# Render Step 4 form and modals %>
+          <%= render "step4_peme_form.html", product: @product, product_coverages: @product_coverages, changeset: @changeset %>
+          <%= render "step4_peme_modal.html", product: @product, facilities: @facilities, location_group: @location_group, changeset: @changeset, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "4") %>
+          <%= render "step4_modal_acu.html", product: @product, facilities: @facilities, location_group: @location_group, changeset: @changeset, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "4") %>
+          <%= render "step4_peme_confirmation_change_modal.html" %>
+          <%= render "step4_peme_confirmation_remove_modal.html" %>
+          <%= render "step4_peme_view_product_modal.html" %>
+          <%= render "product_delete_confirmation.html" %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

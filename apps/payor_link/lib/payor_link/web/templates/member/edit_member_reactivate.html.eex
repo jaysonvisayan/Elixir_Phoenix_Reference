@@ -1,0 +1,110 @@
+<div class="ui modal" role="member_reactivate" >
+  <i class="close icon"></i>
+  <div class="header">
+   Reactivate Account
+  </div>
+
+  <div class="content" id="modal_reactivate" >
+    <%= form_for @changeset, @action, [class: "ui form",id: "reactivate" , multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    <% end %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+      <%= hidden_input f, :member_id, value: @member.id %>
+      <%= hidden_input f, :status, value: "For Reactivation" %>
+        <div class="two fields">
+          <div class="field">
+            <%= label f, "Member Name" %>
+             <input type="text" value="<%= @member.first_name %> <%= @member.middle_name %> <%= @member.last_name %>" readonly>
+            <p style="color:red"><%= error_tag f, :name%></p>
+          </div>
+
+          <div class="field">
+            <%= label f, "Status" %>
+            <%= render "member_status.html", member: @member %>
+         </div>
+        </div>
+
+        <div class="two fields">
+          <div class="disabled field">
+            <%= label f, :effective_date, "Current Effective Date" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="date" id="member_effectivity" value="<%= @member.effectivity_date %>" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="disabled field">
+            <%= label f, :expiry_date, "Current Expiry Date" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="date" id="member_expiry" value="<%= @member.expiry_date %>" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="two fields" >
+          <div class="field">
+            <%= label f, :reactivate_date, "Reactivation Date" %>
+            <div class="ui calendar" id="reactivate_date_picker" >
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                    <input type="date" name="member[reactivate_date]" id="reactivate_date" value="<%= @member.reactivate_date %>", role="edit_reactivate_date" disabled>
+                <p style="color:red"> <%= error_tag f, :reactivate_date%></p>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <%= label f, :reactivate_reason, "Reason" %>
+            <%= select f, :reactivate_reason, ["": "", "Others1": "others1", "Others2": "others2"], value: @member.reactivate_reason, role: "edit_reactivate_reason", id: "reactivate_reason", disabled: true %>
+            <p style="color:red"><%= error_tag f, :reactivate_reason%></p>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <%= label f, :reactivate_remarks, "Remarks" %>
+            <%= textarea f, :reactivate_remarks, id: "reactivate_remarks", value: @member.reactivate_remarks, disabled: true, role: "edit_reactivate_remarks" %>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="actions" id="edit_reactivate" >
+    <button type="button" class="small ui deny left floated button">
+      <i class="close left icon"></i>
+      Cancel
+    </button>
+    <span>
+    <button type="button" class="small ui primary button" id="edit_reactivate_member">
+      Edit
+    </button>
+    </span>
+  </div>
+  <div class="hidden" id="update_reactivate" >
+    <button type="button" class="small ui deny left floated button">
+      <i class="close left icon"></i>
+      Cancel
+    </button>
+    <span>
+    <button type="button" class="small ui red button" id="cancel_reactivate">
+      Cancel Reactivation
+    </button>
+    <button type="button" class="small ui primary button" id="btn_reactivate_member">
+      Update
+    </button>
+    </span>
+  </div>
+</div>
+<% end %>
+</div>

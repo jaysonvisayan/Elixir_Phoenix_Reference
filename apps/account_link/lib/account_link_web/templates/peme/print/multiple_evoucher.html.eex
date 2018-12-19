@@ -1,0 +1,316 @@
+<style>
+    body {
+      height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .print {
+        height: 33%;
+    }
+
+    .first-div {
+        padding: 0.7cm;
+        max-height: 3cm;
+    }
+
+    .title_font {
+        font-size: 0.8cm;
+    }
+
+    .gray {
+        color: rgb(131, 131, 131);
+    }
+    .blue {
+        color: rgb(0, 95, 255);
+    }
+
+    .big_font {
+        font-size: 0.7cm;
+        display: block;
+    }
+
+    .normal_font {
+        font-size: 0.6cm;
+        display: block;
+    }
+
+    .small_font {
+        font-size: 0.4cm;
+        display: block;
+    }
+
+    .large_font {
+        font-size: 0.55cm;
+        display: block;
+      }
+
+    .medium_font {
+        font-size: 0.50cm;
+        display: block;
+      }
+
+    .image-qr {
+        height: 3.5cm;
+    }
+
+    .image-map {
+      width: 10cm;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .times_new_roman {
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .account_box {
+      border: 3px solid;
+      border-color: #eaedf2;
+      padding: 10px;
+      border-radius: 7px;
+      width: 100%;
+      margin-bottom:10px
+    }
+
+    .phone_box {
+      border: 3px solid;
+      border-color: #eaedf2;
+      padding: 10px;
+      border-radius: 3px;
+      width: 100%;
+      border-bottom-style: none;
+      border-left-style: none;
+      border-top-style: none;
+    }
+
+    .qrcode_box{
+      border: 3px solid;
+      border-color: #eaedf2;
+      padding: 10px;
+      border-radius: 7px;
+      max-width: 80%;
+      text-align: center;
+      margin-left: 30px;
+      margin-bottom: 15px;
+    }
+
+    .evoucher_box{
+      border: 0px;
+      padding: 10px;
+      border-radius: 3px;
+      width: 92%;
+      background: #f5f6f9;
+      text-align: center;
+      margin-left: 15px
+    }
+
+    .padding_left {
+      padding-left: 35px;
+      margin-bottom: -15px
+    }
+
+    .inline_text {
+      display: inline-block;
+    }
+
+    .padding_bottom {
+      padding-bottom: 10px;
+    }
+
+    .hr {
+      border-top: 5px dotted gray;
+      height:1px;
+      width:100%;
+      margin-top: 0.9%;
+      margin-bottom: 2%;
+    }
+
+</style>
+
+<body id="print_body">
+  <%= for peme <- @peme do %>
+    <div class="print">
+    <div class="account_box">
+        <span class="blue title_font times_new_roman"><b><%= peme.data.account_group.name %></b></span>
+        <br>
+        <span class="gray large_font"><b>Pre - Employment Medical Examination</b></span>
+    </div>
+
+    <table width="100%">
+      <tr>
+        <td width="25%"  style="padding-bottom: 15px;"></td>
+        <td width="3%"></td>
+        <td width="45%" rowspan="2">
+
+          <div class="padding_left">
+            <span class="gray title_font">Instructions</span>
+          </div>
+
+          <br>
+
+          <div class="padding_left">
+            <span class="inline_text">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+              <%= render "images/computer.html" %>
+            </span>
+
+            <span class="gray medium_font inline_text padding_bottom">
+              <% url = get_memberlink_url_evoucher() %>
+              Go to <a href="www.mg2.maxicare.com.ph" target="_blank">www.mg2.maxicare.com.ph</a>
+            </span>
+          </div>
+
+          <div class="padding_left">
+            <span class="inline_text">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+              <%= render "images/evoucher.html" %>
+            </span>
+
+            <span class="gray medium_font inline_text">
+              Enter indicated e-voucher number
+            </span>
+          </div>
+
+          <br>
+
+          <div class="padding_left">
+            <span class="inline_text">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <%= render "images/print.html" %>
+            </span>
+
+            <span class="gray medium_font inline_text" style="margin-left: 10px">
+              Complete required fields and print
+              <br>
+              Pre-employment Medical
+              <br>
+              Examination (PEME) e-voucher
+            </span>
+          </div>
+
+          <br>
+
+          <div class="padding_left">
+            <span class="inline_text">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <%= render "images/facility.html" %>
+            </span>
+
+            <span class="gray medium_font inline_text" style="margin-left: 10px">
+              Present e-voucher to the
+              <br>
+              selected facility
+            </span>
+          </div>
+
+          <br>
+
+          <div class="padding_left">
+            <span class="inline_text">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+              <%= render "images/list.html" %>
+            </span>
+
+            <span class="gray medium_font inline_text">
+              Have your Pre-Employment
+              <br>
+              Medical Examination done!
+            </span>
+          </div>
+        </td>
+
+        <td width="25%" rowspan="2" style="margin-left: -20px">
+          <div class="qrcode_box">
+            <span class="blue title_font times_new_roman">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+              <%= render "images/qrcode.html" %>
+            </span>
+          </div>
+
+          <div class="evoucher_box">
+            <span class="gray big_font"><b><%= peme.data.evoucher_number %></b></span>
+            <span class="gray medium_font">Evoucher no.</span>
+          </div>
+
+          <div style="display: table;margin-left: 20%">
+            <%= if check_if_male(peme.data) do %>
+              <span class="gray inline_text" style="display: table-cell;vertical-align: middle;">
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <%= render "images/man.html" %>
+              </span>
+            <% end %>
+            <%= if check_if_female(peme.data) do %>
+              <span class="gray inline_text" style="display: table-cell;vertical-align: middle;">
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <%= render "images/woman.html" %>
+              </span>
+            <% end %>
+              <span class="inline_text gray small_font" style="display: table-cell;vertical-align: middle;">Package code</span>
+            </div>
+            <div style="margin-left: 20%;font-size: 0.4cm;word-break: break-all;">
+              <br>
+              <b><%= peme.data.package.code %></b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%">
+            <div class="phone_box">
+              <%= render "images/logo.html" %>
+              <div class="gray medium_font">Customer Care Hotline</div>
+                <div class=" padding_bottom">
+                  <span class="inline_text">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <%= render "images/call.html" %>
+                  </span>
+                  <span class="gray medium_font inline_text padding_bottom">
+                    (02) 582-1900
+                  </span>
+                </div>
+
+              <div class="gray medium_font">PEME Section</div>
+
+                <div class="padding_bottom">
+                  <span class="inline_text">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <%= render "images/call.html" %>
+                  </span>
+                  <span class="gray medium_font inline_text">
+                    (02) 582-1900
+                  </span>
+                  <span class="gray medium_font padding_left">
+                    local 1304
+                  </span>
+                </div>
+
+                <br>
+
+                <div style="margin-top: -15%">
+                  <span style="vertical-align: middle;height: 100%" >
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <%= render "images/clip.html" %>
+                  </span>
+                  <span class="small_font inline_text padding_bottom" style="margin-left: -10px;margin-top: 20px;">
+                    <a href="https://www.maxicare.com.ph" target="_blank">www.maxicare.com.ph</a>
+                  </span>
+                </div>
+
+            </div>
+          </td>
+      </table>
+      <div class="hr"></div>
+    </div>
+    <% end %>
+</body>

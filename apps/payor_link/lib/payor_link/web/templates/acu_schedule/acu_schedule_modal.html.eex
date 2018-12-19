@@ -1,0 +1,108 @@
+<div class="ui large modal" role="view_acu_modal">
+  <i class="close icon"></i>
+  <div class="header" id="acu_mobile_header">
+    View ACU Schedule
+  </div>
+<div class="content">
+  <form class="ui form">
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="six wide column">
+      <div class="field">
+        <label class="label-title">Account (Code/Name)</label>
+        <select name="view_acu_schedule[account_code]" class="ui dropdown disabled" value="" disabled="disabled">
+        </select>
+      </div>
+    </div>
+    <div class="six wide column">
+      <div class="field">
+        <label class="label-title">Plan</label>
+        <select name="view_acu_schedule[product_code][]" multiple="" class="ui dropdown disabled">
+        </select>
+      </div>
+    </div>
+    <div class="two wide column"></div>
+  </div>
+
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="six wide column">
+      <div class="field">
+        <label class="label-title">Facility</label>
+        <select name="view_acu_schedule[facility_id]" class="ui dropdown disabled" value="" disabled="disabled">
+        </select>
+      </div>
+    </div>
+    <div class="six wide column">
+      <label class="label-title">Member Type</label>
+      <div class="field"></div>
+      <div class="inline fields">
+        <div class="field">
+          <div class="ui checkbox" id="member_principal">
+            <input type="checkbox" name="view_acu_schedule[principal]" id="view_acu_schedule_member_type" value="Principal">
+            <label>Principal</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui checkbox" id="member_dependent">
+            <input type="checkbox" name="view_acu_schedule[dependent]" id="view_acu_schedule_member_type" value="Dependent">
+            <label>Dependent</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two wide column"></div>
+  </div>
+
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="six wide column">
+      <div class="field">
+      <label class="label-title">Number of Members</label>
+        <input name="view_acu_schedule[no_of_members]" type="text" value="" disabled="disabled">
+      </div>
+      <input type="hidden" id="number_of_members" accountCode="" productCode="">
+    </div>
+    <div class="six wide column">
+      <div class="field">
+      <label class="label-title">Number of Guaranteed Heads</label>
+        <input name="view_acu_schedule[no_of_guaranteed]" type="text" value="" disabled="disabled">
+      </div>
+    </div>
+    <div class="two wide column"></div>
+  </div>
+
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="fourteen wide column">
+      <div class="fields">
+        <div class="seven wide field" id="dateFormPicker">
+          <label class="label-title">Date From</label>
+          <div class="ui calendar" id="view_acu_date_from">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <input name="view_acu_schedule[date_from]" type="text" disabled="disabled">
+            </div>
+          </div>
+        </div>
+        <div class="seven wide field" id="dateFormPicker">
+          <label class="label-title">Date To</label>
+          <div class="ui calendar" id="view_acu_date_to">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <input name="view_acu_schedule[date_to]" type="text" disabled="disabled">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two wide column"></div>
+  </div>
+  </form>
+</div>
+  <div class="actions">
+    <div class="ui cancel button deny" >
+     Cancel
+    </div>
+  </div>
+</div>

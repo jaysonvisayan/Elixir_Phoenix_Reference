@@ -1,0 +1,1093 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        <%= "#{@member.first_name} #{@member.middle_name} #{@member.last_name}" %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/members">Members</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">
+            <%= "#{@member.first_name} #{@member.middle_name} #{@member.last_name}" %>
+          </div>
+        </div>
+      </h1>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="webMemberShow">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+        <div class="six wide computer eight wide tablet sixteen wide mobile column">
+          <div class="member-info">
+            <div class="mr-2" style="max-width: 200px"><img class="member-photo ui fluid image" src="<%= get_img_url(@member) %>"></div>
+            <div class="clearfix">
+              <p class="member-name">
+                <%= "#{@member.first_name} #{@member.middle_name} #{@member.last_name}" %>
+              </p>
+              <p class="mb-0 dim small">
+                <%= @member.employee_no %>
+              </p>
+              <p class="big">
+                <%= @member.account_group.name %>
+              </p>
+            </div>
+          </div>
+          <!--.member-info -->
+        </div><!-- .six.column -->
+
+        <div class="five wide computer eight wide tablet sixteen wide mobile column">
+          <table class="full-width">
+            <tbody>
+              <tr>
+
+                <td class="data-label">BIRTHDATE</td>
+                <td>
+                  <%= @member.birthdate %>
+                </td>
+              </tr>
+              <tr>
+                <td class="data-label">Civil Status</td>
+                <td>
+                  <%= @member.civil_status %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- .five.column -->
+
+        <div class="four wide computer eight wide tablet sixteen wide mobile column">
+          <table class="full-width">
+            <tbody>
+
+              <tr>
+                <td class="data-label">Gender</td>
+                <td>
+                  <%= @member.gender %>
+                </td>
+              </tr>
+              <tr>
+                <td class="data-label">Member Status</td>
+                <td>
+                  <%= render "member_status.html", member: @member %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- .five.column -->
+
+        <div class="one wide computer eight wide tablet sixteen wide mobile column">
+          <div class="ui dropdown">
+            <i class="ellipsis vertical icon"></i>
+            <div class="menu">
+              <div class="item" onClick="window.location.replace('/web/members/<%= @member.id%>/edit?tab=general')">
+                <i class="edit icon"></i>
+                Edit
+              </div>
+              <div class="item" id="logs" member_id="<%= @member.id %>">
+                <i class="book icon"></i>
+                Logs
+              </div>
+              <div class="item" id="documents">
+                <i class="file icon"></i>
+                Documents
+              </div>
+              <div class="item">
+                <i class="wrench icon"></i>
+                Utilization
+              </div>
+              <div class="item">
+                <i class="print icon"></i>
+                Print
+              </div>
+              <div class="divider"></div>
+              <%= if @member.status == "Active" do %>
+              <div class="item" name="member_suspend" cancel_date="<%= @member.cancel_date %>">
+                <% else %>
+                <div class="disabled item" name="member_suspend" cancel_date="<%= @member.cancel_date %>">
+                  <% end %>
+                  <i class="calendar icon"></i>
+                  Suspend
+                </div>
+                <%= if @member.status == "Suspended" or @member.status == "Active" do %>
+                <div class="item" name="member_cancel" suspend_date="<%= @member.suspend_date %>" reactivate_date="<%= @member.reactivate_date %>">
+                  <% else %>
+                  <div class="disabled item" name="member_cancel" suspend_date="<%= @member.suspend_date %>"
+                    reactivate_date="<%= @member.reactivate_date %>">
+                    <% end %>
+                    <i class="cancel icon"></i>
+                    Cancel
+                  </div>
+                  <%= if @member.status == "Suspended" do %>
+                  <div class="item" name="member_reactivate" cancel_date="<%= @member.cancel_date %>">
+                    <% else %>
+                    <div class="disabled item" name="member_reactivate" cancel_date="<%= @member.cancel_date %>">
+                      <% end %>
+                      <i class="repeat icon"></i>
+                      Reactivate
+                    </div>
+                  </div>
+                </div>
+              </div><!-- .five.column -->
+              <div class="sixteen wide computer column">
+                <div class="ui divider"></div>
+              </div>
+
+              <div class="sixteen wide computer column border-bottom">
+                <div class="section-title mt-2">
+                  <div class="title-name">Contact Information</div>
+                </div>
+              </div>
+
+              <div class="five wide computer eight wide tablet sixteen wide mobile column">
+                <table class="full-width">
+                  <tbody>
+                    <tr>
+                      <td class="data-label">Email Address 1</td>
+                      <td>
+                        <%= @member.email %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Email Address 2</td>
+                      <td>
+                        <%= @member.email2 %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Mobile Phone 1</td>
+                      <td>
+                        <%= @member.mobile %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Mobile Phone 2</td>
+                      <td>
+                        <%= @member.mobile2 %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Home Number</td>
+                      <td>
+                        <%= @member.telephone %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- .five.column -->
+
+              <div class="five wide computer eight wide tablet sixteen wide mobile column">
+                <table class="full-width">
+                  <tbody>
+
+                    <tr>
+                      <td class="data-label">ADDRESS 1</td>
+                      <td>
+                        <%= "#{@member.unit_no} #{@member.building_name} #{@member.street_name}"%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">ADDRESS 2</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">CITY</td>
+                      <td>
+                        <%= @member.city %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">PROVINCE</td>
+                      <td>
+                        <%= @member.province %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Region</td>
+                      <td>
+                        <%= @member.region %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">POSTAL CODE</td>
+                      <td>
+                        <%= @member.postal %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- .five .column -->
+
+              <div class="sixteen wide computer column">
+                <div class="ui divider"></div>
+              </div>
+
+
+              <div class="sixteen wide computer column border-bottom">
+                <div class="section-title mt-2">
+                  <div class="title-name">Account Information</div>
+                </div>
+              </div>
+
+              <div class="five wide computer eight wide tablet sixteen wide mobile column">
+                <table class="full-width">
+                  <tbody>
+                    <tr>
+                      <td class="data-label">Account Code</td>
+                      <td>
+                        <%= @member.account_code %>
+                      </td>
+                    </tr>
+                    <tr>
+                    <tr>
+                      <td class="data-label">Segment</td>
+                      <td>
+                        <%= @member.account_group.segment %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Employee Number</td>
+                      <td>
+                        <%= @member.employee_no %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Regular Member</td>
+                      <td>
+                        <%= @member.is_regular %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Member Type</td>
+                      <td>
+                        <%= @member.type %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- .five.column -->
+
+              <div class="five wide computer eight wide tablet sixteen wide mobile column">
+                <table class="full-width">
+                  <tbody>
+                    <tr>
+                      <td class="data-label">Effective Date</td>
+                      <td>
+                        <%= get_account_group_start_date(@member.account_group) %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Date Hired</td>
+                      <td>
+                        <%= @member.date_hired %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Regularization Date</td>
+                      <td>
+                        <%= @member.regularization_date %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Original Effective Date</td>
+                      <td>
+                        <%= @member.enrollment_date %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">PhilHealth No.</td>
+                      <td>
+                        <%= @member.philhealth %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- .five.column -->
+
+              <div class="five wide computer eight wide tablet sixteen wide mobile column">
+                <table class="full-width">
+                  <tbody>
+                    <tr>
+                      <td class="data-label">TIN Number</td>
+                      <td>
+                        <%= @member.tin %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Senior Citizen </td>
+                      <td>
+                        <%= @member.senior %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">Senior Number</td>
+                      <td>
+                        <%= @member.senior_id %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">PWD</td>
+                      <td>
+                        <%= @member.pwd %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="data-label">PWD Number</td>
+                      <td>
+                        <%= @member.pwd_id %>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div><!-- .five.column -->
+
+              <div class="sixteen wide computer column">
+                <div class="ui divider"></div>
+              </div>
+
+              <div class="sixteen wide computer column pb-2 mb-2">
+
+                <div class="section-title mt-2">
+                  <div class="title-name">Plan</div>
+                </div>
+
+                <div class="ui right floated header mt-2">
+                </div>
+                <table class="full-width ui celled striped table">
+                  <thead>
+                    <tr>
+                      <th>Tier</th>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th>No. of Benefits</th>
+                      <th>Limit Type</th>
+                      <th>Limit Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for member_product <- @member.products do %>
+                    <%= if member_product.is_archived != true do %>
+                    <tr mpID="<%= member_product.id %>">
+                      <td class="center aligned"><b>
+                          <%= member_product.tier %></b></td>
+                      <td><a target="_blank" href="/web/products/<%= member_product.account_product.product_id %>/show">
+                          <%= member_product.account_product.product.code %></a></td>
+                      <td>
+                        <%= member_product.account_product.product.name %>
+                      </td>
+                      <td>
+                        <%= Enum.count(member_product.account_product.product.product_benefits) %>
+                      </td>
+                      <td>
+                        <%= member_product.account_product.product.limit_type %>
+                      </td>
+                      <td>
+                        <%= member_product.account_product.product.limit_amount %>
+                      </td>
+                      <td class="center aligned">
+                        <a style="cursor: pointer;" class="delete_product" memberID="<%= @member.id%>" memberProductID="<%= member_product.id %>">
+                          <i class="trash icon"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="sixteen wide computer column">
+                <div class="ui divider"></div>
+              </div>
+
+              <div class="sixteen wide computer column pb-2 mb-2">
+
+                <div class="section-title mt-2">
+                  <div class="title-name">
+                    <%= if @member.type == "Principal" or @member.type =="Guardian" do %>
+                    Dependent Information
+                    <% else %>
+                    Principal Information
+                    <% end %>
+                  </div>
+                </div>
+
+                <div class="ui right floated header mt-2"></div>
+                <table class="full-width ui celled striped table">
+                  <thead>
+                    <tr>
+                      <th>Member ID</th>
+                      <th>Name</th>
+                      <th>Card No.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if @member.type == "Principal" or @member.type == "Guardian" or is_nil(@member.type) do %>
+                    <%= for dependent <- @member.dependents do %>
+                    <tr>
+                      <td><a href="/web/members/<%= dependent.id %>">
+                          <%= dependent.id %></a></td>
+                      <td>
+                        <%= dependent.first_name %>
+                        <%= dependent.middle_name %>
+                        <%= dependent.last_name %>
+                      </td>
+                      <td>
+                        <%= dependent.card_no %>
+                      </td>
+                    </tr>
+                    <% end %>
+                    <% else %>
+                    <tr>
+                      <td><a href="/web/members/<%= @member.principal.id %>">
+                          <%= @member.principal.id %></a></td>
+                      <td>
+                        <%= @member.principal.first_name %>
+                        <%= @member.principal.middle_name %>
+                        <%= @member.principal.last_name %>
+                      </td>
+                      <td>
+                        <%= @member.principal.card_no %>
+                      </td>
+                    </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+
+                <br>
+                <br>
+                <div class="sixteen wide computer column">
+                  <div class="ui divider"></div>
+                </div>
+                <%# <div class="sixteen wide column"> %>
+                <%# <div class="ui divider"> %>
+                <div class="ui grid">
+                  <div class="four column row">
+                    <div class="left floated left aligned column">
+                      <%= form_for @conn, main_member_path(@conn, :show_page, @member.id),
+[id: "get-loa", multipart: true, as: :member, method: :get], fn f -> %>
+                      <label>Product</label>
+                      <%= select f, :product_id, map_products(@member.products), prompt: "select plan", class: "ui fluid dropdown", required: "" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <h3>Actual Utilization</h3>
+
+                <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Coverage</th>
+                      <th>Batch No</th>
+                      <th>LOA No</th>
+                      <th>Diagnosis</th>
+                      <th>Physicians</th>
+                      <th>Benefits</th>
+                      <th>Actual Utilize</th>
+                      <th>Member Pays</th>
+                      <th>Payor Pays</th>
+                      <th>Company Pays</th>
+                      <th>Special Approval</th>
+                      <th>Special Approval Amount</th>
+                      <th>Admission Date</th>
+                      <th>Facility</th>
+                      <th>Processed By</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sortableProducts">
+                    <%= for claim <- @utilize_authorizations do %>
+                    <%= if !is_nil(claim.authorization.number) do %>
+                    <tr>
+                      <td>
+                        <%= if !is_nil(claim.authorization.coverage),
+                          do: claim.authorization.coverage.name %>
+                      </td>
+                      <td>
+                        <%= display_batch_no(claim.authorization.id) %>
+                      </td>
+                      <td>
+                        <%= claim.authorization.number %>
+                      </td>
+                      <td>
+                        <% coverage = String.downcase(claim.authorization.coverage.name) %>
+                        <%= cond do %>
+                        <%= coverage  == "op consult" -> %>
+                        <%=
+                              Enum.into(claim.authorization.authorization_diagnosis, [],
+                                &(Enum.join([&1.diagnosis.code,&1.diagnosis.description], " : ")))
+                              |> Enum.uniq()
+                          %>
+                        <% coverage == "op laboratory" || coverage == "emergency"-> %>
+                        <%=
+                              Enum.into(claim.authorization.authorization_procedure_diagnoses, [],
+                                &(Enum.join([&1.diagnosis.code,&1.diagnosis.description], " : ")))
+                              |> Enum.uniq()
+                              |> Enum.join(", ")
+                          %>
+                        <% coverage == "acu" -> %>
+
+                        <%=
+                              claim.authorization.authorization_diagnosis |> Enum.map(&(&1.diagnosis.code)) |> List.first()
+                            %>
+                        |
+                        <%=
+                              claim.authorization.authorization_diagnosis |> Enum.map(&(&1.diagnosis.description)) |> List.first()
+                            %>
+                        <% coverage == "acu" -> %>
+                        <%=
+                                Enum.into(claim.authorization.authorization_benefit_packages, [], fn(abp) ->
+                                abp
+                                |> Enum.into([], fn(abp) ->
+                                    if is_nil(abp.benefit_package) do
+                                     []
+                                    else
+                                      Enum.join([abp.package.code, abp.package.name], " : ")
+                                    end
+                                   end)
+                                |> Enum.uniq()
+                                |> Enum.join(", ")
+                              end)
+                          %>
+                        <% true -> %>
+                        <% end %>
+                      </td>
+                      <td>
+                        <%= authorization_practitioner(claim.authorization, coverage) %>
+                      </td>
+                      <td>
+                        <%= benefits_list(claim.authorization, coverage) %>
+                      </td>
+                      <td>
+                        <%= if !is_nil(claim.authorization.authorization_amounts),
+                          do: claim.authorization.authorization_amounts.total_amount %>
+                      </td>
+                      <td>
+                        <%= if !is_nil(claim.authorization.authorization_amounts),
+                          do: claim.authorization.authorization_amounts.member_covered %>
+                      </td>
+                      <td>
+                        <%= if !is_nil(claim.authorization.authorization_amounts),
+                          do: claim.authorization.authorization_amounts.payor_covered %>
+                      </td>
+                      <td>
+                        <%= if !is_nil(claim.authorization.authorization_amounts),
+                          do: claim.authorization.authorization_amounts.company_covered %>
+                      </td>
+                      <td>
+                        <%= display_special_approval(claim.authorization) %>
+                      </td>
+                      <td>
+                        <%= if !is_nil(claim.authorization.authorization_amounts),
+                          do: claim.authorization.authorization_amounts.special_approval_amount %>
+                      </td>
+                      <td class="date_transform">
+                        <%= claim.authorization.admission_datetime %>
+                      </td>
+                      <td>
+                        <%= claim.authorization.facility.name %>
+                      </td>
+                      <td>
+                        Sonny Medina
+                      </td>
+                      <td>
+                        <%= case String.downcase(claim.authorization.status) do %>
+                        <% "approved" -> %>
+                        <div class="ui small green label">
+                          <span>Approved</span>
+                        </div>
+                        <% "availed" -> %>
+                        <div class="ui small blue label">
+                          <span>Availed</span>
+                        </div>
+                        <% "for approval" -> %>
+                        <div class="ui small yellow label">
+                          <span>For Approval</span>
+                        </div>
+                        <% "pending" -> %>
+                        <div class="ui small yellow label">
+                          <span>Pending</span>
+                        </div>
+                        <% "cancelled" -> %>
+                        <div class="ui small yellow label">
+                          <span>Cancelled</span>
+                        </div>
+                        <% "forfeited" -> %>
+                        <div class="ui small yellow label">
+                          <span>Forfeited</span>
+                        </div>
+                        <% "draft" -> %>
+                        <div class="ui small yellow label">
+                          <span>Draft</span>
+                        </div>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+
+                <div class="ui divider"></div>
+                <h3>Incurred but not Recorded (IBNR)</h3>
+                <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Coverage</th>
+                      <th>Batch No</th>
+                      <th>LOA No</th>
+                      <th>Diagnosis</th>
+                      <th>Physicians</th>
+                      <th>Benefits</th>
+                      <th>Actual Utilize</th>
+                      <th>Member Pays</th>
+                      <th>Payor Pays</th>
+                      <th>Company Pays</th>
+                      <th>Special Approval</th>
+                      <th>Special Approval Amount</th>
+                      <th>Admission Date</th>
+                      <th>Facility</th>
+                      <th>Created By</th>
+                      <th>Processed By</th>
+                      <th>Approved By</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sortableProducts">
+                    <%= for auth <- @authorizations do %>
+                      <%= if !is_nil(auth.number) do %>
+                        <tr>
+                          <td>
+                            <%= if !is_nil(auth.coverage),
+do: auth.coverage.name %>
+                          </td>
+                          <td>
+                            <%= display_batch_no(auth.id) %>
+                          </td>
+                          <td>
+                            <%= auth.number %>
+                          </td>
+                          <td>
+                            <% coverage = String.downcase(auth.coverage.name) %>
+                            <%= cond do %>
+                              <%= coverage  == "peme" -> %>
+                                Z02 : Z02.1 - EXAMINATION AND ENCOUNTER FOR ADMINISTRATIVE PURPOSES: PRE-EMPLOYMENT EXAMINATION [PHP 0.00]
+                              <%= coverage  == "op consult" -> %>
+                                <%=
+                                  Enum.into(auth.authorization_diagnosis, [],
+                                  &(Enum.join([&1.diagnosis.code,&1.diagnosis.description], " : ")))
+                                  |> Enum.uniq()
+                                %>
+                              <% coverage == "op laboratory" || coverage == "emergency"-> %>
+                                <%=
+                                  Enum.into(auth.authorization_procedure_diagnoses, [],
+                                  &(Enum.join([&1.diagnosis.code,&1.diagnosis.description], " : ")))
+                                  |> Enum.uniq()
+                                  |> Enum.join(", ")
+                              %>
+                              <% coverage == "acu" -> %>
+                                <%=
+                                  auth.authorization_diagnosis |> Enum.map(&(&1.diagnosis.code)) |> List.first()
+                                %>
+                            |
+                                <%=
+                                  auth.authorization_diagnosis |> Enum.map(&(&1.diagnosis.description)) |> List.first()
+                                %>
+                              <% coverage == "acu" -> %>
+                                <%=
+                                  Enum.into(auth.authorization_benefit_packages, [], fn(abp) ->
+                                    abp
+                                    |> Enum.into([], fn(abp) ->
+                                      if is_nil(abp.benefit_package) do
+                                        []
+                                      else
+                                        Enum.join([abp.package.code, abp.package.name], " : ")
+                                      end
+                                    end)
+                                    |> Enum.uniq()
+                                    |> Enum.join(", ")
+                                  end)
+                                %>
+                              <% true -> %>
+                            <% end %>
+                          </td>
+                          <td>
+                            <%= authorization_practitioner(auth, coverage) %>
+                          </td>
+                          <td>
+                            <%= benefits_list(auth, coverage) %>
+                          </td>
+                          <td>
+                            <%= auth.total_amount %>
+                          </td>
+                          <td>
+                            <%= if !is_nil(auth.authorization_amounts),
+                              do: auth.authorization_amounts.member_covered %>
+                          </td>
+                          <td>
+                            <%= if !is_nil(auth.authorization_amounts),
+                              do: auth.authorization_amounts.payor_covered %>
+                          </td>
+                          <td>
+                            <%= if !is_nil(auth.authorization_amounts),
+                              do: auth.authorization_amounts.company_covered %>
+                          </td>
+                          <td>
+                            <%= display_special_approval(auth) %>
+                          </td>
+                          <td>
+                            <%= if !is_nil(auth.authorization_amounts),
+                              do: auth.authorization_amounts.special_approval_amount %>
+                          </td>
+                          <td class="date_transform">
+                            <%= auth.admission_datetime %>
+                          </td>
+                          <td>
+                            <%= auth.facility.name %>
+                          </td>
+                          <td>
+                            <%= auth.origin %>
+                          </td>
+                          <td>
+                            <%= auth.created_by.username%>
+                          </td>
+                          <td>
+                            <%= auth.created_by.username%>
+                          </td>
+                          <td>
+                            <%= case String.downcase(auth.status) do %>
+                              <% "approved" -> %>
+                                <div class="ui small green label">
+                                  <span>Approved</span>
+                                </div>
+                              <% "availed" -> %>
+                                <div class="ui small blue label">
+                                  <span>Availed</span>
+                                </div>
+                              <% "for approval" -> %>
+                                <div class="ui small yellow label">
+                                  <span>For Approval</span>
+                                </div>
+                              <% "pending" -> %>
+                                <div class="ui small yellow label">
+                                  <span>Pending</span>
+                                </div>
+                              <% "cancelled" -> %>
+                                <div class="ui small yellow label">
+                                  <span>Cancelled</span>
+                                </div>
+                              <% "forfeited" -> %>
+                                <div class="ui small yellow label">
+                                  <span>Forfeited</span>
+                                </div>
+                              <% "draft" -> %>
+                                <div class="ui small yellow label">
+                                  <span>Draft</span>
+                                </div>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div> <!-- .white-bg -->
+      </div><!-- .ui.container -->
+
+      <!-- ADD PROCEDURE MODAL -->
+      <div class="ui large modal" id="modalProcedure">
+        <i class="close icon"></i>
+        <div class="header">
+          Add Plan
+        </div>
+        <div class="content">
+          <%= form_for @conn, member_path(@conn, :add_member_product, @member), [as: :product, class: "form2"], fn _f -> %>
+          <input type="hidden" value="" name="member[account_product_ids_main]">
+          <table role="datatable" class="ui stripped table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>No. of Benefits</th>
+                <th>Limit Type</th>
+                <th>Limit Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% vdh = if not is_nil(@member.date_hired), do: true, else: false %>
+              <% vrd = if not is_nil(@member.regularization_date), do: true, else: false %>
+              <%= for product <- filter_account_group_products(@member) do %>
+              <tr class='<%= check_mded(vdh, vrd, product.mded_principal)%> <%= if check_product_age_eligibility(@member, product) == false, do: "disabled" %>'>
+                <td>
+                  <div class="">
+                    <%# <%= check_member_product(@member, product) %1> %>
+                    <%= case check_product_age_eligibility(@member, product) do %>
+                    <%= true -> %>
+                    <input type="checkbox" class="selection <%= valid_acu?(@member, product) %>" style="width:20px; height:20px"
+                      value="<%= product.id %>" eligible="true" <%# check_mded(vdh, vrd, product.mded_principal)%> />
+                    <% false -> %>
+                    <input type="checkbox" class="selection" style="width:20px; height:20px" value="<%= product.id %>"
+                      eligible="false" <%# check_mded(vdh, vrd, product.mded_principal)%> />
+                    <% {:invalid_gender} -> %>
+                    <input type="checkbox" class="selection" style="width:20px; height:20px" value="<%= product.id %>"
+                      eligible="false" disabled />
+                    <% {:invalid_age} -> %>
+                    <input type="checkbox" class="selection" style="width:20px; height:20px" value="<%= product.id %>"
+                      eligible="false" disabled />
+                    <% end %>
+                  </div>
+                </td>
+
+                <%= case check_product_age_eligibility(@member, product) do %>
+                <%= true -> %>
+                <td><a target="_blank" href="/products/<%= product.product_id %>/summary">
+                    <%= product.code %>
+                    <%= check_mded_status(vdh, vrd, product.mded_principal)%></a></td>
+                <% false -> %>
+                <td><a target="_blank" href="/products/<%= product.product_id %>/summary">
+                    <%= product.code %> (Not eligible for member’s age)</a></td>
+                <% {:invalid_age} -> %>
+                <td><a target="_blank" href="/products/<%= product.product_id %>/summary">
+                    <%= product.code %> (Not eligible for member’s age)</a></td>
+                <% {:invalid_gender} -> %>
+                <td><a target="_blank" href="/products/<%= product.product_id %>/summary">
+                    <%= product.code %> (Not eligible for member’s gender)</a></td>
+                <% end %>
+                <td>
+                  <%= product.name %>
+                </td>
+                <td>
+                  <%= product.number_of_benefits %>
+                </td>
+                <td>
+                  <%= product.limit_type %>
+                </td>
+                <td>
+                  <%= product.limit_amount %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="actions">
+          <a class="ui deny button">
+            <i class="remove icon"></i>
+            Cancel
+          </a>
+          <button class="ui blue button" type="submit">
+            <i class="plus icon"></i>
+            Add
+          </button>
+        </div>
+        <% end %>
+      </div>
+      <%= render "member_comment.html", member: @member, changeset: @changeset, conn: @conn, action: member_path(@conn, :create_member_comment, @member) %>
+
+      <%= render "show_product_remove_confirmation.html" %>
+      <!-- END OF ADD PROCEDURE MODAL -->
+
+      <%= if is_nil(@member.suspend_date) do %>
+      <%= render "member_suspend.html",
+member: @member,
+changeset: @changeset,
+action: member_path(@conn, :member_suspend)
+%>
+      <% else %>
+      <%= render "member_suspend.html",
+member: @member,
+changeset: @changeset,
+action: member_path(@conn, :member_suspend)
+%>
+      <% end %>
+
+      <%= if is_nil(@member.cancel_date) do %>
+      <%= render "member_cancel.html",
+member: @member,
+changeset: @changeset,
+action: member_path(@conn, :member_cancel)
+%>
+      <% else %>
+      <%= render "member_cancel.html",
+member: @member,
+changeset: @changeset,
+action: member_path(@conn, :member_cancel)
+%>
+      <% end %>
+
+      <%= if is_nil(@member.reactivate_date) do %>
+      <%= render "member_reactivate.html",
+member: @member,
+changeset: @changeset,
+action: member_path(@conn, :member_reactivate)
+%>
+      <% else %>
+      <%= render "edit_member_reactivate.html",
+member: @member,
+changeset: @changeset,
+action: member_path(@conn, :member_reactivate)
+%>
+      <% end %>
+
+      <input type="hidden" id="hidden_cancel_date" value="<%= @member.cancel_date %>" />
+      <input type="hidden" id="hidden_cancel_reason" value="<%= @member.cancel_reason %>" />
+      <input type="hidden" id="hidden_cancel_remarks" value="<%= @member.cancel_remarks %>" />
+      <input type="hidden" id="hidden_suspend_date" value="<%= @member.suspend_date %>" />
+      <input type="hidden" id="hidden_suspend_reason" value="<%= @member.suspend_reason %>" />
+      <input type="hidden" id="hidden_suspend_remarks" value="<%= @member.suspend_remarks %>" />
+      <input type="hidden" id="hidden_reactivate_date" value="<%= @member.reactivate_date %>" />
+      <input type="hidden" id="hidden_reactivate_reason" value="<%= @member.reactivate_reason %>" />
+      <input type="hidden" id="hidden_reactivate_remarks" value="<%= @member.reactivate_remarks %>" />
+
+      <div class="ui modal" id="MemberLogsModal">
+        <i class="close icon"></i>
+        <div class="header">
+          Member Activity Logs
+        </div>
+        <div class="content">
+          <div class="row">
+            <div class="column" style="overflow:scroll;height:500px;overflow:auto">
+              <div class="ui segments">
+                <div class="ui segment">
+                  <%= if @member.member_logs == [] do %>
+                  <p>NO LOGS FOUND</p>
+                  <% else %>
+                  <div class="ui feed timeline">
+                    <%= for log <- Enum.reverse(@member.member_logs) do %>
+                    <div class="event">
+                      <div class="label">
+                        <i class="blue circle icon"></i>
+                      </div>
+                      <div class="content">
+                        <div class="summary">
+                          <p class="member_log_date">
+                            <%= log.inserted_at %>
+                          </p>
+                        </div>
+                        <div class="extra text" id="log_message">
+                          <%= log.message %>
+                        </div>
+                      </div>
+                    </div>
+                    <% end %>
+                  </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="ui large modal" id="MemberDocumentsModal">
+  <i class="close icon"></i>
+  <div class="header">
+    View Documents
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="column" style="overflow:scroll;height:500px;overflow:auto">
+          <div class="ui grid">
+            <div class="six wide column">
+              <div class="ui green segment aligned" id="" style="height:115%;">
+                <div class="hidden" id="segment_detail">
+                  <br>
+                  <div class="eight wide column">
+                    <div class="ui grid">
+                      <div class="eight wide column" id="div_filename">
+                        <%# <b>File_name011.jpg</b> %>
+                        <b></b>
+                      </div>
+                      <div class="eight wide column right aligned" id="div_download">
+                        <%# <a class="" href="https://d2kcgdfzhawsm9.cloudfront.net/uploads/files/29e2b8c4-5f6f-468e-8d87-7bccaa85d586/1st.jpg"> %>
+                        <a class="" href="">
+                          <i class="cloud download icon"></i>
+                          Download
+                        </a>
+                      </div>
+                    </div>
+                    <%# <img class="ui large image img_class" id="photo" src="https://d2kcgdfzhawsm9.cloudfront.net/uploads/files/29e2b8c4-5f6f-468e-8d87-7bccaa85d586/1st.jpg"> %>
+                    <img class="ui large image img_class" id="photo" src="">
+                    <br>
+                    <div class="ui grid">
+                      <div class="eight wide column">
+                        <div class="row">
+                          <div class="column">
+                            <b>LOA No.</b>
+                          </div>
+                          <div class="column" id="div_loa">
+                            <%# <%= @member.account_group.code %1> %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eight wide column">
+                        <div class="row">
+                          <div class="column">
+                            <b>Uploaded From</b>
+                          </div>
+                          <div class="column" id="div_uploaded_from">
+                            <%# <%= @member.account_group.segment %1> %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eight wide column">
+                        <div class="row">
+                          <div class="column">
+                            <b>Purpose</b>
+                          </div>
+                          <div class="column" id="div_purpose">
+                            <%# <%= @member.account_group.code %1> %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eight wide column">
+                        <div class="row">
+                          <div class="column">
+                            <b>Date Uploaded</b>
+                          </div>
+                          <div class="column" id="div_date_uploaded">
+                            <%# <%= @member.account_group.segment %1> %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ten wide column">
+              <div class="content-section white-bg mt-0">
+                <table class="full width ui celled striped table" id="member_docs_table" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Filename</th>
+                      <th>Purpose</th>
+                      <th>Uploaded From</th>
+                      <th>Date Uploaded</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <%= if @conn.params["delete"] do %>
+      <input type="hidden" id="deleteMemberProductSuccess">
+      <% end %>

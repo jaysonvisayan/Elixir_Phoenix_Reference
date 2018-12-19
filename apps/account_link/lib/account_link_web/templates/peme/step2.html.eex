@@ -1,0 +1,105 @@
+<div class="main-wrapper single_peme">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li>PEME</li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Single" %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <%= render "tab.html", tab: "contact", member: @member %>
+              <div id="contact">
+                <%= form_for @changeset, peme_path(@conn, :update_single, @locale, @member, tab: "contact"), [class: "ui form", multipart: :true, id: "singlePemeForm"], fn f -> %>
+                  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                  <p><%= gettext "Please fill the contact information." %></p>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Email Address" %></label>
+                      <%= text_input f, :email, placeholder: "Enter the Email Address" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Email Address" %> 2</label>
+                      <%= text_input f, :email2, placeholder: "Enter another Email Address (Optional)" %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Mobile Phone" %></label>
+                      <%= text_input f, :mobile, placeholder: "Enter the mobile number" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Mobile Phone" %> 2</label>
+                      <%= text_input f, :mobile2, placeholder: "Enter another mobile number (Optional)" %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Telephone" %></label>
+                      <%= text_input f, :telephone, placeholder: "Enter the telephone number" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Fax Number" %></label>
+                      <%= text_input f, :fax, placeholder: "Enter fax number (Optional)" %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Postal Code" %></label>
+                      <%= text_input f, :postal, placeholder: "Enter the postal code" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Unit Number" %> / <%= gettext "Floor" %></label>
+                      <%= text_input f, :unit_no, placeholder: "Enter the unit number" %>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label-title"><%= gettext "Building Name" %></label>
+                    <%= text_input f, :building_name, placeholder: "Enter the building name" %>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Street Name" %></label>
+                      <%= text_input f, :street_name, placeholder: "Enter the street name" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "City" %> / <%= gettext "Municipality" %></label>
+                      <%= text_input f, :unit_no, placeholder: "Enter the city / municipality" %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Province" %></label>
+                      <%= text_input f, :province, placeholder: "Enter the Province" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Region"%></label>
+                      <%= text_input f, :region, placeholder: "Enter the Region" %>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label-title"><%= gettext "Country" %></label>
+                    <%= select f, :civil_status, ["", "USA", "UK", "Philippines"], class: "ui fluid dropdown" %>
+                  </div>
+
+                  <div class="ui divider mt-4"></div>
+
+                  <div class="sixteen wide computer column mt-4 text-right">
+                    <a class="ui basic button" href="/<%= @locale %>/peme/<%= @member.id %>/single?step=1"><i class="caret left icon"></i><%= gettext "Previous"%></a>
+                    <button class="ui button" type="submit"><%= gettext "Next" %> <i class="caret right icon"></i></button>
+                  </div>
+                <% end %>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

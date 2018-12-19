@@ -1,0 +1,321 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Role
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/web/roles">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/roles">Roles</a>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <% get_users = if not Enum.empty?(@role.users), do: "disabled" %>
+        <a href="/web/roles/<%= @role.id %>/edit" class="ui primary button mt-1-small <%= get_users %>">Edit</a>
+
+      </div>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container web-role-show">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column pb-2 mb-2">
+          <div class="section-title mt-2"><div class="title-name">Role Information</div></div>
+          <table class="full-width ui celled striped table">
+            <thead>
+              <tr>
+                <th>Role Name</th>
+                <th>Role Description</th>
+                <th>Application</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= @role.name %></td>
+                <td><%= @role.description %></td>
+                <td><%= display_role_applications(@role.role_applications) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="sixteen wide computer left aligned four column border-bottom">
+          <table class="full-width ui table">
+            <thead style="padding-bottom: 2rem">
+              <th style="padding-bottom: 2rem">Category</th>
+              <th style="padding-bottom: 2rem">Module</th>
+              <th style="padding-bottom: 2rem">Permission</th>
+              <th style="padding-bottom: 2rem">Allowed to view Personally Identifiable Information (PII)</th>
+            </thead>
+            <tbody>
+
+              <%= if display_role_applications(@role.role_applications) == "ProviderLink" do %>
+                <!--ProviderLink Show Medical-->
+                <td class="data-label">Medical</td>
+                <td>
+                  <div style="padding-bottom: 2rem">ACU Schedules</div>
+                  <div style="padding-bottom: 2rem">Patients</div>
+                </td>
+                <td>
+                  <% modules = ["ProviderLink_Acu_Schedules", "Patients"] %>
+                  <%= for m <- modules do %>
+                    <div style = "padding-bottom: 2rem"><%= get_permission_by_module(m, @role.id) %></div>
+                  <% end %>
+                </td>
+                <td>
+                  <% modules = ["ProviderLink_Acu_Schedules", "Patients"] %>
+                  <%= for m <- modules do %>
+                    <div style = "padding-bottom: 2rem"><%= get_pii(@role) %></div>
+                  <% end %>
+                </td>
+              </tr>
+
+              <!--ProviderLink Show Customer Care-->
+              <tr class="customer">
+                <td class="data-label">Customer Care</td>
+                <td>
+                  <div style="padding-bottom: 2rem">Home</div>
+                  <div style="padding-bottom: 2rem">LOAs</div>
+                  <div style="padding-bottom: 2rem">Batch</div>
+                </td>
+                <td>
+                  <% modules = ["Home", "LOAs", "Batch"] %>
+                  <%= for m <- modules do %>
+                    <div style="padding-bottom: 2rem"><%= get_permission_by_module(m, @role.id) %></div>
+                  <% end %>
+                </td>
+                <td>
+                  <% modules = ["Home", "LOAs", "Batch"] %>
+                  <%= for m <- modules do %>
+                    <div style = "padding-bottom: 2rem"><%= get_pii(@role) %></div>
+                  <% end %>
+                </td>
+              </tr>
+
+              <!--ProviderLink Show Administration-->
+              <td class="data-label">Administration</td>
+              <td>
+                <div style="padding-bottom: 2rem">Reports</div>
+              </td>
+              <td>
+                <% modules = ["Reports"] %>
+                <%= for m <- modules do %>
+                  <div style="padding-bottom: 2rem"><%= get_permission_by_module(m, @role.id) %></div>
+                <% end %>
+              </td>
+              <td>
+                <% modules = ["Reports"] %>
+                <%= for m <- modules do %>
+                  <div style="padding-bottom: 2rem"><%= get_pii(@role) %></div>
+                <% end %>
+              </td>
+            </tr>
+          <% else %>
+
+            <tr>
+              <td class="data-label">Account Plan Details (APD)</td>
+              <td>
+                <% modules = ["Benefits", "Exclusions", "Plans", "Accounts", "Clusters"] %>
+                <%= for m <- modules do %>
+                  <div style="padding-bottom: 2rem"><%= m %></div>
+                <% end %>
+              </td>
+              <td>
+                <% modules = ["Benefits", "Exclusions", "Products", "Accounts", "Clusters"] %>
+                <%= for m <- modules do %>
+                  <div style="padding-bottom: 2rem"><%= get_permission_by_module(m, @role.id) %></div>
+                <% end %>
+              </td>
+              <td>
+                <% modules = ["Benefits", "Exclusions", "Plans", "Accounts", "Clusters"] %>
+                <%= for m <- modules do %>
+                  <div style="padding-bottom: 2rem"><%= get_pii(@role) %></div>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td class="data-label">Underwriting (URG)</td>
+              <td>
+                <div style="padding-bottom: 2rem">Members</div>
+              </td>
+              <td>
+                <div style="padding-bottom: 2rem"><%= if @role.member_permitted, do: "Permitted Access", else: get_permission_by_module("Members", @role.id) %></div>
+              </td>
+              <td>
+                <div style="padding-bottom: 2rem"><%= get_pii(@role) %></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="data-label">Medical</td>
+              <td>
+                <div style="padding-bottom: 2rem">Diseases</div>
+                <div style="padding-bottom: 2rem">Procedures</div>
+                <div style="padding-bottom: 2rem">Packages</div>
+                <div style="padding-bottom: 2rem">RUVs</div>
+                <div style="padding-bottom: 2rem">Case Rates</div>
+                <div style="padding-bottom: 2rem">Pharmacies</div>
+                <div style="padding-bottom: 2rem">Miscellaneous</div>
+                <div style="padding-bottom: 2rem">Rooms</div>
+                <div style="padding-bottom: 2rem">Location Groups</div>
+                <div style="padding-bottom: 2rem">Facilities</div>
+                <div style="padding-bottom: 2rem">Practitioners</div>
+                <div style="padding-bottom: 2rem">ACU Schedules</div>
+              </td>
+              <td>
+                <% modules = [
+"Diseases",
+"Procedures",
+"Packages",
+"RUVs",
+"CaseRates",
+"Pharmacies",
+"Miscellaneous",
+"Rooms",
+"Location_Groups",
+"Facilities",
+"Practitioners",
+"Acu_Schedules",
+] %>
+<%= for m <- modules do %>
+  <div style="padding-bottom: 2rem"><%= get_permission_by_module(m, @role.id) %></div>
+<% end %>
+                </td>
+                <td>
+                  <% modules = [
+"Diseases",
+"Procedures",
+"Packages",
+"RUVs",
+"CaseRates",
+"Pharmacies",
+"Miscellaneous",
+"Rooms",
+"Location_Groups",
+"Facilities",
+"Practitioners",
+"Acu_Schedules",
+] %>
+<%= for m <- modules do %>
+  <div style="padding-bottom: 2rem"><%= get_pii(@role) %></div>
+<% end %>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="data-label">Customer Care</td>
+                <td>
+                  <div style="padding-bottom: 2rem">Authorizations</div>
+                </td>
+                <td>
+                  <div style="padding-bottom: 2rem"><%= get_permission_by_module("Authorizations", @role.id) %></div>
+                </td>
+                <td>
+                  <div style="padding-bottom: 2rem"><%= get_pii(@role) %></div>
+                </td>
+              </tr>
+            </div>
+
+
+            <tr style="border-top: 0px">
+              <td></td>
+              <td>
+              </td>
+              <td colspan="2">
+                <%= if get_permission_by_module("Authorizations", @role.id) == "Full Access" do %>
+                  <div style="padding-bottom: 2rem">Set Approval Limit per Coverage (required)</div>
+                  <div style="padding-bottom: 2rem">
+                    <table class="ui striped table">
+                      <thead>
+                        <th>
+                          COVERAGES
+                        </th>
+                        <th>
+                          APPROVAL LIMIT AMOUNT
+                        </th>
+                      </thead>
+                      <tbody>
+                        <%= for c <- @role.coverage_approval_limit_amounts do %>
+                          <tr>
+                            <td>
+                              <%= c.coverage.name %>
+                            </td>
+                            <td>
+                              <div class="field">
+                                <%= c.approval_limit_amount %>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td class="data-label">Administration</td>
+              <td>
+                <div style="padding-bottom: 2rem">Roles</div>
+                <div style="padding-bottom: 2rem">Company Maintenance</div>
+                <div style="padding-bottom: 2rem">Users</div>
+                <div style="padding-bottom: 2rem" class="create-user-header" createUser="<%= @role.create_full_access %>">Create User for:</div>
+                <div style="padding-bottom: 2rem">User Access Activation</div>
+                <div></div>
+              </td>
+              <td>
+                <% modules = ["Roles", "Company_Maintenance", "Users", "Create User", "User_Access"] %>
+                <%= for m <- modules do %>
+                  <%= if m == "Create User" do %>
+                    <%= if not is_nil(@role.create_full_access) do %>
+                      <div style="padding-bottom: 2rem"><%= create_user_for(@role) %></div>
+                    <% else %>
+                    <% end %>
+                  <% else %>
+                    <div style="padding-bottom: 2rem"><%= get_permission_by_module(m, @role.id) %></div>
+                  <% end %>
+                <% end %>
+                <% modules = ["User_Access"] %>
+                <%= for m <- modules do %>
+                  <%= if m == "User_Access" and get_permission_by_module(m, @role.id) == "Full Access" do %>
+                    <div style="padding-bottom: 2rem">Number of Days to upload file: <%= @role.no_of_days %></div>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% modules = ["Roles", "Company_Maintenance", "Users", "Create User", "User_Access"] %>
+                <%= for m <- modules do %>
+                  <%= if m == "Create User" do %>
+                    <div style="padding-bottom: 3.4rem" class="create-user-data"></div>
+                  <% else %>
+                    <div style="padding-bottom: 2rem"><%= get_pii(@role) %></div>
+                  <% end %>
+                <% end %>
+                <% modules = ["User_Access"] %>
+                <%= for m <- modules do %>
+                  <%= if m == "User_Access" and get_permission_by_module(m, @role.id) == "Full Access" do %>
+                    <div style="padding-bottom: 2rem">Cut off Dates: <%= get_cut_off_dates(@role.cut_off_dates) || "N/A" %></div>
+                  <% else %>
+                    <p></p>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div><!-- .five.column -->
+  </div>
+
+
+  <a href="/web/roles"><button id="" class="ui basic button mt-1-small">Back</button></a>
+</div>
+  </div> <!-- .white-bg -->
+</div><!-- .ui.container -->

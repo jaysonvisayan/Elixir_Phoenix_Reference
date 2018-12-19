@@ -1,0 +1,29 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="benefit_pharmacies" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+
+          <%= cond do %>
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <%= render "step_pharmacy_form.html", benefit: @benefit, changeset: @changeset, pharmacies: @pharmacies, conn: @conn %>
+              <%= render "step_pharmacy_modal.html", benefit: @benefit, changeset: @changeset, pharmacies: @pharmacies, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "7") %>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <%= render "step_pharmacy_form.html", benefit: @benefit, changeset: @changeset, pharmacies: @pharmacies, conn: @conn %>
+              <%= render "step_pharmacy_modal.html", benefit: @benefit, changeset: @changeset, pharmacies: @pharmacies, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "6") %>
+
+         <%= end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_pharmacy">
+<% end %>
+
+<%= render "delete_pharmacy_modal.html" %>

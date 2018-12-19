@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="column" id="step4" >
+    <div>
+      <h4>
+        <%= @product.code %> : <%= @product.name %>
+      </h4>
+    </div>
+    <br />
+
+    <%# Error messages %>
+    <div class="ui negative message hidden" id="optionValidation">
+      <i class="close icon"></i>
+      <div class="header">
+        Incomplete fields.
+      </div>
+      <p id="ov_error_message">Please select if all facilities will be included or it will be specified.</p>
+    </div>
+
+
+    <div class="ui negative hidden message" id="specificFacilityValidation">
+      <i class="close icon" id="closeSFV"></i>
+      <div class="header">
+        Incomplete fields.
+      </div>
+      <p id="sfv_error_message">Facilities must be added.</p>
+    </div>
+
+    <div class="ui negative hidden message" id="member_type_is_nil">
+      <i class="close icon"></i>
+      <div class="header">
+        New Member Type field in General(step1) is not yet selected
+      </div>
+      <p> Member Type must be selected, Go back to General(step1) or Go to this link<strong> <a href="/products/<%= @product.id %>/setup?step=1">General-Step1</a></strong></p>
+    </div>
+
+    <%# Accordion %>
+    <%= if @product_coverages == [] do %>
+      <h2>No benefit selected.</h2>
+    <% else %>
+      <div class="ui styled fluid accordion">
+        <%= for product_coverage <- Enum.sort_by(@product_coverages, &(&1.coverage.name)) do %>
+          <%# Hidden inputs %>
+          <input type="hidden" id="last_coverage_id" value="<%= @product.coverage_id %>" productCoverageID="<%= product_coverage.id %>" />
+          <input type="hidden" class="c_type" id="coverage_type_<%= product_coverage.coverage_id %>" value="<%= product_coverage.type %>" coverageID="<%= product_coverage.coverage_id %>" coverageName="<%= product_coverage.coverage.name %>" />
+          <input type="hidden" id="facilities_<%= product_coverage.coverage_id %>" value="<%= load_product_coverage_facility(product_coverage.product_coverage_facilities)  %>" />
+          <input type="hidden" id="indicator_<%= product_coverage.coverage_id %>" value="<%= load_product_coverage_facility(product_coverage.product_coverage_facilities)  %>" />
+
+          <div class="title facility_accordion <%= check_active_coverage(@product.coverage_id, product_coverage.coverage_id)%>" coverageID="<%= product_coverage.coverage_id %>" productID="<%= @product.id %>" productCoverageID="<%= product_coverage.id %>" coverageType="<%= product_coverage.type %>">
+            <span id="fa_title_<%= product_coverage.coverage_id %>" > <%= load_coverages_id(product_coverage.coverage_id) %></span>
+            <i class="dropdown icon" style="float: right"></i>
+          </div>
+          <div class="content <%= check_active_coverage(@product.coverage_id, product_coverage.coverage_id)%>" id="content_<%= product_coverage.coverage_id %>" >
+
+            <%# Radio Buttons %>
+            <div class="inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" class="aaf" productID="<%= @product.id %>" productCoverageID="<%= product_coverage.id %>" value="<%= product_coverage.coverage_id %>" name="is_included_<%= product_coverage.coverage_id %>" id="aaf_<%= product_coverage.coverage_id %>" >
+                  <label>All Affiliated Facilites</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" class="sf" productID="<%= @product.id %>" productCoverageID="<%= product_coverage.id %>" value="<%= product_coverage.coverage_id %>" id="sf_<%= product_coverage.coverage_id %>" name="is_included_<%= product_coverage.coverage_id %>" >
+                  <label>Specific Facilities</label>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="ui grid">
+
+              <%# Button %>
+              <div class="sixteen wide column">
+                <div class="ui right floated primary add button" productCoverageID="<%= product_coverage.id %>" id="add_button_<%= product_coverage.coverage_id %>" coverageID="<%= product_coverage.coverage_id %>" >
+                  <i class="plus icon"></i>
+                  <span id="modal_button_label_<%= product_coverage.coverage_id %>">
+                    EXCEPTION
+                  </span>
+                </div>
+              </div>
+
+              <%# Table %>
+              <div class="sixteen wide column">
+                <table role="datatable" id="product_facility_table_<%= product_coverage.coverage_id %>"  class="ui stripped table">
+                  <thead>
+                    <tr>
+                      <th>Facility Code</th>
+                      <th>Facility Name</th>
+                      <th>Facility Type</th>
+                      <th>Region</th>
+                      <th>Category</th>
+                      <th>Location Group</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for pcf <- product_coverage.product_coverage_facilities do %>
+                      <tr>
+                        <td>
+                          <a href="#" class="open href" name="view_facility" productID="<%= @product.id %>"  productFacilityID="<%= pcf.id %>">
+                            <%= pcf.facility.code %>
+                          </a>
+                        </td>
+                        <td><%= pcf.facility.name %></td>
+                        <td>
+                          <%= case pcf.facility.type == nil do %>
+                            <%= true -> %>
+                              <%= %>
+                            <% false -> %>
+                              <%= pcf.facility.type.text %>
+                            <% end %>
+                        </td>
+                        <td><%= pcf.facility.region %></td>
+                        <td>
+                          <%= case pcf.facility.category == nil do %>
+                            <%= true -> %>
+                              <%= %>
+                            <% false -> %>
+                              <%= pcf.facility.category.text %>
+                            <% end %>
+                        </td>
+                        <td><%= display_location_groups(pcf.facility) %></td>
+                      </tr>
+                      <span class="indicator_<%= product_coverage.coverage_id %> hidden" ><%= product_coverage.type %></span>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div> <%# End Table %>
+            </div> <%# End ui grid %>
+          </div> <%# End content %>
+        <% end %> <%# End product_coverage_facilities %>
+      </div> <%# End accordion %>
+    <% end %> <%# End product_coverage %>
+  </div>
+</div>
+<br />
+<div class="ui middle aligned  right aligned grid mrg1T">
+  <div class="left floated left aligned six wide column">
+    <a href="#" class="ui negative button" id="delete_draft" productID="<%= @product.id %>">
+      <i class="trash left icon"></i>
+      Delete Draft
+    </a>
+  </div>
+  <div class="right floated right aligned six wide column">
+    <a class="ui button" href="/products/<%= @product.id %>/setup?step=<%= product_base_link(@product) %>" productID="<%= @product.id %>">
+      <i class="chevron left icon"></i> Back
+    </a>
+    <a href="#" productID="<%= @product.id %>" id="step4_next"  class="ui blue right floated button" type="submit" memberType="<%= member_type_checker(@product.member_type) %>" nxt_step="5" >
+      Next
+      <i class="chevron right icon"></i>
+    </a>
+  </div>
+</div>

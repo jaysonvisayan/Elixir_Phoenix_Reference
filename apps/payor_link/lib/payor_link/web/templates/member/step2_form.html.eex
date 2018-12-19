@@ -1,0 +1,160 @@
+<%= form_for @conn, @action, [as: :member, id: "productTierForm"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="row">
+    <div class="column">
+      <div class="ui middle aligned  right aligned grid">
+        <div class="left floated left aligned six wide column">
+          <h4 class="ui header">Plans</h4>
+        </div>
+
+        <div class="right floated right aligned seven wide column">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" name="draggableState" checked="">
+            <label>Draggable State</label>
+          </div>
+        </div>
+
+        <div class="right floated right aligned three wide column">
+          <a class="ui small add button"><i class="plus icon"></i>Plan</a>
+        </div>
+
+
+      </div>
+    <div class="ui divider mrg0T mrg0B"></div>
+      <table role="" class="ui stripped table" id="memberProductsTbl">
+        <thead>
+          <tr>
+            <th class="center aligned">Tier</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>No. of Benefits</th>
+            <th>Limit Type</th>
+            <th>Limit Amount</th>
+            <th class="center aligned">Delete</th>
+          </tr>
+        </thead>
+        <tbody id="sortableProducts">
+          <%= if Enum.empty?(@member.products) do %>
+            <tr>
+              <td colspan="7" class="center aligned">
+                NO RECORD FOUND!
+              </td>
+            </tr>
+          <% else %>
+            <%= for member_product <- @member.products do %>
+              <tr mpID="<%= member_product.id %>">
+                <td class="center aligned"><b><%= member_product.tier %></b></td>
+                <td><a target="_blank" href="/products/<%= member_product.account_product.product_id %>/summary"><%= member_product.account_product.product.code %></a></td>
+                <td><%= member_product.account_product.product.name %></td>
+                <td><%= Enum.count(member_product.account_product.product.product_benefits) %></td>
+                <td><%= member_product.account_product.product.limit_type %></td>
+                <td><%= member_product.account_product.product.limit_amount %></td>
+                <td class="center aligned">
+                  <a style="cursor: pointer;" class="delete_product" memberID="<%= @member.id%>"  memberProductID="<%= member_product.id %>">
+                    <i class="trash icon"></i>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%= hidden_input(f, :product_tier, id: "productTier") %>
+
+  <%=# submit "Next", class: "ui right floated button blue submit" %>
+
+  <%= if Enum.empty?(@member.products) do %>
+    <button class="ui blue right floated button mrg1T" type="button" id="preventNextAlertify" message="Please enter at least one plan">
+      Next
+      <i class="chevron right icon"></i>
+    </button>
+  <% else %>
+    <button class="ui blue right floated button mrg1T" type="submit">
+      Next
+      <i class="chevron right icon"></i>
+    </button>
+  <% end %>
+  <a href="/members/<%= @member.id %>/setup?step=1" class="ui button mrg1T">
+    <i class="chevron left icon"></i>
+    Back
+  </a>
+<% end %>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="ui large modal" id="modalProcedure">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Plans
+  </div>
+  <div class="content">
+    <%= form_for @conn, member_path(@conn, :update_setup, @member, step: "2"), [as: :product, class: "form2"], fn _f -> %>
+    <input type="hidden" value="" name="member[account_product_ids_main]">
+    <table role="datatable2" class="ui stripped table" id="productsModalTable">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAllProducts">
+          </th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>No. of Benefits</th>
+          <th>Limit Type</th>
+          <th>Limit Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% vdh = if not is_nil(@member.date_hired), do: true, else: false %>
+        <% vrd = if not is_nil(@member.regularization_date), do: true, else: false %>
+        <%= for product <- filter_account_group_products(@member) do %>
+          <tr class='<%= check_mded(vdh, vrd, product.mded_principal)%> <%= if check_product_age_eligibility(@member, product) == false, do: "disabled" %>'>
+            <td>
+              <div class="">
+                <%# <%= check_member_product(@member, product) %1> %>
+                <%= case check_product_age_eligibility(@member, product) do %>
+                <%= true -> %>
+                  <input type="checkbox" class="selection <%= valid_acu?(@member, product) %>" style="width:20px; height:20px" value="<%= product.id %>" eligible="true" <%# check_mded(vdh, vrd, product.mded_principal)%> />
+                <% false -> %>
+                  <input type="checkbox" class="selection" style="width:20px; height:20px" value="<%= product.id %>" eligible="false" <%# check_mded(vdh, vrd, product.mded_principal)%> />
+                <% {:invalid_gender} -> %>
+                  <input type="checkbox" class="selection" style="width:20px; height:20px" value="<%= product.id %>" eligible="false" disabled />
+                <% {:invalid_age} -> %>
+                  <input type="checkbox" class="selection" style="width:20px; height:20px" value="<%= product.id %>" eligible="false" disabled />
+                <% end %>
+              </div>
+            </td>
+
+            <%= case check_product_age_eligibility(@member, product) do %>
+            <%= true -> %>
+              <td><a target="_blank" href="/products/<%= product.product_id %>/summary"><%= product.code %> <%= check_mded_status(vdh, vrd, product.mded_principal)%></a></td>
+            <% false -> %>
+              <td><a target="_blank" href="/products/<%= product.product_id %>/summary"><%= product.code %> (Not eligible for member’s age)</a></td>
+            <% {:invalid_age} -> %>
+              <td><a target="_blank" href="/products/<%= product.product_id %>/summary"><%= product.code %></a></td>
+            <% {:invalid_gender} -> %>
+              <td><a target="_blank" href="/products/<%= product.product_id %>/summary"><%= product.code %></a></td>
+            <% end %>
+            <td><%= product.name %></td>
+            <td><%= product.number_of_benefits %></td>
+            <td><%= product.limit_type %></td>
+            <td><%= product.limit_amount %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+    Add
+    </button>
+  </div>
+  <% end %>
+</div>
+<!-- END OF ADD PLAN MODAL -->

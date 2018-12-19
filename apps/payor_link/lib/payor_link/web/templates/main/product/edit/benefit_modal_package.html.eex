@@ -1,0 +1,122 @@
+<div class="ui small modal packages">
+  <i class="close icon"></i>
+  <div class="header">List of Packages - BN-1102 </div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+
+        <div class="ui form two fields">
+          <div class="field pb-1">
+            <div class="ui left aligned category search">
+              <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Search Batch...">
+                <i class="search icon"></i>
+              </div>
+              <div class="results"></div>
+            </div>
+          </div>
+        </div>
+
+        <table class="full-width ui celled striped table">
+          <thead>
+            <tr>
+              <th>Package Code</th>
+              <th>Procedures</th>
+              <th>Gender</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <a href="" class="small">110813</a>
+                <div class="small">Regular Package</div>
+              </td>
+              <td>
+                <small>Ultrasound, Skin Care, Hydroxyprogesterone, X-ray</small>
+              </td>
+              <td>F, M</td>
+              <td class="table-icon--holder">
+                <div class="ui dropdown">
+                  <i class="ellipsis vertical icon"></i>
+                  <div class="menu">
+                    <div class="item">Edit</div>
+                    <div class="item">Delete</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <a href="" class="small">110813</a>
+                <div class="small">Regular Package</div>
+              </td>
+              <td>
+                <small>Ultrasound, Skin Care, Hydroxyprogesterone, X-ray</small>
+              </td>
+              <td>F, M</td>
+              <td class="table-icon--holder">
+                <div class="ui dropdown">
+                  <i class="ellipsis vertical icon"></i>
+                  <div class="menu">
+                    <div class="item">Edit</div>
+                    <div class="item">Delete</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <a href="" class="small">110813</a>
+                <div class="small">Regular Package</div>
+              </td>
+              <td>
+                <small>Ultrasound, Skin Care, Hydroxyprogesterone, X-ray</small>
+              </td>
+              <td>F, M</td>
+              <td class="table-icon--holder">
+                <div class="ui dropdown">
+                  <i class="ellipsis vertical icon"></i>
+                  <div class="menu">
+                    <div class="item">Edit</div>
+                    <div class="item">Delete</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <a href="" class="small">110813</a>
+                <div class="small">Regular Package</div>
+              </td>
+              <td>
+                <small>Ultrasound, Skin Care, Hydroxyprogesterone, X-ray</small>
+              </td>
+              <td>F, M</td>
+              <td class="table-icon--holder">
+                <div class="ui dropdown">
+                  <i class="ellipsis vertical icon"></i>
+                  <div class="menu">
+                    <div class="item">Edit</div>
+                    <div class="item">Delete</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class=" send-rtp ui primary button" type="submit">OK</button>
+    </div>
+  </div>
+</div>

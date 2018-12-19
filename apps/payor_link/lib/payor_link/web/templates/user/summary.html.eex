@@ -1,0 +1,70 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui ordered three steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Basic</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Roles</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <div class="ui grid centered container">
+            <div class="six wide computer six wide tablet column">
+              Full Name
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @user.first_name %> <%= @user.middle_name %> <%= @user.last_name %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Gender
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @user.gender %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Email Address
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @user.email %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Mobile Number
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @user.mobile %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Username
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @user.username %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Roles
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= display_user_roles(@user) %></b>
+            </div>
+          </div>
+          <%= form_for @conn, user_path(@conn, :save, @user), [as: :save], fn _f -> %>
+            <%= submit "Save", class: "ui right floated button blue submit" %>
+            <a class="ui button" href="/users/<%= @user.id %>/roles">Back</a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

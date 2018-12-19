@@ -1,0 +1,27 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Add Member
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/members">Member</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section">enroll <%= @member.id %> - <%= @member.first_name %> <%= @member.middle_name %> <%= @member.last_name %>
+          </div>
+      </h1>
+      <div class="ui header float-right-medium" id="button_member_header">
+        <button  id="buttonDiscard" class="ui basic button mt-1-small" type="submit" memberID="<%= @member.id %>" >Discard</button>
+        <button  id="buttonDraft"   class="ui primary button mt-1-small" type="submit" >Save as Draft</button>
+      </div>
+  </div>
+</div>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_pb">
+<% end %>
+<%= render "modal_confirmation_draft.html" %>
+<%= render "modal_discard.html" %>

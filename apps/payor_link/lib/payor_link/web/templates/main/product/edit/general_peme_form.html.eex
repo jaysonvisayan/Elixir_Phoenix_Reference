@@ -1,0 +1,99 @@
+<div class="sixteen wide computer column">
+   <%= form_for @changeset_general_peme_edit, @action, [method: "PUT", class: "ui form sixteen wide computer column", multipart: :true, id: "general_form"], fn f -> %>
+
+      <div class="ui form">
+          <div class="bottom-border pb-2 mb-2">
+
+              <div class="section-title mt-2">
+                <div class="title-name">Plan Information</div>
+              </div>
+              <div class="two fields">
+
+               <div class="field">
+                    <%= label f, :name, "Plan Name (required)", class: "label-title" %>
+                    <%= text_input f, :name, class: "form-control", placeholder: "Add Plan Name" %>
+                    <%= error_tag f, :name %>
+                </div>
+
+                <div class="field">
+                  <%= label f, :description, "Plan Description(required)", class: "label-title" %>
+                  <%= text_input f, :description, class: "plan_description form-control", placeholder: "Add Plan Category" %>
+                  <%= error_tag f, :description %>
+                </div>
+              </div>
+
+              <div class="two fields">
+
+                <div class="field">
+                  <%= label f, :type, "Plan Type", class: "label-title"  %>
+                  <%= select f, :type, ["Select Plan Type": "", "Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze", "Platinum Plus": "Platinum Plus"], class: "ui fluid dropdown" %>
+                  <%= error_tag f, :type %>
+                </div>
+
+                <div class="field">
+                  <label class="label-title">Plan Classification</label>
+                  <%= error_tag f, :standard_product %>
+                  <div class="two fields mt-1">
+                    <div class="field">
+                      <div class="ui radio checkbox full-width">
+                        <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+                        <label for="abl" class="">Standard</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui radio checkbox full-width">
+                        <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+                        <label for="mbl">Custom</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :member_type, "Member Type", class: "label-title" %>
+                  <%= error_tag f, :member_type %>
+
+                  <% principal = if Enum.member?(@product.member_type, "Principal"), do: "checked" %>
+                  <% dependent = if Enum.member?(@product.member_type, "Dependent"), do: "checked" %>
+                  <div class="two fields mt-1">
+                    <div class="field">
+                      <div class="ui checkbox  full-width">
+                        <input type="checkbox" class="hidden" value="Principal" name="product[member_type][]" <%= principal %> >
+                        <label for="principal" class="">Principal</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui checkbox  full-width">
+                        <input type="checkbox" class="hidden" value="Dependent" name="product[member_type][]" <%= dependent %> >
+                        <label for="dependent" class="">Dependent</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% lieu_state = if @product.in_lieu_of_acu == true, do: "checked", else: "" %>
+                <div class="field">
+                  <%= label f, :in_lieu_of_acu, "In Lieu of ACU ", class: "control-label" %>
+                  <div class="inline field ui grid">
+                    <div class="ui checkbox seven wide column">
+                      <input type="checkbox" class="hidden" value=true name="product[in_lieu_of_acu]" <%= lieu_state %>  >
+                      <label for="in_lieu" class="">In Lieu of ACU</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+        <div class="ui vertical segment mb-2">
+          <div class="text-right">
+            <a class="ui basic button large" href="/web/products/<%= @product.id %>/show" >
+              <i class="caret left icon"></i>Cancel
+            </a>
+            <button type="submit" class="ui primary button large">Submit <i class="send icon white"></i></button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>

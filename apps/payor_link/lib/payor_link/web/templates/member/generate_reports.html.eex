@@ -1,0 +1,93 @@
+<div id="member_account_reports" class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+        <div class="left floated left aligned eight wide column">
+          <h1 class="ui huge header with-button">Reports</h1>
+        </div>
+        <%# <div class="right floated right aligned four wide column"> %>
+          <%#   <!-- <a class="ui primary basic button">Skipping Hierarchy</a> --> %>
+            <%#   <a class="ui primary basic button" href="/members/reports/generate"><i class="download icon"></i>Download Masterlist</a> %>
+            <%# </div> %>
+        </div>
+        <div class="ui breadcrumb">
+          <div class="active section">Select here</div>
+        </div>
+        <div class="ui divider"></div>
+
+        <%= form_for @conn, member_path(@conn, :generate_reports) ,[as: :params, class: "ui form", id: ""], fn f -> %>
+          <div class="ui grid">
+            <div class="sixteen wide column" style="height: 67px;padding-bottom: 3px;">
+
+                <div class="field">
+                  <%= label f, :account_code, "Account Code", class: "control-label" %>
+                  <%= select f, :account_code, map_accounts2(@accounts), "data-validate": "account_code", prompt: "", id: "account_group_code_name" %>
+                  <%= error_tag f, :account_code %>
+                </div>
+
+            </div>
+            <div class="sixteen wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Member Type</label>
+                  <%= select f, :member_type, ["": "", "Principal": "Principal", "Dependent": "Dependent", "Guardian": "Guardian"], class: "" %>
+                </div>
+                <div class="field">
+                  <label>Member Status</label>
+                  <%= select f, :member_status, ["": "", "For Approval": "For Approval","Active": "Active","Cancelled": "Cancelled","Disapprove": "Disapprove", "Pending": "Pending", "Lapsed": "Lapsed", "Suspended": "Suspended"], class: "" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="right floated right aligned ten wide column" style="padding: 3px 1000px">
+              <button class="ui primary basic button">Submit</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <table role="datatable" class="ui stripped table" cellspacing="0" width="100%" id="account_member_tbl">
+      <thead>
+        <tr>
+
+          <th>Type</th>
+          <%# <th>Code</th> %>
+          <th>Account Name</th>
+          <th>Member Name</th>
+          <th>Member Type</th>
+          <th>Card No.</th>
+          <th>Status</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <%= for result <- @results do %>
+          <tr>
+            <td><%= result.account_type %></td>
+            <%# <td><%= result.account_code %1></td> %>
+            <td><%= result.account_name %></td>
+            <%# <td><%= result.member_last_name %1></td> %>
+            <td><%= Enum.join([result.member_first_name, result.member_middle_name, result.member_last_name], " ") %></td>
+            <td><%= result.member_type %></td>
+            <td><%= result.member_card_no %></td>
+            <td><%= if is_nil(result.member_status) do %>Pending for Activation<% else %><%= result.member_status %><% end %></td>
+          </tr>
+        <% end %>
+        <!-- -->
+      </tbody>
+    </table>
+    <div class="right floated right aligned ten wide column" style="padding: 10px 400px;">
+      <a href="#" id="export_btn_account_members" class="ui primary button"><i class="download icon"></i>Download Result</a>
+    </div>
+
+
+  </div>
+

@@ -1,0 +1,220 @@
+<div class="sixteen wide computer column" id="create-facility-group">
+
+  <%= form_for @changeset, @action, [class: "general-form", id: "f-group-form2"], fn f -> %>
+    <div id="hidden-container"></div>
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+        <div class="ui grid">
+          <div class="eight wide column">
+            <div class="field">
+              <%= label f, :name, "Facility Group Name", class: "label-title" %>
+              <%= text_input f, :name, class: "product name", maxlength: "80" %>
+              <%= error_tag f, :name %>
+            </div>
+          </div>
+          <div class="eight wide column" id="save-as-draft">
+            <%# <button type="button" role="save-as-draft" class="large ui right floated gray button">Save as Draft</button> %>
+          </div>
+        </div>
+      </div>
+
+      <div class="sixteen wide column">
+        <div class="ui grid">
+          <div class="eight wide column">
+            <div class="field">
+              <%= label f, :description, "Facility Group Description", class: "label-title" %>
+              <%= text_input f, :description, class: "product name", maxlength: "80" %>
+              <%= error_tag f, :description%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <%# GRID END %>
+
+    </br></br><div class="ui divider"></div>
+
+    <div class="bottom-border pb-2 mb-2" id="facility-group-type">
+      <div class="field">
+        <div class="field">
+          <label class="label-title">Selecting Type</label>
+          <%= error_tag f, :type %>
+          <div class="two fields mt-1">
+            <div class="field">
+              <div class="seven wide column">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :selecting_type, "Region", id: "region_radio_btn", class: "" %>
+                  <label for="region" class="">Region</label>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="eight wide column">
+                <div class="ui radio checkbox ">
+                  <%= radio_button f, :selecting_type, "Facilities", id: "facilities_radio_btn", class: "" %>
+                  <label for="facilities">Facilities</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui form">
+        <div class="field">
+          <input type="hidden" name="selecting_type">
+        </div>
+      </div>
+    </div>
+    </br></br>
+
+    <% [luzon, visayas, mindanao, all] = get_region(@regions) %>
+
+    <%= for a <- all do %>
+      <input type="hidden" name="location_group[<%= String.downcase(Enum.join([a.island_group, a.region], "_")) %>]" value="<%= a.id%>">
+    <% end %>
+
+    <%#  //////////////////////////////////////////////////////////////////////// %>
+    <div id="facility_fields" class="">
+
+
+      <div class="two fields">
+        <div class="field">
+          <div class="ui header">
+            <div class="section-title mt-2">
+              <div class="title-name">Facilities</div>
+            </div>
+          </div>
+          <input type="hidden" name="is_valid_facilities">
+        </div>
+        <div class="field" style="text-align: right;padding-top: 1.4rem">
+          <a class="ui primary button" id="btn_add_facility">
+            <i class="white plus icon"></i>
+            Add Facility
+          </a>
+
+          <div class="ui form">
+            <div class="field">
+              <input type="hidden" name="is_valid_facility_fields">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <br>
+
+      <div class="ui segment">
+        <div class="ui dimmer">
+          <div class="content">
+            <h2 class="ui inverted icon header">
+              <i class="notched circle loading icon"></i>
+              Loading...
+            </h2>
+          </div>
+        </div>
+
+        <table role="" class="full-width ui celled striped table" id="selected_facility_tbl">
+          <thead>
+            <tr>
+              <th width="10%">Facility Code</th>
+              <th width="60%">Facility Name </th>
+              <th width="20%">Facility Region</th>
+              <th width="10%"></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="bottom-border pb-2 mb-2">
+      </div>
+
+    </div>
+
+    <div id="region-container" class="">
+      <div id="facility-location-group" class="">
+        <div class="ui form">
+          <div class="inline field">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="0" class="hidden" id="LUZON" <%= check_all(@selected_regions, all, "Luzon")%>>
+              <label><b>Luzon</b></label>
+            </div>
+          </div>
+        </div>
+        <div class="ui divider"></div>
+
+        <div class="ui form" id="LUZON">
+          <%= for l <- luzon do %>
+            <div class="inline field">
+              <div class="ui checkbox">
+                <input type="checkbox" tabindex="1" class="hidden" name="location_group[Luzon][]" value="<%= l.id %>" <%= check(@selected_regions, l.id)%>>
+                <label><%= l.region %></label>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+      </br></br>
+      <div class="ui form">
+        <div class="inline field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0" class="hidden" id="VISAYAS" <%= check_all(@selected_regions, all, "Visayas")%>>
+            <label><b>Visayas</b></label>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui form" id="VISAYAS">
+        <%= for v <- visayas do %>
+          <div class="inline field">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="1" class="hidden" name="location_group[Visayas][]" value="<%= v.id %>" <%= check(@selected_regions, v.id)%>>
+              <label><%= v.region %></label>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      </br></br>
+      <div class="ui form">
+        <div class="inline field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0" class="hidden" id="MINDANAO" <%= check_all(@selected_regions, all, "Mindanao")%>>
+            <label><b>Mindanao</b></label>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui form" id="MINDANAO">
+        <%= for m <- mindanao do %>
+          <div class="inline field">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="1" class="hidden" name="location_group[Mindanao][]" value="<%= m.id %>" <%= check(@selected_regions, m.id)%>>
+              <label><%= m.region %></label>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      </div>
+
+      <div class="ui form" id="region-validation">
+        <div class="field">
+          <input type="hidden" name="region">
+        </div>
+      </div>
+    </div>
+
+    <%#  //////////////////////////////////////////////////////////////////////// %>
+
+    </br></br>
+    <button type="button" id="save_edit_btn" class="ui left floated green button">Save Changes</button>
+    <input type="hidden" value="Submitted" name="location_group[status]" />
+  <% end %>
+</div>
+
+
+<%# <%= if @swal do %1> %>
+<%#   <input type="hidden" id="<%= @changeset.data.id %1>" role="mount_swal" code="<%= @changeset.data.code %1>"  name="<%= @changeset.data.name %1>"> %>
+<%# <% end %1> %>
+

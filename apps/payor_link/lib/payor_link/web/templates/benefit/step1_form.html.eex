@@ -1,0 +1,80 @@
+<%= case @tab_checker do %>
+  <%= "riders" -> %>
+    <div class="ui top attached tabular menu" role="benefits">
+      <a class="item" data-tab="health_plan">
+        <div class="ui grid">
+          <div class="ui health_plan radio checkbox">
+            <input type="radio" name="plan_category"  tabindex="0" id="health_plan" value="health_plan">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i class="huge heartbeat icon mrg0R"></i>
+            <br>Health Plan
+          </center>
+        <label>
+      </a>
+      <a class="active item" data-tab="riders">
+        <div class="ui grid">
+          <div class="ui riders radio checkbox">
+            <input type="radio" name="plan_category" checked="checked" tabindex="0" id="riders" value="riders">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i class="huge add square icon mrg0R"></i>
+            <br>Riders
+          </center>
+        </label>
+      </a>
+    </div>
+    <div class="ui bottom attached segment">
+      <div class="ui tab" data-tab="health_plan">
+        <%= render "step1_health_form.html", coverages: @coverages, changeset: @changeset_health, action: @action %>
+      </div>
+      <div class="active ui tab" data-tab="riders">
+        <%= render "step1_riders_form.html", coverages: @coverages, changeset: @changeset_riders, action: @action %>
+      </div>
+    </div>
+  <% _ -> %>
+    <div class="ui top attached tabular menu" role="benefits">
+      <a class="active item" data-tab="health_plan">
+        <div class="ui grid">
+          <div class="ui health_plan radio checkbox">
+            <input type="radio" name="plan_category" checked="checked" tabindex="0" id="health_plan" value="health_plan">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i class="huge heartbeat icon mrg0R"></i>
+            <br>Health Plan
+          </center>
+        <label>
+      </a>
+      <a class="hidden" data-tab="riders">
+        <div class="ui grid">
+          <div class="ui riders radio checkbox">
+            <input type="radio" name="plan_category" tabindex="0" id="riders" value="riders">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i class="huge add square icon mrg0R"></i>
+            <br>Riders
+          </center>
+        </label>
+      </a>
+    </div>
+    <div class="ui bottom attached segment">
+      <div class="active ui tab" data-tab="health_plan">
+        <%= render "step1_health_form.html", coverages: @coverages, changeset: @changeset_health, action: @action %>
+      </div>
+      <div class="ui tab" data-tab="riders">
+        <%= render "step1_riders_form.html", coverages: @coverages, changeset: @changeset_riders, action: @action %>
+      </div>
+    </div>
+<% end %>

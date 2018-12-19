@@ -1,0 +1,83 @@
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: payorlink
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: payorlink
+    spec:
+      containers:
+        - name: payorlink
+          image: asia.gcr.io/silver-approach-172802/payorlink:0.21.4
+          ports:
+            - containerPort: 4001
+              protocol: TCP
+          args: ["_build/prod/rel/innerpeace/bin/innerpeace", "foreground"]
+          env:
+            - name: PORT
+              value: "4001"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: password
+            - name: DB_HOST
+              value: "127.0.0.1"
+            - name: DB_NAME
+              value: "payorlink-stag"
+            - name: MIX_ENV
+              value: ":staging"
+            - name: SECRET_KEY_BASE
+              value: "/v/b3IU8u19GYyA5SzI8bg/mh7PoaNugmPsCulxXQF9MKBy5N23nZ60+DiQ0VO3q"
+            - name: HOST
+              value: "payorlink-ip-staging.medilink.com.ph"
+            - name: S3_BUCKET
+              value: "innerpeace-payorlink-staging"
+            - name: ASSET_HOST
+              value: "https://s3-ap-southeast-1.amazonaws.com/innerpeace-payorlink-staging"
+            - name: AWS_KEY
+              value: "AKIAJFKOEN3DRAOVRIVQ"
+            - name: AWS_SECRET
+              value: "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"
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.09
+          command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+            "-instances=silver-approach-172802:australia-southeast1:payorlink-staging=tcp:5432",
+            "-credential_file=/secrets/cloudsql/credentials.json"]
+          volumeMounts:
+              - name: cloudsql-instance-credentials
+                mountPath: /secrets/cloudsql
+                readOnly: true
+              - name: ssl-certs
+                mountPath: /etc/ssl/certs
+              - name: cloudsql
+                mountPath: /cloudsql
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir:
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: payorlink-service
+spec:
+  selector:
+    app: payorlink
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 4001

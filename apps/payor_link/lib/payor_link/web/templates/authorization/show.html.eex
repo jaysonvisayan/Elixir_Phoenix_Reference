@@ -1,0 +1,30 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable" id="show_consult">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "show_authorization_status.html",
+conn: @conn,
+changeset: @changeset,
+special_approval: @special_approval,
+diagnoses: @diagnoses,
+authorization: @authorization,
+practitioners: @practitioners,
+member: @member,
+authorization_files: @authorization_files,
+action: authorization_path(@conn, :update_setup, @authorization, step: "4") %>
+
+          <%= render "otp/otp_consult_modal.html" %>
+          <%= render "print_modal.html" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,231 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li>Home</li><li><i class="chevron right icon"></i></li>
+      <li>PEME</li><li><i class="chevron right icon"></i></li>
+      <li class="active">Batch</li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <form action="" class="ui form">
+                <div class="section-control">
+                  <div class="ui grid">
+                    <div class="row">
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                        <div class="ui form">
+                          <div class="inline field">
+                            <div class="ui left icon large input">
+                              <i class="search icon"></i>
+                              <input type="text" placeholder="Search...">
+                            </div>
+                            <a href="#" class="advanced-search-trigger">Advanced Search</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile right floated column text-right mobile-text-left mobile-pull">
+                        <a href="#" class="mr-2">Download Template</a>
+                        <button class="large ui button modal-open-actionConfirmation" onclick="return(false);"><i class="cloud upload icon"></i>Upload Template</button>
+                      </div>
+                      <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                        <div class="advanced-search mt-2">
+                          <p>Search only the selected members:</p>
+                          <div class="ui form">
+                            <div class="inline fields">
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="suspended" checked="checked">
+                                  <label>Scheduled</label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="reactivated">
+                                  <label>Rescheduled</label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="hundredpercent">
+                                  <label>100% Completed</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                <table class="full-width ui celled table">
+                  <thead>
+                    <tr>
+                      <th>Batch No.</th>
+                      <th>File Name</th>
+                      <th>Upload Type</th>
+                      <th>Total Members</th>
+                      <th>Status</th>
+                      <th>Successful</th>
+                    </tr>
+                  </thead>
+                  <tbody class="padded-rows menued-rows">
+                    <tr>
+                      <td>001</td>
+                      <td>File 1</td>
+                      <td>Schedule</td>
+                      <td>25</td>
+                      <td class="status status--1">50%</td>
+                      <td>23 Downloads</td>
+                      <td class="menued-rows__wrap">
+                        <div class="menued-rows__item">
+                          <button class="ui modal-open-requestloa button"><i class="edit icon"></i>Request LOA</button>
+                          <button class="ui basic button"><i class="unhide icon"></i>View Details</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>002</td>
+                      <td>File 2</td>
+                      <td>Re-schedule</td>
+                      <td>56</td>
+                      <td class="status status--1">85%</td>
+                      <td>52 Downloads</td>
+                      <td class="menued-rows__wrap">
+                        <div class="menued-rows__item">
+                          <button class="ui button"><i class="edit icon"></i>Request LOA</button>
+                          <button class="ui basic button"><i class="unhide icon"></i>View Details</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>003</td>
+                      <td>File 3</td>
+                      <td>Schedule</td>
+                      <td>10</td>
+                      <td class="status status--1">25%</td>
+                      <td>34 Downloads</td>
+                      <td class="menued-rows__wrap">
+                        <div class="menued-rows__item">
+                          <button class="ui button"><i class="edit icon"></i>Request LOA</button>
+                          <button class="ui basic button"><i class="unhide icon"></i>View Details</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>004</td>
+                      <td>File 4</td>
+                      <td>Schedule</td>
+                      <td>20</td>
+                      <td class="status status--2">100%</td>
+                      <td>17 Downloads</td>
+                      <td class="menued-rows__wrap">
+                        <div class="menued-rows__item">
+                          <button class="ui button"><i class="edit icon"></i>Request LOA</button>
+                          <button class="ui basic button"><i class="unhide icon"></i>View Details</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!--column ends here -->
+            </section>
+          </div><!--column ends here -->
+        </div><!--row ends here -->
+      </div><!--grid ends here -->
+    </div><!--container ends here -->
+  </div><!--section wrapper ends here -->
+</div>
+
+<div class="ui small modal requestloa">
+  <i class="close icon"></i>
+  <section class="mb-0">
+    <div class="success-message success-message--title">Request Lab LOA</div>
+    <div class="mt-3">Medilink General Hospital</div>
+    <div class="mt-1"> Makati City, Philippines</div>
+    <div class="ui divider mb-2"></div>
+    <form class="ui form">
+      <div class="field">
+        <label class="label-title">Date of Availment</label>
+        <select class="ui fluid dropdown">
+          <option value="">7 July 2017</option>
+          <option value="a">4 July 2017</option>
+          <option value="b">16 July 2017</option>
+          <option value="c">20 July 2017</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="label-title">Procedures for candidate</label>
+        <div class="ui four column grid">
+          <div class="column">
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="radio" name="procedure" tabindex="0" class="hidden">
+                <label>Urinalysis</label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="radio" name="procedure" tabindex="0" class="hidden">
+                <label>Fecalysis</label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="radio" name="procedure" tabindex="0" class="hidden">
+                <label>Chest X-ray</label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="radio" name="procedure" tabindex="0" class="hidden">
+                <label>Physical Exam</label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="radio" name="procedure" tabindex="0" class="hidden">
+                <label>Blood Test</label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="ui checkbox">
+                <input type="radio" name="procedure" tabindex="0" class="hidden">
+                <label>Drug Test (Optional)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="bold">Your contact information</div>
+      <div class="mt-3">Stephanie Gonzales</div>
+      <div class="mt-1">5154622 (Home), 09278228724</div>
+      <div class="mt-1 mb-3">Email: stephanie_gonzales@medilink.com.ph</div>
+      <div class="field">
+        <div class="ui checkbox">
+          <input type="radio" name="procedure" tabindex="0" class="hidden">
+          <label>I confirm that I have read and fully understood the conforme therein.</label>
+        </div>
+      </div>
+      <button class="big ui button mt-4 fluid" type="submit">Request Consultation</button>
+    </form>
+  </section>
+</div>

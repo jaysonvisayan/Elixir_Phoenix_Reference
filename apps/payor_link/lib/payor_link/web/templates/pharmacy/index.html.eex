@@ -1,0 +1,57 @@
+<div class="ui main container" id="pharmacy-index" role="pharmacy-details">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Pharmacy</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/pharmacies/new"><i class="plus icon"></i>Medicine</a>
+              </div>
+          </div>
+      <div class="ui breadcrumb">
+        <a href="/pharmacies" class="section">Pharmacy</a>
+        <div class="divider"> / </div>
+        <div class="active section">Search</div>
+      </div>
+      <div class="ui divider"></div>
+    </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Drug Code</th>
+        <th>Generic Name</th>
+        <th>Brand</th>
+        <th>Strength</th>
+        <th>Form</th>
+        <th>Maximum Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for pharmacy <- @pharmacies do %>
+        <tr class="pharmacy_row">
+          <td><a class="show-pharmacy-details pointer" pharmacyId="<%= pharmacy.id %>"><%= pharmacy.drug_code %></a></td>
+          <td role="name"><%= pharmacy.generic_name %></td>
+          <td role="brand"><%= pharmacy.brand %></td>
+          <td role="strength">
+            <%= case pharmacy.form do %>
+              <%= "Capsule" -> %>
+                 <span class="amount_fld"><%= pharmacy.strength %> </span> mg
+                <%= "Tablet" -> %>
+                   <span class="amount_fld"><%= pharmacy.strength %> </span> mg
+                  <%= _ -> %>
+                    <span class="amount_fld"> <%= pharmacy.strength %> </span> ml
+                  <% end %>
+                </td>
+                <td role="form"><%= pharmacy.form %></td>
+                <td role="price">Php. <span class="amount_fld"><%= pharmacy.maximum_price %></span></td>
+              </tr>
+            <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= if not is_nil(@pharmacy) do %>
+  <%= render "modal_show.html", conn: @conn, changeset: @changeset, pharmacy: @pharmacy %>
+<% end %>

@@ -1,0 +1,21 @@
+<div class="ui main container" id="room_new">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Room</h1>
+          <div class="ui breadcrumb">
+              <a href="/coverages" class="section">Room</a>
+              <div class="divider"> / </div>
+              <a href="/rooms" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Room</div>
+          </div>  
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+              <%= render "form.html",
+                changeset: @changeset,
+                conn: @conn,
+                action: room_path(@conn, :create) %>
+          </div>
+      </div>
+  </div>
+</div>

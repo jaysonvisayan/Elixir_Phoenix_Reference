@@ -1,0 +1,74 @@
+<div class="ui large modal" id="edit_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    CPT Details
+  </div>
+  <div class="content" style="overflow:auto !important; max-height: 500px">
+    <div class="ui dimmer">
+      <div class="ui text loader">Loading</div>
+    </div>
+    <%= form_for @conn, procedure_path(@conn, :index), [as: :payor_procedure, class: "form2", id: "deactivate_form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= hidden_input f, :payor_procedure_id, field: "payor_procedure_id" %>
+    <div class="ui two column centered grid">
+      <div class="four column centered row">
+        <div class="column">Standard CPT Code</div>
+        <div class="column"><b id="std_code"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">Standard CPT Description</div>
+        <div class="column"><b id="std_description"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">Payor Code</div>
+        <div class="column"><b id="payor_code"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">Payor Description</div>
+        <div class="column"><b id="payor_description"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column" > <a style="cursor: pointer;" id="facility_procedure" >Click to see linked facilities...</a>
+        <a style="cursor: pointer;" id="facility_procedure_hide" class="hidden">View Less...</a> </div>
+        <div class="column"></div>
+      </div>
+    </div>
+      <br>
+    <div class="hidden" id="procedure_div">
+      <div class="column" >
+
+        <!-- Facility Room -->
+
+        <table role="datatable" id="procedure_facility_table" class="ui striped table" width="100%">
+          <thead>
+            <tr>
+              <th>Facility Code</th>
+              <th>Facility Name</th>
+              <th>Facility Cpt Code</th>
+              <th>Facility Cpt Description</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <!-- END OF Facility Room -->
+
+      </div>
+      <div class="column"></div>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="" id="edit_button" class="ui right floated blue button">
+      <i class="pencil icon"></i>
+      Edit
+    </a>
+    <a id="procedure_logs" class="ui right floated button">
+      <i class="list icon"></i>
+        Logs
+    </a>
+    <button type="button" class="ui left floated button" id="deactivate_btn" disabled="false">
+      <i class="remove icon"></i>
+    Remove
+    </button>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,112 @@
+<div id="main_file_upladed_procedure">
+  <div class="ui segment-breadcrumbs no-shadow no-radius">
+    <div class="ui right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h2 class="ui header">Procedures</h2>
+      </div>
+        <div class="right floated right aligned ten wide column">
+          <a href="/procedures/download/template" id="download_template_button" class="ui primary button">
+          <i class="download icon"></i>Download Template</a>
+        </div>
+    </div>
+
+    <div class="ui small breadcrumb">
+      <a class="section" href="/procedures">Search</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Batch Upload</div>
+    </div>
+  </div>
+
+  <div id="procedures_uploaded_file" name ="name_procedure_import" class="ui equal width left aligned padded grid stackable">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui segment ">
+
+           <%= form_for @changeset, procedure_path(@conn, :import), [multipart: true, id: "import"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+             <div class="ui two column centered grid">
+               <div class="eight wide computer seven wide tablet column">
+                 <div class="ui segment" name="form_import_procedure">
+
+                   <div class="ui grid">
+                     <div class="sixteen wide column">
+                       <div class="field" id="form_import_cpt">
+                         <%= label f, :filename, class: "control-label" %>
+                       </div>
+
+                     </div>
+
+                     <div class="eleven wide column">
+                       <div class="field sixteen wide column">
+                         <%= file_input f, :file, id: "file_upload" %>
+                       </div>
+                     </div>
+
+                     <div class="five wide column">
+                       <div class="five wide computer column" id="form_import_cpt">
+                         <button type="submit" class="ui primary right floated button submit">
+                           <i class="send left icon"></i>
+                           Upload
+                         </button>
+                       </div>
+                     </div>
+                   </div>
+
+                 </div>
+               </div>
+             </div>
+
+        <div class="ui grid">
+          <div class="sixteen wide computer eleven wide tablet column">
+            <table role="datatable" id="disease_table" class="ui striped table">
+              <thead>
+                <tr>
+                  <th>Batch No.</th>
+                  <th>CPT File</th>
+                  <th>Total CPT</th>
+                  <th>Successful</th>
+                  <th>Failed</th>
+                  <th>Date Uploaded</th>
+                  <th>Date Finished</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for ppu_logs <- Enum.sort_by(@procedure_upload_file, &(&1.filename)) do %>
+                  <tr>
+                    <td><%= ppu_logs.batch_number %></td>
+                    <td><%= ppu_logs.filename %></td>
+                    <td><%= ppu_logs.total_count %></td>
+                    <%= if ppu_logs.success == 0 do %>
+                    <td><%= ppu_logs.success %><br /><label style="color:#7f8187"><u>Download</u></a></label></td>
+                    <% else %>
+                    <td><%= ppu_logs.success %><br /><u><a style="cursor: pointer" class="download_success_button" ppu_id="<%= ppu_logs.id %>" status="success" ppu_filename="<%= ppu_logs.filename %>" >Download</a></u></td>
+                    <% end %>
+                    <%= if ppu_logs.failed == 0 do %>
+                    <td><%= ppu_logs.failed %><br /><label style="color:#7f8187"><u>Download</u></a></label></td>
+                    <% else %>
+                      <td><%= ppu_logs.failed %><br/ ><u><a style="cursor: pointer" class="download_failed_button" ppu_id="<%= ppu_logs.id %>"  status="failed" ppu_filename="<%= ppu_logs.filename %>" >Download</a></u></td>
+                    <% end %>
+                    <td><%= ppu_logs.inserted_at %></td>
+                    <td><%= ppu_logs.date_finished %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ui one column aligned grid">
+          <div class="column eight wide">
+          <a id="cancelBtn" class="ui button clickable-row" href="/procedures">
+            <i class="remove icon"></i>
+            Cancel
+          </a>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

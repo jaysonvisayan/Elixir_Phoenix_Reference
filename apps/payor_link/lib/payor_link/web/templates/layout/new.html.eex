@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- cross frame scripting fixes -->
+    <style>
+        html {
+            display: none;
+        }
+    </style>
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PayorLink</title>
+    <link rel="icon" href="<%= static_path(@conn, "/favicon.ico") %>" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<%= static_path(@conn, "/favicon.ico") %>" type="image/x-icon"/>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+  <body>
+
+    <div class="main-wrapper">
+      <%= render @view_module, @view_template, assigns %>
+    </div> <!-- .pusher closed -->
+
+    <%# <footer> %>
+      <%# <div class="ui center aligned footer segment">Copyright 2017. <a href="https://www.medilink.com.ph/">Medilink Network, Inc.</a> All rights reserved. <b>Provider</b>Link v %>
+      <%# <span> %>
+        <%# version() %>
+        <%# </span></div> %>
+    <%# </footer> %>
+
+    <%# <%= if env == :dev || env == :test do %1> %>
+    <%# <% else %1> %>
+    <%#   <script src="https://cdn.ravenjs.com/3.19.1/raven.min.js" crossorigin="anonymous"></script> %>
+    <%#   <script>Raven.config('https://c97e6d82da9e42319be21520cf7f6082@sentry.medilink.com.ph/6').install();</script> %>
+    <%# <% end %1> %>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+  info = get_flash(@conn, :info)
+  error = get_flash(@conn, :error)
+%>
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+  <%# if error do %>
+    <%# <script type="text/javascript"> %>
+<%# $(function() { %>
+  <%# alertify.error('<i class="close icon"></i><%= error >') %>
+<%# }); %>
+    <%# </script> %>
+  <%# end %>

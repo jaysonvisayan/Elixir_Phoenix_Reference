@@ -1,0 +1,56 @@
+<div name="LoginVerifyCode" class="ui form mt-3">
+  <%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+    <h1 class="ui blue header"><%= gettext "Login Verification" %></h1>
+
+    <%= hidden_input f, :email, value: @user.email %>
+
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+
+    <p><%= gettext "Your verification code was sent to" %> [63] <%= @mobile %>.</p>
+    <p><%= gettext "Please check your mobile and enter your verification code here." %></p>
+
+    <div class="four fields" id="verificationInput">
+      <div class="field">
+        <div class="ui huge input">
+          <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1 autofocus>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui huge input">
+          <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui huge input">
+          <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui huge input">
+          <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label id="notice"><%= gettext "You can send a new code after 60 seconds" %></label>
+      <a id="new_code" href="/<%= @locale %>/new_code/<%=@user.id%>" style="display:none">
+        <%= gettext "Send a new PIN code" %>
+      </a>
+    </div>
+
+    <div class="two fields">
+      <div class="field">
+        <span><a href="/<%= @locale %>/sign_in" class="ui basic fluid button"><%= gettext "Cancel" %></a></span>
+      </div>
+      <div class="field">
+        <button type="submit" class="ui fluid primary button"><%= gettext "Verify" %></button>
+      </div>
+    </div>
+  <% end %>
+</div>

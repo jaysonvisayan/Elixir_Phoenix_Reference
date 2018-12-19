@@ -1,0 +1,242 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Exclusions</h2>
+  <div class="ui small breadcrumb">
+    <a class=" section"  href="/exclusions">Exclusion and Pre-existing Condition</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Show</div>
+  </div>
+</div>
+ <div class="ui equal width left aligned padded grid stackable" id="edit">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui icon top right floated pointing dropdown basic button">
+            <i class="list icon"></i>
+            <div class="left menu">
+              <% disabled = if String.contains?("access_exclusions", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+              <div class="item clickable-row" href="/exclusions/<%= @exclusion.id %>/edit?tab=general">
+                <i class="edit icon"></i>
+                Edit
+              </div>
+              <div class="item <%= disabled %>">
+                <i class="file text outline icon"></i>
+                Logs
+              </div>
+              <div class="item <%= disabled %>">
+                <i class="print icon"></i>
+                Print
+              </div>
+            </div>
+          </div><br />
+          <!-- GENERAL -->
+          <div class="ui two column centered grid" style="word-break:break-all;">
+            <div class="centered aligned column">
+              <div class="ui statistic">
+                <div class="">
+                  Coverage
+                </div>
+                <div class="text value">
+                  <%= @exclusion.coverage %>
+                </div>
+              </div>
+            </div>
+            <div class="two column center aligned row">
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Code
+                  </div>
+                  <div class="text value">
+                    <%= @exclusion.code %>
+                  </div>
+                </div>
+              </div>
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Name
+                  </div>
+                  <div class="text value">
+                    <%= @exclusion.name %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- if coverage == pre-existing-->
+            <%= if @exclusion.coverage == "Pre-existing Condition" do %>
+              <div class="two column center aligned row">
+                <div class="center aligned column">
+                  <div class="ui statistic">
+                    <div class="">
+                      PEC Limit Type
+                    </div>
+                    <div class="text value">
+                      <%= @exclusion.limit_type %>
+                    </div>
+                  </div>
+                </div>
+                <div class="center aligned column">
+                  <div class="ui statistic">
+                    <div class="">
+                      PEC Limit Amount
+                    </div>
+                      <%= cond do %>
+                        <%= @exclusion.limit_type == "Peso" -> %>
+                          <div class="text value">
+                            Php <%= @exclusion.limit_amount %>
+                          </div>
+                        <%= @exclusion.limit_type == "Percentage" -> %>
+                          <div class="text value">
+                            <%= @exclusion.limit_percentage %> %
+                          </div>
+                        <%= @exclusion.limit_type == "Sessions" -> %>
+                          <div class="text value">
+                            <%= @exclusion.limit_session %> Sessions
+                          </div>
+                        <%= true -> %>
+                             nil
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <!-- END OF GENERAL -->
+    <div id="show_tab" class="ui top attached tabular menu" role="show_exclusion">
+      <%= if @exclusion.coverage == "General Exclusion" do %>
+      <a class="active item" data-tab="exclusion_disease">
+        Disease
+      </a>
+      <a class="item" data-tab="exclusion_procedure">
+        Procedure
+      </a>
+      <% else %>
+      <a class="active item" data-tab="exclusion_duration">
+        Duration
+      </a>
+      <a class="item" data-tab="exclusion_disease">
+        Disease
+      </a>
+      <% end %>
+    </div>
+
+    <%= if @exclusion.coverage == "General Exclusion" do %>
+      <div class="ui bottom attached tab segment" data-tab="exclusion_duration">
+    <% else %>
+      <div class="ui active bottom attached tab segment" data-tab="exclusion_duration">
+    <% end %>
+      <!-- DURATIONS -->
+    <table id="" class="ui striped table">
+      <thead>
+        <tr>
+          <th>Disease Type</th>
+          <th>Duration</th>
+          <th>Covered After Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if @exclusion.exclusion_durations == [] do %>
+          <tr>
+            <td colspan="7" class="center aligned">
+              NO RECORD FOUND!
+            </td>
+          </tr>
+        <% else %>
+          <%= for exclusion_duration <- Enum.sort_by(@exclusion.exclusion_durations, &(&1.disease_type)) do %>
+            <tr>
+              <td><%= exclusion_duration.disease_type %></td>
+              <td><%= exclusion_duration.duration %> months</td>
+              <%= if is_nil(exclusion_duration.cad_percentage) do %>
+                <td><%= exclusion_duration.cad_amount %> Php</td>
+              <% else  %>
+                <td><%= exclusion_duration.cad_percentage %> %</td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+        <!-- END OF DURATIONS -->
+    </div>
+
+    <%= if @exclusion.coverage == "General Exclusion" do %>
+      <div class="ui active bottom attached tab segment" data-tab="exclusion_disease">
+    <% else %>
+      <div class="ui bottom attached tab segment" data-tab="exclusion_disease">
+    <% end %>
+        <!-- DISEASE -->
+          <table id="" class="ui stripped table">
+            <thead>
+              <tr>
+                <th>Disease Code</th>
+                <th>Disease Description</th>
+                <th>Disease Type</th>
+                <th>Disease Chapter</th>
+                <th>Disease Group</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= if @exclusion.exclusion_diseases == [] do %>
+                <tr>
+                  <td colspan="7" class="center aligned">
+                    NO RECORD FOUND!
+                  </td>
+                </tr>
+              <% else %>
+                 <%= for exclusion_disease <- Enum.sort_by(@exclusion.exclusion_diseases, &(&1.disease.code)) do %>
+                  <tr>
+                    <td><%= exclusion_disease.disease.code %></td>
+                    <td><%= exclusion_disease.disease.description %></td>
+                    <td><%= exclusion_disease.disease.type %></td>
+                    <td><%= #exclusion_disease.disease.chapter %></td>
+                    <td><%= #exclusion_disease.disease.group %></td>
+                  </tr>
+                  <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        <!-- END OF DISEASE -->
+    </div>
+
+    <div class="ui bottom attached tab segment" data-tab="exclusion_procedure">
+      <!-- PROCEDURES -->
+        <table id="" class="ui striped table">
+          <thead>
+            <tr>
+              <th>CPT Code</th>
+              <th>CPT Description</th>
+              <th>Procedure Section</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= if @exclusion.exclusion_procedures == [] do %>
+              <tr>
+                <td colspan="7" class="center aligned">
+                  NO RECORD FOUND!
+                </td>
+              </tr>
+            <% else %>
+              <%= for exclusion_procedure <- Enum.sort_by(@exclusion.exclusion_procedures, &(&1.procedure.code)) do %>
+                <tr>
+                  <td><%= exclusion_procedure.procedure.code %></td>
+                  <td><%= exclusion_procedure.procedure.description %></td>
+                  <td><%= exclusion_procedure.procedure.procedure.procedure_category.name %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+        <!-- END OF PROCEDURES -->
+    </div>
+
+    <a href="/exclusions" class="ui button">
+      <i class="chevron left icon"></i>
+        Back
+    </a>
+  </div>
+</div>
+</div>
+</div>
+</div>

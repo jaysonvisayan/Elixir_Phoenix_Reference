@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <title>Maxicare</title>
+    <link rel="icon" href="img/favicon.jpg" type="/images/x-icon"/>
+    <link rel="shortcut icon" href="img/favicon.jp" type="/images/x-icon"/>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script src=""></script>
+
+    <meta property="og:site_name" content="Auth">
+    <meta property="og:url" content="https://authlink-ip-ist.medilink.com.ph">
+    <meta property="og:title" content="<%= gettext "Manage your account in Maxicare." %>">
+    <meta property="og:description" content="<%= gettext "Easily manage your members in your account on Maxicare." %>">
+    <meta property="og:image" content="<%= static_url(@conn, "/images/OG_Facebook.png") %>" />
+    <meta property="og:type" content="website">
+  </head>
+  <body>
+    <div class="login-container">
+      <div id="message" class="ui icon negative message hidden message-less-opacity">
+      </div>
+      <div id="message" class="ui icon positive message hidden">
+      </div>
+    </div>
+    <%= render @view_module, @view_template, assigns %>
+    <p>
+      <br/>
+      Maxicare Healthcare Corporation &copy; 2018
+    </p>
+    <%# <div class="spacer"></div> %>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+  info = get_flash(@conn, :info)
+  error = get_flash(@conn, :error)
+
+  error =
+    if error == "Invalid Login! Please try again." || error == "You must be signed in to access that page." do
+      false
+    else
+      error
+    end
+%>
+
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      $('.ui.positive.message').html('<%= info %>')
+      $('.ui.positive.message').removeClass('hidden')
+    });
+  </script>
+<% end %>
+
+<%= if error do %>
+  <script type="text/javascript">
+    $(function() {
+      $('.ui.negative.message').html('<%= error %>')
+      $('.ui.negative.message').removeClass('hidden')
+    });
+  </script>
+<% end %>

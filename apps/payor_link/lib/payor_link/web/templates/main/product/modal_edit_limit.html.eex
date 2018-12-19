@@ -1,0 +1,52 @@
+
+<div class="ui small modal limit">
+  <i class="close icon"></i>
+  <div class="header" id="dntl_modal_limit"> Edit Benefit Limit
+  </div>
+
+  <div class="content">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+
+          <div id="limit_form" class="ui form">
+
+            <div class="field">
+              <p id="dental_code">
+                <a><text id="dntl_code" value=""></text></a><br>
+                <b style="font-size: 25px;"><text id="dntl_name" value=""></text>
+                </b>
+              </p>
+            <br>
+
+            <div class="two fields">
+              <div class="field">
+                <label class="label-title">Limit Type</label>
+                <div>
+                <input type="hidden" value="" id="h_limit_type">
+                <input type="hidden" value="" id="h_limit_amount">
+                <select id="limit_type" name="limit_type" class="ui selection dropdown fluid limit_type">
+                  <option value="Peso">Peso</option>
+                  <option value="Sessions">Sessions</option>
+                  <option value="Tooth">Tooth</option>
+                  <option value="Quadrant">Quadrant</option>
+                </select>
+                </div>
+              </div>
+              <div class="field" id="limit_amount_field">
+                <label class="label-title">Limit</label>
+                <div class="ui right labeled input">
+                  <input type="text" id="limit_amount" name="limit_amount" placeholder="Limit" required>
+                  <div class="ui basic label" id="limit_amount_label">&nbsp;&nbsp;</div>
+                </div>
+              </div>
+            </div>
+          <input type="hidden" name="limit_id">
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button id="update_limit" type="button" class="right floated ui primary button approve">Update</button>
+    </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>

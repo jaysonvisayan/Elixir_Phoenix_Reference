@@ -1,0 +1,128 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Plans
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Plans</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <button class="modal-open-main ui primary button mt-1-small">Add New Plan</button>
+      </div>
+    </div>
+  </div>
+  <!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+<div class="ui container" id="product_index_page">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide computer column">
+
+        <div class="section pb-0">
+
+        </div>
+
+        <div class="content-section white-bg mt-0" style="margin-left: 1em;">
+          <table role="datatable" id="product_table" class="full-width ui celled striped table" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Plan Code</th>
+                <th>Plan Name</th>
+                <th>Plan Description</th>
+                <th>Plan Classification</th>
+                <th>Created by</th>
+                <th>Date Created</th>
+                <th>Updated by</th>
+                <th>Date Updated</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <!-- .text-right -->
+
+      </div>
+      <!-- column ends here -->
+
+    </div>
+    <!-- row ends here -->
+  </div>
+  <!-- grid ends here -->
+</div>
+<!-- container ends here -->
+
+<div class="ui tiny modal">
+  <i class="close icon left"></i>
+  <div class="content">
+
+    <h2>Choose Plan type </h2>
+    <div class="description mb-1">Please select the type of plan you would like to add</div>
+
+    <div class="selection-label mb-1">Type of Plan</div>
+
+    <%= form_for @conn, main_product_path(@conn, :validate_category) ,[as: :params, class: "", id: "choose_product_form"], fn f -> %>
+      <%= hidden_input f, :product_category %>
+      <div class="ui grid">
+        <div class="five wide column">
+          <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+            <div class="selection-button">
+              <i class="icon-product icon dark mb-1 toggle_ico"></i>
+              <div class="option" value="Regular Plan">Regular</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="six wide column">
+          <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+            <div class="selection-button">
+              <i class="icon-riders icon dark mb-1 toggle_ico"></i>
+              <div class="option" value="PEME Plan">PEME</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="five wide column">
+          <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+            <div class="selection-button">
+              <i class="icon-riders icon dark mb-1 toggle_ico"></i>
+              <div class="option" value="Dental Plan">Dental</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="field hidden" id="append_product_base">
+            <div class="selection-label mb-1">Plan Base</div>
+            <div class="inline field ui grid">
+
+              <div class="ui two wide column">
+              </div>
+
+              <div class="ui radio checkbox seven wide column pbase">
+                <%= radio_button f, :product_base, "Exclusion-based", id: "eb", class: "eb", disabled: true %>
+                <label for="eb" class="" style="color:gray;">Exclusion-based</label>
+              </div>
+
+              <div class="ui radio checkbox seven wide column pbase">
+                <%= radio_button f, :product_base, "Benefit-based", id: "bb", class: "bb" %>
+                <label for="bb" class="" style="color:gray ;">Benefit-based</label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column centered">
+          <button class="fluid ui primary button large" type="submit" id="submit_type">Proceed</button>
+        </div>
+
+      </div>
+    <% end %>
+
+  </div>
+</div>

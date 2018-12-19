@@ -1,0 +1,17 @@
+@import '../variables';
+
+/**
+ * Segment
+ */
+.ui {
+	&.segment {
+		.secondary.description {
+			color: $secondary-description-color; 
+		}
+	}
+	&.form {
+		.field > label {
+			color: $label-color; 
+		} 
+	} 
+}

@@ -1,0 +1,18 @@
+<div class="ui modal" role="ruv-logs">
+  <i class="close icon"></i>
+  <div class="header">
+    Logs
+  </div>
+  <div class="scrolling content" >
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui segment">
+            <div class="ui feed timeline" id="ruv_logs_table" >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Plan</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui six item menu">
+            <a href="/products/<%= @product.id %>/edit?tab=general" class="item">General</a>
+            <a href="/products/<%= @product.id %>/edit?tab=exclusion" class="item">Exclusion</a>
+            <a href="/products/<%= @product.id %>/edit?tab=<%= product_base_link_edittab(@product) %>" class="item" id="cov-ben-edittab"><%= product_base_label(@product) %></a>
+            <a href="/products/<%= @product.id %>/edit?tab=facility_access" class="item">Facility Access</a>
+            <a href="/products/<%= @product.id %>/edit?tab=condition" class="item">Condition</a>
+            <a class="active item">Risk Share</a>
+          </div>
+
+
+            <%= render "edit/risk_share_facility_form.html", conn: @conn, product_coverages: @product_coverages, product_risk_share: @product_risk_share, product: @product, changeset: @changeset %>
+            <%= render "edit/risk_share_facility_modal.html", product_risk_share: @product_risk_share, product: @product, changeset_risk_share_facility: @changeset_risk_share_facility, standard_facility: @standard_facility, delete_facility: @delete_facility, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "6.1") %>
+            <%= render "edit/risk_share_facility_procedure_modal.html", product_risk_share: @product_risk_share, product: @product, changeset_risk_share_facility: @changeset_risk_share_facility, standard_procedure: @standard_procedure, changeset_risk_share_facility_procedure: @changeset_risk_share_facility_procedure, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "6.2") %>
+          <%= render "edit/rsf_r_modal.html" %>
+          <%= render "edit/rsfpp_r_modal.html" %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

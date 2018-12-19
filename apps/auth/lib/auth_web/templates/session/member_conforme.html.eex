@@ -1,0 +1,387 @@
+<div id="member_conforme" class="ui modal">
+  <i class="close icon"></i>
+  <div class="scrolling content">
+    <div class="description">
+
+      <p align="center">Maxicare Healthcare Application Terms and Conditions (T&Cs)</p>
+      <p align="justify">This application is a service offered by Maxicare Healthcare Corporation ("<b>Maxicare</b>") to its clients (the "<b>Member/Users</b>") to facilitate the company’s healthcare program, among others (collectively the "<b>Services</b>") pursuant to the Service Agreement (“<b>Agreement”)</b> between the Member/User and Maxicare. For the efficient and effective rendition of the Services, Member/Users are provided by Maxicare with relevant and necessary access to a platform developed by Maxicare vendors and suppliers ("<b>Third-Party Owner</b>") and authorized for use by Maxicare, including the application interface and data encryption, transmission, access and storage, for the purpose of providing and verifying required personal information and to request and receive authorizations, among others. The Application is hereinafter referred to as "<b>Application</b>".</p>
+      <p align="justify">By using this Application and/or availing of the service that uses this application, the Member/User and its duly authorized user acknowledge and agree to abide by all the terms and conditions contained herein, including any materials available in this Application such as, but not limited to, the privacy and security policies, which are hereby incorporated by reference, subject to changes and notices by Maxicare.</p>
+      <ol type="1" align="justify">
+        <!--1-->
+        <li>
+          Representations & Warranties of the Member/User
+          <ol type="a">
+            <br/>
+            <!--1.a-->
+            <li>
+              The Member/User warrants that all information provided to Maxicare thru this Application are true and correct. The Member/User shall ensure that the personal information and contact details submitted to this service are accurate and kept up to date via periodic updates of this Application or other means authorized by Maxicare. Nondisclosure or falsification of information shall be a ground for termination of the Agreement, without prejudice to any other legal remedies that may be available to Maxicare.
+            </li>
+            <br/>
+            <!--1.b-->
+            <li>
+              The Member/User warrants that the user of this Application is duly authorized to represent and act on behalf of the Member/User and the latter shall hold Maxicare, the Third-Party Owner and the Representatives (as defined below) free and harmless from any claim, cost, or damage that may arise as a result of any unauthorized use and access thereof.
+            </li>
+            <br/>
+            <!--1.c-->
+            <li>
+              The representations, warranties and undertakings of the Member/User shall be deemed to be material and have been relied upon by Maxicare. Consequently, the Member/User shall be directly and solely responsible for the accuracy of any and all information that the Member/User submits in this Application. They shall survive the execution and delivery of this T&Cs, notwithstanding the consummation of the transaction contemplated herein.
+            </li>
+            <br/>
+            <!--1.d-->
+            <li>
+              The Member/User hereby agrees and understands that in the course of providing service/s to the Member and/or his Dependents, Maxicare shall engage the services of, and/or interact with, other third parties, such as, but not limited to its parent company, affiliated companies, subsidiaries, financial advisors, affiliated third parties or independent/non-affiliated third parties and service providers, whether local or foreign (collectively referred to as "<b>Representatives</b>").
+            </li>
+            <br/>
+            <!--1.e-->
+            <li>
+              The Member/User hereby represents and warrants that, at the time of the effectivity of the Agreement and effectivity of coverage of each Member, it has obtained from the Member and his Dependents the required consents pursuant to the Republic Act No. 10173 including its Implementing Rules and Regulations (<b>“Data Privacy Laws”</b>) authorizing Maxicare, the Member/User, and any of their authorized representatives to:
+              <ol type="i">
+                <!--1.e.i-->
+                <li>
+                  Obtain, collect, examine, process, and store the Member’s and his Dependent/s’ personal information, including sensitive personal information and privileged information, medical records, or any other information  or material, i.e., picture, voice recording, fingerprints, and etc., relative to the Member and his Dependents’ hospitalization, consultation, and treatment or any medical advice in connection with the benefit/claim availed under the Agreement, as may be deemed necessary by Maxicare. Except as otherwise stated hereon, any information obtained relative to the authority herein given shall be strictly confidential. The extent of the collection and processing shall be necessary and incidental to the performance of the services contemplated in the Agreement.
+                </li>
+                <!--1.e.ii-->
+                <li>
+                  Disclose the aforementioned information to the Member/User, its representatives, agents and brokers, Maxicare and its Representatives, including the service providers which will perform the services contemplated in the Agreement, for any legitimate business purpose as Maxicare may deem appropriate, including but not limited to outsourced processing of Maxicare transactions, profiling or historical statistical analysis, providing advice or information which Maxicare and its Representatives believe may be of interest to the Member or the Member/User, to effectively administer or manage their Member/Users, enhance customer services, or to communicate with the Member or the Member/User for any purpose.
+                </li>
+              </ol>
+            </li>
+            <br/>
+            <!--1.f-->
+            <li>
+              Consent, as herein specified, shall at all times comply with the requirements of the Data Privacy Laws and the obligation to ensure that the same is in fact compliant shall devolve upon the Member/User. It is hereby agreed that it is the sole responsibility of the Member/User to provide the consent herein specified and that Maxicare shall have all the right to rely on the representation by the Member/User that this consent shall have been duly and timely obtained prior to Effective Date of the Agreement and/or use of this application.
+            </li>
+            <br/>
+            <!--1.g-->
+            <li>
+              The Member/User shall hold Maxicare free and harmless from and against any and all suits or claims, actions, or proceedings, damages, costs and expenses, including attorney’s fees, which may be filed, charged or adjudged against Maxicare or any of its directors, stockholders, officers, employees, agents, or representatives in connection with or arising from the use, processing, and disclosure by Maxicare or its representatives of the aforementioned, pursuant to Maxicare’s reliance on the Member/User’s representation and warranty that Maxicare has the authority to examine, use, process, or disclose, as the case may be, said medical records or personal information for the purpose of performing services contemplated in the Agreement.
+            </li>
+          </ol>
+        </li>
+        <br/>
+        <!--2-->
+        <li>
+          Terms of Use
+          <ol type="a">
+            <br/>
+            <!--2.a-->
+            <li>
+              <i>Privacy & Security Policies.</i>  The use of this Application shall be governed by such privacy and security policies which are adopted by Maxicare and the Third-Party Owner from time to time, whether contained in this Application, in their agreements and/or respective websites. Maxicare and the Third-Party Owner reserve the right to modify, alter or amend the privacy and security policies without need of prior notice or approval.
+            </li>
+            <br/>
+            <!--2.b-->
+            <li>
+              <i>License Grant & Restrictions.</i>  All Member/Users are hereby granted a non-exclusive, non-transferable, worldwide right to use this Application solely for the intended business purposes and always subject to these T&Cs.
+                <br/>By availing of the Services and/or accessing this Application, the Member/User agrees not to:
+              <ol type="i">
+                <!--2.b.i-->
+                <li>
+                 license, sublicense, sell, resell, transfer, assign, distribute or otherwise commercially exploit or make available to any third party access or use of the  Maxicare Healthcare Application or any of the audio and visual information, documents, software, products and services contained or made available to the Member/User in the course of using and/or accessing this Application (collectively the "<b>Contents</b>") in any way;                </li>
+                <!--2.b.ii-->
+                <li>
+                  modify or make derivative works based on this Application or the Contents;
+                </li>
+                <!--2.b.iii-->
+                <li>
+                  create Internet "links" to the Service or "frame" or "mirror" any of the Contents on any other server or wireless or Internet-based device; or
+                </li>
+                <!--2.b.iv-->
+                <li>
+                  reverse engineer or access this Application in order to:
+                  <ol type="a">
+                    <!--2.b.iv.a-->
+                    <li>
+                      build or create a competitive product or service;
+                    </li>
+                    <!--2.b.iv.b-->
+                    <li>
+                      build or create a product using similar ideas, features, functions or graphics as that of this Application; or
+                    </li>
+                    <!--2.b.iv.c-->
+                    <li>
+                      copy any ideas, features, functions or graphics of Maxicare Healthcare Application.
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+            <br/>
+            <!--2.c-->
+            <li>
+             The Member/User may use this Application only for the intended business purposes and shall not:
+              <ol type="i">
+                <!--2.c.i-->
+                <li>
+                  send spam or otherwise duplicative or unsolicited messages in violation of applicable laws;
+                </li>
+                <!--2.c.ii-->
+                <li>
+                  send or store infringing, obscene, threatening, libelous, or otherwise unlawful or tortious material, including material harmful to children or violative of third party privacy rights;
+                </li>
+                <!--2.c.iii-->
+                <li>
+                  end or store material containing software viruses, worms, Trojan horses or other harmful computer code, files, scripts, agents or programs;
+                </li>
+                <!--2.c.iv-->
+                <li>
+                  interfere with or disrupt the integrity or performance of this Application or the data contained therein; or
+                </li>
+                <!--2.c.v-->
+                <li>
+                  attempt to gain unauthorized access to this Application or its related Applications or networks.
+                </li>
+              </ol>
+            </li>
+            <br/>
+            <!--2.d-->
+            <li>
+              The Member/User shall be responsible for all activity(ies) occurring in or under their respective User Account and shall abide by all applicable laws, whether national or local, treaties and regulations in connection with the use of this Application, including those related to data privacy, international communications and the transmission of technical or personal data. The Member/User shall:
+              <ol type="i">
+                <!--2.d.i-->
+                <li>
+                  immediately notify Maxicare and the Third-Party Owner (thru Maxicare) of any unauthorized use of any password or Account or any other known or suspected breach of security;
+                </li>
+                <!--2.d.ii-->
+                <li>
+                  immediately report to Maxicare and the Third-Party Owner (thru Maxicare) and use reasonable efforts to immediately stop any copying or distribution of the Contents that is known or suspected by the Member/User; and
+                </li>
+                <!--2.d.iii-->
+                <li>
+                  not impersonate another Maxicare Healthcare Application user or provide false identity information to gain access to or use this Application.
+                </li>
+              </ol>
+            </li>
+            <br/>
+            <!--2.e-->
+            <li>
+              <i>Member/User Information and Data.</i>  The Member/User shall be directly and solely responsible for the accuracy, quality, integrity, legality, reliability and/or appropriateness of all the data, information or material that it will submit to this Application (the "<b>Client/Members Data</b>"). In this regard, it is understood that Maxicare and the Third-Party Owner shall not be responsible or liable for the deletion, correction, destruction, damage, loss or failure to store any [of] the Client/Members Data arising from the use of this Application. Maxicare and the Third-Party Owner further reserve the right to withhold, remove and/or discard Client/Members Data without need of notice whatsoever in case of breach of any of the terms hereof, including non-payment of the relevant fees/charges provided for herein. Upon termination for cause, the Member/User’s right to access or use Client/Members Data immediately ceases, and Maxicare and the Third-Party Owner shall have no obligation to maintain or forward any Client/Members Data.
+            </li>
+            <br/>
+            <!--2.f-->
+            <li>
+              <i>Intellectual Property Ownership.</i>  Maxicare and the Third-Party Owner (and its licensors, where applicable) shall own any and all rights, title and interest as well as all Intellectual Property Rights, in and to this Application and its related network, the Contents, the Services as well as any suggestions, ideas, enhancement requests, feedback, recommendations or other information provided by the Member/User or any other party relating to the Services and this Application. Nothing herein or in any contracts or agreements that may be entered into by Maxicare and the Third-Party Owner as well as their licensors, hereinafter, shall be construed as a sale and as such, no right/s of ownership in or to the Client/Members Data, the Services and/or this Application, and related Intellectual Property Rights, shall be conveyed and/or transferred to the Member/User. No right and/or license is and/or shall be granted to use the name, logo and product names associated with the Services and/or this Application of Maxicare and of the Third-Party Owner.
+            </li>
+            <br/>
+            <!--2.g-->
+            <li>
+              <i>Third Party Interactions.</i>  During the Member/User’s use of this Application, the Member/User may freely enter into correspondence/s with, purchase goods and/or services from, or participate in promotions of advertisers or sponsors showing their goods and/or services through this Application. Any such activity, however, as well as the terms, conditions, warranties or representations associated with such activity, are solely between the Member/User and the applicable third-party. Maxicare and the Third-Party Owner as well as their licensors, if applicable, shall have no liability, obligation or responsibility for any such correspondence/s, purchase/s or promotion/s. Be it understood that this Application does not endorse any sites on the Internet that are linked through  Maxicare Healthcare Application. Maxicare and the Third-Party Owner provides these links to the Member/User only as a matter of convenience or information, and in no event shall Maxicare and the Third-Party Owner or their licensors, if applicable, be responsible for any content, products, or other materials on or available from such sites.
+            </li>
+            <br/>
+            <!--2.h-->
+            <li>
+              <i>Free and Harmless.</i> The Member/User shall hold Maxicare, the Third-Party Owner and the Representatives free and harmless from and against any and all suits or claims, actions, or proceedings, damages, costs and expenses, including attorney’s fees, which may be filed, charged or adjudged against Maxicare, the Third-Party Owner and the Representatives or any of its directors, stockholders, officers, employees, agents, or representatives in connection with or arising from the breach of this terms of use by the Member/User or the user of this Application.
+            </li>
+          </ol>
+        </li>
+        <br/>
+        <!--3-->
+        <li>
+          Charges and Payment of Fees
+          <ol type="a">
+            <br/>
+            <!--3.a-->
+            <li>
+              Excess Data Storage Fees.  Data storage size and fees shall be governed by the relevant contracts and agreements between the Member/User and Maxicare. Maxicare and the Third-Party Owner, thru Maxicare, shall use reasonable efforts to notify the Member/User when the agreed storage size reaches approximately ninety percent (90%) of the maximum. Note, however, that any failure by Maxicare and/or by the Third-Party Owner, thru Maxicare, to notify the Member/User shall not affect the Member/User’s responsibility to pay additional charges. Maxicare and the Third-Party Owner reserve the right to establish or modify their general practices and limits relating to storage of Client/Members Data.
+            </li>
+          </ol>
+        </li>
+        <br/>
+        <!--4-->
+        <li>
+          Renewal, Suspension, and Termination
+          <ol type="a">
+            <br/>
+            <!--4.a-->
+            <li>
+              Billing and Renewal shall be governed by the terms and conditions set forth in the Agreement.
+            </li>
+            <br/>
+            <!--4.b-->
+            <li>
+              Non-Payment and Suspension.  In addition to any other rights granted to Maxicare and the Third-Party Owner herein, Maxicare and the Third-Party Owner reserve the right to suspend or terminate the Agreement, as well as these T&Cs and the Member/User’s access to Maxicare Healthcare Application if the Member/User becomes delinquent (falls into arrears).<br/><br/>
+              Maxicare and the Third-Party Owner reserve the right to impose a reconnection fee in the event you are suspended and thereafter request access to  Maxicare Healthcare Application. The Member/User agrees and acknowledges that Maxicare and the Third-Party Owner shall have no obligation to retain Client/Members Data and that such Client/Members Data may be irretrievably deleted if the Member/User is delinquent.
+            </li>
+            <br/>
+            <!--4.c-->
+            <li>
+              Termination upon Expiration.  These T&Cs shall commence once the user of this Application clicks the "accept" button of these T&Cs. Any and all provisions contained in the Agreement but which are not contained herein (for example, the Term, Termination and Renewal of Agreements) shall be governed by such Agreement and/or any other relevant contracts and agreements. In the case of free trials, notifications as to the number of days remaining thereon shall constitute an effective notice of termination. The Member/User agrees and acknowledges that Maxicare and the Third-Party Owner have no obligation to retain the Client/Members Data, and may delete such Client/Members Data upon termination.
+            </li>
+            <br/>
+            <!--4.d-->
+            <li>
+              Termination for Cause.  Any breach of the Member/User’s payment obligations and/or unauthorized use of this Application shall be deemed by Maxicare and by the Third-Party Owner as a material breach. In this regard, Maxicare and their Third-Party Owner, in their sole discretion, may terminate the use of  Maxicare Healthcare Application in view of any breach and/or the Member/User’s failure to comply with these T&Cs or the relevant contracts and agreements. In addition, Maxicare and the Third-Party Owner may terminate a free Member/User at any time in their sole discretion. The Member/User agrees and acknowledges that Maxicare and the<br/>Third-Party Owner have no obligation to retain the Client/Members Data, and may delete such Client/Members Data, if the Member/User has materially breached these T&Cs and the relevant contracts and agreements, including but not limited to the failure of the Member/User to pay the outstanding fees and such breach has not been cured within the period agreed upon.
+            </li>
+          </ol>
+        </li>
+        <br/>
+        <!--5-->
+        <li>
+          Disclaimer of Warranties
+          <ol type="a">
+            <br/>
+            <!--5.a-->
+            <li>
+              Maxicare and the Third Party Owner and their licensors, if applicable, make no representation, warranty or guaranty as to the reliability, timeliness, quality, suitability, truth, availability, accuracy or completeness of the services of this Application or the contents thereof. Maxicare, the Third-Party Owner and their licensors, if applicable likewise make no representation or warranty on the following:
+              <ol type="i">
+                <!--5.a.i-->
+                <li>
+                  that the use of the service will be secured, timely, uninterrupted or error-free or shall operate in combination with any other hardware, software, Application or date;
+                </li>
+                <!--5.a.ii-->
+                <li>
+                  the  Maxicare Healthcare Application and the services will meet the Member/User’s requirements or expectations;
+                </li>
+                <!--5.a.iii-->
+                <li>
+                  any stored date will be accurate or reliable;
+                </li>
+                <!--5.a.iv-->
+                <li>
+                  the quality of any products, services, information or other material purchased or obtained by the Member/User through the services and this Application will meet your requirements or expectations;
+                </li>
+                <!--5.a.v-->
+                <li>
+                  errors or defects will be corrected; or
+                </li>
+                <!--5.a.vi-->
+                <li>
+                  the services or the server(s) that make the services and the  Maxicare Healthcare Application available are free of viruses or other harmful components.
+                </li>
+              </ol>
+              <br/>
+              The Services, the  Maxicare Healthcare Application and all contents are provided to the Member/User strictly on an "as is" basis. All conditions, representations and warranties, whether express or implied (such as but not limited to any implied warranties as to fitness for any particular purpose, or non-infringement of third party rights, are hereby disclaimed by Maxicare and by the Third Party Owner and their licensors, if applicable, to the maximum extent permitted by law.
+            </li>
+            <br/>
+            <!--5.b-->
+            <li>
+              Maxicare shall not be liable for any loss or damage of whatever nature in connection with the implementation of transactions covered by these T&Cs in the following instances:
+              <ol type="i">
+                <li>
+                  Disruption, failure or delay which are due to circumstances beyond the control of Maxicare, fortuitous events such as but not limited to prolonged power outages, breakdown in computers and communication facilities, typhoons, public disturbances and calamities, and other similar or related cases;
+                </li>
+                <li>
+                  Loss or damage you may suffer due to theft or unauthorized use of the Member/User’s passwords, personal data, or violation of other security measures with or without the Member/User’s participation; and
+                </li>
+                <li>
+                  Inaccurate, incomplete or delayed information you received due to disruption or failure of any communication facilities.
+                </li>
+              </ol>
+            </li>
+            <br/>
+            <!--5.c-->
+            <li>
+              Limitation of Liability.  In no event shall Maxicare and the Third-Party Owner's aggregate liability exceed the amounts actually paid by and/or due from the Member/User in the twelve (12) month period immediately preceding the event giving rise to such claim. In no event shall Maxicare and the Third-Party Owner and/or their licensors be liable to anyone for any indirect, punitive, special, exemplary or other damages of any type (due to loss of data, revenue, profit, use of other economic advantage) arising out of or in connection with the Services, the  Maxicare Healthcare Application and the Contents including the use or inability to use the  Maxicare Healthcare Application or for any content obtained from or through the  Maxicare Healthcare Application, any interruption, inaccuracy, error or omission, regardless of any cause, even if Maxicare and the Third Party Owner or their licensors have been previously advised of the possibility of such damages.
+            </li>
+          </ol>
+        </li>
+        <br/>
+        <!--6-->
+        <li>
+          Notice
+          <ol type="a">
+            <br/>
+            <!--6.a-->
+            <li>
+              Maxicare and the Third-Party Owner may give notice by any of the following means
+              <ol type="i">
+                <!--6.a.i-->
+                <li>
+                  general notice in the  Maxicare Healthcare Application,
+                </li>
+                <li>
+                  electronic mail to your e-mail address as recorded in Maxicare and the Third-Party Owner's Member/User information, or
+                </li>
+                <li>
+                  by written communication sent by first class mail or pre-paid post to your address on record in Maxicare and Third-Party Owner's Member/User information.
+                </li>
+              </ol>
+            </li>
+            <br/>
+            <!--6.b-->
+            <li>
+              The Member/User may give notice to Maxicare and the Third-Party Owner, thru Maxicare (such notice shall be deemed given when received by Maxicare and the Third-Party Owner, thru Maxicare) at any time by any of the following means:
+              <ol type="i">
+                <!--6.b.i-->
+                <li>
+                  letter sent by confirmed facsimile to Maxicare and Third-Party Owner, thru Maxicare, at the following fax number: <b>582-1998 (routing 1000) Attention: QMS Compliance Officer</b>; or
+                </li>
+                <!--6.b.ii-->
+                <li>
+                  letter delivered by nationally recognized overnight delivery service or first class postage prepaid mail to Maxicare and Third-Party Owner, thru Maxicare at the following address: <b>Attention: QMS Compliance Officer, Maxicare Tower, 203 Salcedo St., Legaspi Village, Makati City.</b>
+                </li>
+
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <br/>
+        <!--7-->
+        <li>
+          Miscellaneous Provisions
+          <ol type="a">
+            <br/>
+            <!--7.a-->
+            <li>
+              Amendments.   Maxicare and the Third-Party Owner reserve the right to modify the T&Cs or their policies relating to Maxicare Healthcare Application, the Services and the Content at any time, effective upon posting of an updated version of these T&Cs. The Member/User shall be responsible for regularly reviewing these T&Cs. Continued use of  Maxicare Healthcare Application after any such changes shall constitute the Member/User’s consent to such changes.
+            </li>
+            <br/>
+            <!--7.b-->
+            <li>
+              Successors and Assigns.  Nothing herein may be assigned by the Member/User without the prior written approval of Maxicare and the Third-Party Owner but may be assigned without the Member/User’s consent by Maxicare and Third-Party Owner to:
+              <ol type="i">
+                <li>
+                  a parent or subsidiary,
+                </li>
+                <li>
+                  an acquirer of assets, or
+                </li>
+                <li>
+                  a successor by merger.
+                </li>
+              </ol>
+              Any purported assignment in violation of this section shall be void. Any actual or proposed change in control of you that results or would result in a direct competitor of Maxicare and Third-Party Owner directly or indirectly owning or controlling 50% or more shall entitle Maxicare and Third-Party Owner to terminate these T&Cs and relevant contracts and agreements for cause immediately upon written notice.
+            </li>
+            <br/>
+            <!--7.c-->
+            <li>
+              <i>Attorney’s Fees and Cost of Litigation.</i> In the event of any legal action or other proceeding brought to enforce the Agreement and these T&Cs, Maxicare shall be entitled to reasonable attorney’s fees and other costs incurred during that proceeding in addition to any other relief to which it is entitled. Maxicare shall be entitled to collect Two Hundred Thousand Pesos (P200,000.00) as minimum damages, in addition to any other damages which it may be entitled under the Agreement and under the law, and attorney's fees in the amount of One Hundred Thousand Pesos (P100,000.00) in the event that it shall be constrained to engage the services of counsel to prosecute its claim.
+            </li>
+            <br/>
+            <!--7.d-->
+            <li>
+              <i>Local Laws and Export Control.</i>  Maxicare and the Third-Party Owner and their licensors make no representation that the  Maxicare Healthcare Application, the Services and the Contents are appropriate or available for use in other locations. If the Member/User shall use  Maxicare Healthcare Application outside the Republic of the Philippines, the Member/User shall be solely responsible for compliance with all applicable laws.
+            </li>
+            <br/>
+            <!--7.e-->
+            <li>
+              Governing Law and Venue.  These T&Cs shall be governed by the laws of the Republic of the Philippines, without regard to the choice or conflicts of law provisions of any jurisdiction, and any disputes, actions, claims or causes of action arising out of or in connection with these T&Cs, the relevant contracts and agreements or the Services shall be subject to the exclusive jurisdiction of the proper courts of Makati City, to the exclusion of other courts.
+            </li>
+            <br/>
+            <!--7.f-->
+            <li>
+              Unenforceable Provisions.   If any provision of these T&Cs is held by a court of competent jurisdiction to be invalid or unenforceable, then such provision(s) shall be construed, as nearly as possible, to reflect the intentions of the invalid or unenforceable provision(s), with all other provisions remaining in full force and effect.
+            </li>
+            <br/>
+            <!--7.g-->
+            <li>
+              Failure to Enforce.   The failure of Maxicare and Third-Party Owner to enforce any right or provision in these T&Cs shall not constitute a waiver of such right or provision unless acknowledged and agreed to by Maxicare and Third-Party Owner in writing.
+            </li>
+            <br/>
+            <!--7.h-->
+            <li>
+              Relationship.  No joint venture, partnership, employment, or agency relationship exists between the Member/User and Maxicare and the Third-Party Owner as a result of these T&Cs or use of  Maxicare Healthcare Application.
+            </li>
+            <br/>
+            <!--7.i-->
+            <li>
+              Complete Agreement.  These T&Cs and the relevant contracts and agreements comprise the entire agreement between you and Maxicare and Third-Party Owner, thru Maxicare, and supersede all prior or contemporaneous negotiations, discussions or agreements, whether written or oral, between the parties regarding the subject matter contained herein.
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <br/>
+      <p align="justify">*The Terms and Conditions are subject to change.  You may address any queries related to these T&Cs to <u><i><font color="blue">dpo@maxicare.com.ph</font></i></u>.</p>
+      <br/>
+    </div>
+  </div>
+</div>

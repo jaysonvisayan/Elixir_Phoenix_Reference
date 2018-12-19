@@ -1,0 +1,43 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+
+#: lib/member_link_web/templates/layout/auth.html.eex:15
+msgid "Easily manage your members in your account on Maxicare."
+msgstr ""
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:29
+msgid "Login"
+msgstr ""
+
+#: lib/member_link_web/templates/layout/auth.html.eex:14
+msgid "Manage your account in Maxicare."
+msgstr ""
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:14
+msgid "Password"
+msgstr ""
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:10
+msgid "Username"
+msgstr ""
+
+#: lib/member_link_web/templates/layout/app.html.eex:58
+msgid "Account"
+msgstr ""
+
+#: lib/member_link_web/templates/layout/app.html.eex:113
+msgid "Batch Processing"
+msgstr ""
+
+#: lib/member_link_web/templates/layout/app.html.eex:90
+msgid "Member"
+msgstr ""

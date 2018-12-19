@@ -1,0 +1,24 @@
+<div class="ui tiny modal discard">
+  <i class="close icon"></i>
+  <div class="header text-centered">
+    <div class="header-icon--container text-centered">
+      <i class="green huge question circle outline icon"></i>
+    </div>
+    <div id="discard-header"></div>
+    <div class="description" id="discard-description"></div>
+  </div>
+
+  <input type="hidden" value="<%= Plug.CSRFProtection.get_csrf_token() %>" name="_csrf_token">
+  <input type="hidden" value="" id="delete_product">
+
+  <div class="content">
+    <div class="button-label text-centered mb-1" id="discard-question"></div>
+    <div class="ui grid">
+      <div class="fourteen wide computer sixteen wide mobile column centered">
+        <button class="ui grey basic button deny" type="submit">No, Keep Plan</button>
+        <button class="ui primary button float-right close approve" type="submit">Yes, Delete Plan</button>
+      </div>
+    </div>
+  </div>
+</div>
+

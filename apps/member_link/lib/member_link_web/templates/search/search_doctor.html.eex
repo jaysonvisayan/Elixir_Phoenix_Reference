@@ -1,0 +1,875 @@
+<!-- layout.nunjucks -->
+
+<!--		<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="icon" href="images/favicon.jpg" type="image/x-icon"/>
+  <link rel="shortcut icon" href="images/favicon.jp" type="image/x-icon"/>
+  <link rel="stylesheet" href="css/main.css">
+  <script src=""></script>
+</head>
+<body>
+
+<div class="account-sidebar ui sidebar offcanvas-sidebar">
+
+
+	<div class="main-navigation-side ui secondary vertical menu">
+		<div class="item">
+			<div class="ui left icon input fluid">
+				<input type="text" placeholder="Search for doctors and hospitals">
+				<i class="search link icon"></i>
+			</div>
+		</div>
+
+		<div class="item">
+			<button class="ui primary dropdown basic button fluid">
+        <span class="text"><%= gettext "REQUEST LOA" %></span>
+				<i class="icon angle down"></i>
+				<div class="menu">
+          <div class="item"><%= gettext "Request Lab" %></div>
+          <div class="item"><%= gettext "Request Consultant" %></div>
+				</div>
+			</button>
+		</div>
+	</div>
+	<div class="ui divider"></div>
+
+	<div class="ui secondary vertical menu">
+
+    <a class="item " href="account_my_account.html"><i class="id card icon"></i><%= gettext "My account" %></a>
+
+
+    <a class="item " href="account_my_profile.html"><i class="user icon"></i><%= gettext "My Profile" %></a>
+
+
+    <a class="item " href="#"><i class="mail icon"></i><%= gettext "Contact Details" %></a>
+
+
+    <a class="item " href="account_kyc_bank_info.html"><i class="file icon"></i><%= gettext "Bank KYC Information" %></a>
+
+
+    <a class="item " href="#"><i class="users icon"></i><%= gettext "Dependents" %></a>
+
+
+	</div>
+
+
+	<div class="ui divider"></div>
+	<div class="ui secondary vertical menu">
+    <a class="item" href="#"><i class="sign out icon"></i><%= gettext "Logout" %></a>
+	</div>
+
+</div>
+
+-->
+
+
+  	<div class="pusher">
+  	<!-- You write code for this content block in another file -->
+
+
+
+<div class="content-holder" id="search">
+ <div class="filter-holder">
+    <div class="filter-button show-for-tab" id="filter_button">
+      <button class=" ui icon button">
+        <i class="icon filter"></i>
+        <%= gettext "Filter" %>
+      </button>
+    </div>
+    <div class="filter-tabs">
+      <div class="ui two item tabs menu">
+        <a class="item active" data-tab="list_tab"><i class="list layout icon"></i><%= gettext "Doctors List" %></a>
+        <a class="item" data-tab="map_tab"><i class="map icon"></i> <%= gettext "Map" %></a>
+      </div>
+    </div>
+
+    <%= form_for @conn, search_path(@conn, :search_doctors_submit, @locale, @locale, @locale), [method: :get, name: :search, as: :search], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="ui fluid container">
+      <div class="ui secondary menu top">
+        <div class="item label">
+          <%= gettext "Showing" %>
+        </div>
+        <div class="item">
+          <input hidden id="MemberID" value="<%= @member.id %>">
+          <input hidden id="MemberQRcode" value="<%= @member.evoucher_qr_code %>">
+          <input hidden id="MemberEvoucher" value="<%= @member.evoucher_number %>">
+          <div class="mini ui basic filter buttons">
+            <!-- <a class="ui button active" id="search_all"><%#= gettext "All" %></a>
+            <a class="ui button" id="search_doctor"><%#= gettext "Doctors" %></a>
+            <a class="ui button" id="search_hospital"><%#= gettext "Hospitals" %></a>
+            <a class="ui button active" href="#" id="search_all_button"><%= gettext "All" %></a>
+            -->
+            <a class="ui button search active" href="#" id="search_hospital_button"><%= gettext "Hospitals" %></a>
+            <a class="ui button search" href="#" id="search_doctor_button"><%= gettext "Doctors" %></a>
+          </div>
+
+        </div>
+        <div class="item label">
+          <%= gettext "Hospital Name/Doctor" %>
+        </div>
+
+
+          <div class="item">
+            <div class="ui search facility" id="search_facility">
+              <div class="ui mini input">
+                <%= text_input f, :name, id: "search_name_facility", class: "prompt square-input", autocomplete: "off", placeholder: gettext "search doctors or hospitals" %>
+              </div>
+              <div class="results"></div>
+            </div>
+            <div style="width: 150px; !important;">
+            <%= select f, :facility_type, ["Hospital", "Clinic", "Hospital and Clinic"], class: "ui basic floating mini dropdown button", style: "width: 50px !important;", prompt: gettext "Select Facility Type" %>
+          </div>
+          </div>
+          <%= hidden_input f, :url, value: @conn.request_path %>
+        <div class="item label">
+          <%= gettext "Location" %>
+        </div>
+
+        <div class="item">
+          <div class="ui search address">
+            <div class="ui right action left icon mini input">
+              <i class="search icon"></i>
+              <input type="text"  class="prompt square-input" autocomplete="off" placeholder="<%= gettext "Search Address" %>" id="search_address" name="search[address]">
+              <div class="ui basic floating mini dropdown button">
+                <div class="text"><%= gettext "NCR" %></div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <%# f = @facilities %>
+                  <%= if Enum.empty?(@practitioners) do %>
+                    <%= for f <- @facilities do %>
+                      <div class="item" ><%= f.region %></div>
+                    <% end%>
+                  <% else %>
+                    <%= for pf <- @practitioners do %>
+                      <div class="item"><%= pf.facility.region %></div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="results address"></div>
+          </div>
+        </div>
+
+        <div class="item label">
+          <%= gettext "Specialization" %>
+        </div>
+
+        <div class="item">
+          <%= select f, :specialization, @specializations, class: "ui fluid mini search selection dropdown", prompt: gettext "Select Specialization" %>
+        </div>
+
+        <div class="item">
+          <button class="ui submit mini button" type="button" id="search_box_button">
+            <%= gettext "Search" %>
+          </button>
+        </div>
+
+        <div class="item">
+          <a class="ui right floated basic mini button" href="/<%= @locale %>/search"><%= gettext "Reset" %></a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  </div>
+
+  <div class="left-column tab-target active" id="list_tab" data-tab="list">
+    <div class="content-scroll doctors-list" >
+      <div class="doctors-list-search" id="search_list">
+        <div class="ui divided list" id="append_here_head" style="width: 500px; !important">
+          <%= if Enum.empty?(@facilities) do %>
+        <div class="item doctor-affiliated facility" style="width: 500px; text-align:center; !important">
+          <div class="content">
+            <div class="header"> <%= gettext "No Results Found" %> </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="item doctor-affiliated" style="display: none;" ></div>
+        <%= for f <- @facilities do %>
+          <div class="item doctor-affiliated facility" facility_id="<%= f.id %>" doctor_count="<%= Enum.count(fpf_checker(f.id)) %>">
+            <div class="right floated content">
+              <p class="text aligned right"><i class="doctor icon"></i><%= Enum.count(fpf_checker(f.id)) %><i class="caret right icon" facility_id="<%= f.id %>" doctor_count="<%= Enum.count(fpf_checker(f.id)) %>"></i></p>
+            </div>
+            <i class="hospital icon"></i>
+            <div class="content">
+              <div class="header"><%= f.name %><span><%= gettext "%{status}", status: f.status %></span></div>
+              <div class="description">
+                <p id="line1"><%= Enum.join([f.line_1, f.line_2], " ") %></p>
+                <p id="line2"><%= Enum.join([f.city, f.postal_code, f.province], " ") %></p>
+
+                <div class="list-footer">
+                  <span><%= f.phone_no %></span>
+                  <a href="#" class="get_direction" name="get_location" facility_id="<%= f.id %>"><i class="location arrow icon"></i><%= gettext "Get Direction" %></a>
+                  <div class="ui dropdown">
+                    <div class="get_direction clickable"><i class="icon car"></i> <%= gettext "Call a cab" %></div>
+                    <div class="menu">
+                      <div class="item">Uber</div>
+                      <div class="item"><%= gettext "Call" %> Grab</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="doctors-list-detail" id="list_detail">
+      <div class="close show-for-tab"><span class="ui primary text"><i class="icon angle left"></i>Back</span></div>
+      <div class="ui middle aligned divided list" id="append_here_tail">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="right-column tab-target" id="map_tab" data-tab="map">
+    <div class="map-overlay"></div>
+    <div class="map-holder">
+      <div id="map" class="map"></div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+<div class="ui small modal modal_center" id="request_form">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    <h2><%= gettext "Request Consultation LOA" %></h2>
+    <p class="mb_zero"><b practitioner="name" id="doctor_name"></b> (<span practitioner="specialization" id="doctor_specialization"></span>)<span class="modal_edit"><a><%= gettext "edit" %></a></span></p>
+    <p class="mb_zero" practitioner="facility" id="doctor_facility"></p>
+    <p class="mb_zero" practitioner="phone_no" id="doctor_phone_no"></p>
+  </div>
+
+  <div class="content">
+    <div class="description">
+      <form class="ui form">
+        <input type="hidden" id="facility_id">
+        <input type="hidden" id="practitioner_id">
+        <input type="hidden" id="specialization_id">
+        <div class="field">
+          <label><%= gettext "Please select desired date of availment" %></label>
+          <div class="ui selection dropdown" id="availment_date">
+            <i class="dropdown icon"></i>
+            <div class="default text"><%= gettext "Date of Availment" %></div>
+            <div class="menu">
+              <div class="item" id="date_now" data-value="<%= DateTime.utc_now %>"></div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label><%= gettext "Please explain chief Complaint/Diagnosis" %></label>
+          <textarea id="text_complaint" placeholder=<%= gettext "Explain the problem, complain or your condition" %>></textarea>
+        </div>
+        <div class="field">
+          <label><p><%= gettext "Your Principal Contact Information" %></p></label>
+        </div>
+        <div class="field personal_info">
+          <%= if not is_nil(@member.principal) do %>
+            <p class="mb_zero" id="principal_name"><%= @member.principal.first_name %> <% @member.principal %></p>
+            <p class="mb_zero" id="principal_contact"><%= if not is_nil(@member.principal.telephone), do: @member.principal.telephone <> " (Home)" %><%= if not is_nil(@member.principal.mobile), do: ", " <> @member.principal.mobile <> " (Mobile)" %></p>
+            <p class="mb_zero" id="principal_email"><%= gettext "Email" %>: <%= @member.principal.email %></p>
+          <% end %>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="conforme" id="check_confirm">
+            <label><%= gettext "I confirm that I have read and fully understood the" %> <a><%= gettext "conforme" %></a> <%= gettext "therein." %></label>
+          </div>
+        </div>
+        <div class="center_align field">
+          <button type="button" class="big ui blue button disabled"><%= gettext "Request Consultation" %></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="ui small modal" id="request_form_lab">
+  <i class="close icon"></i>
+  <form class="ui form">
+
+  <div class="header top_most">
+      <div class="inline fields">
+        <label><h2><%= gettext "Request" %></h2></label>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="gender">
+          <i class="dropdown icon"></i>
+          <div class="default text"><%= gettext "OP Lab LOA" %></div>
+          <div class="menu">
+            <div class="item" data-value="1"><%= gettext "Male" %></div>
+            <div class="item" data-value="0"><%= gettext "Female" %></div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="ui divider"></div>
+  </div>
+
+  <div class="content">
+    <div class="description">
+      <h2><%= gettext "OP Lab LOA Request" %></h2>
+      <div class="ui grid">
+
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+
+              <p>
+              <b><%= gettext "Hospital Information" %></b><span class="modal_edit"><a><%= gettext "edit" %></a></span> <br>
+                Makati Medical Center <br>
+                Jupiter St. Cor. Nicanor Garcia <br>
+                Brgy. Bel Air, Makati City, 1209 Metro Manila
+                  <div class="ui divider hidden"></div>
+              </p>
+          </div>
+          <div class="eight wide computer sixteen wide tablet column">
+
+            <p> <b><%= gettext "Hospital Information" %></b><span class="modal_edit"><a><%= gettext "edit" %></a></span> <br>
+                 Makati Medical Center <br>
+                 Jupiter St. Cor. Nicanor Garcia <br>
+                 Brgy. Bel Air, Makati City, 1209 Metro Manila</p>
+          </div>
+        </div><!--row-->
+
+        <div class="ui divider"></div>
+
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+            <div class="field">
+              <label><%= gettext "Requesting Doctor" %></label>
+              <div class="ui selection dropdown">
+                <input type="hidden" name="gender">
+                <i class="dropdown icon"></i>
+                <div class="default text">Go, Rory King</div>
+                <div class="menu">
+                    <div class="item" data-value="1">Male</div>
+                    <div class="item" data-value="0">Female</div>
+                </div>
+              </div>
+            </div>
+            <div class="ui divider hidden"></div>
+          </div>
+          <div class="eight wide computer sixteen wide tablet column">
+            <div class="ui list">
+              <div class="item doctor-affiliated">
+                <i class="doctor icon"></i>
+                <div class="content">
+                  <div class="header">Go, Rory King <span>Affiliated</span></div>
+                  <div class="description">
+                    <p class="mb_zero">Opthalmology,<span>Makati Medical Center</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="sixteen wide column">
+            <form class="ui form">
+              <div class="field">
+                <label><%= gettext "Please explain chief Complaint / Diagnosis" %></label>
+                <textarea placeholder=<%= gettext "Explain the problem, complain or your condition" %>></textarea>
+              </div>
+            </form>
+          </div>
+        </div><!--row-->
+
+        <div class="ui divider"></div>
+
+        <div class="row">
+          <div class="eight wide column">
+            <form class="ui form">
+              <div class="field">
+                <label><%= gettext "Please select desired date of availment" %></label>
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="gender">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">07/07/2017</div>
+                  <div class="menu">
+                      <div class="item" data-value="1">Male</div>
+                      <div class="item" data-value="0">Female</div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="column">
+            <div class="ui horizontal segments">
+              <div class="ui segment">
+                <!-- <div class="add_blue"> -->
+                <div class="ui radio checkbox">
+                  <input type="radio" name="test" id="all_diagnosis" value="diagnosis">
+                  <label for="all_diagnosis">
+                    <b><%= gettext "All Diagnosis Test" %></b>
+                    <p class="mb_zero"><%= gettext "Scanned copy of Maxicare-accredited Doctor's complete prescription:" %></p>
+                  <div class="ui bulleted list">
+                    <div class="item"><%= gettext "Complete Diagnosis" %></div>
+                    <div class="item"><%= gettext "Member's existing medication related to medical condition" %></div>
+                  </div>
+                  </label>
+                <!-- </div> -->
+                </div>
+              </div>
+              <div class="ui segment">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="test" id="physical_therapy" value="physical">
+                  <label>
+                    <b><%= gettext "Physical Therapy (PT) and (OT)" %></b>
+                    <p class="mb_zero"><%= gettext "Scanned copy of Maxicare-accredited Doctor's complete prescription:" %></p>
+                  <div class="ui bulleted list">
+                    <div class="item"><%= gettext "Number of session availed" %></div>
+                    <div class="item"><%= gettext "Date and facility of last session" %></div>
+                    <div class="item"><%= gettext "Patient Medical History" %></div>
+                  </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="two fields pb_zero">
+              <div class="field">
+                <div class="ui fluid basic icon buttons">
+                  <button class="ui button"><span class="upload_txt"><%= gettext "Upload Front Side" %></span><i class="cloud upload icon"></i></button>
+                    <button class="ui button"><i class="photo icon"></i></button>
+                </div>
+              </div>
+              <div class="field">
+<button class="ui blue fluid basic button"><i class="add icon"></i><%= gettext "Add Another Document" %></button>
+              </div>
+            </div>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="column">
+            <p class="mb_zero"><%= gettext "Please attach a clear copy of your documents, maximum field size is 5MB. Acceptable file types are: jpg, jpeg, tiff, pdf, doc, docx, xls, and xlsx." %></p>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="column">
+            <div class="ui checkbox">
+              <input type="checkbox" name="conforme">
+<label><%= gettext "I confirm that I have read and fully understood the" %> <a><%= gettext "conforme" %></a> <%= gettext "therein." %></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="column">
+            <div class="center_align">
+              <button class="big ui primary button">
+                <%= gettext "Request Consultation" %>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  </form>
+</div>
+
+<div class="ui medium modal" id="request_acu_e-voucher">
+  <i class="close icon"></i>
+
+  <div class="content">
+<style>
+
+  @media print, screen {
+      body {
+        padding: 9pt;
+      }
+
+      .companyHeaderTitle {
+        font-size: 16pt;
+        font-weight: 700;
+      }
+
+      .companyHeaderContacts {
+        font-size: 10pt;
+        width: 350.16pt;
+        font-weight: 300;
+      }
+
+      .logo {
+        width:108.24pt;
+      }
+
+      .imgcode {
+        width: 85.44pt;
+      }
+
+      .hspacer {
+        display: inline-block;
+        width: 20pt;
+      }
+
+      hr.companyHeaderBreaker {
+        border: 0pt;
+        border-bottom: 2.16pt solid #000;
+      }
+      hr {
+        border: 0pt;
+        border-bottom: 1pt solid #000;
+        margin: 2pt 0;
+      }
+
+      .red {
+        color: #F00;
+      }
+
+      .companyHeaderCode {
+        font-weight: 300;
+        font-size: 10pt;
+      }
+
+      h1, h2, h3, h4 {
+        padding: 0;
+        margin: 0;
+      }
+
+      h1 {
+        color: #0070C0;
+        font-size: 20pt;
+      }
+
+      h2.blue {
+        color: #0070C0;
+      }
+
+      .light {
+        font-weight: 300;
+      }
+
+      .grey {
+        color: #7E7E7E;
+      }
+
+
+      .vtop {
+        vertical-align: top;
+      }
+
+      table.border.full, table.border.full > tbody > tr > td {
+        border: 1px solid #000;
+      }
+
+      table.border > tbody > tr > td {
+        padding-left: 5pt;
+        padding-right: 5pt;
+      }
+
+      table.border > tbody > tr {
+        border-bottom: 1pt solid #000;
+      }
+
+      table.border > tbody > tr:last-child {
+        border-bottom: 0;
+      }
+
+      table.border {
+        border-top: 1.5pt solid #000;
+        border-bottom: 1pt solid #000;
+      }
+
+      table.border.thick {
+        border-bottom: 1.5pt solid #000;
+      }
+
+      table.border > tbody > tr > td.highlight {
+        background: #F1F1F1;
+        font-weight: 700;
+      }
+
+      table.border > tbody > tr > td.highlight.blue {
+        background: #DDEAF6;
+      }
+
+      .tableicon {
+        width: 15pt;
+      }
+
+      table {
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+
+      .f10 {
+        font-size: 10pt;
+      }
+
+      .f9 {
+        font-size: 9pt;
+      }
+
+      .info {
+        font-size: 9pt;
+        font-weight: 300;
+      }
+
+      .checkbox_evoucher {
+        display: inline-block;
+        height: 10pt;
+        width: 10pt;
+        border: 1pt solid #000;
+        margin-top: 1pt;
+        margin-bottom: 2pt;
+        vertical-align: middle;
+      }
+
+      .tableamount {
+        font-size: 20pt;
+        font-weight: 700;
+      }
+
+      .textfield {
+        height: 60pt;
+      }
+
+      .textfield.small {
+        height: 40pt;
+      }
+
+      .charfield {
+        height: 20pt;
+      }
+      .center  {
+        text-align: center;
+      }
+
+      .pagebreak {
+        page-break-before: always;
+        height: 9pt;
+      }
+
+      .m0 {
+        margin: 0;
+        padding-left: 8pt;
+      }
+
+      .loweralpha {
+        list-style-type: lower-alpha;
+      }
+    }
+</style>
+<body>
+  <center>
+  <table class="container" id="top_table">
+    <tr class="vtop">
+      <td width="463.68pt">
+
+        <table>
+          <tr class="vtop">
+            <td><img class="logo" src="data:image/png;base64,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"></td>
+            <td>
+              <div class="companyHeaderTitle">Maxicare Healthcare Corporation</div>
+              <div class="companyHeaderContacts">
+                <b>Main Office:</b> Maxicare Tower, 203 Salcedo Street, Legaspi Village, Makati City Call Center <br>
+                <b>Toll-Free No.:</b> 1-800-10-5821-900 or 1-800-8-5821-900<br>
+                <b>Call Center Hotline:</b> 582-1900 or 798-7777 <br>
+                <b>SMS Inquiry:</b> 0918-889 MAXI(6294)<br>
+                <b>Homepage:</b> http://www.maxicare.com.ph
+              </div>
+            </td>
+          </tr>
+        </table>
+
+        <hr class="companyHeaderBreaker">
+
+        <div class="pageHeader">
+          <h2 class="light grey">
+           E-voucher
+          </h2>
+          <h1>
+            ANNUAL CHECK UP
+          </h1>
+        </div>
+        <div class="append_single_hospital">
+        </div>
+      </td>
+      <td width="96.72pt">
+        <div id="member_e_voucher_qr_code" style="margin-left: 1rem;"></div>
+        <br>
+        <div class="companyHeaderCode" style="margin-left: 1rem;">
+          Reference No.:<br>
+          <b><%= @member.evoucher_number %></b><br>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <table class="container">
+    <tr>
+      <td>
+        <table class="border light f10">
+          <tr>
+            <td class="highlight" style="width:115pt;">PATIENT'S NAME</td>
+            <td style="width: 200pt;"><%= Enum.join([@member.first_name, " ", @member.last_name]) %></td>
+            <td class="highlight" style="width: 110pt;">EFFECTIVE/EXPIRY DATE</td>
+            <input hidden id="member_effectivity_date" value="<%= @member.effectivity_date%>">
+            <input hidden id="member_expiry_date" value="<%= @member.expiry_date%>">
+            <td class="member_log_date"></td>
+          </tr>
+          <tr>
+            <td class="highlight">GENDER/AGE</td>
+            <td><%= @member.gender %>, <%= age(@member.birthdate) %></td>
+            <td class="highlight">CARD NO.</td>
+            <td><%= @member.card_no %></td>
+          </tr>
+          <tr>
+            <td class="highlight">CONTACT NO.</td>
+            <td>0<%= @member.mobile %></td>
+            <td class="highlight">LOA ISSUE DATE</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="highlight">EMAIL</td>
+            <td><%= @member.email %></td>
+            <td class="highlight">VALID UNTIL</td>
+            <td><%= @member.expiry_date %></td>
+          </tr>
+          <tr>
+            <td class="highlight">ACCOUNT NAME</td>
+            <td><%= @member.account_group.name %></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p class="info" align="justify">
+          <b>IMPORTANT:</b> This space is intended for clarificatory statements. Use of this space is not authorized for procedure approvals, rate changes, or any other information with financial impact. Any such remarks shall not be considered or processed at claims statements.
+        </p>
+
+        <table class="border light f10">
+          <tr>
+            <td colspan="3" class="highlight">THE FOLLOWING CHARGES SHOULD BE COLLECTED BY THE PROVIDER FROM THE PATIENT.</td>
+          </tr>
+          <tr>
+            <td width="33%"><i class="checkbox_evoucher"></i> Co-payment</td>
+            <td width="33%"><i class="checkbox_evoucher"></i> Coinsurance</td>
+            <td width="33%"><i class="checkbox_evoucher"></i> Prosthetic Device</td>
+          </tr>
+          <tr>
+            <td width="33%"><i class="checkbox_evoucher"></i> Corrective Appliances</td>
+            <td width="33%"><i class="checkbox_evoucher"></i> Artificial Devices</td>
+            <td width="33%"><i class="checkbox_evoucher"></i> Others: _______________________</td>
+          </tr>
+        </table>
+        <br>
+        <p class="info" align="justify">
+          This is to certify that Maxicare Healthcare Corporation (MAXICARE) will pay for the coverable hospital bills and professional fees of bona fide MAXICARE member named herein, up to the benefit limit indicated herein, with the exception of specified charges to be collected from the same Member by the Provider prior to rendering the service. The PROVIDER shall not hold MAXICARE liable for any unpaid Member charges beyond the date of service and shall not be part of any reconciliation item/s on future billings.
+        </p>
+        <br>
+      </td>
+    </tr>
+  </table>
+
+
+  <table class="container">
+    <tr>
+      <td>
+        <table class="border light f10">
+          <tr>
+            <td class="highlight">PROCEDURES</td>
+          </tr>
+          <tr>
+            <td style="padding-top: 1rem; padding-bottom: 1rem;">
+              <table class="request_acu_procedures">
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="highlight">RESULTS SHALL BE FORWARDED TO</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</center>
+  </div>
+</div>
+
+
+<div class="ui mini modal" id="filter_form">
+  <i class="close icon"></i>
+  <div class="header"><%= gettext "Search Filter" %></div>
+  <div class="content">
+    <form class="ui form">
+       <div class="field">
+         <label><%= gettext "Showing" %></label>
+          <div class="ui basic fluid filter buttons">
+            <a class="ui button"><%= gettext "All" %></a>
+            <a class="ui button"><%= gettext "Doctors" %></a>
+            <a class="ui button"><%= gettext "Hospitals" %></a>
+          </div>
+       </div>
+       <div class="field">
+         <label><%= gettext "Location" %></label>
+        <div class="ui right action left icon input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="Search">
+          <div class="ui basic floating mini dropdown button">
+            <div class="text"><%= gettext "NCR" %></div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">NVD</div>
+              <div class="item">OOD</div>
+              <div class="item">OK</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><%= gettext "Specialization" %></label>
+        <div class="ui left icon input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="All Specializations">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa0mYwWMgHdH-ClgyhUWe8P7qvP4ATkEM">
+    </script>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/map.js") %>"></script>
+
+
+
+</div> <!-- .pusher closed -->
+
+</body>
+</html>
+

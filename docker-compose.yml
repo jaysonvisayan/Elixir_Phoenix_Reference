@@ -1,0 +1,63 @@
+version: '3'
+services:
+  db:
+    image: mdillon/postgis
+    environment:
+      POSTGRES_USER: "ipuser"
+      POSTGRES_PASSWORD: "ippass"
+
+  test:
+    build:
+      context: .
+      dockerfile: ./scripts/test/Dockerfile
+    image: asia.gcr.io/silver-approach-172802/ip-test
+    # volumes:
+    #   - .:/app
+    environment:
+      POSTGRES_USER: "ipuser"
+      POSTGRES_PASSWORD: "ippass"
+      POSTGRES_NAME: "payorlink_test"
+      POSTGRES_HOST: "db"
+    links:
+      - db
+
+  router:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./scripts/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - payorlink
+
+  ip-build:
+    build:
+      context: .
+      dockerfile: ./scripts/build/Dockerfile
+    image: asia.gcr.io/silver-approach-172802/ip-build
+
+    # Uncomment only for migration
+    # env_file:
+    #   - .env
+    environment:
+      MIX_ENV: "build"
+    volumes:
+      - .:/app
+
+  payorlink:
+    build:
+      context: .
+      dockerfile: ./scripts/payorlink/Dockerfile
+    image: "asia.gcr.io/silver-approach-172802/payorlink:0.21.4"
+    volumes:
+      - .:/app
+
+  payorlink-fe:
+    build:
+      context: .
+      dockerfile: ./scripts/payorlink/frontend/Dockerfile
+    image: "asia.gcr.io/silver-approach-172802/payorlink-fe:0.1.5"
+    ports:
+      - "80:80"
+    volumes:
+      - ./scripts/k8/frontend.conf:/etc/nginx/nginx.conf

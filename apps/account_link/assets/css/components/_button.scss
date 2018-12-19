@@ -1,0 +1,37 @@
+@import '../variables';
+.ui.primary.buttons {
+    .button {
+        background-color: $brand_color;
+    }
+}
+
+.ui.primary.button {
+    background-color: $brand_color;
+}
+
+.ui.button {
+    white-space: nowrap;
+    background-color: $brand_color;
+    color: $white;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    &:focus {
+        background-color: #0057E6;
+        color: $white;
+    }
+    &:active {
+        background-color: #0057E6;
+        color: $white;
+    }
+    &:hover {
+        background-color: #0057E6;
+        color: $white;
+    }
+}
+
+.cancel {
+    color: $brand_color;
+    padding-top: 1rem;
+    font-weight: 700;
+}

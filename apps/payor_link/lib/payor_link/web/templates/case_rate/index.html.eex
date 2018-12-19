@@ -1,0 +1,109 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Case Rates</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/case_rates/new"><i class="plus icon"></i>Case Rates</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/case_rates" class="section">Case Rates</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%" id ="CaseRateIndex">
+    <thead>
+        <tr>
+          <th>Case Rate Code</th>
+          <th>Case Rate Type</th>
+          <th>Description</th>
+          <th>Hierarchy</th>
+          <th>Discount Percentage</th>
+          <th>Amount Up To</th>
+        </tr>
+    </thead>
+    <tbody>
+       <%= for case_rate <- @case_rates do %>
+        <tr>
+          <td>
+            <a style="cursor: pointer" class="case_rate_code" case_rate_id="<%= case_rate.id %>" case_rate_code="<%= get_diagnosis_ruv(case_rate) %>"
+              code_description="<%= get_diagnosis_ruv_description(case_rate) %>">
+             <%= get_diagnosis_ruv(case_rate) %>
+            </a>
+          </td>
+          <td field="case_rate_type" ><%=case_rate.type %></td>
+          <td field="case_rate_description" ><%=case_rate.description %></td>
+          <td field="case_rate_hierarchy" >
+            <%= cond do %>
+              <%=  is_nil(case_rate.hierarchy1) -> %>
+              <%= case_rate.hierarchy2 %>
+              <%=  is_nil(case_rate.hierarchy2) -> %>
+              <%= case_rate.hierarchy1 %>
+              <%= true -> %>
+              <%= case_rate.hierarchy1 %> , <%= case_rate.hierarchy2 %>
+            <% end %>
+          </td>
+          <td field="case_rate_discount_percentage" >
+            <%= cond do %>
+              <%=  is_nil(case_rate.discount_percentage1) -> %>
+              <%= case_rate.discount_percentage2 %>
+              <%=  is_nil(case_rate.discount_percentage2) -> %>
+              <%= case_rate.discount_percentage1 %>
+              <%= true -> %>
+              <%= case_rate.discount_percentage1 %>% , <%= case_rate.discount_percentage2 %>%
+            <% end %>
+          </td>
+          <td field="case_rate_amount_up_to" ><%=case_rate.amount_up_to %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "case_rate_modal.html", conn: @conn, case_rates: @case_rates, permission: @permission %>
+
+  <div class="ui modal" id="CaseRateLogsModal">
+    <i class="close icon"></i>
+    <div class="header">
+      Logs
+    </div>
+
+    <div class="content">
+      <div class="ui right aligned grid">
+      <div class="right floated right aligned six wide column">
+        <div class="ui action input">
+          <div class="field error">
+            <div class="ui action input">
+              <input type="text" class="email" placeholder="Search..." name="case_rate[search]" id="case_rate_search">
+              <div class="ui basic icon buttons">
+                <button class="ui button" id="btnSearchLogs">
+                  <i class="search icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <div class="ui segments">
+            <div class="ui segment">
+              <div class="ui feed timeline" id="timeline">
+                <table id="case_rate_logs_table">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

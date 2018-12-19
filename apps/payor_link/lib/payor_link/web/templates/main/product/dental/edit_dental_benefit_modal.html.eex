@@ -1,0 +1,32 @@
+<div class="ui large modal procedureedit">
+  <i class="close icon"></i>
+  <div class="header">Add Benefit</div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+        <table class="full-width ui celled striped table" id="tbl_add_procedure_edit">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" style="width:20px; height:20px" id="benefit_select_all" value="false" />
+              </th>
+              <th class="small">Benefit Code</th>
+              <th class="small">Benefit Name</th>
+              <th class="small">No. of CDT</th>
+              <th class="small">Limit Type</th>
+              <th class="small">Limit Value</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class=" ui primary basic button close" type="submit" id="btn_cancel_edit_benefit">Cancel</button>
+      <button class=" send-rtp right floated ui primary button close" id="btn_submit_edit_benefit" type="submit">Add</button>
+    </div>
+  </div>
+</div>

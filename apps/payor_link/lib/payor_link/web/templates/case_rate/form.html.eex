@@ -1,0 +1,76 @@
+<div id="form_case_rate">
+  <%= if @changeset.action do %>
+    <div class="ui negative message">
+      <i class="close icon"></i>
+      <%= get_flash(@conn, :error) %>
+    </div>
+  <% end %>
+  <%= form_for @changeset, @action, [class: "form2"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="two fields">
+      <div class="field">
+        <%= label f, :type, "Case Rate Type" %>
+        <select class="ui dropdown" id="case_rate_type" name="case_rate[type]">
+          <option value="ICD"><%= "ICD" %></option>
+          <option value="RUV"><%= "RUV" %></option>
+        </select>
+      </div>
+      <div class="field" id="select_icd">
+        <%= label f, :diagnosis_id, "Case Rate Code/Description" %>
+        <%= select f, :diagnosis_id, filter_diagnosis(@diagnoses, @case_rates), prompt: "" %>
+        <%= error_tag f, :diagnosis_id %>
+      </div>
+      <div class="field" style="display: none;" id="select_ruv">
+        <%= label f, :ruv_id, "Case Rate Code/Description" %>
+        <%= select f, :ruv_id, filter_ruv(@ruvs, @case_rates), prompt: "" %>
+        <%= error_tag f, :ruv_id %>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="field">
+        <%= label f, :description, "Description" %>
+        <%= text_input f, :description, "data-validate": "description" %>
+        <%= error_tag f, :description %>
+      </div>
+      <div class="field">
+        <div class="field">
+          <label>Hierarchy</label>
+        </div>
+        <div class="inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="case_rate[hierarchy1]">
+              <label>1 (100%)</label>
+            </div>
+            <div class="ui checkbox">
+              <input type="checkbox" name="case_rate[hierarchy2]">
+              <label>2 (50%)</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <%= label f, :amount_up_to, "Amount Up To", class: "control-label"  %>
+          <div class="ui right labeled input">
+            <%= text_input f, :amount_up_to, class: "form-control", min: "1", "data-validate": "amount_up_to"%>
+            <%= error_tag f, :amount_up_to %>
+            <div class="ui basic label" >
+              php
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="ui blue right floated button submit">
+      <i class="send left icon"></i>
+      Submit
+    </button>
+    <button id="cancelBtn" class="ui button" redirect-to="/case_rates" type="button">
+      <i class="remove icon"></i>
+      Cancel
+    </button>
+  <% end %>
+</div>

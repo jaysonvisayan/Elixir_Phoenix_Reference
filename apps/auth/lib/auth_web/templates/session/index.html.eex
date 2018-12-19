@@ -1,0 +1,30 @@
+<div name="Login" class="login-container">
+  <div class="ui segment segment-less-opacity login-margin">
+    <%= form_for @conn, session_path(@conn, :login), [as: :session, id: "sign_in", class: "ui form"], fn f -> %>
+      <img src="/images/logo.png">
+      <br>
+      <br>
+      <div class="field">
+        <div class="ui left icon input">
+          <i class="user icon"></i>
+          <%= text_input f, :username, autofocus: "", autocorrect: "off", autocapitalize: "none", placeholder: gettext "Username" %>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui left icon input">
+          <i class="lock icon"></i>
+          <%= password_input f, :password, placeholder: gettext "Password" %>
+            <%= hidden_input f, :consent, value: @consent %>
+        </div>
+      </div>
+      <p class="ui right-aligned">
+        <a href="<%= @mg_url %>" class="dim">
+          <%= gettext "Forgot Password?" %>
+        </a>
+      </p>
+      <button class="big ui primary button fluid mt-4" type="submit">
+        <%= gettext "Login" %>
+      </button>
+      <% end %>
+  </div>
+</div>

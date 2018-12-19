@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="pcltf_confirmation">
+  <div class="header">
+    Remove Facility
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_pcltf_id">
+    <p>
+    Do you really want to remove this facility?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_pcltf">
+      <i class="remove icon"></i>
+      No, Keep Facility
+    </div>
+    <div class="ui red ok button" id="confirmation_submit_pcltf">
+      <i class="trash icon"></i>
+      Yes, Remove Facility
+    </div>
+  </div>
+</div>

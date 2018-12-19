@@ -1,0 +1,63 @@
+<div class="ui large modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Account
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :cluster, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="cluster[account_group_cluster_ids_main]">
+    <table role="datatable" class="ui stripped table">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAllAccounts">
+          </th>
+          <th>Account Code</th>
+          <th>Account Name</th>
+          <th>Funding Arrangement</th>
+          <th>Account Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for account_group_id <- get_all_account_group(@account_groups, @all_account_group_clusters) do %>
+        <%= for account_group <- load_account_group(@account_groups, account_group_id) do %>
+          <tr>
+            <td>
+              <div class="ui checkbox">
+                <input type="checkbox" style="width:20px; height:20px" name="cluster[account_group_cluster_ids][]" value="<%= account_group.id %>" class="selection" />
+              </div>
+            </td>
+            <td><%= account_group.code %></td>
+            <td><%= account_group.name %></td>
+            <td><%= if is_nil(account_group.payment_account)  == false do %>
+                <%= account_group.payment_account.funding_arrangement %>
+                <% else %>
+                <%= "None" %>
+              <% end %>
+            </td>
+            <td><%= account_group.type %></td>
+          </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

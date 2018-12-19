@@ -1,0 +1,180 @@
+<%= render "edit/breadcrumbs.html", benefit: @benefit %>
+<div id="benefit_limits" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%# <%= if ruv_coverage?(@benefit.benefit_coverages) do %1> %>
+          <%#   <div class="ui six item menu"> %>
+          <%#     <%= if Enum.empty?(filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits)) do %1> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=general" class="item">General</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=procedures" class="item">Procedures</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=ruvs" class="item">RUV</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=diseases" class="item">Diagnosis</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=packages" class="item">Packages</a> %>
+          <%#       <a class="active item">Limits</a> %>
+          <%#     <% else %1> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">General</a> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">Procedures</a> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">RUV</a> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">Diagnosis</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=packages" class="item">Packages</a> %>
+          <%#       <a class="active item">Limits</a> %>
+          <%#     <% end %1> %>
+          <%#   </div> %>
+          <%# <% else %1> %>
+          <%#   <div class="ui five item menu"> %>
+          <%#     <%= if Enum.empty?(filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits)) do %1> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=general" class="item">General</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=procedures" class="item">Procedures</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=diseases" class="item">Diagnosis</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=packages" class="item">Packages</a> %>
+          <%#       <a class="active item">Limits</a> %>
+          <%#     <% else %1> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">General</a> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">Procedures</a> %>
+          <%#       <a class="prevent-next item" message="Please set limits on all coverages">Diagnosis</a> %>
+          <%#       <a href="/benefits/<%= @benefit.id %1>/edit?tab=packages" class="item">Packages</a> %>
+          <%#       <a class="active item">Limits</a> %>
+          <%#     <% end %1> %>
+          <%#   </div> %>
+          <%# <% end %1> %>
+
+
+          <%= cond do %>
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui eight item menu">
+                <%= if Enum.empty?(filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits)) do %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a class="active item">Limits</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=pharmacy" class="item">Pharmacy</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+                <% else %>
+                  <a class="prevent-next item" message="Please set limits on all coverages">General</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Procedures</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">RUV</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Diagnosis</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Packages</a>
+                  <a class="active item">Limits</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Pharmacy</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Miscellaneous</a>
+                <% end %>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+              <div class="ui six item menu">
+                <%= if Enum.empty?(filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits)) do %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a class="active item">Limits</a>
+                <% else %>
+                  <a class="prevent-next item" message="Please set limits on all coverages">General</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Procedures</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">RUV</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Diagnosis</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Packages</a>
+                  <a class="active item">Limits</a>
+                <% end %>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui seven item menu">
+                <%= if Enum.empty?(filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits)) do %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a class="active item">Limits</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=pharmacy" class="item">Pharmacy</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+                <% else %>
+                  <a class="prevent-next item" message="Please set limits on all coverages">General</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Procedures</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Diagnosis</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Packages</a>
+                  <a class="active item">Limits</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Pharmacy</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Miscellaneous</a>
+                <% end %>
+              </div>
+
+            <%= true -> %>
+              <div class="ui five item menu">
+                <%= if Enum.empty?(filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits)) do %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a class="active item">Limits</a>
+                <% else %>
+                  <a class="prevent-next item" message="Please set limits on all coverages">General</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Procedures</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Diagnosis</a>
+                  <a class="prevent-next item" message="Please set limits on all coverages">Packages</a>
+                  <a class="active item">Limits</a>
+                <% end %>
+              </div>
+
+          <%= end %>
+
+
+
+          <div class="row">
+            <div class="column">
+              <div class="ui middle aligned  right aligned grid">
+                <div class="left floated left aligned six wide column">
+                  <h4 class="ui header">Limit</h4>
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <a class="ui small add button"><i class="plus icon"></i>Limit</a>
+                </div>
+              </div>
+              <div class="ui divider mrg0T mrg0B"></div>
+              <table id="" class="ui striped table">
+                <thead>
+                  <tr>
+                    <th>Coverage</th>
+                    <th>Limit Type</th>
+                    <th>Limit Amount</th>
+                    <th>Limit Classification</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for benefit_limit <- Enum.sort_by(@benefit_limits, &(&1.coverages)) do %>
+                    <tr>
+                      <td><a field="coverages" class="edit_limit" blid="<%= benefit_limit.id %>" codes="<%= benefit_limit.coverages %>" style="cursor: pointer;"><%= benefit_limit.names %></a></td>
+                      <td field="type"><%= benefit_limit.limit_type %></td>
+                      <td field="amount"><%= display_limit_amount(benefit_limit) %></td>
+                      <td field="classification"><%= benefit_limit.limit_classification %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="ui middle aligned  right aligned grid mrg1T">
+            <div class="left floated left aligned six wide column">
+              <a href="/benefits/<%= @benefit.id %>" class="ui button">
+                <i class="remove left icon"></i> Cancel
+              </a>
+            </div>
+          </div>
+          <div class="edit_limit"></div>
+          <%= render "edit/limits_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :save, @benefit, tab: "limits") %>
+          <%= render "edit/limits_modal_edit.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :save, @benefit, tab: "limit_update") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_limits">
+<% end %>
+<%= render "delete_limit_modal.html" %>

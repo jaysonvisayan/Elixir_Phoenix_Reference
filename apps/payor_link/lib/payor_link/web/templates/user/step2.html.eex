@@ -1,0 +1,43 @@
+<div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <%= render "breadcrumbs_new.html", user: @user, conn: @conn %>
+      <div class="ui stackable grid">
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="ui three steps form-step">
+                <div class=" step">
+                    <i class="user icon"></i>
+                    <div class="content">
+                        <div class="title">General</div>
+                        <div class="description">Your name, gender, etc.</div>
+                    </div>
+                </div>
+                <div class="active  step">
+                    <i class="travel icon"></i>
+                    <div class="content">
+                        <div class="title">Roles</div>
+                        <div class="description">Permission to be applied</div>
+                    </div>
+                </div>
+                <div class="  step">
+                    <i class="file text outline icon"></i>
+                    <div class="content">
+                        <div class="title">Summary</div>
+                        <div class="description">Confirm your information</div>
+                    </div>
+                </div>     
+            </div>
+            <div class="ui header form-header">
+                <i class="user icon"></i>
+                <div class="content">
+                  Roles
+                  <div class="sub header">Permission to be applied</div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <%= render "step2_form.html", conn: @conn, changeset: @changeset, user: @user, applications: @applications, action: user_path(@conn, :update_setup, @user, step: "2") %>
+    </div>
+  </div>
+</div>

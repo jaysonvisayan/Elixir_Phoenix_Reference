@@ -1,0 +1,66 @@
+<div class="ui modal" id="add_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Limits
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :benefit, class: "ui form", id: "add_form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="field">
+      <%= label f, :coverages, "Coverages" %>
+      <%= multiple_select f, :coverages, filter_benefit_limits(@benefit.benefit_coverages, @benefit.benefit_limits), class: "ui fluid dropdown", "data-validate": "coverages" %>
+      <%= error_tag f, :coverages %>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <%= label f, :limit_type %>
+        <%= select f, :limit_type, Enum.sort(["Plan Limit Percentage", "Peso", "Sessions"]), class: "ui dropdown" %>
+        <%= error_tag f, :limit_type %>
+      </div>
+      <div class="field input">
+        <%= label f, :amount %>
+        <div class="ui labeled input">
+          <div class="ui label" id="limitAmountIcon">
+            PHP
+          </div>
+          <%= number_input f, :amount, step: "any", "data-validate": "amount" %>
+        </div>
+        <%= error_tag f, :amount %>
+      </div>
+    </div>
+    <div class="three fields">
+      <div class="field">
+        <label>Limit classification</label>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= radio_button(f, :limit_classification, "Per Transaction", checked: "") %>
+          <label>Per Transaction</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= radio_button(f, :limit_classification, "Per Coverage Period") %>
+          <label>Per Coverage Period</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

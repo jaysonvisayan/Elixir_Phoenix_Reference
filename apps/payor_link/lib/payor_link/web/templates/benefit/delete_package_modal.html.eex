@@ -1,0 +1,24 @@
+<div class="ui tiny modal" id="modalDeleteBenefitPackage">
+  <input type="hidden" id="deleteBenefitPackageID" value="">
+  <input type="hidden" id="deleteBenefitPayorProcedure" value="">
+  <input type="hidden" id="benefit_id" value="<%= @benefit.id %>">
+
+  <div class="header">
+    Remove Package
+  </div>
+  <div class="content">
+    <p>
+    Are you sure you want to remove this Package?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep Package
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBenefitPackage">
+      <i class="trash icon"></i>
+      Yes, Remove Package
+    </div>
+  </div>
+</div>

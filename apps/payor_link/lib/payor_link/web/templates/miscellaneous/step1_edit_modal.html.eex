@@ -1,0 +1,43 @@
+<div class="ui medium modal" id="edit_miscellaneous_modal">
+  <% disabled = if String.contains?("access_miscellaneous", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+  <i class="close icon"></i>
+  <div class="header">
+    Item Details
+  </div>
+  <div class="content" style="overflow:auto !important; max-height: 500px">
+    <div class="ui dimmer">
+      <div class="ui text loader">Loading</div>
+    </div>
+         <div class="ui two column centered grid">
+      <div class="four column centered row">
+        <div class="column">Item Code</div>
+        <div class="column"><b id="code"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">Description</div>
+        <div class="column"><b id="description"></b></div>
+      </div>
+      <div class="four column centered row" id="modal_price">
+        <div class="column">Maximum Price</div>
+        <div class="column"><b>Php.</b> <b  class="amount_fld" id="price"></b></div>
+      </div>
+      <input type="hidden" id="misc_id">
+    </div>
+
+      <br>
+    </div>
+
+    <div class="actions">
+      <a href="" id="edit_button" class="ui right floated blue button <%= disabled %>">
+        <i class="pencil icon"></i>
+        Edit
+      </a>
+<%= form_for @changeset, miscellaneous_path(@conn, :delete_miscellaneous, List.first(@miscellaneous)), [as: :miscellaneous, class: "ui form", method: "delete"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <a href="#" id="delete_miscellaneous" class="ui left floated button <%= disabled %>">
+        <i class="remove icon"></i>
+        Remove
+      </a>
+    </div>
+ <% end %>
+</div>

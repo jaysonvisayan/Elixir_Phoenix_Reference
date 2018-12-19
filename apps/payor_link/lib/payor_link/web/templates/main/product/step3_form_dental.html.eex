@@ -1,0 +1,174 @@
+<div class="sixteen wide computer column">
+  <%= form_for @changeset_condition, @action, [class: "form2", id: "dental_condition_form"], fn f -> %>
+  <div class="ui form">
+    <input type="hidden" name="product[is_draft]" value="false">
+    <input type="hidden" name="product[hidden_mode_of_payment]" value='<%= @changeset_condition.data.mode_of_payment %>'>
+    <input type="hidden" name="product[hidden_availment_type]" value="<%= @changeset_condition.data.availment_type %>">
+    <input type="hidden" name="product[hidden_funding_arrangement]" value='<%= @changeset_condition.data.dental_funding_arrangement %>'>
+
+    <div class="bottom-border pb-2 mb-2">
+      <div class="section-title mt-2">
+    <div class="title-name">Authorizations</div>
+  </div>
+  <div class="six fields">
+
+    <div class="field">
+      <!-- <label>Mode of Payment</label> -->
+      <div class="two fields">
+        <div class="field" style="margin-top:10px">
+          <div class="ui radio checkbox mode-of-payment">
+            <%= radio_button f, :mode_of_payment, "capitation" %>
+            <label>Capitation</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field capitation-select hide">
+            <%= select f, :capitation_type, ["Pay on first availment": "Pay on first availment", "Pay for active member": "Pay for active member"], class: "ui selection dropdown icon" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="two fields">
+        <div class="field" style="margin-top:10px">
+          <div class="ui radio checkbox mode-of-payment">
+            <%= radio_button f, :mode_of_payment, "per_availment" %>
+            <label>Per availment</label>
+          </div>
+        </div>
+        <div class="field per-availment-select hide">
+            <%= multiple_select f, :availment_type, ["LOA Facilitated": "LOA facilitated", "Reimbursement": "Reimbursement"], class: "ui selection dropdown icon" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field capitation-fee hide">
+    <label>Capitation Fee</label>
+    <div class="seven fields">
+      <div class="field" style="width:210px">
+        <%= text_input f, :capitation_fee, class: "form-control" %>
+        <%= error_tag f, :capitation_fee %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>LOA Validity</label>
+    <div class="eight fields">
+      <div class="field">
+        <%= select f, :loa_validity_type, ["Days": "Days", "Months": "Months"], class: "ui selection dropdown icon validity-dropdown" %>
+      </div>
+      <div class="field" style="width:140px">
+        <%= text_input f, :loa_validity, class: "form-control", id: "loa_validity" %>
+        <%# <%= number_input f, :loa_validity, class: "form-control validate-r loa_v", row: "Age Eligibility", field_name: "Loa Validity", min: "1", id: "loa_validity" %1> %>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Special Handling</label>
+    <div class="seven fields">
+      <div class="field" style="width:210px">
+        <%= select f, :special_handling_type, ["Fee for Service": "Fee for Service", "ASO Override": "ASO Override", "Corporate Guarantee": "Corporate Guarantee"], class: "ui selection dropdown icon", prompt: " " %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if @product.product_category == "Regular Plan" do %>
+<div class="bottom-border pb-2 mb-2">
+  <div class="section-title">
+    <div class="title-name">Deductions</div>
+  </div>
+  <div class="mb-1">
+    <label>Annual Deduction</label>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label class="label-title">Network Benefits ( per Year)</label>
+      <%= text_input f, :adnb, class: "form-control", id: "adnb" %>
+    </div>
+
+    <div class="field">
+      <label class="label-title">Non-Network Benefits ( per Year)</label>
+      <%= text_input f, :adnnb, class: "form-control", id: "adnnb" %>
+    </div>
+  </div>
+
+  <div class="mb-1">
+    <label>Out of Pocket Maximum</label>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label class="label-title">Network Benefits ( per Year)</label>
+      <%= text_input f, :opmnb, class: "form-control", id: "opmnb" %>
+    </div>
+
+    <div class="field">
+      <label class="label-title">Non-Network Benefits ( per Year)</label>
+      <%= text_input f, :opmnnb, class: "form-control", id: "opmnnb" %>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<div class="bottom-border pb-2 mb-2">
+
+  <div class="section-title">
+    <div class="title-name">Payment</div>
+  </div>
+  <div class="field">
+    <label>Funding Arrangement</label>
+    <br>
+    <div class="eight fields">
+      <div class="field">
+        <div class="ui radio checkbox dental-funding-arrangement">
+          <%= radio_button f, :dental_funding_arrangement, "Full Risk", id: "full_risk", class: "" %>
+          <label>Full Risk</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="eight fields">
+    <div class="field">
+      <div class="ui radio checkbox dental-funding-arrangement">
+        <%= radio_button f, :dental_funding_arrangement, "ASO", id: "aso", class: "" %>
+        <label>ASO</label>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="field payment-type hide">
+    <label>Type of Payment</label>
+    <div class="seven fields">
+      <div class="field aso-arrangement hide" style="width:210px">
+        <%= select f, :type_of_payment_type, ["Built-in": "Built In", "Charge to ASO": "Charge to ASO", "Seperate Fee": "Seperate Fee"], class: "ui selection dropdown icon", prompt: " ", id: "aso_type" %>
+      </div>
+      <div class="field full-risk-arrangement hide" style="width:210px">
+        <%= select f, :type_of_payment_type, ["Built-in": "Built In", "Seperate Fee": "Seperate Fee"], class: "ui selection dropdown icon", prompt: " ", id: "full_risk_type" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui vertical segment mb-2" id="dental_condition_button">
+    <div class="text-right">
+      <input type="hidden" name="product[backButton]" value="false">
+      <button href="#!" class="ui basic button large" p_id="<%= @product.id %>" id="backDental">
+        <i class="caret left icon"></i>Back
+      </button>
+      <button type="submit" class="ui primary button large submit_rs" id="testbtn">
+        <%= if @product.product_category == "PEME Plan" do %>
+        Submit <i class="send icon white"></i>
+        <% else %>
+        Continue <i class="caret right icon white"></i>
+        <% end %>
+      </button>
+
+    </div>
+  </div>
+
+</div>
+</div>
+<% end %>
+</div>
+

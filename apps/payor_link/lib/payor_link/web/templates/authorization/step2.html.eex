@@ -1,0 +1,44 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Validate Member</div>
+
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+
+                <div class="title">Select Facility</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+
+                <div class="title">Select Coverage</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Details</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step2_form.html", changeset: @changeset, action: authorization_path(@conn, :update_setup, @authorization, step: "2"), authorization: @authorization, conn: @conn, result_facilities: @result_facilities, facilities: @facilities, member_facilities: @member_facilities, facility_types: @facility_types %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

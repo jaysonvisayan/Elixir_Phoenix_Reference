@@ -1,0 +1,23 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="benefit_diagnosis" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+          <%= render "step3_form.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :create_basic) %>
+          <%= if @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) do %>
+          <%= render "step3_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "4"), diagnoses: @diagnoses %>
+          <% else %>
+          <%= render "step3_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "3"), diagnoses: @diagnoses %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_disease">
+<% end %>
+
+<%= render "delete_disease_modal.html" %>

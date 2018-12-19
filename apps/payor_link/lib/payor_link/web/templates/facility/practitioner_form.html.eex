@@ -1,0 +1,103 @@
+ <div class="ui segments">
+  <%= if Enum.count(@practitioner_facilities) == 0 do %>
+    <div class="ui form segment">
+      <div class="ui grid centered">
+        <div class="ui grid">
+          <br> NO PRACTITIONERS FOUND!<br><br>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <%= for practitioner_facility <- @practitioner_facilities do %>
+      <div class="ui form segment">
+        <div class="ui grid centered">
+          <%# Logo start %>
+          <div class="four wide computer six wide tablet column">
+            <div class="ui centered special cards">
+              <div class="card">
+                <%= if  @conn.assigns[:practitioner_facility] && is_nil(practitioner_facility.facility.logo) == false do %>
+                  <img class="ui top aligned medium image" id="photo" src="<%= String.replace(Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, practitioner_facility.facility.logo, practitioner_facility, :original), "/apps/payor_link/assets/static", "") %>">
+                <% else %>
+                  <img src="/images/file-upload.png" id="photo" class="ui top aligned medium image">
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <%# Logo end %>
+          <div class="twelve wide computer eight wide tablet column"><br>
+            <div class="ui grid">
+              <div class="sixteen wide computer six wide tablet column">
+                <h2><%= practitioner_facility.practitioner.code %> - <%= practitioner_facility.practitioner.first_name %> <%= practitioner_facility.practitioner.middle_name %> <%= practitioner_facility.practitioner.last_name %></h2>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class="two wide computer six wide tablet column">
+                <p><b>Specialization</b></p>
+              </div>
+               <div class="three wide computer six wide tablet column">
+                <%= for practitioner_specialization <- practitioner_facility.practitioner.practitioner_specializations do %>
+                  <%= if practitioner_specialization.type == "Primary" do %>
+                    <%= Enum.join([practitioner_specialization.specialization.name, " "], ",") %>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="one wide computer six wide tablet column">
+                <p><b>Schedule</b></p>
+              </div>
+               <div class="three wide computer six wide tablet column">
+               <%= for practitioner_schedule <- practitioner_facility.practitioner_schedules do %>
+                   <%= practitioner_schedule.day %> <font class="practitioner_time"><%= practitioner_schedule.time_from %></font> - <font class="practitioner_time"><%= practitioner_schedule.time_to %></font>
+                <% end %>
+              </div>
+              <div class="two wide computer six wide tablet column">
+                <p><b>Consultation Fee</b></p>
+              </div>
+               <div class="three wide computer six wide tablet column">
+                 <table class="ui very basic striped selectable table practitioner_cf_table">
+                   <thead>
+                     <tr>
+                       <th>Specialization</th>
+                       <th>Fees</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <%= for ps <- Enum.sort_by(practitioner_facility.practitioner.practitioner_specializations, &(&1.specialization.name)) do %>
+                       <tr>
+                         <td>
+                           <%= ps.specialization.name %>
+                         </td>
+                         <td>
+                           <span class="cf_specialization"><%= check_cf_fee(practitioner_facility, ps.id) %></span>
+                         </td>
+                       </tr>
+                     <% end %>
+                   </tbody>
+                 </table>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class="two wide computer six wide tablet column">
+                <p><b>Sub-Specialization</b></p>
+              </div>
+               <div class="four wide computer six wide tablet column">
+                <%= for practitioner_specialization <- practitioner_facility.practitioner.practitioner_specializations do %>
+                  <%= if practitioner_specialization.type == "Secondary" do %>
+                    <%= Enum.join([practitioner_specialization.specialization.name, " "], ",") %>
+                  <% end %>
+                <% end %>
+              </div>
+              </div>
+              <div class="ui grid">
+                <div class="two wide computer six wide tablet column">
+                  <p><b>Coordinator</b></p>
+                </div>
+                 <div class="four wide computer six wide tablet column">
+                  <p><%= if practitioner_facility.coordinator == true do %>Yes<% else %>No<% end %> </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  <% end %>
+</div>

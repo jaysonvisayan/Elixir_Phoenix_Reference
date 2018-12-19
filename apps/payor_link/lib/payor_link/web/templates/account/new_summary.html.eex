@@ -1,0 +1,542 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Account</h1>
+          <div class="ui breadcrumb">
+              <a href="/accounts" class="section">Account</a>
+              <div class="divider"> / </div>
+              <a href="/accounts" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Account</div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui six steps form-step">
+                        <div class="step">
+                            <i class="user icon"></i>
+                            <div class="content">
+                                <div class="title">General</div>
+                                <div class="description">Account name, type, etc.</div>
+                            </div>
+                        </div>
+                        <div class="  step">
+                            <i class="home icon"></i>
+                            <div class="content">
+                                <div class="title">Address</div>
+                                <div class="description">Address info</div>
+                            </div>
+                        </div>
+                        <div class="  step">
+                            <i class="mail icon"></i>
+                            <div class="content">
+                                <div class="title">Contact</div>
+                                <div class="description">Contact info</div>
+                            </div>
+                        </div>
+                        <%# <div class="  step"> %>
+                        <%#     <i class="money icon"></i> %>
+                        <%#     <div class="content"> %>
+                        <%#         <div class="title">Financial</div> %>
+                        <%#         <div class="description">Funding arrangement</div> %>
+                        <%#     </div> %>
+                        <%# </div> %>
+                        <div class="step">
+                          <i class="ordered list icon"></i>
+                          <div class="content">
+                            <div class="title">HOED</div>
+                            <div class="description">Hierarchy Of Eligible Dependents</div>
+                          </div>
+                        </div>
+                        <div class="active step">
+                            <i class="file text outline icon"></i>
+                            <div class="content">
+                                <div class="title">Summary</div>
+                                <div class="description">Confirm your information</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui header form-header">
+                        <i class="file text outline  icon"></i>
+                        <div class="content">
+                            Summary
+                            <div class="sub header">Confirm your information</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                <%# GENERAL %>
+                  <h3 class="ui primary header">General</h3>
+                  <div class="ui divider"></div>
+                  <div class="row">
+                    <div class="ui two column grid cards-holder">
+                      <div class="column">
+                        <table class="ui table no-border borderless">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <tr>
+                                    <td><b>Account Code</b></td>
+                                    <td><%= @account_group.code %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Account Name</b></td>
+                                    <td><%= @account_group.name %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Account Type</b></td>
+                                    <td><%= @account_group.type %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Segment</b></td>
+                                    <td><%= @account_group.segment %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Industry</b></td>
+                                    <td><%= if is_nil(@account_group.industry) == false, do: @account_group.industry.code %></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="column">
+                        <table class="ui table no-border borderless">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                   <tr>
+                                    <td><b>Effective Date</b></td>
+                                    <td><%= @account.start_date %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Expiry Date</b></td>
+                                    <td><%= @account.end_date %></td>
+                                  </tr>
+                                    <tr>
+                                    <td><b>Telephone Number</b></td>
+                                    <td><%= @account_group.phone_no || "No Record" %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Website / Email Address</b></td>
+                                    <td><%= @account_group.email || "No Record" %></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                <%# END OF GENERAL %>
+                <%# ADDRESS %>
+                  <h3 class="ui primary header">Address</h3>
+                  <div class="ui divider"></div>
+                  <div class="row">
+                    <div class="ui two column grid cards-holder">
+                    <%= for address <- @account_group.account_group_address do %>
+                      <div class="column">
+                        <table class="ui table summary-table">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      <th colspan="2"><%= address.type%></th>
+                                    </tr>
+                                  </thead>
+                                  <tr>
+                                      <td><b>Address 1</b></td>
+                                      <td><%= address.line_1 %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Address 2</b></td>
+                                      <td><%= address.line_2 %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>City / Municipality</b></td>
+                                      <td><%= address.city %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Province</b></td>
+                                      <td><%= address.province %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Region</b></td>
+                                      <td><%= address.region %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Country</b></td>
+                                      <td><%= address.country %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Postal Code</b></td>
+                                      <td><%= address.postal_code %></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    <% end %>
+                    <%= if Enum.count(@account_group.account_group_address) == 1 && Enum.at(@account_group.account_group_address, 0).is_check do %>
+                      <%= for address <- @account_group.account_group_address do %>
+                      <div class="column">
+                        <table class="ui table summary-table">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      <th colspan="2">Billing Address</th>
+                                    </tr>
+                                  </thead>
+                                  <tr>
+                                      <td><b>Address 1</b></td>
+                                      <td><%= address.line_1 %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Address 2</b></td>
+                                      <td><%= address.line_2 %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>City / Municipality</b></td>
+                                      <td><%= address.city %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Province</b></td>
+                                      <td><%= address.province %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Region</b></td>
+                                      <td><%= address.region %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Country</b></td>
+                                      <td><%= address.country %></td>
+                                  </tr>
+                                  <tr>
+                                      <td><b>Postal Code</b></td>
+                                      <td><%= address.postal_code %></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <% end %>
+                    <% end %>
+                    </div>
+                  </div>
+                <%# END OF ADDRESS %>
+                <%# CONTACT %>
+                  <h3 class="ui primary header">Contact</h3>
+                  <div class="ui divider"></div>
+                  <div class="row">
+                    <%= if Enum.empty?(@account_group.account_group_contacts) do %>
+                        <h4>No Record Found</h4>
+                    <% else %>
+                      <%= for contacts <- @account_group.account_group_contacts do %>
+                        <div class="ui two column grid cards-holder">
+                          <div class="column">
+                            <table class="ui table no-border borderless">
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <table>
+                                      <tr>
+                                        <td><b>Contact Type</b></td>
+                                        <td><%= contacts.contact.type%></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Name</b></td>
+                                        <td><%= contacts.contact.last_name %></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Designation</b></td>
+                                        <td><%= contacts.contact.designation%></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Telephone Number</b></td>
+                                        <td>
+                                          <%= for telephone <- contacts.contact.phones do %>
+                                            <%= if telephone.type == "telephone" do %>
+                                                <p><%= telephone.number %></p>
+                                            <% end %>
+                                          <% end %>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Mobile Number</b></td>
+                                        <td>
+                                          <%= for mobile <- contacts.contact.phones do %>
+                                            <%= if mobile.type == "mobile" do %>
+                                                <p><%= mobile.number %></p>
+                                            <% end %>
+                                          <% end %>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Fax Number</b></td>
+                                        <td>
+                                          <%= if Enum.empty?(contacts.contact.fax) do %>
+                                            <p>No record</p>
+                                          <% else %>
+                                            <%= for mobile <- contacts.contact.phones do %>
+                                              <%= if mobile.type == "mobile" do %>
+                                                  <p><%= mobile.number %></p>
+                                              <% end %>
+                                            <% end %>
+                                          <% end %>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Email Address</b></td>
+                                        <td><%= contacts.contact.email%></td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="column">
+                            <table class="ui table no-border borderless">
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <table>
+                                      <tr>
+                                        <td><b>CTC</b></td>
+                                        <td><%= contacts.contact.ctc || "No Record" %></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Data Issued</b></td>
+                                        <td><%= contacts.contact.ctc_date_issued || "No Record" %></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Place Issued</b></td>
+                                        <td><%= contacts.contact.ctc_place_issued || "No Record"%></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Passport Number</b></td>
+                                        <td><%= contacts.contact.ctc || "No Record"%></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Date Issued</b></td>
+                                        <td><%= contacts.contact.passport_date_issued || "No Record"%></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>CTC Place Issued</b></td>
+                                        <td><%= contacts.contact.passport_place_issued || "No Record"%></td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <%# END OF CONTACT %>
+                <%# FINANCIAL %>
+                  <%# <h3 class="ui primary header">Financial</h3> %>
+                  <%# <div class="ui divider"></div> %>
+                  <%# <div class="row"> %>
+                  <%#   <%= if is_nil(@account_group.payment_account) do %1> %>
+                  <%#       <h4>No Record Found</h4> %>
+                  <%#   <% else %1> %>
+                  <%#     <div class="ui two column grid cards-holder"> %>
+                  <%#     <div class="column"> %>
+                  <%#       <table class="ui table no-border borderless"> %>
+                  <%#         <tbody> %>
+                  <%#           <tr> %>
+                  <%#             <td> %>
+                  <%#               <table> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Funding Arrangement</b></td> %>
+                  <%#                   <td><%= @account_group.payment_account.funding_arrangement%1></td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Account TIN</b></td> %>
+                  <%#                   <td><%= @account_group.payment_account.account_tin %1></td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Previous Carrier</b></td> %>
+                  <%#                   <td> %>
+                  <%#                     <%= if is_nil(@account_group.payment_account.previous_carrier) do %1> %>
+                  <%#                       None %>
+                  <%#                     <% else %1> %>
+                  <%#                       <%= @account_group.payment_account.previous_carrier %1> %>
+                  <%#                     <% end %1> %>
+                  <%#                   </td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Mode of Payment</b></td> %>
+                  <%#                   <td><%= @account_group.payment_account.mode_of_payment %1></td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>VAT Status</b></td> %>
+                  <%#                   <td><%= @account_group.payment_account.vat_status %1></td> %>
+                  <%#                 </tr> %>
+                  <%#               </table> %>
+                  <%#             </td> %>
+                  <%#           </tr> %>
+                  <%#         </tbody> %>
+                  <%#       </table> %>
+                  <%#     </div> %>
+                  <%#     <div class="column"> %>
+                  <%#       <table class="ui table no-border borderless"> %>
+                  <%#         <tbody> %>
+                  <%#           <tr> %>
+                  <%#             <td> %>
+                  <%#               <table> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Attachment Point</b></td> %>
+                  <%#                   <td> %>
+                  <%#                     <%= if is_nil(@account_group.payment_account.attached_point) do %1> %>
+                  <%#                       None %>
+                  <%#                     <% else %1> %>
+                  <%#                       <%= @account_group.payment_account.attached_point %1> %>
+                  <%#                     <% end %1> %>
+                  <%#                   </td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Bank Name</b></td> %>
+                  <%#                   <td> %>
+                  <%#                     <%= if is_nil(@account_group.bank) do %1> %>
+                  <%#                       None %>
+                  <%#                     <% else %1> %>
+                  <%#                       <%= @account_group.bank.account_name%1> %>
+                  <%#                     <% end %1> %>
+                  <%#                   </td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Bank Account Number</b></td> %>
+                  <%#                   <td> %>
+                  <%#                     <%= if is_nil(@account_group.bank) do %1> %>
+                  <%#                       None %>
+                  <%#                     <% else %1> %>
+                  <%#                       <%= @account_group.bank.account_no%1> %>
+                  <%#                     <% end %1> %>
+                  <%#                   </td> %>
+                  <%#                 </tr> %>
+                  <%#                 <tr> %>
+                  <%#                   <td><b>Branch</b></td> %>
+                  <%#                   <td> %>
+                  <%#                     <%= if is_nil(@account_group.bank) do %1> %>
+                  <%#                       <p>None</p> %>
+                  <%#                     <% else %1> %>
+                  <%#                       <%= @account_group.bank.branch%1> %>
+                  <%#                     <% end %1> %>
+                  <%#                   </td> %>
+                  <%#                 </tr> %>
+                  <%#               </table> %>
+                  <%#             </td> %>
+                  <%#           </tr> %>
+                  <%#         </tbody> %>
+                  <%#       </table> %>
+                  <%#     </div> %>
+                  <%#     </div> %>
+                  <%#     <div class="row"> %>
+                  <%#     <label><b>Coverage Funds</b></label> %>
+                  <%#       <div class="field"> %>
+                  <%#         <table class="ui very basic striped selectable table" role="modified_table" id="coverage_funds_tbl" cellspacing="0" width="100%"> %>
+                  <%#           <thead> %>
+                  <%#             <tr> %>
+                  <%#               <th>Coverage</th> %>
+                  <%#               <th>Revolving Fund</th> %>
+                  <%#               <th>Replenish Threshold</th> %>
+                  <%#             </tr> %>
+                  <%#           </thead> %>
+                  <%#           <tbody id="remove_body"> %>
+                  <%#             <%= for coverage_fund <- @account_group.account_group_coverage_funds do %1> %>
+                  <%#               <tr> %>
+                  <%#                 <td><%= coverage_fund.coverage.name %1></td> %>
+                  <%#                 <td><%= coverage_fund.revolving_fund%1></td> %>
+                  <%#                 <td><%= coverage_fund.replenish_threshold%1></td> %>
+                  <%#               </tr> %>
+                  <%#             <% end %1> %>
+                  <%#           </tbody> %>
+                  <%#         </table> %>
+                  <%#       </div> %>
+                  <%#     </div> %>
+                  <%#   <% end %1> %>
+                  <%# </div> %>
+                 <%# END OF FINANCIAL %>
+                 <%# START OF HIERARCHY OF ELIGIBLE DEPENDENTS %>
+
+                 <%= if @account_group.account_hierarchy_of_eligible_dependents != [] do %>
+                  <h3 class="ui primary header">Hierarchy of Eligible Dependents</h3>
+                  <div class="ui divider"></div>
+
+                   <div class="sixteen wide computer eight wide tablet column">
+                     <div class="ui grid">
+                       <div class="one wide computer one wide tablet column">
+                       </div>
+                       <div class="five wide computer five wide tablet column">
+                         <h4> Married Employee </h4>
+                         <%= for result <- load_ahoed_summary(@account_group.account_hierarchy_of_eligible_dependents, "Married Employee") do %>
+                           <%= result %><br />
+                         <% end %>
+                       </div>
+                       <div class="five wide computer five wide tablet column">
+                         <h4> Single Employee </h4>
+                         <%= for result <- load_ahoed_summary(@account_group.account_hierarchy_of_eligible_dependents, "Single Employee") do %>
+                           <%= result %><br />
+                         <% end %>
+                       </div>
+                       <div class="five wide computer five wide tablet column">
+                         <h4> Single Parent Employee </h4>
+                         <%= for result <- load_ahoed_summary(@account_group.account_hierarchy_of_eligible_dependents, "Single Parent Employee") do %>
+                           <%= result %><br />
+                         <% end %>
+                       </div>
+                     </div>
+
+                   </div>
+                 <% end %>
+
+                 <%# END OF HIERARCHY OF ELIGIBLE DEPENDENTS %>
+                </div>
+            </div>
+            <div class="row">
+              <div class="eight wide column">
+                <%= render "modal_draft.html", account: @account %>
+                <a class="ui basic button" id="cancel_button">Delete</a>
+              </div>
+              <div class="eight wide right aligned column">
+                <%= if @account.step == 7 do %>
+                  <%= render "modal_cancel.html", account: @account %>
+                  <a id="cancel_button" class="ui basic button">Cancel</a>
+                  <a href="/accounts/<%= @account.id%>/summary" class="ui primary button">Save cchanges</a>
+                  <% else %>
+                  <a href="/accounts/<%= @account.id%>/setup?step=5" class="ui basic button">Back to Previous Step</a>
+                  <a href="/accounts/<%= @account.id%>/summary" class="ui primary button">Finish</a>
+                <% end %>
+              </div>
+            </div>
+          </div><!--grid-->
+      </div>
+  </div>
+</div>
+
+<%= if @conn.assigns[:account] && @account.step <= 6 do %>
+  <%= form_for @conn, account_path(@conn, :delete, @account.account_group_id), [id: "delete-draft", multipart: true, as: :account, method: :delete], fn _f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <% end %>
+<% end %>
+

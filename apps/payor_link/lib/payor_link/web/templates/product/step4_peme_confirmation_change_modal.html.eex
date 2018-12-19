@@ -1,0 +1,24 @@
+<div class="ui small modal" id="confirmation" >
+  <div class="header">
+    Change Facilities
+  </div>
+  <div class="content">
+    <input type="hidden" id="confirmation_product_coverage_id" />
+    <input type="hidden" id="confirmation_last_active" />
+    <input type="hidden" id="confirmation_product_id" />
+    <input type="hidden" id="confirmation_coverage_id" />
+    <p id="confirmation_message">
+    Changing of Facility will permanently delete your current selection and all added values in Limit Threshold of Conditions Step.
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel">
+      <i class="remove icon"></i>
+      No, Keep all data in this Coverage
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit">
+      <i class="trash icon"></i>
+      Yes, Remove all data in this Coverage
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="benefit_procedures" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+          <%= if acu_coverage?(@benefit.benefit_coverages) do %>
+            <%= render "step2_form_acu.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :create_basic) %>
+            <%= render "step2_modal_acu.html", benefit: @benefit, changeset: @changeset,  conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "2"), packages: @packages %>
+          <% else %>
+            <%= render "step2_form.html", benefit: @benefit, benefit_procedures: @benefit_procedures, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :create_basic) %>
+            <%= render "step2_modal.html", benefit: @benefit, benefit_procedures: @benefit_procedures, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "2"), procedures: @procedures %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_procedure">
+<% end %>

@@ -1,0 +1,99 @@
+<head>
+  <style>
+        html {
+            display: none;
+        }
+    </style>
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script type="text/javascript">
+      function callback() {
+          $('#append').remove()
+      }
+  </script>
+</head>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="nine wide column">
+        <%= form_for @changeset, @action, [method: "post", class: "ui large form", id: "verify_form"], fn _f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <h1 class="align-left" style="margin-top: 10rem; margin-bottom: 0rem;">Verification</h1>
+       <p class="align-left" style="margin-top: 0rem;">The extra step shows it's really you trying to sign in</p>
+
+      <div class="ui stacked">
+                <p class="mrg1T" style="margin-top: 5rem;" >A text message with 6-digit verification code was just sent to [63] <%= @mobile %>
+        </p>
+        <div class="six fields" id="verificationInput">
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" autofocus >
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+        </div><div class="ui error message"></div>
+        <%= if @attempts >= 3 do %>
+          <div class="ui grid">
+            <div class="five wide column"></div>
+            <div class="six wide column">
+              <%= raw Recaptcha.Template.display(public_key: @public_key) %>
+              <div id="append">
+              </div>
+              </span>
+            </div>
+          </div>
+        <% end %>
+        <div class="field">
+          <button type="submit" class="ui center floated green circular submit huge button submit_verification_code" style="width: 17rem; margin: 2rem;">Continue</button>
+        </div>
+        <div class="ui two column centered grid">
+          <div class="column" style="background-color: #383737; ">
+            <div class="row">
+              <div class="ui grid">
+                <div class="five wide column">
+                  <label style="color: #dcd6d6; font-size: 15px;">Didn't get the code?</label>
+                </div>
+                <div class="six wide column"></div>
+                <div class="five wide column">
+                  <div style="text-align:right; color: #0fd8f1;" id="counter">10</div>
+                  <div style="text-align:right; display: none;" id="resend_id"> <a href="/resend_code/<%=@user.id%>" style="color: #0fd8f1; ">RESEND IT</a> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+      <%# <div class="ui error message"></div> %>
+    <% end %>
+  </div>
+</div>

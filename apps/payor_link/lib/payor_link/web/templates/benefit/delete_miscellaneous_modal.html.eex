@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="modalDeleteBenefitMiscellaneous">
+  <input type="hidden" id="deleteBenefitMiscellaneousID" value="">
+  <div class="header">
+    Remove Miscellaneous?
+  </div>
+  <div class="content">
+    <p>
+    Are you sure you want to remove this Miscellaneous?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep Miscellaneous
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBenefitMiscellaneous">
+      <i class="trash icon"></i>
+      Yes, Remove Miscellaneous
+    </div>
+  </div>
+</div>

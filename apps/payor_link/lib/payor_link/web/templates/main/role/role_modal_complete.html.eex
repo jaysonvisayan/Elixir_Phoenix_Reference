@@ -1,0 +1,20 @@
+<div class="ui tiny modal complete">
+  <i class="close icon"></i>
+  <div class="header text-centered">
+    <div class="header-icon--container text-centered">
+      <i class="icon-success icon"></i>
+    </div>
+    Role Successfully Created.
+  </div>
+
+  <div class="content">
+
+    <div class="button-label text-centered mb-1">Do you want to create another Role?</div>
+    <div class="ui grid">
+      <div class="ten wide computer sixteen wide mobile column centered">
+        <a class="ui primary basic button" href="/web/roles">No</a>
+        <a class="ui primary button float-right close" href="/web/roles/new">Yes</a>
+      </div>
+    </div>
+  </div>
+</div>

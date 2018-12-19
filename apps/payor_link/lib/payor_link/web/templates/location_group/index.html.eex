@@ -1,0 +1,45 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Location Group</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/location_groups/new"><i class="plus icon"></i>Location Group</a>
+              </div>
+          </div>
+
+          <div class="ui breadcrumb">
+              <a href="/location_groups" class="section">Location Group</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for location_group <- @location_group do %>
+        <tr>
+          <td>
+            <%= if location_group.step == "4" do %>
+              <a href="/location_groups/<%= location_group.id %>/show"><%= location_group.code %></a>
+            <% else %>
+              <a href="/location_groups/<%= location_group.id %>/setup?step=<%= location_group.step %>"><%= location_group.code <> " (Draft)" %></a>
+            <% end %>
+          </td>
+          <td><%= location_group.name %></td>
+          <td><%= location_group.description %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

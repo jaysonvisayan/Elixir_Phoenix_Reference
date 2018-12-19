@@ -1,0 +1,48 @@
+<div class="ui four item menu">
+  <a href="/accounts/<%= @account.id %>/edit?step=1" class="<%= if @step == 1, do: "active"%> item">
+   <%#  General %>
+    <div class="<%= if @step == 1, do: "active"%> edit-menu">
+      <i class="info circle icon"></i>
+      <div class="content">
+        <div class="title">General</div>
+        <div class="description">Account name, type, etc.</div>
+      </div>
+    </div>
+  </a>
+  <a href="/accounts/<%= @account.id %>/edit?step=2" class="<%= if @step == 2, do: "active"%> item">
+    <div class="<%= if @step == 2, do: "active"%> edit-menu">
+      <i class="home icon"></i>
+      <div class="content">
+        <div class="title">Address</div>
+        <div class="description">Address info</div>
+      </div>
+    </div>
+  </a>
+  <a href="/accounts/<%= @account.id %>/edit?step=3" class="<%= if @step == 3, do: "active"%> item">
+    <div class="<%= if @step == 3, do: "active"%> edit-menu">
+      <i class="mail icon"></i>
+      <div class="content">
+        <div class="title">Contact</div>
+        <div class="description">Contact info</div>
+      </div>
+    </div>
+  </a>
+  <%# <a href="/accounts/<%= @account.id %1>/edit?step=4" class="<%= if @step == 4, do: "active"%1> item"> %>
+  <%#   <div class="<%= if @step == 4, do: "active"%1> edit-menu"> %>
+  <%#     <i class="money icon"></i> %>
+  <%#     <div class="content"> %>
+  <%#       <div class="title">Financial</div> %>
+  <%#       <div class="description">Funding arrangement</div> %>
+  <%#     </div> %>
+  <%#   </div> %>
+  <%# </a> %>
+  <a href="/accounts/<%= @account.id %>/edit?step=5" class="<%= if @step == 5, do: "active"%> item">
+    <div class="<%= if @step == 5, do: "active"%> edit-menu">
+      <i class="ordered list icon"></i>
+      <div class="content">
+        <div class="title">HOED</div>
+        <div class="description">Hierarchy Of <br /> Eligible Dependents</div>
+      </div>
+    </div>
+  </a>
+</div>

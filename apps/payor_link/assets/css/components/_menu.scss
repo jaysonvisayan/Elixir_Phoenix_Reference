@@ -1,0 +1,122 @@
+@import '../variables';
+
+
+.ui.menu:not(.secondary):not(.text):not(.tabular):not(.borderless) > .container > .item:not(.right):not(.borderless):first-child {
+  border-left: 0;
+}
+
+.ui.menu {
+  box-shadow: 0 1px 1px 0 rgba(34, 34, 34, 0.1);
+  border: 0;
+  border-bottom: 1px solid rgba(34, 34, 34, 0.1);
+}
+
+.ui.menu .item:before {
+  width: 0;
+}
+
+.ui.menu .item img:not(.ui) {
+  width: auto;
+  height: 1.5em;
+  margin-right: 1rem;
+}
+
+.ui.secondary.menu.top {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.ui.secondary.menu.submenu {
+  margin-left: 2rem;
+  width: 12rem;
+  display: none;
+}
+
+.ui.secondary.menu .item.active + .submenu {
+  display: block;
+}
+
+.ui.secondary.pointing {
+	border: none;
+}
+
+.ui.secondary.pointing.menu .item {
+	color: $black;
+	font-weight: 300;
+	font-size: 16px;
+	border-bottom-width: 0;
+	border-top-width: 2px;
+	border-top-style: solid;
+	border-color: transparent;
+}
+
+.ui.secondary.pointing.menu .item:active {
+	border-color: rgba(29, 174, 235, 0.16);
+}
+
+.ui.secondary.pointing.menu .item.active {
+	color: $brand;
+	border-color: $brand;
+	border-bottom-width: 0;
+	border-top: 2px solid $brand;
+}
+
+.ui.secondary.pointing.menu .item.active:hover {
+	color: $brand;
+	border-color: $brand;
+	border-bottom-width: 0;
+	border-top: 2px solid $brand;
+}
+
+.edit-menu {
+	position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    vertical-align: middle;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: initial;
+    -webkit-justify-content: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: none;
+    border-radius: 0em;
+    border: none;
+    -webkit-transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+    transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+    .icon {
+		color: #BFBFBF;
+		line-height: 1;
+    	font-size: 2.5em;
+    	margin: 0em 1rem 0em 0em; 
+	}
+	&.active .icon {
+		color: $brand-active; 
+	}
+	.title {
+	    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	    font-size: 1.14285714em;
+	    font-weight: bold;
+	    text-align: left;
+	}
+	&.active .title {
+		color: $brand-active; 
+	}
+	.description {
+		color: $description-color; 
+	} 
+}
+
+

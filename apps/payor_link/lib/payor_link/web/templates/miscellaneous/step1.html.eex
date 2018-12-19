@@ -1,0 +1,14 @@
+<%= render "breadcrumbs.html" %>
+<div name="miscellaneous_step1" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+
+          <%= render "step1_form.html", changeset: @changeset, conn: @conn, action: miscellaneous_path(@conn, :create_general) %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

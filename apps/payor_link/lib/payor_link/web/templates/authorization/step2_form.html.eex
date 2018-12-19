@@ -1,0 +1,230 @@
+<div class="ui grid" name="authorization_facility">
+  <%# Start of search form %>
+  <div class="eleven wide computer eleven wide tablet column" id="formFacilitySearch">
+    <%= form_for @conn, authorization_path(@conn, :setup, @authorization, step: "2"), [method: :get, type: :search, as: :search], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui segments">
+        <div class="ui segment">
+
+          <div class="field" id="search_criteria_error">
+          </div>
+
+          <div class="field" id="facility_search">
+            <%= label f, :facility_id, "Facility (Code/Name):" %>
+            <div class="ui search">
+              <div class="ui icon input">
+                <%= text_input f, :code, placeholder: "Select Facility", class: "prompt" %>
+              </div>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="eight wide computer eight wide tablet column">
+              <div class="field">
+                <%= label f, :address, "Address:" %>
+                <%= text_input f, :address, placeholder: "Enter Address" %>
+              </div>
+            </div>
+            <div class="eight wide computer eight wide tablet column">
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :city, "City:" %>
+                  <%= text_input f, :city, placeholder: "Enter City" %>
+                </div>
+                <div class="field">
+                  <%= label f, :province, "Province:" %>
+                  <%= text_input f, :province, placeholder: "Enter Province" %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <%= label f, :type, "Facility Type" %>
+              <div class="ui dropdown selection" tabindex="0">
+                <%= select f, :type, Enum.map(@facility_types, &{&1.text, &1.id}), prompt: "Facility Type" %>
+                <i class="dropdown icon"></i>
+                <div class="default text">Facility Type</div>
+                <div class="menu" tabindex="-1">
+                  <%= for facility_type <- @facility_types do %>
+                    <div class="item" data-value="<%= facility_type.id %>"><%= facility_type.text %></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <%= label f, :status, "Facility Status" %>
+              <div class="ui dropdown selection" tabindex="0">
+                <%= select f, :status, Enum.map([%{text: "AFFILIATED", value: "Affiliated"}, %{text: "PENDING", value: "Pending"}], &{&1.text, &1.value}), prompt: "Facility Status" %>
+                <i class="dropdown icon"></i>
+                <div class="default text">Facility Status</div>
+                <div class="menu" tabindex="-1">
+                  <div class="item" data-value="Affiliated">AFFILIATED</div>
+                  <div class="item" data-value="Pending">PENDING</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui one column right aligned grid">
+            <div class="sixteen wide computer sixteen wide tablet column">
+              <button class="ui green right floated button" type="submit">
+                <i class="search icon"></i>
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%# End of search form %>
+      <%# Start of Map %>
+      <div class="ui segments" role="pin-select-map">
+        <div class="ui segment">
+          <div class="field">
+            <div class="ui container" id="map" style="height: 500px;">
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet eight wide computer column" role="hide-map">
+          <%# <div class="field"> %>
+          <%#   <div class="ui" id="map"> %>
+          <%#   </div> %>
+          <%# </div> %>
+          <input type="hidden" id="facilities" value="<%= @facilities %>">
+          <input type="hidden" id="result_facilities" value="<%= @result_facilities %>">
+          <input type="hidden" id="member_facilities" value="<%= @member_facilities %>">
+          <input type="hidden" id="selected_facilities">
+        </div>
+      </div>
+      <%# End of Map %>
+    <% end %>
+  </div>
+  <div class="five wide computer five wide tablet column">
+    <%= form_for @changeset, @action, [as: :authorization, multipart: true], fn f -> %>
+      <%= hidden_input f, :member_id, value: @authorization.member_id %>
+      <%# Start of Member Details %>
+      <h3>Member</h3>
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui grid">
+            <div class="eight wide computer eight wide computer column">
+              <label>Name</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label><%= @authorization.member.last_name %>, <%= @authorization.member.first_name %> <%= @authorization.member.middle_name %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Card Number</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label><%= @authorization.member.card_no %></label></b>
+            </div>
+            <%# <div class="eight wide computer eight wide computer column"> %>
+            <%#   <label>Member ID</label> %>
+            <%# </div> %>
+            <%# <div class="eight wide computer eight wide computer column"> %>
+            <%#   <b><label><%= @authorization.member.id %1></label></b> %>
+            <%# </div> %>
+            <div class="eight wide computer eight wide computer column">
+               <label>Effective Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label><%= @authorization.member.effectivity_date %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+               <label>Expiry Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b> <label><%= @authorization.member.expiry_date %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Birth Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="member_birthdate"><%= @authorization.member.birthdate %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Age</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="member_age"></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Gender</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label><%= @authorization.member.gender %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Status</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label><%= @authorization.member.status %></label></b>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <%# End of Member Details %>
+      <%# Start of Facility Details %>
+      <h3>Selected Facility</h3>
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui grid">
+            <%= hidden_input f, :facility_id %>
+            <%= hidden_input f, :facility_code %>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Code</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="facility_code"><%= if not is_nil(@authorization.facility) do @authorization.facility.code end %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Name</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="facility_name"><%= if not is_nil(@authorization.facility) do @authorization.facility.name end %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Type</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="facility_type"><%= if not is_nil(@authorization.facility) do @authorization.facility.type.text end %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Category</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="facility_category"><%= if not is_nil(@authorization.facility) do @authorization.facility.category.text end %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Address</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="facility_address"><%= if not is_nil(@authorization.facility) do Enum.join([@authorization.facility.line_1, @authorization.facility.line_2, @authorization.facility.city, @authorization.facility.province, @authorization.facility.region, Enum.join([@authorization.facility.country, ","], ""), @authorization.facility.postal_code], "  ") end %></label></b>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Contact Number</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <b><label id="facility_contact_number"><%= if not is_nil(@authorization.facility) do @authorization.facility.phone_no end %></label></b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%# End of Facility Details %>
+  </div>
+  <%# Navigation buttons start %>
+  <div class="sixteen wide computer sixteen wide tablet column">
+    <button class="ui green right floated button" type="submit">
+      Next
+      <i class="chevron right icon"></i>
+    </button>
+    <a href="/authorizations/<%= @authorization.id %>/setup?step=1" class="ui button">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+  </div>
+  <%# Navigation buttons end %>
+<% end %>
+</div>

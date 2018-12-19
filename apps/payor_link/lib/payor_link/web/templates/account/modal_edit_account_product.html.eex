@@ -1,0 +1,129 @@
+<div class="ui small modal" id="edit_account_product">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Edit Account Plan
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [class: "ui form", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+
+      <div class="ui grid">
+        <div class="sixteen wide tablet sixteen wide computer column">
+            <%= hidden_input f, :account_id, class: "form-control", required: "required" %>
+
+          <div class="field">
+            <%= label f, "Plan Name", class: "control-label" %>
+            <%= text_input f, :name, class: "form-control", required: "required" %>
+            <p style="color:red"><%= error_tag f, :name%></p>
+          </div>
+
+          <div class="field">
+            <%= label f, "Plan Description", class: "control-label" %>
+            <%= text_input f, :description, class: "form-control", required: "required" %>
+            <%= error_tag f, :description%>
+          </div>
+
+          <div class="field">
+            <%= label f, "Plan Type", class: "control-label" %>
+            <%= select f, :type, ["Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze"],
+            prompt: "Select One",
+            class: "ui dropdown" %>
+            <p style="color:red"><%= error_tag f, :type %>
+          </div>
+
+          <div class="field">
+            <%= label f, "Limit Amount", class: "control-label" %>
+            <%= number_input f, :limit_amount, class: "form-control", required: "required" %>
+            <%= error_tag f, :limit_amount%>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Limit Applicability</label>
+            </div>
+            <div class="field">
+              <label>Limit Type</label>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <div class="one fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :limit_applicability, "Individual", checked: "") %>
+                    <label>Individual</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :limit_applicability, "Share with family") %>
+                    <label>Share with family</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="one fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :limit_type, "ABL") %>
+                    <label>ABL</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :limit_type, "MBL", checked: "") %>
+                    <label>MBL</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>PHIC Status</label>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <div class="one fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :status, "Required to file", checked: "") %>
+                    <label>Required to file</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :status, "Optional to file") %>
+                    <label>Optional to file</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+   <div class="ui deny button">
+     <i class="icon close"></i>
+     Close
+    </div>
+    <button type="submit" class="small ui blue button" name="modal_contact" id="modal_contact">
+      <i class="icon send"></i>
+        Update
+    </button>
+  </div>
+  <% end %>
+</div>

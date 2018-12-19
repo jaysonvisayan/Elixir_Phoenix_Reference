@@ -1,0 +1,108 @@
+<div class="ui large modal modal_benefit" id="pb_modal">
+  <i class="close icon"></i>
+
+  <div class="header">Add Benefit
+    <span class="small dim" style="float: right !important; padding-right: 20px; font-size: 15px !important;" >Limit Amount: <i class="benefit_modal_product_limit_amt" style="font-size: 15px !important;"><%= @product.limit_amount %></i></span>
+    <div class="decsription small dim">Select Benefits to add in the plan</div>
+  </div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+
+        <%= form_for @changeset, @action, [as: :product, class: "form2"], fn _f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <input type="hidden" value="" name="product[benefit_ids_main]">
+          <input type="hidden" value="<%= @product.id %>" id="product_id" >
+
+          <table role="datatable" class="full-width ui celled striped table" id="modal_benefit_tbl">
+            <%= if @product.product_category == "PEME Plan" do %>
+            <thead>
+              <tr>
+                <th>
+                  <div class="ui checkbox">
+                    <input type="checkbox" id="select_benefit" value="false" disabled/>
+                  </div>
+                </th>
+                <th>Benefit Code</th>
+                <th>Benefit Name</th>
+                <th>Coverage</th>
+                <th>Total Limit Amt</th>
+              </tr>
+            </thead>
+            <% end %>
+
+            <%= if @product.product_category != "PEME Plan" do %>
+            <thead>
+              <tr>
+                <th>
+                  <div class="ui checkbox">
+                    <input type="checkbox" class="select_benefit" id="select_benefit" value="false"/>
+                  </div>
+                </th>
+                <th>Benefit Code</th>
+                <th>Benefit Name</th>
+                <th>Coverage</th>
+                <th>Total Limit Amt</th>
+              </tr>
+            </thead>
+            <% end %>
+            <tbody>
+
+              <%= for benefit <- grid_and_modal_checker_pb(@product.product_benefits, @benefits) do %>
+                <%= if @product.product_category == "PEME Plan" do %>
+
+                  <%= for benefit_coverage <- benefit.benefit_coverages do %>
+                    <%= if benefit_coverage.name == "ACU" or benefit.peme == true do %>
+                      <%= if benefit.total <= @product.limit_amount do %>
+                        <tr>
+                          <td>
+                            <div class="">
+                              <input type="checkbox" style="height: 20px; width: 20px;" class="input_benefit" name="product[benefit_ids][]" value="<%= benefit.id %>" id="select_pemebenefit"/>
+                            </div>
+                          </td>
+                          <td> <%= benefit.code %> </td>
+                          <td> <%= benefit.name %> </td>
+                          <td> <%= display_coverages(benefit) %> </td>
+                          <td class="benefit_modal_limit_amt"> <%= benefit.total %> </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+
+                <% else %>
+                  <% benefit_total = if is_nil(benefit.total), do: Decimal.new(0), else: benefit.total %>
+                  <%= if Decimal.compare(benefit_total, @product.limit_amount) != Decimal.new(1) do %>
+                    <tr>
+                      <td>
+                        <div class="">
+                          <input type="checkbox" style="height: 20px; width: 20px;" class="input_benefit" name="product[benefit_ids][]" value="<%= benefit.id %>" />
+                        </div>
+                      </td>
+                      <td> <label><a href="/web/benefits/<%= benefit.id %>"><%= benefit.code %> </a></label> </td>
+                      <td> <strong><%= benefit.name %> </strong></td>
+                      <td> <%= display_coverages(benefit) %> </td>
+                      <td class="benefit_modal_limit_amt"> <%= benefit.total %> </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+            </tbody>
+          </table>
+
+
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <%# <a class="ui primary basic button close" id="clear_checkbox"> %>
+      <%#   <i class="remove icon"></i> %>
+      <%#   Cancel %>
+      <%# </a> %>
+    <a><button class=" send-rtp ui primary button" type="submit" id="submit_btn_modalbenefit" >Add Benefit/s</button></a>
+    </div>
+    <br>
+  <% end %>
+  </div>
+</div>

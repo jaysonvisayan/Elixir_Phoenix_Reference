@@ -1,0 +1,37 @@
+<div id="form_import_procedures">
+  <%= if @changeset.action do %>
+    <div class="ui negative message">
+      <i class="close icon"></i>
+      <%= get_flash(@conn, :error) %>
+    </div>
+  <% end %>
+  <%= form_for @changeset, @action, [multipart: true, id: "import"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="ui grid">
+      <div class="sixteen wide computer eleven wide tablet column">
+        <h3> Import Procedures </h3>
+        <div class="ui segments" name="form_import_procedure">
+          <div class="ui segment" >
+            <div class="sixteen wide computer eleven wide tablet column" id="form_import_cpt">
+              <div class="field">
+                <%= label f, :file, class: "control-label" %>
+                <%= file_input f, :file, id: "file_upload" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <button type="submit" class="ui blue right floated button submit">
+      <i class="send left icon"></i>
+      Submit
+    </button>
+    <button id="cancelBtn" class="ui button" redirect-to="/procedures" type="button">
+      <i class="remove icon"></i>
+      Cancel
+    </button>
+
+  <% end %>
+</div>

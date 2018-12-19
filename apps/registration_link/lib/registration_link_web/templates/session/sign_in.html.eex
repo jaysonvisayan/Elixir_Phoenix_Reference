@@ -1,0 +1,45 @@
+<div class="login-wrapper">
+  <div class="ui container white-space">
+  </div>
+  <div class="ui container login-container">
+    <div class="ui grid">
+      <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile centered column">
+        <div class="logo logo--medilink mobile-only text-center mb-3">
+          <img src="images/logo.png">
+        </div>
+        <div name="Login" class="ui form mt-3">
+          <%= form_for @conn, session_path(@conn, :login), [as: :session, id: "sign_in"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <%
+              info = get_flash(@conn, :info)
+              error = get_flash(@conn, :error)
+              %>
+              <div class="field">
+                <label class="label-title" >Username</label>
+                <%= text_input f, :username, placeholder: gettext "Enter username" , autofocus: "", autocomplete: "off" %>
+              </div>
+              <div class="field">
+                <label class="label-title">Password
+                  <a class="dim float-right">Forgot Password?</a>
+                </label>
+                <%= password_input f, :password, placeholder: gettext "Enter password", autocomplete: "off" %>
+              </div>
+              <p role="append"></p>
+              <%= if is_nil(error) == false do %>
+                <div id="message" class="ui negative message">
+                  <%= error %>
+                </div>
+              <% else %>
+                <%= info %>
+              <% end %>
+
+              <button class="big ui primary button fluid mt-4" type="submit"><%= gettext "Login" %></button>
+            <% end %>
+        </div>
+      </div>
+
+    </div><!-- grid ends here-->
+  </div><!-- container ends here -->
+
+</div><!-- login-wrapper ends here -->
+

@@ -1,0 +1,95 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Account</h1>
+          <div class="ui breadcrumb">
+              <a href="/accounts" class="section">Account</a>
+              <div class="divider"> / </div>
+              <a href="/accounts" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">
+                Edit v<%= Enum.join([
+                  @account.major_version,
+                  @account.minor_version,
+                  @account.build_version], ".") %>
+              </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+              <div class="row">
+                  <div class="sixteen wide column">
+                      <div class="ui six steps form-step">
+                        <%= if @account.step == 7 do %>
+                          <%= render "link_steps.html", account: @account, step: 5 %>
+                        <% else %>
+                          <div class="step">
+                              <i class="user icon"></i>
+                              <div class="content">
+                                  <div class="title">General</div>
+                                  <div class="description">Account name, type, etc.</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="home icon"></i>
+                              <div class="content">
+                                  <div class="title">Address</div>
+                                  <div class="description">Address info</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="mail icon"></i>
+                              <div class="content">
+                                  <div class="title">Contact</div>
+                                  <div class="description">Contact info</div>
+                              </div>
+                          </div>
+                          <%# <div class=" step"> %>
+                          <%#     <i class="money icon"></i> %>
+                          <%#     <div class="content"> %>
+                          <%#         <div class="title">Financial</div> %>
+                          <%#         <div class="description">Funding arrangement</div> %>
+                          <%#     </div> %>
+                          <%# </div> %>
+                          <div class="active step">
+                              <i class="ordered list icon"></i>
+                              <div class="content">
+                                  <div class="title">HOED</div>
+                                  <div class="description">Hierarchy of Eligible Dependents</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="file text outline icon"></i>
+                              <div class="content">
+                                  <div class="title">Summary</div>
+                                  <div class="description">Confirm your information</div>
+                              </div>
+                          </div>
+                          <% end %>
+                      </div>
+                      <%# <div class="ui header form-header"> %>
+                      <%#     <i class="user icon"></i> %>
+                      <%#     <div class="content"> %>
+                      <%#         Financial %>
+                      <%#         <div class="sub header">Funding arrangement</div> %>
+                      <%#     </div> %>
+                      <%# </div> %>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="sixteen wide column">
+                    <h3 class="ui center aligned primary header">
+                      <%= @account.account_group.code %> - <%= @account.account_group.name %>
+                    </h3>
+                </div>
+              </div>
+              <%=
+                render "form_hoed.html",
+                account: @account,
+                account_group: @account_group,
+                conn: @conn
+              %>
+
+          </div><!--grid-->
+      </div>
+  </div>
+</div>

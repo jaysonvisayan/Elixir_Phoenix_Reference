@@ -1,0 +1,225 @@
+<!-- layout.nunjucks -->
+
+		<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medilink - Successful Signup</title>
+	<link rel="icon" href="img/favicon.jpg" type="image/x-icon"/>
+  <link rel="shortcut icon" href="img/favicon.jp" type="image/x-icon"/>
+  <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  <script src=""></script>
+</head>
+<body>
+	<header class="header">
+  <div class="ui top fixed menu">
+  <div class=" ui container">
+      <div class="item pl-tablet-0">
+        <a href="index.html">
+          <img src="<%= static_url(@conn, "/images/site-logo.png") %>">
+        </a>
+          <a href="#">member<b class="primary ui text">gateway</b></a>
+      </div>
+    </div>
+  </div>
+	</header>
+
+
+
+  	<div class="pusher">
+  	<!-- You write code for this content block in another file -->
+
+
+
+<div class="ui main container">
+
+	<!-- ///////////////////////// header -->
+	<h1 class="ui huge header">Customer Information form</h1>
+	<p class="gray">Please fill out the form, we require all the information in order to process your insurance.</p>
+
+	<!-- //////////////////// horizontal line -->
+	<div class="ui divider"></div>
+
+	<!-- ////////////////////// 2steps -->
+	<div class="ui stackable grid">
+		<div class="row">
+			<div class="ten wide computer sixteen wide tablet column">
+
+
+<div class="ui two steps form-step">
+
+	<div class="  step">
+		<i class="user icon"></i>
+		<div class="content">
+			<div class="title">Personal Details</div>
+			<div class="description">Your name, birthday, etc.</div>
+		</div>
+	</div>
+
+	<div class="  active  step">
+		<i class="mail icon"></i>
+		<div class="content">
+			<div class="title">Optional Emergency Info</div>
+			<div class="description">For your safety and convenience</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="ui header form-header">
+	<i class="mail icon"></i>
+	<div class="content">
+		Optional Emergency Info
+		<div class="sub header">For your safety and convenience</div>
+	</div>
+</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="ten wide column">
+
+				<form class="ui form">
+
+					<h4 class="ui dividing header">Please fill out this form in case of emergency. Cut out the Emergency Contact and place it in your wallet.</h4>
+					<div class="two fields">
+						<div class="field">
+							<label>Emergency Contact Person</label>
+							<input type="text" name="name" value="Ara Amoyo" placeholder="Full Name of Emergency Contact Person">
+						</div>
+						<div class="field">
+							<label>Relationship</label>
+							<select class="ui fluid dropdown">
+								<option value="">Select Relationship</option>
+								<option value="father">Father</option>
+								<option value="mother">Mother</option>
+								<option value="brother">Brother</option>
+								<option value="sister" selected>Sister</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>Phone Number</label>
+							<input type="text" name="phone" value="09275521334" placeholder="">
+						</div>
+						<div class="field">
+							<label>Additional Phone Number</label>
+							<input type="text" name="extra-phone" value="09275521334" placeholder="Optional">
+						</div>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>Email</label>
+							<input type="email" name="phone" value="amoyo@ara.com" placeholder="Email of Emergency Contact">
+						</div>
+						<div class="field">
+							<label>Additional Email</label>
+							<input type="email" name="extra-phone" placeholder="Add another email">
+						</div>
+					</div>
+
+
+
+					<h4 class="ui dividing header">Your Emergency Information</h4>
+		 			<div class="two fields">
+						<div class="field">
+							<label>Blood Type</label>
+							<select class="ui fluid dropdown">
+								<option value="">Enter blood type</option>
+								<option value="AL">A+</option>
+								<option value="AK">B+</option>
+								<option value="AZ">A-</option>
+								<option value="AR">B-</option>
+								<option value="CA">AB+</option>
+								<option value="CA">AB-</option>
+								<option value="CA" selected="">O+</option>
+								<option value="CA">O-</option>
+							</select>
+						</div>
+						<div class="field">
+							<label>Allergies</label>
+							<input type="text" name="allergies" value="Shrimp" placeholder="Enter any allergies">
+						</div>
+					</div>
+					<div class="field">
+						<label>Medications</label>
+						<input type="text" name="medications" placeholder="Enter your medications">
+					</div>
+
+
+
+
+
+					<h4 class="ui dividing header">Hospital Information</h4>
+
+		 			<div class="two fields">
+						<div class="field">
+							<label>Hospital Name</label>
+							<input type="text" name="hospital_name" value="Makati Medical Center" placeholder="Name of your Hospital">
+						</div>
+						<div class="field">
+							<label>Telephone</label>
+							<input type="text" name="hospital_telephone" value="(044 794-4997)" placeholder="Your Hospital Telephone Number">
+						</div>
+					</div>
+
+
+					<div class="two fields">
+						<div class="field">
+							<label>HMO Name</label>
+							<input type="text" name="hmo_name" value="Makati Healthcare Corp">
+						</div>
+						<div class="field">
+							<label>Member Name</label>
+							<input type="text" name="member_name" value="Jose M" placeholder="Your Hospital Telephone Number">
+						</div>
+					</div>
+
+
+					<div class="two fields">
+						<div class="field">
+							<label>Card Number</label>
+							<input type="text" name="hospital_card_no" placeholder="____-____-____-____">
+						</div>
+						<div class="field">
+							<label>Policy Number</label>
+							<input type="text" name="hospital_policy_number" value="Jose M" placeholder="Your Hospital Telephone Number">
+						</div>
+					</div>
+
+
+					<div class="two fields">
+						<div class="field">
+							<label>Customer Care Number</label>
+							<input type="text" name="hospital_customer_care_number" placeholder="Hospital Customer Care Number">
+						</div>
+					</div>
+
+					<div class="field">
+						<button class="ui primary button">Finish Registration</button>
+					</div>
+				</form>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+
+
+
+
+</div> <!-- .pusher closed -->
+
+<!--  <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/semantic.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script> -->
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</body>
+</html>

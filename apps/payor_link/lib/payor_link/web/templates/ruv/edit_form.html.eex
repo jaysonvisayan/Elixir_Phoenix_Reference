@@ -1,0 +1,68 @@
+<%= if @changeset.action do %>
+  <div class="ui negative message">
+    <i class="close icon"></i>
+    <%= get_flash(@conn, :error) %>
+  </div>
+<% end %>
+<%= form_for @changeset, @action, [as: :ruv, multipart: true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :code, "RUV Code" %>
+      <%= text_input f, :code, placeholder: "RUV Code", disabled: true %>
+      <%= error_tag f, :code %>
+    </div>
+    <div class="field">
+      <%= label f, :type, "RUV Type" %>
+      <div class="inline fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button f, :type, "Unit", checked: "checked" %>
+            <%= label f, "Unit" %>
+          </div>
+          <div class="ui radio checkbox">
+            <%= radio_button f, :type, "Rate" %>
+            <%= label f, "Rate" %>
+          </div>
+        </div>
+      </div>
+      <%= error_tag f, :type %>
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :description, "RUV Description" %>
+      <%= text_input f, :description, placeholder: "RUV Description" %>
+      <%= error_tag f, :description %>
+    </div>
+    <div class="field">
+      <%= label f, :value, "Value" %>
+      <%= text_input f, :value, placeholder: "RUV Value" %>
+      <%= error_tag f, :value %>
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :display_effectivity_date, "Effectivity Date" %>
+      <div class="ui calendar" id="effectivity_date">
+        <div class="ui input right icon">
+          <i class="calendar icon"></i>
+          <%= text_input f, :display_effectivity_date, placeholder: "MM/DD/YYYY", class: "date2" %>
+        </div>
+      </div>
+      <%= hidden_input f, :effectivity_date %>
+      <%= error_tag f, :effectivity_date %>
+    </div>
+  </div>
+
+  <button type="submit" class="ui green right floated button submit">
+    <i class="save icon"></i>
+    Save
+  </button>
+  <a href="/ruvs" class="ui button">
+    <i class="remove icon"></i>
+    Cancel
+  </a>
+<% end %>

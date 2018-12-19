@@ -1,0 +1,22 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Application</h1>
+  <div class="ui large breadcrumb">
+    <a class="section">Index</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">New Application</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segment">
+        <%=
+          render "form.html",
+          changeset: @changeset,
+          conn: @conn,
+          action: application_path(@conn, :create) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="ui tiny modal" id="reschedule_modal">
+  <input type="hidden" id="copy">
+  <div class="header">
+    <div class="row">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          Reschedule Loa?
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="ui grid">
+        <%# <div class="three wide column"></div> %>
+        <div class="sixteen wide column">
+          Rescheduling will automatically cancel this LOA. Another LOA will be generated an all previous LOA details will be copied and editable.
+        </div>
+        <div class="two wide column"></div>
+        <div class="six wide column">
+        </div>
+        <div class="six wide column">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions" style="text-align: center">
+  <button type="button" class="ui gray button" id="no_reschedule_loa_button">No, View LOA Details</button>
+  <button type="button" class="ui gray button" id="yes_reschedule_loa_button" authorization_id="<%= @authorization.id %>">YES, Reschedule LOA</button>
+  </div>
+</div>

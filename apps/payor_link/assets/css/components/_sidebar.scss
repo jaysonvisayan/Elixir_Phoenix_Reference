@@ -1,0 +1,52 @@
+/* =============Sidebar Layout============= */
+.admin {
+  .pusher {
+    width: 100%;
+  }
+  > .pusher > .full.height {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  &:not(.site) > .pusher > .full.height {
+    background-color: #FFFFFF;
+  }
+  .full.height {
+    > .toc {
+      position: relative;
+      width: 300px;
+      /*z-index: 1;*/
+      z-index: 0;
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+    }
+    > .toc .ui.menu {
+      border-radius: 0;
+      border-width: 0 1px 0 0;
+      box-shadow: none;
+      margin: 0;
+      width: inherit;
+      overflow: hidden;
+      will-change: transform;
+    }
+  }
+  > div.pusher > div > div.toc > div > div > div:nth-child(1) > a {
+    margin-bottom: 0;
+  }
+  .article {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+/* =============Sidebar Layout============= */

@@ -1,0 +1,19 @@
+<div class="ui tiny modal confirmation">
+  <i class="close icon"></i>
+  <div class="header text-centered">
+    <div class="header-icon--container text-centered">
+      <i class="green huge question circle outline icon"></i>
+    </div>
+    <div id="confirmation-header"></div>
+    <div class="description" id="confirmation-description"></div>
+  </div>
+
+  <div class="content">
+
+    <div class="button-label text-centered mb-1" id="confirmation-question"></div>
+    <div style="text-align: center">
+      <a href="#!" class="ui primary basic button deny confirmation_deny">No</a>
+      <a href="#!" class="ui primary button close approve confirmation_approve">Yes</a>
+    </div>
+  </div>
+</div>

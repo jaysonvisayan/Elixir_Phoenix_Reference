@@ -1,0 +1,67 @@
+<div class="page-title">
+	<div class="ui clearing segment">
+		<div class="ui container">
+			<h1 class="ui left floated header">
+				Users
+				<div class="clearfix"></div>
+				<div class="ui breadcrumb">
+					<a href="/">Dashboard</a>
+					<i class="right angle icon divider"></i>
+					<div class="active section dim thin">Users</div>
+				</div>
+			</h1>
+			<div class="ui header float-right-medium">
+				<a href="/web/users/new" class="modal-open-main ui primary button mt-1-small">Add User</a>
+			</div>
+		</div>
+	</div>
+	<!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+<div class="ui container" id="user_index_page">
+  <% disabled = if String.contains?("access_users", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+	<div class="ui grid">
+		<div class="row">
+			<div class="sixteen wide computer column">
+
+				<div class="section pb-0">
+					<form class="ui form">
+						<div class="three fields ai-end">
+							<div class="field">
+							</div>
+							<div class="field">
+							</div>
+							<div class="field">
+                <a href="#" class="ui basic primary float-right-medium column button <%= disabled %>">Export</a>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="content-section white-bg mt-0">
+					<table role="datatable" class="full-width ui celled striped table" width="100%" id="users_index">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Detail</th>
+								<th>Role</th>
+								<th>Status</th>
+								<th>Last Updated</th>
+								<th>Updated By</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+			<!-- column ends here -->
+		</div>
+		<!-- row ends here -->
+	</div>
+	<!-- grid ends here -->
+</div>
+<!-- container ends here -->

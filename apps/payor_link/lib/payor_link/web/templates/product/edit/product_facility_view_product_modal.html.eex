@@ -1,0 +1,59 @@
+<div class="ui small modal" role="edit" id="product_facility_modal" >
+  <i class="close icon"></i>
+  <div class="header">
+      Facility Plan
+  </div>
+
+  <div class="content" edit="modal">
+    <input type="hidden" name="product[product_facility_id]" id="product_facility_id">
+    <div class="one field">
+      <div class="field">
+        <h4 class="ui header">Facility Code:</h4>
+        <span id="code"></span>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="one field">
+      <div class="field">
+        <h4 class="ui header">Facility Name:</h4>
+        <span id="name"></span>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="one field">
+      <div class="field">
+        <h4 class="ui header">Facility Type:</h4>
+        <span id="type"></span>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="one field">
+      <div class="field">
+        <h4 class="ui header">Region:</h4>
+        <span id="region"></span>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="one field">
+      <div class="field">
+        <h4 class="ui header">Category:</h4>
+        <span id="category"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui red button" type="submit" id="product_facility_modal_submit" >
+      <i class="trash icon"></i>
+      Remove
+    </button>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+@charset "UTF-8";
+
+//@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,900");
+
+@font-face {
+  font-family: 'icomoon';
+  src: url("../../fonts/icomoon.eot?w2rsck");
+  src: url("../../fonts/icomoon.eot?w2rsck#iefix") format("embedded-opentype"), url("../../fonts/icomoon.ttf?w2rsck") format("truetype"), url("../../fonts/icomoon.woff?w2rsck") format("woff"), url("../../fonts/icomoon.svg?w2rsck#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh7USSwaPGR_p.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh7USSwiPGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjxAwXjeu.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh6UVSwaPGR_p.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh6UVSwiPGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Lato Black'), local('Lato-Black'), url(https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh50XSwaPGR_p.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Lato Black'), local('Lato-Black'), url(https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh50XSwiPGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-doctor:before {
+  content: "\e900";
+}
+
+.icon-card:before {
+  content: "\e90c";
+}
+
+.icon-general:before {
+  content: "\e901";
+}
+
+.icon-benefit-card:before {
+  content: "\e917";
+}
+
+.icon-condition:before {
+  content: "\e918";
+}
+
+.icon-coverage:before {
+  content: "\e919";
+}
+
+.icon-riders:before {
+  content: "\e91a";
+}
+
+.icon-doctors:before {
+  content: "\e911";
+}
+
+.icon-device:before {
+  content: "\e914";
+}
+
+.icon-credit-card:before {
+  content: "\e910";
+}
+
+.icon-menu-dashboard:before {
+  content: "\e913";
+}
+
+.icon-menu-hospital:before {
+  content: "\e915";
+}
+
+.icon-claims:before {
+  content: "\e909";
+}
+
+.icon-bell:before {
+  content: "\e905";
+}
+
+.icon-camera:before {
+  content: "\e903";
+}
+
+.icon-upload:before {
+  content: "\e90b";
+}
+
+.icon-dashboard:before {
+  content: "\e902";
+}
+
+.icon-history:before {
+  content: "\e906";
+}
+
+.icon-location:before {
+  content: "\e907";
+}
+
+.icon-product:before {
+  content: "\e90a";
+}
+
+.icon-QRcode:before {
+  content: "\e912";
+}
+
+.icon-search:before {
+  content: "\e916";
+}
+
+.icon-setting:before {
+  content: "\e90d";
+}
+
+.icon-success:before {
+  content: "\e90e";
+}
+
+.icon-telephone:before {
+  content: "\e90f";
+}
+
+.icon-profile:before {
+  content: "\e91b";
+}

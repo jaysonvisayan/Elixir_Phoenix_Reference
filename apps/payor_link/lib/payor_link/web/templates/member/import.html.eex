@@ -1,0 +1,191 @@
+<div id="main_file_upladed_procedure">
+<div class="ui segment-breadcrumbs no-shadow no-radius" id="member_batch_upload_export">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+      <h2 class="ui header">Member</h2>
+    </div>
+    <div class="right floated right aligned six wide column">
+      <div class="ui simple primary dropdown right floated button">
+        <i class="download icon"></i>Download Template</a>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item clickable-row" href="/member_enrollment/download/corporate_template">
+            Corporate
+          </div>
+          <div class="item clickable-row" href="/member_enrollment/download/ifg_template">
+            Individual, Family, Group (IFG)
+          </div>
+          <div class="item clickable-row" href="/member_enrollment/download/change_of_product">
+            Change of Plan
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small breadcrumb">
+    <a class="section" href="/members">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Import Member</div>
+  </div>
+</div>
+
+<div name ="name_procedure_import" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+
+          <%= form_for @conn, member_path(@conn, :import_member), [multipart: true, id: "import_member", as: "member"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="ui two column centered grid">
+              <div class="eight wide computer seven wide tablet column">
+                <div class="ui segment" name="form_import_procedure">
+
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <div class="field">
+                        <label>Filename</label>
+                      </div>
+                    </div>
+                    <div class="four wide column">
+                      <div class="field">
+                        <label>Upload type</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <div class="field">
+                        <%= file_input f, :file, id: "file_upload" %>
+                      </div>
+                    </div>
+
+                    <div class="four wide column">
+                      <div class="field">
+                        <%= select f, :upload_type, ["Corporate": "Corporate", "Individual, Family, Group (IFG)": "Individual, Family, Group (IFG)", "Change of Plan": "Change of Plan"], class: "ui dropdown" %>
+                      </div>
+                    </div>
+
+                    <div class="four wide column">
+                      <div class="five wide computer column" id="form_import_cpt">
+                        <button type="button" id="upload_batch_csv" class="ui primary right floated button submit">
+                          <i class="send left icon"></i>
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div id="overlay2" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div> <p></p>
+
+            <div class="ui grid">
+              <div class="sixteen wide computer eleven wide tablet column">
+                <table role="datatable" class="ui striped table" id="batch_upload_datatable">
+                  <thead>
+                    <tr>
+                      <th>Batch No.</th>
+                      <th>Account Type</th>
+                      <th>Filename</th>
+                      <th>Total Members</th>
+                      <th>Processed Members</th>
+                      <th>Successful</th>
+                      <th>Failed</th>
+                      <th>Date Uploaded</th>
+                      <th>Date Finished</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if Enum.empty?(@member_upload_files) == false do %>
+                      <%= for logs <- @member_upload_files do %>
+                        <%= if logs.upload_type == "Change of Plan" do %>
+                          <% log_status = cop_count_result(logs) %>
+                          <tr>
+                            <td><%= logs.batch_no%></td>
+                            <td><%= logs.upload_type %></td>
+                            <td><%= logs.filename %></td>
+                            <td><%= logs.count %></td>
+                            <td><%= log_status["total"] %></td>
+                            <td>
+                              <%= if log_status["success"] == 0 do %>
+                                0<br>
+                                <a id="success" style="color:#7f8187">Download</a>
+                              <% else %>
+                                <%= log_status["success"] %><br>
+                                <u><a id="success" style="cursor: pointer" class="member_download_success_button" member_upload_logs_id="<%= logs.id %>" status="success" file_name="<%= logs.filename %>" type="<%= logs.upload_type %>">Download</a></u>
+                              <% end %>
+                            </td>
+                            <td>
+                              <%= if log_status["failed"] == 0 do %>
+                                0<br>
+                                <a id="failed" style="color:#7f8187">Download</a>
+                              <% else %>
+                                <%= log_status["failed"] %><br>
+                                <u><a id="failed" style="cursor: pointer" class="member_download_success_button" member_upload_logs_id="<%= logs.id %>" file_name="<%= logs.filename %>" status="failed" type="<%= logs.upload_type %>">Download</a></u>
+                              <% end %>
+                            </td>
+                            <td class="date_transform"><%= logs.inserted_at %></td>
+                            <td class="date_transform"><%= logs.inserted_at %></td>
+                          </tr>
+                        <% else %>
+                          <% log_status = count_result(logs) %>
+                          <tr class="dim member_upload_file_row">
+
+                            <input type="hidden" value="<%= logs.id %>">
+
+                            <td><%= logs.batch_no%></td>
+                            <td><%= logs.upload_type %></td>
+                            <td><%= logs.filename %></td>
+                            <td><%= logs.count %></td>
+                            <td><%= log_status["total"] %></td>
+                            <td>
+                              <%= if log_status["success"] == 0 do %>
+                                0<br>
+                                <a id="success" class="isDisabled" style="color:#7f8187">Download</a>
+                              <% else %>
+                                <%= log_status["success"] %><br>
+                                <u><a id="success" style="cursor: pointer" class="member_download_success_button isDisabled" member_upload_logs_id="<%= logs.id %>" status="success" file_name="<%= logs.filename %>" type="<%= logs.upload_type %>">Download</a></u>
+                              <% end %>
+                            </td>
+                            <td>
+                              <%= if log_status["failed"] == 0 do %>
+                                0<br>
+                                <a id="failed" style="color:#7f8187" class="isDisabled">Download</a>
+                              <% else %>
+                                <%= log_status["failed"] %><br>
+                                <u><a id="failed" style="cursor: pointer" class="member_download_success_button isDisabled" member_upload_logs_id="<%= logs.id %>" file_name="<%= logs.filename %>" status="failed" type="<%= logs.upload_type %>">Download</a></u>
+                              <% end %>
+                            </td>
+                            <td class="date_transform"><%= logs.inserted_at %></td>
+                            <td class="date_transform"><%= logs.inserted_at %></td>
+                          </tr>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="ui one column aligned grid">
+              <div class="column eight wide">
+                <a id="cancelBtn" class="ui button clickable-row" href="/members" type="button">
+                  <i class="remove icon"></i>
+                  Cancel
+                </a>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

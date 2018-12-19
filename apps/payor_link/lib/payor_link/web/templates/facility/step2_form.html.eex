@@ -1,0 +1,128 @@
+<%= form_for @changeset, @action, [as: :facility], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="ui grid" role="address-form-facility">
+    <%# 1st column start %>
+    <%# fields %>
+    <div class="eight wide computer eight wide tablet column" role="map_details">
+      <div class="field">
+        <label>Address Line 1 <i>(Building Number, Building Name, Street Name)</i></label>
+        <%= text_input f, :line_1, placeholder: "Address Line 1", class: "key-up-address" %>
+        <p style="color: red"><%= error_tag f, :line_1 %></p>
+      </div>
+      <div class="field">
+        <label>Address Line 2 <i>(Unit Number, Floor Number, Room Number)</i></label>
+        <%= text_input f, :line_2, placeholder: "Address Line 2", class: "key-up-address" %>
+        <p style="color: red"><%= error_tag f, :line_2 %></p>
+      </div>
+      <div class="field">
+        <%= label f, :city, "City / Municipal" %>
+        <%= text_input f, :city, placeholder: "City / Municipal", class: "key-up-address" %>
+        <p style="color: red"><%= error_tag f, :city %></p>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <%= label f, :province, "Province" %>
+          <%= text_input f, :province, placeholder: "Province", class: "key-up-address" %>
+          <p style="color: red"><%= error_tag f, :province %></p>
+        </div>
+        <div class="field">
+          <%= label f, :region, "Region" %>
+          <%= text_input f, :region, placeholder: "Region", class: "key-up-address" %>
+          <p style="color: red"><%= error_tag f, :region %></p>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <%= label f, :country, "Country" %>
+          <%= text_input f, :country, placeholder: "Country", class: "key-up-address", readonly: true, value: "Philippines" %>
+          <p style="color: red"><%= error_tag f, :country %></p>
+        </div>
+        <div class="field" role="facility-numeric">
+          <%= label f, :postal_code, "Postal Code" %>
+          <%= number_input f, :postal_code, placeholder: "Postal Code" %>
+          <p style="color: red"><%= error_tag f, :postal_code %></p>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <%= label f, :longitude, "Longitude" %>
+          <%= text_input f, :longitude, placeholder: "Longitude" %>
+          <%= if is_nil(@conn.assigns[:invalid_long_lat]) do %>
+            <p style="color: red"><%= error_tag f, :longitude %></p>
+          <% else %>
+            <div class="ui basic red pointing prompt label transition visible">
+              <%= @invalid_long_lat %>
+            </div>
+          <% end %>
+        </div>
+        <div class="field">
+          <%= label f, :latitude, "Latitude" %>
+          <%= text_input f, :latitude, placeholder: "Latitude" %>
+          <p style="color: red"><%= error_tag f, :latitude %></p>
+        </div>
+      </div>
+      <div class="field">
+        <%= label f, :location_group_ids, "Location Group", class: "control-label" %>
+        <div class="ui dropdown multiple selection" tabindex="0">
+          <%= multiple_select f, :location_group_ids, Enum.map(@location_groups, &{&1.name, &1.id}), prompt: "Select Location Group" %>
+          <i class="dropdown icon"></i>
+          <div id="drpTitle" class="default text">Location Group</div>
+          <div id="drpItem" class="menu" tabindex="-1">
+            <%= for location_group <- @location_groups do %>
+              <div class="item" data-value="<%= location_group.id %>"><%= location_group.name %></div>
+            <% end %>
+          </div>
+          <%= if is_nil(f.data.facility_location_groups) do %>
+            <%= hidden_input f, :location_group, value: '' %>
+          <% else %>
+            <%= hidden_input f, :location_group, value: @facility_location_groups %>
+          <% end %>
+        </div>
+        <%= if is_nil(@conn.assigns[:empty_location_group]) do %>
+          <p style="color: red"><%= error_tag f, :location_group_ids %></p>
+        <% else %>
+          <div class="ui basic red pointing prompt label transition visible">
+            <%= @empty_location_group %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <%# 1st column end %>
+
+    <%# 2nd column start %>
+    <%# Map %>
+    <div class="eight wide computer eight wide tablet column">
+      <div class="field">
+        <div class="ui container" id="map" style="height: 500px;">
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui centered grid">
+          <i><u><b>You can use this Map to find your location.</b></u></i>
+        </div>
+      </div>
+    </div>
+    <%# 2nd column end %>
+  </div>
+
+  <%# Navigation buttons start %>
+  <div class = "ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <div class="ui red button" role="delete-facility" facilityId="<%= @facility.id %>">
+        <i class="trash icon"></i>
+        Delete Draft
+      </div>
+    </div>
+    <div class="column eight wide">
+      <a href="/facilities/<%= @facility.id %>/setup?step=1" class="ui button">
+        <i class="chevron left icon"></i>
+        Back
+      </a>
+      <button class="ui blue button" type="submit">
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+    </div>
+  </div>
+  <%# Navigation buttons end %>
+<% end %>

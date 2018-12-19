@@ -1,0 +1,22 @@
+<div class="ui tiny modal" id="fpp_removal_confirmation">
+  <div class="header">
+    Remove Facility Payor Procedure
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_fpp_id">
+    <p>
+    Do you really want to remove this facility payor procedure?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_fpp">
+      <i class="remove icon"></i>
+      No, Keep Procedure
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_fpp">
+      <i class="trash icon"></i>
+      Yes, Remove Procedure
+    </div>
+  </div>
+</div>
+

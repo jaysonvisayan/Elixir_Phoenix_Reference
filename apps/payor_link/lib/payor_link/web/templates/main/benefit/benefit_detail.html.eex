@@ -1,0 +1,257 @@
+<div class="main-wrapper">
+
+	<div class="page-title">
+		<div class="ui clearing segment">
+			<div class="ui container">
+			  <h1 class="ui left floated header">
+			    BN 1001 - ACU
+			    <div class="clearfix"></div>
+			    <div class="ui breadcrumb">
+					  <a href="/">Dashboard</a>
+					  <i class="right angle icon divider"></i>
+					  <a href="/web/benefits">Benefits</a>
+					  <i class="right angle icon divider"></i>
+					  <div class="active section dim thin">BN 1001</div>
+					</div>
+			  </h1>
+			  <div class="ui header float-right-medium">
+				  <a href="add_benefit_healthplan" class="ui primary button mt-1-small">+ Add Benefit</a>
+				</div>
+			</div>
+		</div><!-- .ui.clearing.segment -->
+	</div><!-- .page-title -->
+
+	<div class="ui container">
+
+		<div class="content-section white-bg">
+			<div class="ui grid">
+				<div class="row">
+
+					<div class="sixteen wide computer column">
+						<div class="ui grid">
+							<div class="row">
+								<div class="two wide computer sixteen wide mobile column">
+									<div class="mb-2 center aligned">
+										<div class="mr-2"><i class="icon icon-riders big black "></i></div>
+									</div>
+								</div>
+								<div class="six wide computer eight wide tablet eight wide mobile column">
+									<p class="member-name">BN 1001</p>
+									<div class="section-title mt-2"><div class="title-name">ACU Regular</div></div>
+								</div>
+								<div class="six wide computer eight wide tablet eight wide mobile column">
+									<p><span class="info__title dim capitalize">Coverages</span> <span class="info__content">PF</span></p>
+									<p><span class="info__title dim capitalize">ACU Coverage</span> <span class="info__content">Regular, Outpatient</span></p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+					<div class="sixteen wide computer column">
+						<div class="bottom-border pb-2 mb-2">
+							<div class="ui left floated header">
+								<div class="section-title mt-2"><div class="title-name">Limit</div></div>
+							</div>
+							<table class="full-width ui celled striped table">
+								<thead>
+									<tr>
+										<th>Coverage</th>
+										<th>Limit Type</th>
+										<th>Limit Amount</th>
+										<th>Limit Classification</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="">In patient</a></td>
+										<td>Peso</td>
+										<td><strong>10000</strong></td>
+										<td>Per Coverage Period</td>
+										<td><button class="mini modal-open-limit ui primary basic button">Edit</button></td>
+									</tr>
+									<tr>
+										<td><a href="">Emergency</a></td>
+										<td>-</td>
+										<td><strong>-</strong></td>
+										<td>-</td>
+										<td><button class="mini modal-open-limit ui primary basic button">Add Limit</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="bottom-border pb-2 mb-2">
+
+									<div class="section-title mt-2"><div class="title-name">Packages</div></div>
+
+									<div class="field">
+
+										<div class="ui fluid multiple search selection dropdown select-packages">
+										  <input type="hidden" name="package" value="rg2">
+										  <i class="dropdown icon"></i>
+										  <div class="default text">Select Packages</div>
+										  <div class="menu ">
+										  <div class="default text item" data-value="rg1" data-text="10823 Inpatient"><span class="text">10823 Inpatient</span><span class="description">Urinalysis, Fecalysis, Chest X-ray, Blood Test</span></div>
+										  <div class="item" data-value="rg2" data-text="10823 Outpatient"><span class="text">10823 Inpatient</span><span class="description">Urinalysis, Fecalysis, Chest X-ray, Blood Test</span></div>
+										  <div class="item" data-value="rg3" data-text="10823 Emergency"><span class="text">10823 Inpatient</span><span class="description">Urinalysis, Fecalysis, Chest X-ray, Blood Test</span></div>
+										  <div class="item" data-value="rg4" data-text="10829 Inpatient"><span class="text">10823 Inpatient</span><span class="description">Urinalysis, Fecalysis, Chest X-ray, Blood Test</span></div>
+										</div>
+
+									</div>
+
+									<div class="ui left floated header">
+										<div class="section-title mt-2"><div class="title-name">Procedures</div></div>
+									</div>
+
+									<div class="ui right floated header mt-2">
+										<a class="modal-open-procedure ui primary button">+ Add Procedure</a>
+									</div>
+									<table class="full-width ui celled striped table">
+									<thead>
+										<tr>
+											<th>Package Code</th>
+											<th>CPT Code</th>
+											<th>CPT Description</th>
+											<th>Payor CPT Code</th>
+											<th>Payor CPT Description</th>
+											<th>Age Range</th>
+											<th>Gender</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><a href="">110813</a><br>Regular Package</td>
+											<td>83498</td>
+											<td width="20%"><strong>Ultrasound</strong><br><small class="thin dim">Pregnant Uterus, Real time with image Documentation</small></td>
+											<td>83498</td>
+											<td width="20%">Ultrasound for Pregnancy</td>
+											<td>14 - 45 years</td>
+											<td>F</td>
+											<td class="table-icon--holder">
+												<div class="ui dropdown">
+													<i class="ellipsis vertical icon"></i>
+													<div class="menu">
+														<div class="item">Edit</div>
+														<div class="item">Delete</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href="">110813</a><br>Regular Package</td>
+											<td>83498</td>
+											<td width="20%"><strong>Ultrasound</strong><br><small class="thin dim">Pregnant Uterus, Real time with image Documentation</small></td>
+											<td>83498</td>
+											<td width="20%">Ultrasound for Pregnancy</td>
+											<td>14 - 45 years</td>
+											<td>F</td>
+											<td class="table-icon--holder">
+												<div class="ui dropdown">
+													<i class="ellipsis vertical icon"></i>
+													<div class="menu">
+														<div class="item">Edit</div>
+														<div class="item">Delete</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href="">110813</a><br>Regular Package</td>
+											<td>83498</td>
+											<td width="20%"><strong>Ultrasound</strong><br><small class="thin dim">Pregnant Uterus, Real time with image Documentation</small></td>
+											<td>83498</td>
+											<td width="20%">Ultrasound for Pregnancy</td>
+											<td>14 - 45 years</td>
+											<td>F</td>
+											<td class="table-icon--holder">
+												<div class="ui dropdown">
+													<i class="ellipsis vertical icon"></i>
+													<div class="menu">
+														<div class="item">Edit</div>
+														<div class="item">Delete</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href="">110813</a><br>Regular Package</td>
+											<td>83498</td>
+											<td width="20%"><strong>Ultrasound</strong><br><small class="thin dim">Pregnant Uterus, Real time with image Documentation</small></td>
+											<td>83498</td>
+											<td width="20%">Ultrasound for Pregnancy</td>
+											<td>14 - 45 years</td>
+											<td>F</td>
+											<td class="table-icon--holder">
+												<div class="ui dropdown">
+													<i class="ellipsis vertical icon"></i>
+													<div class="menu">
+														<div class="item">Edit</div>
+														<div class="item">Delete</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href=""></td>
+											<td>83498</td>
+											<td width="20%"><strong>Ultrasound</strong><br><small class="thin dim">Pregnant Uterus, Real time with image Documentation</small></td>
+											<td>83498</td>
+											<td width="20%">Ultrasound for Pregnancy</td>
+											<td>14 - 45 years</td>
+											<td>F</td>
+											<td class="table-icon--holder">
+												<div class="ui dropdown">
+													<i class="ellipsis vertical icon"></i>
+													<div class="menu">
+														<div class="item">Edit</div>
+														<div class="item">Delete</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+									</table>
+								</div>
+					</div>
+
+				</div><!-- row ends here -->
+			</div><!-- grid ends here -->
+		</div><!-- .white-bg -->
+
+
+	</div><!-- container ends here -->
+
+
+
+</div><!-- .main-wrapper -->
+
+<script>
+	$(document).ready(function(){
+    $('.modal-open-main').click(function(){
+      //$('.ui.rtp-modal').modal('show');
+      $('.ui.modal:not(.ui.send-rtp-modal)').modal('show');
+    });
+  });
+
+  $('.send-rtp-modal')
+	 .modal('attach events', '.button.send-rtp');
+
+  $('.benefit.modal')
+    .modal('attach events', '.modal-open-benefit');
+  $('.packages.modal')
+    .modal('attach events', '.modal-open-package');
+  $('.complete.modal')
+    .modal('attach events', '.modal-open-complete');
+  $('.facilities.modal')
+    .modal('attach events', '.modal-open-facilities');
+
+  $('.procedure.modal')
+    .modal('attach events', '.modal-open-procedure');
+
+  $('.limit.modal')
+    .modal('attach events', '.modal-open-limit');
+
+</script>

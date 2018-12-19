@@ -1,0 +1,735 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Member" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Enroll New Member" %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <div class="ui small steps fluid mobile-steps">
+                <% if assigns[:member] do
+                      step = @member.step
+                      member = @member
+                    else
+                      step = 1
+                      member = %{id: 1 }
+                    end %>
+                <%= render "link_steps.html", step: step, type: "General", locale: @locale, member: member %>
+              </div>
+
+              <div name="MemberGeneral">
+                <%= form_for @changeset, @action, [as: :member, class: "ui form", multipart: true, id: "memberForm"], fn f -> %>
+                  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                  <%= hidden_input f, :account_code, value: @account_group.code %>
+                  <%= hidden_input f, :account_group_id, value: @account_group.id %>
+                  <%= if @conn.assigns[:member] && !is_nil(@member.pwd_id) do %>
+                    <input type="hidden" id="saved_pdw_id" value="<%= @member.pwd_id %>">
+                  <% end %>
+                  <%= if @conn.assigns[:member] && !is_nil(@member.senior_id) do %>
+                    <input type="hidden" id="saved_senior_id" value="<%= @member.senior_id %>">
+                  <% end %>
+                  <div class="section-title mt-4"><%= gettext "Member Information" %></div>
+
+                  <div class="two fields" id="fileUpload">
+                    <div class="two wide field">
+                      <div class="profile__account-logo">
+                        <%= if  @conn.assigns[:member] && is_nil(@member.photo) == false do %>
+                          <img src="<%= get_img_url(@member) %>" id="photo">
+                        <% else %>
+                          <img src="/images/file-upload (1).png" id="photo">
+                        <% end %>
+                      </div>
+                    </div>
+
+                    <div class="five wide field">
+                      <label><%= gettext "Upload a Photo" %></label>
+                      <%= if  @conn.assigns[:member] && is_nil(@member.photo) == false do %>
+                        <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide", memberID: @member.id %>
+                      <% else %>
+                        <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide" %>
+                      <% end %>
+                      <div class="ui basic icon fluid buttons">
+                        <%# <div class="ui hidden divider"></div> %>
+                        <label class="ui button" for="imageUpload" id="imageLabel"><i class="open folder icon"></i><%= gettext " Browse Photo" %></label>
+                        <label class="ui button" id="imageRemove"><i class="remove icon"></i><%= gettext " Remove" %></label>
+                      </div>
+                      <p class="ui tiny header">
+                      <span class="sub header">
+                        <%= gettext "Maximum file size is 5 MB." %>
+                        <br>
+                        <%= gettext "Acceptable file types are jpg, jpeg and png." %>
+                      </span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <br/>
+
+                  <div class="two fields <%= if @conn.assigns[:member] && @member.step >= 5, do: "disabled"%>">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Member Type" %></label>
+                      <div class="inline fields">
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :type, "Principal", checked: "true") %>
+                            <label><%= gettext "Principal" %></label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :type, "Dependent") %>
+                            <label><%= gettext "Dependent" %></label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :type, "Guardian") %>
+                            <label><%= gettext "Guardian" %></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field depFields">
+                      <label class="label-title"><%= gettext "Principal ID - Name" %></label>
+                      <%= select f, :principal_id, [], class: "ui dropdown search selection", disabled: "true", id: "principalID", prompt: gettext "Please select Principal ID" %>
+                    </div>
+                  </div>
+
+                  <div class="depFields">
+                    <div class="two fields">
+                      <div class="field">
+                        <label class="label-title"><%= gettext "Principal's Product. (Note: This will determine the hierarchy waiver for the dependent's enrollment)" %></label>
+                        <%= select f, :principal_product_id, [], class: "ui dropdown", id: "principal_product", disabled: "true" %>
+                      </div>
+                      <div class="field <%= if @conn.assigns[:member] && @member.step >= 5, do: "disabled" %>">
+                        <label class="label-title"><%= gettext "Relationship" %></label>
+                        <%= if @conn.assigns[:member] && @member.step >= 5 do %>
+                          <input type="text" value="<%= @member.relationship%>">
+                        <%= else %>
+                          <%= select f, :relationship, [], class: "ui dropdown", id: "relationship", disabled: "true", prompt: gettext "Please select Relationship" %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="two fields ">
+                    <div class="field <%= if @conn.assigns[:member] && @member.step >= 5, do: "disabled" %>">
+                      <label class="label-title"><%= gettext "Effective Date" %></label>
+                      <div class="ui calendar" id="effectiveDate">
+                        <div class="ui input right icon">
+                          <i class="calendar icon"></i>
+                          <%= if @conn.assigns[:member] && @member.step >= 5 do %>
+                            <input type="text" value="<%= @member.effectivity_date %>" class="disabled" readonly>
+                          <% else %>
+                            <%= text_input f, :effectivity_date, role: "mask", class: "date", placeholder: "YYYY-MM-DD" %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Expiry Date" %></label>
+                      <div class="ui calendar" id="expiryDate">
+                        <div class="ui input right icon">
+                          <i class="calendar icon"></i>
+                          <%= text_input f, :expiry_date, role: "mask", class: "date", placeholder: "YYYY-MM-DD" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label-title"><%= gettext "Name" %></label>
+                    <div class="fields">
+                      <div class="five wide field mobile-mb-2">
+                        <%= text_input f, :first_name, class: "person name", placeholder: gettext "First Name" %>
+                      </div>
+                      <div class="four wide field mobile-mb-2">
+                        <%= text_input f, :middle_name, class: "person name", placeholder: gettext "Middle Name (Optional)" %>
+                      </div>
+                      <div class="five wide field mobile-mb-2">
+                        <%= text_input f, :last_name, class: "person name", placeholder: gettext "Last Name" %>
+                      </div>
+                      <div class="two wide field mobile-mb-2">
+                        <%= text_input f, :suffix, class: "person name", placeholder: gettext "Ext (Optional)" %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Gender" %></label>
+                      <div class="inline fields">
+                        <div class="field mobile-width">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :gender, "Male", checked: "true") %>
+                            <label><%= gettext "Male" %> <i class="male icon large teal"></i></label>
+                          </div>
+                        </div>
+                        <div class="field mobile-width">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :gender, "Female") %>
+                            <label><%= gettext "Female" %> <i class="female icon large pink"></i></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="fields">
+                        <div class="twelve wide field">
+                          <label class="label-title"><%= gettext "Date of Birth" %></label>
+                          <div class="ui calendar" id="birthdate">
+                            <div class="ui input right icon">
+                              <i class="calendar icon"></i>
+                              <%= text_input f, :birthdate, role: "mask", class: "date", placeholder: "YYYY-MM-DD" %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="four wide field">
+                          <label class="label-title"><%= gettext "Age" %></label>
+                          <input type="text" id="age" readonly="true" disabled/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Civil Status" %></label>
+                      <%= if @conn.assigns[:member] && @member.step >= 5 do %>
+                        <%= select f, :civil_status, ["Married", "Single Parent", "Single"], class: "ui fluid dropdown disabled", prompt: gettext "Please select Civil Status", readonly: "true" %>
+                      <% else %>
+                          <%= select f, :civil_status, ["Married", "Single Parent", "Single"], class: "ui fluid dropdown", prompt: gettext "Please select Civil Status"  %>
+                      <% end %>
+                    </div>
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label class="label-title"><%= gettext "For Card Issuance?" %></label>
+                          <div class="inline fields">
+                            <div class="field">
+                              <div class="ui radio checkbox">
+                                <%= radio_button(f, :for_card_issuance, true) %>
+                                <label><%= gettext "Yes" %></label>
+                              </div>
+                            </div>
+                            <div class="field">
+                              <div class="ui radio checkbox">
+                                <%= radio_button(f, :for_card_issuance, false) %>
+                                <label><%= gettext "No" %></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label-title"><%= gettext "Is Member VIP?" %></label>
+                          <div class="inline fields">
+                            <div class="field">
+                              <div class="ui radio checkbox">
+                                <%= radio_button(f, :vip, true) %>
+                                <label><%= gettext "Yes" %></label>
+                              </div>
+                            </div>
+                            <div class="field">
+                              <div class="ui radio checkbox">
+                                <%= radio_button(f, :vip, false) %>
+                                <label><%= gettext "No" %></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field" id="empNoField">
+                      <label class="label-title"><%= gettext "Employee Number" %></label>
+                      <%= text_input f, :employee_no, id: "employeeNo", placeholder: gettext "Employee Number" %>
+                    </div>
+                    <div class="field" id="hiredField">
+                      <label class="label-title"><%= gettext "Date Hired" %></label>
+                      <div class="ui calendar" id="dateHired">
+                        <div class="ui input right icon">
+                          <i class="calendar icon"></i>
+                          <%= text_input f, :date_hired, role: "mask", class: "date", id: "hiredDate", placeholder: gettext "YYYY-MM-DD" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="prinFields">
+                    <div class="two fields">
+                      <div class="field">
+                        <label class="label-title"><%= gettext "Member already a regular employee?" %></label>
+                        <div class="inline fields">
+                          <div class="field">
+                            <div class="ui radio checkbox">
+                              <%= radio_button(f, :is_regular, true) %>
+                              <label><%= gettext "Yes" %></label>
+                            </div>
+                          </div>
+                          <div class="field">
+                            <div class="ui radio checkbox">
+                              <%= radio_button(f, :is_regular, false) %>
+                              <label><%= gettext "No" %></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <label class="label-title"><%= gettext "Regularization Date" %></label>
+                        <div class="ui calendar" id="regularizationDate">
+                          <div class="ui input right icon">
+                            <i class="calendar icon"></i>
+                            <%= text_input f, :regularization_date, role: "mask", class: "date", placeholder: "YYYY-MM-DD", id: "regDate" %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="three fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Member a senior citizen?" %></label>
+                      <div class="inline fields">
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :senior, true) %>
+                            <label><%= gettext "Yes" %></label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :senior, false) %>
+                            <label><%= gettext "No" %></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field" id="div_senior_id">
+                      <label class="label-title"><%= gettext "Senior Citizen ID Number" %></label>
+                      <%= text_input f, :senior_id, maxlength: "150", placeholder: gettext "Senior Citizen ID Number" %>
+                      <%# <%= if is_nil(@conn.assigns[:member]) do %1> %>
+                      <%#   <%= hidden_input f, :senior_id_copy, maxlength: "150", value: "" %1> %>
+                      <%# <% else %1> %>
+                      <%#   <%= hidden_input f, :senior_id_copy, maxlength: "150", value: @member.senior_id %1> %>
+                      <%# <% end %1> %>
+                    </div>
+                    <div class="field" id="upload_senior">
+                      <label class="label-title"><%= gettext "Senior Citizen Photo" %></label>
+                      <div class="ui action input fluid">
+                        <%= if is_nil(@conn.assigns[:member]) do %>
+                          <input type="text" id="text_senior" readonly="true"/>
+                          <%= file_input f, :senior_photo, id: "file_senior", accept: "image/*", class: "ui hide" %>
+                        <% else %>
+                          <%= if is_nil(@member.senior_photo) do %>
+                            <input type="text" id="text_senior" readonly="true"/>
+                            <%= file_input f, :senior_photo, id: "file_senior", accept: "image/*", class: "ui hide" %>
+                          <% else %>
+                            <input type="text" id="text_senior" readonly="true" value="<%= @member.senior_photo.file_name%>" />
+                            <%= file_input f, :senior_photo, id: "file_senior", accept: "image/*", class: "ui hide", value: @member.senior_photo.file_name %>
+                          <% end %>
+                        <% end %>
+
+                        <%# <input type="text" id="text_senior" readonly="true"/> %>
+                        <%# <%= file_input f, :senior_photo, id: "file_senior", accept: "image/*", class: "ui hide" %1> %>
+                        <div class="ui basic icon buttons">
+                          <label class="ui button" for="file_senior">
+                            <i class="cloud upload icon"></i>
+                            <%= gettext "Upload" %>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="three fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Member a PWD?" %></label>
+                      <div class="inline fields">
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :pwd, true) %>
+                            <label><%= gettext "Yes" %></label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :pwd, false) %>
+                            <label><%= gettext "No" %></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field" id="div_pwd_id">
+                      <label class="label-title"><%= gettext "PWD ID Number" %></label>
+                      <%= text_input f, :pwd_id, maxlength: "150", placeholder: gettext "PWD ID Number" %>
+                      <%# <%= if is_nil(@conn.assigns[:member]) do %1> %>
+                      <%#   <%= hidden_input f, :pwd_id_copy, maxlength: "150", value: "" %1> %>
+                      <%# <% else %1> %>
+                      <%#   <%= hidden_input f, :pwd_id_copy, maxlength: "150", value: @member.pwd_id %1> %>
+                      <%# <% end %1> %>
+                    </div>
+                    <div class="field" id="upload_pwd">
+                      <label class="label-title"><%= gettext "PWD Photo" %></label>
+                      <div class="ui action input fluid">
+                        <%= if is_nil(@conn.assigns[:member]) do %>
+                          <input type="text" id="text_pwd" readonly="true"/>
+                          <%= file_input f, :pwd_photo, id: "file_pwd", accept: "image/*", class: "ui hide" %>
+                        <% else %>
+                          <%= if is_nil(@member.pwd_photo) do %>
+                            <input type="text" id="text_pwd" readonly="true"/>
+                            <%= file_input f, :pwd_photo, id: "file_pwd", accept: "image/*", class: "ui hide" %>
+                          <% else %>
+                            <input type="text" id="text_pwd" readonly="true" value="<%= @member.pwd_photo.file_name%>" />
+                            <%= file_input f, :pwd_photo, id: "file_pwd", accept: "image/*", class: "ui hide", value: @member.pwd_photo.file_name %>
+                          <% end %>
+                        <% end %>
+
+                        <%# <input type="text" id="text_pwd" readonly="true"/> %>
+                        <%# <%= file_input f, :pwd_photo, id: "file_pwd", accept: "image/*", class: "ui hide" %1> %>
+                        <div class="ui basic icon buttons">
+                          <label class="ui button" for="file_pwd">
+                            <i class="cloud upload icon"></i>
+                            <%= gettext "Upload" %>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "PhilHealth" %></label>
+                      <div class="inline fields">
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :philhealth_type, "Required", checked: "true") %>
+                            <label><%= gettext "Required to file" %></label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :philhealth_type, "Optional") %>
+                            <label><%= gettext "Optional to file" %></label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :philhealth_type, "Not Covered") %>
+                            <label><%= gettext "Not Covered" %></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "PhilHealth Number" %></label>
+                      <%= text_input f, :philhealth, role: "mask", class: "philhealth", placeholder: gettext "PhilHealth Number" %>
+                    </div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Tax Identification Number (TIN)" %></label>
+                      <%= text_input f, :tin, role: "mask", class: "tin", placeholder: gettext "TIN (Optional)" %>
+                    </div>
+                  </div>
+
+                  <input type="hidden" name="member[skipping_hierarchy][]" id="skipping_hierarchy_data_value">
+
+                  <div class="hide" id="divSkip">
+                    <div class="ui divider"></div>
+                    <div class="sixteen wide computer column text-right">
+                      <a class="ui small add button" id="addDependentSkip">
+                        <i class="plus icon"></i>
+                        Skipping Hierarchy
+                      </a>
+                    </div>
+                    <table class="ui striped table hide" id="hierarchy_table">
+                      <thead>
+                        <tr>
+                          <th>Relationship</th>
+                          <th>Full Name</th>
+                          <th>Gender</th>
+                          <th>Birthdate</th>
+                          <th>Reason</th>
+                          <th>Supporting Document</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="hierarchy_data">
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="ui divider"></div>
+
+                  <div class="sixteen wide column text-right">
+                    <%= if assigns[:member] && @member.step >= 5 do %>
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/show"><i class="remove icon"></i><%= gettext "Cancel" %></a>
+                      <button class="ui button mt-4" type="button" id="submitGeneral">
+                        <%= gettext "Update" %>
+                        <i class="save right icon"></i>
+                      </button>
+                    <%= else %>
+                      <button class="ui small button mt-4" type="button" id="submitGeneral">
+                        <%= gettext "Next" %>
+                        <i class="caret right icon"></i>
+                      </button>
+                    <% end %>
+                  </div>
+                <% end %>
+
+                <%= if assigns[:member] do %>
+                  <input type="hidden" id="memberID" value="<%= @member.id %>">
+                  <input type="hidden" id="memberPrincipalID" value="<%= @member.principal_id %>">
+                  <input type="hidden" id="memberRelationship" value="<%= @member.relationship %>">
+                  <input type="hidden" id="memberPrincipalProductID" value="<%= @member.principal_product_id %>">
+                <% else %>
+                  <input type="hidden" id="memberID" value="">
+                  <input type="hidden" id="memberPrincipalID" value="">
+                  <input type="hidden" id="memberRelationship" value="">
+                  <input type="hidden" id="memberPrincipalProductID" value="">
+                <% end %>
+
+                <!-- SKIPPING MODAL -->
+                <div class="ui large modal add_skipping_hierarchy">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Request for Skipping Hierarchy
+                  </div>
+                  <div class="content">
+                    <%= form_for @changeset, @action, [as: :member, class: "ui form",  id: "submit_skipping_hierarchy"], fn f -> %>
+                      <div class="two fields">
+                        <div class="field select-validate-required">
+                          <label for="member_relationship">Relationship</label>
+                          <div class="ui dropdown selection skip_dropdown" tabindex="0">
+                            <select name="member_relationship" class="skip_relationship">
+                            </select>
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Select Relationship</div>
+                            <div class="menu" tabindex="-1"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="fields">
+                        <div class="five wide field validate-required">
+                          <label>First Name</label>
+                          <input class="person name" name="member_first_name" type="text" maxlength="150" placeholder="<%= gettext "First Name" %>">
+                        </div>
+                        <div class="four wide field">
+                          <label class="label-title">Middle Name</label>
+                          <input class="person name" name="member_middle_name" type="text" maxlength="150" placeholder="<%= gettext "Middle Name (Optional)" %>">
+                        </div>
+                        <div class="five wide field validate-required">
+                          <label class="label-title">Last Name</label>
+                          <input class="person name" name="member_last_name" type="text" maxlength="150" placeholder="<%= gettext "Last Name" %>">
+                        </div>
+                        <div class="two wide field">
+                          <label class="label-title">Suffix</label>
+                          <input class="person name" name="member_suffix" type="text" maxlength="10" placeholder="<%= gettext "Ext (Optional)" %>">
+                        </div>
+                      </div>
+                      <div class="two fields">
+                        <div class="field validate-required">
+                          <label>Birthdate</label>
+                          <div class="skip-calendar ui calendar">
+                            <div class="ui input right icon">
+                              <i class="calendar icon"></i>
+                              <input name="member_birthdate" placeholder="YYYY-MM-DD" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field validate-required">
+                          <div class="field">
+                            <label>Gender</label>
+                          </div>
+                          <div class="inline fields">
+                            <div class="field">
+                              <div class="ui radio checkbox" id="male">
+                                <input checked="" name="member_gender" id="skipped_gender_Male" type="radio" value="Male" tabindex="0" class="hidden">
+                                <label>Male <i class="male icon large teal"></i></label>
+                              </div>
+                            </div>
+                            <div class="field">
+                              <div class="ui radio checkbox" id="female">
+                                <input name="member_gender" id="skipped_gender_Female" type="radio" value="Female" tabindex="0" class="hidden">
+                                <label>Female <i class="female icon large pink"></i></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="two fields">
+                        <div class="field select-validate-required">
+                          <label>Reason</label>
+                          <div class="ui dropdown selection skip_reason" tabindex="0">
+                            <select class="person name" name="member_reason" id="skip_reason">
+                              <option value="">Select Reason</option>
+                              <option value="Annulled Marriage">Annulled Marriage</option>
+                              <option value="Coverage with other HMO">Coverage with other HMO</option>
+                              <option value="Death">Death</option>
+                              <option value="Out of the Country">Out of the Country</option>
+                              <option value="Overaged">Overaged</option>
+                              <option value="Separated">Separated</option>
+                            </select>
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Select Reason</div>
+                            <div class="menu">
+                              <div class="item" data-value="Annulled Marriage">Annulled Marriage</div>
+                              <div class="item" data-value="Coverage with other HMO">Coverage with other HMO</div>
+                              <div class="item" data-value="Death">Death</div>
+                              <div class="item" data-value="Out of the Country">Out of the Country</div>
+                              <div class="item" data-value="Overaged">Overaged</div>
+                              <div class="item" data-value="Separated">Separated</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field file-validate-required">
+                          <label>Supporting Document</label>
+                          <input name="member_supporting_document" type="file" accept=".pdf,.xls,.jpg,.csv,.doc,.docx,.xlsx,.png">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="actions">
+                      <button class="ui basic deny button cancel-skip" type="button">
+                        <i class="remove icon"></i>
+                        Cancel
+                      </button>
+                      <button class="ui button add-skip-item" type="button">
+                        <i class="add icon"></i>
+                        Add
+                      </button>
+                    </div>
+                  <% end %>
+                </div>
+                <!-- END SKIPPING MODAL -->
+                <!-- SKIPPING MODAL -->
+                <div class="ui large modal edit_skipping_hierarchy">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Request for Skipping Hierarchy
+                  </div>
+                  <div class="content">
+                    <%= form_for @changeset, @action, [as: :member, class: "ui form",  id: "submit_skipping_hierarchy"], fn f -> %>
+                      <div class="two fields">
+                        <div class="field edit_select-validate-required">
+                          <label for="member_relationship">Relationship</label>
+                          <div class="ui dropdown selection skip_dropdown" tabindex="0">
+                            <select name="member_relationship" class="skip_relationship">
+                            </select>
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Select Relationship</div>
+                            <div class="menu" tabindex="-1"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="fields">
+                        <div class="five wide field edit_validate-required">
+                          <label>First Name</label>
+                          <input class="person name" name="edit_member_first_name" type="text" maxlength="75" placeholder="<%= gettext "First Name" %>">
+                        </div>
+                        <div class="four wide field">
+                          <label class="label-title">Middle Name</label>
+                          <input class="person name" name="edit_member_middle_name" type="text" maxlength="75" placeholder="<%= gettext "Middle Name (Optional)" %>">
+                        </div>
+                        <div class="five wide field edit_validate-required">
+                          <label class="label-title">Last Name</label>
+                          <input class="person name" name="edit_member_last_name" type="text" maxlength="75" placeholder="<%= gettext "Last Name" %>">
+                        </div>
+                        <div class="two wide field">
+                          <label class="label-title">Suffix</label>
+                          <input class="person name" name="edit_member_suffix" type="text" maxlength="10" placeholder="<%= gettext "Ext (Optional)" %>">
+                        </div>
+                      </div>
+                      <div class="two fields">
+                        <div class="field edit_validate-required">
+                          <label>Birthdate</label>
+                          <div class="skip-calendar ui calendar">
+                            <div class="ui input right icon">
+                              <i class="calendar icon"></i>
+                              <input name="edit_member_birthdate" placeholder="YYYY-MM-DD" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field edit_validate-required">
+                          <div class="field">
+                            <label>Gender</label>
+                          </div>
+                          <div class="inline fields">
+                            <div class="field">
+                              <div class="ui radio checkbox" id="male">
+                                <input checked="" name="edit_member_gender" id="edit_skipped_gender_Male" type="radio" value="Male" tabindex="0" class="hidden">
+                                <label>Male <i class="male icon large teal"></i></label>
+                              </div>
+                            </div>
+                            <div class="field">
+                              <div class="ui radio checkbox" id="female">
+                                <input name="edit_member_gender" id="edit_skipped_gender_Female" type="radio" value="Female" tabindex="0" class="hidden">
+                                <label>Female <i class="female icon large pink"></i></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="two fields">
+                        <div class="field edit_select-validate-required">
+                          <label>Reason</label>
+                          <div class="ui dropdown selection skip_reason" tabindex="0">
+                            <select class="person name" name="member_reason" id="skip_reason">
+                              <option value="">Select Reason</option>
+                              <option value="Annulled Marriage">Annulled Marriage</option>
+                              <option value="Coverage with other HMO">Coverage with other HMO</option>
+                              <option value="Death">Death</option>
+                              <option value="Out of the Country">Out of the Country</option>
+                              <option value="Overaged">Overaged</option>
+                              <option value="Separated">Separated</option>
+                            </select>
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Select Reason</div>
+                            <div class="menu">
+                              <div class="item" data-value="Annulled Marriage">Annulled Marriage</div>
+                              <div class="item" data-value="Coverage with other HMO">Coverage with other HMO</div>
+                              <div class="item" data-value="Death">Death</div>
+                              <div class="item" data-value="Out of the Country">Out of the Country</div>
+                              <div class="item" data-value="Overaged">Overaged</div>
+                              <div class="item" data-value="Separated">Separated</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field edit_file-validate-required">
+                          <label>Supporting Document</label>
+                          <input name="edit_member_supporting_document" type="text">
+                        </div>
+                        <button class="ui red small button" type="button" style="height: 40px; margin-top: 20px; !important" id="remove_file">Remove</button>
+                      </div>
+                    </div>
+                    <div class="actions">
+                      <button class="ui basic deny button cancel-skip" type="button">
+                        <i class="remove icon"></i>
+                        Cancel
+                      </button>
+                      <button class="ui button edit-skip-item" id="edit-skip-item" type="button">
+                        <i class="pencil icon"></i>
+                        Update
+                      </button>
+                    </div>
+                  <% end %>
+                </div>
+                <!-- END SKIPPING MODAL -->
+              </div>
+
+            </section>
+          </div>
+        </div><!-- row ends here -->
+      </div><!-- grid ends here -->
+    </div><!-- container ends here -->
+  </div><!-- sections-wrapper ends here -->
+</div>

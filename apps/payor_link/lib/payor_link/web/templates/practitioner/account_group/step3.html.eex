@@ -1,0 +1,222 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Practitioner</h2>
+  <div class="ui small breadcrumb">
+    <a href="/practitioners" class="section">Practitioner</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/practitioners" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="section">Edit Practitioner</div>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Corporate Retainer</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" >
+        <div class="ui form segment" id="formStep1PractitionerFacility">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Schedule</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+
+          <h3>General</h3>
+          <div class="ui divider"></div>
+          <div class="ui grid">
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="twelve wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Account Code:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner_account.account_group.code %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="twelve wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Account Name:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner_account.account_group.name %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="twelve wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Telephone No:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <% haha = @practitioner_account.practitioner_account_contact %>
+                    <%= for hehe <- haha.contact.phones do %>
+                      <%= if hehe.type == "telephone" do %>
+                        <%= hehe.number %>
+                        <br>
+                      <% end%>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="twelve wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Fax No:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <% haha = @practitioner_account.practitioner_account_contact %>
+                    <%= for hehe <- haha.contact.phones do %>
+                      <%= if hehe.type == "fax" do %>
+                        <%= hehe.number %>
+                        <br>
+                      <% end%>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="twelve wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Email:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <% haha = @practitioner_account.practitioner_account_contact %>
+                    <%= for hehe <- haha.contact.emails do %>
+                      <%= hehe.address %>
+                        <br>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="twelve wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Mobile No:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <% haha = @practitioner_account.practitioner_account_contact %>
+                    <%= for hehe <- haha.contact.phones do %>
+                      <%= if hehe.type == "mobile" do %>
+                        <%= hehe.number %>
+                        <br>
+                      <% end%>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Schedule</h3>
+          <div class="ui divider"></div>
+
+          <div class="ui grid">
+            <div class="sixteen wide tablet sixteen wide computer column">
+              <table class="ui stripped table">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Room</th>
+                    <th>Time From</th>
+                    <th>Time To</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= if Enum.empty?(@schedules) do %>
+                    <tr>
+                      <td colspan="5">No Record Found</td>
+                    </tr>
+                    <% else %>
+                    <%= for schedule <- @schedules do %>
+                      <tr>
+                        <td>
+                          <%= schedule.day %>
+                        </td>
+                        <td>
+                          <%= schedule.room %>
+                        </td>
+                        <td>
+                          <%= schedule.time_from %>
+                        </td>
+                        <td>
+                          <%= schedule.time_to %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <%= render "account_group/step2_form.html", changeset: @changeset, practitioner_account: @practitioner_account, action: practitioner_path(@conn, :update_pa_setup, @practitioner_account, step: "2"), practitioner: @practitioner %>
+          <div class="ui one column right aligned grid">
+            <div class="column eight wide left aligned">
+              <a id="cancel_button" class="ui button">
+                <i class="trash left icon"></i> Delete
+              </a>
+            </div>
+            <div class="column eight wide">
+              <span><a href="/practitioners/<%=@practitioner_account.id%>/pa/create?step=2" class="ui button">Previous</a></span>
+              <span><a href="/practitioners/<%=@practitioner.id%>/pa/summary" class="ui primary button"><i class="send left icon"></i>Submit</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% #Modal Alert %>
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Delete Draft?
+  </div>
+  <div class="image content">
+    Deleting this draft will permanently remove it from the system.
+  </div>
+  <div class="actions">
+    <div class="ui white button deny">
+      No, Keep Draft
+    </div>
+    <%= if @conn.assigns[:practitioner_account] do %>
+      <%= link "Yes, Delete Draft", to: practitioner_path(@conn, :delete_practitioner_account, @practitioner_account.id), method: :delete,  class: "ui red button" %>
+    <% else %>
+      <div class="ui negative button clickable-row" href="/practitioners/<%= @practitioner.id%>?active=affiliation">
+        <i class="checkmark icon"></i>
+        Yes, Delete Draft
+      </div>
+    <% end %>
+  </div>
+</div>
+<% #Modal end %>
+

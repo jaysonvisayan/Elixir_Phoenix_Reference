@@ -1,0 +1,71 @@
+<div id="exclusion_form">
+  <div class="ui segment-breadcrumbs no-shadow no-radius">
+    <h2 class="ui header">Exclusions</h2>
+    <div class="ui small breadcrumb">
+      <a class="section" href="/exclusions">Search</a>
+      <i class="right chevron icon divider"></i>
+      <%= if @exclusion.coverage == "Exclusion" do %>
+      <div class="active section">Edit Exclusion</div>
+      <% else %>
+      <div class="active section">Edit Pre-existing condition</div>
+      <% end %>
+    </div>
+  </div>
+  <div class="ui equal width left aligned padded grid stackable" id="editGeneral">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui form segment ">
+            <div class="ui three item menu">
+              <a class="active item">General</a>
+              <a href="/exclusions/<%= @exclusion.id %>/edit?tab=diseases" class="item">Diseases</a>
+              <a href="/exclusions/<%= @exclusion.id %>/edit?tab=procedures" class="item">Procedures</a>
+            </div>
+            <%= if @changeset.action do %>
+              <div class="ui negative message">
+                <i class="close icon"></i>
+                <%= get_flash(@conn, :error) %>
+              </div>
+            <% end %>
+            <center>
+              <h2 class="ui icon header">
+                <i class="ban icon"></i>
+                <div class="content">
+                  Exclusion
+                </div>
+              </h2>
+            </center>
+            <div class="ui bottom attached segment">
+              <div class="active ui tab" data-tab="riders">
+              <%= form_for @changeset, exclusion_path(@conn, :save, @exclusion, tab: "general"), [as: :exclusion, class: "form2"], fn f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <%= hidden_input(f, :coverage, value: "General Exclusion") %>
+                <div class="two fields">
+                  <div class="field">
+                    <%= label f, :code, "Exclusion Code" %>
+                    <%= text_input f, :code, id: "code", disabled: "disabled" %>
+                    <%= error_tag f, :code %>
+                  </div>
+                  <div class="field">
+                    <%= label f, :name, "Exclusion Name" %>
+                    <%= text_input f, :name, id: "name"%>
+                    <%= error_tag f, :name %>
+                  </div>
+                </div>
+               <button class="ui right floated primary button">
+                   <i class="save left icon"></i>
+                   Save
+                </button>
+                <a href="/exclusions/<%= @exclusion.id %>" class="ui button">
+                  <i class="remove icon"></i>
+                  Cancel
+                </a>
+              <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

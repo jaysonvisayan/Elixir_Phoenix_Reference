@@ -1,0 +1,62 @@
+<div class="ui modal" role="add-service-fee" name="facility-formValidate">
+  <i class="close icon"></i>
+  <div class="header">
+    Service Fee
+  </div>
+  <div class="content" id="formStep5Facility">
+    <%= form_for @conn, @action, [as: :facility, class: "ui form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="field" role="facility-onchange">
+      <%= label f, :coverage_id, "Coverage", class: "control-label" %>
+      <%= select f, :coverage_id, filter_service_fee_coverages(@facility.facility_service_fees, @coverages), class: "ui dropdown", prompt: "Select Coverage" %>
+      <%= error_tag f, :coverage_id %>
+    </div>
+    <div class="three fields">
+      <div class="field">
+        <div class="field">
+          <label>Mode of Payment</label>
+        </div>
+        <div class="inline fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :payment_mode, "Umbrella", checked: "") %>
+              <label>Umbrella</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :payment_mode, "Individual") %>
+              <label>Individual</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <%= label f, :service_type_id, "Service Fee", class: "control-label" %>
+        <%= select f, :service_type_id, map_service_fee_types(@service_fee_types), class: "ui dropdown", prompt: "Select Service Fee" %>
+        <%= error_tag f, :service_type_id %>
+      </div>
+      <div class="field">
+        <%= label f, :rate, "Rate", class: "control-label" %>
+        <div class="ui labeled input">
+          <div class="ui label" id="serviceFeeRateIcon">
+            PHP
+          </div>
+          <%= text_input f, :rate, id: "serviceFeeRate" %>
+        </div>
+        <%= error_tag f, :rate %>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui blue right floated button" type="submit">
+      <i class="add icon"></i>
+      Add
+    </button>
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,23 @@
+<div class="ui tiny modal" id="benefit_removal_confirmation">
+  <i class="close icon"></i>
+  <div class="header text-centered">
+    <div class="header-icon--container text-centered">
+      <i class="green huge question circle outline icon"></i>
+    </div>
+    <div>Remove Benefit</div>
+    <div class="description">This will only remove the benefit from the product.</div>
+  </div>
+
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_p_id">
+    <input type="hidden" value="" id="confirmation_pb_id">
+    <div class="button-label text-centered mb-1">Are you sure you want to delete this benefit?</div>
+    <div class="ui grid">
+      <div class="ten wide computer sixteen wide mobile column centered">
+        <button class="ui primary basic button deny" type="submit" id="confirmation_cancel_b">No</button>
+        <button class="ui primary button float-right close approve"  id="confirmation_submit_b" type="submit">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+

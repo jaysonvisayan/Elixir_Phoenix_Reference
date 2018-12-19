@@ -1,0 +1,198 @@
+<div class="content-holder">
+  <div class="ui container" name="RequestProfCorValidation">
+    <h1 class="ui huge header">Request Personal Information Correction</h1>
+    <p class="gray">Please fill out the form to help our support center correct your personal information.</p>
+
+    <div class="ui divider"></div>
+    <div class="ui stackable grid" id="fileUpload">
+      <div class="row">
+        <div class="ten wide column">
+          <h2 class="ui tiny header"><div class="sub header">Please check the information that you want to correct.</div></h2>
+
+          <%= form_for @changeset, user_path(@conn, :send_request_prof_cor, @locale), [as: :profile_correction, multipart: true, class: "ui form", id: "ReqProfCorForm"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <%= if is_nil(@conn.assigns[:atleast_one]) do %>
+
+            <% else %>
+              <div class="ui negative message">
+                <i class="close icon"></i>
+                <%= @atleast_one %>
+              </div>
+            <% end %>
+
+            <div id="request_form" class="ui request-form accordion">
+
+              <div class="accordion-wrapper">
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  <div class="ui checkbox" id="check_name">
+                    <input type="checkbox" name="check_name" >
+                    <label>NAME</label>
+                  </div>
+                </div>
+                <div class="content" data-checkbox="#check_name">
+                  <h2 class="ui tiny header"><div class="sub header">Please edit your name and check the spellings.</div></h2>
+
+                  <div class="fields">
+                    <div class="four wide field">
+                      <%= label f, :first_name, "First Name" %>
+                      <%= text_input f, :first_name, placeholder: "Enter your first name" %>
+                      <p style="color: red"><%= error_tag f, :first_name %></p>
+                    </div>
+                    <div class="four wide field">
+                      <%= label f, :middle_name, "Middle Name" %>
+                      <%= text_input f, :middle_name, placeholder: "Enter your middle name" %>
+                      <p style="color: red"><%= error_tag f, :middle_name %></p>
+                    </div>
+                    <div class="six wide field">
+                      <%= label f, :last_name, "Last Name" %>
+                      <%= text_input f, :last_name, placeholder: "Enter your last name" %>
+                      <p style="color: red"><%= error_tag f, :last_name %></p>
+                    </div>
+                    <div class="two wide field">
+                      <%= label f, :suffix, "Ext" %>
+                      <%= text_input f, :suffix, placeholder: "Enter your extension name" %>
+                      <p style="color: red"><%= error_tag f, :suffix %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-wrapper">
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  <div class="ui checkbox" id="check_birthday">
+                    <input type="checkbox" name="check_birthday">
+                    <label>BIRTHDAY</label>
+                  </div>
+                </div>
+                <div class="content" data-checkbox="#check_birthday">
+                  <h2 class="ui tiny header"><div class="sub header">Please correct your date of birth.</div></h2>
+                  <div class="fields">
+                    <div class="five wide field">
+                      <label>Month</label>
+                      <%= select f, :month, ["January": "01", "February": "02", "March": "03", "April": "04", "May": "05", "June": "06", "July": "07", "August": "08", "September": "09", "October": "10", "November": "11", "December": "12"], prompt: "Select Month", name: "profile_correction[birth_date][month]" %>
+                    </div>
+                    <div class="five wide field">
+                      <label>Day</label>
+                      <%= text_input f, :day, name: "profile_correction[birth_date][day]",  class: "day" %>
+                    </div>
+                    <div class="six wide field">
+                      <label>Year</label>
+                      <%= text_input f, :year, name: "profile_correction[birth_date][year]", role: "mask", class: "year" %>
+                    </div>
+                  </div>
+                  <p style="color: red"><%= error_tag f, :birth_date %></p>
+                </div>
+              </div>
+
+              <div class="accordion-wrapper">
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  <div class="ui checkbox" id="check_gender">
+                    <input type="checkbox" name="check_gender">
+                    <label>GENDER</label>
+                  </div>
+                </div>
+                <div class="content" data-checkbox="#check_gender">
+                  <h2 class="ui tiny header"><div class="sub header">Please check your correct gender. You must enter your correct gender for correct services.</div></h2>
+                  <div class=" three fields">
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <%= radio_button(f, :gender, "Male") %>
+                        <label class="ui blue text"><i class="male icon"></i>Male</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <%= radio_button(f, :gender, "Female") %>
+                        <label class="ui purple text"><i class="female icon"></i>Female</label>
+                      </div>
+                    </div>
+                  </div>
+                  <p style="color: red"><%= error_tag f, :gender %></p>
+                </div>
+              </div>
+
+            </div>
+
+            <h2 class="ui tiny header"><div class="sub header">Please upload your official ID Card as a proof of the changes you mentioned above.</div></h2>
+
+            <div class=" four wide field">
+              <img src="/images/no-photo-available.png" id="photo" class="ui image">
+            </div>
+
+            <div id="upload_photo" class="twelve wide field">
+              <%= file_input f, :id_card, id: "imageUpload", accept: "image/*", class: "ui hide" %>
+              <div class="ui basic icon large buttons">
+                <label class="ui button" for="imageUpload">
+                  Upload ID Card
+                  <i class="upload icon"></i>
+                </label>
+                <%# <label class="ui button"><i class="photo icon"></i></label> %>
+              </div>
+              <p style="color: red"><%= error_tag f, :id_card %></p>
+              <p id="desc_upload_photo" class="ui tiny header"><span class="sub header">
+                  Maximum file size is 5 MB.<br>
+                  Acceptable file types are jpg, jpeg and png.
+                </span>
+              </p>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <a class="fluid ui button" href="/<%= @locale %>/profile">
+                  <i class="cancel icon"></i>
+                  Cancel
+                </a>
+              </div>
+              <div class="field">
+                <button class="fluid ui primary button" type="submit">
+                  <i class="file text icon"></i>
+                  Request Correction
+                </button>
+              </div>
+            </div>
+          <% end %>
+
+        </div> <!-- ten wide column -->
+
+        <div class="six wide computer fourteen wide tablet and sixteen wide column">
+          <div class="very padded center aligned secondary ui segment">
+            <div class="secondary description">
+              <div class="ui hidden divider"></div>
+              <div class="image face-image">
+                <%= if is_nil(@user.member) do %>
+                  <img src="/images/no-photo-available.png" class="ui tiny centered circular image">
+                <% else %>
+                  <%= if is_nil(@user.member.photo) do %>
+                    <img src="/images/no-photo-available.png" class="ui tiny centered circular image">
+                  <% else %>
+                    <img class="ui tiny centered circular image" style="background-size: cover; background-position: center-center; height: 75px;" src="<%= get_img_url(@user.member) %>">
+                  <% end %>
+                <% end %>
+              </div>
+              <h2 class="ui medium header"><%= format_name_first(@user.member) %></h2>
+              <div><%= @user.member.account_group.name %></div>
+              <div>Company Branch Name</div>
+              <div>Card # <%= format_card_no(@user.member.card_no) %></div>
+              <div>Birthday <%= format_date(@user.member.birthdate) %></div>
+              <div>Gender
+                <%= if String.capitalize(@user.member.gender) == "Male" do %>
+                  <i class="male icon blue"></i>
+                  <span class="ui blue text">
+                  <% else %>
+                    <i class="female icon pink"></i>
+                    <span class="ui text" style="color: #C71585">
+                    <% end %>
+                    <%= String.capitalize(@user.member.gender) %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

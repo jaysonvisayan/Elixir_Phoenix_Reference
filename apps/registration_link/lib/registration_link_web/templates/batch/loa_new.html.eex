@@ -1,0 +1,380 @@
+<div class="module" id="batch_authorization_file_form">
+  <div class="page-title" >
+    <div class="ui clearing segment">
+      <div class="ui container">
+        <div class="ui right floated header">
+        </div>
+        <h1 class="ui left floated header">
+          BATCH <%= @batch.batch_no %>
+          <div class="sub header small">
+            <a href="/batch_processing" class="mr-1">Dashboard </a>
+            <a href="" class="rt-arrow mr-1">›</a><%= @batch.batch_no %>
+            <span class="rt-arrow mr-1 ml-1">›</span>ADD LOA
+          </div>
+        </h1>
+      </div><!-- .ui.container -->
+    </div><!-- .ui.clearing.segment -->
+  </div><!-- .page-title -->
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="row">
+        <div class="sixteen wide computer column">
+            <div id="test">
+              <div class="ui active inverted dimmer" id="overlay" style="display: none">
+                <div class="ui massive text loader">Checking the availability of LOA in batch...</div>
+              </div>
+              <p></p>
+              <%= form_for @changeset, batch_path(@conn, :create_new_batch_loa, @authorization, @batch), [id: "batch", multipart: true], fn f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <input type="hidden" id="batch_authorization_id" name="batch[authorization_id]" value="<%= @authorization.id %>">
+                <input type="hidden" id="batch_id" name="batch[id]" value="<%= @batch.id %>">
+                <input type="hidden" id="batch_batch_id" name="batch[batch_id]" value="<%= @batch.id %>">
+                <%= if is_nil(@authorization.authorization_amounts.total_amount) do %>
+                  <input type="hidden" id="authorization_total_amounts" value="0">
+                  <%= else %>
+                  <input type="hidden" id="authorization_total_amounts" value="<%= @authorization.authorization_amounts.total_amount  %>">
+                  <%= end %>
+                  <div class="ui form">
+                  <div class="ui grid">
+                    <div class="four wide column">
+                      <div class="section-wrapper add_loa_section_wrapper">
+                        <div class="ui container">
+                          <div class="ui grid">
+                            <div class="row">
+                              <div class="sixteen wide computer column text-center">
+                                <div class="member-info">
+                                  <div class="ui message add_loa_message_header">
+                                    <div class="member-name header"><%=Enum.join([@authorization.member.first_name,@authorization.member.middle_name,@authorization.member.last_name,@authorization.member.suffix], " ")%> </div>
+                                    <p class="mb-0 blacken small"><%= @authorization.member.card_no %></p>
+                                    <p><%= @authorization.member.account_group.name %> </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="sixteen wide computer column add_loa_margin_top">
+                                <table class="ui table add_loa_message_table">
+                                  <tbody>
+                                    <tr>
+                                      <td class="data-label">Batch No</td>
+                                      <td>:</td>
+                                      <td><%= @batch.batch_no %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">Product Code</td>
+                                      <td>:</td>
+                                      <%= cond do %>
+                                        <%= @authorization.coverage.code == "OPC" -> %>
+                                          <td><%= display_product_code(@authorization) %> <br> </td>
+                                        <%= @authorization.coverage.code == "ACU" -> %>
+                                          <td><%= @acu_product.code %> <br> </td>
+                                        <%= true -> %>
+                                          <td> <br> </td>
+                                      <%= end %>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">Coverage</td>
+                                      <td>:</td>
+                                      <td><%= if is_nil(@authorization.coverage), do: nil, else: @authorization.coverage.name %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">Reference No.</td>
+                                      <td>:</td>
+                                      <td><%= @batch.soa_ref_no %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">LOA No.</td>
+                                      <td>:</td>
+                                      <td><%= @authorization.number %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">Admission Date</td>
+                                      <td>:</td>
+                                      <td><%= format_date(@authorization.admission_datetime) %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">Discharge Date</td>
+                                      <td>:</td>
+                                      <td><%= format_date(@authorization.discharge_datetime) %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">Funding Arrangement</td>
+                                      <td>:</td>
+                                      <%= cond do %>
+                                        <%= @authorization.coverage.code == "ACU" -> %>
+                                          <td><%= display_funding_arrangement(@acu_product) %> <br> </td>
+                                        <%= true -> %>
+                                          <td> <br> </td>
+                                      <%= end %>
+                                      <td><%= @authorization.member.account_group.payment_account.funding_arrangement %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label">SOA Reference No</td>
+                                      <td>:</td>
+                                      <td><%= @batch.soa_ref_no %></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div class="sixteen wide computer column add_loa_margin_top">
+                                <div class="field" id="field_assessed_amount">
+                                  <label class="bolder">Assessed Amount</label>
+                                  <%= cond do %>
+                                     <%= @authorization.coverage.name == "OP Consult" -> %>
+                                      <div class="ui right labeled input" style="width: 100%">
+                                        <input
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        id="batch_assessed_amount"
+                                        name="batch[assessed_amount]"
+                                        value="<%= assessed_amount_for_consult(@batch_authorization, @authorization.authorization_amounts.consultation_fee) %>">
+                                        <div class="ui basic label">PHP</div>
+                                      </div>
+                                    <%= @authorization.coverage.name == "ACU" -> %>
+                                      <div class="ui right labeled input" style="width: 100%">
+                                        <input
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        id="batch_assessed_amount"
+                                        name="batch[assessed_amount]"
+                                        value="<%= assessed_amount_for_acu(@batch_authorization, @authorization.authorization_amounts.payor_covered) %>"
+                                        readonly="true">
+                                        <div class="ui basic label">PHP</div>
+                                      </div>
+                                    <%= true -> %>
+                                      <div class="ui right labeled input" style="width: 100%">
+                                        <input
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        id="batch_assessed_amount"
+                                        name="batch[assessed_amount]"
+                                        value="<%= assessed_amount_for_consult(@batch_authorization, @authorization.authorization_amounts.consultation_fee) %>">
+                                        <div class="ui basic label">PHP</div>
+                                      </div>
+                                  <% end %>
+                                  </div>
+                                </div>
+
+                                <%= if @authorization.coverage.name == "ACU" do %>
+                                   <div class="sixteen wide computer column ">
+                                    <div class="field" id="field_availment_date">
+                                       <label class="bolder">Availment Date</label>
+                                        <div class="ui calendar" style="width: 100%" id="acu_availment_date">
+                                          <div class="ui input right icon" style="width: 100%">
+                                            <i class="calendar icon"></i>
+                                            <input
+                                            type="text"
+                                            placeholder="Enter Availment Date"
+                                            id="batch_availment_date"
+                                            name="batch[availment_date]"
+                                            value="<%= availment_date_for_acu(@batch_authorization) %>">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  <% end %>
+                              </div>
+                            </div>
+                          </div><!-- .ui.container -->
+                        </div><!-- .section-wrapper -->
+                      </div>
+                      <div class="twelve wide column">
+                        <div class="section-wrapper add_loa_section_wrapper">
+                          <div class="ui container">
+                            <div class="ui grid">
+                              <div class="row">
+                                <div class="sixteen wide computer column">
+
+                                  <div class="ui form">
+                                    <div class="fields">
+                                      <div class="six wide field" id="field_reason">
+                                        <label class="label-title"><h3><b>Reason for Unreadable QR Code</b></h3></label>
+                                        <%= select f, :reason, ["": "", "Sample Reason 1": "Sample Reason 1", "Sample Reason 2": "Sample Reason 2"], class: "ui fluid dropdown", value: display_batch_authorization_reason(@batch_authorization) %>
+
+                                      </div>
+                                    </div>
+                                  </div><!-- .ui.form -->
+                                </div><!-- .column -->
+                              </div><!-- .row -->
+                              <div class="ui divider"></div>
+
+                              <div class="row">
+                                <div class="six wide computer column">
+                                  <div class="section-title">Add Documents</div>
+                                  <div class="ui form">
+                                    <div class="field" id="field_document_type">
+                                      <label>Document Type</label>
+                                      <%= select f, :document_type, ["": "", "LOA": "LOA", "SOA": "SOA"], class: "ui fluid dropdown", value: display_batch_authorization_reason(@batch_authorization) %>
+                                    </select>
+                                  </div>
+
+                                  <input type="file" name="upload-lab-order" id="upload-lab-order" class="hide">
+                                  <div class="ui grid">
+                                    <div class="sixteen wide column">
+                                      <div class="field" role="LOAFileUpload">
+                                        <br>
+                                        <div class="ui basic icon large buttons upload-order fluid">
+                                          <label class="ui button" id="addFile" style="width: 30rem !important; "><span class="mr-1" >Upload Document</span><i class="upload icon"></i>
+                                          </label>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                    <div class="sixteen wide column">
+                                      <div class="field overflow-small">
+                                        <%= hidden_input f, :file_delete_ids, id: "deleteIDs", value: "" %>
+                                        <div class="field">
+                                          <div class="ui middle aligned list" id="filePreviewContainer">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="field mt-2">
+                                    <a class="ui primary button fluid" style="
+                                      height: 3rem;
+                                      text-align: center;
+                                      padding: 1rem;" id="btnAddDocuments"
+                                      batch_id="<%= @batch.id %>"
+                                      coverage_name="<%= @authorization.coverage.name %>"
+                                      authorization_id="<%= @authorization.id %>">Add Documents</a>
+                                  </div>
+                                  <div class="field mt-2">
+                                    <a class="ui primary button fluid" style="
+                                      height: 3rem;
+                                      text-align: center;
+                                      padding: 1rem;">SCAN DOCUMENTS</a>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="add_loa_gap">
+                              </div>
+                              <div class="nine wide computer column">
+                                <div class="section-title">Added Documents</div>
+                                <div class="overflow-med">
+                                  <table class="full-width ui celled striped table pt-0 overflow-med" id="document_table">
+                                    <thead>
+                                      <tr>
+                                        <th class="pt-0" width="20%">Document Type</th>
+                                        <th class="pt-0" width="70%">File Name</th>
+                                        <th width="5%"></th>
+                                        <th width="5%"></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <%= for batch_authorization_file <- @batch_authorization_files do %>
+                                        <tr docs="test" >
+                                          <td><%= batch_authorization_file.document_type %></td>
+                                          <td><a><%= batch_authorization_file.file.type.file_name  %></a></td>
+                                          <td><div class="ui small basic icon buttons right floated">
+                                              <a class="ui button" href="/uploads/files/<%= batch_authorization_file.file.id %>/<%= batch_authorization_file.file.type.file_name %>" download><i class="download icon"></i></a>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div class="ui simple basic top right pointing dropdown">
+                                              <i class="ellipsis vertical icon"></i>
+                                              <div class="menu">
+                                                <a class="item btnViewDocument" location="/uploads/files/<%= batch_authorization_file.file.id %>/<%= batch_authorization_file.file.type.file_name %>" >
+                                                  <i class="eye icon"></i> View
+                                                </a>
+                                                <a class="item btnRemoveDocument" batch_authorization_file_id="<%= batch_authorization_file.id %>">
+                                                  <i class="minus circle icon"></i> Remove
+                                                </a>
+                                              </div>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <%= end %>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div><!-- .column -->
+                              </div><!-- .row -->
+                            </div><!-- .ui.grid -->
+                          </div><!-- .ui.container -->
+                        </div><!-- .section-wrapper -->
+                      </div>
+                    </div>
+
+                    <div>
+                      <%= cond do %>
+                        <%= Enum.empty?(@batch_authorization2) == true -> %>
+                          <a class="ui grey button"
+                            style="width: 20rem; margin-left:0.8%"
+                            id="btnBackLoa"
+                            batch_id="<%= @batch.id %>">Back</a>
+                        <%= filter_batch_authorization_status(@batch_authorization2).status == "Add" -> %>
+                          <a class="ui grey button"
+                            style="width: 20rem; margin-left:0.8%"
+                            id="btnCancelLoa"
+                            batch_authorization_id="<%= @batch_authorization.id %>" >Cancel</a>
+                        <%= filter_batch_authorization_status(@batch_authorization2).status == "Save" -> %>
+                          <a class="ui grey button"
+                            style="width: 20rem; margin-left:0.8%"
+                            id="btnBackLoa"
+                            batch_id="<%= @batch.id %>">Back</a>
+                      <% end %>
+                      <a class="ui right floated primary button"
+                        id="btnSaveLoa"
+                        style="width: 20rem; margin-right:0.8%"
+                        batch_id="<%= @batch.id %>"
+                        coverage_name="<%= @authorization.coverage.name %>"
+                        authorization_id="<%= @authorization.id %>">Save</a>
+                      <%= cond do %>
+                        <%= Enum.empty?(@batch_authorization2) == true -> %>
+                          <a class="ui right floated primary basic button disabled" style="width: 20rem">Add New LOA</a>
+                        <%= filter_batch_authorization_status(@batch_authorization2).status == "Add" -> %>
+                          <a class="ui right floated primary basic button disabled" style="width: 20rem">Add New LOA</a>
+                        <%= filter_batch_authorization_status(@batch_authorization2).status == "Save" -> %>
+                          <a class="ui right floated primary basic button" id="btnAddNewLoa" batch_id="<%= @batch.id %>" style="width: 20rem">Add New LOA</a>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+                <br>
+                <br>
+              </div>
+
+              <div class="ui large modal" id="showLOAModal">
+                <i class="close icon"></i>
+                <div class="header">
+                  List of LOA
+                </div>
+                <div class="content">
+                  <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                    <table id="batch_table2" name="batch_table2" role="datatable" class="full-width ui celled striped table" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>LOA No.</th>
+                          <th>Patient Name</th>
+                          <th>Card No</th>
+                          <th>Coverage</th>
+                          <th>Admission Date</th>
+                        </tr>
+                      </thead>
+                      <tbody id="sortPlease">
+                        <%= for authorization <- @authorizations do %>
+                          <%= if check_batch_authorization(@batch_authorizations, authorization) == false do %>
+                            <tr sortkey="1">
+                              <td>
+                                <a href="#" class="btnAddAuthorization" authorization_id="<%= authorization.id %>">
+                                  <%= authorization.number %>
+                                </a>
+                              </td>
+                              <td><%=Enum.join([authorization.member.first_name,authorization.member.middle_name,authorization.member.last_name,authorization.member.suffix], " ")
+                              %>
+                            </td>
+                            <td><%= authorization.member.card_no %></td>
+                            <td><%= if is_nil(authorization.coverage), do: "", else: authorization.coverage.name %></td>
+                            <td><%= if is_nil(authorization.admission_datetime), do: "", else: Ecto.Date.cast!(authorization.admission_datetime) %></td>
+                          </tr>
+                          <%= end %>
+                          <%= end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

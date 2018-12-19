@@ -1,0 +1,40 @@
+<%= render "edit/breadcrumbs.html", member: @member %>
+
+<div class="ui container" id="member_add_step">
+
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+            <a href="/web/members/<%= @member.id %>/edit?tab=general" class="step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </a>
+
+            <div class="active step">
+              <i class="icon-telephone icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Contact</div>
+              </div>
+            </div>
+
+            <a href="/web/members/<%= @member.id %>/edit?tab=product" class="step">
+              <i class="icon-product icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Plan</div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <%= render "edit/contact_form.html", member: @member, changeset: @changeset, conn: @conn, action: main_member_path(@conn, :update_contact, @member) %>
+    </div><!-- grid ends here -->
+  </div><!-- .white-bg -->
+</div>
+
+

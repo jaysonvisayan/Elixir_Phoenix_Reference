@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="modalDeleteBenefitDisease">
+  <input type="hidden" id="deleteBenefitDiseaseID" value="">
+  <div class="header">
+    Remove Disease
+  </div>
+  <div class="content">
+    <p>
+    Are you sure you want to remove this Disease?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep Disease
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBenefitDisease">
+      <i class="trash icon"></i>
+      Yes, Remove Disease
+    </div>
+  </div>
+</div>

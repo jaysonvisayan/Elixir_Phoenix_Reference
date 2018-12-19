@@ -1,0 +1,62 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Edit <%= @product.product_category %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/products">Plans</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin"><%= @product.id %></div>
+        </div>
+      </h1>
+    </div>
+  </div>
+  <!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+<div class="ui container">
+
+  <div class="content-section white-bg" style="margin-left: 1em;" id="main_step1_general">
+
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+
+            <div class="active step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </div>
+
+            <a href="/web/products/<%= @product.id %>/edit?tab=facility" class="step">
+              <i class="icon-benefit-card icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Facility</div>
+              </div>
+            </a>
+
+           <a href="/web/products/<%= @product.id %>/edit?tab=condition" class="step">
+            <i class="icon-condition icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Condition</div>
+              </div>
+           </a>
+          </div>
+        </div>
+
+          <%= render "dental/edit_general_form.html", benefit: @benefit, changeset_general_dental_edit: @changeset_general_dental_edit, product: @product, action: main_product_path(@conn, :update_general, @product) %>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+<%= render "modal_confirmation.html" %>
+

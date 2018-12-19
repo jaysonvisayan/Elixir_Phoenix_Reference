@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="g_confirmation">
+  <div class="header">
+    Discard Changes
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="g_confirmation_link">
+    <p>
+    If you go back now, your changes will be discarded.
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_g">
+      <i class="remove icon"></i>
+      No, Keep Changes
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_g">
+      <i class="trash icon"></i>
+      Yes, Remove Changes
+    </div>
+  </div>
+</div>

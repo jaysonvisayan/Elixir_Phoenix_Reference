@@ -1,0 +1,46 @@
+<div class="ui main container" name="AccountSearch">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Account</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/accounts/new"><i class="plus icon"></i> Account</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/accounts" class="section">Account</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%" id="accounts_index">
+    <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Effective Date</th>
+          <th>Expiry Date</th>
+          <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="5">
+          <div class="center_align">
+            <a id="account_download_button" class="pointer">
+              <i class="download icon"></i><b>Download Result</b>
+            </a>
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+

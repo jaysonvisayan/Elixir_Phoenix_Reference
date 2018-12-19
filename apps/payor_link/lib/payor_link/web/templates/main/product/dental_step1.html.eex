@@ -1,0 +1,72 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Add <%= @product.product_category %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/products">Plans</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Add Plan</div>
+        </div>
+      </h1>
+      <%= if @product.product_category == "Dental Plan" do %>
+       <div class="ui header float-right-medium" id="product_header_btn">
+        <button id="btnCancel" class="ui basic button mt-1-small">Cancel</button>
+        <button id="btnDraft_dental_update" class="ui primary button mt-1-small">Save as Draft</button>
+        <input type="hidden" name="plan[is_draft]" >
+       </div>
+     <% end %>
+    </div>
+  </div>
+  <!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+<div class="ui container">
+
+  <div class="content-section white-bg" style="margin-left: 1em;" id="main_step1_general">
+
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+            <div class="active step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </div>
+            <a href="#!" class="step disabled">
+              <i class="icon-benefit-card icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Benefit</div>
+              </div>
+            </a>
+
+            <a href="#!" class="step disabled">
+              <i class="icon-condition icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Condition</div>
+              </div>
+            </a>
+            <%= if @product.product_category != "PEME Plan" do %>
+              <a href="#!" class="step disabled">
+                <i class="icon-coverage icon small"></i>
+                <div class="content">
+                  <div class="title hide-for-mobile">Coverage</div>
+                </div>
+              </a>
+            <% end %>
+
+          </div>
+        </div>
+      <%= render "modal_confirmation.html" %>
+     </div>
+    </div>
+  </div>
+</div>
+    <%= render "modal_benefit_form.html", benefit: @benefit%>

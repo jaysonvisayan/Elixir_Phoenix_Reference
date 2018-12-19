@@ -1,0 +1,33 @@
+
+<%= render "modal_save_draft.html" %>
+<div class="page-title discard_modal_main">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Add Role
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/web/roles">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/roles">Roles</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Add Role</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <a id="role_cancel_button" class="ui primary basic button mt-1-small">Discard</a>
+        <button id="draft_button" class="ui primary button mt-1-small">Save as Draft</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui container">
+  <div class="content-section white-bg" style="margin-left: 1em;">
+    <div class="ui grid">
+      <div class="row">
+          <%= render "form.html", changeset: @changeset, applications: @applications, action: main_role_path(@conn, :create), permissions: @permissions, changeset_permission: @changeset_permission, role: @role, coverages: @coverages %>
+      </div>
+    </div>
+  </div>
+</div>

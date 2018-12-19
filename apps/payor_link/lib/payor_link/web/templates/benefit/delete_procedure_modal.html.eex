@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="modalDeleteBenefitProcedure">
+  <input type="hidden" id="deleteBenefitProcedureID" value="">
+  <div class="header">
+    Remove Procedure
+  </div>
+  <div class="content">
+    <p>
+    Are you sure you want to remove this Procedure?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep Procedure
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBenefitProcedure">
+      <i class="trash icon"></i>
+      Yes, Remove Procedure
+    </div>
+  </div>
+</div>

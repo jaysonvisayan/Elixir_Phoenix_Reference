@@ -1,0 +1,82 @@
+<div id="contact">
+  <%= form_for @changeset, peme_path(@conn, :create, @locale), [class: "ui form", multipart: :true, id: "singlePemeForm"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <p>Please fill the contact information.</p>
+
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Email Address</label>
+        <%= text_input f, :email, placeholder: "Enter the Email Address" %>
+      </div>
+      <div class="field">
+        <label class="label-title">Email Address 2</label>
+        <%= text_input f, :email2, placeholder: "Enter another Email Address (Optional)" %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Mobile Phone 1</label>
+        <%= text_input f, :mobile, placeholder: "Enter the mobile number" %>
+      </div>
+      <div class="field">
+        <label class="label-title">Mobile Phone 2</label>
+        <%= text_input f, :mobile2, placeholder: "Enter another mobile number (Optional)" %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Telephone</label>
+        <%= text_input f, :telephone, placeholder: "Enter the telephone number" %>
+      </div>
+      <div class="field">
+        <label class="label-title">Fax Number</label>
+        <%= text_input f, :fax, placeholder: "Enter fax number (Optional)" %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Postal Code</label>
+        <%= text_input f, :postal, placeholder: "Enter the postal code" %>
+      </div>
+      <div class="field">
+        <label class="label-title">Unit Number / Floor</label>
+        <%= text_input f, :unit_no, placeholder: "Enter the unit number" %>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label-title">Building Name</label>
+      <%= text_input f, :building_name, placeholder: "Enter the building name" %>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Street Name</label>
+        <%= text_input f, :street_name, placeholder: "Enter the street name" %>
+      </div>
+      <div class="field">
+        <label class="label-title">City / Municipality</label>
+        <%= text_input f, :unit_no, placeholder: "Enter the city / municipality" %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Province</label>
+        <%= text_input f, :province, placeholder: "Enter the Province" %>
+      </div>
+      <div class="field">
+        <label class="label-title">Region</label>
+        <%= text_input f, :region, placeholder: "Enter the Region" %>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label-title">Country</label>
+      <%= select f, :civil_status, ["", "USA", "UK", "Philippines"], class: "ui fluid dropdown" %>
+    </div>
+
+    <div class="ui divider mt-4"></div>
+
+    <div class="sixteen wide computer column mt-4 text-right">
+      <button class="ui basic button" type="submit"><i class="caret left icon"></i>Previous </button>
+      <button class="ui button" type="submit">Next <i class="caret right icon"></i></button>
+    </div>
+  <% end %>
+</div>

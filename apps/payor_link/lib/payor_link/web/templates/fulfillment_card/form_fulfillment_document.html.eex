@@ -1,0 +1,576 @@
+<div id="new_document">
+<%= form_for @changeset, @action, [class: "ui form", id: "new_document", multipart: :true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <div class="ui grid">
+    <div class="sixteen wide tablet two wide computer column">
+    </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet four wide computer column">
+          <b><label>Welcome Kit</label></b>
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+          <b><label>Instruction</label></b>
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+    </div>
+  </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid" style="margin-bottom: -50px;">
+
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Letter</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_letter, id: "letter_upload", class: "form-control" %>
+                  <%= error_tag f, :file_letter%>
+                               </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_letter" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :letter_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :letter_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid" style="margin-bottom: -50px;">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Brochure</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_brochure, id: "brochure_upload", class: "form-control" %>
+                  <%= error_tag f, :file_brochure %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_brochure" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :brochure_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :brochure_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid" style="margin-bottom: -50px;">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Booklet</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_booklet, id: "booklet_upload", class: "form-control" %>
+                  <%= error_tag f, :file_booklet %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_booklet" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :booklet_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :booklet_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid" style="margin-bottom: -50px;">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Summary of Coverage</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_summary_coverage, id: "summary_coverage_upload", class: "form-control" %>
+                  <%= error_tag f, :file_summary_coverage %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_summary_coverage" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :summary_coverage_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :summary_coverage_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Envelope</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_envelope, id: "envelope_upload", class: "form-control" %>
+                  <%= error_tag f, :file_envelope %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_envelope" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :envelope_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :envelope_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+   <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet four wide computer column">
+          <b><label>Card Replacement</label></b>
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+
+        </div>
+
+        <div class="sixteen wide tablet four wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="sixteen wide tablet two wide computer column">
+    </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui fields grid" style="margin-bottom: -35px;margin-left: 1px">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>No. of Years After Issuance</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+
+              <div class="field">
+              <%= number_input f, :no_years_after_issuance, class: "form-control"%>
+                <p style="color:red"><%= error_tag f, :no_years_after_issuance %></p>
+              </div>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+    </div>
+  </div>
+
+ <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid" style="margin-bottom: -50px;">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Letter & PIN Mailer</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_replace_letter_pin_mailer, id: "rlpm_upload", class: "form-control" %>
+                  <%= error_tag f, :file_replace_letter_pin_mailer %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_rlpm" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :replacement_letter_mailer_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :replacement_letter_mailer_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+ </div>
+
+ <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Card Details</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_replace_card_details, id: "rcd_upload", class: "form-control" %>
+                  <%= error_tag f, :file_replace_card_details %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_rcd" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :replacement_card_details_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :replacement_card_details_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+ </div>
+
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+   <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet four wide computer column">
+          <b><label>Lost Card</label></b>
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+
+        </div>
+        <div class="sixteen wide tablet four wide computer column">
+
+        </div>
+
+        <div class="sixteen wide tablet four wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+  </div>
+
+   <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid" style="margin-bottom: -50px;">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Letter & PIN Mailer</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_lost_letter_pin_mailer, id: "llpm_upload", class: "form-control" %>
+                  <%= error_tag f, :file_lost_letter_pin_mailer %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_llpm" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :lost_letter_mailer_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :lost_letter_mailer_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+ </div>
+
+  <div class="ui grid">
+   <div class="sixteen wide tablet two wide computer column">
+   </div>
+    <div class="sixteen wide tablet twelve wide computer column">
+      <div class="ui grid">
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+        <div class="sixteen wide tablet fourteen wide computer column">
+          <div class="ui inline fields grid">
+            <div class="sixteen wide tablet two wide computer column">
+              <label>Card Details</label>
+            </div>
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="inline fields">
+                <div class="field">
+                  <%= file_input f, :file_lost_card_details, id: "lcd_upload", class: "form-control" %>
+                  <%= error_tag f, :file_lost_card_details %>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet center aligned four wide computer column">
+              <a id="preview_lcd" target="_blank" class="section">Preview</a>
+            </div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="inline fields">
+
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :lost_card_details_instruction, "Print", checked: "") %>
+                    <label>Print</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :lost_card_details_instruction, "Insert") %>
+                    <label>Insert</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide tablet one wide computer column">
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide tablet two wide computer column">
+   </div>
+ </div>
+
+
+  <div class="ui one column right aligned grid">
+    <div class="column sixteen wide">
+      <%= if @fulfillment.step == 2 do %>
+        <a href="/accounts/<%= @account_id %>/card/<%= @fulfillment.id %>/edit_card" class="ui button">Previous</a>
+        <%= submit "Update", class: "ui primary button" %>
+      <% else %>
+        <a href="/accounts/<%= @account_id %>/card/<%= @fulfillment.id %>/new_edit_card" class="ui button">Previous</a>
+       <%= submit "Submit", class: "ui primary button" %>
+      <%end%>
+    </div>
+  </div>
+<%end%>
+</div>

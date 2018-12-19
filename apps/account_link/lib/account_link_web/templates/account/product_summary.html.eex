@@ -1,0 +1,591 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Account" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active">Product</li>
+    </ul>
+  </div><!-- breadcrumbs ends here-->
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="column">
+            <section>
+              <div class="section-title">
+                <%= gettext "General" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Product Code" %></td>
+                            <td><%= @product.code %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Product Description" %></td>
+                            <td><%= @product.description %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Limit Type" %></td>
+                            <td><%= @product.limit_type %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Limit Applicability" %></td>
+                            <td><%= @product.limit_applicability %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Standard Product" %></td>
+                            <td><%= @product.standard_product %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Product Name" %></td>
+                            <td><%= @product.name %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Product Type" %></td>
+                            <td><%= @product.type %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Limit Amount" %></td>
+                            <td><%= @product.limit_amount %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label">PHIC</td>
+                            <td><%= @product.phic_status %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Benefit" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid centered">
+                  <div class="row">
+                    <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column">
+                      <table class="full-width ui striped table">
+                        <thead>
+                          <tr>
+                            <th><%= gettext "Benefit Code" %></th>
+                            <th><%= gettext "Benefit Name" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= if Enum.empty?(@product.product_benefits) do %>
+                            <tr>
+                              <td colspan="5" class="center aligned">
+                                <%= gettext "No benefit is selected for this product." %>
+                              </td>
+                            </tr>
+                          <% else %>
+                            <%= for product_benefit <- @product.product_benefits do %>
+                              <tr>
+                                <td><%= product_benefit.benefit.code %></td>
+                                <td><%= product_benefit.benefit.name %></td>
+                              </tr>
+                            <% end %>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Exclusion" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <h5><%= gettext "General Exclusion" %></h5>
+                      <table class="full-width ui striped table">
+                        <thead>
+                          <tr>
+                            <th><%= gettext "Exclusion Code" %></th>
+                            <th><%= gettext "Exclusion Name" %></th>
+                            <th><%= gettext "No. of Diseases" %></th>
+                            <th><%= gettext "No. of Procedures" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= if check_exclusion_genex(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) == [] do %>
+                            <tr>
+                              <td colspan="5" class="center aligned">
+                                <%= gettext "No general exclusion is selected for this product." %>
+                              </td>
+                            </tr>
+                          <% else %>
+                            <%= for product_exclusion <- check_exclusion_genex(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+                              <tr>
+                                <td><%= product_exclusion.exclusion.code %></td>
+                                <td><%= product_exclusion.exclusion.name %></td>
+                                <td><%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %></td>
+                                <td><%= Enum.count(product_exclusion.exclusion.exclusion_procedures) %></td>
+                              </tr>
+                            <% end %>
+                          <% end %>
+                        </tbody>
+                      </table>
+
+                      <h5><%= gettext "Pre-Existing Condition" %></h5>
+                      <table class="full-width ui striped table">
+                        <thead>
+                          <tr>
+                            <th><%= gettext "Exclusion Code" %></th>
+                            <th><%= gettext "Exclusion Name" %></th>
+                            <th><%= gettext "No. of Diseases" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= if check_pre_existing(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) == [] do %>
+                            <tr>
+                              <td colspan="5" class="center aligned">
+                                <%= gettext "No pre-existing condition is selected for this product." %>
+                              </td>
+                            </tr>
+                          <% else %>
+                            <%= for pre_existing <- check_pre_existing(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+                              <tr>
+                                <td><%= pre_existing.exclusion.code %></td>
+                                <td><%= pre_existing.exclusion.name %></td>
+                                <td><%= Enum.count(pre_existing.exclusion.exclusin_diseases) %></td>
+                              </tr>
+                            <% end %>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Facility Access" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <%= if Enum.empty?(@product.product_coverages) do %>
+                    <div class="row">
+                      <div class="center aligned sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                        <%= gettext "No coverage is selected for this product." %>
+                      </div>
+                    </div>
+                  <% else %>
+                    <%= for product_coverage <- @product.product_coverages do %>
+                      <div class="row">
+                        <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                          <h5><%= product_coverage.coverage.name %></h5>
+                        </div>
+
+                        <div class="centered fourteen wide computer fourteen wide tablet fourteen wide mobile column">
+                          <table class="full-width ui celled table">
+                            <tbody>
+                              <tr>
+                                <td class="data-label"><%= gettext "Facility" %></td>
+                                <td>
+                                  <%= if product_coverage.type == "inclusion" do %>
+                                    <%= gettext "Specific Facility" %>
+                                  <% else %>
+                                    <%= gettext "All Affiliated Facility" %>
+                                  <% end %>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <h5>
+                            <%= if product_coverage.type == "inclusion" do %>
+                              <%= gettext "Inclusion" %>
+                            <% else %>
+                              <%= gettext "Exception" %>
+                            <% end %>
+                          </h5>
+                          <table class="full-width ui striped table">
+                            <thead>
+                              <tr>
+                                <th><%= gettext "Facility Code" %></th>
+                                <th><%= gettext "Facility Name" %></th>
+                                <th><%= gettext "Facility Type" %></th>
+                                <th><%= gettext "Region" %></th>
+                                <th><%= gettext "Category" %></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <%= if product_coverage.product_coverage_facilities == [] do %>
+                                <tr>
+                                  <td colspan="5" class="center aligned">
+                                    <%= gettext "No facility is selected." %>
+                                  </td>
+                                </tr>
+                              <% else %>
+                                <%= for pcf <- product_coverage.product_coverage_facilities do %>
+                                  <tr>
+                                    <td><%= pcf.facility.code %></td>
+                                    <td><%= pcf.facility.name %></td>
+                                    <td>
+                                      <%= case pcf.facility.type == nil do %>
+                                        <%= true -> %>
+                                          <%= %>
+                                          <% false -> %>
+                                            <%= pcf.facility.type.text %>
+                                          <% end %>
+                                    </td>
+                                    <td><%= pcf.facility.region %></td>
+                                    <td>
+                                      <%= case pcf.facility.category == nil do %>
+                                        <%= true -> %>
+                                          <%= %>
+                                          <% false -> %>
+                                            <%= pcf.facility.category.text %>
+                                          <% end %>
+                                    </td>
+                                  </tr>
+                                <% end %>
+                              <% end %>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Condition" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <h5><%= gettext "Age Eligibility" %></h5>
+
+                      <table class="full-width ui definition table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th><%= gettext "Min Age" %></th>
+                            <th><%= gettext "Max Age" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><%= gettext "Principal" %></td>
+                            <td><%= @product.principal_min_age %>  <%= @product.principal_min_type %></td>
+                            <td><%= @product.principal_max_age %>  <%= @product.principal_max_type %></td>
+                          </tr>
+                          <tr>
+                            <td><%= gettext "Adult Dependents" %></td>
+                            <td><%= @product.adult_dependent_min_age %> <%= @product.adult_dependent_min_type %></td>
+                            <td><%= @product.adult_dependent_max_age %> <%= @product.adult_dependent_max_type %></td>
+                          </tr>
+                          <tr>
+                            <td><%= gettext "Minor Dependents" %></td>
+                            <td><%= @product.minor_dependent_min_age %> <%= @product.minor_dependent_min_type %></td>
+                            <td><%= @product.minor_dependent_max_age %> <%= @product.minor_dependent_max_type %></td>
+                          </tr>
+                          <tr>
+                            <td><%= gettext "Overage Dependents" %></td>
+                            <td><%= @product.overage_dependent_min_age %> <%= @product.overage_dependent_min_type %></td>
+                            <td><%= @product.overage_dependent_max_age %> <%= @product.overage_dependent_max_type %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <h5><%= gettext "Deduction" %></h5>
+
+                      <table class="full-width ui definition table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th><%= gettext "Network Benefits" %></th>
+                            <th><%= gettext "Non Network Benefits" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><%= gettext "Annual Deduction" %></td>
+                            <td>₱<%= @product.adnb %>  Per Year</td>
+                            <td>₱<%= @product.adnnb %> Per Year</td>
+                          </tr>
+                          <tr>
+                            <td><%= gettext "Out of Pocket Maximum" %></td>
+                            <td>₱<%= @product.opmnb %>  Per Year</td>
+                            <td>₱<%= @product.opmnnb %> Per Year</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <h5><%= gettext "Room and board" %></h5>
+
+                      <%= for product_coverage <- @product.product_coverages do %>
+                        <%= if is_nil(product_coverage.product_coverage_room_and_board) == false do %>
+                          <table class="full-width ui striped table">
+                            <thead>
+                              <tr>
+                                <th colspan=4>
+                                  <span class="f-blue bold"><%= product_coverage.coverage.description %></span>
+                                </th>
+                              </tr>
+                              <tr>
+                                <th><%= gettext "Room and Board" %></th>
+                                <th><%= gettext "Room Type" %></th>
+                                <th><%= gettext "Room Limit Amount" %></th>
+                                <th><%= gettext "Room Upgrade" %></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><%= product_coverage.product_coverage_room_and_board.room_and_board %></td>
+                                <td><%= preload_room_type(product_coverage.product_coverage_room_and_board.room_type) %></td>
+                                <td><%= product_coverage.product_coverage_room_and_board.room_limit_amount %></td>
+                                <td><%= product_coverage.product_coverage_room_and_board.room_upgrade %> <%= product_coverage.product_coverage_room_and_board.room_upgrade_time %></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <h5><%= gettext "Funding Arrangement" %></h5>
+
+                      <table class="full-width ui striped table">
+                        <thead>
+                          <tr>
+                            <th><%= gettext "Coverage" %></th>
+                            <th><%= gettext "Funding Arrangement" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= for product_coverage <- Enum.sort_by(@product.product_coverages, &(&1.coverage.description)) do %>
+                            <tr>
+                              <td><%= product_coverage.coverage.description %></td>
+                              <td><%= product_coverage.funding_arrangement %></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Risk Share" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <%= for product_coverage <- Enum.sort(@product.product_coverages) do %>
+                    <% product_risk_share = product_coverage.product_coverage_risk_share %>
+                    <%= if product_risk_share.product_coverage_id == product_coverage.id do %>
+                      <%= if checkRiskShareValues(product_risk_share) == "true" do %>
+                        <div class="row">
+                          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                            <h5><%= load_coverages_id(product_coverage.coverage_id) %></h5>
+                          </div>
+
+                          <div class="eight wide computer eight wide tablet eight wide mobile column">
+                            <table class="full-width ui definition table">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <th><%= gettext "Accredited Facilities" %></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><%= gettext "Risk Share" %></td>
+                                  <td><%= product_risk_share.af_type %></td>
+                                </tr>
+                                <tr>
+                                  <td><%= gettext "Value" %></td>
+                                  <td>
+                                    <%= if product_risk_share.af_value != nil do  %>
+                                      <%= product_risk_share.af_value %>
+                                    <% else %>
+                                      <%= if product_risk_share.af_type == "Copayment" do %>
+                                        <%= product_risk_share.af_value_amount %>
+                                      <% else %>
+                                        <%= product_risk_share.af_value_percentage %>
+                                      <% end %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><%= gettext "Covered After Risk Share" %></td>
+                                  <td>
+                                    <%= if product_risk_share.af_type == "N/A" or product_risk_share.af_type == "CoInsurance" do %>
+                                      <%= product_risk_share.af_covered_percentage %>
+                                    <% else %>
+                                      <%= product_risk_share.af_covered_amount %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <div class="eight wide computer eight wide tablet eight wide mobile column">
+                            <table class="full-width ui definition table">
+                              <thead>
+                                <tr>
+                                  <th></th>
+                                  <th><%= gettext "Non-Accredited Facilities" %></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><%= gettext "Reimbursable" %></td>
+                                  <td><%= product_risk_share.naf_reimbursable %></td>
+                                </tr>
+                                <tr>
+                                  <td><%= gettext "Risk Share" %></td>
+                                  <td><%= product_risk_share.naf_type %></td>
+                                </tr>
+                                <tr>
+                                  <td><%= gettext "Value" %></td>
+                                  <td>
+                                    <%= if product_risk_share.naf_type == "Copayment" do %>
+                                      <%= product_risk_share.naf_value_amount %>
+                                    <% else %>
+                                      <%= product_risk_share.naf_value_percentage %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><%= gettext "Covered After Risk Share" %></td>
+                                  <td>
+                                    <%= if product_risk_share.naf_type == "N/A" or product_risk_share.naf_type == "CoInsurance" do %>
+                                      <%= product_risk_share.naf_covered_percentage %>
+                                      <% else %>
+                                      <%= product_risk_share.naf_covered_amount %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <div class="centered fourteen wide computer sixteen wide tablet sixteen wide mobile column">
+                            <h5 class="ui dividing header"><%= gettext "Exempted Facilities" %></h5>
+
+                            <%= for product_risk_share_facility <- product_risk_share.product_coverage_risk_share_facilities do %>
+                              <table class="full-width ui celled table">
+                                <tbody>
+                                  <tr>
+                                    <td class="data-label"><%= gettext "Facility Code" %></td>
+                                    <td><%= product_risk_share_facility.facility.code %></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="data-label"><%= gettext "Facility Name" %></td>
+                                    <td><%= product_risk_share_facility.facility.name %></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="data-label"><%= gettext "Risk Share" %></td>
+                                    <td><%= product_risk_share_facility.type %></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="data-label"><%= gettext "Value" %></td>
+                                    <td>
+                                      <%= if product_risk_share_facility.type == "Copayment" do %>
+                                        <%= product_risk_share_facility.value_amount %>
+                                      <% else %>
+                                        <%= product_risk_share_facility.value_percentage %>
+                                      <% end %>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="data-label"><%= gettext "Covered After Risk Share" %></td>
+                                    <td><%= product_risk_share_facility.covered %></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                              <h5 class="ui dividing header"><%= gettext "Exempted Procedures" %></h5>
+
+                              <%= for product_risk_share_facility_procedure <- product_risk_share_facility.product_coverage_risk_share_facility_payor_procedures do %>
+                                <table class="full-width ui celled table">
+                                  <tbody>
+                                    <tr>
+                                      <td class="data-label"><%= gettext "Procedure Code" %></td>
+                                      <td><%= product_risk_share_facility_procedure.facility_payor_procedure.code %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label"><%= gettext "Procedure Name" %></td>
+                                      <td><%= product_risk_share_facility_procedure.facility_payor_procedure.name %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label"><%= gettext "Risk Share" %></td>
+                                      <td><%= product_risk_share_facility_procedure.type %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label"><%= gettext "Value" %></td>
+                                      <td>
+                                        <%= if product_risk_share_facility_procedure.type == "Copayment" do %>
+                                          <%= product_risk_share_facility_procedure.value_amount %>
+                                        <% else %>
+                                          <%= product_risk_share_facility_procedure.value_percentage %>
+                                        <% end %>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="data-label"><%= gettext "Covered After Risk Share" %></td>
+                                      <td><%= product_risk_share_facility_procedure.covered %></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

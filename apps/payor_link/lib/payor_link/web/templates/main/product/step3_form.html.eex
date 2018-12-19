@@ -1,0 +1,445 @@
+<div class="sixteen wide computer column">
+  <%= form_for @changeset_condition, @action, [class: "form2", id: "condition_form"], fn f -> %>
+    <div class="ui form">
+      <div class="bottom-border pb-2 mb-2">
+
+        <div class="section-title mt-2">
+          <div class="title-name">Eligible Members</div>
+        </div>
+
+        <%= if @product.member_type == nil do %>
+          <h3>No Member Type Selected in General Information</h3>
+          <p> Member Type must be selected, Go back to General(step1) or Go to this link<strong> <a href="/products/<%= @product.id %>/setup?step=1">General-Step1</a></strong></p>
+        <% else %>
+
+          <div class="two fields">
+            <%= if Enum.member?(@product.member_type, "Principal") do %>
+              <div class="field">
+                <%= label f, :nem_principal, "Principal", class: "label-title" %>
+                <%= text_input f, :nem_principal, class: "form-control", row: "Number of Eligible Members", field_name: "Principal", maxlength: "9" %>
+                <%= error_tag f, :nem_principal %>
+              </div>
+            <% end %>
+
+            <div class="field">
+              <%= label f, :nem_dependent, "Dependent", class: "label-title" %>
+              <%= text_input f, :nem_dependent, class: "form-control", row: "Number of Eligible Members", field_name: "Dependent", maxlength: "9" %>
+              <%= error_tag f, :nem_dependent %>
+            </div>
+
+          </div>
+        <% end %>
+
+        <%= if @product.product_category == "Regular Plan" do %>
+          <div class="two fields">
+            <div class="field">
+              <label class="label-title">Hierarchy Waiver</label>
+              <div class="three fields mt-1 mb-1">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button f, :hierarchy_waiver, "Enforce", id: "enforce", class: "", checked: "" %>
+                    <label for="enforce" class="">Enforce</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button f, :hierarchy_waiver, "Skip Allowed", id: "skipAllowed", class: "" %>
+                    <label for="skipAllowed">Skip Allowed</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button f, :hierarchy_waiver, "Waive", id: "waive", class: "" %>
+                    <label for="waive">Waive</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="two fields">
+          <%= if Enum.member?(@product.member_type, "Principal") do %>
+            <div class="field">
+              <label class="label-title">Default Effective Date for Principal</label>
+              <%= select f, :mded_principal, ["None": "None", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val", prompt: "Select Principal Member's Default Effective Date" %>
+
+            </div>
+          <% end %>
+
+          <div class="field">
+            <label class="label-title">Default Effective Date for Dependents</label>
+            <%= select f, :mded_dependent, ["None": "None", "Principal’s Effective Date": "Principal’s Effective Date", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val", prompt: "Select Dependent Member's Default Effective Date" %>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-border mb-2">
+        <div class="section-title mt-2">
+          <div class="title-name">Age Eligibility</div>
+        </div>
+
+        <div class="two fields">
+
+          <%= if @product.member_type == nil do %>
+            <div class="four wide column">
+              <div class="inline fields">
+                <h4>No Member Type Selected in General Information please go to step1 or go to this link <a href="/products/<%= @product.id %>/setup?step=1"> General-Step1</a></h4>
+              </div>
+            </div>
+          <% else %>
+            <%= if Enum.member?(@product.member_type, "Principal") do %>
+              <div class="field">
+                <label>Principal</label>
+                <div class="two fields">
+                  <div class="field">
+                    <%= label f, :principal_min_age, "Min Age", class: "label-title" %>
+                    <%= number_input f, :principal_min_age, class: "form-control validate-r p_age age", row: "Age Eligibility", field_name: "Principal's Minumum Age", id: "p_min_age", min: "1" %>
+                    <%= error_tag f, :principal_min_age %>
+                  </div>
+
+                  <div class="field">
+                    <%= label f, :principal_max_age, "Max Age", class: "label-title" %>
+                    <%= number_input f, :principal_max_age, class: "form-control validate-r p_age age", row: "Age Eligibility", field_name: "Principal's Maximum Age", id: "p_max_age", min: "1" %>
+                    <%= error_tag f, :principal_max_age %>
+                  </div>
+                </div>
+              </div>
+
+            <% end %>
+
+            <div class="field">
+              <label>Parents and Spouse</label>
+              <div class="two fields">
+
+                <div class="field">
+                  <%= label f, :adult_dependent_min_age, "Min Age", class: "label-title" %>
+                  <%= number_input f, :adult_dependent_min_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Adult Dependent's Minimum Age", min: "1", id: "ad_min_age" %>
+                  <%= error_tag f, :adult_dependent_min_age %>
+                </div>
+
+                <div class="field">
+                  <%= label f, :adult_dependent_max_age, "Max Age", class: "label-title" %>
+                  <%= number_input f, :adult_dependent_max_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Adult Dependent's Maximum Age", min: "1", id: "ad_max_age" %>
+                  <%= error_tag f, :adult_dependent_max_age %>
+                </div>
+
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <label>Child and Siblings</label>
+            <div class="two fields">
+
+              <div class="field">
+                <%= label f, :minor_dependent_min_age, "Min Age", class: "label-title" %>
+                <%= number_input f, :minor_dependent_min_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Minor Dependent's Minimum Age", min: "1", id: "md_min_age" %>
+                <%= error_tag f, :minor_dependent_min_age %>
+              </div>
+
+              <div class="field">
+                <%= label f, :minor_dependent_max_age, "Max Age", class: "label-title" %>
+                <%= number_input f, :minor_dependent_max_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Minor Dependent's Maximum Age", min: "1", id: "md_max_age" %>
+                <%= error_tag f, :minor_dependent_max_age %>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Overage Dependents</label>
+            <div class="two fields">
+
+              <div class="field">
+                <%= label f, :overage_dependent_min_age, "Min Age", class: "label-title" %>
+                <%= number_input f, :overage_dependent_min_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Overage Dependent's Minimum Age", min: "1", id: "od_min_age" %>
+                <%= error_tag f, :overage_dependent_min_age %>
+              </div>
+
+              <div class="field">
+                <%= label f, :overage_dependent_max_age, "Max Age", class: "label-title" %>
+                <%= number_input f, :overage_dependent_max_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Overage Dependent's Maximum Age", min: "1", id: "od_max_age" %>
+                <%= error_tag f, :overage_dependent_max_age %>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-border pb-2 mb-2">
+
+        <%= if @product.product_category == "Regular Plan" do %>
+
+          <div class="section-title mt-2">
+            <div class="title-name">Limit Information</div>
+          </div>
+          <div class="three fields">
+            <div class="field">
+              <label class="label-title">Mode of Availment</label>
+              <div class="two fields mt-1">
+                <div class="field mof">
+                  <div class="ui checkbox">
+                    <% lf = @product.loa_facilitated %>
+                    <% lf_state = if is_nil(lf) or lf == false, do: "unchecked", else: "checked" %>
+                    <input type="checkbox" name="product[loa_facilitated]" id="product_loa_facilitated" class="mof_input" <%= lf_state %>>
+                    <label>LOA Facilitated</label>
+                  </div>
+                </div>
+                <div class="field mof">
+                  <div class="ui checkbox">
+                    <% r = @product.reimbursement %>
+                    <% r_state = if is_nil(r) or r == false, do: "unchecked", else: "checked" %>
+                    <input type="checkbox" name="product[reimbursement]" id="product_reimbursement" class="mof_input" <%= r_state %>>
+                    <label>Reimbursement</label>
+                  </div>
+                </div>
+              </div>
+              <div class="ui basic red pointing prompt label hidden centered error_mode">
+                Please select Mode of Availment
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="two fields">
+                <div class="field">
+                  <label class="label-title">LOA Conditions</label>
+                  <div class="ui checkbox mt-1">
+                    <%= label f, :no_days_valid, "No Outright Denial", class: "label-title" %>
+                    <% nod = @product.no_outright_denial %>
+                    <% nod_state = if is_nil(nod) or nod == false, do: "unchecked", else: "checked" %>
+                    <input type="checkbox" name="product[no_outright_denial][]" <%= nod_state %>>
+                  </div>
+                </div>
+                <div class="field">
+                  <%= label f, :no_days_valid, "No. of Days Valid", class: "label-title" %>
+                  <%= text_input f, :no_days_valid, class: "form-control validate-r" %>
+                  <%= error_tag f, :no_days_valid %>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="two fields">
+                <div class="field" id="isMedinaContainer">
+                  <%= label f, :is_medina, "Auto-approve by Sonny Medina?", class: "label-title" %>
+                  <%= error_tag f, :is_medina %>
+                  <div class="inline field ui grid">
+                    <div class="ui radio checkbox">
+                      <%= radio_button f, :is_medina, "true", id: "medina_yes", class: "" %>
+                      <label for="medina_yes" class="clearError">Yes</label>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <%= radio_button f, :is_medina, "false", id: "medina_no", class: "" %>
+                      <label for="medina_no" class="clearError">No</label>
+
+                    </div>
+                  </div>
+                </div>
+
+                <%= if @product.is_medina do %>
+                  <div class="field" id="smp_limit_container">
+                    <%= label f, :smp_limit, "Sonny Medina Processing Limit", class: "control-label" %>
+                    <%= text_input f, :smp_limit, class: "form-control ", disabled: false %>
+                    <%= error_tag f, :smp_limit %>
+
+                  </div>
+
+                <% else %>
+
+                  <div class="field" id="smp_limit_container">
+                    <%= label f, :smp_limit, "Sonny Medina Processing Limit", class: "control-label" %>
+                    <%= text_input f, :smp_limit, class: "form-control ", disabled: true %>
+                    <%= error_tag f, :smp_limit %>
+
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        <% else %>
+
+          <div class="section-title mt-2">
+            <div class="title-name">LOA Options</div>
+          </div>
+          <div class="three fields">
+
+            <div class="field">
+              <label class="label-title">Mode of Availment</label>
+              <div class="two fields mt-1">
+                <div class="field">
+                  <div class="ui checkbox">
+                    <% lf = @product.loa_facilitated %>
+                    <% lf_state = if is_nil(lf) or lf == false, do: "unchecked", else: "checked" %>
+                    <input type="checkbox" name="product[loa_facilitated]" id="product_loa_facilitated" class="mof_input" <%= lf_state %>>
+                    <label>LOA Facilitated</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <% r = @product.reimbursement %>
+                    <% r_state = if is_nil(r) or r == false, do: "unchecked", else: "checked" %>
+                    <input type="checkbox" name="product[reimbursement]" id="product_reimbursement" class="mof_input" <%= r_state %>>
+                    <label>Reimbursement</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label-title">LOA Conditions</label>
+              <div class="ui checkbox mt-1">
+                <%= label f, :no_days_valid, "No Outright Denial", class: "label-title" %>
+                <% nod = @product.no_outright_denial %>
+                <% nod_state = if is_nil(nod) or nod == false, do: "unchecked", else: "checked" %>
+                <input type="checkbox" name="product[no_outright_denial][]" <%= nod_state %>>
+              </div>
+            </div>
+
+
+          </div>
+
+        <% end %>
+      </div>
+
+      <%= if @product.product_category == "Regular Plan" do %>
+        <div class="bottom-border pb-2 mb-2">
+          <div class="section-title">
+            <div class="title-name">Deductions</div>
+          </div>
+          <div class="mb-1">
+            <label>Annual Deduction</label>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label class="label-title">Network Benefits ( per Year)</label>
+              <%= text_input f, :adnb, class: "form-control", id: "adnb" %>
+            </div>
+
+            <div class="field">
+              <label class="label-title">Non-Network Benefits ( per Year)</label>
+              <%= text_input f, :adnnb, class: "form-control", id: "adnnb" %>
+            </div>
+          </div>
+
+          <div class="mb-1">
+            <label>Out of Pocket Maximum</label>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label class="label-title">Network Benefits ( per Year)</label>
+              <%= text_input f, :opmnb, class: "form-control", id: "opmnb" %>
+            </div>
+
+            <div class="field">
+              <label class="label-title">Non-Network Benefits ( per Year)</label>
+              <%= text_input f, :opmnnb, class: "form-control", id: "opmnnb" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="bottom-border pb-2 mb-2">
+
+        <%= if @product.product_category == "Regular Plan" do %>
+          <div class="section-title">
+            <div class="title-name">Schedule of Payment</div>
+          </div>
+          <div class="two fields">
+            <%= if Enum.member?(@product.member_type, "Principal") do %>
+              <div class="field">
+                <label>Principal</label>
+                <%= select f, :sop_principal, ["Annual": "Annual", "Daily": "Daily", "Hourly": "Hourly", "Monthly": "Monthly", "Quarterly": "Quarterly", "Semi Annual": "Semi Annual", "Weekly": "Weekly"], class: "ui dropdown sop_val", prompt: "Select Principal Schedule of Payment" %>
+
+              </div>
+            <% else %>
+              <div class="field hidden">
+                <label>Principal</label>
+                <%= select f, :sop_principal, ["Annual": "Annual", "Daily": "Daily", "Hourly": "Hourly", "Monthly": "Monthly", "Quarterly": "Quarterly", "Semi Annual": "Semi Annual", "Weekly": "Weekly"], class: "ui dropdown sop_val", prompt: "Select Principal Schedule of Payment", disabled: "" %>
+              </div>
+
+              <%= end %>
+
+
+              <%= if Enum.member?(@product.member_type, "Dependent") do %>
+                <div class="field">
+                  <label>Dependent</label>
+                  <%= select f, :sop_dependent, ["Annual": "Annual", "Daily": "Daily", "Hourly": "Hourly", "Monthly": "Monthly", "Quarterly": "Quarterly", "Semi Annual": "Semi Annual", "Weekly": "Weekly"], class: "ui dropdown sop_val", prompt: "Select Dependent Schedule of Payment" %>
+
+                </div>
+              <% else %>
+                <div class="field hidden">
+                  <label>Dependent</label>
+                  <%= select f, :sop_dependent, ["Annual": "Annual", "Daily": "Daily", "Hourly": "Hourly", "Monthly": "Monthly", "Quarterly": "Quarterly", "Semi Annual": "Semi Annual", "Weekly": "Weekly"], class: "ui dropdown sop_val", prompt: "Select Dependent Schedule of Payment", disabled: "" %>
+
+                </div>
+              <% end %>
+          </div>
+        <% else %>
+
+          <div class="section-title">
+            <div class="title-name">Funding Arrangement</div>
+          </div>
+          <table class="ui table">
+            <thead>
+              <tr>
+                <th>Coverage</th>
+                <th>Funding Arrangement</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pre-employment Exam</td>
+                <td>
+                  <div class="field">
+                    <div class="ui input">
+                      <%= select f, :peme_funding_arrangement, ["ASO": "ASO", "Full Risk": "Full Risk"], class: "ui dropdown", prompt: "Select Funding Arrangement", name: "product[peme_funding_arrangement]"  %>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <% fa = @product.peme_fee_for_service %>
+                      <% fa_state = if is_nil(fa) or fa == false, do: "unchecked", else: "checked" %>
+                      <input type="checkbox" name="product[peme_fee_for_service]" id="product_fee_for_service" class="mof_input" <%= fa_state %>>
+                      <label>Fee for Service</label>
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+
+        <% end %>
+
+        <div class="ui vertical segment mb-2">
+          <div class="text-right">
+            <a href="/web/products/<%= @product.id %>/setup?step=2" class="ui basic button large">
+              <i class="caret left icon"></i>Back
+            </a>
+            <button type="submit" class="ui primary button large submit_rs" id="testbtn">
+              <%= if @product.product_category == "PEME Plan" do %>
+                Submit <i class="send icon white"></i>
+              <% else %>
+                Next <i class="caret right icon white"></i>
+              <% end %>
+
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <% end %>
+</div>

@@ -1,0 +1,37 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="membersGeneral" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui dimmer">
+            <div class="ui text loader">Loading</div>
+          </div>
+          <div class="ui ordered four steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Plans</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Contact Information</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= render "step1_form.html", accounts: @accounts, changeset: @changeset, conn: @conn, action: member_path(@conn, :create_general) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

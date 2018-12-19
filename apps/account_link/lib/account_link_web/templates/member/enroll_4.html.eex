@@ -1,0 +1,299 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Member" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Enroll New Member" %> (<%= @member.id %> - <%= @member.first_name %> <%= @member.middle_name %> <%= @member.last_name %>)</li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+
+              <div class="ui small steps fluid mobile-steps">
+                <%= render "link_steps.html", step: @member.step, type: "Summary", member: @member, locale: @locale %>
+              </div>
+
+              <div name="MemberSummary">
+                <div class="section-title mt-4"><%= gettext "Personal Information" %></div>
+
+                <div class="profile__account-logo">
+                  <%# <img src="/images/summary-img.png" alt=""> %>
+                  <%= if is_nil(@member.photo) do %>
+                    <img id="photo" src="/images/no-photo-available.png">
+                  <% else %>
+                    <img id="photo" src="<%= get_img_url(@member) %>">
+                  <% end %>
+                </div>
+
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="profile__header">
+                        <div>
+                          <h1 class="d-inline-block"><%= member_full_name(@member) %></h1>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column mt-2">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Gender" %></td>
+                            <td><%= @member.gender %></td>
+                            <td class="data-label"><%= gettext "Date of Birth" %></td>
+                            <td><%= @member.birthdate %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Civil Status" %></td>
+                            <td><%= @member.civil_status %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div><!--column ends here -->
+                  </div><!-- row ends here -->
+                </div><!-- nested grid ends here -->
+
+                <div class="mt-5"><div class="section-title"><%= gettext "Account Information" %></div></div>
+
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Account Code" %></td>
+                            <td><%= @member.account_group.code %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Principal ID" %></td>
+                            <td>
+                              <%= if @member.type == "Principal" do %>
+                                <%= @member.id %>
+                              <% else %>
+                                <%= @member.principal_id %>
+                              <% end %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Coverage Start Date" %></td>
+                            <td><%= @member.effectivity_date %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Plan Code/s" %></td>
+                            <td>
+                              <%= display_product_codes(@member.products) %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Regularization Date" %></td>
+                            <td>
+                              <%= @member.regularization_date || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Senior Citizen" %></td>
+                            <td>
+                              <%= if @member.senior, do: "Yes", else: "No" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Senior Citizen ID No." %></td>
+                            <td>
+                              <%= @member.senior_id || "n/a" %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div><!--column ends here -->
+                    <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Member Type" %></td>
+                            <td><%= @member.type %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Member ID" %></td>
+                            <td><%= @member.id %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Coverage End Date" %></td>
+                            <td><%= @member.expiry_date %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "PhilHealth No." %></td>
+                            <td>
+                              <%= @member.philhealth || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "TIN" %></td>
+                            <td>
+                              <%= @member.tin || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Employee No." %></td>
+                            <td>
+                              <%= @member.employee_no || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "PWD" %></td>
+                            <td>
+                              <%= if @member.pwd, do: "Yes", else: "No" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "PWD ID No." %></td>
+                            <td>
+                              <%= @member.pwd_id || "n/a" %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div><!-- row ends here -->
+                </div><!-- nested grid ends here -->
+
+                <div class="mt-4"><div class="section-title"><%= gettext "Contact Information" %></div></div>
+
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Email Address" %></td>
+                            <td>
+                              <%= @member.email || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Mobile Phone 1" %></td>
+                            <td>
+                              <%= "#{ if @member.mcc, do: "(#{@member.mcc})", else: nil} #{@member.mobile || "n/a"}" || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Home No." %></td>
+                            <td>
+                              <%= "#{if @member.tcc, do: "(#{@member.tcc})",else: nil} #{if @member.tac, do: "(#{@member.tac})",else: nil} #{@member.telephone || "n/a"} #{if @member.tlc, do: "(#{@member.tlc})", else: nil}" || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Building Name" %></td>
+                            <td>
+                              <%= @member.building_name || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Unit No. / Floor" %></td>
+                            <td>
+                              <%= @member.unit_no || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Street Name" %></td>
+                            <td>
+                              <%= @member.street_name || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Province" %></td>
+                            <td>
+                              <%= @member.province || "n/a" %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div><!--column ends here -->
+                    <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Email Address 2" %></td>
+                            <td>
+                              <%= @member.email2 || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Mobile Phone 2" %></td>
+                            <td>
+                              <%= "#{ if @member.mcc2, do: "(#{@member.mcc2})", else: nil} #{@member.mobile2 || "n/a"}" || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Fax No." %></td>
+                            <td>
+                              <%= "#{if @member.fcc, do: "(#{@member.fcc})",else: nil} #{if @member.fac, do: "(#{@member.fac})",else: nil} #{@member.fax || "n/a"} #{if @member.flc, do: "(#{@member.flc})", else: nil}" || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "City / Municipality" %></td>
+                            <td>
+                              <%= @member.city || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Region" %></td>
+                            <td>
+                              <%= @member.region || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Postal Code" %></td>
+                            <td>
+                              <%= @member.postal || "n/a" %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Country" %></td>
+                            <td>
+                              <%= @member.country || "n/a" %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div><!-- row ends here -->
+                </div><!-- nested grid ends here -->
+
+                <div class="ui divider mt-4"></div>
+
+                <%= form_for @conn, member_path(@conn, :update_setup, @locale, @member, step: "4"), [as: :member, class: "form2"], fn f -> %>
+                  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                  <%= hidden_input(f, :member_id, value: @member.id) %>
+                  <%= if @member.step == 5 do %>
+                    <div class="sixteen wide computer column mt-4 text-right">
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/show"><i class="remove icon"></i><%= gettext "Cancel" %></a>
+                      <%# <a class="ui small button" href="/<%= @locale %1>/members/<%= @member.id %1>/show"><%= gettext "Update" %1><i class="save right icon"></i></a> %>
+                      <button class="ui button" type="submit"><%= gettext "Update" %><i class="save right icon"></i></button>
+                    </div>
+                  <%= else %>
+                    <div class="sixteen wide computer column mt-4 text-right">
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/setup?step=3"><i class="caret left icon"></i><%= gettext "Previous" %></a>
+                      <button class="ui button" type="submit"><i class="checkmark icon"></i><%= gettext "Enroll" %> </button>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </section>
+          </div><!-- column ends here -->
+        </div><!-- row ends here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <div role="success">
+    <%= render "modal_enroll_success.html", member: @member, locale: @locale %>
+  </div>
+<% end %>

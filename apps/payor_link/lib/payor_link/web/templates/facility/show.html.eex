@@ -1,0 +1,737 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Facilities</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/facilities">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">View <%= @facility.name %></div>
+  </div>
+</div>
+<div id="showFacility" class="ui equal width left aligned padded grid stackable">
+  <% disabled = if String.contains?("access_facilities", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <!-- GENERAL -->
+          <div class="ui grid centered">
+            <%# Logo start %>
+            <div class="four wide computer six wide tablet column">
+              <div class="ui centered special cards">
+                <div class="card">
+                  <%= if  @conn.assigns[:facility] && is_nil(@facility.logo) == false do %>
+                    <%= if @facility.logo.file_name != "" && not is_nil(@facility.logo.file_name) do %>
+                      <img class="ui top aligned medium image" id="photo" src="<%= String.replace(Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @facility.logo, @facility, :original), "/apps/payor_link/assets/static", "") %>">
+                    <% else %>
+                      <img src="/images/file-upload.png" id="photo" class="ui top aligned medium image">
+                    <% end %>
+                  <% else %>
+                    <img src="/images/file-upload.png" id="photo" class="ui top aligned medium image">
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <%# Logo end %>
+
+            <div class="twelve wide computer six wide tablet column">
+              <div class="ui grid centered container">
+                <div class="sixteen wide computer three wide tablet column">
+                  <div class="ui header">
+                    <%= if is_nil(@facility.code) or @facility.code == "" do %>
+                      <%= @facility.name %>
+                    <% else %>
+                      <%= @facility.code %> - <%= @facility.name %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Name</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.name %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Philhealth Accreditation From</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.phic_accreditation_from %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Type </label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.type.text %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Philhealth Accreditation To</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.phic_accreditation_to %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Category</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= if is_nil(@facility.category) do %>
+                      <% else %>
+                        <%= @facility.category.text %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Philhealth Accreditation Number</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.phic_accreditation_no %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Phone Number</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.phone_no %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Affiliation Date</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.affiliation_date %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Email / Website</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.email_address %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Disaffiliation Date</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.disaffiliation_date %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <label class="gray">Status</label>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @facility.status %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer sixteen wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <%# <label class="gray">Status</label> %>
+                    </div>
+                    <div class="eight wide column">
+                      <%# <%= @facility.status %1> %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  <!-- END OF GENERAL -->
+
+          <!-- TABS -->
+          <div class="ui top attached tabular menu" role="benefits">
+            <% profile = if @active == "profile" do %>
+              <%= "active" %>
+            <% else %>
+              <%= "" %>
+            <% end %>
+
+            <% room = if @active == "room" do %>
+              <%= "active" %>
+            <% else %>
+              <%= "" %>
+            <% end %>
+
+            <% financial = if @active == "financial" do %>
+              <%= "active" %>
+            <% else %>
+              <%= "" %>
+            <% end %>
+
+            <% practitioner = if @active == "practitioner" do %>
+              <%= "active" %>
+            <% else %>
+              <%= "" %>
+            <% end %>
+
+            <% procedure = if @active == "procedure" do %>
+              <%= "active" %>
+            <% else %>
+              <%= "" %>
+            <% end %>
+
+            <% ruv = if @active == "ruv" do %>
+              <%= "active" %>
+            <% else %>
+              <%= "" %>
+            <% end %>
+
+            <a class="item <%= profile %>" data-tab="profile">Profile</a>
+            <a class="item <%= financial %>" data-tab="financial">Financial</a>
+            <a class="item <%= room %>" data-tab="rooms">Rooms</a>
+            <a class="item <%= practitioner %>" data-tab="practitioners">Practitioners</a>
+            <a class="item <%= procedure %>" data-tab="procedures">Procedures</a>
+            <a class="item <%= ruv %>" data-tab="ruvs">RUV</a>
+          </div>
+
+          <!-- PROFILE TAB -->
+          <div class="<%= profile %> ui bottom attached tab segment" data-tab="profile">
+            <div class="ui grid centered">
+              <div class="row">
+                <div class="ui grid sixteen wide computer six wide tablet column">
+                  <h3 class="ui dividing header">Contact Details</h3>
+                  <%= for contact <- @contacts do %>
+                    <div class="ui grid">
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Name</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= name(contact.first_name, contact.last_name, contact.suffix) %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Telephone No.</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                              <%= else %>
+                              <%= for phone <- contact.phones do %>
+                                <%= if phone.type == "mobile" do %>
+                                  <p><%= phone.number %></p>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Email</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= if contact.email == nil || Enum.empty?(contact.emails) do %>
+                              <%= else %>
+                              <%= for email <- contact.emails do %>
+                                <p><%= email.address %></p>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Phone No.</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= contact.phones |> Enum.filter(&(&1.type == "mobile"))  |> Enum.map(&("#{&1.country_code} #{&1.area_code} #{&1.number} #{&1.local}" )) |> Enum.join(", ") %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Department</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= contact.department %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Fax No</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= contact.phones |> Enum.filter(&(&1.type == "fax"))  |> Enum.map(&("#{&1.country_code} #{&1.area_code} #{&1.number} #{&1.local}" )) |> Enum.join(", ") %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <label class="gray">Designation</label>
+                          </div>
+                          <div class="eight wide column">
+                            <%= contact.designation %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="eight wide computer sixteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide column">
+                            <%# <label class="gray">Name</label> %>
+                          </div>
+                          <div class="eight wide column">
+                            <%# <%= @facility.name %1> %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <%= name(contact.first_name, contact.last_name, contact.suffix) %1> %>
+                      <%# </div> %>
+
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <b>Telephone No.</b> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%# <%= if contact.phones == nil || Enum.empty?(contact.phones) do %1> %>
+                      <%#   <%= else %1> %>
+                      <%#   <%= for phone <- contact.phones do %1> %>
+                      <%#     <%= if phone.type == "mobile" do %1> %>
+                      <%#       <p><%= phone.number %1></p> %>
+                      <%#     <% end %1> %>
+                      <%#   <% end %1> %>
+                      <%# <% end %1> %>
+                      <%# </div> %>
+
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <b>Email</b> %>
+                      <%# </div> %>
+
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <%= if contact.email == nil || Enum.empty?(contact.emails) do %1> %>
+                      <%#     <%= else %1> %>
+                      <%#     <%= for email <- contact.emails do %1> %>
+                      <%#       <p><%= email.address %1></p> %>
+                      <%#     <% end %1> %>
+                      <%#   <% end %1> %>
+                      <%# </div> %>
+
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <b>Phone No.</b> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <%= contact.phones |> Enum.filter(&(&1.type == "mobile"))  |> Enum.map(&("#{&1.country_code} #{&1.area_code} #{&1.number} #{&1.local}" )) |> Enum.join(", ") %1> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <b>Department</b> %>
+                      <%# </div> %>
+
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <%= contact.department %1> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <b>Fax No.</b> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <%= contact.phones |> Enum.filter(&(&1.type == "fax"))  |> Enum.map(&("#{&1.country_code} #{&1.area_code} #{&1.number} #{&1.local}" )) |> Enum.join(", ") %1> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <b>Designation</b> %>
+                      <%# </div> %>
+                    <%# <div class="four wide computer six wide tablet column"> %>
+                      <%#   <%= contact.designation %1> %>
+                      <%# </div> %>
+                    <%# </div> %>
+                  <%# <div class="one wide computer six wide tablet column"> %>
+                    <%# </div> %>
+                  <%# <div class="one wide computer six wide tablet column"> %>
+                    <%# </div> %>
+                  <div class="sixteen wide computer six wide tablet column">
+                    <h3 class="ui dividing header">Address</h3>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="four wide computer eight wide tablet column" role="map-display">
+                <div class="field required">
+                  <div class="ui top aligned container" id="map" style="height: 200px;">
+                  </div>
+                </div>
+                <div class="field required">
+                  <br>
+                  <br>
+                  <div class="ui centered grid">
+                    <%# <i><u><b>You can use this Map to find your location.</b></u></i> %>
+                  </div>
+                </div>
+              </div>
+              <div class="seven wide computer eight wide tablet column">
+                <%# <h3 class="ui dividing header">Address</h3> %>
+                <div class="four wide computer six wide tablet column">
+                  <p><%= @facility.line_1 %> <%= @facility.line_2 %></p>
+                  <p><%= @facility.city %></p>
+                  <p><%= @facility.province %>, <%= @facility.region %></p>
+                  <p><%= @facility.country %>, <%= @facility.postal_code %></p>
+                  <input type="hidden" id="latitude" value="<%= @facility.latitude %>">
+                  <input type="hidden" id="longitude" value="<%= @facility.longitude %>">
+                </div>
+              </div>
+              <div class="five wide computer eight wide tablet column">
+                <h3 class="ui header">Operating Hours</h3>
+              </div>
+            </div>
+          </div>
+      </div>
+          <!-- END OF PROFILE TAB -->
+
+          <!-- FINANCIAL TAB -->
+          <div class="<%= financial %> ui bottom attached tab segment" data-tab="financial">
+            <div class="ui grid centered">
+              <div class="four wide computer six wide tablet column">
+                <b>TIN</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= @facility.tin %>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>VAT Status</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= case @facility.vat_status == nil do %>
+                  <%= true -> %>
+                    <%= %>
+                    <% false -> %>
+                      <%= @facility.vat_status.text %>
+                    <% end %>
+              </div>
+              <div class="sixteen wide computer six wide tablet column">
+                <h3 class="ui dividing header">Billings</h3>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Prescription Term</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= @facility.prescription_term %>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Prescription Clause</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= case @facility.prescription_clause == nil do %>
+                  <%= true -> %>
+                    <%= %>
+                    <% false -> %>
+                      <%= @facility.prescription_clause.text %>
+                    <% end %>
+              </div>
+              <div class="sixteen wide computer six wide tablet column">
+                <h3 class="ui dividing header">Payments</h3>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Credit Term</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= @facility.credit_term %>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Credit Limit</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= @facility.credit_limit %>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Mode of Payment</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= case @facility.payment_mode == nil do %>
+                  <%= true -> %>
+                    <%= %>
+                    <% false -> %>
+                      <%= @facility.payment_mode.text %>
+                    <% end %>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Mode of Releasing</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= case @facility.releasing_mode == nil do %>
+                  <%= true -> %>
+                    <%= %>
+                    <% false -> %>
+                      <%= @facility.releasing_mode.text %>
+                    <% end %>
+              </div>
+              <div class="sixteen wide computer six wide tablet column">
+                <h3 class="ui dividing header">Miscellaneous</h3>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>No. of Beds</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= @facility.no_of_beds %>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Bond</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <%= @facility.bond %>
+              </div>
+            </div>
+          </div>
+          <!-- END OF FINANCIAL TAB -->
+
+
+          <!-- ROOMS TAB -->
+          <div id="room_rate_index" class="<%= room %> ui bottom attached tab segment" data-tab="rooms">
+            <div class="ui equal width left aligned padded grid stackable">
+              <div class="right floated right aligned six wide colmn">
+                <div id="add_room" class="ui right floated add button <%= disabled %>">
+                  <i class="plus icon"></i>
+                  Room
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="column">
+                  <div class="ui segments">
+                    <div class="ui segment">
+                      <table role="datatable" class="ui stripped table facility_room">
+                        <thead>
+                          <tr>
+                            <th>Standard Room Code</th>
+                            <th>Standard Room Type</th>
+                            <th>Room Hierarchy</th>
+                            <th>RUV Rate</th>
+                            <th>Facility Room Type</th>
+                            <th>Facility Room Number</th>
+                            <th>Facility Room Rate</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= for facility_room_rate <- @facility_room_rate do %>
+                            <tr>
+                              <td><a style="cursor: pointer;" id="room" class="room_rate" facilityid="<%=facility_room_rate.facility_id %>" roomrateid="<%= facility_room_rate.id %>" roomid="<%= facility_room_rate.room.id %>" codeid="<%= facility_room_rate.room.code %>" room_type= "<%= facility_room_rate.room.type %>" room_hierarchy= "<%= facility_room_rate.room.hierarchy %>" facility_room_rate= "<%= facility_room_rate.facility_room_rate %>" facility_room_type= "<%= facility_room_rate.facility_room_type %>" facility_room_number="<%= facility_room_rate.facility_room_number %>" facility_ruv_rate="<%= facility_room_rate.facility_ruv_rate %>"><%=facility_room_rate.room.code %></a></td>
+                              <td><%=facility_room_rate.room.type %></td>
+                              <td><%=facility_room_rate.room.hierarchy%></td>
+                              <td><%=facility_room_rate.facility_ruv_rate%></td>
+                              <td><%=facility_room_rate.facility_room_type%></td>
+                              <td><%=facility_room_rate.facility_room_number%></td>
+                              <td><%=facility_room_rate.facility_room_rate%></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END OF ROOMS TAB -->
+
+          <!-- START OF PRACTITIONERS TAB -->
+          <div class="<%= practitioner %> ui bottom attached tab segment" data-tab="practitioners">
+            <%= render "practitioner_form.html", facility: @facility, conn: @conn, practitioner_facilities: @practitioner_facilities %>
+          </div>
+          <!-- END OF PRACTITIONERS TAB -->
+
+          <!-- START OF PROCEDURES TAB -->
+          <div class="<%= procedure %> ui bottom attached tab segment" data-tab="procedures" id="facility_payor_procedure">
+            <div class="ui equal width left aligned padded grid stackable">
+              <div class="right floated right aligned six wide colmn">
+                <div id="batch" class="ui right floated add button clickable-row <%= disabled %>" href="/facilities/payor_procedure/<%= @facility.id %>/import">
+                  <i class="upload icon"></i>
+                  Batch Upload
+                </div>
+                <%= if Enum.count(@facility_room_rate) == 0 do %>
+                  <a id="no_room" class="ui right floated add button <%= disabled %>">
+                  <i class="plus icon"></i>
+                  Procedure
+                </a>
+              <% else %>
+                <a href="/facilities/<%= @facility.id %>/add_procedure" class="ui right floated add button">
+                  <i class="plus icon"></i>
+                  Procedure
+                </a>
+                <% end %>
+
+              </div>
+            </div>
+            <div class="ui grid">
+              <div id="facility_procedure_index" class="sixteen wide tablet sixteen wide computer column">
+                <table role="datatable" class="ui stripped table" id="fpp_table">
+                  <thead>
+                    <tr>
+                      <th>Payor CPT Code/Name</th>
+                      <th>Facility CPT Code</th>
+                      <th>Facility CPT Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for fpp <- @facility_payor_procedure do %>
+                      <tr>
+                        <td>
+                          <a style="cursor: pointer;" class="linkFProcedure" facilityProcedureID="<%= fpp.id %>" facilityID="<%= @facility.id%>" cptCode="<%= fpp.payor_procedure.code %>" cptName="<%= fpp.payor_procedure.description %>">
+                            <%=fpp.payor_procedure.code %> :
+                            <%=fpp.payor_procedure.description%>
+                          </a>
+                        </td>
+                        <td><%=fpp.code %></td>
+                        <td><%=fpp.name%></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+                <!-- for exporting csv based on result -->
+                <div class="ui right aligned grid">
+                  <div class="right floated right aligned four wide column">
+                    <a href="#" id="export_btn" class="ui primary button <%= disabled %>" facilityID="<%= @facility.id %>" ><i class="download icon"></i>Download Result</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- END OF PROCEDURES TAB -->
+
+          <!-- RUV TAB -->
+          <div id="ruv_index" class="<%= ruv %> ui bottom attached tab segment" data-tab="ruvs">
+            <div class="ui equal width left aligned padded grid stackable">
+              <div class="right floated right aligned six wide colmn">
+                <div id="batch_ruv" class="ui right floated add button clickable-row <%= disabled %>" href="/facilities/ruv/<%= @facility.id %>/import">
+                  <i class="upload icon"></i>
+                  Batch Upload
+                </div>
+                <div id="add_ruv" class="ui right floated add button <%= disabled %>">
+                  <i class="plus icon"></i>
+                  RUV
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="column">
+                  <div class="ui segments">
+                    <div class="ui segment">
+                      <table role="datatable" class="ui stripped table" id="fr_table">
+                        <thead>
+                          <tr>
+                            <th>RUV Code</th>
+                            <th>RUV Description</th>
+                            <th>RUV Type</th>
+                            <th>Value</th>
+                            <th>Effectivity Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= for facility_ruv <- @facility_ruv do %>
+                            <tr>
+                              <td><%=facility_ruv.ruv.code %></td>
+                              <td><%=facility_ruv.ruv.description %></td>
+                              <td><%=facility_ruv.ruv.type %></td>
+                              <td><%=facility_ruv.ruv.value %></td>
+                              <td><%=facility_ruv.ruv.effectivity_date %></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                      <div class="ui right aligned grid">
+                        <div class="right floated right aligned four wide column">
+                          <a href="#" id="export_ruv_btn" class="ui primary button <%= disabled %>" facilityID="<%= @facility.id %>" ><i class="download icon"></i>Download Result</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END OF RUV TAB -->
+          <a href="/facilities" class="ui button">
+            <i class="chevron left icon"></i>
+            Back
+          </a>
+          <a href="/facilities/<%= @facility.id %>/edit?tab=general"
+             class='ui <%= check_facility_status(@facility.status) %> right floated button blue'>
+            <i class="edit icon"></i>
+            Edit
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%=render "form_room_rate.html",
+facility_room_rate: @facility_room_rate,
+changeset: @changeset,
+room: @room, facility_id: @facility.id,
+conn: @conn,
+action: facility_room_rate_path(@conn, :create_room_rate, @facility.id)%>
+
+<%=render "form_edit_room_rate.html",
+facility_room_rate: @facility_room_rate,
+changeset: @changeset,
+room: @room, facility_id: @facility.id,
+conn: @conn,
+action: facility_room_rate_path(@conn, :update_room_rate, @facility.id, @facility_room_rate)%>
+
+<%=
+render "modal_view_procedure.html",
+facility_id: @facility.id,
+payor_procedure: @payor_procedure,
+facility_room_rate: @facility_room_rate,
+changeset_facility_payor_procedure: @changeset_facility_payor_procedure,
+action: facility_path(@conn, :update_facility_payor_procedure, @facility)%>
+
+<%=render "form_ruv.html",
+facility_ruv: @facility_ruv,
+changeset: @changeset,
+ruv: @ruv, facility_id: @facility.id,
+conn: @conn,
+action: facility_path(@conn, :create_ruv, @facility.id)%>

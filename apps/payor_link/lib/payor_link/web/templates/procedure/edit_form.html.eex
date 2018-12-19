@@ -1,0 +1,40 @@
+<div id="edit_form_procedures">
+  <%= if @changeset.action do %>
+    <div class="ui negative message">
+      <%= Innerpeace.Db.Base.Api.UtilityContext.changeset_errors_to_string(@changeset.errors) %>
+      <i class="close icon"></i>
+      <%= get_flash(@conn, :error) %>
+    </div>
+  <% end %>
+
+  <%= form_for @changeset, @action, [class: "form2", id: "procedure"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="field required">
+        <%= label f, :cpt_code, "Standard CPT Code / Description" %>
+        <%= text_input f, :cpt_code, "data-validate": "code", value: get_cpt_code(@procedure), disabled: true %>
+        <%= error_tag f, :cpt_code %>
+      </div>
+
+    <div id="payor" class="two fields">
+      <div class="field required">
+        <%= label f, :code, "Payor CPT Code" %>
+        <%= text_input f, :code, "data-validate": "code", disabled: true %>
+        <%= error_tag f, :code %>
+      </div>
+      <div class="field required">
+        <%= label f, :description, "Payor CPT Description"%>
+        <%= text_input f, :description, "data-validate": "description"  %>
+        <%= error_tag f, :description %>
+      </div>
+    </div>
+
+    <button type="button" class="ui blue right floated button submit">
+      <i class="send left icon"></i>
+      Submit
+    </button>
+    <button id="cancelBtn" class="ui button" redirect-to="/procedures" type="button">
+      <i class="remove icon"></i>
+      Cancel
+    </button>
+  <% end %>
+</div>

@@ -1,0 +1,58 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Role</h1>
+  <div class="ui large breadcrumb">
+    <div class="active section">View</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment form2">
+          <div class="two inline fields">
+            <div class="field">
+              <label class="ui header"><h4>Role Name:</h4> </label>
+              <label> <%= @role.name %></label>
+            </div>
+
+            <div class="field">
+              <label class="ui header"><h4>Application: </h4></label>
+              <label>
+                <% role_application = [] ++ for ra <- @role.role_applications, do: ra.application.name  %>
+                <%= Enum.join(role_application, ", ") %>
+              </label>
+            </div>
+          </div>
+          <div class="inline fields">
+            <label class="ui header"><h4>Role Description:</h4> </label>
+            <label>
+              <%= @role.description %>
+            </label>
+          </div>
+          <div class="field" id="role_permissions">
+            <h4 class="ui dividing header">Permissions Summary  </h4>
+            <%= render "display-permissions.html", role: @role, permissions: @permissions %>
+          </div>
+          <div class="two inline fields">
+            <div class="field">
+              <span><%= link "Back", to: role_path(@conn, :index), class: "ui button" %></span>
+            </div>
+            <div class="field">
+              <span>
+                <%=if @role.step == 4 do %>
+                  <a class="ui right floated blue button" href="/roles/<%= @role.id %>/setup?step=1">Edit</a>
+                  <% else %>
+                  <a class="ui right floated blue button" href="/roles/<%= @role.id %>/setup?step=<%= @role.step%>">Edit</a>
+                <% end %>
+                <%= link "Delete", to: role_path(@conn, :delete, @role), method: :delete, data: [confirm: "Are you sure?"], class: "ui right floated red button" %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

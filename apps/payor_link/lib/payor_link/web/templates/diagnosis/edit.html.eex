@@ -1,0 +1,63 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Diagnoses</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/diseases">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Diagnosis</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <%= if not @changeset.valid? do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= form_for @changeset, diagnosis_path(@conn, :update, @diagnosis), [as: :diagnosis, multipart: true], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :code, "Primary Diagnosis Code" %>
+                <%= text_input f, :code, disabled: true %>
+              </div>
+              <div class="field">
+                <%= label f, :description, "Primary Diagnosis Description" %>
+                <%= text_input f, :description, disabled: true %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :exclusion_type, "Exclusion Type" %>
+                <div class="ui dropdown selection">
+                  <%= select f, :exclusion_type, ["General Exclusion": "General Exclusion", "Pre-existing condition": "Pre-existing condition", "None": ""], prompt: "--SELECT ONE--" %>
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Exclusion Type</div>
+                  <div class="menu" tabindex="-1">
+                    <div class="item" data-value="General Exclusion">General Exclusion</div>
+                    <div class="item" data-value="Pre-existing condition">Pre-existing condition</div>
+                    <div class="item" data-value="">None</div>
+                  </div>
+                </div>
+                <p style="color: red"><%= error_tag f, :exclusion_type %></p>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="ui green right floated button" type="submit">
+                <i class="save icon"></i>
+                Save
+              </button>
+              <a href="\diseases" class="ui button">
+                <i class="remove icon"></i>
+                Cancel
+              </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

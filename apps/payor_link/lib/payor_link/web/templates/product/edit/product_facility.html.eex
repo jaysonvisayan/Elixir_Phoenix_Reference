@@ -1,0 +1,41 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Plan</div>
+  </div>
+</div>
+<div id="product_facilities" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui six item menu">
+            <a href="#" class="facility_item_edit item" link="general" productID="<%= @product.id %>" >General</a>
+            <a href="#" class="facility_item_edit item" link="exclusion" productID="<%= @product.id %>" >Exclusion</a>
+            <a href="#" class="facility_item_edit item" link="<%= product_base_link_edittab(@product) %>" productID="<%= @product.id %>" ><%= product_base_label(@product) %></a>
+            <a class="active item">Facility Access</a>
+            <a href="#" class="facility_item_edit item" link="condition" productID="<%= @product.id %>" >Condition</a>
+            <a href="#" class="facility_item_edit item" link="risk_share" productID="<%= @product.id %>" >Risk Share</a>
+          </div>
+
+        <%= if assigns[:modal_open] do %>
+          <input type="hidden" id="open_modal_facilities_v2" value="show">
+        <% end %>
+
+        <%# Render Step 4 form and modals %>
+        <%= render "edit/product_facility_form.html", product: @product, product_coverages: @product_coverages, changeset: @changeset %>
+        <%= render "edit/product_facility_modal.html", product: @product, facilities: @facilities, location_group: @location_group, changeset: @changeset, conn: @conn, action: product_path(@conn, :save, @product, tab: "facility_access") %>
+        <%= render "edit/product_facility_modal_acu.html", product: @product, facilities: @facilities, location_group: @location_group, changeset: @changeset, conn: @conn, action: product_path(@conn, :save, @product, tab: "facility_access") %>
+        <%= render "edit/product_facility_confirmation_change_modal.html" %>
+        <%= render "edit/product_facility_confirmation_remove_modal.html" %>
+        <%= render "edit/product_facility_view_product_modal.html" %>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

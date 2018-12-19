@@ -1,0 +1,68 @@
+<div class="ui medium modal" role="modal-edit-schedule">
+  <i class="close icon"></i>
+  <div class="centered header">
+    EDIT SCHEDULE
+  </div>
+  <div class="content" id="formScheduleValidateEdit">
+<%= form_for @changeset, @action, [as: :practitioner_account, multipart: true, class: "ui form"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+
+      <div class="ui grid">
+        <div class="sixteen wide tablet sixteen wide computer column">
+          <table class="ui very basic table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Room</th>
+                <th>Time From</th>
+                <th>Time To</th>
+              </tr>
+            </thead>
+            <tbody>
+              <div id="dateFormPicker">
+                <tr>
+                  <%= hidden_input f, :day, name: "practitioner_account[day]" %>
+                  <td>
+                    <div class="field" role="day">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="eight wide field">
+                      <%= text_input f, :room, name: "practitioner_account[room]" %>
+                    </div>
+                  </td>
+                    <td>
+                      <div class="six wide field">
+                        <div class="ui calendar time">
+                          <%= text_input f, :time_from, name: "practitioner_account[time_from]", placeholder: "00:00" %>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="six wide field">
+                        <div class="ui calendar time">
+                          <%= text_input f, :time_to, name: "practitioner_account[time_to]", placeholder: "00:00" %>
+                        </div>
+                      </div>
+                    </td>
+                    <%= hidden_input f, :schedule_id, name: "practitioner_account[schedule_id]" %>
+                </tr>
+              </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+    <button type="submit" class="small ui blue button" id="edit_sched">
+      <i class="icon save"></i>
+        Update
+    </button>
+  </div>
+<%end %>
+</div>

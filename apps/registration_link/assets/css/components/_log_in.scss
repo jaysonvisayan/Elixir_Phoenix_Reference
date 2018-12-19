@@ -1,0 +1,32 @@
+.footer-design {
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  text-align: center;
+  bottom: 0;
+  display: block;
+  color: #000000;
+  margin-bottom: 0rem;
+  background-color: #F5F5F5;
+  .ui.center.aligned.basic.segment {
+    padding: 1rem;
+  }
+}
+
+.login-wrapper {
+  background: radial-gradient(rgb(226, 255, 230) 5%, rgba(0, 178, 79, 0.53) 95%);
+  height: 100%;
+}
+
+.login-container {
+  background-color: #ffffff;
+  border: 1px rgba(33, 33, 33, 0.49) solid;
+  padding: 2rem;
+  width: 60rem !important;
+  box-shadow: 5px 10px 5px rgba(39, 39, 39, 0.51);
+}
+
+.white-space {
+  min-height: 20rem;
+}
+

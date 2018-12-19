@@ -1,0 +1,231 @@
+<div class="row">
+  <div class="sixteen wide column">
+    <%= form_for @changeset, @action, [as: :account, class: "ui form", id: "general", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <div class="two fields" id="fileUpload">
+          <div class="three wide field">
+            <%= if  @conn.assigns[:account] && is_nil(@account_group.photo) == false do %>
+              <img class="ui centered small circular image" id="photo" src="<%= Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @account_group.photo, @account_group, :original)%>" accountGroupID="<%= @account_group.id %>", accountID="<%= @account.id %>">
+            <% else %>
+              <img class="ui centered small circular image" src="/images/file-upload (1).png" id="photo">
+            <% end %>
+          </div>
+          <div class="five wide field">
+            <label>Upload Photo</label>
+              <%= if  @conn.assigns[:account] && is_nil(@account_group.photo) == false do %>
+                <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide", accountID: @account.id %>
+              <% else %>
+                <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide" %>
+              <% end %>
+              <div class="ui basic icon fluid buttons">
+                <div class="ui hidden divider"></div>
+                  <label class="ui button" for="imageUpload" id="imageLabel"><i class="open folder icon"></i> Browse Photo</label>
+                  <label class="ui button" id="imageRemove"><i class="remove icon"></i> Remove</label>
+              </div>
+              <p class="ui tiny header">
+                <span class="sub header">
+                  Maximum file size is 5 MB.
+                  <br>
+                  Acceptable file types are jpg, jpeg and png.
+                </span>
+              </p>
+          </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="field">
+          <label>Segment</label>
+      </div>
+      <div class="four inline fields">
+        <div class="field">
+          <div class="ui segment" role="clickable-segment">
+              <div class="ui radio checkbox">
+                  <%= radio_button(f, :segment, "Corporate", checked: "") %>
+                  <label class="coloring green"v><b>Corporate</b></label>
+              </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment" role="clickable-segment">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :segment, "Individual") %>
+                <label class="coloring green"><b>Individual</b></label>
+              </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment" role="clickable-segment">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :segment, "Family") %>
+                <label class="coloring green"><b>Family</b></label>
+              </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment" role="clickable-segment">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :segment, "Group") %>
+                <label class="coloring green"><b>Group</b></label>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="two fields">
+          <div class="field">
+            <label>Account Name</label>
+            <%= if @conn.assigns[:account_group] do %>
+              <%= text_input f, :name, dummy_val: @account_group.name, placeholder: "Enter Account Name" %>
+            <% else %>
+              <%= text_input f, :name, placeholder: "Enter Account Name" %>
+            <% end %>
+            <p style="color:red"><%= error_tag f, :name %></p>
+          </div>
+          <div class="field">
+            <label>Account Type</label>
+            <%= select f, :type, ["Headquarters": "Headquarters", "Subsidiary": "Subsidiary", "Branch": "Branch"], class: "ui fluid dropdown", required: "" %>
+            <%= error_tag f, :type %>
+          </div>
+      </div>
+      <div class="field">
+          <label>Industry</label>
+          <%= select f, :industry_id, @industry, class: "ui fluid dropdown" %>
+          <%= error_tag f, :industry_id %>
+      </div>
+      <%= if @conn.assigns[:active_account] && @active_account.id != @account.id && not is_nil(@active_account) do %>
+        <%= hidden_input f, :cur_end_date, value: @active_account.end_date %>
+        <%= hidden_input f, :cancellation_date, value: @active_account.cancel_date %>
+      <% else %>
+        <%= hidden_input f, :cur_end_date, value: "" %>
+        <%= hidden_input f, :cancellation_date, value: "" %>
+      <% end %>
+      <div class="two fields" id="dateFormPicker">
+        <div class="field">
+            <label>Effectivity Date</label>
+            <div class="ui calendar"
+              <%= if @conn.assigns[:account] && @account.step == 7 && @account.status != "For Activation" do %>
+                id="account_edit_start_date"
+                <% else %>
+                id="account_start_date"
+              <% end %> >
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <%= cond do %>
+                  <%= @conn.assigns[:account] && @account.step == 7 && @account.status == "For Activation" -> %>
+                    <%= text_input f, :start_date,
+                        value: @account.start_date,
+                        placeholder: "MMM DD YYYY" %>
+                  <% @conn.assigns[:account] && @account.step == 7 -> %>
+                    <%= text_input f, :start_date,
+                        value: @account.start_date,
+                        placeholder: "MMM DD YYYY",
+                        disabled: "" %>
+                  <% @conn.assigns[:account] -> %>
+                    <%= text_input f, :start_date,
+                        value: @account.start_date,
+                        placeholder: "MMM DD YYYY" %>
+                  <% true -> %>
+                    <%= text_input f, :start_date, placeholder: "MMM DD YYYY" %>
+                <% end %>
+                </div>
+              </div>
+            <%= error_tag f, :start_date %>
+        </div>
+        <div class="field">
+            <%= label f, "Expiry Date", class: "control-label" %>
+            <div class="ui calendar"
+              <%= if @conn.assigns[:account] && @account.step == 7 && @account.status != "For Activation" do %>
+                id="account_edit_end_date"
+                <% else %>
+                id="account_end_date"
+              <% end %> >
+
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= cond do %>
+                  <%= @conn.assigns[:account] && @account.step == 7 && @account.status == "For Activation" -> %>
+                    <%= text_input f, :end_date,
+                        value: @account.end_date,
+                        class: "form-control",
+                        placeholder: "MMM DD YYYY" %>
+                  <% @conn.assigns[:account] && @account.step == 7 ->%>
+                    <%= text_input f, :end_date,
+                        value: @account.end_date,
+                        class: "form-control",
+                        placeholder: "MMM DD YYYY"%>
+                  <% @conn.assigns[:account] ->%>
+                    <%= text_input f, :end_date,
+                        value: @account.end_date,
+                        class: "form-control",
+                        placeholder: "MMM DD YYYY" %>
+                  <% true ->%>
+                    <%= text_input f, :end_date, class: "form-control", placeholder: "MMM DD YYYY" %>
+                <% end %>
+                <%= error_tag f, :end_date %>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <h4 class="ui dividing header">Company Contact Information</h4>
+      <div class="two fields">
+        <div class="field">
+          <label>Company Telephone Number <i class="gray">(Optional)</i></label>
+            <%= number_input f, :phone_no, maxlength: 7, minlength: 7, id: "number", placeholder: "Enter telephone number"%>
+            <%= error_tag f, :phone_no%>
+        </div>
+        <div class="field">
+          <label>Company Email Address <i class="gray">(Optional)</i></label>
+          <%= email_input f, :email, placeholder: "Enter email address" %>
+          <%= error_tag f, :email %>
+        </div>
+      </div>
+
+      <div class="ui divider"></div>
+
+       <div class="fluid field">
+          <label>Remarks <i class="gray">(Optional)</i></label>
+          <%= textarea f, :remarks %>
+          <%= error_tag f, :remarks%>
+      </div>
+
+  </div>
+
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <%= if @conn.assigns[:account] && @account.step <= 5 do %>
+      <%= render "modal_draft.html", account: @account %>
+      <a class="ui basic button" id="cancel_button">Delete</a>
+    <% end %>
+  </div>
+  <div class="eight wide right aligned column">
+
+    <%= if @conn.assigns[:account] && @account.step == 7 do %>
+      <%=# render "modal_cancel.html", account: @account %>
+      <!--<a id="cancel_button" class="ui button">
+        <i class="remove left icon"></i> Cancel
+      </a> -->
+      <button type="submit" class="ui primary button">Save Changes</button>
+    <% else %>
+      <a href="/accounts" class="ui basic button">Cancel</a>
+      <button type="submit" class="ui primary button">Continue to Next Step</button>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<%= if @conn.assigns[:account] && @account.step <= 6 do %>
+  <%= form_for @conn, account_path(@conn, :delete, @account.account_group_id), [id: "delete-draft", multipart: true, as: :account, method: :delete], fn _f -> %>
+  <% end %>
+<% end %>
+<%= if @conn.assigns[:account] do %>
+  <%= form_for @conn, account_path(@conn, :remove_photo, @account.account_group_id), [id: "delete-photo", multipart: true, as: :account, method: :delete], fn _f -> %>
+    <input type="hidden" name="account_id" value="<%= @account.id %>" />
+  <% end %>
+<% end %>

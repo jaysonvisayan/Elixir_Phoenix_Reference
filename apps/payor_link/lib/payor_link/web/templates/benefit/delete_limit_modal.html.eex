@@ -1,0 +1,20 @@
+<div class="ui tiny modal" id="modalDeleteBenefitLimit">
+  <div class="header">
+    Remove Limit
+  </div>
+  <div class="content">
+    <p>
+    Are you sure you want to remove this Limit?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep Limit
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBenefitLimit">
+      <i class="trash icon"></i>
+      Yes, Remove Limit
+    </div>
+  </div>
+</div>

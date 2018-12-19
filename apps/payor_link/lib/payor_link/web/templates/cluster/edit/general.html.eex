@@ -1,0 +1,66 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Clusters</h2>
+  <div class="ui small breadcrumb">
+    <a href="/clusters" class="section">Clusters</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/clusters" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/clusters/<%= @cluster.id %>" class="section">View Cluster</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit <%= @cluster.code %> - <%= @cluster.name %></div>
+  </div>
+</div>
+
+
+<div class="ui equal width left aligned padded grid stackable" name="ClusterValidations_edit">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment" id="Cluster">
+          <div class="ui two item menu">
+            <a class="active item">General</a>
+            <a href="/clusters/<%= @cluster.id %>/edit?tab=account" class="item">Account</a>
+          </div>
+
+          <div class="ui bottom attached segment">
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= form_for @changeset, cluster_path(@conn, :update_edit_setup, @cluster, tab: "general"), [as: :cluster, multipart: true], fn f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <%= if @changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+          <% end %>
+          <div class="two fields">
+            <div class="disabled field">
+              <%= label f, "Cluster Code", class: "control-label" %>
+              <%= text_input f, :code, class: "form-control" %>
+              <font color="red"><%= error_tag f, :code %></font>
+            </div>
+            <div class="field">
+              <%= label f, "Cluster Name", class: "control-label" %>
+              <%= text_input f, :name, class: "form-control" %>
+              <font color="red"><%= error_tag f, :name %></font>
+            </div>
+          </div>
+
+          <button class="ui blue right floated button" type="submit">
+        <i class="save left icon"></i>
+        Save
+      </button>
+      <a href="/clusters/<%= @cluster.id %>" class="ui button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

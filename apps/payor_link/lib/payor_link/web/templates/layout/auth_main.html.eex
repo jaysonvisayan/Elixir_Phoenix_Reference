@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/png" href="<%= static_path(@conn, "/images/favicon.png") %>">
+
+    <title>PayorLink</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/main.css") %>">
+  </head>
+  <body id="auth_main">
+    <header class="header">
+        <div class="ui container">
+          <div class="ui text menu">
+            <div class="item logo">
+              <a href="#" class="mr-2 fs-20 hamburger-trigger"><i class="sidebar icon"></i></a><a href="/sign_in" class="site-logo"><span class="sr-only">PayorLink</span></a>
+            </div>
+            <div class="ui right item">
+
+              <span>
+                Dont have an account?
+              </span>
+              <a href="#" class="ui button basic primary">
+                Get Started
+              </a>
+
+            </div>
+          </div>
+        </div>
+    </header>
+
+
+    <div class="containerli main-wrapper">
+      <main role="main">
+          <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+info = get_flash(@conn, :info)
+error = get_flash(@conn, :error)
+warning = get_flash(@conn, :warning)
+%>
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+<%= if error do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+  </script>
+<% end %>
+<%= if warning do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.warning('<i class="close icon"></i><%= warning %>')
+    });
+  </script>
+<% end %>

@@ -1,0 +1,240 @@
+<% coverage = @product_coverage.coverage.code |> String.downcase() %>
+<% f = @f %>
+<div class="ui form coverage_form">
+    <input type="hidden" name="product[coverages][]" value="<%= coverage %>">
+    <div class="bottom-border pb-2 mb-2">
+        <div class="section-title mt-2">
+            <div class="title-name">Facilities</div>
+        </div>
+        <a class="modal-open-facilities ui primary button right floated disabled" coverage="<%= coverage %>" id="<%= coverage %>_add_fa_btn">
+            <i class="white plus icon"></i>
+            Add Facilities
+        </a>
+
+        <div class="two fields">
+            <div class="field">
+                <label class="label-title">Select Facilities </label>
+                <div class="two fields mt-1">
+                    <div class="field">
+                        <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                            <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities" %>
+                            <label>All Affilated Facilities</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                            <%= radio_button f, :"#{coverage}][type", "Specific Facilities" %>
+                            <label>Specific facilities</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <input type="text" id="coverage_type" class="hidden">
+                </div>
+            </div>
+        </div>
+
+        <table role="datatable" class="full-width ui celled striped table" id="<%= coverage %>_fa_tbl">
+            <thead>
+                <tr>
+                    <th>Facility Code</th>
+                    <th>Facility Name</th>
+                    <th>Address</th>
+                    <th>Facility Type</th>
+                    <th>Category</th>
+                    <th>Region</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="field">
+            <input type="text" class="hidden" name="<%= coverage%>_is_valid_facility" coverage="<%= coverage %>" id="fa_tbl">
+        </div>
+    </div>
+
+    <div class="section-title mt-2">
+        <div class="title-name">Funding</div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+            <label class="label-title">Funding Arragement</label>
+            <div class="two fields mt-1">
+                <div class="field">
+                    <div class="ui radio checkbox fa_rb">
+                        <%= radio_button f, :"#{coverage}][funding_arrangement", "Full Risk" %>
+                        <label>Full Risk</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox fa_rb">
+                        <%= radio_button f, :"#{coverage}][funding_arrangement", "ASO" %>
+                        <label>ASO</label>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <input type="text" name="<%= coverage%>_is_valid_funding" id="funding_arrangement_type" class="hidden">
+            </div>
+        </div>
+
+        <div class="field hidden">
+            <label class="label-title">Limit Threshold of Affiliated Facilities</label>
+            <input class="mask-decimal" name="product[<%= coverage %>][limit_threshold]" id="limit_threshold" type="text" placeholder="Limit Threshold of Affiliated Facilities">
+        </div>
+
+    </div>
+    <div class="two fields">
+        <div class="field hidden">
+            <label class="label-title">Exempted Facilities</label>
+        </div>
+
+        <div class="field hidden">
+            <a class="modal-open-lt ui primary button right floated disabled" id="<%= coverage %>_add_ex_lt_btn" coverage="<%= coverage %>">
+                <i class="white plus icon"></i>
+                Exempt Facilities
+            </a>
+        </div>
+
+    </div>
+
+    <div class="hidden">
+        <table role="datatable" class="full-width ui celled striped table" id="<%= coverage %>_lt_tbl">
+            <thead>
+                <tr>
+                    <th>Facility Code</th>
+                    <th>Facility Name</th>
+                    <th>Limit Threshold</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom-border pb-2 mb-2">
+    </div>
+
+    <div class="hidden">
+        <div class="section-title">
+            <div class="title-name">Risk Share</div>
+        </div>
+        <div class="mb-1">
+            <label>Accredited Facilities</label>
+        </div>
+        <div class="three fields">
+            <div class="field">
+                <label class="label-title">Risk Share</label>
+                <%= select f, :"#{coverage}][afrs", ["": "", "Copayment": "Copayment", "CoInsurance": "CoInsurance"], class: "ui fluid dropdown", prompt: "Select Risk Share Type", id: "af_rs" %>
+            </div>
+            <div class="field">
+                <label class="label-title">Value</label>
+                <div class="ui right labeled input">
+                    <input class="form-control" name="product[<%= '#{coverage}][afvalue' %>]" id="af_value" type="text">
+                    <div class="ui basic label" id="">
+                        %
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label-title">Covered After Risk Share</label>
+                <div class="ui right labeled input">
+                    <input class="form-control" name="product[<%= '#{coverage}][afcars' %>]" id="af_cars" type="text">
+                    <div class="ui basic label" id="">
+                        %
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <label>Non-Accredited Facilities</label>
+        </div>
+        <div class="three fields">
+            <div class="field">
+                <label class="label-title">Risk Share</label>
+                <%= select f, :"#{coverage}][nafrs", ["": "", "Copayment": "Copayment", "CoInsurance": "CoInsurance"], class: "ui fluid dropdown", prompt: "Select Risk Share Type", id: "naf_rs" %>
+            </div>
+            <div class="field">
+                <label class="label-title">Value</label>
+                <div class="ui right labeled input">
+                    <input class="form-control" name="product[<%= '#{coverage}][nafvalue' %>]" type="text" id="naf_value" >
+                    <div class="ui basic label" id="">
+                        %
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label-title">Covered After Risk Share</label>
+                <div class="ui right labeled input">
+                    <input class="form-control" name="product[<%= '#{coverage}][nafcars' %>]" type="text" id="naf_cars">
+                    <div class="ui basic label" id="">
+                        %
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label-title">Reimbursable</label>
+            <%= select f, :"#{coverage}][nafreimbursable", ["": "", "Yes": "Yes", "No": "No"], class: "ui fluid dropdown", prompt: "Select Reimbursable Value", id: "naf_reimbursable" %>
+        </div>
+
+        <div class="two fields">
+            <div class="field">
+                <div class="mb-1">
+                    <label>Exempted Facilities</label>
+                </div>
+            </div>
+
+            <div class="field">
+                <a class="modal-open-rs ui primary button right floated" coverage="<%= coverage %>">
+                    <i class="white plus icon"></i>
+                    Exempt Facilities
+                </a>
+            </div>
+
+        </div>
+
+        <table role="datatable" class="full-width ui celled striped table" id="<%= coverage %>_rs_tbl">
+            <thead>
+                <tr>
+                    <th>Facility Code</th>
+                    <th>Facility Name</th>
+                    <th>Risk Share</th>
+                    <th>Value</th>
+                    <th>Covered after Risk Share</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="bottom-border pb-2 mb-2">
+        </div>
+    </div>
+
+</div>
+<%= render "modal_facility_access.html", coverage: coverage %>
+<div class="ui tiny modal" id="remove_facility_confirmation">
+  <div class="header">
+    Remove Facility?
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="df_product_id">
+    <p>
+      You are about to delete this facility. Are you sure?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="df_cancel">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui red ok button"  id="df_submit">
+      <i class="trash icon"></i>
+      Yes
+    </div>
+  </div>
+</div>

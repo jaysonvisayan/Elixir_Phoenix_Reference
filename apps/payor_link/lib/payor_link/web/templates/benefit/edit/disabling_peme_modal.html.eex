@@ -1,0 +1,74 @@
+<div class="ui tiny modal" id="modalDisablingPeme">
+  <div class="header">
+    <b> Disable Benefit</b>
+    <br>
+    <div class="ui grid">
+      <div class="seven wide column">
+        <h2 class="ui icon header" style="style="text-align: "center" ; width:"100%">
+          <i class="add square icon"></i>
+          <div class="content">
+            <b> Riders</b>
+          </div>
+        </h2>
+      </div>
+      <div class="nine wide column">
+        <p style="color:MediumSeaGreen;">
+          <%= @benefit.code %></p><%= @benefit.name%>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <%= form_for @changeset_disabling_benefit, benefit_path(@conn, :disabling_benefit), [as: :benefit, class: "ui form", id: "disabled_benefit_form"], fn f -> %>
+      <%= hidden_input f, :id, value: @benefit.id %>
+      <div class="field discontinuedateFormPicker" id="dateFormPicker">
+        <label><b>Disabled Date:</b></label>
+        <div class="ui calendar" id="disabledDate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :disabled_date, placeholder: "YYYY-MM-DD", id: "disabled_date" %>
+            <%# <input type="text" id="b_id"> %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label><b>Remarks:</b></label>
+        <%= textarea f, :remarks, rows: "5", cols: "30", class: "semantic-textarea", id: "disabled_remarks" %>
+      </div>
+      <div class="actions">
+        <button type="button"  class="ui cancel left floated green basic button" id="cancel_disabled_button">
+          <%# <i class="remove icon"></i> %>
+          Cancel
+        </button>
+        <button type="button" class="ui right floated positive button"  id="confirmDisableBenefitID">
+          <%# <i class="trash icon"></i> %>
+          Disable Benefit
+        </button>
+      </div>
+
+      <br><br>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="ui tiny modal" id="modalDisablingPemeConfirmation">
+  <div class="header"><b>
+      Disable Benefit
+    </b> </div>
+
+    <div>
+      Disabling the benefit must disable the plans of existing accounts that has already attached this benefit.
+    </div>
+
+    <div class="actions">
+      <div class="ui cancel left floated button" id="no_keep_benefit_button">
+        <i class="remove icon"></i><b>
+          No, keep benefit
+        </b> </div>
+        <button class="ui red button"  id="confirmDisableBenefitID1">
+          <i class="trash icon"></i><b>
+            Yes, disabled benefit
+          </b> </button>
+    </div>
+</div>
+

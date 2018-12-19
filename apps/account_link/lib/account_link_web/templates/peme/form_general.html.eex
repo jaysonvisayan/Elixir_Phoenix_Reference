@@ -1,0 +1,132 @@
+<div id="general">
+  <%= form_for @changeset, peme_path(@conn, :create, @locale), [class: "ui form", multipart: :true, id: "singlePemeForm"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="section-title mt-4">Personal Information</div>
+
+    <div class="field upload">
+      <label class="label-title ui center aligned header">Upload a Photo</label>
+      <div class="ui centered special cards">
+        <div class="card">
+          <div class="blurring dimmable image">
+            <div class="ui inverted dimmer">
+              <div class="content">
+                <div class="center">
+                  <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "display-none", "data-validate": "photo" %>
+                </div>
+              </div>
+            </div>
+            <%= if assigns[:member] do %>
+              <%= if is_nil(@member.photo) do %>
+                <img src="/images/file-upload.png" id="photo">
+              <% else %>
+                <img id="photo" src="<%= get_img_url(@member) %>">
+              <% end %>
+            <% else %>
+              <img src="/images/file-upload.png" id="photo">
+            <% end %>
+          </div>
+          <div class="extra content">
+            <span class="left floated like">
+              <div class="ui primary small button" id="imageLabel">
+                <i class="folder open icon"></i> Browse
+              </div>
+            </span>
+            <span class="right floated star">
+              <a class="ui small button" role="remove"><i class="remove icon"></i> Remove</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Name</label>
+        <div class="fields">
+          <div class="five wide field mobile-mb-2">
+            <%= text_input f, :first_name, placeholder: "First Name" %>
+          </div>
+          <div class="four wide field mobile-mb-2">
+            <%= text_input f, :middle_name, placeholder: "Middle Name" %>
+          </div>
+          <div class="five wide field mobile-mb-2">
+            <%= text_input f, :last_name, placeholder: "Last Name" %>
+          </div>
+          <div class="two wide field mobile-mb-2">
+            <%= text_input f, :suffix, placeholder: "EXT" %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label-title">Date of Birth</label>
+        <div class="ui calendar" id="birthdate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :birthdate, placeholder: "Select date of birth", "data-validate": "birthdate" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Gender</label>
+        <div class="inline fields">
+          <div class="field mobile-width">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :gender, "Male", checked: "", tabindex: "0") %>
+              <label>Male <i class="male icon large teal"></i></label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :gender, "Female", tabindex: "0") %>
+              <label>Female <i class="female icon large pink"></i></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label-title">Civil Status</label>
+        <%= select f, :civil_status, ["", "Single", "Married", "Single Parent"], class: "ui fluid dropdown" %>
+      </div>
+    </div>
+
+    <div class="section-title mt-4">Account Information</div>
+
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">Effective Date</label>
+        <div class="ui calendar" id="effectivitydate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :effectivity_date, placeholder: "Enter Effective Date", "data-validate": "effectivity_date" %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label-title">Expiry Date</label>
+        <div class="ui calendar" id="expirydate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :expiry_date, placeholder: "Enter Expiry Date", "data-validate": "expiry_date" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label class="label-title">PhilHealth Number</label>
+        <%= text_input f, :philhealth, placeholder: "PhilHealth Number (Optional)" %>
+      </div>
+      <div class="field">
+        <label class="label-title">Tax Identification Number (TIN)</label>
+        <%= text_input f, :tin, placeholder: "TIN (Optional)" %>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="text-right">
+      <button class="ui button" type="submit">Next <i class="caret right icon"></i></button>
+    </div>
+  <% end %>
+</div>

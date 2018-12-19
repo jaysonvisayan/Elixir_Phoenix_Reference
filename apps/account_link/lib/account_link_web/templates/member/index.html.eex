@@ -1,0 +1,819 @@
+<%= if @conn.params["invalid_info"] do %>
+  <input type="hidden" id="invalid_info">
+<% end %>
+<%= if @conn.params["invalid_card"] do %>
+  <input type="hidden" id="invalid_card">
+<% end %>
+<div id="Member_Index" class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Member" %></li>
+    </ul>
+  </div><!-- breadcrumbs ends here-->
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <form action="" class="ui form">
+                <div class="section-control">
+                  <div class="ui grid">
+                    <div class="row">
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                        <div class="ui form">
+                          <div class="inline field">
+                            <a href="#" class="advanced-search-trigger"><%= gettext "Advanced Search" %></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile right floated column text-right mobile-text-left mobile-pull">
+                        <button class="large ui primary basic button" onclick="return(false);" id="export_member"><i class="upload icon"></i><%= gettext "Export" %></button>
+                        <a href="/<%= @locale %>/members/new" class="large ui button"><i class="add icon"></i><%= gettext "Enroll" %></a>
+                      </div>
+                      <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column fo-2">
+                        <div class="advanced-search mt-2">
+                          <p><%= gettext "Search only the selected members:" %></p>
+                          <div class="ui form">
+                            <div class="inline fields">
+                              <label for="checkboxSet1"><%= gettext "Status:" %></label>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="pending" id="member_pending">
+                                  <label><%= gettext "Pending" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="active" id="member_active">
+                                  <label><%= gettext "Active" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="suspended" id="member_suspend">
+                                  <label><%= gettext "Suspended" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="cancelled"id="member_cancel">
+                                  <label><%= gettext "Cancelled" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="lapsed" id="member_lapse">
+                                  <label><%= gettext "Lapsed" %></label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="inline fields">
+                              <label for="checkboxSet1"><%= gettext "Member Type:" %></label>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="principal" id="member_principal">
+                                  <label><%= gettext "Principal" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="dependent" id="member_dependent">
+                                  <label><%= gettext "Dependent" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="guardian" id="member_guardian">
+                                  <label><%= gettext "Guardian" %></label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                <table role="datatable" id="member_table" class="full-width ui celled table">
+                  <thead>
+                    <tr>
+                      <%# <th><input type="checkbox"></th> %>
+                      <th><%= gettext "Member ID" %></th>
+                      <th><%= gettext "Member Name" %></th>
+                      <th><%= gettext "Card Number" %></th>
+                      <th><%= gettext "Type" %></th>
+                      <th><%= gettext "Status" %></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody class="padded-rows menued-rows">
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui small modal view-log">
+  <i class="close icon"></i>
+  <section class="mb-0">
+    <div class="section-title">
+      <span><%= gettext "Member Activity Log" %></span>
+    </div>
+    <div class="content" >
+      <div class="row">
+        <div class="column" id="extend_logs">
+          <div class="ui segments">
+            <div class="ui segment">
+              <div class="ui feed timeline" id="timeline" >
+                <table id="member_logs_table">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="ui medium modal action-confirmation-cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= gettext "Cancel Member" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @changeset_cancel, member_path(@conn, :member_cancel, @locale), [as: :member, class: "ui form",  id: "submit_cancel"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <input type="hidden" name="member[member_id]" id="cancel_member_id">
+            <label class="label-title"><%= gettext "Member Name" %></label>
+            <input type="text" placeholder="<%= gettext "enter name" %>" id="cancel_member_name">
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Status" %></label>
+            <div class="ui small green label">
+              <span id="cancel_member_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Effective Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="cancel_member_effect">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Expiry Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="cancel_member_expire">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Cancel Date" %></label>
+            <div class="ui calendar" id="cancelDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :cancel_date, placeholder: "YYYY-MM-DD" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reason" %></label>
+            <select class="ui dropdown"  name="member[cancel_reason]">
+              <option value=""><%= gettext "please select reason for cancellation" %></option>
+              <option value="Reason 1">Reason 1</option>
+              <option value="Reason 2">Reason 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Remarks" %></label>
+            <textarea placeholder="<%= gettext "remarks" %>" rows="3" name="member[cancel_remarks]"></textarea>
+          </div>
+        </div>
+        <div class="column" id="close_cancel_member">
+          <button type="button" class="large ui basic fluid button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column">
+          <button class="large ui fluid button", type="submit" id="submit_cancel_member"><i class="checkmark icon"></i><%= gettext "Submit" %></button>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<div class="ui medium modal action-confirmation-suspend">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= gettext "Suspend Member" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @changeset_suspend, member_path(@conn, :member_suspend, @locale), [as: :member, class: "ui form",  id: "submit_suspend"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <input type="hidden" name="member[member_id]" id="suspend_member_id">
+            <label class="label-title"><%= gettext "Member Name" %></label>
+            <input type="text" placeholder="<%= gettext "enter name" %>" id="suspend_member_name">
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Status" %></label>
+            <div class="ui small green label">
+              <span id="suspend_member_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Effective Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="suspend_member_effect">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Expiry Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="suspend_member_expire">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Suspend Date" %></label>
+            <div class="ui calendar" id="suspendDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :suspend_date, placeholder: "YYYY-MM-DD" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reason" %></label>
+            <select class="ui dropdown" name="member[suspend_reason]">
+              <option value=""><%= gettext "please select reason for suspension" %></option>
+              <option value="Reason 1">Reason 1</option>
+              <option value="Reason 2">Reason 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Remarks" %></label>
+            <textarea placeholder="<%= gettext "remarks" %>" rows="3" name="member[suspend_remarks]"></textarea>
+          </div>
+        </div>
+        <div class="column" id="close_suspend_member">
+          <button type="button" class="large ui basic fluid button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column">
+          <button class="large ui fluid button", type="submit" id="submit_suspend_member"><i class="checkmark icon"></i><%= gettext "Submit" %></button>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<div class="ui medium modal action-confirmation-reactivate">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= gettext "Reactivate Member" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @changeset_reactivate, member_path(@conn, :member_reactivate, @locale), [as: :member, class: "ui form",  id: "submit_reactivate"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <input type="hidden" name="member[member_id]" id="reactivate_member_id">
+            <label class="label-title"><%= gettext "Member Name" %></label>
+            <input type="text" placeholder="<%= gettext "enter name" %>" id="reactivate_member_name">
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Status" %></label>
+            <div class="ui small green label">
+              <span id="reactivate_member_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Effective Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="reactivate_member_effect">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Expiry Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="reactivate_member_expire">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reactivate Date" %></label>
+            <div class="ui calendar" id="reactivateDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :reactivate_date, placeholder: "YYYY-MM-DD" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reason" %></label>
+            <select class="ui dropdown" name="member[reactivate_reason]">
+              <option value=""><%= gettext "please select reason for reactivation" %></option>
+              <option value="Reason 1">Reason 1</option>
+              <option value="Reason 2">Reason 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Remarks" %></label>
+            <textarea placeholder="<%= gettext "remarks" %>" rows="3" name="member[reactivate_remarks]"></textarea>
+          </div>
+        </div>
+        <div class="column" id="close_reactivate_member">
+          <button type="button" class="large ui basic fluid button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column">
+          <button class="large ui fluid button", type="submit" id="submit_reactivate_member"><i class="checkmark icon"></i><%= gettext "Submit" %></button>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<div class="ui medium modal action-confirmation-cancel-retract">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= gettext "Cancel Member" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @changeset_cancel, member_path(@conn, :member_cancel, @locale), [as: :member, class: "ui form",  id: "submit_cancel_retract"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <input type="hidden" name="member[member_id]" id="retract_cancel_member_id">
+            <label class="label-title"><%= gettext "Member Name" %></label>
+            <input type="text" placeholder="<%= gettext "enter name" %>" id="retract_cancel_member_name">
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Status" %></label>
+            <div class="ui small green label">
+              <span id="retract_cancel_member_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Effective Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="retract_cancel_member_effect">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Expiry Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="retract_cancel_member_expire">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Cancel Date" %></label>
+            <div class="ui calendar" id="retractcancelDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :cancel_date, placeholder: "YYYY-MM-DD", id: "cancel_date" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reason" %></label>
+            <select class="ui dropdown" id="cancel_reason" name="member[cancel_reason]">
+              <option value=""><%= gettext "please select reason for cancellation" %></option>
+              <option value="Reason 1">Reason 1</option>
+              <option value="Reason 2">Reason 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Remarks" %></label>
+            <textarea placeholder="<%= gettext "remarks" %>" rows="3" id="cancel_remark" name="member[cancel_remarks]"></textarea>
+          </div>
+        </div>
+        <div class="column" id="close_cancel_edit">
+          <button type="button" id="close_cancel" class="small ui deny left floated button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column" id="edit_cancel">
+          <button type="button" class="small ui primary right floated button" id="edit_cancel_member">
+            <i class="pencil left icon"></i>
+            <%= gettext "Edit" %>
+          </button>
+        </div>
+        <div class="column" style="display: none;" id="close_update_cancel">
+          <button type="button" class="small ui deny left floated button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column" style="display: none;" id="update_cancel">
+          <span>
+            <button type="submit" class="small ui primary right floated button" id="btn_cancel_member">
+              <i class="pencil left icon"></i>
+              <%= gettext "Update" %>
+            </button>
+            <button type="button" class="small ui red right floated button" id="cancel_cancel">
+              <i class="trash left icon"></i>
+              <%= gettext "Cancel Cancellation" %>
+            </button>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<div class="ui medium modal action-confirmation-suspend-retract">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= gettext "Suspend Member" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @changeset_suspend, member_path(@conn, :member_suspend, @locale), [as: :member, class: "ui form",  id: "submit_suspend_retract"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <input type="hidden" name="member[member_id]" id="retract_suspend_member_id">
+            <label class="label-title"><%= gettext "Member Name" %></label>
+            <input type="text" placeholder="<%= gettext "enter name" %>" id="retract_suspend_member_name">
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Status" %></label>
+            <div class="ui small green label">
+              <span id="retract_suspend_member_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Effective Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="retract_suspend_member_effect">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Expiry Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="retract_suspend_member_expire">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Suspend Date" %></label>
+            <div class="ui calendar" id="retractsuspendDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :suspend_date, placeholder: "YYYY-MM-DD", id: "suspend_date" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reason" %></label>
+            <select class="ui dropdown" id="suspend_reason" name="member[suspend_reason]">
+              <option value=""><%= gettext "please select reason for suspension" %></option>
+              <option value="Reason 1">Reason 1</option>
+              <option value="Reason 2">Reason 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Remarks" %></label>
+            <textarea placeholder="<%= gettext "remarks" %>" rows="3" id="suspend_remark" name="member[suspend_remarks]"></textarea>
+          </div>
+        </div>
+        <div class="column" id="close_suspend_edit">
+          <button type="button" id="close_suspend" class="small ui deny left floated button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column" id="edit_suspend">
+          <button type="button" class="small ui primary right floated button" id="edit_suspend_member">
+            <i class="pencil left icon"></i>
+            <%= gettext "Edit" %>
+          </button>
+        </div>
+        <div class="column" style="display: none;" id="close_update_suspend">
+          <button type="button" class="small ui deny left floated button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column" style="display: none;" id="update_suspend">
+          <span>
+            <button type="submit" class="small ui primary right floated button" id="btn_suspend_member">
+              <i class="pencil left icon"></i>
+              <%= gettext "Update" %>
+            </button>
+            <button type="button" class="small ui red right floated button" id="cancel_suspend">
+              <i class="trash left icon"></i>
+              <%= gettext "Cancel Suspension" %>
+            </button>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<div class="ui medium modal action-confirmation-reactivate-retract">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= gettext "Reactivate Member" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @changeset_reactivate, member_path(@conn, :member_reactivate, @locale), [as: :member, class: "ui form",  id: "submit_reactivate_retract"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <input type="hidden" name="member[member_id]" id="retract_reactivate_member_id">
+            <label class="label-title"><%= gettext "Member Name" %></label>
+            <input type="text" placeholder="<%= gettext "enter name" %>" id="retract_reactivate_member_name">
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Status" %></label>
+            <div class="ui small green label">
+              <span id="retract_reactivate_member_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Effective Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="retract_reactivate_member_effect">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Current Expiry Date" %></label>
+            <div class="ui icon input">
+              <input type="date" placeholder="<%= gettext "enter date" %>" id="retract_reactivate_member_expire">
+              <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reactivate Date" %></label>
+            <div class="ui calendar" id="retractreactivateDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :reactivate_date, placeholder: "YYYY-MM-DD", id: "reactivate_date" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Reason" %></label>
+            <select class="ui dropdown" id="reactivate_reason" name="member[reactivate_reason]">
+              <option value=""><%= gettext "please select reason for reactivation" %></option>
+              <option value="Reason 1">Reason 1</option>
+              <option value="Reason 2">Reason 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Remarks" %></label>
+            <textarea placeholder="<%= gettext "remarks" %>" rows="3" id="reactivate_remark" name="member[reactivate_remarks]"></textarea>
+          </div>
+        </div>
+        <div class="column" id="close_reactivate_edit">
+          <button type="button" id="close_reactivate" class="small ui deny left floated button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column" id="edit_reactivate">
+          <button type="button" class="small ui primary right floated button" id="edit_reactivate_member">
+            <i class="pencil left icon"></i>
+            <%= gettext "Edit" %>
+          </button>
+        </div>
+        <div class="column" style="display: none;" id="close_update_reactivate">
+          <button type="button" class="small ui deny left floated button">
+            <i class="close left icon"></i>
+            <%= gettext "Cancel" %>
+          </button>
+        </div>
+        <div class="column" style="display: none;" id="update_reactivate">
+          <span>
+            <button type="submit" class="small ui primary right floated button" id="btn_reactivate_member">
+              <i class="pencil left icon"></i>
+              <%= gettext "Update" %>
+            </button>
+            <button type="button" class="small ui red right floated button" id="cancel_reactivate">
+              <i class="trash left icon"></i>
+              <%= gettext "Cancel Reactivation" %>
+            </button>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<div class="ui tiny modal requestloa">
+  <i class="close icon"></i>
+  <div class="text-center header">
+    <%= gettext "Member Authentication" %>
+  </div>
+  <section class="mb-0">
+    <form class="ui form">
+      <div class="ui grid centered" id="cardVerificationInput">
+        <input type="hidden" id="member_card_id">
+        <input type="hidden" id="member_card_no">
+        <input type="hidden" id="member_card_name">
+
+        <p><%= gettext "Enter 16-digit card number" %></p>
+        <div class="field" id="validate_member_card_no">
+          <label class="label-title"><%= gettext "Card Number (16 digit number at the front of member's card)" %></label>
+          <div class="four fields" id="verify_member_card_no">
+            <div class="field">
+              <input type="text" placeholder="_ _ _ _" class="text-center cardVerification" name="member[card_no][]" maxLength=4 autofocus>
+            </div>
+            <div class="field">
+              <input type="text" placeholder="_ _ _ _" class="text-center cardVerification" name="member[card_no][]" maxLength=4>
+            </div>
+            <div class="field">
+              <input type="text" placeholder="_ _ _ _" class="text-center cardVerification" name="member[card_no][]" maxlength=4>
+            </div>
+            <div class="field">
+              <input type="text" placeholder="_ _ _ _" class="text-center cardVerification" name="member[card_no][]" maxLength=4>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" id="validate_member_cvv">
+          <label class="label-title"><%= gettext "CVV (3 digit number at the back of member's card)" %></label>
+          <input type="text" placeholder="_ _ _" class="text-center cvvVerification" name="member[cvv]" maxLength=3>
+        </div>
+
+        <div class="field">
+          <p><%= gettext "Member doesn't have a card now?" %></p>
+          <a id="member_info" class="modal-open-requestloa-member"><b><%= gettext "Try another method" %></b></a>
+        </div>
+
+        <button type="button" class="ui primary fluid button mt-3" id="authenticate_card_button" >
+          <%= gettext "Authenticate" %>
+        </button>
+      </div>
+    </form>
+  </section>
+</div>
+
+<div class="ui tiny modal requestloa-member">
+  <i class="close icon"></i>
+  <div class="text-center header">
+    <%= gettext "Member Information" %>
+  </div>
+  <section class="mb-0">
+    <%= form_for @conn, member_path(@conn, :validate_member_info, @locale), [as: :member, class: "ui form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= hidden_input f, :member_info_id %>
+      <%= hidden_input f, :member_info_name %>
+
+      <div class="field" id="validate_birthdate">
+        <label class="label-title"><%= gettext "Date of Birth" %></label>
+        <div class="ui calendar" id="birthdate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :birthdate, placeholder: "YYYY-MM-DD" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" id="validate_fullname">
+        <label class="label-title"><%= gettext "Full Name" %></label>
+        <%= text_input f, :full_name, placeholder: "First Middle Last Ext" %>
+      </div>
+
+      <div class="inline field">
+        <label class="label-title"><%= gettext "Security Questions" %></label>
+        <a><%= gettext "Try Another Question" %></a>
+      </div>
+
+      <%# <div class="field" id="had_consultation"> %>
+      <%#   <label class="label-title">Have you had consultations for the last month?</label> %>
+      <%#   <div class="two fields"> %>
+      <%#     <div class="field mobile-width"> %>
+      <%#       <div class="ui radio checkbox"> %>
+      <%#         <%= radio_button(f, :consultation, true) %1> %>
+      <%#         <label><%= gettext "Yes" %1></i></label> %>
+      <%#       </div> %>
+      <%#     </div> %>
+      <%#     <div class="field mobile-width"> %>
+      <%#       <div class="ui radio checkbox"> %>
+      <%#         <%= radio_button(f, :consultation, false) %1> %>
+      <%#         <label><%= gettext "No" %1></i></label> %>
+      <%#       </div> %>
+      <%#     </div> %>
+      <%#   </div> %>
+      <%# </div> %>
+
+      <%# <div class="field"> %>
+      <%#   <label class="label-title">What is your registered mobile number?</label> %>
+      <%#   <%= text_input f, :security_answer %1> %>
+      <%# </div> %>
+
+      <button type="button" id="authenticate_info_button" class="ui primary fluid button mt-3">
+        <%= gettext "Authenticate" %>
+      </button>
+    <% end %>
+  </section>
+</div>

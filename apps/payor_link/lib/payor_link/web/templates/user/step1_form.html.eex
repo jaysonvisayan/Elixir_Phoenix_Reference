@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="sixteen wide column" name="formValidate">
+    <%= form_for @changeset, @action, [class: "ui form form2", id: "formEditUser"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            <%= get_flash(@conn, :error) %>
+          </div>
+        </div>
+      <% end %>
+      <h4 class="ui no-dividing header">Create a new username</h4>
+      <div class="two fields">
+        <div class="field">
+          <label>Username</label>
+          <%= if @conn.assigns[:user] do  %>
+            <%= text_input f, :username , user: @user.username, class: "email" %>
+          <% else %>
+            <%= text_input f, :username, placeholder: "Enter Username", class: "email" %>
+          <% end %>
+          <%= error_tag f, :username %>
+        </div>
+      </div>
+      <h4 class="ui dividing header">Please enter you personal details</h4>
+      <%# <div class="ui divider"></div> %>
+      <div class="fields">
+          <div class="four wide field">
+            <label>First Name</label>
+            <%= text_input f, :first_name, placeholder: "Enter First Name" %>
+            <%= error_tag f, :first_name %>
+          </div>
+          <div class="four wide field">
+            <label>Middle Name</label>
+            <%= text_input f, :middle_name, placeholder: "Enter Middle Name" %>
+            <%= error_tag f, :middle_name %>
+          </div>
+          <div class="six wide field">
+            <label>Last Name</label>
+            <%= text_input f, :last_name, id: "last_name", placeholder: "Enter Last Name" %>
+            <%= error_tag f, :last_name %>
+          </div>
+          <div class="two wide field">
+            <label>Suffix</label>
+            <%= text_input f, :suffix, placeholder: "Enter Suffix" %>
+            <%= error_tag f, :suffix %>
+          </div>
+      </div>
+      <div class="field">
+        <label>Gender</label>
+        <div class="four fields pt_gender">
+            <div class="field">
+                <div class="ui radio checkbox checked">
+                    <%=radio_button(f, :gender, "Male", checked: "checked", id: "male", class: "hidden", tabindex: "0")%>
+                    <label class="ui blue text" for="gender_male"><i class="male icon"></i>Male</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                  <%=radio_button(f, :gender, "Female", id: "female", class: "hidden", tabindex: "0")%>
+                  <label class="ui purple text" for="gender_female"><i class="female icon"></i>Female</label>
+                </div>
+            </div>
+        </div>
+      </div>
+      <h4 class="ui dividing header">Contact Information</h4>
+      <div class="two fields">
+        <div class="field">
+          <label>Mobile Number</label>
+          <%= if @conn.assigns[:user] do  %>
+            <%= number_input f, :mobile , user: @user.mobile, minlength: 11, maxlength: 11 %>
+          <% else %>
+            <%= number_input f, :mobile, minlength: "11", maxlength: "11", placeholder: "Enter Mobile Number" %>
+          <% end %>
+          <%= error_tag f, :mobile %>
+        </div>
+        <div class="field">
+          <label>Email Address</label>
+           <%= if @conn.assigns[:user] do  %>
+            <%= email_input f, :email , user: @user.email %>
+          <% else %>
+            <%= email_input f, :email, placeholder: "Enter Email Address" %>
+          <% end %>
+          <%= error_tag f, :email %>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="eight wide column">
+
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/users" class="ui basic button">Cancel</a>
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+  </div>
+</div>
+<% end %>
+

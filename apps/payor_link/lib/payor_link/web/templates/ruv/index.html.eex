@@ -1,0 +1,59 @@
+<div class="ui main container" role="ruv-index">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+        <div class="left floated left aligned eight wide column">
+          <h1 class="ui huge header with-button">RUVs</h1>
+        </div>
+        <div class="right floated right aligned eight wide column">
+          <a class="ui primary basic button" href="/ruvs/new"><i class="plus icon"></i>RUVs</a>
+        </div>
+      </div>
+      <div class="ui breadcrumb">
+        <a href="/ruvs" class="section">RUVs</a>
+        <div class="divider"> / </div>
+        <div class="active section">Search</div>
+      </div>
+      <div class="ui divider"></div>
+    </div>
+  </div>
+
+  <table role="datatable" id="ruv_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>RUV Code</th>
+        <th>RUV Description</th>
+        <th>RUV Type</th>
+        <th>Value</th>
+        <th>Effectivity Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for ruv <- @ruvs do %>
+        <tr>
+          <td field="code">
+            <a class="show-ruv-details" ruvId="<%= ruv.id %>"><%= ruv.code %></a>
+          </td>
+          <td field="description">
+            <%= ruv.description %>
+          </td>
+          <td field="type">
+            <%= ruv.type %>
+          </td>
+          <td field="value">
+            <%= ruv.value %>
+          </td>
+          <td field="effectivity_date">
+            <%= load_date(ruv.effectivity_date) %>
+          </td>
+          <input type="hidden" field="benefit_ruvs" value="<%= Enum.count(ruv.benefit_ruvs) %>">
+          <input type="hidden" field="facility_ruvs" value="<%= Enum.count(ruv.facility_ruvs) %>">
+          <input type="hidden" field="case_rates" value="<%= if is_nil(ruv.case_rates), do: 0, else: 1 %>">
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "show_modal.html", permission: @permission %>
+<%= render "log_modal.html" %>

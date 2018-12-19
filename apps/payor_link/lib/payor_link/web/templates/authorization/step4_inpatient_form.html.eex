@@ -1,0 +1,2012 @@
+<%= form_for @changeset, @action, [as: :authorization, multipart: true, id: "inpatient_form"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="ui grid" id="inpatient">
+    <div class="eleven wide computer eleven wide tablet column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <h3 class="ui dividing center aligned header">Inpatient</h3>
+          <p id="no_procedure_ruv"></p>
+          <%= hidden_input f, :authorization_id, value: @authorization.id %>
+          <%= hidden_input f, :facility_id, value: @authorization.facility_id %>
+          <%= hidden_input f, :procedure_count, value: Enum.count(@authorization_procedures), id: "authorizationProcedureCount" %>
+          <%= hidden_input f, :ruv_count, value: Enum.count(@authorization.authorization_facility_ruvs), id: "authorizationRUVCount" %>
+          <%= hidden_input f, :start_date, value: Ecto.Date.utc() %>
+
+          <div class="fields">
+            <div class="six wide field" id="dateFormPicker">
+              <%= label f, :authorization_start_date, "Admission Date" %>
+              <div class="ui calendar" id="ip_admission_date">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input name="authorization[admission_datetime]" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="seven wide field" id="dateFormPicker">
+              <%= label f, :authorization_discharge_date, "Estimated Discharge Date" %>
+              <div class="ui calendar" id="ip_discharge_date">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input name="authorization[discharge_datetime]" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="three wide field">
+              <%= label f, :length_of_stay, "Length of Stay" %>
+              <input name="authorization[length_of_stay]" type="text" readonly="true" id="lengthOfStay">
+            </div>
+          </div>
+
+          <div class="fields">
+            <div class="six wide field">
+              <%= label f, :nature_of_admission, "Nature of Admission" %>
+              <div class="inline fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :nature_of_admission, "Emergency", checked: "") %>
+                    <label>Emergency</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :nature_of_admission, "Non-Emergency", checked: "") %>
+                    <label>Non - Emergency</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="seven wide field">
+              <%= label f, :point_of_admission, "Point of Admission" %>
+              <div class="inline fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :point_of_admission, "Emergency Room", checked: "") %>
+                    <label>Emergency Room</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :point_of_admission, "Admitting Department", checked: "") %>
+                    <label>Admitting Department</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%# ADD ROOM AND BOARD %>
+          <div class="ui grid">
+            <div class="fourteen wide five column">
+              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>
+              <div class="column">
+                <div class="ui mini label" style="visibility: hidden">Hidden</div>
+              </div>
+              <div class="field column">
+                <label>Room and Board</label>
+              </div>
+            </div>
+            <div class="two wide column">
+              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>
+              <div class="column">
+                <div class="ui right floated primary small add button" id="btnAddRoomAndBoard" arbID=<%= get_latest_authorization_room(@authorization.id) %>>
+                  <i class="plus icon"></i>
+                  Add
+                </div>
+              </div>
+            </div>
+          </div>
+          <table id="tblauthorization_procedure" class="ui stripped table">
+            <thead>
+              <tr>
+                <th width="10%" style="text-align: center;">Admission Date</th>
+                <th width="10%" style="text-align: center;">Admission Time</th>
+                <th width="10%" style="text-align: center;">Transfer Date</th>
+                <th width="10%" style="text-align: center;">Transfer Time</th>
+                <th width="10%" style="text-align: center;">Room Number</th>
+                <th width="10%" style="text-align: center;">Room Category</th>
+                <th width="10%" style="text-align: center;">Room Rate</th>
+                <th width="10%" style="text-align: center;">For Isolation</th>
+                <th width="10%" style="text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= if Enum.empty?(@authorization_rooms) do %>
+                <tr>
+                  <td colspan="9" class="center aligned">
+                    NO RECORD FOUND!
+                  </td>
+                </tr>
+              <% else %>
+                <%= for authorization_room <-  @authorization_rooms do %>
+                  <tr>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.admission_date %> </a></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.admission_time %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.transfer_date %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.transfer_time %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.facility_room_rate.facility_room_number %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.facility_room_rate.facility_room_type %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.facility_room_rate.facility_room_rate %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_room.for_isolation %></td>
+                    <td width="10%" style="text-align: center;" class="ui center aligned">
+                      <button type="button" class="ui floated blue button icon edit_arb" authorization_room="<%= authorization_room.id %>" admission_date=<%= authorization_room.admission_date %> admission_time=<%= authorization_room.admission_time %> transfer_date=<%= authorization_room.transfer_date || "" %> transfer_time=<%= authorization_room.transfer_time || "" %> room_type=<%= authorization_room.facility_room_rate.facility_room_type %> room_number=<%= authorization_room.facility_room_rate.facility_room_number %> room_rate=<%= authorization_room.facility_room_rate.facility_room_rate%>>
+                        <i class="edit icon" ></i>
+                      </button>
+                     <!-- <button type="button" class="ui floated red button icon btnRemoveRoomAndBoard" authorization_room_id="<%#= authorization_room.id %>" authorization_id=<%#= @authorization.id%>>
+                        <i class="trash icon" ></i>
+                      </button> -->
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+
+          <%# ADD PRACTITIONER %>
+          <div class="ui grid">
+            <div class="fourteen wide five column">
+              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>
+              <div class="column">
+                <div class="ui mini label" style="visibility: hidden">Hidden</div>
+              </div>
+              <div class="field column">
+                <label>Practitioner</label>
+              </div>
+            </div>
+            <div class="two wide column">
+              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>
+              <div class="column">
+                <div class="ui right floated primary small add button" id="btnAddPractitioner">
+                  <i class="plus icon"></i>
+                  Add
+                </div>
+              </div>
+            </div>
+          </div>
+          <table id="tblauthorization_procedure" class="ui stripped table">
+            <thead>
+              <tr>
+                <th width="30%" style="text-align: center;">Practitioner Name</th>
+                <th width="30%" style="text-align: center;">Specialization</th>
+                <th width="10%" style="text-align: center;">Role</th>
+                <th width="10%" style="text-align: center;">Practitioner Rate</th>
+                <th width="10%" style="text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= if Enum.empty?(@authorization_procedures) do %>
+                <tr>
+                  <td colspan="5" class="center aligned">
+                    NO RECORD FOUND!
+                  </td>
+                </tr>
+              <% else %>
+                <%= for authorization_procedure <-  @authorization_procedures do %>
+                  <tr>
+                    <td width="10%" style="text-align: center;"> <%= authorization_procedure.diagnosis.code <> " | " <> authorization_procedure.diagnosis.description %> </a></td>
+                    <td width="25%" style="text-align: center;"> <%= authorization_procedure.payor_procedure.code <> " | " <> authorization_procedure.payor_procedure.description %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_procedure.unit %></td>
+                    <td width="25%" style="text-align: center;"> <%= Decimal.mult(authorization_procedure.amount, authorization_procedure.unit) %></td>
+                    <td width="10%" style="text-align: center;"><%= authorization_procedure.philhealth_pay || 0 %> </td>
+                    <td width="5%" style="text-align: center;" class="ui center aligned">
+                       <button type="button" class="ui floated red button icon btnRemoveProcedure" authorization_procedure_id="<%= authorization_procedure.id %>">
+                        <i class="trash icon" ></i>
+                      </button>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+
+          <%# ADD DISEASE PROCEDURE %>
+          <div class="ui grid">
+            <div class="fourteen wide five column">
+              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>
+              <div class="column">
+                <div class="ui mini label" style="visibility: hidden">Hidden</div>
+              </div>
+              <div class="field column">
+                <label>Disease/Procedure</label>
+              </div>
+            </div>
+            <div class="two wide column">
+              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>              <div class="column">
+                <label style="visibility:hidden;">Hidden</label>
+              </div>
+              <div class="column">
+                <div class="ui right floated primary small add button" id="btnAddDiseaseProcedure">
+                  <i class="plus icon"></i>
+                  Add
+                </div>
+              </div>
+            </div>
+          </div>
+          <table id="tblauthorization_procedure" class="ui stripped table">
+            <thead>
+              <tr>
+                <th width="30%" style="text-align: center;">Disease</th>
+                <th width="30%" style="text-align: center;">Procedure</th>
+                <th width="10%" style="text-align: center;">Unit</th>
+                <th width="10%" style="text-align: center;">Amount</th>
+                <th width="10%" style="text-align: center;">PhilHealth</th>
+                <th width="10%" style="text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= if Enum.empty?(@authorization_procedures) do %>
+                <tr>
+                  <td colspan="7" class="center aligned">
+                    NO RECORD FOUND!
+                  </td>
+                </tr>
+              <% else %>
+                <%= for authorization_procedure <-  @authorization_procedures do %>
+                  <tr>
+                    <td width="10%" style="text-align: center;"> <%= authorization_procedure.diagnosis.code <> " | " <> authorization_procedure.diagnosis.description %> </a></td>
+                    <td width="25%" style="text-align: center;"> <%= authorization_procedure.payor_procedure.code <> " | " <> authorization_procedure.payor_procedure.description %></td>
+                    <td width="10%" style="text-align: center;"> <%= authorization_procedure.unit %></td>
+                    <td width="25%" style="text-align: center;"> <%= Decimal.mult(authorization_procedure.amount, authorization_procedure.unit) %></td>
+                    <td width="10%" style="text-align: center;"><%= authorization_procedure.philhealth_pay || 0 %> </td>
+                    <td width="5%" style="text-align: center;" class="ui center aligned">
+                       <button type="button" class="ui floated red button icon btnRemoveProcedure" authorization_procedure_id="<%= authorization_procedure.id %>">
+                        <i class="trash icon" ></i>
+                      </button>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="field">
+            <div class="inline fields">
+              <div class="field">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="authorization[senior_citizen]" value="Senior Citizen">
+                  <label>Senior Citizen</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="authorization[pwd]" value="PWD">
+                  <label>PWD</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="fields">
+              <div class="six wide field">
+                <%= label f, :senior_id, "Senior ID" %>
+                <%= text_input f, :senior_id %>
+              </div>
+              <div class="six wide field">
+                <%= label f, :senior_discount, "Senior Citizen Discount" %>
+                <%= text_input f, :senior_discount %>
+              </div>
+            </div>
+
+            <div class="fields">
+              <div class="six wide field">
+                <%= label f, :pwd_id, "PWD ID" %>
+                <%= text_input f, :pwd_id%>
+              </div>
+              <div class="six wide field">
+                <%= label f, :pwd_discount, "PWD Discount" %>
+                <%= text_input f, :pwd_discount %>
+              </div>
+            </div>
+
+            <div class="fields">
+              <div class="six wide field" id="dateFormPicker">
+                <%= label f, :date_issued, "Date Issued" %>
+                <div class="ui calendar">
+                  <div class="ui input right icon">
+                    <i class="calendar icon"></i>
+                    <input name="authorization[date_issued]" type="text">
+                  </div>
+                </div>
+              </div>
+              <div class="six wide field">
+                <%= label f, :place_issued, "Place Issued" %>
+                <%= text_input f, :place_issued %>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Pharmacy</label>
+            <div class="fields">
+              <div class="seven wide field">
+                <%= label f, :pharmacy_total_amount, "Total Amount" %>
+                <div class="ui right labeled input">
+                  <%= text_input f, :pharmacy_total_amount %>
+                  <div class="ui label">
+                    PHP
+                  </div>
+                </div>
+              </div>
+              <div class="four wide field">
+                <label style="visibility:hidden;">Hidden</label>
+                <div class="ui primary medium add button">
+                  <i class="plus icon"></i>
+                  Add Details
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Miscellaneous Items</label>
+            <div class="fields">
+              <div class="seven wide field">
+                <%= label f, :misc_total_amount, "Total Amount" %>
+                <div class="ui right labeled input">
+                  <%= text_input f, :misc_total_amount %>
+                  <div class="ui label">
+                    PHP
+                  </div>
+                </div>
+              </div>
+              <div class="four wide field">
+                <label style="visibility:hidden;">Hidden</label>
+                <div class="ui primary medium add button">
+                  <i class="plus icon"></i>
+                  Add Details
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="fields">
+              <div class="seven wide field">
+                <%= label f, :or_and_dr_fee, "Operating and Delivery Room Fee" %>
+                <div class="ui right labeled input">
+                  <%= text_input f, :or_and_dr_fee %>
+                  <div class="ui label">
+                    PHP
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field <%#= check_mpf_state(@authorization.authorization_diagnosis) %>" id="MemberPayField">
+              <div class="ui checkbox">
+                <input type="checkbox" class="<%#= check_mpf_state(@authorization.authorization_diagnosis) %>" name="authorization[isMemberPay][]" <%#= if is_nil(@authorization.special_approval_id), do: "checked", else: "" %>>
+                <label class="coloring green"v><b>Member will pay for member excess.</b></label>
+              </div>
+          </div>
+
+  <!--        <%# spec_state = if not is_nil(@authorization.special_approval_id), do: "", else: "hidden" %>
+          <div class="field <%#= spec_state %>" id="sa_cont">
+            <div class="ui grid">
+              <div class="twelve wide column">
+                <div class="field" id="sa_field">
+                  <label>Special Approval</label>
+                  <%#= select f, :special_approval_id, Enum.map(@special_approval, &{&1.text, &1.id}), prompt: "Special Approval", class: "ui selection dropdown" %>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="field">
+            <label>Special Approval</label>
+            <%= select f, :special_approval_id, Enum.map(@special_approval, &{&1.text, &1.id}), prompt: "Special Approval", class: "ui selection dropdown" %>
+          </div>
+
+          <div class="field">
+            <label>Internal Remarks</label>
+            <%= textarea f, :internal_remarks, class: "form-control" %>
+            <%# <font color="red"><%= error_tag f, :internal_remarks %1></font> %>
+          </div>
+
+          <a href="#" id="btnSaveAuthorization" class="ui default left button mrg1T" authorization_id="<%= @authorization.id %>">
+            <i class="save icon"></i>
+            Save
+          </a>
+          <div id="submit" class="ui green left floated button mrg1T">
+            <i class="send icon"></i>
+            Submit
+          </div>
+
+          <%= if @authorization.status == "Draft" do %>
+            <a class="ui red right floated button mrg1T" id="btnDeleteDraftAuthorization" authorization_id="<%= @authorization.id %>">
+              <i class="trash left icon"></i>
+              Delete Draft
+            </a>
+          <% end %>
+
+          <%= if @authorization.status == "Pending" do %>
+            <a class="ui red right floated button mrg1T" id="btnCancelAuthorization" authorization_id="<%= @authorization.id %>">
+              <i class="close left icon"></i>
+              Cancel
+            </a>
+          <% end %>
+
+          <a href="#" id="btnSaveAuthorization" class="ui blue right floated button mrg1T" authorization_id="<%= @authorization.id %>">
+            Discharge
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="five wide computer eleven wide tablet column">
+      <div class="ui styled fluid accordion">
+        <div class="title">
+          <h3>
+            Member
+            <i class="dropdown icon" style="float: right"></i>
+          </h3>
+        </div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="eight wide computer  wide computer column">
+              <label>Name</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= member_full_name(@member) %></label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Card Number</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @member.card_no %></label>
+            </div>
+            <%# <div class="eight wide computer eight wide computer column"> %>
+            <%#   <label>Member ID</label> %>
+            <%# </div> %>
+            <%# <div class="eight wide computer eight wide computer column"> %>
+            <%#   <label><%= @member.id %1></label> %>
+            <%# </div> %>
+          <div class="eight wide computer eight wide computer column">
+              <label>Effective Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.effectivity_date %></label>
+            </div>
+             <div class="eight wide computer eight wide computer column">
+              <label>Expiry Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.expiry_date %></label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Birth Date</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label id="birth_date"><%= format_birthdate(@member.birthdate) %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Age</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label id="age">
+                <%= get_age(@member.birthdate) %>
+              </label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Gender</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @member.gender %></label>
+            </div>
+             <div class="eight wide computer eight wide computer column">
+              <label>Status</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.status %></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui styled fluid accordion">
+        <div class="title">
+          <h3>
+            Facility
+            <i class="dropdown icon" style="float: right"></i>
+          </h3>
+        </div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="eight wide computer  wide computer column">
+              <label>Facility Code</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @authorization.facility.code %></label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Facility Name</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @authorization.facility.name %> </label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Facility Type</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @authorization.facility.type.text %> </label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Facility Category</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @authorization.facility.category.text %> </label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Address</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label id="facility_address">
+                <%= @authorization.facility.line_1 %>  <%= @authorization.facility.line_2 %>,
+                <%= @authorization.facility.city %>  <%= @authorization.facility.province %>
+                <%= @authorization.facility.region %>, <%= @authorization.facility.country %>, <%= @authorization.facility.postal_code %>
+              </label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Contact Number</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <%= cond do %>
+              <% not is_nil(@authorization.facility.phone_no) -> %>
+                  <label><%= @authorization.facility.phone_no %></label>
+              <% Enum.empty?(@facility_contacts) == false -> %>
+                <label><%= Enum.at(Enum.at(@facility_contacts, 0).phones, 0).number %></label>
+              <% true -> %>
+                <label> N/A </label>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Details</h3>
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui grid">
+            <div class="eight wide computer  wide computer column">
+              <label>Coverage</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label><%= @authorization.coverage.name %></label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Date Created</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label id="date_created"></label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label>Valid until</label>
+            </div>
+            <div class="eight wide computer  wide computer column">
+              <label id="valid_until"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<h3>Fees</h3>
+<div class="ui segments">
+  <%# PHILHEALTH PAYS %>
+  <div class="ui styled fluid accordion">
+    <div class="title">
+      <h5>
+        PhilHealth Pays (Php)
+        <i class="dropdown icon" style="float: right"></i>
+        <p style="float: right"> <%= display_authorization_amounts(@authorization, :company_covered) %> </p>
+      </h5>
+    </div>
+    <div class="content">
+      <div class="accordion transition hidden">
+      <%# DIAGNOSIS PHILHEALTH PAYS%>
+        <%= if Enum.count(filter_philhealth_pays_without_product(@authorization)) >= 1 do %>
+          <div class="title">
+            <i class="dropdown icon"></i>
+            Not Part of Member's Plan
+            <p style="float: right"> <%= get_total_philpays_without_product(@authorization) %> </p>
+          </div>
+          <%# CONTENT %>
+            <div class="content">
+              <div class="ui segments">
+                <div class="ui segment">
+                  <div class="ui grid">
+                   <%= for diagnosis_procedures <- filter_philhealth_pays_without_product(@authorization) do %>
+                    <% diagnosis_procedures_list = [diagnosis_procedures] %>
+                    <%= for _diagnosis_procedure <- diagnosis_procedures_list do %>
+                      <% diagnosis_codes = Enum.group_by(diagnosis_procedures_list, &(&1.diagnosis.code)) %>
+                      <%= for {diagnosis_code, diagnosis_procedures2} <- diagnosis_codes do %>
+                        <div class="right floated six wide computer column">
+                          <b> <%= diagnosis_code %> </b>
+                        </div>
+                        <div class="right aligned right floated six wide computer column">
+                        </div>
+                        <div class="right aligned right floated four wide computer column">
+                          <label>100%</label>
+                        </div>
+                        <%= for diagnosis_procedure3 <- diagnosis_procedures2 do %>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                            <b> <%= diagnosis_procedure3.payor_procedure.code %> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= diagnosis_procedure3.philhealth_pay %>
+                          </div>
+                          <% end %>
+                          <% end %>
+                          <% end %>
+                          <% end %>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= get_total_philpays_without_product(@authorization) %>
+                          </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% end %>
+            <%# DIAGNOSIS WITH PRODUCT %>
+            <%= for {product_id, diagnosis_procedures} <- filter_philhealth_pays_with_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                <%= product_id %>
+                <p style="float: right"> <%= get_total_philpays_with_product(@authorization) %> </p>
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= for _diagnosis_procedure <- diagnosis_procedures do %>
+                        <% diagnosis_codes = Enum.group_by(diagnosis_procedures, &(&1.diagnosis.code)) %>
+                        <%= for {diagnosis_code, diagnosis_procedures2} <- diagnosis_codes do %>
+                        <div class="right floated six wide computer column">
+                          <b> <%= diagnosis_code %> </b>
+                        </div>
+                        <div class="right aligned right floated six wide computer column">
+                        </div>
+                        <div class="right aligned right floated four wide computer column">
+                          <label>50%</label>
+                        </div>
+                        <%= for diagnosis_procedure3 <- diagnosis_procedures2 do %>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                            <b> <%= diagnosis_procedure3.payor_procedure.code %> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= diagnosis_procedure3.philhealth_pay %>
+                          </div>
+                          <% end %>
+                          <% end %>
+                          <% end %>
+
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= get_total_philpays_with_product(@authorization) %>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <%# END OF DIAGNOSIS PHILHEALTH PAYS%>
+
+            <%# RUV PHILHEALTH PAYS%>
+            <%# filter ruv without product %>
+
+            <%= if Enum.count(filter_ruv_philhealth_pays_without_product(@authorization)) >= 1 do %>
+            <div class="title">
+              <i class="dropdown icon"></i>
+              Not Part of Member's Plan
+              <p style="float: right"> <%= get_ruv_total_philpays_without_product(@authorization) %> </p>
+            </div>
+            <%# CONTENT %>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                     <%= for facility_ruvs <- filter_ruv_philhealth_pays_without_product(@authorization) do %>
+                      <% facility_ruvs_list = [facility_ruvs] %>
+                      <%= for facility_ruv <- facility_ruvs_list do %>
+                        <div class="right floated six wide computer column">
+                          <b> <%= facility_ruv.facility_ruv.ruv.code %> </b>
+                        </div>
+                        <div class="right aligned right floated six wide computer column">
+                        </div>
+                        <div class="right aligned right floated four wide computer column">
+                          <label>100%</label>
+                        </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                          <b> <%= facility_ruv.facility_ruv.ruv.code %> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                              <%= facility_ruv.philhealth_pay %>
+                          </div>
+                       <% end %>
+                     <% end %>
+                         <%= for facility_ruvs <- filter_ruv_philhealth_member_pays_without_product(@authorization) do %>
+                          <% facility_ruvs_list = [facility_ruvs] %>
+                          <%= for facility_ruv <- facility_ruvs_list do %>
+                          <div class="right floated six wide computer column">
+                            <b> <%= facility_ruv.facility_ruv.ruv.code %> </b>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <label>50%</label>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                          <b> <%= facility_ruv.facility_ruv.ruv.code %> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                              <%= facility_ruv.philhealth_pay %>
+                          </div>
+                           <% end %>
+                         <% end %>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= get_ruv_total_philpays_without_product(@authorization) %>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+
+              <%# filter ruv with product %>
+
+            <%= for {product_id, facility_ruvs} <- filter_ruv_philhealth_pays_with_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                <%= product_id %>
+                <p style="float: right"> <%= get_ruv_total_philpays_with_product(@authorization) %> </p>
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= for facility_ruv <- facility_ruvs do %>
+                        <div class="right aligned right floated six wide computer column">
+                          <b> <%= facility_ruv.facility_ruv.ruv.code %> </b>
+                        </div>
+                        <div class="right aligned right floated six wide computer column">
+                        </div>
+                        <div class="right aligned right floated four wide computer column">
+                          <label>50%</label>
+                        </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <%= facility_ruv.facility_ruv.ruv.code %> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= facility_ruv.philhealth_pay %>
+                          </div>
+                          <% end %>
+
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= get_ruv_total_philpays_with_product(@authorization) %>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <%# END OF RUV PHILHEALTH PAYS%>
+      </div>
+    </div>
+  </div>
+  <%# END OF PHILHEALTH PAYS %>
+
+  <%# MEMBER PAYS %>
+  <div class="ui styled fluid accordion">
+
+    <div class="title">
+      <h5>
+        Member Pays (Php)
+        <i class="dropdown icon" style="float: right"></i>
+        <p style="float: right"> <%= display_authorization_amounts(@authorization, :member_covered) %> </p>
+
+      </h5>
+    </div>
+
+    <div class="content">
+      <div class="accordion transition hidden">
+
+        <%# MEMBER PAYS DIAGNOSIS PROCEDURE WITH PRODUCT %>
+        <%= if Enum.count(filter_member_pays_with_product(@authorization)) >= 1 do %>
+          <%# CONTENT %>
+            <%= for {product_id, diagnosis_procedures} <- filter_member_pays_with_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                <%= product_id %>
+                <p style="float: right"> <%= get_total_memberpays_by_product(@authorization, product_id) %> </p>
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= for authorization_procedure_diagnosis <- diagnosis_procedures do %>
+                      <% list = [authorization_procedure_diagnosis] %>
+                      <% hehe = Enum.group_by(list, &(&1.diagnosis.code)) %>
+                      <%= for {diagnosis_code, diagnosis_procedure2} <- hehe  do %>
+                        <%= for procedures <- diagnosis_procedure2 do %>
+                          <%= cond do %>
+                          <%= procedures.risk_share_setup == "Facility" or procedures.risk_share_setup == "Coverage" -> %>
+                          <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= diagnosis_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).type %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).amount %>
+                            <%= if laboratory_risk_share_checker(procedures).type == "CoInsurance" or laboratory_risk_share_checker(procedures).type == "Coinsurance" do %>
+                              %
+                            <% end %>
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= procedures.payor_procedure.code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                            <%= if laboratory_risk_share_checker(procedures).pec == Decimal.new(0) do %>
+                            <%=  "" %>
+                            <% else %>
+                            <%=  "Pre-existing Percentage" %>
+                            <% end %>
+                          </div>
+                          <div class="right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+
+                           <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= if laboratory_risk_share_checker(procedures).pec == Decimal.new(0) do %>
+                            <%=  "Uncovered Portion After Risk Share" %>
+                            <% else %>
+                            <%=  "Uncovered Portion After Risk Share" %>
+                            <% end %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).uncovered_percentage %> %
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= procedures.payor_procedure.code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).uncovered_after_rs %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).uncovered_after_rs %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <%# PROCEDURE %>
+                          <% procedures.risk_share_setup == "Procedure" -> %>
+                           <%# SPECIAL RISK SHARE CONDITION %>
+
+                            <div class="right floated six wide computer column">
+                              Special Risk Share Conditions
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                            <div class="right floated six wide computer column">
+                            <i class="tiny circle icon"></i>
+                            <%= diagnosis_code %>
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).type %>
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= procedures.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+
+                             <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              Uncovered Portion After Risk Share
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).uncovered_percentage %> %
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= procedures.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).uncovered_after_rs %>
+                            </div>
+
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).uncovered_after_rs %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+
+                            <% true -> %>
+                            <div class="right floated six wide computer column">
+                            <i class="tiny circle icon"></i>
+                            <%= diagnosis_code %>
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              No Risk Share Setup
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).amount %>
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= procedures.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+
+                            <%= if laboratory_risk_share_checker(procedures).pec > Decimal.new(0) do %>
+                            <div class="right aligned right floated two wide computer column">
+                              <%=  "Pre-existing Percentage" %>
+                            </div>
+                            <div class="right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).pec %>
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              Uncovered Portion After Risk Share
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).uncovered_percentage %> %
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= procedures.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker(procedures).op_copay_val %>
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= procedures.member_pay %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+                            <% end %>
+                          <% end %>
+
+                        <% end %>
+                       <% end %>
+
+                      <% end %>
+                      <div class="right aligned right floated six wide computer column">
+                      </div>
+                      <div class="right aligned right floated six wide computer column">
+                        <b> <label>TOTAL</label> </b>
+                      </div>
+                      <div class="right aligned right floated four wide computer column">
+                        <%= get_total_memberpays_by_product(@authorization, product_id) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+          <%# MEMBER PAYS DIAGNOSIS PROCEDURE WITH PRODUCT %>
+        <%= if Enum.count(filter_ruv_member_pays_with_product(@authorization)) >= 1 do %>
+          <%# CONTENT %>
+            <%= for {product_id, facility_ruvs} <- filter_ruv_member_pays_with_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                <%= product_id %>
+                <p style="float: right"> <%= get_total_ruv_memberpays_by_product(@authorization, product_id) %> </p>
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= for facility_ruv <- facility_ruvs do %>
+                      <% list = [facility_ruv] %>
+                      <% hehe = Enum.group_by(list, &(&1.facility_ruv.ruv.code)) %>
+                      <%= for {ruv_code, facility_ruv2} <- hehe  do %>
+                        <%= for ruvs <- facility_ruv2 do %>
+                          <%= cond do %>
+                          <%= ruvs.risk_share_setup == "Facility" or ruvs.risk_share_setup == "Coverage" -> %>
+                          <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).type %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                            <%= if laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).pec == Decimal.new(0) do %>
+                            <%=  "" %>
+                            <% else %>
+                            <%=  "Pre-existing Percentage" %>
+                            <% end %>
+                          </div>
+                          <div class="right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+
+                           <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= if laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).pec == Decimal.new(0) do %>
+                            <%=  "Uncovered Portion After Risk Share" %>
+                            <% else %>
+                            <%=  "Uncovered Portion After Risk Share" %>
+                            <% end %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_percentage %> %
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_after_rs %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_after_rs %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <%# PROCEDURE %>
+                          <% ruvs.risk_share_setup == "Procedure" -> %>
+                           <%# SPECIAL RISK SHARE CONDITION %>
+
+                            <div class="right floated six wide computer column">
+                              Special Risk Share Conditions
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                            <div class="right floated six wide computer column">
+                            <i class="tiny circle icon"></i>
+                            <%= ruv_code %>
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).type %>
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= ruvs.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+
+                             <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              Uncovered Portion After Risk Share
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_percentage %> %
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= ruvs.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_after_rs %>
+                            </div>
+
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_after_rs %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+
+                            <% true -> %>
+                            <div class="right floated six wide computer column">
+                            <i class="tiny circle icon"></i>
+                            <%= ruv_code %>
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              No Risk Share Setup
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= ruvs.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                            </div>
+
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).op_copay_val %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+
+                            <%= if laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).pec > Decimal.new(0) do %>
+                            <div class="right aligned right floated two wide computer column">
+                              <%=  "Pre-existing Percentage" %>
+                            </div>
+                            <div class="right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right floated four wide computer column">
+                              Uncovered Portion After Risk Share
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                            </div>
+                            <div class="right aligned right floated five wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_percentage %> %
+                            </div>
+
+                            <div class="right aligned right floated two wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <%= ruvs.payor_procedure.code %>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= laboratory_risk_share_checker_ruv(ruvs, @authorization.facility_id).uncovered_after_rs %>
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                              <b> <label>TOTAL</label> </b>
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                              <%= ruvs.member_pay %>
+                            </div>
+                            <div class="sixteen wide computer column">
+                              <h5 class="ui dividing center aligned header"></h5>
+                            </div>
+                            <% end %>
+                          <% end %>
+
+                        <% end %>
+                       <% end %>
+
+                      <% end %>
+                      <div class="right aligned right floated six wide computer column">
+                      </div>
+                      <div class="right aligned right floated six wide computer column">
+                        <b> <label>TOTAL</label> </b>
+                      </div>
+                      <div class="right aligned right floated four wide computer column">
+                        <%= get_total_ruv_memberpays_by_product(@authorization, product_id) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+          <%# MEMBER PAYS DIAGNOSIS PROCEDURE WITHOUT PRODUCT COVERED %>
+          <%= if Enum.count(filter_member_pays_without_product(@authorization)) >= 1 do %>
+          <%# CONTENT %>
+            <%= for diagnosis_procedures <- filter_member_pays_without_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                  Not Covered by Member's Product
+                 <p style="float: right"> <%= get_total_memberpays_without_product(@authorization) %> </p>
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <% list = [diagnosis_procedures] %>
+                      <% hehe = Enum.group_by(list, &(&1.diagnosis.code)) %>
+                      <%= for {diagnosis_code, diagnosis_procedure2} <- hehe  do %>
+                        <%= for procedures <- diagnosis_procedure2 do %>
+
+                          <%# NO RISK SHARE SETUP NOT COVERED BY MEMBER %>
+
+                          <%= if procedures.risk_share_setup != "Facility" or procedures.risk_share_setup != "Coverage" or procedures.risk_share_setup != "Procedure" do %>
+                          <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= diagnosis_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= procedures.payor_procedure.code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.member_pay %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.member_pay %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= get_total_memberpays_without_product(@authorization) %>
+                          </div>
+                          <% end %>
+                       <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+  <%# END OF MEMBER PAYS %>
+
+  <%# PAYOR PAYS %>
+  <div class="ui styled fluid accordion">
+
+    <div class="title">
+      <h5>
+        Payor Pays (Php)
+        <i class="dropdown icon" style="float: right"></i>
+        <p style="float: right"> <%= display_authorization_amounts(@authorization, :payor_covered) %> </p>
+      </h5>
+    </div>
+    <div class="content">
+      <div class="accordion transition hidden">
+        <%= if Enum.count(filter_payor_pays_with_product(@authorization)) >= 1 do %>
+          <%# CONTENT %>
+            <%= for {product_id, diagnosis_procedures} <- filter_payor_pays_with_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                <%= product_id %>
+                <p style="float: right"> <%= get_total_payorpays_by_product(@authorization, product_id) %> </p>
+
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= for authorization_procedure_diagnosis <- diagnosis_procedures do %>
+                      <% list = [authorization_procedure_diagnosis] %>
+                      <% hehe = Enum.group_by(list, &(&1.diagnosis.code)) %>
+                      <%= for {diagnosis_code, diagnosis_procedure2} <- hehe  do %>
+                        <%= for procedures <- diagnosis_procedure2 do %>
+                        <%= cond do %>
+                        <%= procedures.risk_share_setup == "Facility" or procedures.risk_share_setup == "Coverage" -> %>
+                          <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= diagnosis_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                            <%= if laboratory_risk_share_checker(procedures).pec == Decimal.new(0) do %>
+                            <%=  "" %>
+                            <% else %>
+                            <%=  "Pre-existing Percentage" %>
+                            <% end %>
+                          </div>
+                          <div class="right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= if laboratory_risk_share_checker(procedures).pec == Decimal.new(0) do %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% else %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% end %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).covered %> %
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= procedures.payor_procedure.code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.payor_pay %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.payor_pay %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+                          <% procedures.risk_share_setup == "Procedure" -> %>
+                            <div class="right floated six wide computer column">
+                              Special Risk Share Conditions
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                             <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= diagnosis_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                            <%= if laboratory_risk_share_checker(procedures).pec == Decimal.new(0) do %>
+                            <%=  "" %>
+                            <% else %>
+                            <%=  "Pre-existing Percentage" %>
+                            <% end %>
+                          </div>
+                          <div class="right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= if laboratory_risk_share_checker(procedures).pec == Decimal.new(0) do %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% else %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% end %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker(procedures).covered %> %
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= procedures.payor_procedure.code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.payor_pay %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.payor_pay %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+                          <% true -> %>
+                            <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= diagnosis_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= procedures.payor_procedure.code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= procedures.payor_pay %>
+                          </div>
+                        <% end %>
+                        <% end %>
+                       <% end %>
+                      <% end %>
+                      <div class="right aligned right floated six wide computer column">
+                      </div>
+                      <div class="right aligned right floated six wide computer column">
+                        <b> <label>TOTAL</label> </b>
+                      </div>
+                      <div class="right aligned right floated four wide computer column">
+                        <%= get_total_payorpays_by_product(@authorization, product_id) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+         <%= if Enum.count(filter_ruv_payor_pays_with_product(@authorization)) >= 1 do %>
+          <%# CONTENT %>
+            <%= for {product_id, facility_ruvs} <- filter_ruv_payor_pays_with_product(@authorization) do %>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                <%= product_id %>
+                <p style="float: right"> <%= get_total_ruv_payorpays_by_product(@authorization, product_id) %> </p>
+
+              </div>
+              <div class="content">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= for facility_ruv <- facility_ruvs do %>
+                      <% list = [facility_ruv] %>
+                      <% hehe = Enum.group_by(list, &(&1.facility_ruv.ruv.code)) %>
+                      <%= for {ruv_code, facility_ruvs2} <- hehe  do %>
+                        <%= for ruv <- facility_ruvs2 do %>
+                        <%= cond do %>
+                        <%= ruv.risk_share_setup == "Facility" or ruv.risk_share_setup == "Coverage" -> %>
+                          <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                            <%= if laboratory_risk_share_checker_ruv(ruv, @authorization.facility_id).pec == Decimal.new(0) do %>
+                            <%=  "" %>
+                            <% else %>
+                            <%=  "Pre-existing Percentage" %>
+                            <% end %>
+                          </div>
+                          <div class="right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= if laboratory_risk_share_checker_ruv(ruv, @authorization.facility_id).pec == Decimal.new(0) do %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% else %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% end %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruv, @authorization.facility_id).uncovered_percentage %> %
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= ruv.payor_pay %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= ruv.payor_pay %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+                          <% ruv.risk_share_setup == "Procedure" -> %>
+                            <div class="right floated six wide computer column">
+                              Special Risk Share Conditions
+                            </div>
+                            <div class="right aligned right floated six wide computer column">
+                            </div>
+                            <div class="right aligned right floated four wide computer column">
+                            </div>
+
+                             <div class="right floated six wide computer column">
+                          <i class="tiny circle icon"></i>
+                          <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                            <%= if laboratory_risk_share_checker_ruv(ruv, @authorization.facility_id).pec == Decimal.new(0) do %>
+                            <%=  "" %>
+                            <% else %>
+                            <%=  "Pre-existing Percentage" %>
+                            <% end %>
+                          </div>
+                          <div class="right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right floated four wide computer column">
+                            <%= if laboratory_risk_share_checker_ruv(ruv, @authorization.facility_id).pec == Decimal.new(0) do %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% else %>
+                            <%=  "Covered Portion After Risk Share" %>
+                            <% end %>
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                          </div>
+                          <div class="right aligned right floated five wide computer column">
+                            <%= laboratory_risk_share_checker_ruv(ruv, @authorization.facility_id).uncovered_percentage %> %
+                          </div>
+
+                          <div class="right aligned right floated two wide computer column">
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <%= ruv_code %>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= ruv.payor_pay %>
+                          </div>
+
+                          <div class="right aligned right floated six wide computer column">
+                          </div>
+                          <div class="right aligned right floated six wide computer column">
+                            <b> <label>TOTAL</label> </b>
+                          </div>
+                          <div class="right aligned right floated four wide computer column">
+                            <%= ruv.payor_pay %>
+                          </div>
+                          <div class="sixteen wide computer column">
+                            <h5 class="ui dividing center aligned header"></h5>
+                          </div>
+                          <% true -> %>
+
+                        <% end %>
+                        <% end %>
+                       <% end %>
+                      <% end %>
+                      <div class="right aligned right floated six wide computer column">
+                      </div>
+                      <div class="right aligned right floated six wide computer column">
+                        <b> <label>TOTAL</label> </b>
+                      </div>
+                      <div class="right aligned right floated four wide computer column">
+                        <%= get_total_ruv_payorpays_by_product(@authorization, product_id) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+  <%# END OF PAYOR PAYS %>
+
+  <%# PAYOR PAYS %>
+  <div class="ui styled fluid accordion">
+
+    <div class="title">
+      <h5>
+        Total Amount (Php)
+        <i class="icon" style="float: right"></i>
+        <p style="float: right"> <%= display_authorization_total_amount(@authorization) %> </p>
+
+      </h5>
+    </div>
+  </div>
+  <%# END OF PAYOR PAYS %>
+</div>
+
+<%# <div class="ui segments">
+  <div class="ui segment">
+    <div class="ui grid">
+      <div class=" wide computer  wide computer column">
+        <label>PhilHealth Pays (Php)</label>
+      </div>
+      <div class=" wide computer  wide computer column ui transparent input">
+        <%= text_input f, :payor_covered, readonly: true, value: display_authorization_amounts(@authorization, :company_covered)  %>
+      <%# </div>
+      <div class=" wide computer  wide computer column">
+        <label>Payor Pays (Php)</label>
+      </div>
+      <div class=" wide computer  wide computer column ui transparent input">
+        <%= text_input f, :payor_covered, readonly: true, value: display_authorization_amounts(@authorization, :payor_covered)  %>
+      <%# </div>
+      <div class=" wide computer  wide computer column">
+        <label>Member Pays (Php)</label>
+      </div>
+      <div class=" wide computer  wide computer column ui transparent input">
+        <%= text_input f, :member_covered, readonly: true, value: display_authorization_amounts(@authorization, :member_covered)  %>
+     <%#  </div>
+      <div class=" wide computer  wide computer column">
+        <label>Total Amount (Php)</label>
+      </div>
+      <div class=" wide computer  wide computer column ui transparent input">
+        <%= text_input f, :consultation_fee, readonly: true, value: display_authorization_total_amount(@authorization) %>
+   <%#    </div>
+    </div>
+  </div>
+</div> %>
+
+    </div>
+  </div>
+ <!-- <%#= if Enum.count(@authorization.authorization_facility_ruvs) == 0 and Enum.count(@authorization_procedures) == 0 do %>
+    <button type="button" id="invalid_submit" class="ui primary right floated button mrg1T">
+      <i class="send icon"></i>
+      Submit
+    </button>
+  <%# else %>
+    <button id="submit" class="ui primary right floated button mrg1T">
+      <i class="send icon"></i>
+      Submit
+    </button>
+    <%# end %> -->
+<% end %>

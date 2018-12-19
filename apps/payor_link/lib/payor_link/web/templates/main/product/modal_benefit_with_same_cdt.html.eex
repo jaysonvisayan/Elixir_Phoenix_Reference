@@ -1,0 +1,31 @@
+<div class="ui large modal benefit_with_same_cdt" style="width: 1200px; top: 704.444px;">
+    <i class="close icon"></i>
+   <div class="header">
+    <p  style="display: inline-block;">
+      <i class="circular large warning icon"></i>
+    </p>
+    <p  style="display: inline-block;">
+      Oops! It seems like you have selected benefits which includes the same CDT/s. Please select benefit.
+    </p>
+  </div>
+    <div class="content pt-0">
+        <div class="ui grid form">
+            <div class="sixteen wide column">
+              <table class="full-width ui celled striped table" id="dt-dental-benefit-same-cdt">
+                    <thead>
+                      <tr>
+                            <th class="small">Procedure Code</th>
+                            <th class="small">Description</th>
+                            <th class="small">Benefit Code</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+      <button type="button" id="new_select_benefit_submit" class="ui blue button">
+        Add
+      </button>
+    </div>
+</div>

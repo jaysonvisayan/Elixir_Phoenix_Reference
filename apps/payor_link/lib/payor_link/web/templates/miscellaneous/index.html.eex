@@ -1,0 +1,45 @@
+<div class="ui main container" id="miscellaneous_index">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Miscellaneous</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/miscellaneous/new"><i class="plus icon"></i>Miscellaneous</a>
+              </div>
+          </div>
+
+          <div class="ui breadcrumb">
+              <a href="/miscellaneous" class="section">Miscellaneous</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Item Code</th>
+        <th>Description</th>
+        <th>Maximum Price</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for miscellaneous <- @miscellaneous do %>
+        <tr>
+          <td>
+            <a style="cursor: pointer" class="edit_miscellaneous" mcode="<%= miscellaneous.code%>"  mdescription="<%= miscellaneous.description%>" mprice="<%= miscellaneous.price %>"  mid="<%= miscellaneous.id %>"><%= miscellaneous.code %></a>
+          </td>
+          <td field="description"><%= miscellaneous.description %></td>
+          <td field="price" class="price">Php. <span class="amount_fld"><%= miscellaneous.price %></span></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= if not Enum.empty?(@miscellaneous) do %>
+  <%= render "step1_edit_modal.html", conn: @conn, miscellaneous: @miscellaneous, changeset: @changeset, permission: @permission %>
+<% end %>

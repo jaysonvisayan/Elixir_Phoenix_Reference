@@ -1,0 +1,28 @@
+<div class="ui large modal procedure" style="width: 1200px; top: 704.444px;">
+    <i class="close icon"></i>
+    <div class="header">Add Benefit</div>
+
+    <div class="content pt-0">
+        <div class="ui grid form">
+            <div class="sixteen wide column">
+              <table class="full-width ui celled striped table" id="dt-dental-benefit">
+                    <thead>
+                      <tr>
+                        <th class="small">
+                          <input type="checkbox" role="" name="select_all" value="1" class="procedure_chkbx"/>
+                        </th>
+                        <th class="small">Benefit Code</th>
+                        <th class="small">Benefit Name</th>
+                        <th class="small">No. of CDT</th>
+                        <th class="small">Limit Type</th>
+                        <th class="small">Limit Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,276 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        <%=@benefit.code%> - <%= @benefit.name %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/products/<%= @product_id %>/show">Product</a>
+          <i class="right angle icon divider"></i>
+          <a href="#">Benefits</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin"><%= @benefit.code %></div>
+        </div>
+      </h1>
+
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="main_benefit_modals">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="two wide computer sixteen wide mobile column">
+                <div class="mb-2 center aligned">
+                  <div class="mr-2"><i class="icon icon-riders big black "></i></div>
+                </div>
+              </div>
+              <div class="six wide computer eight wide tablet eight wide mobile column">
+                <p class="member-name"><%= @benefit.code %></p>
+                <div class="section-title mt-2"><div class="title-name"><%= @benefit.name %></div></div>
+              </div>
+              <div class="six wide computer eight wide tablet eight wide mobile column">
+
+              </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+        <!-- BENEFIT LIMIT -->
+          <div class="sixteen wide computer column">
+          <div class="bottom-border pb-2 mb-2">
+            <div class="ui left floated header">
+              <div class="section-title mt-2"><div class="title-name">Limit</div></div>
+            </div>
+            <%= if @pb_limits == [] do %>
+              <table class="full-width ui celled striped table">
+                <thead>
+                  <tr>
+                    <th>Coverage</th>
+                    <th>Limit Type</th>
+                    <th>Limit Session</th>
+                    <th>Limit Amount</th>
+                    <th>Limit Classification</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="7" class="center aligned">
+                      NO RECORD FOUND!
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <%= else %>
+             <%= if List.first(@pb_limits).coverages == "ACU" do %>
+                <table class="full-width ui celled striped table">
+                  <thead>
+                    <tr>
+                      <th>Coverage</th>
+                      <th>Limit Type</th>
+                      <th>Limit Session</th>
+                      <th>Limit Amount</th>
+                      <th>Limit Classification</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for benefit_limit <- @pb_limits do %>
+                      <tr>
+                        <td><%= benefit_limit.coverages %></td>
+                        <td><%= benefit_limit.limit_type %></td>
+                        <td><%= benefit_limit.limit_session %></td>
+                        <td><%= benefit_limit.limit_amount %> PHP</td>
+                        <td><%= benefit_limit.limit_classification %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+
+              <% else %>
+                <table class="full-width ui celled striped table">
+                  <thead>
+                    <tr>
+                      <th>Coverage</th>
+                      <th>Limit Type</th>
+                      <th>Limit Amount</th>
+                      <th>Limit Classification</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for benefit_limit <- @pb_limits do %>
+                      <tr>
+                        <td><%= benefit_limit.coverages %></td>
+                        <td><%= benefit_limit.limit_type %></td>
+                        <td><%= display_limit_amount(benefit_limit) %></td>
+                        <td><%= benefit_limit.limit_classification %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+            <% end %>
+
+          <!-- END BENEFIT LIMIT -->
+          <!-- PACKAGES -->
+
+          <div class="bottom-border pb-2 mb-2">
+            <div class="section-title mt-2"><div class="title-name">Packages</div></div>
+            <div class="field">
+                <table id="" class="full-width ui celled striped table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if @benefit.benefit_package == [] do %>
+                      <tr>
+                        <td colspan="7" class="center aligned">
+                          NO RECORD FOUND!
+                        </td>
+                      </tr>
+                      <%= else %>
+                      <%= for benefit_package <- @benefit.benefit_package do %>
+                        <tr>
+                          <td><a href="/packages/<%= benefit_package.package_id %>/summary" target="_blank"><%= benefit_package.package_code %></a></td>
+                          <td><%= benefit_package.package_name %></td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+
+        <!-- END PACKAGES -->
+        <!-- PROCEDURES -->
+
+        <%= if @benefit.benefit_procedures != [] do %>
+                <div class="ui left floated header">
+                  <div class="section-title mt-2"><div class="title-name">Procedures</div></div>
+                </div>
+
+                <div class="ui right floated header mt-2">
+                </div>
+                <table class="full-width ui celled striped table">
+                  <thead>
+                    <tr>
+                      <th>CPT Code</th>
+                      <th>CPT Description</th>
+                      <th>Payor CPT Code</th>
+                      <th>Payor CPT Description</th>
+                      <th>Procedure Section</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for p <- @benefit.benefit_procedures do %>
+                      <tr>
+                        <td><%= p.sp_code %></td>
+                        <td width="30%"><%= p.sp_description %></td>
+                        <td><%= p.pp_code %></td>
+                        <td width="20%"><%= p.pp_description %></td>
+                        <td><%= p.procedure_category %></td>
+                        <td></td>
+                        <td class="table-icon--holder">
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+
+            <!-- END PROCEDURES -->
+            <!-- RUV'S -->
+
+            <%= if @benefit.benefit_ruv != [] do %>
+              <div class="ui left floated header">
+                <div class="section-title mt-2"><div class="title-name">RUV</div></div>
+              </div>
+
+              <div class="ui right floated header mt-2">
+              </div>
+              <table class="full-width ui celled striped table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Effectivity Date</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for r <- @benefit.benefit_ruv do %>
+                    <tr>
+                      <td><%= r.ruv_code %></td>
+                      <td width="20%"><%= r.ruv_description %></td>
+                      <td><%= r.ruv_type %></td>
+                      <td width="20%"><%= r.ruv_value %></td>
+                      <td><%= r.ruv_effectivity_date %></td>
+                      <td class="table-icon--holder">
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+
+          <!-- END RUVS -->
+          <!-- DIAGNOSES -->
+
+          <%= if @benefit.benefit_diagnosis != [] do %>
+            <div class="ui left floated header">
+              <div class="section-title mt-2"><div class="title-name">Diagnosis</div></div>
+            </div>
+
+            <div class="ui right floated header mt-2">
+              <%# <a class="modal-open-procedure ui primary button">+ Add Procedure</a> %>
+            </div>
+            <table class="full-width ui celled striped table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Description</th>
+                  <th>ICD Type</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for bd <- @benefit.benefit_diagnosis do %>
+                  <tr>
+                    <td><%= bd.diagnosis_code %></td>
+                    <td width="40%"><%= bd.diagnosis_desc %></td>
+                    <td><%= bd.diagnosis_type  %></td>
+                    <td class="table-icon--holder">
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+
+
+      </div>
+      <br><br>
+      <a href="/web/products/<%= @product_id %>/show"><button id="" class="ui basic button mt-1-small">Back</button></a>
+    </div><!-- row ends here -->
+  </div><!-- grid ends here -->
+</div><!-- .white-bg -->
+</div><!-- container ends here -->

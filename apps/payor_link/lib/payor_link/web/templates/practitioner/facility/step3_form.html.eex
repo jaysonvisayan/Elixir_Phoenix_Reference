@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="sixteen wide column" name="pf-formValidate">
+    <%= form_for @changeset, @action, [as: :practitioner_facility, multipart: true, role: "add_practitioner_facility_rate", class: "ui form", id: "formStep3PractitionerFacility"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <h4 class="ui no-dividing header">Rates for Inpatient Coverage</h4>
+      <div class="two fields">
+        <div class="field">
+          <label for="practitioner_facility_coordinator">Coordinator</label>
+          <div class="two fields">
+              <div class="field pt_gender">
+                  <div class="ui radio checkbox checked">
+                    <%= radio_button f, :coordinator, "true", checked: "checked" %>
+                    <label>Yes</label>
+                  </div>
+              </div>
+              <div class="field pt_gender">
+                  <div class="ui radio checkbox">
+                    <%= radio_button f, :coordinator, "false" %>
+                    <label>No</label>
+                  </div>
+              </div>
+          </div>
+          <%= error_tag f, :coordinator %>
+        </div>
+        <div class="field">
+          <label for="practitioner_facility_coordinator">Coordinator Fee</label>
+          <div class="grouped fields">
+            <div class="fields">
+              <div class="four wide field pt_gender">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :fixed, "true", checked: "checked" %>
+                  <label for="practitioner_facility_fixed">Fixed Fee</label>
+                </div>
+              </div>
+              <div class="twelve wide field">
+                <%= if @practitioner_facility.fixed == true or is_nil(@practitioner_facility.fixed) do %>
+                  <%= number_input f, :fixed_fee, placeholder: "Enter Fixed Fee" %>
+                <% else %>
+                  <%= number_input f, :fixed_fee, placeholder: "Enter Fixed Fee", disabled: true %>
+                <% end %>
+                <%= error_tag f, :fixed_fee %>
+              </div>
+            </div>
+            <div class="fields">
+              <div class="four wide field">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :fixed, "false" %>
+                  <label>Regular</label>
+                </div>
+              </div>
+              <%= if @practitioner_facility.fixed == true or is_nil(@practitioner_facility.fixed) do %>
+                <div id="facility_room" class="twelve wide field" style="display:none;">
+              <% else %>
+                <div id="facility_room" class="twelve wide field">
+              <% end %>
+                  <table class="ui very basic striped selectable table">
+                    <thead>
+                      <tr>
+                        <th>Room Type</th>
+                        <th>Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%= for pf_room <- @pf_rooms do %>
+                        <tr>
+                          <td>
+                            <%= pf_room.type %>
+                          </td>
+                          <td>
+                            <input type="number"
+                                  name="practitioner_facility[rooms][<%= pf_room.id %>]"
+                                  id="practitioner_facility_rooms" value="<%= pf_room.rate %>">
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="ui dividing header">Rates for Outpatient-Consultation Coverage</h4>
+      <div class="ui grid">
+        <div class="three wide column text-right">
+          <div class="field">
+            <label for="practitioner_facility_consultation_fee">Consultation Fee</label>
+          </div>
+        </div>
+        <div class="thirteen wide column">
+          <table class="ui very basic striped selectable table">
+            <thead>
+              <tr>
+                <th width="30%">Specialization</th>
+                <th width="70%">Fees</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for ps <- Enum.sort_by(@practitioner.practitioner_specializations, &(&1.specialization.name)) do %>
+                <tr>
+                  <td>
+                    <%= ps.specialization.name %>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <div class="ui right labeled input">
+                        <input type="text" name="practitioner_facility[cf_<%= ps.id %>]" class="cf_specialization" placeholder="0.00" value="<%= check_cf_fee(@practitioner_facility, ps.id) %>"/>
+                        <div class="ui basic label">
+                          PHP
+                        </div>
+                      </div>
+                      <div class="ui basic red pointing prompt label transition hidden cf_error">
+                        Please enter consultation fee.
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="field">
+        <label for="practitioner_facility_coordinator_fee" id="lblPf_coordinator_fee">Coordinator Fee
+          <%= if @practitioner_facility.coordinator == false do %> <i class="gray">(Optional)</i> <% end %></label>
+        <%= number_input f, :coordinator_fee, placeholder: "Coordinator Fee" %>
+        <p style="color: red"><%= error_tag f, :coordinator_fee %></p>
+      </div>
+      <h4 class="ui dividing header">Rate for CP Clearance</h4>
+      <div class="two fields">
+        <div class="field">
+          <label for="practitioner_facility_cp_clearance_rate">CP Clearance Rate <i class="gray">(Optional)</i></label>
+          <div class="ui dropdown selection" tabindex="0">
+            <%= select f, :cp_clearance_id, Enum.map(@cp_clearances, &{&1.text, &1.id}), prompt: "CP Clearance" %>
+            <%= error_tag f, :cp_clearance_id %>
+            <i class="dropdown icon"></i>
+            <div class="default text">CP Clearance</div>
+            <div class="menu" tabindex="-1">
+              <%= for cp_clearance <- @cp_clearances do %>
+                <div class="item" data-value="<%= cp_clearance.id %>"><%= cp_clearance.text %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="text-white">CP Clearance Rate</label>
+           <%= number_input f, :cp_clearance_rate, placeholder: "CP Clearance Rate" %>
+          <%= error_tag f, :cp_clearance_rate %>
+        </div>
+      </div>
+  </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <a class="ui basic button" role="delete-pf" pfId="<%= @practitioner_facility.id %>">Delete</a>
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/practitioners/<%=@practitioner_facility.id%>/pf/create?step=2" class="ui basic button">Back to Previous Step</a>
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+  </div>
+</div>
+<% end %>
+
+

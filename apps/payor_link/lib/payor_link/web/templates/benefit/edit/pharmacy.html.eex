@@ -1,0 +1,105 @@
+<%= render "edit/breadcrumbs.html", benefit: @benefit %>
+<div id="benefit_pharmacies" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <%= cond do %>
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui eight item menu">
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <a class="active item">Pharmacy</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui seven item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <a class="active item">Pharmacy</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+              </div>
+
+            <%= true -> %>
+              <div class="ui five item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+              </div>
+
+          <%= end %>
+
+
+          <div class="row" id="benefitPharmacyForm">
+            <div class="column">
+              <div class="ui middle aligned  right aligned grid">
+                <div class="left floated left aligned six wide column">
+                  <h4 class="ui header">Pharmacy</h4>
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <a class="ui small add button add_pharmacy" id=""><i class="plus icon"></i>Pharmacy</a>
+                </div>
+              </div>
+              <div class="ui divider mrg0T mrg0B"></div><br />
+              <table role="datatable" id="" class="ui stripped table">
+                <thead>
+                  <tr>
+                    <th>Drug Code</th>
+                    <th>Generic Name</th>
+                    <th>Brand</th>
+                    <th>Strength</th>
+                    <th>Form</th>
+                    <th>Maximum Price</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for benefit_pharmacy <- Enum.sort_by(@benefit.benefit_pharmacies, &(&1.pharmacy.drug_code)) do %>
+                    <tr>
+                      <td><%= benefit_pharmacy.drug_code %></td>
+                      <td><%= benefit_pharmacy.generic_name %></td>
+                      <td><%= benefit_pharmacy.brand %></td>
+                      <td><%= benefit_pharmacy.strength %></td>
+                      <td><%= benefit_pharmacy.form %></td>
+                      <td><%= benefit_pharmacy.maximum_price %></td>
+                      <td class="center aligned">
+                        <a style="cursor: pointer;" class="delete-benefit-pharmacy" benefitPharmacyID="<%= benefit_pharmacy.id %>">
+                          <i class="trash icon"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+          <div class="ui middle aligned  right aligned grid mrg1T">
+            <div class="left floated left aligned six wide column">
+              <a href="/benefits/<%= @benefit.id %>" class="ui button">
+                <i class="remove left icon"></i> Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_pharmacy">
+<% end %>
+
+<%= render "edit/pharmacy_modal.html", changeset: @changeset, benefit: @benefit, conn: @conn, action: benefit_path(@conn, :save, @benefit, tab: "pharmacy"), pharmacies: @pharmacies %>
+<%= render "delete_pharmacy_modal.html" %>

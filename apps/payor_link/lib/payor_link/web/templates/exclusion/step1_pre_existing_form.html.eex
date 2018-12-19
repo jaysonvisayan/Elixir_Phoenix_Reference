@@ -1,0 +1,54 @@
+<div id="pre_existing_form">
+<%= form_for @changeset, @action, [class: "ui form", id: "general_pre_existing", multipart: :true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= hidden_input(f, :coverage, value: "Pre-existing Condition") %>
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :code, "Exclusion Code" %>
+      <%= text_input f, :code, id: "pre_existing_code" %>
+      <font color="red"><%= error_tag f, :code %></font>
+    </div>
+    <div class="field">
+      <%= label f, :name, "Exclusion Name"%>
+      <%= text_input f, :name, id: "pre_existing_name" %>
+      <font color="red"> <%= error_tag f, :name %></font>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :limit_type, "PEC Limit Type" %>
+      <%= select f, :limit_type, ["Peso", "Percentage", "Sessions"], class: "ui dropdown" %>
+      <font color="red"><%= error_tag f, :limit_type %></font>
+    </div>
+    <div class="field input">
+      <%= label f, :limit_amount, "PEC Limit Amount" %>
+      <div class="ui labeled input">
+        <div class="ui label" id="limitAmountIcon">
+          PHP
+        </div>
+        <%= text_input f, :limit_amount, step: "any", "data-validate": "amount" %>
+      </div>
+      <%= error_tag f, :limit_amount %>
+    </div>
+  </div>
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <%= if @changeset.data.id do %>
+        <button class="ui red button mrg1T" id="deleteExclusion" exclusionID="<%= @changeset.data.id %>" type="button">
+          <i class="trash left icon"></i>Delete Draft
+        </button>
+      <% end %>
+    </div>
+    <div class="column eight wide">
+      <button class="ui right floated primary button" type="submit" id="step1_pre_existing_submit" >
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+        <a href="/exclusions" class="ui button">
+          <i class="remove left icon"></i>
+          Cancel
+        </a>
+    </div>
+  </div>
+<% end %>
+</div>

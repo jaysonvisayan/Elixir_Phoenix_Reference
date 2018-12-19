@@ -1,0 +1,51 @@
+<div class="row" id="validate">
+  <div class="sixteen wide column">
+    <%= form_for @changeset, @action, [as: :room, class: "ui form form2", id: "room_form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <div class="two fields">
+        <div class="field">
+          <label>Room Code</label>
+          <%= text_input f, :code, placeholder: "Enter Room Code" %>
+          <%= error_tag f, :code %>
+        </div>
+        <div class="field">
+          <label>Room Type</label>
+          <%= text_input f, :type, placeholder: "Enter Room Type" %>
+          <%= error_tag f, :type %>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>Room Hierarchy</label>
+          <%= text_input f, :hierarchy, placeholder: "Enter Room Hierarchy" %>
+          <%= error_tag f, :hierarchy %>
+        </div>
+        <div class="field">
+          <label>RUV Rate</label>
+          <%= number_input f, :ruv_rate, placeholder: "Enter RUV Rate", min: "1", onkeypress: "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" %>
+          <%= error_tag f, :ruv_rate %>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="eight wide column">
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/rooms" class="ui basic button">Cancel</a>
+    <%= if @conn.assigns[:room] do %>
+      <button class="ui primary button submit" >Save Changes</button>
+      <% else %>
+      <button class="ui primary button submit" >Submit Room</button>
+    <% end %>
+  </div>
+</div>
+<input type="hidden" id="checker">
+<% end %>

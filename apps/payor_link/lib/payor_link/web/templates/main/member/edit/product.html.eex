@@ -1,0 +1,51 @@
+<%= render "edit/breadcrumbs.html", member: @member %>
+
+<div id="main_memberProducts" class="ui container">
+
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+            <a href="/web/members/<%= @member.id %>/edit?tab=general" class="step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </a>
+
+             <a href="/web/members/<%= @member.id %>/edit?tab=contact" class="step">
+              <i class="icon-telephone icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Contact</div>
+              </div>
+            </a>
+
+
+            <div class="active step">
+              <i class="icon-product icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Plan</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <%= render "edit/product_form.html", member: @member, conn: @conn, action: main_member_path(@conn, :update_product, @member) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%= render "show_product_remove_confirmation.html" %>
+
+<%= if @conn.params["delete"] do %>
+  <input type="hidden" id="main_deleteMemberProductSuccess">
+<% end %>
+
+
+
+

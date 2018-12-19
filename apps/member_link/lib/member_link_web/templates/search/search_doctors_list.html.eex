@@ -1,0 +1,552 @@
+<!-- layout.nunjucks -->
+
+<!--		<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="icon" href="images/favicon.jpg" type="image/x-icon"/>
+  <link rel="shortcut icon" href="images/favicon.jp" type="image/x-icon"/>
+  <link rel="stylesheet" href="css/main.css">
+  <script src=""></script>
+</head>
+<body>
+
+<div class="account-sidebar ui sidebar offcanvas-sidebar">
+
+
+	<div class="main-navigation-side ui secondary vertical menu">
+		<div class="item">
+			<div class="ui left icon input fluid">
+				<input type="text" placeholder="Search for doctors and hospitals">
+				<i class="search link icon"></i>
+			</div>
+		</div>
+
+		<div class="item">
+			<button class="ui primary dropdown basic button fluid">
+        <span class="text"><%= gettext "REQUEST LOA" %></span>
+				<i class="icon angle down"></i>
+				<div class="menu">
+          <div class="item"><%= gettext "Request Lab" %></div>
+          <div class="item"><%= gettext "Request Consultant" %></div>
+				</div>
+			</button>
+		</div>
+	</div>
+	<div class="ui divider"></div>
+
+	<div class="ui secondary vertical menu">
+
+    <a class="item " href="account_my_account.html"><i class="id card icon"></i><%= gettext "My account" %></a>
+
+
+    <a class="item " href="account_my_profile.html"><i class="user icon"></i><%= gettext "My Profile" %></a>
+
+
+    <a class="item " href="#"><i class="mail icon"></i><%= gettext "Contact Details" %></a>
+
+
+    <a class="item " href="account_kyc_bank_info.html"><i class="file icon"></i><%= gettext "Bank KYC Information" %></a>
+
+
+    <a class="item " href="#"><i class="users icon"></i><%= gettext "Dependents" %></a>
+
+
+	</div>
+
+
+	<div class="ui divider"></div>
+	<div class="ui secondary vertical menu">
+    <a class="item" href="#"><i class="sign out icon"></i><%= gettext "Logout" %></a>
+	</div>
+
+</div>
+
+-->
+
+
+  	<div class="pusher">
+  	<!-- You write code for this content block in another file -->
+
+
+
+<div class="content-holder" id="search">
+ <div class="filter-holder">
+    <div class="filter-button show-for-tab" id="filter_button">
+      <button class=" ui icon button">
+        <i class="icon filter"></i>
+        <%= gettext "Filter" %>
+      </button>
+    </div>
+    <div class="filter-tabs">
+      <div class="ui two item tabs menu">
+        <a class="item active" data-tab="list_tab"><i class="list layout icon"></i><%= gettext "Doctors List" %></a>
+        <a class="item" data-tab="map_tab"><i class="map icon"></i> <%= gettext "Map" %></a>
+      </div>
+    </div>
+
+    <%= form_for @conn, search_path(@conn, :search_doctors_submit, @locale), [method: :get, name: :search, as: :search], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="ui fluid container">
+      <div class="ui secondary menu">
+        <div class="item label">
+          <%= gettext "Showing" %>
+        </div>
+        <div class="item">
+
+          <div class="mini ui basic filter buttons">
+            <!-- <a class="ui button active" id="search_all"><%#= gettext "All" %></a>
+            <a class="ui button" id="search_doctor"><%#= gettext "Doctors" %></a>
+            <a class="ui button" id="search_hospital"><%#= gettext "Hospitals" %></a>
+            -->
+            <a class="ui button" href="/<%= @locale %>/search/all"><%= gettext "All" %></a>
+            <a class="ui button active" href="/<%= @locale %>/search/doctors"><%= gettext "Doctors" %></a>
+            <a class="ui button" href="/<%= @locale %>/search/hospitals"><%= gettext "Hospitals" %></a>
+          </div>
+
+        </div>
+
+        <div class="item">
+          <div class="ui right action icon input">
+            <%= text_input f, :name, id: "search_name", placeholder: gettext "search doctors or hospitals" %>
+            <button class="ui submit button" type="submit">
+              <i class="search link icon"></i>
+            </button>
+          </div>
+        </div>
+          <%= hidden_input f, :url, value: @conn.request_path %>
+
+        <div class="item label">
+          <%= gettext "Location" %>
+        </div>
+
+        <div class="item">
+          <div class="ui right action left icon mini input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="<%= gettext "Search Address"%>" id="search_address" name="search[address]">
+            <div class="ui basic floating mini dropdown button">
+              <div class="text"><%= gettext "NCR" %></div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <%# f = @facilities %>
+                <%= for f <- @facilities do %>
+                  <%= for _pf <- f.practitioner_facilities do %>
+                    <div class="item"><%= f.region %></div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="item label">
+          <%= gettext "Specialization" %>
+        </div>
+
+        <div class="item">
+          <%= select f, :specialization, @specializations, class: "ui fluid search selection dropdown", prompt: gettext "Select Specialization" %>
+        </div>
+
+        <div class="right floated item">
+          <a class="ui right floated basic mini button" href="/<%= @locale %>/search/doctors"><%= gettext "Reset" %></a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  </div>
+
+
+  <div class="left-column tab-target active" id="list_tab" data-tab="list">
+    <div class="content-scroll doctors-list" >
+      <div class="doctors-list-search" id="search_list">
+        <div class="ui divided list" id="append_here_head">
+          <%= cond do %>
+        <% Enum.empty?(@practitioners) && Enum.empty?(@facilities) -> %>
+          <div class="item doctor-affiliated facility" style="width: 500px; text-align:center; !important">
+            <div class="content">
+              <div class="header"> <%= gettext "No Results Found" %> </div>
+            </div>
+          </div>
+          <% Enum.empty?(@facilities) && Enum.empty?(@practitioners) == false -> %>
+            <%= for p <- @practitioners do %>
+              <%= for pf <- pf_checker(p.id, @member) do %>
+                <div class="item doctor-affiliated facility">
+                  <div class="right floated content">
+                    <div class="ui button mini request request-hospital clickable" practitionerID="<%= p.id %>" facilityID="<%= pf.facility.id %>" id="request_loa"><%= gettext "REQUEST" %></div>
+                  </div>
+                  <i class="doctor icon"></i>
+                  <div class="content">
+                    <div class="header" doctor_name="<%= Enum.join([p.last_name, ", ", p.first_name]) %>"><%= Enum.join([p.last_name, p.first_name], ", ") %><span><%= gettext "%{status}", status: pf.practitioner_status.value %></span></div>
+                    <div class="description">
+                      <p class="mb_zero" doctor_specialization="<%= get_specialization(p.practitioner_specializations) %>" doctor_facility="<%= pf.facility.name %>" doctor_phone="<%= get_contact_number(pf.practitioner_facility_contacts)%>"><%= get_specialization(p.practitioner_specializations) %>, <span><%= pf.facility.name %> </span></p>
+                      <%= if pf.practitioner_schedules == [] do %>
+                        <%= gettext "Schedule" %>: None
+                      <% else %>
+                        <%= for pfs <- pf.practitioner_schedules do %>
+                          <p class="mb_zero"><%= gettext "Schedule" %>: <%= gettext "%{day}", day: pfs.day %>, <%= pfs.room %>, <%= pfs.time_from %> - <%= pfs.time_to %></p>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+            <% true -> %>
+              <%= for f <- @facilities do %>
+                <%= for pf <- f.practitioner_facilities do %>
+                  <div class="item doctor-affiliated facility">
+                    <div class="right floated content">
+                      <div class="ui button mini request request-hospital clickable" practitionerID="<%= pf.practitioner_id %>" facilityID="<%= f.id %>" id="request_loa"><%= gettext "REQUEST" %></div>
+                    </div>
+                    <i class="doctor icon"></i>
+                    <div class="content">
+                      <div class="header" doctor_name="<%= Enum.join([pf.practitioner.last_name, ", ", pf.practitioner.first_name]) %>"><%= Enum.join([pf.practitioner.last_name, pf.practitioner.first_name], ", ") %><span><%= gettext "%{status}", status: pf.practitioner_status.value %></span></div>
+                      <div class="description">
+                        <p class="mb_zero" doctor_specialization="<%= get_specialization(pf.practitioner.practitioner_specializations) %>" doctor_facility="<%= f.name %>" doctor_phone="<%= get_contact_number(pf.practitioner_facility_contacts)%>"><%= get_specialization(pf.practitioner.practitioner_specializations) %>, <span><%= f.name %> </span></p>
+                        <%= if pf.practitioner_schedules == [] do %>
+                          <%= gettext "Schedule" %>: None
+                        <% else %>
+                          <%= for pfs <- pf.practitioner_schedules do %>
+                            <p class="mb_zero"><%= gettext "Schedule" %>: <%= gettext "%{day}", day: pfs.day %>, <%= pfs.room %>, <%= pfs.time_from %> - <%= pfs.time_to %></p>
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="doctors-list-detail" id="list_detail">
+      <div class="close show-for-tab"><span class="ui primary text"><i class="icon angle left"></i>Back</span></div>
+      <div class="ui middle aligned divided list" id="append_here_tail">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="right-column tab-target" id="map_tab" data-tab="map">
+    <div class="map-overlay"></div>
+    <div class="map-holder">
+      <div id="map" class="map"></div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+<div class="ui small modal" id="request_form">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    <h2><%= gettext "Request Consultation LOA" %></h2>
+    <p class="mb_zero"><b practitioner="name" id="doctor_name"></b> (<span practitioner="specialization" id="doctor_specialization"></span>)<span class="modal_edit"><a><%= gettext "edit" %></a></span></p>
+    <p class="mb_zero" practitioner="facility" id="doctor_facility"></p>
+    <p class="mb_zero" practitioner="phone_no" id="doctor_phone_no"></p>
+  </div>
+
+  <div class="content">
+    <div class="description">
+      <form class="ui form">
+        <input type="hidden" id="facility_id">
+        <input type="hidden" id="practitioner_id">
+        <div class="field">
+          <label><%= gettext "Please select desired date of availment" %></label>
+          <div class="ui selection dropdown" id="availment_date">
+            <i class="dropdown icon"></i>
+            <div class="default text"><%= gettext "Date of Availment" %></div>
+            <div class="menu">
+              <div class="item" id="date_now" data-value="<%= DateTime.utc_now %>"></div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label><%= gettext "Please explain chief Complaint/Diagnosis" %></label>
+          <textarea id="text_complaint" placeholder=<%= gettext "Explain the problem, complain or your condition" %>></textarea>
+        </div>
+        <div class="field">
+          <label><p><%= gettext "Your Principal Contact Information" %> <span class="modal_edit"><a><%= gettext "edit" %></a></span></p></label>
+        </div>
+        <div class="field personal_info">
+          <%= if not is_nil(@member.principal) do %>
+            <p class="mb_zero" id="principal_name"><%= @member.principal.first_name %> <% @member.principal %></p>
+            <p class="mb_zero" id="principal_contact"><%= if not is_nil(@member.principal.telephone), do: @member.principal.telephone <> " (Home)" %><%= if not is_nil(@member.principal.mobile), do: ", " <> @member.principal.mobile <> " (Mobile)" %></p>
+            <p class="mb_zero" id="principal_email"><%= gettext "Email" %>: <%= @member.principal.email %></p>
+          <% end %>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="conforme" id="check_confirm">
+            <label><%= gettext "I confirm that I have read and fully understood the" %> <a><%= gettext "conforme" %></a> <%= gettext "therein." %></label>
+          </div>
+        </div>
+        <div class="center_align field">
+          <button type="button" class="big ui blue button disabled"><%= gettext "Request Consultation" %></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="ui small modal" id="request_form_lab">
+  <i class="close icon"></i>
+  <form class="ui form">
+
+  <div class="header top_most">
+      <div class="inline fields">
+        <label><h2><%= gettext "Request" %></h2></label>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="gender">
+          <i class="dropdown icon"></i>
+          <div class="default text"><%= gettext "OP Lab LOA" %></div>
+          <div class="menu">
+            <div class="item" data-value="1"><%= gettext "Male" %></div>
+            <div class="item" data-value="0"><%= gettext "Female" %></div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="ui divider"></div>
+  </div>
+
+  <div class="content">
+    <div class="description">
+      <h2><%= gettext "OP Lab LOA Request" %></h2>
+      <div class="ui grid">
+
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+
+              <p>
+              <b><%= gettext "Hospital Information" %></b><span class="modal_edit"><a><%= gettext "edit" %></a></span> <br>
+                Makati Medical Center <br>
+                Jupiter St. Cor. Nicanor Garcia <br>
+                Brgy. Bel Air, Makati City, 1209 Metro Manila
+                  <div class="ui divider hidden"></div>
+              </p>
+          </div>
+          <div class="eight wide computer sixteen wide tablet column">
+
+            <p> <b><%= gettext "Hospital Information" %></b><span class="modal_edit"><a><%= gettext "edit" %></a></span> <br>
+                 Makati Medical Center <br>
+                 Jupiter St. Cor. Nicanor Garcia <br>
+                 Brgy. Bel Air, Makati City, 1209 Metro Manila</p>
+          </div>
+        </div><!--row-->
+
+        <div class="ui divider"></div>
+
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+            <div class="field">
+              <label><%= gettext "Requesting Doctor" %></label>
+              <div class="ui selection dropdown">
+                <input type="hidden" name="gender">
+                <i class="dropdown icon"></i>
+                <div class="default text">Go, Rory King</div>
+                <div class="menu">
+                    <div class="item" data-value="1">Male</div>
+                    <div class="item" data-value="0">Female</div>
+                </div>
+              </div>
+            </div>
+            <div class="ui divider hidden"></div>
+          </div>
+          <div class="eight wide computer sixteen wide tablet column">
+            <div class="ui list">
+              <div class="item doctor-affiliated">
+                <i class="doctor icon"></i>
+                <div class="content">
+                  <div class="header">Go, Rory King <span>Affiliated</span></div>
+                  <div class="description">
+                    <p class="mb_zero">Opthalmology,<span>Makati Medical Center</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="sixteen wide column">
+            <form class="ui form">
+              <div class="field">
+                <label><%= gettext "Please explain chief Complaint / Diagnosis" %></label>
+                <textarea placeholder=<%= gettext "Explain the problem, complain or your condition" %>></textarea>
+              </div>
+            </form>
+          </div>
+        </div><!--row-->
+
+        <div class="ui divider"></div>
+
+        <div class="row">
+          <div class="eight wide column">
+            <form class="ui form">
+              <div class="field">
+                <label><%= gettext "Please select desired date of availment" %></label>
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="gender">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">07/07/2017</div>
+                  <div class="menu">
+                      <div class="item" data-value="1">Male</div>
+                      <div class="item" data-value="0">Female</div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="column">
+            <div class="ui horizontal segments">
+              <div class="ui segment">
+                <!-- <div class="add_blue"> -->
+                <div class="ui radio checkbox">
+                  <input type="radio" name="test" id="all_diagnosis" value="diagnosis">
+                  <label for="all_diagnosis">
+                    <b><%= gettext "All Diagnosis Test" %></b>
+                    <p class="mb_zero"><%= gettext "Scanned copy of Maxicare-accredited Doctor's complete prescription:" %></p>
+                  <div class="ui bulleted list">
+                    <div class="item"><%= gettext "Complete Diagnosis" %></div>
+                    <div class="item"><%= gettext "Member's existing medication related to medical condition" %></div>
+                  </div>
+                  </label>
+                <!-- </div> -->
+                </div>
+              </div>
+              <div class="ui segment">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="test" id="physical_therapy" value="physical">
+                  <label>
+                    <b><%= gettext "Physical Therapy (PT) and (OT)" %></b>
+                    <p class="mb_zero"><%= gettext "Scanned copy of Maxicare-accredited Doctor's complete prescription:" %></p>
+                  <div class="ui bulleted list">
+                    <div class="item"><%= gettext "Number of session availed" %></div>
+                    <div class="item"><%= gettext "Date and facility of last session" %></div>
+                    <div class="item"><%= gettext "Patient Medical History" %></div>
+                  </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="two fields pb_zero">
+              <div class="field">
+                <div class="ui fluid basic icon buttons">
+                  <button class="ui button"><span class="upload_txt"><%= gettext "Upload Front Side" %></span><i class="cloud upload icon"></i></button>
+                    <button class="ui button"><i class="photo icon"></i></button>
+                </div>
+              </div>
+              <div class="field">
+<button class="ui blue fluid basic button"><i class="add icon"></i><%= gettext "Add Another Document" %></button>
+              </div>
+            </div>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="column">
+            <p class="mb_zero"><%= gettext "Please attach a clear copy of your documents, maximum field size is 5MB. Acceptable file types are: jpg, jpeg, tiff, pdf, doc, docx, xls, and xlsx." %></p>
+          </div>
+        </div><!--row-->
+
+        <div class="row">
+          <div class="column">
+            <div class="ui checkbox">
+              <input type="checkbox" name="conforme">
+<label><%= gettext "I confirm that I have read and fully understood the" %> <a><%= gettext "conforme" %></a> <%= gettext "therein." %></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="column">
+            <div class="center_align">
+              <button class="big ui primary button">
+                <%= gettext "Request Consultation" %>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  </form>
+</div>
+
+<div class="ui mini modal" id="filter_form">
+  <i class="close icon"></i>
+  <div class="header"><%= gettext "Search Filter" %></div>
+  <div class="content">
+    <form class="ui form">
+       <div class="field">
+         <label><%= gettext "Showing" %></label>
+          <div class="ui basic fluid filter buttons">
+            <a class="ui button"><%= gettext "All" %></a>
+            <a class="ui button"><%= gettext "Doctors" %></a>
+            <a class="ui button"><%= gettext "Hospitals" %></a>
+          </div>
+       </div>
+       <div class="field">
+         <label><%= gettext "Location" %></label>
+        <div class="ui right action left icon input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="Search">
+          <div class="ui basic floating mini dropdown button">
+            <div class="text"><%= gettext "NCR" %></div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">NVD</div>
+              <div class="item">OOD</div>
+              <div class="item">OK</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><%= gettext "Specialization" %></label>
+        <div class="ui left icon input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="All Specializations">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa0mYwWMgHdH-ClgyhUWe8P7qvP4ATkEM">
+    </script>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/map.js") %>"></script>
+
+
+
+</div> <!-- .pusher closed -->
+
+</body>
+</html>
+

@@ -1,0 +1,38 @@
+<div class="pusher banner" id="">
+  <div class="ui vertical stripe segment">
+    <div class="ui bottom aligned grid container">
+
+      <div class="eight wide computer sixteen wide tablet column centered">
+        <div class="ui middle aligned grid">
+
+          <div class="sixteen wide mobile stwelve wide tablet centered column" name="Login">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <div class="ui very padded raised segment">
+
+                <div class="sixteen wide column" style="zoom: 0.4;">
+                  <div class="evoucher-pdf" pmID="<%= @peme.id %>" style="height: 29.5rem; width: 32rem; border: 1px solid #000;text-align:left;box-shadow: 15px 20px 5px -5px rgba(140,140,140,1);overflow: auto;">
+                  </div>
+                </div>
+
+                <br>
+                <p class="text-center"><%= gettext "Please download and print this LOA and present it to your chosen Hospital or Clinic."%></p>
+
+                <input type="hidden" style="opacity: 0;" id="evoucherQR" value="<%= @peme.evoucher_qrcode %>"/>
+                <div hidden style="opacity: 0;" id="qrContainer">
+                </div>
+
+                <%= form_for @conn, member_path(@conn, :evoucher_summary_print, @locale, @peme), [class: "ui form", as: :peme, id: "evoucherLoginForm"], fn f -> %>
+                  <input id="qrBase" type="hidden" name="peme[base64]">
+                  <button type="submit" class="fluid ui blue button">Download LOA</button>
+                <% end %>
+
+              </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- form -->
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,231 @@
+<div class="row">
+  <div class="column">
+      <div>
+        <h4>
+          <%= @product.code %> : <%= @product.name %>
+        </h4>
+      </div>
+
+    <div class="ui negative message hidden" id="optionValidation">
+      <i class="close icon"></i>
+      <div class="header">
+        No Benefit selected.
+      </div>
+      <p>Atleast one benefit must be added.</p>
+    </div>
+
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Benefit</h4>
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small primary add button btn_add_benefit"><i class="plus icon"></i>Benefit</a>
+      </div>
+    </div>
+    <div class="ui divider mrg0T mrg1B"></div>
+
+    <div class="ui grid">
+      <div class="twelve wide column">
+      </div>
+      <div class="four wide column right aligned">
+
+        <label>Search<input type="search" id="benefit_search"></label>
+      </div>
+    </div>
+    <!-- from grid to card type -->
+
+    <%= if Enum.count(@product.product_benefits) == 0 do %>
+    <center>
+        <h4>No result(s) found !</h4>
+    </center>
+    <% else %>
+    <center>
+        <h4 style="visibility: hidden" id="no_result">No result(s) found !</h4>
+    </center>
+    <% end %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+        <div class="ui grid" id="benefit_cards">
+          <%= for product_benefit <- Enum.sort_by(@product.product_benefits, &(&1.benefit.code)) do %>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="ui card b_card">
+                <div class="content">
+                  <div class="header">
+                    <%= product_benefit.benefit.name %>
+                    <div class="ui icon top right floated pointing dropdown basic">
+                      <i class="ellipsis horizontal icon"></i>
+                      <div class="left menu">
+
+                        <div class="item" onclick="window.open('/benefits/<%= product_benefit.benefit.id %>/summary');" >
+                          <i class="unhide icon"></i>
+                          View
+                        </div>
+
+                        <% var = check_acu_coverage(product_benefit.benefit.benefit_coverages) %>
+                        <%= if Enum.member?(var, "ACU") do %>
+                          <!-- do nothing -->
+                        <% else %>
+                          <div class="item clickable-row" href="/products/<%= @product.id %>/product_benefit/<%= product_benefit.id %>/setup?step=3.1" >
+                            <i class="pencil icon"></i>
+                            Edit Limit
+                          </div>
+                        <% end %>
+
+                        <div class="ui divider"></div>
+                        <div class="item clickable-row delete_benefit"  href="#" productID="<%= @product.id%>"  productBenefitID="<%= product_benefit.id %>" >
+                          <i class="trash icon"></i>
+                          Remove
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <div class="ui small feed">
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                Benefit Name
+                              </div>
+                              <div class="column">
+                                <%= product_benefit.benefit.name %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                Benefit Code
+                              </div>
+                              <div class="column">
+                                <%= product_benefit.benefit.code %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                Coverage
+                              </div>
+                              <div class="column">
+                                <%= display_coverages_index(product_benefit.benefit.benefit_coverages) %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%= if Enum.member?(var, "ACU") do %>
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                ACU Type
+                              </div>
+                              <div class="column">
+                                <%= product_benefit.benefit.acu_type %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                Availment Type
+                              </div>
+                              <div class="column">
+                                <%= product_benefit.benefit.acu_coverage %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                Facility Type
+                              </div>
+                              <div class="column">
+                                <%= product_benefit.benefit.provider_access %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% else %>
+                    <div class="event">
+                      <div class="content">
+                        <div class="summary">
+                          <div class="ui grid">
+                            <div class="doubling two column row">
+                              <div class="column description">
+                                Benefit Limit Coverage
+                              </div>
+                              <div class="column">
+                                <%= display_limit_coverages_index(product_benefit.product_benefit_limits) %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+<div class="ui middle aligned  right aligned grid mrg1T">
+  <div class="left floated left aligned six wide column">
+    <a href="#" class="ui negative button" id="delete_draft" productID="<%= @product.id %>">
+      <i class="trash left icon"></i>
+      Delete Draft
+    </a>
+  </div>
+  <div class="right floated right aligned six wide column">
+    <a href="/products/<%= @product.id %>/setup?step=2" class="ui button">
+      <i class="chevron left icon"></i> Back
+    </a>
+    <a href="#" id="step3_next" productID="<%= @product.id %>" class="ui blue button" nxt_step="4" >
+      Next
+      <i class="chevron right icon"></i>
+    </a>
+  </div>
+</div>
+
+

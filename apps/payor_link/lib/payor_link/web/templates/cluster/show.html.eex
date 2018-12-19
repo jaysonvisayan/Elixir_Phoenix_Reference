@@ -1,0 +1,198 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Clusters</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/clusters">Clusters</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/clusters">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">View <%= @cluster.code %> - <%= @cluster.name %></div>
+  </div>
+</div>
+
+<div id="showCluster" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+
+        <div class="ui icon top right floated pointing dropdown basic button">
+            <i class="list icon"></i>
+            <div class="left menu">
+              <div class="item clickable-row" href="/clusters/<%= @cluster.id %>/edit?tab=general">
+                <i class="edit icon"></i>
+                Edit
+              </div>
+              <div class="item" id="logs">
+                <i class="file text outline icon"></i>
+                Logs
+              </div>
+              <div class="item print-account" clusterID="<%= @cluster.id %>">
+                <i class="print icon"></i>
+                Print
+              </div>
+            </div>
+          </div>
+
+          <!-- GENERAL -->
+          <div class="ui two column centered grid">
+            <div class="centered aligned column">
+              <div class="ui statistic">
+                <div class="">
+                  Name
+                </div>
+                <div class="text value">
+                  <%= @cluster.name %>
+                </div>
+              </div>
+            </div>
+            <div class="two column center aligned row">
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Code
+                  </div>
+                  <div class="text value">
+                    <%= @cluster.code %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END OF GENERAL -->
+          <div class="ui top attached tabular menu">
+            <a class="item active" data-tab="Accounts">Account Group</a>
+          </div>
+          <!-- ACCOUNT GROUPS -->
+          <!-- ACCOUNT GROUP LOOP -->
+          <div class="ui bottom attached tab segment active" data-tab="Accounts">
+          <div class="ui equal width left aligned padded grid stackable">
+            <div class="row">
+              <div class="column">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <table role="datatable" class="ui stripped table center aligned">
+                      <thead>
+                        <tr>
+                          <th>Account Code</th>
+                          <th>Account Name</th>
+                          <th>Effective Date</th>
+                          <th>Expiry Date</th>
+                          <th>Status</th>
+                          <th>Version</th>
+                          <th>Account Movements</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%= for account_group_cluster <- Enum.sort_by(@account_group_clusters, &(&1.account_group_id)) do %>
+                          <tr>
+                            <td>
+                              <%= if is_nil(account_group_cluster.account_group.code) == false do %>
+                            <!--    <a href="/accounts/<%= account_group_cluster.account_group.id%>/versions"><%= account_group_cluster.account_group.code %></a> -->
+                                <%= account_group_cluster.account_group.code %>
+                              <% else %>
+                                    None
+                               <% end %>
+                            </td>
+                            <td><%= account_group_cluster.account_group.name %></td>
+                            <td style="text-align: center;">
+                              <%= if is_nil(Enum.at(account_group_cluster.account_group.account, 0).start_date) do %>
+                                <%= "none" %> 
+                              <% else %>
+                              <%= Enum.at(account_group_cluster.account_group.account, 0).start_date %>
+                              <% end %>
+                            </td>
+                            <td style="text-align: center;">
+                             <%= if is_nil(Enum.at(account_group_cluster.account_group.account, 0).end_date) do %>
+                                <%= "none" %> 
+                              <% else %>
+                              <%= Enum.at(account_group_cluster.account_group.account, 0).end_date %>
+                              <% end %>
+
+                            </td>
+                            <td style="text-align: center;">
+                              <%= Enum.at(account_group_cluster.account_group.account, 0).status %>
+                            </td>
+                            <td style="text-align: center;">
+                              <%= Enum.join([Enum.at(account_group_cluster.account_group.account, 0).major_version,
+                              Enum.at(account_group_cluster.account_group.account, 0).minor_version,
+                              Enum.at(account_group_cluster.account_group.account, 0).build_version], ".") %>
+                            </td>
+
+                            <td class="ui center aligned">
+                              <a href="/clusters/<%= @cluster.id %>/accounts/<%= Enum.at(account_group_cluster.account_group.account, 0).id %>">
+                                <button class="ui labeled icon button">
+                                  <i class="unhide icon"></i>
+                                    View
+                                </button>
+                              </a>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!-- END OF ACCOUNTS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="logsModal">
+  <i class="close icon"></i>
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="ui right aligned grid">
+      <div class="right floated right aligned six wide column">
+        <div class="ui action input">
+          <div class="field error">
+            <div class="ui action input">
+              <input type="text" class="email" placeholder="Search..." name="cluster[search]" id="cluster_search">
+              <div class="ui basic icon buttons">
+                <button class="ui button" id="btnSearchLogs">
+                  <i class="search icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row" style="overflow: auto; max-height: 350px">
+          <div class="column">
+            <%= if @cluster.cluster_log == [] do %>
+              <p style="text-align: center">No Matching Logs Found!</p>
+            <% else %>
+              <div class="ui feed timeline" id="timeline">
+                <input type="hidden" name="cluster_id" value="<%= @cluster.id %>" >
+                <%= for log <- Enum.reverse(@cluster.cluster_log) do %>
+                  <div class="event row_logs">
+                    <div class="label">
+                      <i class="blue circle icon"></i>
+                    </div>
+                    <div class="content">
+                      <div class="summary">
+                        <a>
+                          <p class="log-date" ><%= log.inserted_at %></p>
+                        </a>
+                      </div>
+                      <div class="extra text" id="log_message">
+                        <%= sanitize_log_message(log.message) %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <p role="append_logs" style="text-align: center"> </p>
+  </div>
+</div>

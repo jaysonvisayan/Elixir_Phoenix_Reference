@@ -1,0 +1,38 @@
+<div class="ui main container grid" id="company_new">
+  <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+          <div class="left floated left aligned eight wide column">
+              <h1 class="ui huge header with-button">Add Company</h1>
+          </div>
+      </div>
+      <div class="ui breadcrumb newcompany">
+          <a href="/companies" class="section">Companies</a>
+          <div class="divider"> / </div>
+           <a href="/companies" class="section">Search</a>
+          <div class="divider"> / </div>
+          <div class="active section">Add Company</div>
+      </div> 
+      <div class="ui divider"></div>
+  </div>
+</div>
+
+<div class="ui container grid stackable">
+  <div class="row" >
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui very padded text segment">
+
+          <h3>Company Details</h3>
+
+            <%=
+              render "form.html",
+              changeset: @changeset,
+              conn: @conn,
+              action: company_path(@conn, :create)
+            %>  
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

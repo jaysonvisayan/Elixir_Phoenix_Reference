@@ -1,0 +1,30 @@
+<div class="ui tiny modal" id="modal_company_success">
+  <div class="content">
+    <div class="row">
+      <div class="ui grid actions">
+        <div class="two wide column"></div>
+        <div class="twelve wide column center aligned">
+          <br>
+          <img class="image centered" src="../../images/check.png">
+          <h2>Company Successfully Added!</h2>
+        </div>
+        <div class="two wide column"></div>
+
+        <div class="two wide column"></div>
+        <div class="twelve wide column center aligned">
+          <p style="font-size:20px">Do you want to add another company?</p>
+        </div>
+        <div class="two wide column"></div>
+        <div class="three wide column"></div>
+          <div class="five wide column cancel">
+            <button style="width:100%" class="ui basic green button">No</button>
+          </div>
+          <div class="five wide column">
+            <a style="width:100%" href="/companies/new" class="ui green button">Yes</a>
+          </div>
+        <div class="three wide column"></div>
+      </div>
+    </div>
+  </div>
+  <br><br><br><br>
+</div>

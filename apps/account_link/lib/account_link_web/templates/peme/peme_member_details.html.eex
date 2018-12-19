@@ -1,0 +1,219 @@
+<div class="main-wrapper peme" id="member-details-show" role="<%= @peme.type %>">
+  <%= if @show_swall == true do %>
+    <input hidden value=true id="show_swall">
+  <% end %>
+  <%= cond do %>
+    <%= @show_swall_cancel == true -> %>
+      <input hidden value=false id="show_swall_cancel" />
+    <%= @show_swall_cancel == "failed" -> %>
+      <input hidden value=true id="show_swall_cancel_failed" />
+     <%= true -> %>
+  <% end%>
+
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li>
+        <a href="/<%= @locale %>/peme"><%= gettext "Peme" %></a>
+      </li>
+      <li><i class="chevron right icon"></i></li>
+      <%= if @peme.type == "Single" do %>
+        <li class="active"><%= gettext "Single Member Details" %></li>
+      <% else %>
+        <li class="active"><%= gettext "Batch Details" %></li>
+      <% end %>
+    </ul>
+  </div><!-- breadcrumbs ends here-->
+
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <form action="" class="ui form">
+                <div class="section-control">
+                  <div class="ui grid">
+                    <div style="padding-bottom: 0rem; !important;" class="row">
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                        <%= if @peme.type == "Single" do %>
+                          <h2 style="padding-top: 1rem" class="row"><b><%= gettext "Single Member Details" %></b><h2>
+                        <% else %>
+                          <h2 style="padding-top: 1rem" class="row"><b><%= gettext "Batch Details" %></b><h2>
+                        <% end %>
+                      </div>
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile right floated column text-right mobile-text-left mobile-pull">
+                        <a href="#" class="large ui button" id="export_evoucher"><i class="download icon"></i><%= gettext "Export" %></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                <table role="datatable" id="member_table" class="full-width ui celled table">
+                  <thead>
+                    <tr>
+                      <%= if @peme.type == "Batch" do %>
+                        <th></th>
+                      <% end %>
+                      <th><%= gettext "Member ID" %></th>
+                      <th><%= gettext "Name" %></th>
+                      <th><%= gettext "E-Voucher Number" %></th>
+                      <th><%= gettext "Action" %></th>
+                      <th><%= gettext "Status" %></th>
+                    </tr>
+                  </thead>
+                  <tbody class="padded-rows menued-rows" >
+                    <%= for peme_member <- @peme.peme_members do %>
+                      <tr peme_id="<%= peme_member.id %>">
+                        <%= if @peme.type == "Batch" do %>
+                          <td>
+                            <%= if is_nil(peme_member.member.status) do %>
+                              <input type="checkbox" value="<%= peme_member.id %>">
+                            <%= else %>
+                              <input type="checkbox" class="hide" disabled>
+                            <% end %>
+                          </td>
+                        <% end %>
+                        <td><a href="/<%= @locale %>/peme/member/<%= peme_member.member_id %>/show"><%= peme_member.member.id %></a></td>
+                        <td><%= peme_member.member.first_name <> " " <> peme_member.member.last_name %></td>
+                        <td id="evoucher_no" value="<%= peme_member.evoucher_number%> "><%= peme_member.evoucher_number %></td>
+                        <%= status_peme = if is_nil(peme_member.member.status) or peme_member.member.status == "", do: "", else: "disabled" %>
+                        <td>
+                          <%= if (peme_member.member.authorizations) == false do %>
+                          <a href="#!" class="small ui grey button submit cancel_evoucher disabled <%= status_peme%>" pemeID="<%= @peme.id %>"  evoucherNumber="<%= peme_member.evoucher_number %>" memberId="<%= peme_member.member.id %>"><i class="remove icon"></i><%= gettext "Cancel E-voucher" %></a>
+                          <% else %>
+                          <a href="#!" class="small ui grey button submit cancel_evoucher <%= status_peme%>" pemeID="<%= @peme.id %>"  evoucherNumber="<%= peme_member.evoucher_number %>" memberId="<%= peme_member.member.id %>"><i class="remove icon"></i><%= gettext "Cancel E-voucher" %></a>
+                        <% end %>
+                          <%= if is_nil(peme_member.member.status) do %>
+                              <a href="#" class="small ui button print_evoucher" pmID="<%= peme_member.id %>"><i class="print icon"></i><%= gettext "Print E-voucher" %></a>
+                            <%= else %>
+                              <a href="#" class="small ui button  disabled"><i class="print icon"></i><%= gettext "Print E-voucher" %></a>
+                            <% end %>
+                          <%= if is_nil(peme_member.member.status) or peme_member.member.status == "" do %>
+                            <td><%= gettext "Active"%></td>
+                            <%= else %>
+                          <td><%= peme_member.member.status %></td>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+
+                <a class="ui button" href="/<%= @locale %>/peme"><i class="angle left icon"></i><%= gettext "Back" %></a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" value="<%= @evoucher %>" id="evoucher">
+
+<div class="ui mini modal" id="cancel_confirm">
+  <i class="close icon"></i>
+  <section class="mb-0">
+    <div class="section-title">
+      <span><%= gettext "Are you sure you want to cancel this e-voucher?" %></span>
+    </div>
+    <div class="content" >
+      <%= form_for @changeset, peme_path(@conn, :cancel_evoucher, @locale), [as: :member], fn f -> %>
+        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+        <%= hidden_input f, :member_id, value: "asd"%>
+        <%= hidden_input f, :peme_id, value: "asd"%>
+        <%= hidden_input f, :evn, value: "asd"%>
+        <%= hidden_input f, :dateTo, value: @peme.date_from%>
+        <%= hidden_input f, :dateFrom, value: @peme.date_to%>
+
+      <div class='ui one column centered grid'>
+        <div class='column'>
+          <b><%= gettext "E-voucher Number" %></b>
+          <br>
+          <span id="evoucher_num_modal"></span>
+        </div>
+        <div class='column'>
+          <b><%= gettext "PEME Date From" %></b>
+          <br>
+          <span id="evoucher_date_from"><%=  @peme.date_from %></span>
+        </div>
+        <div class='column'>
+          <b><%= gettext "Peme Date To" %></b>
+          <br>
+          <span id="evoucher_date_to"><%=  @peme.date_to %></span>
+        </div>
+        <div class='two column row'>
+          <div class='column'>
+            <a class="ui primary basic fluid button" id="cancel_confirm_no">
+              <i class="remove icon">
+              </i>
+              <b><%= gettext "No" %></b>
+            </a>
+          </div>
+          <div class='column'>
+            <button type="submit" class="large ui fluid button">
+              <i class="check icon">
+              </i>
+              <b><%= gettext "Yes" %></b>
+            </button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+    <% end %>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="ui modal" id="print_evoucher_modal">
+  <i class="close icon"></i>
+  <div class="text-center header">
+    <%= gettext "Pre Employment Evoucher" %>
+  </div>
+  <section class="mb-0">
+    <input type="hidden" id="pmID">
+    <%= form_for @changeset, peme_path(@conn, :create, @locale), [class: "ui form", multipart: :true], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <% end %>
+    <div class="ui grid">
+      <div class="seven wide column">
+        <span class="title"><%= gettext "Peme Information" %></span>
+        <span class="description" id="evoucher_pckg"><%= @peme.package.name %></span>
+        <span class="subdesc" id="evoucher_sub_pckg">
+            <%= gettext "From: " %><%= "#{@peme.date_from}" %>
+            <%= gettext "To: " %><%= "#{@peme.date_to}" %>
+        </span>
+      </div>
+      <div class="one wide column">
+      </div>
+      <div class="eight wide column">
+        <span class="title"><%= gettext "Facility" %></span>
+        <span class="description" id="evoucher_facility"><%= @peme.facility.name %></span>
+        <span class="subdesc" id="evoucher_sub_facility">
+          <%= "#{@peme.facility.line_1} #{@peme.facility.line_2} #{@peme.facility.city} #{@peme.facility.province}" %>
+          <br>
+          <%= "#{@peme.facility.region}, #{@peme.facility.country}, #{@peme.facility.postal_code}" %>
+        </span>
+      </div>
+      <div class="sixteen wide column" style="text-align: center;margin-left: 16.5rem;zoom: 0.4;">
+        <div id="for_pdf" style="height: 29.5rem; width: 25rem; border: 1px solid #000;text-align:left;box-shadow: 15px 20px 5px -5px rgba(140,140,140,1);overflow: auto;">
+        </div>
+      </div>
+      <div class="sixteen wide column text-center">
+        <a href="#" id="print_button" target="_blank" class="ui primary button">
+          <i class="print icon"></i>
+          <%= gettext "Print PEME E-voucher" %>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%= form_for @conn, peme_path(@conn, :export_evoucher, @locale), [as: :peme, id: "form-export", class: "ui form", multipart: :true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <input type="hidden" name="peme[peme_ids]"/>
+<% end %>

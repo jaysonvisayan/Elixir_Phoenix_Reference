@@ -1,0 +1,68 @@
+<div class="ui main container" role="facility_index">
+  <% readonly = if String.contains?("access_facilities", @permission) && Enum.count(@permission) == 1 || Enum.empty?(@permission), do: true %>
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Facility</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                <div class="ui simple primary basic dropdown right floated button">
+                  <i class="icon add"></i>
+                  Facility
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <%= if readonly do %>
+                      <div class="item disabled" >
+                    <% else %>
+                      <div class="item" >
+                    <% end %>
+                      ADD
+                    </div>
+                    <div class="item clickable-row" href="/facilities/new" >
+                      REQUEST
+                    </div>
+                  </div>
+                </div>
+                <%= if @is_admin == true do %>
+                  <a class="ui primary basic button" href="/facilities/new/import/file"><i class="upload icon"></i> Batch Upload</a>
+                <% end %>
+              </div>
+          </div>
+          <div class="ui breadcrumb">
+              <a href="/facilities" class="section">Facility</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%" id="facility_index">
+    <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th>Affiliation Date</th>
+          <th>Disaffiliation Date</th>
+          <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for facility <- @facilities do %>
+        <tr>
+          <td>
+            <%= if facility.step >= 7 do %>
+              <a href="/facilities/<%= facility.id %>?active=profile"><%= facility.name %></a>
+            <% else %>
+              <a href="/facilities/<%= facility.id %>/setup?step=<%= facility.step %>"><%= facility.name %> (Draft)</a>
+            <% end %>
+          </td>
+          <td><%= facility.code %></td>
+          <td class="valid_timezone date-only"><%= facility.affiliation_date %></td>
+          <td class="valid_timezone date-only"><%= facility.disaffiliation_date %></td>
+          <td><%= facility.status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

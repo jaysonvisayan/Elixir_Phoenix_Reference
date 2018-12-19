@@ -1,0 +1,50 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="facility-formValidate">
+        <div class="ui form segment" id="formStep1Facility">
+          <div class="ui ordered six steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Address</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Contact Details</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Financial</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Service Fee</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step1_form.html", changeset: @changeset, facility_types: @facility_types, facility_categories: @facility_categories, conn: @conn, action: facility_path(@conn, :create_step1), facility_codes: @facility_codes %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

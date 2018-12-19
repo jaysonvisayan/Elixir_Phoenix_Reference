@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: payorlink-fe
+spec:
+  selector:
+    app: payorlink-fe
+    tier: frontend
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: payorlink-fe
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: payorlink-fe
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: nginx
+          image: asia.gcr.io/silver-approach-172802/payorlink-fe:0.1.5
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/sbin/nginx","-s","quit"]
+

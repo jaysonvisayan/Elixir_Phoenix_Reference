@@ -1,0 +1,97 @@
+<div id="pre_existing_form">
+  <div class="ui segment-breadcrumbs no-shadow no-radius">
+    <h2 class="ui header">Exclusions</h2>
+    <div class="ui small breadcrumb">
+      <a class="section" href="/exclusions">Search</a>
+      <i class="right chevron icon divider"></i>
+      <%= if @exclusion.coverage == "Exclusion" do %>
+      <div class="active section">Edit Exclusion</div>
+      <% else %>
+      <div class="active section">Edit Pre-existing condition</div>
+      <% end %>
+    </div>
+  </div>
+  <div class="ui equal width left aligned padded grid stackable" id="editGeneral">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui form segment ">
+            <div class="ui three item menu">
+              <a class="active item">General</a>
+              <a href="/exclusions/<%= @exclusion.id %>/edit?tab=durations" class="item">Duration</a>
+              <a href="/exclusions/<%= @exclusion.id %>/edit?tab=diseases" class="item">Diseases</a>
+            </div>
+            <%= if @changeset.action do %>
+              <div class="ui negative message">
+                <i class="close icon"></i>
+                <%= get_flash(@conn, :error) %>
+              </div>
+            <% end %>
+            <center>
+              <h2 class="ui icon header">
+                <i class="paste square icon"></i>
+                <div class="content">
+                  Pre-existing Condition
+                </div>
+              </h2>
+            </center>
+            <div class="ui bottom attached segment">
+              <div class="active ui tab">
+                <%= form_for @changeset, exclusion_path(@conn, :save, @exclusion, tab: "general"), [as: :exclusion, class: "form2"], fn f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <%= hidden_input(f, :coverage, value: "Pre-existing Condition") %>
+                <div class="two fields">
+                  <div class="field">
+                    <%= label f, :code, "Exclusion Code"%>
+                    <%= text_input f, :code, id: "code", disabled: "disabled" %>
+                     <font color="red"><%= error_tag f, :code %></font>
+                  </div>
+                  <div class="field">
+                    <%= label f, :name, "Exclusion Name"%>
+                    <%= text_input f, :name, id: "name" %>
+                     <font color="red"><%= error_tag f, :name %></font>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <%= label f, :limit_type, "PEC Limit Type" %>
+                    <%= select f, :limit_type, ["Peso", "Percentage", "Sessions"], class: "ui dropdown" %>
+                    <font color="red"><%= error_tag f, :limit_type %></font>
+                  </div>
+                  <div class="field input">
+                    <%= label f, :limit_amount, "PEC Limit Amount" %>
+                    <div class="ui labeled input">
+                      <div class="ui label" id="limitAmountIcon">
+                        <%= cond do %>
+                          <% @exclusion.limit_type == "Peso" -> %>
+                            PHP
+                          <% @exclusion.limit_type == "Percentage" -> %>
+                            %
+                          <% @exclusion.limit_type == "Sessions" -> %>
+                            Session
+                          <% true -> %>
+                            PHP
+                        <% end %>
+                      </div>
+                      <%= text_input f, :limit_amount, step: "any", "data-validate": "amount" %>
+                    </div>
+                    <%= error_tag f, :limit_amount %>
+                  </div>
+                </div>
+                <button class="ui right floated primary button">
+                  <i class="save left icon"></i>
+                   Save
+                </button>
+                <a href="/exclusions/<%= @exclusion.id %>" class="ui button">
+                  <i class="remove icon"></i>
+                  Cancel
+                </a>
+              <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

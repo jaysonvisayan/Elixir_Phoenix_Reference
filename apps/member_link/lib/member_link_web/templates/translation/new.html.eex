@@ -1,0 +1,77 @@
+<div class="pusher" id="translation_new">
+  <div class="content-holder">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <h1 class="ui huge header">Translation</h1>
+          <div class="ui breadcrumb">
+            <a href="<% @locale %>/translations" class="section">Translation</a>
+            <div class="divider"> / </div>
+            <a href="<% @locale %>/translations" class="section">Search</a>
+            <div class="divider"> / </div>
+            <div class="active section">Add Translation</div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+            <div class="sixteen wide column">
+              <%= form_for @changeset, translation_path(@conn, :create, @locale), [as: :translation, class: "ui form form2", id: "translation"], fn f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <%= if @changeset.action do %>
+                  <div class="ui error message">
+                    <div class="header">
+                      Oops, something went wrong! Please check the errors below.
+                    </div>
+                  </div>
+                <% end %>
+                <div class="field">
+                  <label>Base</label>
+                  <%= text_input f, :base_value, placeholder: "Enter Base" %>
+                  <%= error_tag f, :base_value %>
+                </div>
+                <div class="field">
+                  <label>Translated</label>
+                  <%= text_input f, :translated_value, placeholder: "Enter Translated Value" %>
+                  <%= error_tag f, :translated_value %>
+                </div>
+                <div class="field">
+                  <label>Language</label>
+                  <%= select f, :language, ["zh"], class: "ui dropdown", prompt: "Select Language" %>
+                  <%= error_tag f, :language %>
+                </div>
+                <div class="row">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                    </div>
+                    <div class="eight wide right aligned column">
+                      <a href="/<%= @locale %>/translations" class="ui basic button">Cancel</a>
+                        <button type="submit" class="ui primary button">Submit Translation</button>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui basic modal">
+  <div class="ui icon header">
+    <i class="send icon"></i>
+    Submit Translation
+  </div>
+  <div class="content ui grid centered">
+    <p>Do you really want to create this Translation?</p>
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>

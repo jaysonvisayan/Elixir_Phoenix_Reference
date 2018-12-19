@@ -1,0 +1,168 @@
+<div class="page-title">
+  <div class="ui clearing segment" id="main_member_batch_upload">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Member
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Members</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <button class="ui basic button mt-1-small hidden">Batch Upload</button>
+
+        <button class="modal-open-main ui primary button mt-1-small">Add Member</button>
+      </div>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="member_index_page">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+        <div id="overlay2" style="display: none" class="ui active inverted dimmer">
+          <div class="ui text loader">Loading</div>
+        </div>
+        <div class="sixteen wide computer column">
+          <div class="ui two steps mobile-also">
+            <a href="../members" class="step">
+              <div class="content">
+                <div class="title hide-for-mobile">Member List</div>
+              </div>
+            </a>
+            <div class="active step">
+              <div class="content">
+                <div class="title hide-for-mobile">Batch Processing</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br><br><br>
+
+        <div class="sixteen wide computer column">
+          <div class="section pb-0">
+            <div class="ui simple primary right floated dropdown button">
+              <i class="white download icon"></i>Download Template</a>
+            <i class="white dropdown icon"></i>
+            <div class="menu">
+              <div class="item clickable-row" href="/member_enrollment/download/corporate_template">
+                Corporate
+              </div>
+              <div class="item clickable-row" href="/member_enrollment/download/ifg_template">
+                Individual, Family, Group (IFG)
+              </div>
+              <div class="item clickable-row" href="/member_enrollment/download/change_of_product">
+                Change of Plan
+              </div>
+            </div>
+            </div>
+          </div>
+          <br><br><br>
+        </div>
+
+        <div class="sixteen wide computer column">
+          <%= form_for @conn, main_member_path(@conn, :import_member), [multipart: true, id: "import_member", as: "member"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="ui two column centered grid">
+              <div class="eight wide computer seven wide tablet column">
+                <div class="ui segment" name="form_import_procedure">
+
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <div class="field">
+                        <label>Filename</label>
+                      </div>
+                    </div>
+                    <div class="four wide column">
+                      <div class="field">
+                        <label>Upload type</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <div class="field">
+                        <%= file_input f, :file, id: "file_upload" %>
+                      </div>
+                    </div>
+                    <div class="four wide column">
+                      <div class="field">
+                        <%= select f, :upload_type, ["Corporate": "Corporate", "Individual, Family, Group (IFG)": "Individual, Family, Group (IFG)", "Change of Plan": "Change of Plan"], class: "ui fluid dropdown" %>
+                      </div>
+                    </div>
+                    <div class="four wide column">
+                      <div class="five wide computer column" id="form_import_cpt">
+                        <button type="button" id="upload_batch_csv" class="ui primary right floated button submit">
+                          <i class="white send left icon"></i>
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="sixteen wide computer column">
+          <table class="full-width ui celled striped table" id="batch_upload_table" width="100%">
+            <thead>
+              <tr>
+                <th>Batch No.</th>
+                <th>Account Type</th>
+                <th>File Name</th>
+                <th>Total Members</th>
+                <th>Processed Members</th>
+                <th>Successful</th>
+                <th>Failed</th>
+                <th>Date Uploaded</th>
+                <th>Date Finished</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div><!-- row ends here -->
+  </div><!-- grid ends here -->
+</div><!-- .white-bg -->
+</div><!-- container ends here -->
+
+<div class="">
+  <div class="ui tiny modal">
+    <i class="close icon left"></i>
+    <div class="content">
+      <h2>Choose your upload type </h2>
+      <div class="description mb-1">Please select the type of benefit you would like to add</div>
+      <%= form_for @conn, main_member_path(@conn, :choose_member_upload_type), fn f -> %>
+        <div class="ui grid">
+          <div class="eight wide column">
+            <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+              <div class="selection-button">
+                <div class="option" value="batch">Batch Member</div>
+              </div>
+            </a>
+          </div>
+          <div class="eight wide column">
+            <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+              <div class="selection-button">
+                <div class="option" value="single">Single Member</div>
+              </div>
+            </a>
+          </div>
+          <div class="twelve wide column centered">
+            <button class="fluid ui primary button large" type="submit">Proceed</button>
+          </div>
+        </div>
+        <%= hidden_input f, :member_type %>
+      <% end %>
+    </div>
+  </div>
+</div>

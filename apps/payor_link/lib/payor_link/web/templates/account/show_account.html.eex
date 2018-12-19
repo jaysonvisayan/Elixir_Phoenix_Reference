@@ -1,0 +1,364 @@
+<%# <div class="ui segment-breadcrumbs no-shadow no-radius">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+      <h2 class="ui header">Account</h2>
+    </div>
+  </div>
+  <div class="ui small breadcrumb">
+    <a href="/accounts" class="section">Account</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Search</div>
+    <i class="right chevron icon divider"></i>
+    <div class="active section"><%= @account_group.code%> : <%= @account_group.name %></div>
+    <i class="right chevron icon divider"></i>
+    <a href="/accounts/<%= @account_group.id %>/versions" class="section">Versions</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">
+      <%= Enum.join([
+           @account.major_version,
+           @account.minor_version,
+           @account.build_version], ".") %>
+    </div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable" name="AccountValidation">
+  <div class="row">
+    <div class="column" id="dateFormPicker" >
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui icon top right floated pointing dropdown basic button">
+            <i class="list icon"></i>
+            <div class="left menu">
+              <%= cond do %>
+                <%= @account.status == "For Renewal" -> %>
+                  <div class="item print-account" accountID="<%= @account.id%>">
+                    <i class="print icon"></i>
+                    Print
+                  </div>
+                  <div class="divider"></div>
+                   <div class="item" name="modal_suspend_account"
+                      SuspendAccountGroupID="<%= @account_group.id%>"
+                      SuspendAccountEndDate="<%= @account.end_date%>"
+                      SuspendAccountID="<%= @account.id %>"
+                      SuspendAccountName="<%= @account_group.name %>"
+                      SuspendAccountCode="<%= @account_group.code %>">
+                      <i class="ban icon"></i>
+                      Suspend
+                  </div>
+                  <div class="item" id="modal_cancel_button">
+                    <i class="cancel icon"></i>
+                     Cancel
+                  </div>
+                <% @account.status == "For Activation" -> %>
+                <div class="item clickable-row" href="/accounts/<%= @account.id %>/edit?step=1">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+                <div class="item clickable-row" role="activate-account">
+                <%= form_for @changeset_account,
+                    account_path(@conn, :activate_account, @account),
+                    [id: "form-activate", multipart: true], fn f -> %>
+                    <%= hidden_input f, :status, value: "For Renewal" %>
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                    <i class="check icon"></i>
+                    Activate
+                <% end %>
+                </div>
+                <div class="divider"></div>
+                <div class="item clickable-row" role="cancel-renewal">
+                <%= form_for @changeset_account,
+                    account_path(@conn, :cancel_renewal, @account),
+                    [id: "form-cancel", multipart: true], fn f -> %>
+                    <%= hidden_input f, :status, value: "Renewal Cancelled" %>
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                    <i class="cancel icon"></i>
+                    Cancel Renewal
+                <% end %>
+                </div>
+                <% true -> %>
+                <div class="item clickable-row" href="/accounts/<%= @account.id %>/edit?step=1">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+                <div class="item print-account" accountID="<%= @account.id%>">
+                  <i class="print icon"></i>
+                  Print
+                </div>
+                <div class="item">
+                  <i class="bar chart icon"></i>
+                  Utilization
+                </div>
+                <div class="item">
+                  <i class="file text outline icon"></i>
+                  Logs
+                </div>
+                <div class="item">
+                  <i class="lab icon"></i>
+                  Compare
+                </div>
+                <div class="divider"></div>
+                <div class="item" name="modal_extend_account"
+                                  ExtendAccountGroupID="<%= @account_group.id%>"
+                                ExtendAccountEndDate="<%= @account.end_date%>"
+                                ExtendAccountID="<%= @account.id %>"
+                                ExtendAccountName="<%= @account_group.name %>"
+                                ExtendAccountCode="<%= @account_group.code %>">
+                                <i class="expand icon"></i>
+                                Extend
+                </div>
+                <div class="item" id="pop_modal_renew">
+                  <i class="refresh icon"></i>
+                  Renew
+                  <%= render "modal_renew.html",
+                      account_group: @account_group,
+                      changeset: @changeset_account,
+                      conn: @conn,
+                      action: account_path(@conn, :renew_account, @account)
+                  %>
+                </div>
+                <div class="divider"></div>
+                <div class="item" name="modal_suspend_account"
+                    SuspendAccountGroupID="<%= @account_group.id%>"
+                    SuspendAccountEndDate="<%= @account.end_date%>"
+                    SuspendAccountID="<%= @account.id %>"
+                    SuspendAccountName="<%= @account_group.name %>"
+                    SuspendAccountCode="<%= @account_group.code %>">
+                    <i class="ban icon"></i>
+                    Suspend
+                </div>
+                <div class="item" id="modal_cancel_button">
+                  <i class="cancel icon"></i>
+                   Cancel
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="sixteen wide tablet five wide computer column">
+              <div class="ui centered column grid" style="padding:5%" id="fileUpload">
+                <div class="sixteen wide tablet eight wide computer column">
+                  <div class="ui centered special cards">
+                    <div class="card">
+                      <div class="blurring dimmable image">
+                        <div class="ui inverted dimmer">
+                          <div class="content">
+                            <div class="center">
+                            </div>
+                          </div>
+                        </div>
+                        <%= if is_nil(@account_group.photo) do %>
+                          <img src="/images/file-upload.png" id="photo">
+                        <% else %>
+                          <img id="photo" src="<%= Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @account_group.photo, @account_group, :original)%>">
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide tablet eleven wide computer column" style="margin-top:2%">
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="five wide column">
+                    <b><%= @account_group.code %></b>
+                  </div>
+                  <div class="five wide column">
+                    <b><%= @account_group.name %></b>
+                  </div>
+                </div>
+              </div>
+
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="five wide column">
+                    <b><%= @account_group.segment%></b>
+                  </div>
+                  <div class="five wide column">
+                    <b>Industry</b>
+                  </div>
+                </div>
+              </div>
+
+              <%# <div class="six wide column"> %>
+              <%#   <div class="ui grid"> %>
+              <%#     <1%# <div class="five wide column"> %1> %>
+              <%#     <1%#   <b hidden>Funding Arrangement</b> %1> %>
+              <%#     <1%# </div> %1> %>
+              <%#     <div class="five wide column"> %>
+              <%#       <b>cluster</b> %>
+              <%#     </div> %>
+              <%#   </div> %>
+              <%# </div> %>
+
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="five wide column">
+                    <b><%= @account.start_date %></b>
+                  </div>
+                  <div class="five wide column">
+                    <b><%= @account.end_date %></b>
+                  </div>
+                </div>
+              </div>
+
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="five wide column">
+                    <b><%= @account.status %></b>
+                  </div>
+                  <div class="five wide column">
+                    <b><%= Enum.join(
+                      @account.major_version,
+                      @account.minor_version,
+                      @account.build_version, ".") %>
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui top attached tabular menu" role="benefits">
+              <% profile = if @active == "profile" do %>
+                <%= "active" %>
+              <% else %>
+                <%= "" %>
+              <% end %>
+
+              <% product = if @active == "product" do %>
+                <%= "active" %>
+              <% else %>
+                <%= "" %>
+              <% end %>
+
+              <% financial = if @active == "financial" do %>
+                <%= "active" %>
+              <% else %>
+                <%= "" %>
+              <% end %>
+
+              <% fulfillment = if @active == "fulfillment" do %>
+                <%= "active" %>
+              <% else %>
+                <%= "" %>
+              <% end %>
+
+               <a class="item <%= profile %>" data-tab="profile">Profile</a>
+               <a class="item <%= financial %>" data-tab="financial">Financial</a>
+               <a class="item <%= product %>" data-tab="product">Plan</a>
+               <a class="item <%= fulfillment %>" data-tab="fulfillment">Fulfillment</a>
+          </div>
+
+          <div class="<%= profile %> ui bottom attached tab segment" data-tab="profile">
+            <%= render "tab_profile.html", account: @account, account_group: @account_group %>
+          </div>
+
+          <div class="<%= financial %> ui bottom attached tab segment" data-tab="financial">
+            <%= render "tab_financial.html", account: @account, account_group: @account_group %>
+          </div>
+
+          <div class="<%= product %> ui bottom attached tab segment" data-tab="plan">
+            <%=
+              render "tab_product.html",
+              account: @account,
+              account_group: @account_group,
+              products: @products,
+              account_products: @account_products,
+              changeset_account_product: @changeset_account_product,
+              conn: @conn
+            %>
+          </div>
+
+          <div class="<%= fulfillment %> ui bottom attached tab segment" data-tab="fulfillment">
+            <%=
+              render "fulfillment_index.html",
+              accounts: @account,
+              fulfillments: @fulfillment,
+              changeset: @changeset_account,
+              conn: @conn
+            %>
+          </div>
+          <div class="ui vertically divided grid">
+            <div class="one column row">
+              <div class="column floated">
+                  <a id="Add" name="comment_modal" class="reply"
+                      CommentAccountID="<%= @account.id %>"
+                      CommentUserID="<%= @conn.assigns.current_user.id %>"
+                      CommentUserFirstName="<%= @conn.assigns.current_user.first_name %>"
+                      CommentUserLastName="<%= @conn.assigns.current_user.last_name %>">
+                  <p align="right" style="cursor: pointer;"><u>Add Comment</u></p></a>
+                  <span id="counter" style="display: none"></span>
+              </div>
+            </div>
+          </div>
+          <%= render "account_comment.html",
+              account_comment: @account_comment,
+              account: @account,
+              changeset: @changeset_account_comment,
+              conn: @conn,
+              action: account_path(@conn, :create_account_comment, @account)
+          %>
+          <%= render "account_extend.html",
+              account_group: @account_group,
+              account: @account,
+              changeset: @changeset_account,
+              action: account_path(@conn, :extend_account, @account)
+          %>
+          <%= render "account_cancel.html",
+              account: @account,
+              account_group: @account_group,
+              changeset: @changeset_account,
+              conn: @conn,
+              action: account_path(@conn, :update_cancel, @account.id)
+          %>
+          <%= render "account_suspend.html",
+              account_group: @account_group,
+              account: @account,
+              changeset: @changeset_account,
+              action: account_path(@conn, :suspend_account_in_account, @account)
+          %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="AccountLogsModal">
+  <i class="close icon"></i>
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui segment">
+            <%= if @account_groups.account_logs == [] do %>
+              <p>NO LOGS FOUND</p>
+              <% else %>
+              <div class="ui feed timeline">
+                <%= for log <- Enum.reverse(@account_groups.account_logs) do %>
+                  <div class="event">
+                    <div class="label">
+                      <i class="blue circle icon"></i>
+                    </div>
+                    <div class="content">
+                      <div class="summary">
+                        <p class="account_log_date"><%= log.inserted_at %></p>
+                      </div>
+                      <div class="extra text" id="log_message">
+                        <%= log.message %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ %>

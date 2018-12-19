@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+<body>
+  <style>
+    @font-face {
+        font-family: 'Avenir-Light';
+        src: url("../../fonts/Avenir-Light.eot?w2rsck");
+        src: url("../../fonts/Avenir-Light.eot?w2rsck#iefix") format("embedded-opentype"), url("../../fonts/Avenir-Light.ttf?w2rsck") format("truetype"), url("../../fonts/Avenir-Light.woff?w2rsck") format("woff"), url("../../fonts/Avenir-Light.svg?w2rsck#Avenir-Light") format("svg");/
+    }
+    .login_font {
+        font-family: 'Avenir-Light';
+    }
+    .bg {
+        background-image: url("../../images/payorlink_banner.jpg");
+        background-repeat: no-repeat;
+        background-size: 350px 979px;
+    }
+    .banner {
+        display: block;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 35%;
+        min-height: 600px;
+        height: 100%;
+        overflow: hidden;
+    }
+
+
+
+      #button {
+        margin-top: 5%;
+        height: 100%;
+        width: 70%;
+      }
+      #login {
+         padding-top: 7%; padding-left: 16%;
+
+      }
+    
+  </style>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script type="text/javascript">
+      function callback() {
+          $('#append').remove()
+          let captcha = $("#g-recaptcha-response").val()
+          $('#captcha').val(captcha)
+      }
+  </script>
+  </head>
+<div class="ui centered grid" id= "login" name="LoginValidation">
+  <div class="nine wide computer sixteen wide tablet column">
+    <%= form_for @conn, session_path(@conn, :create, "x-csrft-token": Map.get(@conn.req_cookies, "_csrf_token")), [as: :session, class: "ui large form", id: "login_form"], fn f -> %>
+        <p class="ui login_font" style="font-size:30px;">Log in to PayorLink</p>
+        <p class="ui login_font" style="font-size:20px;color:gray;margin-top: 0px"> Enter your details below </p>
+        <%= if is_nil(get_flash(@conn, :error)) do %>
+          <p style="margin-bottom: 60px"></p>
+        <% else %>
+          <font color="red" id="error">
+            <%= get_flash(@conn, :error) %>
+          </font>
+        <% end %>
+        <div class="field">
+          <p style="color: green;" id="append_info">
+          <%= @info %>
+          </p>
+        </div>
+        <p class="ui login_font" style="margin-bottom: 1px">PAYROLL CODE</p>
+        <div id="payroll_code" class="inline field required">
+          <%= text_input f, :payroll_code, placeholder: "(EX. 000000000000)" , autofocus: "", autocomplete: "off", class: "email", style: "width: 70%", id: "payroll_code_text"%>
+        </div>
+        <p class="ui login_font" style="margin-bottom: 1px">USERNAME</p>
+        <div class="inline field required" id="username">
+            <%= text_input f, :username, placeholder: "Enter your username" , autofocus: "", autocomplete: "off", class: "email", style: "width: 70%", id: "username_text"%>
+        </div>
+        <p class="ui login_font" style="margin-bottom: 1px;width: 70%">
+            PASSWORD
+            <a href="/forgot_password" class="ui gray text" style="float:right">Forgot Password?</a>
+        </p>
+        <div class="inline field required" id="password">
+          <div class="ui icon input" style="width:70%">
+            <i class="eye link icon" id="eye"></i>
+            <%= password_input f, :password, placeholder: "Enter your password", autocomplete: "off", id: "password_text"%>
+          </div>
+        </div>
+        <%= hidden_input f, :captcha, id: "captcha"%>
+        <%= if @attempts >= 3 do %>
+          <div class="ui grid" style="margin-top: 25px">
+            <div class="two wide column"></div>
+            <div class="six wide column">
+              <div class="g-recaptcha" data-sitekey="6LcRNmYUAAAAAN89_GhA2Sd5FnCpR_34pRzZ3Cg6" data-callback="callback"></div>
+            </div>
+            <div class="one wide column"></div>
+            <div class="five wide column" id="append">
+            </div>
+          </div>
+        <% end %>
+        <button type="submit" id= "button" class="ui button green circular submit large button">
+          <font size="3 px">Log in</font>
+        </button>
+      <% end %>
+    </div>
+    <div class="seven wide computer only column"><img class="banner" src="../../images/payorlink_banner.jpg";></div>
+  </div>
+</body>
+</html

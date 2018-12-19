@@ -1,0 +1,85 @@
+<div class="ui tiny modal risk_share_setup" id="tesst">
+  <i class="close icon"></i>
+  <div class="content">
+    <p>
+      <b style="font-size: 25px;">Risk Share
+      </b>
+      <br>
+      Risk share for specific facilities
+    </p>
+    <div class="ui divider"></div>
+    <div class="ui grid form" id="risk_share_setup_form">
+      <%# <input type="hidden" name="product[product_coverage_risk_share_id]" value=""> %>
+      <div class="sixteen wide column">
+        <div class="field">
+          <h4>Facility</h4>
+        </div>
+
+        <div class="field" id="facility_dropdown">
+          <div class="ui search selection dropdown" id="facility_test">
+            <input type="hidden" name="product[facility_dropdown_rss]">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select Facility</div>
+            <div class="menu">
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <h4>Risk Share</h4>
+        </div>
+        <div class="field" id="radio">
+          <div class="three fields">
+            <div class="field">
+              <div style="height: 9px"></div>
+              <div class="ui radio checkbox risk_share_setup_type" id="copay_radio_rss">
+                <input id="facility_risk_share_type" name="product[facility_risk_share_type]" type="radio" value="copay">
+                <label>Copay</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui input copay-risk-share-setup-textbox hidden">
+                <input type="text" name="copay_textbox" id="copay_rss">
+              </div>
+            </div>
+          </div><br>
+          <div class="three fields">
+            <div class="field">
+              <div class="field">
+                <div style="height: 9px"><br></div>
+                <div class="ui radio checkbox risk_share_setup_type" id="coinsurance_radio_rss">
+                  <input id="facility_risk_share_type" name="product[facility_risk_share_type]" type="radio" value="coinsurance">
+                  <label>Coinsurance</label>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui input coinsurance-risk-share-setup-text hidden">
+                <input type="text" name="coinsurance_textbox" id="coinsurance_rss">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <h4>Special Handling</h4>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <select class="ui dropdown" id="special_handling_dropdown_rss" name="product[special_handling_dropdown_rss]">
+              <option value="">Select One</option>
+              <option value="Corporate Guarantee">Corporate Guarantee</option>
+              <option value="ASO Override">ASO Override</option>
+              <option value="Fee of Service">Fee of Service</option>
+              <option value="Member Pays">Member Pays</option>
+            </select>
+          </div><br>
+          <div class="field">
+          </div>
+        </div>
+        <br>
+        <button class="ui primary right floated button" type="submit" id="add_risk_share_setup">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

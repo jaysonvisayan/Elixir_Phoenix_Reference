@@ -1,0 +1,42 @@
+<%= render "breadcrumbs.html" %>
+    <div class="active section">Add Duration</div>
+  </div>
+</div>
+<div id="exclusion_durations" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <div></div>
+          <div class="ui ordered five steps" >
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Duration</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+            <%= render "step2_duration_form.html", durations: @durations, exclusion: @exclusion, changeset: @changeset, dreaded: @dreaded, non_dreaded: @non_dreaded, conn: @conn, action: exclusion_path(@conn, :create_basic) %>
+            <%= render "step2_duration_modal.html", exclusion: @exclusion, changeset: @changeset, conn: @conn, action: exclusion_path(@conn, :update_setup, @exclusion, step: "2"), durations: @durations %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

@@ -1,0 +1,74 @@
+<div id="health_form">
+<%= form_for @changeset, @action, [class: "form2", id: "form_health"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <input type="hidden" name="benefit[category]" value="Health">
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :coverage_picker, "Coverages" %>
+      <%= select f, :coverage_picker, ["OP Consult": "OP Consult", "Others": "Others"], class: "ui fluid dropdown", id: "health_coverage", prompt: "Select Coverages" %>
+    </div>
+    <div class="field" id="others">
+      <%= label f, :coverage_ids, "Others" %>
+      <%= multiple_select f, :coverage_ids, filter_coverages(@coverages, "health_plan"), class: "ui fluid dropdown", id: "health_coverage_others" %>
+      <p style="color:red"><%= error_tag f, :coverage_ids %></p>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field" id="health_code_field">
+      <%= label f, :code %>
+      <%= text_input f, :code, id: "health_code" %>
+      <p style="color:red"><%= error_tag f, :code %></p>
+    </div>
+    <div class="field">
+      <%= label f, :name %>
+      <%= text_input f, :name %>
+      <p style="color:red"><%= error_tag f, :name %></p>
+    </div>
+  </div>
+
+  <div class="ui middle aligned  right aligned grid">
+    <div class="left floated left aligned six wide column">
+      <h4 class="ui header">Conditions</h4>
+    </div>
+  </div>
+
+  <div class="ui divider mrg1T mrg1B"></div>
+
+  <div class="two fields">
+    <div class="field">
+      <div class="ui radio checkbox">
+        <%= radio_button(f, :condition, "ALL", checked: "") %>
+        <label>Procedures (in step 2) can only be availed if ALL Diagnoses (in step 3) are applied</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <%= radio_button(f, :condition, "ANY") %>
+        <label>Procedures (in step 2) can only be availed if ANY Diagnoses (in step 3) are applied</label>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" id="op2">
+
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <%= if @changeset.data.id do %>
+        <button class="ui negative button mrg1T" id="deleteBenefit" benefitID="<%= @changeset.data.id %>" type="button">
+          <i class="trash left icon"></i>Delete Draft
+        </button>
+      <% end %>
+    </div>
+    <div class="column eight wide">
+      <button class="ui blue right floated button" benetype="submit" id="health_submit">
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+      <a href="/benefits" class="ui right floated button"">
+        <i class="chevron left icon"></i>
+        Cancel
+      </a>
+    </div>
+  </div>
+<% end %>
+</div>

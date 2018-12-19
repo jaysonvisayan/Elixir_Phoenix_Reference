@@ -1,0 +1,10 @@
+onmount('div[name="Authorize"]', function () {
+    $('.spacer').css("display", "block")
+    $('.footer').css("position", "fixed")
+    $('.footer').css("bottom", "0")
+    $('.footer').css("left", "0")
+    $('.footer').css("width", "100%")
+    $('.footer').css("padding-bottom", "10px")
+    $('.footer').css("margin-bottom", "0px")
+    $('.footer').css("background-color", "#FFFFFF")
+})

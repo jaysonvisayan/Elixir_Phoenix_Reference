@@ -1,0 +1,34 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="benefit_limits" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+          <%= render "step4_form.html", benefit_limits: @benefit_limits, benefit: @benefit, conn: @conn, action: benefit_path(@conn, :create_basic) %>
+
+          <% coverages = Enum.map(@benefit.benefit_coverages, &(&1.coverage.name)) %>
+          <%= if Enum.member?(coverages, "ACU") do %>
+            <%= if ruv_coverage?(@benefit.benefit_coverages) do %>
+              <%= render "step4_modal_acu.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "6") %>
+            <% else %>
+              <%= render "step4_modal_acu.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "5") %>
+            <% end %>
+            <%= render "step4_modal_edit_acu.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "4.1") %>
+          <% else %>
+            <%= if ruv_coverage?(@benefit.benefit_coverages) do %>
+              <%= render "step4_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "6") %>
+            <% else %>
+              <%= render "step4_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "5") %>
+            <% end %>
+            <%= render "step4_modal_edit.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "4.1") %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_limits">
+<% end %>
+<%= render "delete_limit_modal.html" %>

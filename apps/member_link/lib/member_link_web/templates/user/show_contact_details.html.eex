@@ -1,0 +1,48 @@
+<div class="content-holder">
+  <div class="ui container">
+    <div class="ui grid" name="ContactDetailsValidation">
+      <div class="twelve wide computer twelve wide tablet sixteen wide column">
+        <div class="ui grid">
+          <div class="ten wide computer sixteen wide tablet  column" id="ContactDetailsForm">
+            <h1 class="ui huge header">Contact Details</h1>
+            <%= form_for @changeset, user_path(@conn, :update_contact_details, @locale), [as: :contact, multipart: true, class: "ui form"], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <h4 class="ui dividing header">Change Email Address</h4>
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :email, "Email Address" %>
+                  <%= text_input f, :email, placeholder: "Enter your new email address" %>
+                  <p style="color: red"><%= error_tag f, :email %></p>
+                </div>
+                <div class="field">
+                  <%= label f, :email_confirmation, "Confirm Email Address" %>
+                  <%= text_input f, :email_confirmation, placeholder: "Confirm your new email address" %>
+                  <p style="color: red"><%= error_tag f, :email_confirmation %></p>
+                </div>
+              </div>
+              <h4 class="ui dividing header">Change Mobile Number</h4>
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :mobile, "Mobile Number" %>
+                  <%= text_input f, :mobile, placeholder: "Enter your new mobile number", role: "mask", class: "mob" %>
+                  <p style="color: red"><%= error_tag f, :mobile %></p>
+                </div>
+                <div class="field">
+                  <%= label f, :mobile_confirmation, "Confirm Mobile Number" %>
+                  <%= text_input f, :mobile_confirmation, placeholder: "Confirm your new mobile number", role: "mask", class: "mob" %>
+                  <p style="color: red"><%= error_tag f, :mobile_confirmation %></p>
+                </div>
+              </div>
+              <div class="field">
+                <button class="fluid ui primary button" type="submit">
+                  <i class="save icon"></i>
+                  Save Changes
+                </button>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

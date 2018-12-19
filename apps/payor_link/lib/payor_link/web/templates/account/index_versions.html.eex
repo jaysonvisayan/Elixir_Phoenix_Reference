@@ -1,0 +1,83 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Account</h1>
+          <div class="ui breadcrumb">
+              <a href="/accounts" class="section">Account</a>
+              <div class="divider"> / </div>
+              <a href="/accounts" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="section"><%= @account_group.code%> : <%= @account_group.name %></div>
+              <div class="divider"> / </div>
+              <div class="active section">Versions</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Version</th>
+        <th>Effectivity Date</th>
+        <th>Expiry Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for account <- @accounts do %>
+        <tr>
+          <td>
+            <%= if account.step == 7 do %>
+              <%= if account.status == "Renewal Cancelled" do %>
+                <%= Enum.join([
+                    account.major_version,
+                    account.minor_version,
+                    account.build_version], ".") %>
+                <% else %>
+                  <%= link Enum.join([
+                      account.major_version,
+                      account.minor_version,
+                      account.build_version], "."),
+                      to: account_path(@conn, :show, account.id, active: "profile")
+                     %>
+                 <% end %>
+                 <% else %>
+                 <a href="/accounts/<%= account.id %>/setup?step=<%= account.step %>">
+                   <%= Enum.join([
+                  account.major_version,
+                  account.minor_version,
+                  account.build_version], ".")
+                  %></a>
+               <% end %>
+          </td>
+          <td class="valid_timezone date-only"><%= account.start_date %></td>
+          <td class="valid_timezone date-only"><%= account.end_date %></td>
+          <%= cond do %>
+            <%= String.downcase(account.status) == "active" -> %>
+              <td class="status eligible"><i class="circle icon"></i><%= account.status %></td>
+            <% String.downcase(account.status) == "pending" -> %>
+              <td class="status pending"><i class="circle icon"></i>Pending for Activation</td>
+            <% String.downcase(account.status) == "suspended" -> %>
+              <td class="status disapproved"><i class="circle icon"></i><%= account.status %></td>
+            <% String.downcase(account.status) == "cancelled" -> %>
+              <td class="status cancelled"><i class="circle icon"></i><%= account.status %></td>
+            <% String.downcase(account.status) == "for activation" -> %>
+              <td class="status for-activation"><%= account.status %></td>
+            <% String.downcase(account.status) == "for renewal" -> %>
+              <td class="status for-renewal"><%= account.status %></td>
+            <% String.downcase(account.status) == "draft" -> %>
+              <td class="status draft"><i><%= account.status %></i></td>
+            <% String.downcase(account.status) == "renewal cancelled" -> %>
+              <td class="status draft"><i><%= account.status %></i></td>
+            <% String.downcase(account.status) == "lapsed" -> %>
+              <td class="status disapproved"><i class="circle icon"></i><%= account.status %></td>
+            <% true -> %>
+          <% end %>
+         <!-- <td class="ui center aligned">
+            <%= link "Delete", to: account_path(@conn, :delete, account), method: :delete, data: [confirm: "Are you sure?"], class: "ui mini red button" %>
+         </td> -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

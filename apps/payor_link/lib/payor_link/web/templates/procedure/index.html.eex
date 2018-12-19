@@ -1,0 +1,83 @@
+<div class="ui main container" id="procedures_index">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Procedures</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                <%# <a class="ui primary basic button" href="/procedures/new"><i class="plus icon"></i> CPT</a> %>
+                <%= if @is_admin == true do %>
+                  <a class="ui primary basic button" href="/procedures/uploaded/file"><i class="upload icon"></i> Batch Upload</a>
+                <% end %>
+                <% disabled = if String.contains?("access_procedures", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+                <a class="ui primary basic button <%= disabled %>" href="#" id="export_button"><i class="download icon"></i> Export</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/procedures" class="section">Procedures</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%" id="procedures_table">
+    <thead>
+        <tr>
+          <th>Standard CPT Code</th>
+          <th>Standard CPT Description</th>
+      <%# <th>Payor CPT Code</th>
+          <th>Payor CPT description</th> %>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for payor_procedure <- @payor_procedures do %>
+        <tr>
+          <td><a class="edit_procedure pointer" field="std_code" ppid="<%= payor_procedure.id %>" pid="<%= payor_procedure.procedure_id %>" pp_code="<%= payor_procedure.code %>" pp_description="<%= payor_procedure.description %>"><%= payor_procedure.procedure.code %></a></td>
+          <td field="std_description"><%= payor_procedure.procedure.description %></td>
+          <input type="hidden" id="status" value="<%= display_status(payor_procedure.is_active)%>">
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2">
+          <%# <div class="center_align"> %>
+          <%#   <a href="#" id="export_button" class="pointer"> %>
+          <%#     <i class="download icon"></i><b>Export</b> %>
+          <%#   </a> %>
+          <%#   <a href="/procedures/uploaded/file" id="import_button" class="pointer"> %>
+          <%#     <i class="upload icon"></i><b>Import</b> %>
+          <%#   </a> %>
+          <%# </div> %>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<%= render "edit_modal.html", conn: @conn %>
+
+  <div class="ui modal" id="ProcedureLogsModal">
+    <i class="close icon"></i>
+    <div class="header">
+      Logs
+    </div>
+    <div class="content" >
+      <div class="row">
+        <div class="column" id="extend_logs">
+          <div class="ui segments">
+            <div class="ui segment">
+              <div class="ui feed timeline" id="timeline" >
+                <table id="procedure_logs_table">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

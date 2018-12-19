@@ -1,0 +1,144 @@
+<div id="riders_form">
+<%= form_for @changeset, @action, [class: "form2", id: "form_riders"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <input type="hidden" name="benefit[category]" value="Riders">
+  <div class="field">
+    <%= label f, :coverage_id, "Coverage" %>
+    <%= select f, :coverage_id, filter_coverages(@coverages, "riders"), class: "ui fluid dropdown", id: "riders_coverage", prompt: "Select Coverage" %>
+    <%= error_tag f, :coverage_id %>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :code %>
+      <%= text_input f, :code, id: "riders_code"%>
+      <p style="color:red"><%= error_tag f, :code %><p>
+    </div>
+    <div class="field">
+      <%= label f, :name %>
+      <%= text_input f, :name %>
+      <p style="color:red"><%= error_tag f, :name %></p>
+    </div>
+  </div>
+  <div class="hidden" id="maternity">
+    <div class="field" id="maternity_type">
+      <%= label f, :maternity_type, "Maternity Type" %>
+      <%= select f, :maternity_type, ["Consultation": "Consultation", "Inpatient Laboratory": "Inpatient Laboratory", "Outpatient Laboratory": "Outpatient Laboratory"], class: "ui fluid dropdown", prompt: "Select Maternity Coverage" %>
+      <p style="color:red"><%= error_tag f, :maternity_type %></p>
+    </div>
+  </div>
+
+  <div class="hidden" id="maternity_enrollees">
+    <div class="two fields">
+      <div class="field" id="Covered_Enrollees">
+        <%= label f, :covered_enrollees, "Covered Enrollees" %>
+        <%= select f, :covered_enrollees, ["Single and Married": "Single and Married", "Married only": "Married only", "Married Only and Spouse of Male Employees": "Married Only and Spouse of Male Employees"], class: "ui fluid dropdown", prompt: "Select Covered Enrollees" %>
+        <%= error_tag f, :Covered_Enrollees %>
+      </div>
+      <div class="field">
+        <%= label f, :rdo_btn, "280-Day Waiting Period" %>
+        <div class="ui grid hidden" id="waiting_period" style="padding-top:1rem">
+          <div class="three wide field" id="rdo_btn">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :waiting_period, "waived") %>
+              <label>Waived</label>
+            </div>
+          </div>
+          <div class="three wide field">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :waiting_period, "not waived") %>
+              <label>Not Waived</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden" id="acu">
+    <div class="four wide field" id="acu_type">
+      <%= label f, :acu_type, "ACU Type" %>
+      <%= select f, :acu_type, ["Regular": "Regular", "Executive": "Executive"], class: "ui fluid dropdown", prompt: "Select ACU Type" %>
+      <%= error_tag f, :acu_type %>
+    </div>
+    <div class="four wide field" id="acu_coverage">
+      <%= label f, :acu_coverage, "Availment Type" %>
+      <%= select f, :acu_coverage, ["Inpatient": "Inpatient", "Outpatient": "Outpatient"], class: "ui fluid dropdown acu_type", prompt: "Select Availment Type", id: "acu_select", disabled: true %>
+      <%= error_tag f, :acu_coverage %>
+    </div>
+    <div class="hidden three wide field">
+      <%= label f, :peme, "Can be used as Peme" %>
+      <div class="three wide field ui checkbox"><br />
+        <%= checkbox(f, :peme) %>
+      </div>
+    </div>
+    <div class="five wide field" id="provider_access">
+      <%= label f, :provider_access, "Facility Access" %>
+      <div class="five wide field ui checkbox"><br />
+        <input type="checkbox" id="clinic" value="Clinic">
+        <label>Clinic</label>
+      </div>
+     <div class="five wide field ui checkbox">
+        <input type="checkbox" id="hospital" value="Hospital">
+        <label>Hospital</label>
+      </div>
+    <%# <div class="five wide field" id="provider_access"> %>
+    <%#   <%= label f, :provider_access, "Availment Process" %1> %>
+    <%#   <div class="five wide field ui checkbox"><br /> %>
+    <%#     <input type="checkbox" id="hospital" value="Hospital/Clinic"> %>
+    <%#     <label>Hospital/Clinic</label> %>
+    <%#   </div> %>
+      <div class="two wide field ui checkbox">
+        <input type="checkbox" id="mobile" value="Mobile">
+        <label>Mobile</label>
+      </div>
+      <%= hidden_input f, :provider_access, id: "provider_access_value" %>
+      <%= error_tag f, :provider_access %>
+    </div>
+  </div>
+
+  <div class="ui middle aligned right aligned grid" >
+    <div class="left floated left aligned six wide column" id="condition_header">
+      <h4 class="ui header">Conditions</h4>
+    </div>
+  </div>
+
+  <div class="ui divider mrg1T mrg1B" id="divider"></div>
+
+
+  <div class="two fields">
+    <div class="field" id="condition_1">
+      <div class="ui radio checkbox">
+        <%= radio_button(f, :condition, "ALL", checked: "") %>
+        <label>Procedures (in step 2) can only be availed if ALL Diagnoses (in step 3) are applied</label>
+      </div>
+    </div>
+    <div class="field" id="condition_2">
+      <div class="ui radio checkbox">
+        <%= radio_button(f, :condition, "ANY") %>
+        <label>Procedures (in step 2) can only be availed if ANY Diagnoses (in step 3) are applied</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <%= if @changeset.data.id do %>
+        <button class="ui negative button mrg1T" id="deleteBenefit" benefitID="<%= @changeset.data.id %>" type="button">
+          <i class="trash left icon"></i>Delete Draft
+        </button>
+      <% end %>
+    </div>
+    <div class="column eight wide">
+      <button class="ui blue right floated button" benetype="submit" id="riders_submit">
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+      <a href="/benefits" class="ui right floated button"">
+        <i class="chevron left icon"></i>
+        Cancel
+      </a>
+    </div>
+  </div>
+
+<% end %>
+</div>

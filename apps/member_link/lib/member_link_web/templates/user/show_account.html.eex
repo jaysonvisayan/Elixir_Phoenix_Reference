@@ -1,0 +1,29 @@
+<div class="content-holder">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="twelve wide computer twelve wide tablet sixteen wide mobile column">
+        <div class="ui grid">
+          <div class="ten wide computer sixteen wide tablet  column">
+            <h1 class="ui huge header">My Account</h1>
+            <form class="ui form">
+              <div class="field">
+                <label> Username </label>
+                <input type="text" value="<%= @user.username %>" readonly="true"></input>
+              </div>
+              <div class="field">
+                <label> Password </label>
+                <input type="password" value="********" readonly="true"></input>
+              </div>
+              <div class="field">
+                <a class="fluid ui primary button" href="/<%= @locale %>/account/edit">
+                  <i class="edit icon"></i>
+                 Change Password
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

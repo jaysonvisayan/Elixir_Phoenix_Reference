@@ -1,0 +1,68 @@
+<div class="ui modal" role="show-details">
+  <% disabled = if String.contains?("access_ruvs", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+  <i class="close icon"></i>
+  <div class="header">
+    RUV Details
+  </div>
+  <div class="content">
+    <div class="ui two column centered grid">
+      <div class="four column centered row">
+        <div class="column">
+          <b>RUV Code</b>
+        </div>
+        <div class="column">
+          <label id="code"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>RUV Description</b>
+        </div>
+        <div class="column">
+          <label id="description"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>RUV Type</b>
+        </div>
+        <div class="column">
+          <label id="type"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Value</b>
+        </div>
+        <div class="column">
+          <label id="value"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Effectivity Date</b>
+        </div>
+        <div class="column">
+          <label id="effectivity_date"></label>
+        </div>
+      </div>
+      <input type="hidden" id="ruv_id">
+      <input type="hidden" id="facility_ruvs">
+      <input type="hidden" id="benefit_ruvs">
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui left floated button" role="delete-ruv">
+      <i class="remove icon"></i>
+      Remove
+    </div>
+    <a id="edit_ruv" class="ui right floated green button <%= disabled %>">
+      <i class="pencil icon"></i>
+      Edit
+    </a>
+    <a id="ruv_logs" class="ui right floated button">
+      <i class="list icon"></i>
+        Logs
+    </a>
+  </div>
+</div>

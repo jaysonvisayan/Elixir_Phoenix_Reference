@@ -1,0 +1,522 @@
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+   </head>
+   <style>
+      h4 {
+         font-size: 12px !important;
+      }
+
+      h5 {
+         font-size: 10px !important;
+      }
+
+      table {
+         font-size: 8px !important;
+      }
+
+      .ui.summary-table {
+         border: 0;
+         // font-size: 0.875rem;
+         height: 100%;
+         border-radius: 0;
+         border-collapse: collapse;
+      }
+
+      .ui.summary-table thead th {
+         background-color: #FFF;
+         color: $black;
+         font-size: 16px;
+         text-transform: none;
+         border: 0;
+         font-weight: bold;
+      }
+
+      .ui.card-table {
+         border: 0;
+         font-size: 0.875rem;
+         height: 100%;
+         border-radius: 0;
+         border-collapse: collapse;
+      }
+
+      .ui.card-table thead tr:first-child>th:only-child {
+         border-radius: 0;
+      }
+
+      .ui.card-table .checkbox {
+         font-size: 0.875rem;
+      }
+
+      .ui.card-table thead th {
+         background-color: #F3A537;
+         color: #FFF;
+         font-size: 16px;
+         text-transform: none;
+         border: 0;
+      }
+
+      .ui.card-table td {
+         border-top: 0;
+         padding-top: 4px;
+         padding-bottom: 4px;
+      }
+
+      .cards-holder .column {
+         padding: 0 !important;
+      }
+
+      .cards-holder .inner-container {
+         max-height: 200px;
+         background-image: url("../img/site-logo.png");
+         background-size: auto 12px;
+         background-repeat: no-repeat;
+         background-position: bottom 24px right 24px;
+      }
+
+      .cards-holder .inner-container>td {
+         padding-top: 24px;
+      }
+
+      .cards-holder td {
+         vertical-align: top;
+      }
+
+      .no-shadow {
+         box-shadow: none !important;
+      }
+
+      .no-border {
+         border: none !important;
+      }
+
+      .text-white {
+         color: #fff !important;
+      }
+
+      .containerli {
+         margin-top: 61px;
+         margin-bottom: 45px;
+      }
+
+      .ui.table:last-child {
+         margin-bottom: 1.5rem;
+      }
+
+      .ui.inverted.attached.segment {
+         border-color: transparent;
+      }
+
+      .payor-theme-segment {
+         background-color: #388e3c !important;
+      }
+
+      .center_align {
+         text-align: center;
+      }
+
+      .mrg0T {
+         margin-top: 0rem !important;
+      }
+
+      .ui.table td {
+         padding: .5em .78571429em !important;
+      }
+
+      .pl_one {
+         padding-left: 1rem !important;
+      }
+
+      .pl_two {
+         padding-left: 2rem !important;
+      }
+
+      .pl_three {
+         padding-left: 3rem !important;
+      }
+
+      .pl_five {
+         padding-left: 5rem !important;
+      }
+   </style>
+   <body style="">
+      <div id="testPrint">
+         <div class="ui main container">
+            <div class="ui grid">
+               <div class="sixteen wide column">
+                  <img class="ui centered medium image" src="file:///Users/administrator/Downloads/Medilink_Payor.png">
+                  <div class="ui segments no-shadow">
+                     <div class="ui top attached inverted payor-theme-segment segment" style="padding: .7em .7em;">
+                        <h4 class="ui header center_align">General</h4>
+                     </div>
+                     <div class="ui attached segment">
+                        <div class="row">
+                           <div class="ui two column grid cards-holder">
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Facility Name</b></td>
+                                                      <td>Makati Medical Center</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Facility Type</b></td>
+                                                      <td>Hospital-Based</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>License Name</b></td>
+                                                      <td>licensename1</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>PHIC Accreditation Date</b></td>
+                                                      <td>
+                                                      </td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b class="pl_three">From</b> <span class="pl_one">02-17-2017</span></td>
+                                                      <td><b>To</b> <span class="pl_one">02-17-2017</span></td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Affiliation Date</b></td>
+                                                      <td>02-17-2017</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Telephone Number</b></td>
+                                                      <td>(+63) 2 888-8999</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr class="text-white">
+                                                      <td><b>Facility Name</b></td>
+                                                      <td>Makati Medical Center</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Facility Category</b></td>
+                                                      <td>Tertiary</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Status</b></td>
+                                                      <td>I</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Philhealth Accreditation Number</b></td>
+                                                      <td>
+                                                      </td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td class="pl_three">4655-4665-1234</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Disaffiliation Date</b></td>
+                                                      <td>01-17-2017</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Website / Email Address</b></td>
+                                                      <td>mmc@makatimed.net.ph</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui segments no-shadow">
+                     <div class="ui top attached inverted payor-theme-segment segment" style="padding: .7em .7em;">
+                        <h4 class="ui header center_align">Address</h4>
+                     </div>
+                     <div class="ui attached segment">
+                        <div class="row">
+                           <div class="ui two column grid cards-holder">
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Address Line 1</b></td>
+                                                      <td>#2 Amorsolo Street Legaspi Village</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Address Line 2</b></td>
+                                                      <td>San Lorenzo</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>City / Municipality</b></td>
+                                                      <td>Makati City</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Region</b></td>
+                                                      <td>National Capital Region</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr class="text-white">
+                                                      <td><b>Address Line 1</b></td>
+                                                      <td>#2 Amorsolo Street Legaspi Village</td>
+                                                   </tr>
+                                                   <tr class="text-white">
+                                                      <td><b>Address Line 2</b></td>
+                                                      <td>San Lorenzo</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Province</b></td>
+                                                      <td>Metro Manila</td>
+                                                   </tr>
+                                                   <tr>
+                                                      <td><b>Country</b> <span class="pl_two">Philippines</span></td>
+                                                      <td><b class="pl_five">Postal Code</b> <span class="pl_one">1229</span></td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui segments no-shadow">
+                     <div class="ui top attached inverted payor-theme-segment segment" style="padding: .7em .7em;">
+                        <h4 class="ui header center_align">Contact</h4>
+                     </div>
+                     <div class="ui attached segment">
+                        <div class="row">
+                           <div class="ui one column grid">
+                              <div class="column">
+                                 <table class="ui very basic striped selectable table">
+                                    <thead>
+                                       <tr>
+                                          <th>Name</th>
+                                          <th>Department</th>
+                                          <th>Designation</th>
+                                          <th>Telephone Number</th>
+                                          <th>Mobile Number</th>
+                                          <th>Fax Number</th>
+                                          <th>Email Address</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>Angela Crisostomo</td>
+                                          <td>Radiology</td>
+                                          <td></td>
+                                          <td></td>
+                                          <td>(+63) 923 099 0469</td>
+                                          <td></td>
+                                          <td>mmc_radiologydepartment@makatimed.net.ph</td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui segments no-shadow">
+                     <div class="ui top attached inverted payor-theme-segment segment" style="padding: .7em .7em;">
+                        <h4 class="ui header center_align">Financial</h4>
+                     </div>
+                     <div class="ui attached segment">
+                        <div class="row">
+                           <div class="ui two column grid cards-holder">
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Tax Identidication Number</b></td>
+                                                      <td>123-235-432-765</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>VAT Status</b></td>
+                                                      <td>Fully VAT-able</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <h5 class="ui dividing header mrg0T">Billings</h5>
+                           <div class="ui two column grid cards-holder">
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Prescription Term</b></td>
+                                                      <td>prescription term</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Prescription Clause</b></td>
+                                                      <td>Percentage deduction - 1% deduction beyond 30 days</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <h5 class="ui dividing header mrg0T">Payment</h5>
+                           <div class="ui two column grid cards-holder">
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Credit Term</b></td>
+                                                      <td>100</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Credit Limit</b></td>
+                                                      <td>100</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <h5 class="ui dividing header mrg0T">Mode of Releasing</h5>
+                           <div class="ui two column grid cards-holder">
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Number of Beds</b></td>
+                                                      <td>600</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="column">
+                                 <table class="ui table no-border borderless">
+                                    <tbody>
+                                       <tr>
+                                          <td>
+                                             <table>
+                                                <tbody>
+                                                   <tr>
+                                                      <td><b>Bond</b></td>
+                                                      <td>0.0</td>
+                                                   </tr>
+                                                </tbody>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

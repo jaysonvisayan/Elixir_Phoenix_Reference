@@ -1,0 +1,759 @@
+<%= form_for @changeset_condition, @action, [class: "ui form form_validation", id: "test"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="one fields">
+    <div class="field">
+      <%= label f, :id, "", class: "control-label" %>
+      <div>
+        <h4>
+          <%= @product.code %> : <%= @product.name %>
+        </h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui negative hidden message" id="optionValidation">
+    <i class="close icon" id="closeOV"></i>
+    <div class="header">
+      Incomplete fields.
+    </div>
+    <p id="condition_error_message">
+    </p>
+    <p id="lt_error_message">
+    </p>
+  </div>
+  <%# Age Eligibility %>
+  <h4 class="ui dividing header">Age Eligibility</h4>
+  <div class="ui grid">
+
+    <%= if @product.member_type == nil do %>
+      <div class="four wide column">
+        <div class="inline fields">
+          <h4>No Member Type Selected in General Information please go to step1 or go to this link <a href="/products/<%= @product.id %>/setup?step=1"> General-Step1</a></h4>
+        </div>
+      </div>
+    <% else %>
+      <%= if Enum.member?(@product.member_type, "Principal") do %>
+        <div class="four wide column grand_parent_element">
+          <div class="inline fields">
+            <label>Principals</label>
+          </div>
+          <div class="field min_holder">
+            <%= label f, :principal_min_age, "Min Age", class: "control-label" %>
+            <div class="ui right labeled input parent_element">
+              <%= number_input f, :principal_min_age, class: "form-control validate-r p_age age", row: "Age Eligibility", field_name: "Principal's Minumum Age", id: "p_min_age", min: "1" %>
+              <%= select f, :principal_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon", "data-validate": "principal_min_age" %>
+            </div>
+            <%= error_tag f, :principal_min_age %>
+          </div>
+          <div class="field max_holder">
+            <%= label f, :principal_max_age, "Max Age", class: "control-label" %>
+            <div class="ui right labeled input parent_element">
+              <%= number_input f, :principal_max_age, class: "form-control validate-r p_age age", row: "Age Eligibility", field_name: "Principal's Maximum Age", id: "p_max_age", min: "1" %>
+              <%= select f, :principal_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <%= error_tag f, :principal_max_age %>
+            <div class="ui basic red pointing prompt label hidden greater_than_validation_message">
+              Principal min age must not be greater than max age
+            </div>
+            <div class="ui basic red pointing prompt label hidden equal_equal_validation_message">
+              Principal min age and max age must not be equal
+            </div>
+            <div class="ui basic red pointing prompt label hidden pls_complete_validation_message">
+              Please complete the fill section for principal
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="four wide column grand_parent_element">
+      <div class="inline fields">
+        <label>Parents and Spouse</label>
+      </div>
+
+      <div class="field min_holder">
+        <%= label f, :adult_dependent_min_age, "Min Age", class: "control-label" %>
+        <div class="ui right labeled input parent_element">
+          <%= number_input f, :adult_dependent_min_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Adult Dependent's Minimum Age", min: "1" %>
+          <%= select f, :adult_dependent_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+        </div>
+        <%= error_tag f, :adult_dependent_min_age %>
+      </div>
+
+      <div class="field max_holder">
+        <%= label f, :adult_dependent_max_age, "Max Age", class: "control-label" %>
+        <div class="ui right labeled input parent_element">
+          <%= number_input f, :adult_dependent_max_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Adult Dependent's Maximum Age", min: "1" %>
+          <%= select f, :adult_dependent_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+        </div>
+        <%= error_tag f, :adult_dependent_max_age %>
+        <div class="ui basic red pointing prompt label hidden greater_than_validation_message">
+          Parents and Spouse min age must not be greater than max age
+        </div>
+        <div class="ui basic red pointing prompt label hidden equal_equal_validation_message">
+          Parents and Spouse min age and max age must not be equal
+        </div>
+        <div class="ui basic red pointing prompt label hidden pls_complete_validation_message">
+          Please complete the fill section for Parents and Spouse
+        </div>
+      </div>
+    </div>
+    <div class="four wide column grand_parent_element">
+      <div class="inline fields">
+        <label>Child and Siblings</label>
+      </div>
+
+      <div class="field min_holder">
+        <%= label f, :minor_dependent_min_age, "Min Age", class: "control-label" %>
+        <div class="ui right labeled input parent_element">
+          <%= number_input f, :minor_dependent_min_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Minor Dependent's Minimum Age", min: "1" %>
+          <%= select f, :minor_dependent_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+        </div>
+        <%= error_tag f, :minor_dependent_min_age %>
+      </div>
+
+      <div class="field max_holder">
+        <%= label f, :minor_dependent_max_age, "Max Age", class: "control-label" %>
+        <div class="ui right labeled input parent_element">
+          <%= number_input f, :minor_dependent_max_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Minor Dependent's Maximum Age", min: "1" %>
+          <%= select f, :minor_dependent_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+        </div>
+        <%= error_tag f, :minor_dependent_max_age %>
+        <div class="ui basic red pointing prompt label hidden greater_than_validation_message">
+          Child and Siblings min age must not be greater than max age
+        </div>
+        <div class="ui basic red pointing prompt label hidden equal_equal_validation_message">
+          Child and Siblings min age and max age must not be equal
+        </div>
+        <div class="ui basic red pointing prompt label hidden pls_complete_validation_message">
+          Please complete the fill section for Child and Siblings
+        </div>
+      </div>
+    </div>
+    <div class="four wide column grand_parent_element">
+      <div class="inline fields">
+        <label>Overage Dependents</label>
+      </div>
+      <div class="field min_holder">
+        <%= label f, :overage_dependent_min_age, "Min Age", class: "control-label" %>
+        <div class="ui right labeled input parent_element">
+          <%= number_input f, :overage_dependent_min_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Overage Dependent's Minimum Age", min: "1" %>
+          <%= select f, :overage_dependent_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+        </div>
+        <%= error_tag f, :overage_dependent_min_age %>
+      </div>
+      <div class="field max_holder">
+        <%= label f, :overage_dependent_max_age, "Max Age", class: "control-label" %>
+        <div class="ui right labeled input parent_element">
+          <%= number_input f, :overage_dependent_max_age, class: "form-control validate-r age", row: "Age Eligibility", field_name: "Overage Dependent's Maximum Age", min: "1" %>
+          <%= select f, :overage_dependent_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+        </div>
+        <%= error_tag f, :overage_dependent_max_age %>
+        <div class="ui basic red pointing prompt label hidden greater_than_validation_message">
+          Overage Dependents min age must not be greater than max age
+        </div>
+        <div class="ui basic red pointing prompt label hidden equal_equal_validation_message">
+          Overage Dependents min age and max age must not be equal
+        </div>
+        <div class="ui basic red pointing prompt label hidden pls_complete_validation_message">
+          Please complete the fill section for Overage Dependents
+        </div>
+      </div>
+    </div>
+  </div>
+  <%# Member Type %>
+  <h4 class="ui dividing header">Number of Eligible Members</h4>
+  <%= if @product.member_type == nil do %>
+    <h3>No Member Type Selected in General Information</h3>
+    <p> Member Type must be selected, Go back to General(step1) or Go to this link<strong> <a href="/products/<%= @product.id %>/setup?step=1">General-Step1</a></strong></p>
+  <% else %>
+    <div class="two fields">
+      <%= if Enum.member?(@product.member_type, "Principal") do %>
+        <div class="field">
+          <%= label f, :nem_principal, "Principal", class: "control-label" %>
+          <%= text_input f, :nem_principal, class: "form-control", row: "Number of Eligible Members", field_name: "Principal"  %>
+          <%= error_tag f, :nem_principal %>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= label f, :nem_dependent, "Dependent", class: "control-label" %>
+        <%= text_input f, :nem_dependent, class: "form-control", row: "Number of Eligible Members", field_name: "Dependent" %>
+        <%= error_tag f, :nem_dependent %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Start of Mode of Availment %>
+  <h4 class="ui dividing header">Mode of Availment</h4>
+
+  <div class="field">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <div class="two fields">
+          <div class="field mof">
+              <div class="ui checkbox">
+                  <% lf = @product.loa_facilitated %>
+                  <% lf_state = if is_nil(lf) or lf == false, do: "unchecked", else: "checked" %>
+                <input type="checkbox" name="product[loa_facilitated]" id="product_loa_facilitated" class="mof_input" <%= lf_state %>>
+                <label>LOA Facilitated</label>
+              </div>
+            </div>
+            <div class="field mof">
+              <div class="ui checkbox">
+                  <% r = @product.reimbursement %>
+                  <% r_state = if is_nil(r) or r == false, do: "unchecked", else: "checked" %>
+                <input type="checkbox" name="product[reimbursement]" id="product_reimbursement" class="mof_input" <%= r_state %>>
+                <label>Reimbursement</label>
+              </div>
+            </div>
+        </div>
+        <div class="ui basic red pointing prompt label hidden centered error_mode_of_availment">
+          Please select Mode of Availment
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%# Start of LOA Conditions %>
+  <h4 class="ui dividing header">LOA Conditions</h4>
+
+  <div class="field">
+    <div class="ui grid">
+      <div class="two wide column">
+        <div class="field">
+          <label class="coloring green">No outright denial.</label>
+            <div class="ui checkbox">
+              <% nod = @product.no_outright_denial %>
+              <% nod_state = if is_nil(nod) or nod == false, do: "unchecked", else: "checked" %>
+              <input type="checkbox" name="product[no_outright_denial][]" <%= nod_state %>>
+            </div>
+        </div>
+      </div>
+
+      <div class="six wide column">
+        <div class="field" id="noDaysValidContainer">
+          <%= label f, :no_days_valid, "No. of Days Valid", class: "control-label" %>
+          <%= text_input f, :no_days_valid, class: "form-control validate-r" %>
+          <%= error_tag f, :no_days_valid %>
+          <div class="ui basic red pointing prompt label hidden error_no_days_valid_message">
+                Please enter Number of Days Valid
+          </div>
+        </div>
+      </div>
+
+      <div class="three wide column">
+        <div class="field" id="isMedinaContainer">
+          <%= label f, :is_medina, "Auto-approve by Sonny Medina?", class: "control-label" %>
+          <%= error_tag f, :is_medina %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox">
+              <%= radio_button f, :is_medina, "true", id: "medina_yes", class: "" %>
+              <label for="medina_yes" class="clearError">Yes</label>
+            </div>
+            <div class="ui radio checkbox">
+              <%= radio_button f, :is_medina, "false", id: "medina_no", class: "" %>
+              <label for="medina_no" class="clearError">No</label>
+
+            </div>
+          </div>
+          <div class="ui basic red pointing prompt label hidden error_sonny_medina_message">
+                Please pick Sonny Medina's type of approval
+          </div>
+        </div>
+      </div>
+
+      <div class="five wide column">
+        <%= if @product.is_medina do %>
+          <div class="field" id="smp_limit_container">
+            <%= label f, :smp_limit, "Sonny Medina Processing Limit", class: "control-label" %>
+            <%= text_input f, :smp_limit, class: "form-control ", disabled: false %>
+            <%= error_tag f, :smp_limit %>
+            <div class="ui basic red pointing prompt label hidden error_sonny_medina_plimit_message">
+              Please enter Sonny Medina processing limit
+            </div>
+          </div>
+
+        <% else %>
+
+          <div class="field" id="smp_limit_container">
+            <%= label f, :smp_limit, "Sonny Medina Processing Limit", class: "control-label" %>
+            <%= text_input f, :smp_limit, class: "form-control ", disabled: true %>
+            <%= error_tag f, :smp_limit %>
+            <div class="ui basic red pointing prompt label hidden error_sonny_medina_plimit_message">
+              Please enter Sonny Medina processing limit
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+
+  <%# End of LOA Conditions %>
+  <br>
+
+  <div class="field">
+    <h4 class="ui dividing header">Hierarchy Waiver</h4>
+    <%= error_tag f, :hierarchy_waiver %>
+    <div class="inline field ui grid">
+      <div class="ui radio checkbox five wide column">
+        <%= radio_button f, :hierarchy_waiver, "Enforce", id: "enforce", class: "", checked: "" %>
+        <label for="enforce" class="">Enforce</label>
+      </div>
+      <div class="ui radio checkbox five wide column">
+        <%= radio_button f, :hierarchy_waiver, "Skip Allowed", id: "skipAllowed", class: "" %>
+        <label for="skipAllowed">Skip Allowed</label>
+      </div>
+      <div class="ui radio checkbox five wide column">
+        <%= radio_button f, :hierarchy_waiver, "Waive", id: "waive", class: "" %>
+        <label for="waive">Waive</label>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="ui dividing header">Member's Default Effective Date</h4>
+    <div class="two fields">
+      <%= if Enum.member?(@product.member_type, "Principal") do %>
+        <div class="field">
+          <%= label f, :mded_principal, "Principal", class: "control-label" %>
+          <%= select f, :mded_principal, ["None": "None", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val", prompt: "Select Principal Member's Default Effective Date" %>
+          <div class="ui basic red pointing prompt label hidden error_mded">
+            Please enter Principal's Member Default Effective Date.
+          </div>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= label f, :mded_dependent, "Dependent", class: "control-label" %>
+        <%= select f, :mded_dependent, ["None": "None", "Principal’s Effective Date": "Principal’s Effective Date", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val", prompt: "Select Dependent Member's Default Effective Date" %>
+        <div class="ui basic red pointing prompt label hidden error_mded">
+            Please enter Dependent's Member Default Effective Date.
+        </div>
+      </div>
+    </div>
+
+
+  <%# Hierarchy of Eligible Dependents %>
+  <div class="hidden">
+    <%= if @product.member_type == nil do %>
+      <h4 class="ui dividing header">
+        Hierarchy of Eligible Dependents
+        <br />
+        <small>* You can 'drag-and-drop' according to your hierarchy of eligible dependents. Ranking of listed eligible dependents shall be from top to bottom</small>
+      </h4>
+      <h3>No Member Type Selected in General Information</h3>
+      <p> Member Type must be selected, Go back to General(step1) or Go to this link<strong> <a href="/products/<%= @product.id %>/setup?step=1">General-Step1</a></strong></p>
+    <% else %>
+      <%= if Enum.member?(@product.member_type, "Principal") do %>
+        <h4 class="ui dividing header">
+          Hierarchy of Eligible Dependents
+          <br />
+          <small>* You can 'drag-and-drop' according to your hierarchy of eligible dependents. Ranking of listed eligible dependents shall be from top to bottom</small>
+        </h4>
+        <div class="ui grid" id="HOED_container">
+          <div class="two wide column">
+          </div>
+          <div class="four wide column">
+
+            <div class="ui segment">
+              <h4>Married Employees
+                <div class="ui icon circular top right floated pointing dropdown positive mini button" tabindex="0">
+                  <i class="plus icon"></i>
+                  <div class="right menu" id="me_dd" tabindex="-1">
+
+                    <div href="#" class="item clickable-row append_sortable" dependent="Spouse" category="me">
+                      Spouse
+                    </div>
+                    <div href="#" class="item clickable-row append_sortable" dependent="Child" category="me" >
+                      Child
+                    </div>
+                      <div href="#" class="item clickable-row append_sortable" dependent="Parent" category="me" >
+                        Parent
+                      </div>
+                        <div href="#" class="item clickable-row append_sortable" dependent="Sibling" category="me">
+                          Sibling
+                        </div>
+                  </div>
+                </div>
+              </h4>
+              <div id="me_sortable">
+              </div>
+              <div class="ui basic red pointing prompt label hidden" id="me_validation">
+                Please retain atleast one Married Employee Dependent.
+              </div>
+            </div>
+            <input class="validate-r" type="hidden" name="product[married_employee]" value="<%= load_pchoed(@product.product_condition_hierarchy_of_eligible_dependents, "Married Employee") %>">
+          </div>
+          <div class="one wide column">
+          </div>
+          <div class="four wide column" style="position: static">
+
+            <div class="ui segment">
+              <h4>Single Employees
+                <div class="ui icon circular top right floated pointing dropdown positive mini button" tabindex="0">
+                  <i class="plus icon"></i>
+                  <div class="left menu" id="se_dd" tabindex="-1">
+
+                    <div href="#" class="item clickable-row append_sortable" dependent="Parent" category="se" >
+                      Parent
+                    </div>
+                      <div href="#" class="item clickable-row append_sortable" dependent="Sibling" category="se" >
+                        Sibling
+                      </div>
+                  </div>
+                </div>
+              </h4>
+              <div id="se_sortable">
+              </div>
+              <div class="ui basic red pointing prompt label hidden" id="se_validation">
+                Please retain atleast one Single Employee Dependent.
+              </div>
+            </div>
+            <input class="validate-r" type="hidden" name="product[single_employee]" value="<%= load_pchoed(@product.product_condition_hierarchy_of_eligible_dependents, "Single Employee") %>">
+          </div>
+          <div class="one wide column">
+          </div>
+          <div class="four wide column">
+            <div class="ui segment">
+              <h4>Single Parent Employees
+                <div class="ui icon circular top right floated pointing dropdown positive mini button" tabindex="0">
+                  <i class="plus icon"></i>
+                  <div class="left menu" id="spe_dd" tabindex="-1">
+
+                    <div href="#" class="item clickable-row append_sortable" dependent="Child" category="spe" >
+                      Child
+                    </div>
+                      <div href="#" class="item clickable-row append_sortable" dependent="Parent" category="spe" >
+                        Parent
+                      </div>
+                        <div href="#" class="item clickable-row append_sortable" dependent="Sibling" category="spe" >
+                          Sibling
+                        </div>
+                  </div>
+                </div>
+              </h4>
+              <div id="spe_sortable">
+              </div>
+              <div class="ui basic red pointing prompt label hidden" id="spe_validation">
+                Please retain atleast one Single Parent Employee Dependent.
+              </div>
+            </div>
+            <input class="validate-r" type="hidden" name="product[single_parent_employee]" value="<%= load_pchoed(@product.product_condition_hierarchy_of_eligible_dependents, "Single Parent Employee") %>">
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%# Deductions %>
+  <h4 class="ui dividing header">Deductions</h4>
+  <table class="ui definition table">
+    <thead>
+      <tr><th></th>
+        <th>Network Benefits</th>
+        <th>Non-Network Benefits</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>Annual Deduction</td>
+          <td>
+            <div class="ui right labeled input">
+              <%= text_input f, :adnb, class: "form-control", id: "adnb" %>
+              <div class="ui basic label">
+                per year
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="ui right labeled input">
+              <%= text_input f, :adnnb, class: "form-control", id: "adnnb" %>
+              <div class="ui basic label">
+                per year
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Out of Pocket Maximum</td>
+          <td>
+            <div class="ui right labeled input">
+              <%= text_input f, :opmnb, class: "form-control", id: "opmnb" %>
+              <div class="ui basic label">
+                per year
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="ui right labeled input">
+              <%= text_input f, :opmnnb, class: "form-control", id: "opmnnb" %>
+              <div class="ui basic label">
+                per year
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+  <%# Funding Arragement %>
+  <h4 class="ui dividing header">Funding Arragement</h4>
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>Coverages</th>
+        <th>Funding Arragement</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for product_coverage <- Enum.sort_by(@product_coverages, &(&1.coverage.name)) do %>
+        <tr>
+          <td><%= product_coverage.coverage.name %></td>
+          <td>
+            <% condition = funding_checker(product_coverage.id) %>
+            <%= if condition.funding_arrangement == "Full Risk" do %>
+              <div class="ui radio checkbox six wide column">
+                <input type="radio" name="product[funding_arrangement][<%= product_coverage.id %>]" id="full" value="Full Risk" checked="" />
+                <label>Full Risk</label>
+              </div>
+              <div class="ui radio checkbox six wide column">
+                <input type="radio" name="product[funding_arrangement][<%= product_coverage.id %>]" id="aso" value="ASO" />
+                <label>ASO</label>
+              </div>
+            <% else %>
+              <div class="ui radio checkbox six wide column">
+                <input type="radio" name="product[funding_arrangement][<%= product_coverage.id %>]" id="full" value="Full Risk"  />
+                <label>Full Risk</label>
+              </div>
+              <div class="ui radio checkbox six wide column">
+                <input type="radio" name="product[funding_arrangement][<%= product_coverage.id %>]" id="aso" value="ASO" checked=""/>
+                <label>ASO</label>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%# Schedule Of Payment %>
+  <h4 class="ui dividing header">Schedule of Payment</h4>
+  <div class="two fields">
+    <% sop_p_state = if Enum.member?(@product.member_type, "Principal"), do: "", else: "hidden" %>
+    <% sop_d_state = if Enum.member?(@product.member_type, "Dependent"), do: "", else: "hidden" %>
+    <div class="field <%= sop_p_state %>">
+      <label>Principal</label>
+      <%= select f, :sop_principal, ["Annual": "Annual", "Daily": "Daily", "Hourly": "Hourly", "Monthly": "Monthly", "Quarterly": "Quarterly", "Semi Annual": "Semi Annual", "Weekly": "Weekly"], class: "ui dropdown sop_val", prompt: "Select Principal Schedule of Payment" %>
+      <div class="ui basic red pointing prompt label hidden error_sop">
+        Please enter Principal's Schedule of Payment.
+      </div>
+    </div>
+    <div class="field <%= sop_d_state %>">
+      <label>Dependent</label>
+      <%= select f, :sop_dependent, ["Annual": "Annual", "Daily": "Daily", "Hourly": "Hourly", "Monthly": "Monthly", "Quarterly": "Quarterly", "Semi Annual": "Semi Annual", "Weekly": "Weekly"], class: "ui dropdown sop_val", prompt: "Select Dependent Schedule of Payment" %>
+      <div class="ui basic red pointing prompt label hidden error_sop">
+        Please enter Dependent's Schedule of Payment.
+      </div>
+    </div>
+  </div>
+  <br>
+  <%# Start of Room and Board %>
+  <%= if @product_coverages_rnb != [] do %>
+    <h4 class="ui dividing header" style="margin-top: -20px;">Room and Board</h4>
+    <div class="ui styled fluid accordion">
+      <%= for product_coverage_rnb <- Enum.sort_by(@product_coverages_rnb, &(&1.product_coverage.coverage.name)) do %>
+        <%= if product_coverage_rnb.product_coverage.coverage.name == "Inpatient" or product_coverage_rnb.product_coverage.coverage.name == "ACU" or product_coverage_rnb.product_coverage.coverage.name == "Maternity" do %>
+          <div class="title rnb_accordion <%= check_active_coverage(@product.rnb_cov_id, product_coverage_rnb.product_coverage.coverage_id) %>" coverageID="<%= get_product_coverage_id(product_coverage_rnb.id) %>" productID="<%= @product.id %>" >
+            <i class="dropdown icon" style="float: right"></i>
+            <!-- title of Coverage -->
+            <%= get_product_coverage(product_coverage_rnb.id) %>
+            <%= acu_executive_checker(product_coverage_rnb) %>
+          </div>
+          <div class="rnb_row content <%= check_active_coverage(@product.rnb_cov_id, product_coverage_rnb.product_coverage.coverage_id) %>" coverageID="<%= product_coverage_rnb.product_coverage.coverage_id %>" id="<%= "rnb_accordion_" <> product_coverage_rnb.product_coverage.coverage_id %>">
+            <input type="hidden" value="<%= product_coverage_rnb.id %>" id="<%= "rnb_id_" <> product_coverage_rnb.product_coverage.coverage_id %>">
+            <div class="ui grid">
+              <div class="sixteen wide column" >
+                <div class="four fields">
+                  <div class="field">
+                    <label class="control-label" for="product_room_and_board">Room and Board</label>
+                    <div class="rnb_elements ui fluid selection dropdown rnb_select_c rnb_validate" name="room_and_board" coverageID="<%= product_coverage_rnb.product_coverage.coverage_id %>" id="<%= "rnb_" <> product_coverage_rnb.product_coverage.coverage_id %>" role="rnb" row="Room and Board" field_name="Room and Board" coverage_name="<%= get_product_coverage(product_coverage_rnb.id) %>">
+                      <%= if is_nil(product_coverage_rnb.room_and_board) do %>
+                        <input type="hidden ">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Room and Board</div>
+                      <% else %>
+                        <input type="hidden" value="<%= product_coverage_rnb.room_and_board %>">
+                        <i class="dropdown icon"></i>
+                        <div class="text"><%= product_coverage_rnb.room_and_board %></div>
+                      <% end%>
+                      <div class="menu">
+                        <div class="item" data-value="Alternative">
+                          Alternative
+                        </div>
+                        <div class="item" data-value="Nomenclature">
+                          Nomenclature
+                        </div>
+                        <div class="item" data-value="Peso Based">
+                          Peso Based
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui basic red pointing prompt label hidden rnb_validation_message">
+                      Please enter a Room and Board condition.
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="control-label" for="product_room_type">Room Type</label>
+                    <div class="rnb_elements ui fluid selection dropdown rnb_select_c rnb_validate" name="room_type" id="<%= "rt_" <> product_coverage_rnb.product_coverage.coverage_id %>" role="rt" row="Room and Board" field_name="Room Type" coverage_name="<%= get_product_coverage(product_coverage_rnb.id) %>">
+                      <%= if is_nil(product_coverage_rnb.room_type) do %>
+                        <input type="hidden">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Room Type</div>
+                      <% else %>
+                        <input type="hidden" value="<%= product_coverage_rnb.room_type %>">
+                        <i class="dropdown icon"></i>
+                        <div class="text"><%= product_coverage_rnb.room_type %></div>
+                      <% end%>
+                      <div class="menu">
+                        <%= for room <- @rooms do %>
+                          <div class="item" data-value="<%= room.id %>">
+                            <%= room.type %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="ui basic red pointing prompt label hidden rnb_validation_message">
+                      Please enter a Room Type.
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="control-label" for="product_limit_amount">Room Limit Amount</label>
+                    <input class="rnb_elements rnb_validate rnb_rla" type="text" id="<%= "rla_" <> product_coverage_rnb.product_coverage.coverage_id %>" name="room_limit_amount" role="rla" row="Room and Board" field_name="Room Limit Amount" coverage_name="<%= get_product_coverage(product_coverage_rnb.id) %>" value="<%= product_coverage_rnb.room_limit_amount %>">
+                    <div class="ui basic red pointing prompt label hidden rnb_validation_message">
+                      Please enter a Room Limit Amount greater than zero.
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="control-label" for="product_upgrade">Room Upgrade</label>
+                    <div class="ui right labeled input">
+                      <input class="rnb_elements rnb_validate" type="number" id="<%= "ru_" <> product_coverage_rnb.product_coverage.coverage_id %>" name="room_upgrade" role="ru" field_name="Room Upgrade" coverage_name="<%= get_product_coverage(product_coverage_rnb.id) %>" value="<%= product_coverage_rnb.room_upgrade %>" min=1>
+                      <div class="ui selection dropdown rnb_elements rnb_validate" name="room_upgrade_type" role="rut">
+                        <%= if is_nil(product_coverage_rnb.room_type) do %>
+                          <input type="hidden" id="<%= "rut_" <> product_coverage_rnb.product_coverage.coverage_id %>" value="Hours" row="Room and Board" field_name="Room Upgrade">
+                          <i class="dropdown icon"></i>
+                          <div class="text">Hours</div>
+                        <% else %>
+                          <input type="hidden" id="<%= "rut_" <> product_coverage_rnb.product_coverage.coverage_id %>" value="<%= product_coverage_rnb.room_upgrade_time %>" row="Room and Board" field_name="Room Upgrade">
+                          <i class="dropdown icon"></i>
+                          <div class="text"><%= product_coverage_rnb.room_upgrade_time %></div>
+                        <% end%>
+                        <div class="menu">
+                          <div class="item" data-value="Hours">
+                            Hours
+                          </div>
+                          <div class="item" data-value="Days">
+                            Days
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui basic red pointing prompt label hidden rnb_validation_message">
+                      Please enter a Room Upgrade greater than zero and pick a time.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <br />
+  <input type="hidden" name="product[rnb_array]">
+  <br />
+  <%# End of Room and Board %>
+
+  <%# Start of Limit Threshold %>
+  <%= if @product_coverages_lt != [] do %>
+    <h4 class="ui dividing header" style="margin-top: -20px;">Limit Threshold</h4>
+    <div id="limit_threshold_container">
+      <div class="ui styled fluid accordion">
+        <%= for lt <- Enum.sort_by(@product_coverages_lt, &(&1.product_coverage.coverage.name)) do %>
+          <div class="title lt_accordion <%= check_active_coverage(@product.lt_cov_id, lt.product_coverage.coverage_id) %>" productID="<%= @product.id %>" coverageID="<%= lt.product_coverage.coverage.id%>" >
+            <%= String.upcase(lt.product_coverage.coverage.description) %>
+          </div>
+          <div class="content <%= check_active_coverage(@product.lt_cov_id, lt.product_coverage.coverage_id) %>">
+            <div class="ui grid">
+              <div class="sixteen wide column">
+                <div class="field otl_fields" id="otl_field_<%= lt.id %>">
+                  <label for="lt" class="control-label">Limit Threshold of Affiliated Facilities</label>
+                  <input type="text" class="form-control outer_limit_threshold" lt_id="<%= lt.id %>" value="<%= lt.limit_threshold %>" id="outer_lt_<%= lt.id %>" lt_name="<%= String.upcase(lt.product_coverage.coverage.description) %>" />
+                  <div class="ui basic red pointing prompt label hidden otl_vs" id="otl_validation_<%= lt.id %>">
+                    Please enter another outer limit amount. An equal limit amount in exceptions is detected.
+                  </div>
+                </div>
+              </div>
+              <div class="sixteen wide column">
+                <div class="ui middle aligned  right aligned grid">
+                  <div class="left floated left aligned six wide column">
+                    <h4 class="ui header">Exempted Facilities</h4>
+                  </div>
+                  <div class="right floated right aligned six wide column">
+                    <a class="ui primary button btnFacility" productLimitThreshold="<%= lt.id %>" productID="<%= @product.id %>">
+                      <i class="add icon">
+                      </i>Facility
+                    </a>
+                  </div>
+                </div>
+                <div class="ui divider mrg0T mrg0B"></div>
+              </div>
+              <div class="sixteen wide column">
+                <table role="datatable" class="ui stripped table" id="pcltf_table_<%= lt.id %>" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Facility Code</th>
+                      <th>Facility Name</th>
+                      <th>Limit Threshold</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for ltf <- lt.product_coverage_limit_threshold_facilities do %>
+                      <tr>
+                        <td>
+                          <a href="#!" class="open href editBtnFacility" productLimitThreshold="<%= lt.id %>" productLimitThresholdFacility="<%= ltf.id %>" facilityID="<%= ltf.facility.id %>" lt="<%= ltf.limit_threshold%>" productID="<%= @product.id %>" >
+                            <%= ltf.facility.code %>
+                          </a>
+                        </td>
+                        <td><%= ltf.facility.name %></td>
+                        <td class="lt_value"><%= ltf.limit_threshold %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <input type="hidden" name="product[outer_limit_threshold]" />
+      </div>
+    </div>
+  <% end %>
+  <%# End of Limit Threshold %>
+
+
+
+  <div class="ui middle aligned  right aligned grid mrg1T">
+    <div class="left floated left aligned six wide column">
+      <a href="#" class="ui negative button" id="delete_draft" productID="<%= @product.id %>">
+        <i class="trash left icon"></i>
+        Delete Draft
+      </a>
+    </div>
+    <div class="right floated right aligned six wide column">
+      <a href="/products/<%= @product.id %>/setup?step=4" class="ui button">
+        <i class="chevron left icon"></i> Back
+      </a>
+      <button type="submit" class="ui right floated blue submit button submit_rs" id="testbtn">Next <i class="chevron right icon"></i></button>
+    </div>
+  </div>
+  <br>
+<% end %>

@@ -1,0 +1,21 @@
+<%= form_for @changeset, @action, [as: :authorization, multipart: true, id: "member_info"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="field" id="member_info">
+    <%= label f, :full_name, "Full Name" %>
+    <%= text_input f, :full_name, placeholder: "First Middle Last"%>
+    <%= error_tag f, :full_name %>
+  </div>
+  <div class="field" id="dateFormPicker">
+    <%= label f, :birth_date, "Birth Date" %>
+    <div class="ui calendar" id="birthdate">
+      <div class="ui input right icon">
+        <i class="calendar icon"></i>
+        <%= text_input f, :birthdate, placeholder: "MM/DD/YYYY" %>
+      </div>
+    </div>
+  </div>
+  <button class="ui blue right floated button" type="submit">
+    <i class="checkmark icon"></i>
+    Validate
+  </button>
+<% end %>

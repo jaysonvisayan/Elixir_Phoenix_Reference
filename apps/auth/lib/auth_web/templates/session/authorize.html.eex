@@ -1,0 +1,46 @@
+<div name="Authorize" class="ui form">
+  <div class="ui segment content-margin">
+    <h1>May we use the following personal information in order to complete your account?</h1>
+    <div id="message_consent" class="ui icon negative message hidden">
+    </div>
+    <br/>
+    <div class="ui three column stackable centered grid">
+      <%= for scope <- @client.scopes do %>
+        <div class="column">
+          <div class="ui set-box-width link card">
+            <div class="content">
+              <span class="header center-aligned"><%= scope.name %></span>
+              <div class="description">
+                <ul>
+                  <%= for desc <- scope.description do %>
+                    <li><%= desc %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <br/>
+    <div class="conforme-spacer">
+      <input type="checkbox" id="chk_member_conforme"></input>
+      <label>I have read and agreed to <a href="#" id="lnk_member_conforme">terms and conditions stated in the MEMBER CONFORME</a>. <span style="color: red">*<span></label>
+    </div>
+    <div class="ui two fields">
+      <div class="field fbutton">
+        <%= link to: session_path(@conn, :accept, @consent, scopes: @scopes), id: "btn-accept-consent", class: "ui primary fluid button" do %>
+          <i class="ui check circle outline icon"></i>
+          Accept
+        <% end %>
+      </div>
+      <div class="field fbutton">
+        <%= link to: session_path(@conn, :deny, @consent, scopes: @scopes), class: "ui fluid button" do %>
+          <i class="remove circle outline icon"></i>
+          Deny
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render "member_conforme.html" %>

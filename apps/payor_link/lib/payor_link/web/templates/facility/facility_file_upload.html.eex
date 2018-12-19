@@ -1,0 +1,120 @@
+<div id="file_upload_facility">
+  <div class="ui segment-breadcrumbs no-shadow no-radius">
+    <div class="ui right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h2 class="ui header">Facilities</h2>
+      </div>
+        <div class="right floated right aligned eight wide column">
+          <div class="ui simple primary basic dropdown right floated button">
+            <i class="icon add"></i>
+            Dowload Template
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item" href="/facilities/new/download/general_template">
+                General
+              </a>
+              <a class="item" href="/facilities/new/download/contacts_template">
+                Contacts
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="ui small breadcrumb">
+      <a class="section" href="/facilities">Search</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Batch Upload</div>
+    </div>
+  </div>
+
+  <div id="facilities_uploaded_file" name ="name_facility_import" class="ui equal width left aligned padded grid stackable">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui segment ">
+
+           <%= form_for @changeset, facility_path(@conn, :facility_import), [multipart: true, id: "import"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+             <div class="ui two column centered grid">
+               <div class="eight wide computer seven wide tablet column">
+                 <div class="ui segment" name="form_import_facility">
+
+                   <div class="ui grid">
+                     <div class="sixteen wide column">
+                       <div class="field" id="form_import_cpt">
+                         <%= label f, :filename, class: "control-label" %>
+                       </div>
+                     </div>
+
+                    <div class="four wide column">
+                        <%= select f, :upload_type, ["General": "General", "Contacts": "Contacts"], class: "ui fluid dropdown" %>
+                    </div>
+                    <div class="six wide column">
+                        <%= file_input f, :file, id: "file_upload" %>
+                     </div>
+                     <div class="five wide column">
+                       <button type="button" class="ui primary right floated button submit" id="upload">
+                         <i class="send left icon"></i>
+                         Upload
+                       </button>
+                     </div>
+                   </div>
+
+                 </div>
+               </div>
+             </div>
+
+        <div class="ui grid">
+          <div class="sixteen wide computer eleven wide tablet column">
+            <table role="datatable" id="disease_table" class="ui striped table">
+              <thead>
+                <tr>
+                  <th>Batch No.</th>
+                  <th>Facility File</th>
+                  <th>Total Facility</th>
+                  <th>Successful</th>
+                  <th>Failed</th>
+                  <th>Date Uploaded</th>
+                  <th>Date Finished</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for fu_logs <- Enum.sort_by(@facility_upload_file, &(&1.filename)) do %>
+                  <tr>
+                    <td><%= fu_logs.batch_number %></td>
+                    <td><%= fu_logs.filename %></td>
+                    <td><%= fu_logs.total_count %></td>
+                    <%= if fu_logs.success == 0 do %>
+                    <td><%= fu_logs.success %><br /><label style="color:#7f8187"><u>Download</u></a></label></td>
+                    <% else %>
+                    <td><%= fu_logs.success %><br /><u><a style="cursor: pointer" class="download_success_button" fu_id="<%= fu_logs.id %>" status="success" fu_filename="<%= fu_logs.filename %>" >Download</a></u></td>
+                    <% end %>
+                    <%= if fu_logs.failed == 0 do %>
+                    <td><%= fu_logs.failed %><br /><label style="color:#7f8187"><u>Download</u></a></label></td>
+                    <% else %>
+                      <td><%= fu_logs.failed %><br/ ><u><a style="cursor: pointer" class="download_failed_button" fu_id="<%= fu_logs.id %>"  status="failed" fu_filename="<%= fu_logs.filename %>" >Download</a></u></td>
+                    <% end %>
+                    <td><%= fu_logs.inserted_at %></td>
+                    <td><%= fu_logs.date_finished %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ui one column aligned grid">
+          <div class="column eight wide">
+          <a id="cancelBtn" class="ui button clickable-row" href="/facilities">
+            <i class="remove icon"></i>
+            Cancel
+          </a>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

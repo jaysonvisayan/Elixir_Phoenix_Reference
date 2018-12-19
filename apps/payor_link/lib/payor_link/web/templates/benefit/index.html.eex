@@ -1,0 +1,61 @@
+<div class="ui main container" id="benefits_index_v2">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Benefits</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                <% disabled = if String.contains?("access_benefits", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+                <a class="ui primary basic button <%= disabled %>" href="#" id="export_button"><i class="download icon"></i> Export</a>
+                <a class="ui primary basic button" href="/benefits/new"><i class="plus icon"></i>Benefit</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/benefits" class="section">Benefits</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <div class="sixteen wide column" id="rendered_custom" data-tab="custom">
+    <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%" id="benefits_datatable_v2">
+      <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Created By</th>
+            <th>Date Created</th>
+            <th>Updated By</th>
+            <th>Date Updated</th>
+            <th>Coverages</th>
+          </tr>
+      </thead>
+      <tbody>
+        <%= for benefit <- @benefits do %>
+          <tr>
+            <td>
+            <%= if benefit.step != 0 do %>
+              <a href="/benefits/<%= benefit.id %>/setup?step=<%= benefit.step || 1 %>"><%= benefit.code %> (Draft)</a>
+            <% else %>
+              <a href="/benefits/<%= benefit.id %>"><%= benefit.code %></a>
+            <% end %>
+           </td>
+            <td><%= benefit.name %></td>
+            <td><%= benefit.created_by.username %></td>
+            <td class="valid_timezone date-only">
+              <%= Innerpeace.PayorLink.Web.LayoutView.valid_timezone(benefit.inserted_at) %>
+            </td>
+            <td><%= benefit.updated_by.username %></td>
+            <td class="valid_timezone date-only">
+              <%= Innerpeace.PayorLink.Web.LayoutView.valid_timezone(benefit.updated_at) %>
+            </td>
+            <td><%= display_coverages(benefit) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

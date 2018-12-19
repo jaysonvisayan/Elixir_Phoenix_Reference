@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        display: none;
+      }
+    </style>
+    <script>
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MemberLink</title>
+    <link rel="icon" href="img/favicon.jpg" type="/images/x-icon"/>
+    <link rel="shortcut icon" href="img/favicon.jp" type="/images/x-icon"/>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script src=""></script>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="ui top fixed menu">
+        <div class=" ui container">
+          <div class="item pl-tablet-0">
+            <a href="/<%= @conn.assigns.locale%>/sign_in">
+              <img src="<%= static_url(@conn, "/images/site-logo.png") %>">
+            </a>
+            <a href="/<%= @conn.assigns.locale %>/sign_in"><%= gettext "member" %><b class="primary ui text"><%= gettext "gateway" %></b></a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="pusher">
+      <input type="hidden" id="locale" value="<%= @locale %>">
+      <%= render @view_module, @view_template, assigns %>
+    </div> <!-- .pusher closed -->
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script>
+      $(document).ready(function(){
+        $('.modal-open-main.button').click(function(){
+          $('.ui.modal').modal('show');
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<%
+  info = get_flash(@conn, :info)
+  error = get_flash(@conn, :error)
+%>
+
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+
+<%#= if error do %>
+<!--  <script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+</script> -->
+<%# end %>

@@ -1,0 +1,234 @@
+<%= render "edit/breadcrumbs.html", member: @member %>
+<div class="ui equal width left aligned padded grid stackable" id="">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui three item menu">
+            <a href="/members/<%= @member.id %>/edit?tab=general" class=" item">General</a>
+            <a href="/members/<%= @member.id %>/edit?tab=products" class=" item">Plans</a>
+            <a class="active item">Contact Information</a>
+          </div>
+
+					<div class="row">
+
+            <%= form_for @changeset, member_path(@conn, :save, @member, tab: "contact"), [class: "ui form", id: "memberFormContact"], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <div class="ui grid" id="role">
+
+                <%# 1st column %>
+
+                <div class="sixteen wide tablet eight wide computer column" role="address-member-form">
+                  <h2 class="ui dividing header">Contact</h2>
+                  <input type="hidden" id="member_type" value="<%= @member.type %>">
+                  <div class="field">
+                    <%= label f, :email, "Email Address", class: "control-label" %>
+                    <%= text_input f, :email, class: "email", "data-validate": "email" %>
+                    <%= error_tag f, :email %>
+                  </div>
+
+                  <div class="field">
+                    <%= label f, :email2, "Email Address 2 (Optional)", class: "control-label" %>
+                    <%= text_input f, :email2, class: "email", "data-validate": "email2" %>
+                    <%= error_tag f, :email2 %>
+                  </div>
+
+                  <div class="ui grid">
+
+                    <!-- start of mobile -->
+                    <div class="eight wide column">
+                       <%= label f, :mobile, "Mobile Phone 1", class: "control-label", style: "color: #666666;" %>
+                    </div>
+
+                    <div class="eight wide column">
+                       <%= label f, :mobile2, "Mobile Phone 2 (Optional)", class: "control-label", style: "color: #666666;" %>
+                    </div>
+
+                    <div class="three wide field ">
+                      <div class="field disabled">
+                        <!-- ### mcc = mobile country code -->
+                        <%= text_input f, :mcc, class: "mcc form-control", "data-validate": "mobile_country_code", maxlength: "5", placeholder: "Country code", value: @member.mcc || "+63" %>
+                          <%= error_tag f, :mcc %>
+                        </div>
+                    </div>
+
+                    <div class="five wide field">
+                        <div class="field">
+                          <%= text_input f, :mobile, class: "mobile form-control", "data-validate": "mobile" %>
+                          <%= error_tag f, :mobile %>
+                        </div>
+                    </div>
+
+                    <div class="three wide field">
+                      <div class="field disabled" id="mcc_field">
+                        <!-- ### mcc2 = mobile country code 2 -->
+                        <%= text_input f, :mcc2, class: "mcc form-control", "data-validate": "mobile2_country_code", maxlength: "5", placeholder: "Country code", value: @member.mcc || "+63" %>
+                        <%= error_tag f, :mcc2 %>
+                      </div>
+                    </div>
+
+                    <div class="five wide field">
+                      <div class="field" id="mobile2_field">
+                        <%= text_input f, :mobile2, class: "mobile form-control", "data-validate": "mobile2" %>
+                        <%= error_tag f, :mobile2 %>
+                      </div>
+                    </div>
+                    <!-- end of mobile -->
+
+                    <!-- start of tel -->
+                    <div class="sixteen wide column">
+                       <%= label f, :telephone, "Telephone (Optional)", class: "control-label", style: "color: #666666;" %>
+                    </div>
+
+                    <div class="three wide field disabled" id="tcc_field">
+                      <%= text_input f, :tcc, class: "tcc form-control", "data-validate": "tel_country_code", maxlength: "5", placeholder: "Country code", value: @member.mcc || "+63" %>
+                      <%= error_tag f, :tcc %>
+                    </div>
+
+                    <div class="three wide field">
+                      <%= text_input f, :tac, class: "tac form-control", "data-validate": "tel_area_code", maxlength: "5", placeholder: "Area code" %>
+                      <%= error_tag f, :tac %>
+                    </div>
+
+                    <div class="seven wide field" id="telephone_field">
+                      <%= text_input f, :telephone, class: "phone form-control", "data-validate": "telephone" %>
+                      <%= error_tag f, :telephone %>
+                    </div>
+
+                    <div class="three wide field">
+                      <%= text_input f, :tlc, class: "tlc form-control", "data-validate": "tel_local_code", maxlength: "5", placeholder: "Local code" %>
+                      <%= error_tag f, :tlc %>
+                    </div>
+                    <!-- end of tel -->
+
+                    <!-- start of fax-->
+                    <div class="sixteen wide column">
+                       <%= label f, :fax, "Fax (Optional)", class: "control-label", style: "color: #666666;" %>
+                    </div>
+
+                    <div class="three wide field disabled" id="fcc_field">
+                      <%= text_input f, :fcc, class: "fcc form-control", "data-validate": "fax_country_code", maxlength: "5", placeholder: "Country code", value: @member.mcc || "+63" %>
+                      <%= error_tag f, :fcc %>
+                    </div>
+
+                    <div class="three wide field">
+                      <%= text_input f, :fac, class: "fac form-control", "data-validate": "fax_area_code", maxlength: "5", placeholder: "Area code" %>
+                      <%= error_tag f, :fac %>
+                    </div>
+
+                    <div class="seven wide field" id="fax_field">
+
+                      <%= text_input f, :fax, class: "phone form-control", "data-validate": "fax" %>
+                      <%= error_tag f, :fax %>
+                    </div>
+
+                    <div class="three wide field">
+                      <%= text_input f, :flc, class: "flc form-control", "data-validate": "fax_local_code", maxlength: "5", placeholder: "Local code" %>
+                      <%= error_tag f, :flc %>
+                    </div>
+                    <!-- start of fax-->
+
+                  </div>
+
+
+                  <h2 class="ui dividing header">Address</h2>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :postal, "Postal", class: "control-label" %>
+                      <%= number_input f, :postal, class: "form-control", "data-validate": "postal", maxlength: "4", min: "0" %>
+                      <%= error_tag f, :postal %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :unit_no, "Unit Number / Floor", class: "control-label" %>
+                      <%= text_input f, :unit_no, class: "form-control", "data-validate": "unit_no" %>
+                      <%= error_tag f, :unit_no %>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <%= label f, :building_name, class: "control-label" %>
+                    <%= text_input f, :building_name, class: "form-control", "data-validate": "building_name" %>
+                    <%= error_tag f, :building_name%>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :street_name, "Street", class: "control-label" %>
+                      <%= text_input f, :street_name, class: "form-control key-up-address", "data-validate": "street_name" %>
+                      <%= error_tag f, :street_name %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :city, "City / Municipality", class: "control-label key-up-address" %>
+                      <%= text_input f, :city, class: "form-control key-up-address", "data-validate": "city" %>
+                      <%= error_tag f, :city %>
+                    </div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :province, "Province", class: "control-label" %>
+                      <%= text_input f, :province, class: "form-control key-up-address", "data-validate": "province" %>
+                      <%= error_tag f, :province %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :region, "Region", class: "control-label" %>
+                      <%= text_input f, :region, class: "form-control", "data-validate": "region" %>
+                      <%= error_tag f, :region %>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <%= label f, :country, "Country", class: "control-label" %>
+                    <%= text_input f, :country, class: "form-control", "data-validate": "country", value: "Philippines", readonly: "true" %>
+                    <%= error_tag f, :country %>
+                  </div>
+
+                </div>
+                <%# End of 1st column %>
+
+                <%# 2nd column %>
+                <div class="sixteen wide tablet eight wide computer column" style="padding:55px">
+                  <div class="field required">
+                    <div class="ui container" id="map" style="height: 750px;">
+                      <%= hidden_input f, :longitude, disabled: "disabled" %>
+                      <%= hidden_input f, :latitude, disabled: "disabled" %>
+                    </div>
+                  </div>
+                  <div class="field required">
+                    <div class="ui centered grid">
+                      <i><u><b>You can use this Map to find your location.</b></u></i>
+                    </div>
+                  </div>
+                </div>
+                <%# End of 2nd column %>
+                <%# 2nd column %>
+                <div class="sixteen wide tablet eight wide computer column" role="hide-map">
+                  <div class="field required">
+                    <div class="ui" id="map">
+                      <%= hidden_input f, :longitude, disabled: "disabled" %>
+                      <%= hidden_input f, :latitude, disabled: "disabled" %>
+                    </div>
+                  </div>
+                </div>
+                <%# End of 2nd column %>
+
+              </div>
+
+              <button class="ui blue right right floated button" type="submit">
+                <i class="save left icon"></i>
+                Update
+              </button>
+              <a href="/members/<%= @member.id %>" class="ui button">
+                <i class="cancel left icon"></i>
+                Cancel
+              </a>
+
+            <% end %>
+
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

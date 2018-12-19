@@ -1,0 +1,1064 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Plan</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plan</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Show</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable" id="showSummary">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="row">
+            <div class="column" id="step" >
+              <!-- GENERAL -->
+              <h4 class="ui dividing header">GENERAL</h4>
+              <div class="ui grid container">
+                <div class="eight wide computer eight wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Plan Code</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.code %>
+                    </div>
+                  </div>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Plan Description</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.description %>
+                    </div>
+                  </div>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Limit Type</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.limit_type %>
+                    </div>
+                  </div>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Limit Applicability</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.limit_applicability %>
+                    </div>
+                  </div>
+
+                  <%= if @product.limit_applicability == "Share with Dependents" do %>
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <strong>Shared Limit Amount</strong>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.shared_limit_amount  %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Standard Plan</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.standard_product %>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide computer eight wide tablet column">
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong> Plan Name</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.name %>
+                    </div>
+                  </div>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Plan Type</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.type %>
+                    </div>
+                  </div>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>Limit Amount</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column" id="limit_amount">
+                      <%= @product.limit_amount %>
+                    </div>
+                  </div>
+                  <div class="ui grid">
+                    <div class="eight wide computer six wide tablet column">
+                      <strong>PHIC</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= @product.phic_status %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End of General -->
+              <!-- BENEFIT -->
+              <h4 class="ui dividing header">BENEFIT</h4>
+              <%= if @product.product_benefits == [] do %>
+              <% else %>
+                <div class="ui grid centered container">
+                  <div class="six wide computer six wide tablet column">
+                    <b>Benefit Code</b>
+                  </div>
+                  <div class="six wide computer ten wide tablet column">
+                    <b>Benefit Name</b>
+                  </div>
+                  <%= for product_benefit <- Enum.sort_by(@product.product_benefits, &(&1.benefit.code)) do %>
+                    <div class="six wide computer six wide tablet column">
+                      <a href="/benefits/<%= product_benefit.benefit.id %>"><%= product_benefit.benefit.code %></a>
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <%= product_benefit.benefit.name %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+                <!-- End of Benefit -->
+                <!-- GENERAL EXCLUSION -->
+                <h4 class="ui dividing header">EXCLUSION</h4>
+                <div class="ui grid centered">
+                  <div class="three  wide computer three wide tablet column">
+                    <p>
+                    <h4>GENERAL EXCLUSION</h4>
+                    </p><br>
+                  </div>
+                </div>
+                <div class="ui grid centered container">
+                  <div class="four wide computer six wide tablet column">
+                    <b>Exclusion Code</b>
+                  </div>
+                  <div class="four wide computer ten wide tablet column">
+                    <b>Exclusion Name</b>
+                  </div>
+                  <div class="four wide computer ten wide tablet column">
+                    <b>No. of Diseases</b>
+                  </div>
+                  <div class="four wide computer ten wide tablet column">
+                    <b>No. of Procedures</b>
+                  </div>
+                  <%= if check_exclusion_genex(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) == [] do %>
+                    <div class="sixteen wide computer sixteen wide tablet column">
+                      <p>
+                      <h4>No general exclusion is selected for this product.</h4>
+                      </p><br>
+                    </div>
+                  <% else %>
+                    <%= for product_exclusion <- check_exclusion_genex(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+                      <div class="four wide computer six wide tablet column">
+                        <%= product_exclusion.exclusion.code %>
+                      </div>
+                      <div class="four wide computer ten wide tablet column">
+                        <%= product_exclusion.exclusion.name %>
+                      </div>
+                      <div class="four wide computer ten wide tablet column">
+                        <%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %>
+                      </div>
+                      <div class="four wide computer ten wide tablet column">
+                        <%= Enum.count(product_exclusion.exclusion.exclusion_procedures) %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+                <!-- End of General Exclusion -->
+                <!-- PRE-EXISTING EXCLUSION -->
+                <div class="ui grid centered">
+                  <div class="three wide computer three wide tablet column">
+                    <p>
+                    <h4>PRE-EXISTING CONDITION</h4>
+                    </p><br>
+                  </div>
+                </div>
+                <div class="ui grid container">
+                  <div class="three wide computer six wide tablet column">
+                    <b>Exclusion Code</b>
+                  </div>
+                  <div class="four wide computer ten wide tablet column">
+                    <b>Exclusion Name</b>
+                  </div>
+                  <div class="three wide computer ten wide tablet column">
+                    <b>No. of Diseases</b>
+                  </div>
+                  <div class="three wide computer ten wide tablet column">
+                    <b>Limit Type</b>
+                  </div>
+                  <div class="three wide computer ten wide tablet column">
+                    <b>Limit Amount</b>
+                  </div>
+                  <%= if check_pre_existing(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) == [] do %>
+                    <div class="sixteen wide computer sixteen wide tablet column">
+                      <p> <h4>No pre-existing exclusion is selected for this plan.</h4></p><br>
+                    </div>
+                  <% else %>
+                    <%= for product_exclusion <- check_pre_existing(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+                      <div class="three wide computer six wide tablet column">
+                        <%= product_exclusion.exclusion.code %>
+                      </div>
+                      <div class="four wide computer ten wide tablet column">
+                        <%= product_exclusion.exclusion.name %>
+                      </div>
+                      <div class="three wide computer ten wide tablet column">
+                        <%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %>
+                      </div>
+                      <div class="three wide computer ten wide tablet column">
+                        <%= if not is_nil(product_exclusion.product_exclusion_limit) do %>
+                          <%= product_exclusion.product_exclusion_limit.limit_type %>
+                        <% end %>
+                      </div>
+                      <div class="three wide computer ten wide tablet column">
+                        <%= load_limit_amount(product_exclusion.product_exclusion_limit) %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+                <!-- End of Pre-existing exclusion -->
+                <!-- FACILITY ACCESS -->
+
+                <%= if @product.product_coverages == [] do %>
+                  <h2>No benefit selected.</h2>
+                <% else %>
+                  <h4 class="ui dividing header">Facility Access</h4>
+                  <div class="ui grid container">
+                    <%= for product_coverage <- Enum.sort(@product.product_coverages) do %>
+                      <div class="sixteen wide computer sixteen wide tablet column">
+                        <h5><%= load_coverages_id(product_coverage.coverage_id) %></h5>
+                      </div>
+
+                      <div class="one wide computer one wide tablet column">
+                      </div>
+                      <div class="three wide computer three wide tablet column">
+                        Facility
+                      </div>
+                      <div class="twelve wide column twelve tablet column">
+                        <%= case product_coverage.type  do %>
+                          <%= "inclusion" -> %>
+                            <%= "Specific Facility" %>
+
+                            <%= "exception" -> %>
+                              <%= "All Affiliated Facility" %>
+
+                              <%= _ -> %>
+                                <%= "Plan Coverage Type is null" %>
+                              <% end %>
+                      </div>
+
+
+                      <div class="one wide computer one wide tablet column">
+                      </div>
+                      <div class="two wide computer two wide tablet column">
+                        <%= case product_coverage.type  do %>
+                          <%= "inclusion" -> %>
+                            <%= "Inclusion" %>
+
+                            <%= "exception" -> %>
+                              <%= "Exception" %>
+
+                              <%= _ -> %>
+                                <%= "Product Coverage Type is null" %>
+                              <% end %>
+                      </div>
+                      <div class="thirtheen wide thirteen wide tablet column">
+                      </div>
+
+
+                      <div class="fifteen wide computer fifteen wide tablet column">
+                        <div class="ui grid">
+                          <div class="one wide computer one wide tablet column">
+                          </div>
+                          <div class="four wide computer three four tablet column">
+                            Facility Code
+                          </div>
+                          <div class="five wide computer five six tablet column">
+                            Facility Name
+                          </div>
+                          <div class="one wide computer one wide tablet column">
+                            Facility Type
+                          </div>
+                          <div class="one wide computer one wide tablet column">
+                            Region
+                          </div>
+                          <div class="two wide computer three wide tablet column">
+                            Category
+                          </div>
+                          <div class="two wide computer three wide tablet column">
+                            Location Group
+                          </div>
+                        </div>
+                      </div>
+                      <div class="one wide computer one wide tablet column">
+                      </div>
+
+                      <%= if product_coverage.product_coverage_facilities == [] do %>
+                        <div class="one wide computer one wide tablet column">
+                        </div>
+                        <div class="fifteen wide computer fifteen wide tablet column">
+                          <b>No facility is selected.</b>
+                        </div>
+                      <% else %>
+                        <%= for pcf <- product_coverage.product_coverage_facilities do %>
+                          <div class="fifteen wide computer fifteen wide tablet column">
+                            <div class="ui grid">
+                              <div class="one wide computer one wide tablet column">
+                              </div>
+                              <div class="four wide computer three four tablet column">
+                                <%= pcf.facility.code %>
+                              </div>
+                              <div class="five wide computer five six tablet column">
+                                <%= pcf.facility.name %>
+                              </div>
+                              <div class="one wide computer one wide tablet column">
+                                <%= case pcf.facility.type == nil do %>
+                                  <%= true -> %>
+                                    <%= %>
+                                    <% false -> %>
+                                      <%= pcf.facility.type.text %>
+                                    <% end %>
+                              </div>
+                              <div class="one wide coimputer one wide tablet column">
+                                <%= pcf.facility.region %>
+                              </div>
+                              <div class="two wide computer three wide tablet column">
+                                <%= case pcf.facility.category == nil do %>
+                                  <%= true -> %>
+                                    <%= %>
+                                    <% false -> %>
+                                      <%= pcf.facility.category.text %>
+                                    <% end %>
+                              </div>
+                              <div class="two wide computer three wide tablet column">
+                                <%= display_location_groups(pcf.facility) %>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+
+
+
+                    <% end %>
+                  </div>
+                <% end %>
+                <!-- End of Facility Access -->
+                <!-- Start of Condition -->
+                <h4 class="ui dividing header">CONDITION</h4>
+                <div class="ui grid container">
+                  <!-- Start of Age eligibility -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Age Eligibility</h5>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <strong>Min Age</strong>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <strong>Max Age</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                        <strong>Principal</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.principal_min_age %>  <%= @product.principal_min_type %>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.principal_max_age %>  <%= @product.principal_max_type %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                        <strong>Adult Dependents</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.adult_dependent_min_age %> <%= @product.adult_dependent_min_type %>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.adult_dependent_max_age %> <%= @product.adult_dependent_max_type %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                        <strong>Minor  Dependents</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.minor_dependent_min_age %> <%= @product.minor_dependent_min_type %>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.minor_dependent_max_age %> <%= @product.minor_dependent_max_type %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                        <strong>Overage Dependents</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.overage_dependent_min_age %> <%= @product.overage_dependent_min_type %>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <%= @product.overage_dependent_max_age %> <%= @product.overage_dependent_max_type %>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End of Age eligibility -->
+                  <!-- Start of Number of Eligible Members -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Number of Eligible Members</h5>
+                    </div>
+                  </div>
+
+                  <div class="ui grid container">
+
+                    <%= if Enum.member?(@product.member_type, "Principal") do %>
+                      <div class="eight wide computer eight wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Principal</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= @product.nem_principal %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <div class="eight wide computer eight wide tablet column">
+                      <div class="ui grid">
+                        <div class="eight wide computer six wide tablet column">
+                          <strong>Dependent</strong>
+                        </div>
+                        <div class="eight wide computer six wide tablet column">
+                          <%= @product.nem_dependent %>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div> <br><br><br>
+                  <!-- End of Number of Eligible Members -->
+
+
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Mode of Availment</h5>
+                    </div>
+                  </div>
+
+                  <div class="ui grid container">
+                    <div class="eight wide computer eight wide tablet column">
+                      <div class="ui checkbox" style="padding-top:4px;">
+                      <% lf = @product.loa_facilitated %>
+                      <% lf_state = if is_nil(lf) or lf == false, do: "unchecked", else: "checked" %>
+                      <input type="checkbox" name="product[no_outright_denial][]" <%= lf_state %> readonly>
+                      </div>
+                      <b>Loa Facilitated</b>
+                    </div>
+                    <div class="eight wide computer eight wide tablet column">
+                        <div class="ui checkbox" style="padding-top:4px;">
+                          <% r = @product.reimbursement %>
+                          <% r_state = if is_nil(r) or r == false, do: "unchecked", else: "checked" %>
+                        <input type="checkbox" name="product[no_outright_denial][]" <%= r_state %> readonly>
+                        </div>
+                        <b>Reimbursement</b>
+                      </div>
+                  </div>
+
+                  <!-- Start of LOA Container -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">LOA Conditions</h5>
+                    </div>
+                  </div>
+
+                  <div class="ui grid container">
+
+                    <div class="four wide computer eight wide tablet column">
+                      <p><b>No outright denial.</b></p>
+                      <div class="field disabled" style="padding-top:12px;">
+                        <div class="ui" >
+                          <div class="ui checkbox">
+                            <% nod = @product.no_outright_denial %>
+                          <% nod_state = if is_nil(nod) or nod == false, do: "unchecked", else: "checked" %>
+                          <input type="checkbox" name="product[no_outright_denial][]" <%= nod_state %>>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="four wide computer eight wide tablet column">
+                      <div class="ui grid">
+                        <div class="sixteen wide computer six wide tablet column">
+                          <strong>No of days valid</strong>
+                        </div>
+                        <div class="sixteen wide computer six wide tablet column">
+                          <%= @product.no_days_valid %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="four wide computer eight wide tablet column">
+                      <div class="ui grid">
+                        <div class="sixteen wide computer six wide tablet column">
+                          <strong>Auto-approve by Sonny Medina?</strong>
+                        </div>
+                        <div class="sixteen wide computer six wide tablet column">
+                          <%= if not is_nil(@product.is_medina) do %>
+                            <%= case @product.is_medina do %>
+                              <%= true -> %>
+                                <%= "Yes" %>
+                              <%= false -> %>
+                                <%= "No" %>
+                            <% end %>
+                          <% else %>
+                            <%= "N/A" %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="four wide computer eight wide tablet column">
+                      <div class="ui grid">
+                        <div class="sixteen wide computer six wide tablet column">
+                          <strong>Sonny Medina Processing Limit</strong>
+                        </div>
+                        <div class="sixteen wide computer six wide tablet column" id="<%= if is_nil(@product.smp_limit), do: "", else: "smp_limit" %>">
+                          <%= if is_nil(@product.smp_limit) do %>
+                            <%= "N/A" %>
+                          <% else %>
+                            <%= @product.smp_limit %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div> <br><br><br>
+                  <!-- End of Number of Eligible Members -->
+
+                  <!-- Start of Hierarchy Waiver -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header"></h5>
+                    </div>
+                  </div>
+
+                  <div class="ui grid container">
+
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <div class="ui grid">
+                        <div class="eight wide computer six wide tablet column">
+                          <strong>Hierarchy Waiver</strong>
+                        </div>
+                        <div class="eight wide computer six wide tablet column">
+                          <%= @product.hierarchy_waiver %>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div> <br>
+                  <!-- End of Hierarchy Waiver -->
+
+                  <!-- Start of Member's Default Effective Date -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Member's Default Effective Date</h5>
+                    </div>
+                  </div>
+
+                  <div class="ui grid container">
+
+                    <%= if Enum.member?(@product.member_type, "Principal") do %>
+                      <div class="eight wide computer eight wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Principal</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= @product.mded_principal %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <div class="eight wide computer eight wide tablet column">
+                      <div class="ui grid">
+                        <div class="eight wide computer six wide tablet column">
+                          <strong>Dependent</strong>
+                        </div>
+                        <div class="eight wide computer six wide tablet column">
+                          <%= @product.mded_dependent %>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div> <br><br><br>
+                  <!-- End of Member's Default Effective Date -->
+
+                  <!-- Start of Deductions -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Deduction</h5>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        <strong>Network Benefits</strong>
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        <strong>Non Network Benefits</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                        <strong>Annual Deduction</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        ₱<%= @product.adnb %>  Per Year
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        ₱<%= @product.adnnb %> Per Year
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="sixteen wide computer six wide tablet column">
+                        <strong>Out of Pocket Maximum</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet column">
+                    <div class="ui grid">
+                      <div class="eight wide computer six wide tablet column">
+                        ₱<%= @product.opmnb %>  Per Year
+                      </div>
+                      <div class="eight wide computer six wide tablet column">
+                        ₱<%= @product.opmnnb %> Per Year
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End of Deductions -->
+                  <br><br><br><br>
+                  <!-- Start of Schedule of Payment -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Schedule of Payment</h5>
+                    </div>
+                  </div>
+
+                  <div class="ui grid container">
+
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <%= if not is_nil(@product.sop_principal) do %>
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Principal</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= @product.sop_principal%>
+                          </div>
+                        </div>
+                      <% end %>
+                      <%= if not is_nil(@product.sop_dependent) do %>
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Dependent</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= @product.sop_dependent%>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+
+                  </div> <br><br><br>
+                  <!-- End of Schedule of Payment -->
+                  <!-- Start of Room and Board-->
+
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Room and Board</h5>
+
+                    </div>
+                  </div>
+                  <%= for product_coverage <- @product.product_coverages do %>
+                    <%= if is_nil(product_coverage.product_coverage_room_and_board) do %>
+                      <!-- do nothing -->
+                    <% else %>
+                      <div class="sixteen wide computer sixteen wide tablet column">
+                        <p>
+                        <h4 class="ui primary header"><%= product_coverage.coverage.description %></h4>
+                        </p>
+                        <br>
+                      </div>
+
+                      <div class="eight wide computer eight wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Room and Board</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= product_coverage.product_coverage_room_and_board.room_and_board %>
+                          </div>
+                        </div>
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Room Type</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= preload_room_type(product_coverage.product_coverage_room_and_board.room_type) %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eight wide computer eight wide tablet column">
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong> Room Limit Amount</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= product_coverage.product_coverage_room_and_board.room_limit_amount %>
+                          </div>
+                        </div>
+                        <div class="ui grid">
+                          <div class="eight wide computer six wide tablet column">
+                            <strong>Room Upgrade</strong>
+                          </div>
+                          <div class="eight wide computer six wide tablet column">
+                            <%= product_coverage.product_coverage_room_and_board.room_upgrade %> <%= product_coverage.product_coverage_room_and_board.room_upgrade_time %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                  <!-- End of Room and Board -->        <br><br><br><br> <br>
+                  <br><br>
+                  <!-- Start of Funding arrangement -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Funding Arrangement</h5>
+
+                    </div>
+                  </div>
+                  <div class="ui grid centered container">
+                    <div class="six wide computer six wide tablet column">
+                      <b>Coverage</b>
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b>Funding Arrangement</b>
+                    </div>
+                    <%= for product_coverage <- Enum.sort_by(@product.product_coverages, &(&1.coverage.description)) do %>
+                      <div class="six wide computer six wide tablet column">
+                        <%= product_coverage.coverage.description %>
+                      </div>
+                      <div class="six wide computer ten wide tablet column">
+                        <%= product_coverage.funding_arrangement %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <!-- End of Funding Arrangement -->
+                  <br><br><br><br> <br><br><br>
+                  <!-- Start of Limit Threshold -->
+                  <div class="row">
+                    <div class="sixteen wide computer eight wide tablet column">
+                      <h5 class="ui dividing header">Limit Threshold</h5>
+                    </div>
+                  </div>
+                  <div class="ui grid centered container">
+                    <%= if @product.product_coverages != nil do %>
+                      <%= for pc <- @product.product_coverages do %>
+                        <div class="sixteen wide computer sixteen wide tablet column">
+                          <b><%= pc.coverage.name %></b><br /><br />
+                          <%= if not is_nil(pc.product_coverage_limit_threshold) do %>
+                            <p>Limit Threshold: <%= pc.product_coverage_limit_threshold.limit_threshold %></p>
+                            <p>Exempted Facilities:<br />
+                            <table class="ui celled padded table">
+                              <tr>
+                                <th>Facility</th>
+                                <th>Limit Threshold</th>
+                              </tr>
+                              <%= for pcltf <- pc.product_coverage_limit_threshold.product_coverage_limit_threshold_facilities do %>
+                                <tr>
+                                  <td><%= pcltf.facility.name %></td>
+                                  <td>₱ <%= pcltf.limit_threshold %></td>
+                                </tr>
+                              <% end %>
+                            </table>
+                            </p>
+                          <% else %>
+                            <p> No Limit Threshold. </p>
+                          <% end %>
+                        </div>
+                      <% end %>
+                      <% end %>
+                  </div>
+                  <!-- End of Limit Threshold -->
+                </div>
+                <!-- End of Condition -->
+                <!-- Start of Risk Share -->
+                <h4 class="ui dividing header">RISK SHARE</h4>
+                <div class="ui grid container">
+
+                  <%= for product_coverage <- Enum.sort(@product.product_coverages) do %>
+                    <div class="sixteen wide computer sixteen wide tablet column">
+                      <p>
+                      <h4 class="ui primary header"><%= load_coverages_id(product_coverage.coverage_id) %></h4>
+                      </p>
+                      <br>
+                    </div>
+
+                    <% product_risk_share = product_coverage.product_coverage_risk_share %>
+                    <%= if product_risk_share.product_coverage_id == product_coverage.id do %>
+                      <div class="ui internally celled grid">
+                        <div class="eight wide computer eight wide tablet column">
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Accredited Facilities</strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Risk Share </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share.af_type %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Value </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share.af_value %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Covered After Risk Share </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= if product_risk_share.af_type == "N/A" or product_risk_share.af_type == "CoInsurance" do %>
+                                <%= product_risk_share.af_covered_percentage %>
+                                <% else %>
+                                <%= product_risk_share.af_covered_amount %>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="eight wide computer eight wide tablet column">
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Non-Accredited Facilities</strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Reimbursable </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share.naf_reimbursable %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Risk Share </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share.naf_type %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Value </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share.naf_value %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Covered After Risk Share </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= if product_risk_share.naf_type == "N/A" or product_risk_share.naf_type == "CoInsurance" do %>
+                                <%= product_risk_share.naf_covered_percentage %>
+                                <% else %>
+                                <%= product_risk_share.naf_covered_amount %>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <br><br>
+                      <br><br>
+                      <br><br>
+                      <br><br>
+
+                      <div class="row">
+                        <div class="sixteen wide computer eight wide tablet column">
+                          <h5 class="ui dividing header">Exempted Facilities</h5>
+                        </div>
+                      </div>
+                      <%= for product_risk_share_facility <- product_risk_share.product_coverage_risk_share_facilities do %>
+
+                        <div class="eight wide computer eight wide tablet column">
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Facility Code</strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share_facility.facility.code %>
+                            </div>
+                          </div>
+
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Value </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share_facility.covered %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Covered After Risk Share </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share_facility.type %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="eight wide computer eight wide tablet column">
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <input type="hidden">
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Facility Name</strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share_facility.facility.name %>
+                            </div>
+                          </div>
+                          <div class="ui grid">
+                            <div class="eight wide computer six wide tablet column">
+                              <strong>Covered After Risk Share </strong>
+                            </div>
+                            <div class="eight wide computer six wide tablet column">
+                              <%= product_risk_share_facility.value %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="sixteen wide computer eight wide tablet column">
+                            <h5 class="ui dividing header">Exempted Procedures</h5>
+                          </div>
+                        </div>
+
+                        <table id="" class="ui striped table">
+                          <thead>
+                            <tr>
+                              <th>Procedure Code</th>
+                              <th>Procedure Name</th>
+                              <th>Risk Share</th>
+                              <th>Value</th>
+                              <th>Covered after Risk Share</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <%= for product_risk_share_facility_procedure <- product_risk_share_facility.product_coverage_risk_share_facility_payor_procedures do %>
+                              <tr>
+                                <td><%= product_risk_share_facility_procedure.facility_payor_procedure.code %></td>
+                                <td><%= product_risk_share_facility_procedure.facility_payor_procedure.name %></td>
+                                <td><%= product_risk_share_facility_procedure.type %></td>
+                                <td><%= product_risk_share_facility_procedure.value %></td>
+                                <td><%= product_risk_share_facility_procedure.covered %></td>
+                              </tr>
+                            <% end %>
+                          </tbody>
+                        </table>
+
+                      <% end %>
+
+                    <% end %>
+                  <% end %>
+                  <input type="hidden" value="<%= get_csrf_token() %>" name="_csrf_token">
+
+
+                </div>
+                <!-- End of Risk Share -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

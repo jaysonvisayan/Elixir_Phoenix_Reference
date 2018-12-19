@@ -1,0 +1,132 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+        <h2 class="ui header">Account</h2>
+    </div>
+  </div>
+  <div class="ui small breadcrumb">
+    <a href="/accounts" class="section">Account</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Search</div>
+    <i class="right chevron icon divider"></i>
+    <div class="active section"><%= @account_group.code%></div>
+    <i class="right chevron icon divider"></i>
+    <a href="/accounts/<%= @account_group.id %>/versions" class="section">Versions</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">
+      <%= Enum.join([
+          @account.major_version,
+          @account.minor_version,
+          @account.build_version], ".") %>
+    </div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" id="dateFormPicker">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+
+          <%= render "show_account.html", account: @account, account_group: @account_group %>
+
+          <div class="ui top attached tabular menu">
+            <a class="item" data-tab="general" href="/accounts/<%= @account.id %>/edit?step=1">General</a>
+            <a class="item" data-tab="address" href="/accounts/<%= @account.id %>/edit?step=2">Address</a>
+            <a class="item active" data-tab="contact" href="/accounts/<%= @account.id %>/edit?step=3">Contact</a>
+            <a class="item" data-tab="financial" href="/accounts/<%= @account.id %>/edit?step=4">Financial</a>
+            <a class="item" data-tab="product" href="/accounts/<%= @account.id %>/edit?step=5">Plan</a>
+          </div>
+          <div class="active ui bottom attached tab segment" data-tab="contact">
+
+          <div class="ui one column right aligned grid">
+            <div class="column sixteen wide">
+              <button class="small ui blue button" name="modal_contact">
+                <i class="icon add"></i>
+                Contact
+              </button>
+            </div>
+          </div>
+
+            <div class="ui grid">
+              <div class="sixteen wide tablet sixteen wide computer column">
+                <table class="ui stripped table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Email</th>
+                      <th>Designation</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if Enum.empty?(@contacts) do %>
+                        <tr>
+                           <td colspan="5">No Record Found</td>
+                        </tr>
+                    <% else %>
+                      <%= for contact <- @contacts do %>
+                        <tr>
+                          <td><%= contact.last_name %></td>
+                          <td><%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                              <p>No Record Found</p>
+                              <% else %>
+                                <%= for phone <- contact.phones do %>
+                                  <%= if phone.type == "mobile" do %>
+                                    <p><%= phone.number %></p>
+                                  <% end %>
+                                <% end %>
+                              <% end %>
+                          </td>
+                          <td><%= contact.email %></td>
+                          <td><%= contact.designation %></td>
+
+                          <td class="ui right aligned">
+                            <div class="mini ui buttons">
+                              <button class="small ui gray button" name="edit_modal_contact" contactID="<%= contact.id %>" accountID="<%= @account.id %>">
+                                <i class="icon add"></i>
+                                Edit
+                              </button>
+                              <%= link "Delete", to: account_path(@conn, :delete_account_contact, contact.id), method: :delete, data: [confirm: "Are you sure?"], class: "mini negative ui button" %>
+                            </div>
+                          </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <%=
+              render "form_edit_contact.html",
+              changeset: @changeset,
+              contacts: @contacts,
+              account: @account,
+              conn: @conn,
+              action: account_path(@conn, :update_setup, @account, step: 3) %>
+
+            <%=
+              render "form_contact.html",
+              changeset: @changeset,
+              contacts: @contacts,
+              account: @account,
+              conn: @conn,
+              action: account_path(@conn, :create_contact, @account) %>
+
+            <div class="ui one column right aligned grid">
+              <div class="column sixteen wide">
+                <%= if @account.step == 6 do %>
+                <%= else %>
+                  <a href="/accounts/<%= @account.id%>/setup?step=2" class="ui button">Previous</a>
+                <a href="/accounts/<%= @account.id%>/next_contact" class="ui blue button">Next</a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

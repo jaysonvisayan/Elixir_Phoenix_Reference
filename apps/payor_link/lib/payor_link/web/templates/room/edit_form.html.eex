@@ -1,0 +1,49 @@
+<div id="validates">
+<%= form_for @changeset, @action, [as: :room, class: "ui form form2", id: "edit_room_form"], fn f -> %>
+<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+
+  <%= if @changeset.action do %>
+  <div class = "ui error message">
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    </div>
+
+  <% end %>
+  <div class="field">
+    <%= label f, "Room Code" %>
+    <%= text_input f, :code, disabled: "disabled", value: @rooms.code, id: "room_code" %>
+    <%= error_tag f, :code %>
+  </div>
+
+
+  <div class="field">
+    <%= label f, "Room Type" %>
+    <%= text_input f, :type, value: @rooms.type, id: "room_type" %>
+    <%= error_tag f, :type %>
+  </div>
+
+
+  <div class="field">
+    <%= label f, "Room Hierarchy" %>
+    <%= text_input f, :hierarchy, value: @rooms.hierarchy, id: "room_hierarchy" %>
+    <%= error_tag f, :hierarchy %>
+  </div>
+
+  <div class="field">
+    <%= label f, "RUV Rate" %>
+    <%= number_input f, :ruv_rate, value: @rooms.ruv_rate, min: "1", onkeypress: "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" %>
+    <%= error_tag f, :ruv_rate %>
+  </div>
+
+   <div id="update_room_submit" class="ui blue right floated button submit">
+      <i class="send left icon"></i>
+      Submit
+    </div>
+    <a href="/rooms" class="ui button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+  <% end %>
+  <input type="hidden" id="checker">
+</div>

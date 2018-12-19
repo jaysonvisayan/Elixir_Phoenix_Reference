@@ -1,0 +1,83 @@
+<div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h1 class="ui huge header">Users</h1>
+      <div class="ui breadcrumb">
+          <a href="/users" class="section">Users</a>
+          <div class="divider"> / </div>
+          <a href="/users" class="section">Search</a>
+          <div class="divider"> / </div>
+          <div class="active section">View <%= @user.username %></div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui stackable grid">
+        <div class="row">
+          <%# <div class="eight wide computer sixteen wide tablet column"> %>
+          <div class="ten wide computer sixteen wide tablet column mrg1halfT ">
+            <%# <h3 class="ui huge header">User Information</h3> %>
+            <div class="ui hidden divider"></div>
+            <form class="ui form">
+              <div class="two fields">
+                <div class="field">
+                  <label>Username</label>
+                </div>
+                <div class="field">
+                  <%= @user.username %>
+                </div>
+              </div>
+              <div class="two fields">
+                <div class="field">
+                  <label>Roles</label>
+                </div>
+                <div class="field">
+                  <%= display_user_roles(@user) %>
+                </div>
+              </div>
+              <h4 class="ui dividing header">Personal Details</h4>
+              <div class="two fields">
+                <div class="field">
+                  <label>Full Name</label>
+                </div>
+                <div class="field">
+                  <%= @user.first_name %> <%= @user.middle_name %> <%= @user.last_name %>
+                </div>
+              </div>
+              <div class="two fields">
+                <div class="field">
+                  <label>Gender</label>
+                </div>
+                <div class="field">
+                  <%= @user.gender %>
+                </div>
+              </div>
+              <h4 class="ui dividing header">Contact Information</h4>
+              <div class="two fields">
+                <div class="field">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="field">
+                  <%= @user.mobile %>
+                </div>
+              </div>
+              <div class="two fields">
+                <div class="field">
+                  <label>Email Address</label>
+                </div>
+                <div class="field">
+                  <%= @user.email %>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+            <a href="/users" class="ui basic button">Back to Search</a>
+          </div>
+          <div class="eight wide computer right aligned sixteen wide tablet column">
+            <a href="/users/<%= @user.id %>/setup?step=1" class="ui primary button">Edit this information</a>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

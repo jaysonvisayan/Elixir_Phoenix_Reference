@@ -1,0 +1,22 @@
+<div class="ui tiny modal" id="product_removal_confirmation">
+  <div class="header">
+    <%= gettext "Remove Product" %>
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_m_id">
+    <input type="hidden" value="" id="confirmation_mp_id">
+    <p>
+    <%= gettext "Are you sure you want to remove this product?" %>
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui basic cancel button" id="confirmation_cancel_p">
+      <i class="remove icon"></i>
+      <%= gettext "No, Keep Product" %>
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_p">
+      <i class="trash icon"></i>
+      <%= gettext "Yes, Remove Product" %>
+    </div>
+  </div>
+</div>

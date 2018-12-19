@@ -1,0 +1,648 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: zh\n"
+
+#: lib/member_link_web/templates/layout/auth.html.eex:14
+msgid "Easily manage your members in your account on Maxicare."
+msgstr "在Maxicare賬戶中輕鬆管理您的會員。"
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:30
+msgid "Login"
+msgstr "登錄"
+
+#: lib/member_link_web/templates/layout/auth.html.eex:13
+msgid "Manage your account in Maxicare."
+msgstr "在Maxicare管理你的賬戶。"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:23
+#: lib/member_link_web/templates/session/sign_in.html.eex:24
+msgid "Password"
+msgstr "密碼"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:12
+#: lib/member_link_web/templates/session/sign_in.html.eex:20
+msgid "Username"
+msgstr "用戶名"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:35
+#: lib/member_link_web/templates/session/resend_code.html.eex:36
+#: lib/member_link_web/templates/session/reset_password.html.eex:59
+#: lib/member_link_web/templates/session/verify_code_email.html.eex:51
+#: lib/member_link_web/templates/session/verify_code_sms.html.eex:52
+msgid "Cancel"
+msgstr "取消"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:270
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:280
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:257
+#: lib/member_link_web/templates/session/forgot_password.html.eex:20
+#: lib/member_link_web/templates/session/resend_code.html.eex:21
+msgid "Email"
+msgstr "电子邮件"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:7
+#: lib/member_link_web/templates/session/resend_code.html.eex:7
+#: lib/member_link_web/templates/session/verify_code_email.html.eex:8
+#: lib/member_link_web/templates/session/verify_code_sms.html.eex:8
+msgid "Forgot Password"
+msgstr "忘记密码"
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:25
+msgid "Forgot Password?"
+msgstr "忘记密码?"
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:6
+msgid "IT solutions for Healthcare"
+msgstr "IT解决方案的卫生保健"
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:18
+msgid "Login to your Medilink account"
+msgstr "登录到您的Medilink帐户"
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:32
+msgid "Not Registered yet?"
+msgstr "还没有注册?"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:15
+#: lib/member_link_web/templates/session/resend_code.html.eex:16
+msgid "Please choose where to send your verification code."
+msgstr "请选择在哪里发送您的验证码."
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:8
+#: lib/member_link_web/templates/session/resend_code.html.eex:8
+msgid "Please enter your username"
+msgstr "请输入您的用户名"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:31
+#: lib/member_link_web/templates/session/resend_code.html.eex:32
+msgid "Registered Email Address"
+msgstr "注册邮箱地址"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:26
+#: lib/member_link_web/templates/session/resend_code.html.eex:27
+msgid "SMS"
+msgstr "短信"
+
+#: lib/member_link_web/templates/session/forgot_password.html.eex:38
+#: lib/member_link_web/templates/session/resend_code.html.eex:39
+msgid "Send"
+msgstr "发送"
+
+#: lib/member_link_web/templates/session/sign_in.html.eex:32
+msgid "Sign up now"
+msgstr "立即注册"
+
+#: lib/member_link_web/templates/page/index.html.eex:2
+msgid "Welcome to %{name}!"
+msgstr ""
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:38
+#: lib/member_link_web/templates/session/reset_password.html.eex:41
+msgid "Confirm Password"
+msgstr "确认密码"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:53
+msgid "Don't reuse your old password."
+msgstr "不要重复使用旧的密码."
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:17
+msgid "Enter a new password for"
+msgstr "输入一个新的密码"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:50
+msgid "Make your password at least 8 characters long."
+msgstr "输入您的密码至少8个字符."
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:20
+msgid "New Password"
+msgstr "新密码"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:28
+msgid "Password strength"
+msgstr "密码强度"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:8
+msgid "Reset Password"
+msgstr "重设密码"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:62
+msgid "Submit"
+msgstr "提交"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:47
+msgid "Tips for creating a strong password"
+msgstr "提示创建一个强大的密码"
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:51
+msgid "Use a mix of letters, numbers, and a special characters(e.g. @, #)."
+msgstr "使用字母，数字和特殊字符（例如@，＃）的组合."
+
+#: lib/member_link_web/templates/session/reset_password.html.eex:52
+msgid "Use both uppercase and lowercase letters."
+msgstr "使用大写和小写字母."
+
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:7
+msgid "Account Verification"
+msgstr "帳戶驗證"
+
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:29
+msgid "Didn’t receive any code?"
+msgstr "沒有收到任何代碼？"
+
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:23
+msgid "Enter Security Code"
+msgstr "輸入安全碼"
+
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:11
+#: lib/member_link_web/templates/session/verify_code_sms.html.eex:12
+msgid "Please check your mobile and enter your verification code here"
+msgstr "請檢查您的手機並在此輸入您的驗證碼"
+
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:29
+msgid "Resend code now"
+msgstr "現在重新發送代碼"
+
+#: lib/member_link_web/templates/session/verify_code_email.html.eex:54
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:26
+#: lib/member_link_web/templates/session/verify_code_sms.html.eex:55
+msgid "Verify"
+msgstr "校驗"
+
+#: lib/member_link_web/templates/session/verify_code_login.html.eex:9
+#: lib/member_link_web/templates/session/verify_code_sms.html.eex:10
+msgid "Your verification code was sent to [63]"
+msgstr "您的驗證碼已發送至[63]"
+
+#: lib/member_link_web/templates/layout/app.html.eex:27
+#: lib/member_link_web/templates/layout/auth.html.eex:35
+#: lib/member_link_web/templates/layout/reg.html.eex:21
+#: lib/member_link_web/templates/user/card_verification.html.eex:22
+msgid "gateway"
+msgstr "網關"
+
+#: lib/member_link_web/templates/layout/app.html.eex:27
+#: lib/member_link_web/templates/layout/auth.html.eex:35
+#: lib/member_link_web/templates/layout/reg.html.eex:21
+#: lib/member_link_web/templates/user/card_verification.html.eex:22
+msgid "member"
+msgstr "會員"
+
+#: lib/member_link_web/templates/layout/app.html.eex:34
+#: lib/member_link_web/templates/search/search_doctor.html.eex:29
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:29
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:29
+msgid "REQUEST LOA"
+msgstr "請求LOA"
+
+#: lib/member_link_web/templates/layout/app.html.eex:38
+#: lib/member_link_web/templates/search/search_doctor.html.eex:33
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:33
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:33
+msgid "Request Consultant"
+msgstr "請求顧問"
+
+#: lib/member_link_web/templates/layout/app.html.eex:37
+#: lib/member_link_web/templates/search/search_doctor.html.eex:32
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:32
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:32
+msgid "Request Lab"
+msgstr "請求實驗室"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:446
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:456
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:433
+msgid "Add Another Document"
+msgstr "添加另一個文檔"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:103
+#: lib/member_link_web/templates/search/search_doctor.html.eex:492
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:103
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:502
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:103
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:479
+msgid "All"
+msgstr "所有"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:408
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:418
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:395
+msgid "All Diagnosis Test"
+msgstr "所有診斷測試"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:51
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:51
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:51
+msgid "Bank KYC Information"
+msgstr "銀行KYC信息"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:201
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:189
+msgid "Call"
+msgstr "呼叫"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:198
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:186
+msgid "Call a cab"
+msgstr "叫一輛出租車"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:411
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:421
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:398
+msgid "Complete Diagnosis"
+msgstr "完整的診斷"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:48
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:48
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:48
+msgid "Contact Details"
+msgstr "聯繫方式"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:426
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:436
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:413
+msgid "Date and facility of last session"
+msgstr "上屆會議的日期和設施"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:253
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:263
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:240
+msgid "Date of Availment"
+msgstr "利用日期"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:54
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:54
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:54
+msgid "Dependents"
+msgstr "家屬"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:104
+#: lib/member_link_web/templates/search/search_doctor.html.eex:493
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:104
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:503
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:104
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:480
+msgid "Doctors"
+msgstr "醫生"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:85
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:85
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:85
+msgid "Doctors List"
+msgstr "醫生名單"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:261
+#: lib/member_link_web/templates/search/search_doctor.html.eex:373
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:271
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:383
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:248
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:360
+msgid "Explain the problem, complain or your condition"
+msgstr "解釋問題，抱怨或你的狀況"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:300
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:310
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:287
+msgid "Female"
+msgstr "女"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:80
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:80
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:80
+msgid "Filter"
+msgstr "過濾"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:319
+#: lib/member_link_web/templates/search/search_doctor.html.eex:328
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:329
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:338
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:306
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:315
+msgid "Hospital Information"
+msgstr "醫院信息"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:105
+#: lib/member_link_web/templates/search/search_doctor.html.eex:494
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:105
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:504
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:105
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:481
+msgid "Hospitals"
+msgstr "醫院"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:276
+#: lib/member_link_web/templates/search/search_doctor.html.eex:462
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:286
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:472
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:263
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:449
+msgid "I confirm that I have read and fully understood the"
+msgstr "我確認我已經閱讀並完全理解了"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:121
+#: lib/member_link_web/templates/search/search_doctor.html.eex:498
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:121
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:508
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:121
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:485
+msgid "Location"
+msgstr "位置"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:62
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:62
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:62
+msgid "Logout"
+msgstr "登出"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:299
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:309
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:286
+msgid "Male"
+msgstr "男"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:86
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:86
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:86
+msgid "Map"
+msgstr "地圖"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:412
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:422
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:399
+msgid "Member's existing medication related to medical condition"
+msgstr "會員現有的與醫療狀況有關的藥物"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:45
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:45
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:45
+msgid "My Profile"
+msgstr "我的簡歷"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:42
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:42
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:42
+msgid "My account"
+msgstr "我的帳戶"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:129
+#: lib/member_link_web/templates/search/search_doctor.html.eex:503
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:129
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:513
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:129
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:490
+msgid "NCR"
+msgstr "NCR"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:425
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:435
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:412
+msgid "Number of session availed"
+msgstr "會話的數量"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:297
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:307
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:284
+msgid "OP Lab LOA"
+msgstr "OP實驗室LOA"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:312
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:322
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:299
+msgid "OP Lab LOA Request"
+msgstr "OP實驗室LOA請求"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:427
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:437
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:414
+msgid "Patient Medical History"
+msgstr "病史病史"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:422
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:432
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:409
+msgid "Physical Therapy (PT) and (OT)"
+msgstr "物理治療（PT）和（OT）"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:454
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:464
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:441
+msgid "Please attach a clear copy of your documents, maximum field size is 5MB. Acceptable file types are: jpg, jpeg, tiff, pdf, doc, docx, xls, and xlsx."
+msgstr "請附上您的文件的清晰副本，最大字段大小為5MB。可接受的文件類型是：jpg，jpeg，tiff，pdf，doc，docx，xls和xlsx。"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:372
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:382
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:359
+msgid "Please explain chief Complaint / Diagnosis"
+msgstr "請解釋主要的投訴/診斷"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:260
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:270
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:247
+msgid "Please explain chief Complaint/Diagnosis"
+msgstr "請解釋主要的投訴/診斷"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:250
+#: lib/member_link_web/templates/search/search_doctor.html.eex:385
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:260
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:395
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:237
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:372
+msgid "Please select desired date of availment"
+msgstr "請選擇所需的使用日期"
+
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:177
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:201
+msgid "REQUEST"
+msgstr "請求"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:293
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:303
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:280
+msgid "Request"
+msgstr "請求"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:280
+#: lib/member_link_web/templates/search/search_doctor.html.eex:471
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:290
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:481
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:267
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:458
+msgid "Request Consultation"
+msgstr "請求諮詢"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:238
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:248
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:225
+msgid "Request Consultation LOA"
+msgstr "請求諮詢LOA"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:340
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:350
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:327
+msgid "Requesting Doctor"
+msgstr "請求醫生"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:162
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:152
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:150
+msgid "Reset"
+msgstr "重啟"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:409
+#: lib/member_link_web/templates/search/search_doctor.html.eex:423
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:419
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:433
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:396
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:410
+msgid "Scanned copy of Maxicare-accredited Doctor's complete prescription:"
+msgstr "Maxicare認證醫生的完整處方掃描件："
+
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:185
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:188
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:209
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:212
+msgid "Schedule"
+msgstr "時間表"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:486
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:496
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:473
+msgid "Search Filter"
+msgstr "搜索過濾器"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:94
+#: lib/member_link_web/templates/search/search_doctor.html.eex:490
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:94
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:500
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:94
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:477
+msgid "Showing"
+msgstr "顯示"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:148
+#: lib/member_link_web/templates/search/search_doctor.html.eex:515
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:144
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:525
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:142
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:502
+msgid "Specialization"
+msgstr "專業化"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:441
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:451
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:428
+msgid "Upload Front Side"
+msgstr "上傳正面"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:264
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:274
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:251
+msgid "Your Principal Contact Information"
+msgstr "您的主要聯繫信息"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:276
+#: lib/member_link_web/templates/search/search_doctor.html.eex:462
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:286
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:472
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:263
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:449
+msgid "conforme"
+msgstr "CONFORME"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:239
+#: lib/member_link_web/templates/search/search_doctor.html.eex:264
+#: lib/member_link_web/templates/search/search_doctor.html.eex:319
+#: lib/member_link_web/templates/search/search_doctor.html.eex:328
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:249
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:274
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:329
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:338
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:226
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:251
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:306
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:315
+msgid "edit"
+msgstr "編輯"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:276
+#: lib/member_link_web/templates/search/search_doctor.html.eex:462
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:286
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:472
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:263
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:449
+msgid "therein."
+msgstr "在其中。"
+
+#: lib/member_link_web/templates/session/verify_code_email.html.eex:20
+msgid "Please check your email and enter your verification code here."
+msgstr "請檢查您的電子郵件，並在這裡輸入您的驗證碼。"
+
+#: lib/member_link_web/templates/session/verify_code_email.html.eex:46
+#: lib/member_link_web/templates/session/verify_code_sms.html.eex:47
+msgid "Resend Code?"
+msgstr "重新發送驗證碼？"
+
+#: lib/member_link_web/templates/session/verify_code_email.html.eex:19
+msgid "Your verification code was sent to"
+msgstr "您的驗證碼已發送至"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:189
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:181
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:205
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:177
+msgid "%{status}"
+msgstr "附属"
+
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:188
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:212
+msgid "%{day}"
+msgstr "辰"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:196
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:184
+msgid "Get Direction"
+msgstr "得到指引"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:177
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:169
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:166
+msgid "No Results Found"
+msgstr "未找到结果"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:127
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:127
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:127
+msgid "Search Address"
+msgstr "搜索地址"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:152
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:148
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:146
+msgid "Select Specialization"
+msgstr "所有專業"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:116
+#: lib/member_link_web/templates/search/search_doctors_list.html.eex:112
+#: lib/member_link_web/templates/search/search_hospitals_list.html.eex:112
+msgid "search doctors or hospitals"
+msgstr "搜索医生或医院"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:110
+msgid "Doctor/Hospital Name"
+msgstr "医生/医院名称"
+
+#: lib/member_link_web/templates/user/account_verification.html.eex:56
+#: lib/member_link_web/templates/user/account_verification_failed.html.eex:54
+msgid "You can send a new code after 60 seconds"
+msgstr "您可以在60秒後發送新的代碼"
+
+#: lib/member_link_web/templates/search/search_doctor.html.eex:157
+msgid "Search"
+msgstr "搜索"

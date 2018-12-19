@@ -1,0 +1,7 @@
+<div class="pusher">
+  <div id="smart-health-container">
+    <iframe width="100%" height="100%" src="https://ssl.adam.com/content.aspx?productId=127&site=maxicare.adam.com&login=MAXI2719&cmd=create&UID=<%= @user.member_id %>"
+      id="smart-health-iframe">
+    </iframe>
+  </div>
+</div>

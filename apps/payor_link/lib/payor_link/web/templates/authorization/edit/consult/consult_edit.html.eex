@@ -1,0 +1,44 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Authorization</h2>
+  <div class="ui small breadcrumb">
+    <a href="/authorizations" class="section">Authorization</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/authorizations" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Authorization</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formValidateStep4Consult">
+        <div class="ui form segment">
+          <div class="ui ordered two steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">Edit Details</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "edit/consult/consult_edit_form.html",
+conn: @conn,
+changeset: @changeset,
+special_approval: @special_approval,
+diagnoses: @diagnoses,
+authorization: @authorization,
+practitioners: @practitioners,
+member: @member,
+authorization_files: @authorization_files,
+action: authorization_path(@conn, :edit_save, @authorization, step: "4") %>
+<%= render "edit/consult/consult_psf_modal.html", specializations: @specializations %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

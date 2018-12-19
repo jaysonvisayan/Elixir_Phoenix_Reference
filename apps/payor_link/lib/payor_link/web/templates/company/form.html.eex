@@ -1,0 +1,27 @@
+<div class="row" id="validate">
+  <div class="sixteen wide column">    
+    <%= form_for @changeset, @action, [as: :company, class: "ui form", id: "company_form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="two fields">
+        <div class="field">
+          <label>Company Code</label>
+          <%= text_input f, :code, placeholder: "Enter Company Code", autocomplete: "off" %>
+
+        </div>
+        <div class="field">
+          <label>Company Name</label>
+          <%= text_input f, :name, placeholder: "Enter Company Name", autocomplete: "off" %>
+ 
+        </div>
+      </div>
+
+      <div class="ui one column right aligned grid">
+        <div class="column sixteen wide">
+          <button class="ui green right floated button" type="submit" >
+            Complete
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

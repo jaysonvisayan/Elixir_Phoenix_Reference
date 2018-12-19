@@ -1,0 +1,109 @@
+<div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <%= render "breadcrumbs_new.html", user: @user, conn: @conn %>
+      <div class="ui stackable grid">
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="ui three steps form-step">
+                <div class=" step">
+                    <i class="user icon"></i>
+                    <div class="content">
+                        <div class="title">General</div>
+                        <div class="description">Your name, gender, etc.</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <i class="travel icon"></i>
+                    <div class="content">
+                        <div class="title">Roles</div>
+                        <div class="description">Permission to be applied</div>
+                    </div>
+                </div>
+                <div class="active step">
+                    <i class="file text outline icon"></i>
+                    <div class="content">
+                        <div class="title">Summary</div>
+                        <div class="description">Confirm your information</div>
+                    </div>
+                </div>     
+            </div>
+            <div class="ui header form-header">
+              <i class="user icon"></i>
+              <div class="content">
+                Summaryvv
+                <div class="sub header">Confirm your information</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+            <%= form_for @changeset, user_path(@conn, :update_setup, @user, step: "3"), [as: :user, class: "ui form"], fn _f -> %>
+            <div class="two fields">
+              <div class="field">
+                <label>Username</label>
+              </div>
+              <div class="field">
+                <%= @user.username %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <label>Roles</label>
+              </div>
+              <div class="field">
+                <%= display_user_roles(@user) %>
+              </div>
+            </div>
+            <h4 class="ui dividing header">Personal Details</h4>
+            <div class="two fields">
+              <div class="field">
+                <label>Full Name</label>
+              </div>
+              <div class="field">
+                <%= @user.first_name %> <%= @user.middle_name %> <%= @user.last_name %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <label>Gender</label>
+              </div>
+              <div class="field">
+                <%= @user.gender %>
+              </div>
+            </div>
+            <h4 class="ui dividing header">Contact Information</h4>
+            <div class="two fields">
+              <div class="field">
+                <label>Mobile Number</label>
+              </div>
+              <div class="field">
+                <%= @user.mobile %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <label>Email Address</label>
+              </div>
+              <div class="field">
+                <%= @user.email %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="user[dummy]" value="">
+        <div class="row">
+          <div class="eight wide computer sixteen wide tablet column">
+            <a href="/users" class="ui basic button">Cancel</a>
+          </div>
+          <div class="eight wide computer right aligned sixteen wide tablet column">
+            <a href="/users/<%= @user.id %>/setup?step=2" class="ui basic button">Back to Previous Step</a>
+            <button type="submit" class="ui primary button">Finish</button>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="ui large modal" id="psf_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Select Specialization
+  </div>
+  <div class="content">
+    <input type="hidden" id="f_id">
+    <div class="ui grid">
+      <div class="two wide column">
+      </div>
+      <div class="twelve wide column">
+        <div class="ui grid">
+          <%= for s <- @specializations do %>
+            <div class="five wide column">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="button">
+                  <label><%= s.name %></label>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="two wide column">
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+      <button class="ui primary button" type="button" id="filter_submit" >
+        <i class="filter icon"></i>
+        Apply
+      </button>
+    </div>
+</div>

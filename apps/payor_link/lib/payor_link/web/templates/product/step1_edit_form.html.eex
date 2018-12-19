@@ -1,0 +1,258 @@
+<%= form_for @changeset_general_edit, @action, [class: "form2", id: "general_form"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :name, "Plan Name", class: "control-label" %>
+      <%= text_input f, :name, class: "form-control" %>
+      <%= error_tag f, :name %>
+    </div>
+
+    <div class="field">
+      <%= label f, :description, "Plan Description", class: "control-label" %>
+      <%= text_input f, :description, class: "form-control" %>
+      <%= error_tag f, :description %>
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :type, "Plan Type", class: "control-label"  %>
+      <%= select f, :type, ["": "", "Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze", "Platinum Plus": "Platinum Plus"], class: "" %>
+      <%= error_tag f, :type %>
+    </div>
+
+    <div class="field">
+      <%= label f, :limit_amount, "Limit Amount", class: "control-label" %>
+      <%= text_input f, :limit_amount, class: "form-control", id: "product_limit_amt" %>
+      <%= error_tag f, :limit_amount %>
+    </div>
+  </div>
+
+  <!-- for refactor -->
+
+  <div class="ui grid">
+      <div class="eight wide column">
+        <div class="field">
+          <%= label f, :limit_applicability, "Limit Applicability", class: "control-label" %>
+          <%= error_tag f, :limit_applicability %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox seven wide column">
+              <%= radio_button f, :limit_applicability, "Principal", id: "laprincipal", class: "laprincipal" %>
+              <label for="laprincipal" class="">Principal</label>
+            </div>
+            <div class="eight wide column">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :limit_applicability, "Share with Dependents", id: "swd", class: "swd" %>
+                <label for="swd">Share with Dependents</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- shared limit amount -->
+        <%= case @product.limit_applicability do %>
+          <%= "Share with Dependents" -> %>
+            <div class="ui grid ">
+              <div class="eight wide column">
+
+              </div>
+              <div class="seven wide column ">
+                <div class="field" id="slaContainer">
+                  <%= label f, :shared_limit_amount, "Shared Limit Amount", class: "control-label" %>
+                  <%= text_input f, :shared_limit_amount, class: "form-control", disabled: false, id: "slaTxtBox" %>
+                  <%= error_tag f, :shared_limit_amount %>
+                </div>
+              </div>
+            </div>
+
+            <%= _ -> %>
+
+            <div class="ui grid ">
+              <div class="eight wide column">
+
+              </div>
+              <div class="seven wide column ">
+                <div class="field hidden" id="slaContainer">
+                  <%= label f, :shared_limit_amount, "Shared Limit Amount", class: "control-label" %>
+                  <%= text_input f, :shared_limit_amount, class: "form-control", disabled: true, id: "slaTxtBox" %>
+                  <%= error_tag f, :shared_limit_amount %>
+                </div>
+              </div>
+            </div>
+        <% end %>
+        <!-- shared limit amount -->
+
+        <div class="field">
+          <%= label f, :phic_status, "PHIC Status", class: "control-label" %>
+          <%= error_tag f, :phic_status %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox seven wide column">
+              <%= radio_button f, :phic_status, "Required to File", id: "rtftest", class: "" %>
+              <label for="rtftest" class="">Required to File</label>
+            </div>
+            <div class="ui radio checkbox eight wide column">
+              <%= radio_button f, :phic_status, "Optional to File", id: "otftest", class: "" %>
+              <label for="otftest">Optional to File</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="field">
+          <%= label f, :member_type, "Member Type", class: "control-label" %>
+          <%= error_tag f, :member_type %>
+
+          <%= case @product.member_type do %>
+            <%= ["Principal"] -> %>
+              <div class="inline field ui grid">
+                <div class="ui checkbox seven wide column">
+                  <input type="checkbox" class="" value="Principal" name="product[member_type][]" checked="" >
+                  <label for="principal" class="">Principal</label>
+                </div>
+                <div class="ui checkbox seven wide column">
+                  <input type="checkbox" class="" value="Dependent" name="product[member_type][]" >
+                  <label for="dependent" class="">Dependent</label>
+                </div>
+              </div>
+
+            <% ["Dependent"] -> %>
+                <div class="inline field ui grid">
+                  <div class="ui checkbox seven wide column">
+                    <input type="checkbox" class="" value="Principal" name="product[member_type][]" >
+                    <label for="principal" class="">Principal</label>
+                  </div>
+                  <div class="ui checkbox seven wide column">
+                    <input type="checkbox" class="" value="Dependent" name="product[member_type][]" checked="" >
+                    <label for="dependent" class="">Dependent</label>
+                  </div>
+                </div>
+
+            <% ["Principal", "Dependent"] -> %>
+              <div class="inline field ui grid">
+                <div class="ui checkbox seven wide column">
+                  <input type="checkbox" class="" value="Principal" name="product[member_type][]" checked="" >
+                  <label for="principal" class="">Principal</label>
+                </div>
+                <div class="ui checkbox seven wide column">
+                  <input type="checkbox" class="" value="Dependent" name="product[member_type][]" checked="" >
+                  <label for="dependent" class="">Dependent</label>
+                </div>
+              </div>
+
+            <% _ -> %>
+              <div class="inline field ui grid">
+                <div class="ui checkbox seven wide column">
+                  <input type="checkbox" class="" value="Principal" name="product[member_type][]" >
+                  <label for="principal" class="">Principal</label>
+                </div>
+                <div class="ui checkbox seven wide column">
+                  <input type="checkbox" class="" value="Dependent" name="product[member_type][]" >
+                  <label for="dependent" class="">Dependent</label>
+                </div>
+              </div>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div class="eight wide column">
+
+        <div class="field">
+          <%= label f, :limit_type, "Limit Type", class: "control-label" %>
+          <%= error_tag f, :limit_type %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox seven wide column">
+              <%= radio_button f, :limit_type, "ABL", id: "abl", class: "" %>
+              <label for="abl" class="">ABL</label>
+            </div>
+            <div class="ui radio checkbox eight wide column">
+              <%= radio_button f, :limit_type, "MBL", id: "mbl", class: "" %>
+              <label for="mbl">MBL</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= label f, :standard_product, "Plan Classification", class: "control-label" %>
+          <%= error_tag f, :standard_product %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox seven wide column">
+              <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+              <label for="abl" class="">Standard Plan</label>
+            </div>
+            <div class="ui radio checkbox eight wide column">
+              <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+              <label for="mbl">Custom Plan</label>
+            </div>
+          </div>
+        </div>
+
+        <%= if @product.product_category == "PEME Plan" do %>
+          <div class="field hidden">
+            <%= label f, :product_base, "Plan Base", class: "control-label" %>
+            <%= error_tag f, :product_base %>
+            <div class="inline field ui grid">
+              <div class="ui radio checkbox seven wide column pbase edit" >
+                <%= radio_button f, :product_base, "Exclusion-based", class: "eb", role: @product.product_base %>
+                <label for="eb" class="test1">Exclusion-based</label>
+              </div>
+              <div class="ui radio checkbox eight wide column pbase edit" productBase="BB">
+                <%= radio_button f, :product_base, "Benefit-based", class: "bb", role: @product.product_base %>
+                <label for="bb" class="test1">Benefit-based</label>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <div class="field">
+            <%= label f, :product_base, "Plan Base", class: "control-label" %>
+            <%= error_tag f, :product_base %>
+            <div class="inline field ui grid">
+              <div class="ui radio checkbox seven wide column pbase edit" >
+                <%= radio_button f, :product_base, "Exclusion-based", class: "eb eb_rb", role: @product.product_base %>
+                <label for="eb" class="test1">Exclusion-based</label>
+              </div>
+              <div class="ui radio checkbox eight wide column pbase edit" productBase="BB">
+                <%= radio_button f, :product_base, "Benefit-based", class: "bb", role: @product.product_base %>
+                <label for="bb" class="test1">Benefit-based</label>
+              </div>
+            </div>
+          </div>
+        <% end%>
+
+      </div>
+
+
+  </div>
+
+
+
+
+
+    <%=# raise @product.limit_applicability %>
+
+
+
+
+  <!-- ["Principal", "Dependent"] && ["Principal"] && ["Dependent"] -->
+
+
+
+
+
+<!-- for refactor -->
+
+<div class="ui middle aligned  right aligned grid mrg1T">
+  <div class="left floated left aligned six wide column">
+    <a href="#" class="ui negative button" id="delete_draft" productID="<%= @product.id %>">
+      <i class="trash left icon"></i>
+      Delete Draft
+    </a>
+  </div>
+  <div class="right floated right aligned six wide column">
+    <button type="submit" class="ui blue button">Next <i class="chevron right icon"></i></button>
+  </div>
+</div>
+
+<input type="hidden" id="product_benefit_highest" value="<%= pbl_highest(@product) %>" name="product[product_benefit_highest]">
+
+<% end %>

@@ -1,0 +1,127 @@
+<div name="Register" class="ui form mt-3">
+  <%= form_for @conn, user_path(@conn, :sign_up, @locale, @account_group), [as: :user, class: "ui form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="ui header"><%= gettext "Account Information Form" %></div>
+    <div class="sub header"><%= gettext "Please fill out the form to complete your sign-up process." %></div>
+    <hr>
+
+    <div class="two fields">
+      <div class="twelve wide field">
+        <p><%= gettext "Please enter your personal information." %></p>
+        <div class="field">
+          <label class="label-title"><%= gettext "Name" %></label>
+          <div class="fields">
+            <div class="five wide field">
+              <%= text_input f, :first_name, maxlength: 150, placeholder: gettext "First Name" %>
+            </div>
+            <div class="four wide field">
+              <%= text_input f, :middle_name, maxlength: 150, placeholder: gettext "Middle Name" %>
+            </div>
+            <div class="five wide field">
+              <%= text_input f, :last_name, maxlength: 150, placeholder: gettext "Last Name" %>
+            </div>
+            <div class="two wide field">
+              <%= text_input f, :ext, maxlength: 10, placeholder: gettext "Ext" %>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label-title"><%= gettext "Gender" %></label>
+          <div class="two fields">
+            <div class="field mobile-width">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :gender, "Male", checked: "true") %>
+                <label><%= gettext "Male" %> <i class="male icon large teal"></i></label>
+              </div>
+            </div>
+            <div class="field mobile-width">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :gender, "Female") %>
+                <label><%= gettext "Female" %> <i class="female icon large pink"></i></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label class="label-title"><%= gettext "Role" %></label>
+            <%= select f, :role, ["HR Admin": "hr_admin", "HR Processor": "hr_processor"], class: "ui flui dropdown", prompt: gettext "Please select role" %>
+          </div>
+        </div>
+
+        <p><%= gettext "Create a new username and password to continue." %></p>
+        <div class="two fields">
+          <div class="field">
+            <label class="label-title"><%= gettext "Username" %></label>
+            <%= text_input f, :username, maxlength: 24, placeholder: gettext "Enter your username" %>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label class="label-title"><%= gettext "Password" %></label>
+            <%= password_input f, :password, maxlength: 24, placeholder: gettext "Enter your password" %>
+          </div>
+          <div class="field">
+            <label class="label-title"><%= gettext "Confirm Password" %></label>
+            <%= password_input f, :confirm_password, placeholder: gettext "Confirm your password" %>
+          </div>
+        </div>
+
+        <p><%= gettext "Please enter your email address and phone number so that we can contact you." %></p>
+        <div class="two fields">
+          <div class="field">
+            <label class="label-title"><%= gettext "Email Address" %></label>
+            <%= text_input f, :email, value: @account_group.email, placeholder: gettext "Enter you email address" %>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label class="label-title"><%= gettext "Mobile Number" %></label>
+            <%= text_input f, :mobile, value: @account_group.phone_no, role: "mask", class: "mobile2", placeholder: gettext "Enter your mobile number" %>
+          </div>
+          <div class="field">
+            <label class="label-title"><%= gettext "Telephone Number" %></label>
+            <%= text_input f, :tel_no, role: "mask", class: "phone", placeholder: gettext "Enter your telephone number" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="four wide field">
+        <section>
+          <%= if is_nil(@account_group.photo) do %>
+            <img class="ui small circular image centered" src="/images/no-photo-available.png" id="photo">
+          <% else %>
+            <img class="ui small circular image centered" id="photo" src="<%= AccountLinkWeb.LayoutView.image_url_for(Innerpeace.ImageUploader, @account_group.photo, @account_group, :original)%>">
+          <% end %>
+          <%# <img class="ui small circular image centered" src="images/account-logo.png" alt=""> %>
+
+          <table class="full-width ui celled table">
+            <tbody class="center aligned">
+              <tr>
+                <td><b><%= @account_group.name %></b></td>
+              </tr>
+              <tr>
+                <td><b><%= @account_group.code %></b></td>
+              </tr>
+              <tr>
+                <td><%= address(@account_group.account_group_address) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+
+    <hr>
+
+    <div>
+      <button id="register" class="ui button" type="submit"><%= gettext "Register" %></button>
+    </div>
+  <% end %>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <div role="success">
+    <%= render "modal_success.html", account_group: @account_group, locale: @locale %>
+  </div>
+<% end %>

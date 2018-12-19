@@ -1,0 +1,545 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container ">
+      <div class="ui right floated header">
+        <button class="ui primary button " id="btnCreateBatch">Create Batch</button>
+      </div>
+      <h1 class="ui left floated header">
+        Batch List
+        <div class="sub header">Dashboard</div>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="ui container" id="batch_index">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide computer column">
+        <div class="section">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <table id="batch_table" role="datatable" class="full-width ui celled striped table" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Batch No.</th>
+                  <th>Facility</th>
+                  <th>Batch Type</th>
+                  <th>Coverage</th>
+                  <th>Assigned to</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Created By</th>
+                  <th class="center aligned">Aging</th>
+                  <th>PPD</th>
+                  <th>Log</th>
+                  <th>Action</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for batch <- @batch_processing do %>
+                  <tr>
+                    <td>
+                      <a href="/batch_processing/<%= batch.id %>">
+                        <%= batch.batch_no %>
+                      </a>
+                    </td>
+                    <td><%= batch.facility.name %></td>
+                    <td><%= batch.type %></td>
+                    <td><%= batch.coverage %></td>
+                    <td>Not Implemented</td>
+                    <td>
+                      <%= cond do %>
+                        <%= batch.status == "Submitted" -> %>
+                          <p><i class="green floated circle icon"></i><font color="green"> Submitted</font></p>
+                        <%= batch.status == "OTP Verified" -> %>
+                          <p><i class="green floated circle icon"></i><font color="green"> OTP Verified</font></p>
+                        <%= batch.status == "Draft" -> %>
+                          <p><i class="orange floated circle icon"></i><font color="orange"> Draft</font></p>
+                        <%= true -> %>
+                          <p><i class="yellow floated circle icon"></i><font color="#FBB117"> Processing</font></p>
+                      <%= end %>
+                    </td>
+                    <td class="convert_date"><%= batch.inserted_at %></td>
+                    <td><%= if !is_nil(batch.created_by), do: batch.created_by.username %></td>
+                    <td class="center aligned <%= aging_checker(batch.status) %>"><%= if is_nil(batch.status), do: batch.inserted_at %></td>
+                    <td></td>
+                    <td class="table-icon--holder">
+                      <div class="ui dropdown">
+                        <i class="icon-history icon"></i>
+                        <div class="menu">
+                          <div class="item">v.3.0</div>
+                          <div class="item">v.2.9.1</div>
+                          <div class="item">v.2.9</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="ui inverted green pointing dropdown button <%= is_disabled(batch.status)%>" id="add_loa_<%= batch.id %>">
+                        <i class="icon add"></i>
+                        Add LOA
+                        <div class="menu">
+                          <div class="item" id="scan_loa" batch_id="<%= batch.id %>">
+                            QR Coded
+                          </div>
+                          <div class="item clickable-row btnAddLOA" href="#" batch_id="<%= batch.id %>">
+                            Non-QR Coded
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="table-icon--holder">
+                      <div class="ui icon top right floated pointing dropdown">
+                        <i class="primary medium ellipsis vertical icon"></i>
+                        <div class="left menu transition hidden">
+                          <div class="item clickable-row <%= is_disabled(batch.status)%>" href="/batch_processing/<%= batch.id %>/<%= String.downcase("#{batch.type}") %>_batch/" id="edit_batch_<%= batch.id %>">
+                            Edit Batch
+                          </div>
+                          <div class="item clickable-row openSCM <%= is_disabled(batch.status)%>" href="#!" batchId="<%= batch.id %>" id="submit_<%= batch.id %>">
+                            Submit
+                          </div>
+                          <div class="item">
+                            Reopen
+                          </div>
+                          <div class="item">
+                            Finalized
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="11">
+                    <div class="ui center aligned">
+                      <a href="#" id="batch_download_button" class="pointer">
+                        <i class="download icon"></i><b>Download Result</b>
+                      </a>
+                    </div>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div><!-- grid ends here -->
+  </div><!-- container ends here -->
+
+  <div class="ui small modal" id="showModal" connVal="<%= Enum.join(@conn.private.plug_session["permissions"], ",") %>">
+    <i class="close icon"></i>
+    <div class="header">
+      Choose type of Batch to create
+      <div class="description">Please select the type of batch you would like to add</div>
+    </div>
+    <div class="content">
+      <div class="selection-label">TYPE OF BATCH </div>
+      <div class="ui grid">
+        <div class="eight wide column">
+          <button class="left floated fluid ui inverted grey button modal_large_buttons" type="button" id="hb_batch_button" value="HB">
+            <h2 class="ui icon header">
+              <i class="hospital icon"></i>
+              <div class="content"> Hospital Bill </div>
+              <br>
+            </h2>
+          </button>
+        </div>
+        <div class="eight wide column">
+          <button class="left floated fluid ui inverted grey button modal_large_buttons" type="button" id="pf_batch_button" value="PF">
+            <h2 class="ui icon header">
+              <i class="doctor icon"></i>
+              <div class="content"> Practitioner </div>
+              <br>
+            </h2>
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="sixteen wide column" >
+        <button type="button" class="fluid ui primary button" id="select_batch_button">
+          Proceed
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="ui large modal" id="showLOAModal">
+    <i class="close icon"></i>
+    <div class="header">
+      List of LOA
+    </div>
+    <div class="content">
+      <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column" id="div_consult">
+        <table id="batch_table2" name="batch_table2" role="datatable" class="full-width ui celled striped table" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th>LOA No.</th>
+              <th>Patient Name</th>
+              <th>Card No</th>
+              <th>Coverage</th>
+              <th>Admission Date</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small modal" id="submitConfirmationModal">
+    <i class="close icon"></i>
+    <div class="header">
+      Submit Batch
+      <div class="description">Do you want to submit this batch?</div>
+    </div>
+    <div class="content">
+      <input type="hidden" id="SCM_batch_id">
+      <input type="hidden" value="<%= Plug.CSRFProtection.get_csrf_token() %>" id="csrf">
+      <div class="ui grid">
+        <div class="sixteen wide column" >
+          <button type="button" class="ui basic right floated button" id="submitConfirmationNo">
+            <i class="close icon"></i>
+            No
+          </button>
+          <button type="button" class="ui primary right floated button" id="submitConfirmationYes">
+            <i class="check icon"></i>
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small modal" id="modal_scan">
+    <i class="close icon"></i>
+    <div class="header">
+      Scan LOA
+    </div>
+    <div class="content">
+      <div class="ui grid">
+        <div class="thirteen wide column">
+          <select id="source" class="ui selection fluid dropdown"></select>
+        </div>
+        <div class="three wide column">
+          <input type="button" value="Scan" class="ui primary fluid button" onclick="AcquireImage();" />
+        </div>
+        <input type="hidden" id="batch_id">
+      </div>
+      <br />
+      <div style="display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;">
+        <div style="width: 350px" id="dwtcontrolContainer"></div>
+      </div>
+      <br />
+      <div style="text-align: center">
+        <div class="ui compact icon menu" style="max-height: 1rem">
+          <a onclick="btnFirstImage_onclick()" class="item">
+            <i class='step backward icon'></i>
+          </a>
+          <a onclick="btnPreImage_onclick()" class="item">
+            <i class='chevron left icon'></i>
+          </a>
+          <div style="font-size: 1.8rem;border: 1px solid rgba(34, 36, 38, 0.15)">
+            &nbsp;&nbsp;
+            <span id="DW_CurrentImage" style="text-align: right">0</span>
+            <span>/</span>
+            <span id="DW_TotalImage">0</span>
+            &nbsp;&nbsp;
+          </div>
+          <a onclick="btnNextImage_onclick()" class="item">
+            <i class='chevron right icon'></i>
+          </a>
+          <a onclick="btnLastImage_onclick()" class="item">
+            <i class='step forward icon'></i>
+          </a>
+        </div>
+        <br /><br />
+        Preview Mode:
+        <select id="DW_PreviewMode" class="ui dropdown" onchange="setlPreviewMode();">
+          <option value="0">1X1</option>
+          <option value="1">2X2</option>
+          <option value="2">3X3</option>
+          <option value="3">4X4</option>
+          <option value="4">5X5</option>
+        </select>
+        <br />
+      </div>
+      <br/>
+      <div class="ui fluid buttons">
+        <button onclick="btnRemoveSelectedImages_onclick()" class="ui button">Remove Selected Images</button>
+        <button onclick="btnRemoveAllImages_onclick()" class="ui button">Remove All Images</button>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">Cancel</div>
+      <div class="ui primary approve button" onclick="UploadImage();">Save</div>
+    </div>
+  </div>
+
+  <!-- Dynamic Twain -->
+  <script src="<%= static_path(@conn, "/resources/dynamsoft.webtwain.initiate.js") %>"></script>
+  <script src="<%= static_path(@conn, "/resources/dynamsoft.webtwain.config.js") %>"></script>
+  <script type="text/javascript">
+    Dynamsoft.WebTwainEnv.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady);
+    var DWObject;
+
+    function Dynamsoft_OnReady() {
+      DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer');
+      if (DWObject) {
+        var twainsource = document.getElementById("source");
+        var count = DWObject.SourceCount;
+        if (count == 0) {
+          twainsource.options.length = 0;
+          twainsource.options.add(new Option("Looking for devices. Please wait.", 0));
+        }
+        else {
+          for (var i = 0; i < count; i++) {
+            twainsource.options.add(new Option(DWObject.GetSourceNameItems(i), i));
+          }
+        }
+
+        // The event OnPostTransfer fires after each image is scanned and transferred
+        DWObject.RegisterEvent("OnPostTransfer", function () {
+          updatePageInfo();
+        });
+
+        // The event OnPostLoad fires after the images from a local directory have been loaded into the control
+        DWObject.RegisterEvent("OnPostLoad", function () {
+          updatePageInfo();
+        });
+
+        // The event OnMouseClick fires when the mouse clicks on an image on Dynamic Web TWAIN viewer
+        DWObject.RegisterEvent("OnMouseClick", function () {
+          updatePageInfo();
+        });
+
+        // The event OnTopImageInTheViewChanged fires when the top image currently displayed in the viewer changes
+        DWObject.RegisterEvent("OnTopImageInTheViewChanged", function (index) {
+          DWObject.CurrentImageIndexInBuffer = index;
+          updatePageInfo();
+        });
+      }
+    }
+
+    function AcquireImage() {
+      if (DWObject) {
+        var OnAcquireImageSuccess, OnAcquireImageFailure;
+        OnAcquireImageSuccess = OnAcquireImageFailure = function () {
+          DWObject.CloseSource();
+        };
+
+        DWObject.SelectSourceByIndex(document.getElementById("source").selectedIndex);
+        DWObject.OpenSource();
+
+        if (DWObject.ErrorCode != 0) {
+          alert(DWObject.ErrorString);
+        }
+        else {
+          // DWObject.PixelType = EnumDWT_PixelType.TWPT_RGB;
+          DWObject.IfFeederEnabled = true;
+
+          if (DWObject.IfFeederEnabled == true) {
+            if (DWObject.IfPaperDetectable != true) {
+              DWObject.IfAutoFeed = true;
+              DWObject.IfDisableSourceAfterAcquire = true;
+              DWObject.XferCount = -1;
+              DWObject.AcquireImage();
+            }
+            else {
+              if (DWObject.IfFeederLoaded == true) {
+
+                DWObject.IfAutoFeed = true;
+                DWObject.IfDisableSourceAfterAcquire = true;
+                DWObject.XferCount = -1;
+                DWObject.AcquireImage();
+
+
+              }
+              else {
+                alert("There is no paper loaded in ADF.");
+                DWObject.CloseSource();
+              }
+            }
+          }
+          else {
+            DWObject.IfAutoFeed = true;
+            DWObject.IfDisableSourceAfterAcquire = true;
+            DWObject.XferCount = -1;
+            DWObject.AcquireImage();
+          }
+        }
+      }
+    }
+
+    function btnPreImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer > 0) {
+          DWObject.CurrentImageIndexInBuffer = DWObject.CurrentImageIndexInBuffer - 1;
+          updatePageInfo();
+        }
+      }
+    }
+
+    function btnNextImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer > 0) {
+          DWObject.CurrentImageIndexInBuffer = DWObject.CurrentImageIndexInBuffer + 1;
+          updatePageInfo();
+        }
+      }
+    }
+
+    function btnFirstImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer != 0 &&
+            DWObject.CurrentImageIndexInBuffer != 0) {
+          DWObject.CurrentImageIndexInBuffer = 0;
+        updatePageInfo();
+        }
+      }
+    }
+
+    function btnLastImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer > 0) {
+          DWObject.CurrentImageIndexInBuffer = DWObject.HowManyImagesInBuffer - 1;
+          updatePageInfo();
+        }
+      }
+    }
+
+    function setlPreviewMode() {
+      if (DWObject) {
+        var o = parseInt(document.getElementById("DW_PreviewMode").selectedIndex + 1);
+        DWObject.SetViewMode(o, o);
+      }
+    }
+
+    function btnRemoveSelectedImages_onclick() {
+      if (DWObject) {
+        DWObject.RemoveAllSelectedImages();
+        if (DWObject.HowManyImagesInBuffer == 0) {
+          document.getElementById("DW_CurrentImage").innerHTML = "0";
+          document.getElementById("DW_TotalImage").innerHTML = "0";
+        }
+        else {
+          updatePageInfo();
+        }
+      }
+    }
+
+    function btnRemoveAllImages_onclick() {
+      if (DWObject) {
+        DWObject.RemoveAllImages();
+        document.getElementById("DW_TotalImage").innerHTML = "0";
+        document.getElementById("DW_CurrentImage").innerHTML = "0";
+      }
+    }
+
+    function updatePageInfo() {
+      if (DWObject) {
+        document.getElementById("DW_TotalImage").innerHTML = DWObject.HowManyImagesInBuffer;
+        document.getElementById("DW_CurrentImage").innerHTML
+        = DWObject.CurrentImageIndexInBuffer + 1;
+      }
+    }
+
+    function SaveImage() {
+      if (DWObject) {
+        DWObject.IfShowFileDialog = true;
+        DWObject.SaveAllAsMultiPageTIFF("DynamicWebTWAIN.tiff", OnSuccess, OnFailure);
+      }
+    }
+
+    function OnSuccess() {
+      console.log('successful');
+    }
+
+    function OnFailure(errorCode, errorString) {
+      alert(errorString);
+    }
+
+    function UploadImage() {
+      const csrf = $('input[name="_csrf_token"]').val();
+
+      if (DWObject) {
+        // If no image in buffer, return the function
+        if (DWObject.HowManyImagesInBuffer == 0) {
+          alertify.error('<i class="close icon"></i>Please scan documents first.');
+        }
+        else {
+          let batch_id = $('#batch_id').val()
+          $('#batch_id').val(batch_id)
+          let user_id = $('#user_id').val()
+
+          var strHTTPServer = location.hostname;
+          var CurrentPathName = unescape(location.pathname);
+          var CurrentPath = CurrentPathName.substring(0, CurrentPathName.lastIndexOf("/") + 1);
+          var strActionPage = "api/save_scan_loa/" + batch_id;
+
+          DWObject.IfSSL = Dynamsoft.Lib.detect.ssl;
+          var _strPort = location.port == "" ? 80 : location.port;
+          if (Dynamsoft.Lib.detect.ssl == true)
+            _strPort = location.port == "" ? 443 : location.port;
+          DWObject.HTTPPort = _strPort;
+
+          var Digital = new Date();
+          var uploadfilename = Digital.getMilliseconds();
+          var loa_number = ""
+          var error = 0
+
+          for (i = 0; i < DWObject.HowManyImagesInBuffer; i++) {
+            DWObject.ClearAllHTTPFormField();
+            DWObject.SetHTTPFormField("user_id", user_id);
+            DWObject.SetHTTPFormField("loa_number", loa_number);
+
+            DWObject.ConvertToGrayScale(i);
+            DWObject.HTTPUploadThroughPost(
+              strHTTPServer, i, strActionPage,
+              uploadfilename + "_" + i + ".jpg"
+            );
+
+            let response = JSON.parse(DWObject.HTTPPostResponseString);
+            if (response.message == "error") {
+              error = error + 1
+              alertify.error('<i class="close icon"></i>' + response.description)
+              break;
+            }
+            else if (response.message == "success") {
+              loa_number = response.loa_number
+            }
+          };
+
+          if (error == 0) {
+            window.location.replace(`/batch_processing/${batch_id}`);
+            alertify.success('<i class="close icon"></i>Successfully Added LOA!')
+          }
+        }
+      }
+    }
+  </script>
+  <!-- End of Dynamic Twain -->
+
+  <%= if assigns[:modal_open] do %>
+    <input type="hidden" id="open_modal_batch_index">
+  <% end %>
+  <%= if assigns[:batch_id] do %>
+    <input type="hidden" id="batch_id_val" value="<%= assigns[:batch_id] %>">
+  <% end %>
+  <%= if assigns.current_user do %>
+    <input type="hidden" id="user_id" value="<%= assigns.current_user.id %>">
+  <% end %>

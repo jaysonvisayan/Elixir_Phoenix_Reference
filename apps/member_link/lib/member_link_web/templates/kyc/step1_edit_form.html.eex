@@ -1,0 +1,178 @@
+<div class="row" id="kycStep1" >
+  <div class="eleven wide column">
+    <%= form_for @changeset, @action, [as: :kyc, class: "ui form", id: "step1_form", multipart: :true], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <p>Please enter your personal background information</p>
+      <div class="two fields">
+          <div class="field">
+            <label>Country of Birth</label>
+            <%= select f, :country_of_birth, @countries, class: "ui fluid dropdown", prompt: "Select Country of Birth" %>
+            <p style="color:red"><%= error_tag f, :country_of_birth %></p>
+          </div>
+          <div class="field">
+            <label>City of Birth</label>
+            <%= text_input f, :city_of_birth, class: "form-control", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :city_of_birth %></p>
+          </div>
+      </div>
+      <div class="two fields">
+          <div class="field">
+            <label>Citizenship</label>
+            <%= text_input f, :citizenship, class: "form-control", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :citizenship %></p>
+          </div>
+          <div class="field">
+            <label>Civil Status</label>
+            <%= select f, :civil_status, ["Single": "Single", "Married": "Married", "Single Parent": "Single Parent"], class: "ui fluid dropdown", required: "" %>
+            <p style="color:red"><%= error_tag f, :civil_status %></p>
+          </div>
+      </div>
+
+      <div class="three fields">
+          <div class="field">
+              <label>Mother's Maiden Name </label>
+            <%= text_input f, :mm_first_name, class: "form-control", placeholder: "First Name", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :mm_first_name %></p>
+          </div>
+          <div class="field">
+            <label style="color: #fff;">.</label>
+            <%= text_input f, :mm_middle_name, class: "form-control", placeholder: "Middle Name", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :mm_middle_name %></p>
+          </div>
+          <div class="field">
+            <label style="color: #fff;">.</label>
+            <%= text_input f, :mm_last_name, class: "form-control", placeholder: "Last Name", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :mm_last_name %></p>
+          </div>
+      </div>
+      <label>Please enter your education and work information <br><br></label>
+
+      <div class="one field">
+        <div class="field">
+          <label>Educational Attainment </label>
+            <%= select f, :educational_attainment, ["Elementary graduate", "High school graduate", "Bachelor's degree", "Masteral degree", "Professional degree", "Doctoral degree"], class: "ui dropdown", prompt: "Select Educational Attainment" %>
+            <p style="color:red"><%= error_tag f, :educational_attainment %></p>
+        </div>
+      </div>
+
+      <div class="two fields">
+          <div class="field">
+            <label>Company</label>
+            <%= text_input f, :company_name, class: "form-control account-name", value: @member.account_group.name %>
+            <p style="color:red"><%= error_tag f, :company_name %></p>
+          </div>
+          <div class="field">
+            <label>Company Branch</label>
+            <%= text_input f, :company_branch, class: "form-control", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :company_branch %></p>
+          </div>
+      </div>
+
+      <div class="two fields">
+          <div class="field">
+            <label>Position Title</label>
+            <%= text_input f, :position_title, class: "form-control", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :position_title %></p>
+          </div>
+          <%# <div class="field"> %>
+          <%#   <label>Occupation</label> %>
+          <%#   <%= text_input f, :occupation, class: "form-control" %1> %>
+          <%#   <p style="color:red"><%= error_tag f, :occupation %1></p> %>
+          <%# </div> %>
+        <div class="field">
+          <label>Occupation</label>
+          <%= select f, :occupation, kyc_occupations(@dropdowns), class: "ui dropdown", prompt: "Select Occupation" %>
+          <p style="color:red"><%= error_tag f, :occupation %></p>
+        </div>
+
+      </div>
+
+      <div class="two fields">
+          <div class="field">
+            <label>Nature of work</label>
+            <%= text_input f, :nature_of_work, class: "form-control", maxlength: "150" %>
+            <p style="color:red"><%= error_tag f, :nature_of_work %></p>
+          </div>
+
+          <div class="equal width fields">
+            <div class="field">
+              <label>Source of Fund</label>
+              <%= select f, :source_of_fund, ["Income": "Income", "Others": "Others"], class: "ui fluid dropdown", required: "", id: "sourceOfFund" %>
+              <p style="color:red"><%= error_tag f, :source_of_fund %></p>
+            </div>
+            <div class="field" id="sof_container">
+              <label style="color: #fff ;">.</label>
+              <%= text_input f, :others, class: "form-control", id: "sofOthers", disabled: if @kyc.source_of_fund == "Others", do: false, else: true  %>
+              <p style="color:red"><%= error_tag f, :others %></p>
+            </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="five wide column">
+  <br>
+  <br>
+
+<div class="ui card">
+  <div class="image">
+    <img id="photo" src="<%= get_img_url(@member) %>">
+  </div>
+  <div class="content">
+    <a class="header"><%= @member.first_name %>  <%= @member.middle_name %> <%= @member.last_name %> </a>
+    <div class="meta">
+      <span class="date"><%= @member.account_group.name %> </span> <br>
+      <span class="date"><%= @member.account_group.branch %> </span>
+    </div>
+    <div class="description">
+      Card #: <%= @member.card_no %>
+    </div>
+    <div class="description">
+      Birthday: <%= @member.birthdate %>
+    </div>
+    <div class="description">
+      Gender: <%= @member.gender %>
+    </div>
+    <br>
+  </div>
+  <div class="extra content">
+    <center>
+    <a>Is this information not correct?</a>
+    </center>
+  </div>
+</div>
+
+
+  </div>
+
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+    <a id="skipDeleteKYC" class="skip_text" style="cursor: pointer;"><b>Skip this for now</b></a>
+  </div>
+  <div class="eight wide column">
+  </div>
+</div>
+
+<div class="row">
+  <div class="eight wide column">
+  </div>
+  <div class="eight wide right aligned column">
+    <%= if filter_skip(@kyc) == false do %>
+      <a href="/<%= @locale %>/kyc/<%= @kyc.id %>/setup?step=2">Skip this step for now</a>
+    <% end %>
+    <%# <a data-csrf="<%= Plug.CSRFProtection.get_csrf_token() %1>" data-method="post" data-to="<%= kyc_path(@conn, :update_setup, @locale, @kyc, step: "1") %1>">Skip this step for now</a> %>
+  </div>
+</div>
+
+<% end %>
+<input type="hidden" id="kycID" value="<%= @kyc.id %>">
+
+<br><br><br><br><br>

@@ -1,0 +1,54 @@
+<div class="ui large modal" id="add_asm">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Members
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, acu_schedule_path(@conn, :update_multiple_asm_status), [as: :asm, class: "form3", id: "asm_form"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" name="asm[asm_ids]">
+    <table id="acu_schedule_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="checkAllacu"</th>
+          <th>Card No</th>
+          <th>Full Name</th>
+          <th>Gender</th>
+          <th>Birthdate</th>
+          <th>Age</th>
+          <th>Package Code</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td></td> 
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <a href="#" class="ui deny basic button">
+        Cancel
+      </a>
+      <button class="ui blue button" type="submit" id="asm_submit_button">
+        Add
+      </button>
+    </div>
+  </div>
+  <input type="hidden" name="asm[as_id]" value="<%= @acu_schedule_id %>" id="as_id"/>
+  <div id="overlay3" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div> <p></p>
+  <% end %>
+</div>

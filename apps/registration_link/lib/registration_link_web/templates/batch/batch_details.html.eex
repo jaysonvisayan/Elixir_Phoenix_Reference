@@ -1,0 +1,432 @@
+<div class="main-wrapper">
+  <div class="page-title">
+    <div class="ui clearing segment">
+      <div class="ui container ">
+        <div class="ui right floated header">
+          <a href="/batch_processing" class="ui primary button"> Add New LOA</a>
+        </div>
+        <h1 class="ui left floated header">
+          Batch <%= @batch.batch_no %><
+          <div class="sub header small"><a href="/batch_processing" class="mr-1">Dashboard </a> <span class="rt-arrow mr-1">›</span><%= @batch.batch_no %></div>
+        </h1>
+      </div>
+    </div><!-- .ui.clearing.segment -->
+  </div><!-- .page-title -->
+
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="row">
+        <div class="sixteen wide computer column">
+          <div class="section">
+            <div class="ui grid">
+              <div class="row">
+                <div class="eleven wide computer eleven wide tablet sixteen wide mobile column">
+                  <div class="ui segment">
+                    <div class="content">
+                      <div class="header"> <h2><%= @batch.batch_no %></h2> </div>
+                      <div class="ui relaxed grid">
+                        <div class="four column row">
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Batch Type</label>
+                              <div class="info__content"><%= @batch.type %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Coverage</label>
+                              <div class="info__content"><%= @batch.coverage %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Facility</label>
+                              <div class="info__content"><%= @batch.facility.name %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Practitioner</label>
+                              <div class="info__content"><%= display_practitioner_name(@batch) %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">ESt. Claim Count</label>
+                              <div class="info__content"><%= @batch.estimate_no_of_claims %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Claim Count</label>
+                              <div class="info__content">25</div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Count Status</label>
+                              <div class="info__content">Incomplete</div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Amount Balance</label>
+                              <div class="info__content"><span class="green">Balanced</span></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">SOA Reference No.</label>
+                              <div class="info__content"><%= @batch.soa_ref_no %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">SOA Amount</label>
+                              <div class="info__content"><%= @batch.soa_amount %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Edited SOA Amount</label>
+                              <div class="info__content">2500</div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Total Amount per Claim</label>
+                              <div class="info__content">2500</div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Date Created</label>
+                              <div class="info__content"><%= @batch.inserted_at |> DateTime.to_date() %></div>
+                            </div>
+                          </div>
+
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Date Recieved</label>
+                              <div class="info__content"><%= @batch.date_received %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Batch Status</label>
+                              <div class="info__content"><%= @batch.status %></div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="info">
+                              <label class="dim info__title">Created by</label>
+                              <div class="info__content"><%= display_created_by(@batch) %></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="five wide computer five wide tablet sixteen wide mobile column">
+                  <div class="ui segment">
+                    <div class="content">
+                      <div class="header text-center"><h3>Batch Summary</h3></div>
+                      <table class="ui very basic collapsing celled table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th><small>Count</small></th>
+                            <th><small>Amount</small></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Est. LOAs </td>
+                            <td class="text-center"><span><%= @batch.estimate_no_of_claims %></span></td>
+                            <td class="text-center"> <span><%= @batch.soa_amount %></span></td>
+                          </tr>
+                          <tr>
+                            <td>Actual Processed</td>
+                            <td class="text-center">1</td>
+                            <td class="text-center">0</td>
+                          </tr>
+                          <tr>
+                            <td>Actual For Processing</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">0</td>
+                          </tr>
+                          <tr>
+                            <td>Actual RTP</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">0</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td>Total Actual</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center">0</td>
+                          </tr>
+                          <tr>
+                            <td>Variance</td>
+                            <td class="text-center"><%= @batch.estimate_no_of_claims %></td>
+                            <td class="text-center"><%= @batch.soa_amount %></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- .row -->
+            </div><!-- .ui.grid -->
+          </div><!-- .section -->
+
+        </div>
+        <!-- . -->
+          
+      </div><!-- row ends here -->
+    </div><!-- grid ends here -->
+  </div><!-- container ends here -->
+
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="row">
+        <div class="sixteen wide computer column">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <table role="datatable" class="ui very basic striped selectable table">
+                          <thead>
+                            <tr>
+                              <th>LOA No.</th>
+                              <th>Reference No.</th>
+                              <th>Member Information</th>
+                              <th>Coverage</th>
+                              <th>Policy Number</th>
+                              <th>Amount</th>
+                              <th>Admission Date</th>
+                              <th>Discharged Date</th>
+                              <th>RTP</th>
+                              <th width="2%"></th>
+                            </tr>
+                          </thead>
+                          <tbody class="padded-rows menued-rows">
+                            <tr>
+                              <td><a href="#!">2012434321</a></td>
+                              <td>123123</td>
+                              <td>
+                                <b>Kylle Nicole Red</b><br>
+                                Card no.: #664539940390
+                              </td>
+                              <td>Outpatient</td>
+                              <td>P00</td>
+                              <td>₱ 180.00</td>
+                              <td>27 Nov, 2017</td>
+                              <td>27 Nov, 2017</td>
+                              <td>Yes</td>
+                              <td>
+                                <div class="ui simple basic dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <div class="item clickable-row">
+                                      Sample 1
+                                    </div>
+                                    <div class="item clickable-row">
+                                      Sample 2
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="#!">2012434321</a></td>
+                              <td>123123</td>
+                              <td>
+                                <b>Kylle Nicole Red</b><br>
+                                Card no.: #664539940390
+                              </td>
+                              <td>Outpatient</td>
+                              <td>P00</td>
+                              <td>₱ 180.00</td>
+                              <td>27 Nov, 2017</td>
+                              <td>27 Nov, 2017</td>
+                              <td>Yes</td>
+                              <td>
+                                <div class="ui simple basic dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <div class="item clickable-row">
+                                      Sample 1
+                                    </div>
+                                    <div class="item clickable-row">
+                                      Sample 2
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="#!">2012434321</a></td>
+                              <td>123123</td>
+                              <td>
+                                <b>Kylle Nicole Red</b><br>
+                                Card no.: #664539940390
+                              </td>
+                              <td>Outpatient</td>
+                              <td>P00</td>
+                              <td>₱ 180.00</td>
+                              <td>27 Nov, 2017</td>
+                              <td>27 Nov, 2017</td>
+                              <td>Yes</td>
+                              <td>
+                                <div class="ui simple basic dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <div class="item clickable-row">
+                                      Sample 1
+                                    </div>
+                                    <div class="item clickable-row">
+                                      Sample 2
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="#!">2012434321</a></td>
+                              <td>123123</td>
+                              <td>
+                                <b>Kylle Nicole Red</b><br>
+                                Card no.: #664539940390
+                              </td>
+                              <td>Outpatient</td>
+                              <td>P00</td>
+                              <td>₱ 180.00</td>
+                              <td>27 Nov, 2017</td>
+                              <td>27 Nov, 2017</td>
+                              <td>Yes</td>
+                              <td>
+                                <div class="ui simple basic dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <div class="item clickable-row">
+                                      Sample 1
+                                    </div>
+                                    <div class="item clickable-row">
+                                      Sample 2
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="#!">2012434321</a></td>
+                              <td>123123</td>
+                              <td>
+                                <b>Kylle Nicole Red</b><br>
+                                Card no.: #664539940390
+                              </td>
+                              <td>Outpatient</td>
+                              <td>P00</td>
+                              <td>₱ 180.00</td>
+                              <td>27 Nov, 2017</td>
+                              <td>27 Nov, 2017</td>
+                              <td>Yes</td>
+                              <td>
+                                <div class="ui simple basic dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <div class="item clickable-row">
+                                      Sample 1
+                                    </div>
+                                    <div class="item clickable-row">
+                                      Sample 2
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><a href="#!">2012434321</a></td>
+                              <td>123123</td>
+                              <td>
+                                <b>Kylle Nicole Red</b><br>
+                                Card no.: #664539940390
+                              </td>
+                              <td>Outpatient</td>
+                              <td>P00</td>
+                              <td>₱ 180.00</td>
+                              <td>27 Nov, 2017</td>
+                              <td>27 Nov, 2017</td>
+                              <td>Yes</td>
+                              <td>
+                                <div class="ui simple basic dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <div class="item clickable-row">
+                                      Sample 1
+                                    </div>
+                                    <div class="item clickable-row">
+                                      Sample 2
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+          </div>
+        </div>
+      </div><!-- row ends here -->
+    </div><!-- grid ends here -->
+  </div><!-- container ends here -->
+
+    <div class="ui container">
+    <div class="ui grid">
+      <div class="row">
+        <div class="sixteen wide computer column">
+          <div class="comments-section mt-1">
+
+            <div class="ui segment">
+              <div class="ui form">
+               <div class="field">
+                  <label>Add Comment</label>
+                  <textarea rows="2"></textarea>
+                </div>
+                <button class="ui primary basic button">Post</button>
+            </div>
+            
+            <div class="title mt-2">Recent Comments</div>
+            
+            <div class="comment mt-2">
+              <div class="ui relaxed divided list">
+                <div class="item">
+                  <div class="mt-1 mb-1">Adding for outpatient coverage</div>
+                  <i class="large github middle aligned icon"></i>
+                  <div class="content">
+                    <a class="header">Zack Hose</a>
+                    <div class="description">10 mins ago</div>
+                  </div>
+                </div>
+
+                <div class="item">
+                  <div class="mt-1 mb-1">Adding for outpatient coverage</div>
+                  <i class="large github middle aligned icon"></i>
+                  <div class="content">
+                    <a class="header">Zack Hose</a>
+                    <div class="description">10 mins ago</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- row ends here -->
+    </div><!-- grid ends here -->
+  </div><!-- container ends here -->
+
+</div><!-- .main-container -->

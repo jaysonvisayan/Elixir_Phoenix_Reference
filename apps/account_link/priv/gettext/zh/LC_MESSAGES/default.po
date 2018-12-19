@@ -1,0 +1,2054 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: zh\n"
+
+#: lib/account_link_web/templates/layout/auth.html.eex:15
+msgid "Easily manage your members in your account on Maxicare."
+msgstr "在Maxicare賬戶中輕鬆管理您的會員。"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:37
+msgid "Login"
+msgstr "登錄"
+
+#: lib/account_link_web/templates/layout/auth.html.eex:14
+msgid "Manage your account in Maxicare."
+msgstr "在Maxicare管理你的賬戶。"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:18
+#: lib/account_link_web/templates/session/sign_in.html.eex:14
+#: lib/account_link_web/templates/user/register.html.eex:60
+msgid "Password"
+msgstr "密碼"
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:9
+#: lib/account_link_web/templates/session/sign_in.html.eex:10
+#: lib/account_link_web/templates/user/register.html.eex:54
+msgid "Username"
+msgstr "用戶名"
+
+#: lib/account_link_web/templates/account/finance.html.eex:5
+#: lib/account_link_web/templates/account/finance.html.eex:224
+#: lib/account_link_web/templates/account/product.html.eex:5
+#: lib/account_link_web/templates/account/product_summary.html.eex:5
+#: lib/account_link_web/templates/account/profile.html.eex:5
+#: lib/account_link_web/templates/layout/app.html.eex:67
+msgid "Account"
+msgstr "帳戶"
+
+#: lib/account_link_web/templates/layout/app.html.eex:122
+#: lib/account_link_web/templates/member/import_index.html.eex:5
+msgid "Batch Processing"
+msgstr "批量處理"
+
+#: lib/account_link_web/templates/layout/app.html.eex:99
+#: lib/account_link_web/templates/member/enroll_1.html.eex:5
+#: lib/account_link_web/templates/member/enroll_2.html.eex:5
+#: lib/account_link_web/templates/member/enroll_3.html.eex:5
+#: lib/account_link_web/templates/member/enroll_4.html.eex:5
+#: lib/account_link_web/templates/member/index.html.eex:11
+#: lib/account_link_web/templates/member/show.html.eex:5
+msgid "Member"
+msgstr "會員"
+
+#: lib/account_link_web/templates/layout/app.html.eex:20
+msgid "accountgateway"
+msgstr "帳戶網關"
+
+#: lib/account_link_web/templates/account/product.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:72
+#: lib/account_link_web/templates/member/show.html.eex:432
+#: lib/account_link_web/templates/member/show.html.eex:435
+msgid "Product"
+msgstr "產品"
+
+#: lib/account_link_web/templates/account/profile.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:71
+msgid "Profile"
+msgstr "輪廓"
+
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:5
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:182
+msgid "Approval"
+msgstr "贊同"
+
+#: lib/account_link_web/templates/layout/app.html.eex:157
+msgid "Batch"
+msgstr "批量"
+
+#: lib/account_link_web/templates/layout/app.html.eex:152
+msgid "PEME"
+msgstr "PEME"
+
+#: lib/account_link_web/templates/layout/app.html.eex:209
+msgid "Report"
+msgstr "報告"
+
+#: lib/account_link_web/templates/layout/app.html.eex:156
+#: lib/account_link_web/templates/peme/new.html.eex:6
+#: lib/account_link_web/templates/peme/step2.html.eex:6
+#: lib/account_link_web/templates/peme/step3.html.eex:6
+#: lib/account_link_web/templates/peme/summary.html.eex:6
+msgid "Single"
+msgstr "單"
+
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:6
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:7
+#: lib/account_link_web/templates/layout/app.html.eex:185
+msgid "Special"
+msgstr "特別"
+
+#: lib/account_link_web/templates/member/index.html.eex:51
+msgid "Active"
+msgstr "活性"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:22
+#: lib/account_link_web/templates/member/index.html.eex:28
+msgid "Advanced Search"
+msgstr "高級搜索"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:219
+#: lib/account_link_web/templates/member/index.html.eex:221
+#: lib/account_link_web/templates/member/index.html.eex:226
+#: lib/account_link_web/templates/member/index.html.eex:342
+#: lib/account_link_web/templates/member/index.html.eex:424
+#: lib/account_link_web/templates/member/index.html.eex:506
+#: lib/account_link_web/templates/member/index.html.eex:588
+#: lib/account_link_web/templates/member/index.html.eex:600
+#: lib/account_link_web/templates/member/index.html.eex:691
+#: lib/account_link_web/templates/member/index.html.eex:703
+#: lib/account_link_web/templates/member/index.html.eex:794
+#: lib/account_link_web/templates/member/index.html.eex:806
+#: lib/account_link_web/templates/member/show.html.eex:626
+#: lib/account_link_web/templates/session/forgot_password.html.eex:37
+#: lib/account_link_web/templates/session/resend_code.html.eex:35
+#: lib/account_link_web/templates/session/reset_password.html.eex:54
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:46
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:49
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:46
+msgid "Cancel"
+msgstr "取消"
+
+#: lib/account_link_web/templates/member/index.html.eex:63
+msgid "Cancelled"
+msgstr "取消"
+
+#: lib/account_link_web/templates/member/index.html.eex:108
+#: lib/account_link_web/templates/member/show.html.eex:544
+msgid "Card Number"
+msgstr "卡號"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:149
+#: lib/account_link_web/templates/member/index.html.eex:84
+msgid "Dependent"
+msgstr "依賴的"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:382
+#: lib/account_link_web/templates/member/index.html.eex:34
+msgid "Enroll"
+msgstr "註冊"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:155
+#: lib/account_link_web/templates/member/index.html.eex:90
+msgid "Guardian"
+msgstr "監護人"
+
+#: lib/account_link_web/templates/account/finance.html.eex:4
+#: lib/account_link_web/templates/account/product.html.eex:4
+#: lib/account_link_web/templates/account/product_summary.html.eex:4
+#: lib/account_link_web/templates/account/profile.html.eex:4
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:4
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:5
+#: lib/account_link_web/templates/member/enroll_1.html.eex:4
+#: lib/account_link_web/templates/member/enroll_2.html.eex:4
+#: lib/account_link_web/templates/member/enroll_3.html.eex:4
+#: lib/account_link_web/templates/member/enroll_4.html.eex:4
+#: lib/account_link_web/templates/member/import_index.html.eex:4
+#: lib/account_link_web/templates/member/index.html.eex:10
+#: lib/account_link_web/templates/member/show.html.eex:4
+#: lib/account_link_web/templates/peme/new.html.eex:4
+#: lib/account_link_web/templates/peme/step2.html.eex:4
+#: lib/account_link_web/templates/peme/step3.html.eex:4
+#: lib/account_link_web/templates/peme/summary.html.eex:4
+msgid "Home"
+msgstr "家"
+
+#: lib/account_link_web/templates/member/index.html.eex:69
+msgid "Lapsed"
+msgstr "失效"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:186
+#: lib/account_link_web/templates/member/index.html.eex:106
+#: lib/account_link_web/templates/member/show.html.eex:542
+msgid "Member ID"
+msgstr "會員ID"
+
+#: lib/account_link_web/templates/member/index.html.eex:74
+msgid "Member Type:"
+msgstr "會員類型:"
+
+#: lib/account_link_web/templates/member/index.html.eex:130
+#: lib/account_link_web/templates/member/index.html.eex:145
+msgid "Request LOA"
+msgstr "請求LOA"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:41
+#: lib/account_link_web/templates/member/index.html.eex:38
+msgid "Search only the selected members:"
+msgstr "只搜索選定的成員："
+
+#: lib/account_link_web/templates/account/profile.html.eex:73
+#: lib/account_link_web/templates/member/index.html.eex:110
+#: lib/account_link_web/templates/member/index.html.eex:288
+#: lib/account_link_web/templates/member/index.html.eex:370
+#: lib/account_link_web/templates/member/index.html.eex:452
+#: lib/account_link_web/templates/member/index.html.eex:534
+#: lib/account_link_web/templates/member/index.html.eex:637
+#: lib/account_link_web/templates/member/index.html.eex:740
+msgid "Status"
+msgstr "狀態"
+
+#: lib/account_link_web/templates/member/index.html.eex:41
+msgid "Status:"
+msgstr "狀態:"
+
+#: lib/account_link_web/templates/member/index.html.eex:176
+#: lib/account_link_web/templates/member/index.html.eex:181
+msgid "Suspend"
+msgstr "暫停"
+
+#: lib/account_link_web/templates/member/index.html.eex:57
+msgid "Suspended"
+msgstr "暫停"
+
+#: lib/account_link_web/templates/member/index.html.eex:109
+msgid "Type"
+msgstr "類型"
+
+#: lib/account_link_web/templates/member/index.html.eex:149
+msgid "View Log"
+msgstr "查看日誌"
+
+#: lib/account_link_web/templates/member/index.html.eex:198
+#: lib/account_link_web/templates/member/index.html.eex:203
+msgid "Reactivate"
+msgstr "重新激活"
+
+#: lib/account_link_web/templates/member/index.html.eex:314
+#: lib/account_link_web/templates/member/index.html.eex:560
+msgid "Cancel Date"
+msgstr "取消日期"
+
+#: lib/account_link_web/templates/member/index.html.eex:274
+#: lib/account_link_web/templates/member/index.html.eex:520
+msgid "Cancel Member"
+msgstr "取消會員"
+
+#: lib/account_link_web/templates/member/index.html.eex:296
+#: lib/account_link_web/templates/member/index.html.eex:378
+#: lib/account_link_web/templates/member/index.html.eex:460
+#: lib/account_link_web/templates/member/index.html.eex:542
+#: lib/account_link_web/templates/member/index.html.eex:645
+#: lib/account_link_web/templates/member/index.html.eex:748
+msgid "Current Effective Date"
+msgstr "當前生效日期"
+
+#: lib/account_link_web/templates/member/index.html.eex:305
+#: lib/account_link_web/templates/member/index.html.eex:387
+#: lib/account_link_web/templates/member/index.html.eex:469
+#: lib/account_link_web/templates/member/index.html.eex:551
+#: lib/account_link_web/templates/member/index.html.eex:654
+#: lib/account_link_web/templates/member/index.html.eex:757
+msgid "Current Expiry Date"
+msgstr "當前到期日期"
+
+#: lib/account_link_web/templates/member/index.html.eex:251
+msgid "Member Activity Log"
+msgstr "會員活動日誌"
+
+#: lib/account_link_web/templates/member/index.html.eex:325
+#: lib/account_link_web/templates/member/index.html.eex:407
+#: lib/account_link_web/templates/member/index.html.eex:489
+#: lib/account_link_web/templates/member/index.html.eex:571
+#: lib/account_link_web/templates/member/index.html.eex:674
+#: lib/account_link_web/templates/member/index.html.eex:777
+msgid "Reason"
+msgstr "原因"
+
+#: lib/account_link_web/templates/member/index.html.eex:335
+#: lib/account_link_web/templates/member/index.html.eex:417
+#: lib/account_link_web/templates/member/index.html.eex:499
+#: lib/account_link_web/templates/member/index.html.eex:581
+#: lib/account_link_web/templates/member/index.html.eex:684
+#: lib/account_link_web/templates/member/index.html.eex:787
+msgid "Remarks"
+msgstr "原因"
+
+#: lib/account_link_web/templates/member/index.html.eex:478
+#: lib/account_link_web/templates/member/index.html.eex:766
+msgid "Reactivate Date"
+msgstr "重新激活日期"
+
+#: lib/account_link_web/templates/member/index.html.eex:438
+#: lib/account_link_web/templates/member/index.html.eex:726
+msgid "Reactivate Member"
+msgstr "重新激活會員"
+
+#: lib/account_link_web/templates/member/index.html.eex:346
+#: lib/account_link_web/templates/member/index.html.eex:428
+#: lib/account_link_web/templates/member/index.html.eex:510
+#: lib/account_link_web/templates/session/reset_password.html.eex:57
+msgid "Submit"
+msgstr "提交"
+
+#: lib/account_link_web/templates/member/index.html.eex:396
+#: lib/account_link_web/templates/member/index.html.eex:663
+msgid "Suspend Date"
+msgstr "暫停日期"
+
+#: lib/account_link_web/templates/member/index.html.eex:356
+#: lib/account_link_web/templates/member/index.html.eex:623
+msgid "Suspend Member"
+msgstr "暫停會員"
+
+#: lib/account_link_web/templates/member/index.html.eex:868
+#: lib/account_link_web/templates/member/index.html.eex:929
+msgid "Authenticate"
+msgstr "認證"
+
+#: lib/account_link_web/templates/member/index.html.eex:858
+msgid "CVV (3 digit number at the back of member's card)"
+msgstr "CVV（會員卡背面的3位數字）"
+
+#: lib/account_link_web/templates/member/index.html.eex:611
+msgid "Cancel Cancellation"
+msgstr "取消取消"
+
+#: lib/account_link_web/templates/member/index.html.eex:817
+msgid "Cancel Reactivation"
+msgstr "取消重新激活"
+
+#: lib/account_link_web/templates/member/index.html.eex:714
+msgid "Cancel Suspension"
+msgstr "取消暫停"
+
+#: lib/account_link_web/templates/member/index.html.eex:840
+msgid "Card Number (16 digit number at the front of member's card)"
+msgstr "卡號（會員卡前面的16位數字）"
+
+#: lib/account_link_web/templates/member/index.html.eex:594
+#: lib/account_link_web/templates/member/index.html.eex:697
+#: lib/account_link_web/templates/member/index.html.eex:800
+msgid "Edit"
+msgstr "編輯"
+
+#: lib/account_link_web/templates/member/index.html.eex:838
+msgid "Enter 16-digit card number"
+msgstr "輸入16位數的卡號"
+
+#: lib/account_link_web/templates/member/index.html.eex:829
+msgid "Member Authentication"
+msgstr "會員認證"
+
+#: lib/account_link_web/templates/member/index.html.eex:863
+msgid "Member doesn't have a card now?"
+msgstr "會員現在沒有卡嗎？"
+
+#: lib/account_link_web/templates/member/index.html.eex:864
+msgid "Try another method"
+msgstr "嘗試另一種方法"
+
+#: lib/account_link_web/templates/member/index.html.eex:607
+#: lib/account_link_web/templates/member/index.html.eex:710
+#: lib/account_link_web/templates/member/index.html.eex:813
+msgid "Update"
+msgstr "更新"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:80
+msgid "Batch No."
+msgstr "批號。"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:32
+#: lib/account_link_web/templates/member/import_index.html.eex:59
+#: lib/account_link_web/templates/member/import_index.html.eex:156
+msgid "Cancellation"
+msgstr "消除"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:87
+msgid "Date Finished"
+msgstr "完成日期"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:86
+msgid "Date Uploaded"
+msgstr "上傳日期"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:102
+#: lib/account_link_web/templates/member/import_index.html.eex:105
+#: lib/account_link_web/templates/member/import_index.html.eex:111
+#: lib/account_link_web/templates/member/import_index.html.eex:114
+msgid "Download"
+msgstr "下載"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:85
+msgid "Failed"
+msgstr "失敗"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:81
+msgid "File Name"
+msgstr "文件名"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:34
+#: lib/account_link_web/templates/member/import_index.html.eex:53
+#: lib/account_link_web/templates/member/import_index.html.eex:158
+msgid "Reactivation"
+msgstr "重新激活"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:154
+msgid "Select the file upload type"
+msgstr "選擇文件上傳類型"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:84
+msgid "Successful"
+msgstr "成功"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:33
+#: lib/account_link_web/templates/member/import_index.html.eex:47
+#: lib/account_link_web/templates/member/import_index.html.eex:157
+msgid "Suspension"
+msgstr "懸掛"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:83
+msgid "Total Members"
+msgstr "共計成員"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:163
+msgid "Upload"
+msgstr "上傳"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:37
+#: lib/account_link_web/templates/member/import_index.html.eex:140
+msgid "Upload File"
+msgstr "上傳文件"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:82
+#: lib/account_link_web/templates/member/import_index.html.eex:152
+msgid "Upload Type"
+msgstr "上傳類型"
+
+#: lib/account_link_web/templates/account/profile.html.eex:104
+msgid "Account Address"
+msgstr "帳戶地址"
+
+#: lib/account_link_web/templates/account/profile.html.eex:119
+#: lib/account_link_web/templates/account/profile.html.eex:160
+msgid "Address 1"
+msgstr "地址1"
+
+#: lib/account_link_web/templates/account/profile.html.eex:123
+#: lib/account_link_web/templates/account/profile.html.eex:164
+msgid "Address 2"
+msgstr "地址2"
+
+#: lib/account_link_web/templates/account/profile.html.eex:127
+#: lib/account_link_web/templates/account/profile.html.eex:168
+#: lib/account_link_web/templates/member/enroll_3.html.eex:155
+#: lib/account_link_web/templates/member/enroll_4.html.eex:331
+msgid "City / Municipality"
+msgstr "市/市"
+
+#: lib/account_link_web/templates/account/profile.html.eex:48
+msgid "Company Id, Company Type"
+msgstr "公司ID，公司類型"
+
+#: lib/account_link_web/templates/account/profile.html.eex:69
+msgid "Company Type"
+msgstr "公司類型"
+
+#: lib/account_link_web/templates/account/profile.html.eex:210
+msgid "Designation"
+msgstr "指定"
+
+#: lib/account_link_web/templates/account/profile.html.eex:52
+msgid "Industry"
+msgstr "行業"
+
+#: lib/account_link_web/templates/account/profile.html.eex:212
+msgid "Mobile No."
+msgstr "手機號碼。"
+
+#: lib/account_link_web/templates/account/finance.html.eex:30
+#: lib/account_link_web/templates/account/profile.html.eex:208
+#: lib/account_link_web/templates/member/enroll_1.html.eex:201
+#: lib/account_link_web/templates/member/enroll_2.html.eex:112
+#: lib/account_link_web/templates/member/enroll_2.html.eex:184
+#: lib/account_link_web/templates/member/show.html.eex:445
+#: lib/account_link_web/templates/member/show.html.eex:500
+#: lib/account_link_web/templates/member/show.html.eex:543
+#: lib/account_link_web/templates/member/show.html.eex:595
+#: lib/account_link_web/templates/peme/new.html.eex:57
+#: lib/account_link_web/templates/peme/summary.html.eex:24
+#: lib/account_link_web/templates/user/register.html.eex:11
+msgid "Name"
+msgstr "名稱"
+
+#: lib/account_link_web/templates/account/profile.html.eex:211
+msgid "Phone No."
+msgstr "電話號碼。"
+
+#: lib/account_link_web/templates/account/finance.html.eex:159
+#: lib/account_link_web/templates/account/finance.html.eex:200
+#: lib/account_link_web/templates/account/profile.html.eex:143
+#: lib/account_link_web/templates/account/profile.html.eex:184
+#: lib/account_link_web/templates/member/enroll_3.html.eex:136
+#: lib/account_link_web/templates/member/enroll_4.html.eex:351
+#: lib/account_link_web/templates/peme/step2.html.eex:53
+msgid "Postal Code"
+msgstr "郵政編碼"
+
+#: lib/account_link_web/templates/account/finance.html.eex:147
+#: lib/account_link_web/templates/account/finance.html.eex:188
+#: lib/account_link_web/templates/account/profile.html.eex:131
+#: lib/account_link_web/templates/account/profile.html.eex:172
+#: lib/account_link_web/templates/member/enroll_3.html.eex:161
+#: lib/account_link_web/templates/member/enroll_4.html.eex:285
+#: lib/account_link_web/templates/member/show.html.eex:337
+#: lib/account_link_web/templates/peme/step2.html.eex:77
+msgid "Province"
+msgstr "省"
+
+#: lib/account_link_web/templates/account/finance.html.eex:151
+#: lib/account_link_web/templates/account/finance.html.eex:192
+#: lib/account_link_web/templates/account/product_summary.html.eex:232
+#: lib/account_link_web/templates/account/profile.html.eex:135
+#: lib/account_link_web/templates/account/profile.html.eex:176
+#: lib/account_link_web/templates/member/enroll_3.html.eex:165
+#: lib/account_link_web/templates/member/enroll_4.html.eex:341
+#: lib/account_link_web/templates/member/show.html.eex:409
+#: lib/account_link_web/templates/peme/step2.html.eex:81
+msgid "Region"
+msgstr "地區"
+
+#: lib/account_link_web/templates/account/profile.html.eex:56
+msgid "Version"
+msgstr "版"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:136
+#: lib/account_link_web/templates/peme/new.html.eex:119
+msgid "Account Information"
+msgstr "帳戶信息"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:249
+#: lib/account_link_web/templates/member/enroll_4.html.eex:127
+#: lib/account_link_web/templates/member/show.html.eex:210
+#: lib/account_link_web/templates/peme/new.html.eex:114
+msgid "Civil Status"
+msgstr "公民身份"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:260
+#: lib/account_link_web/templates/member/show.html.eex:262
+msgid "Date Hired"
+msgstr "聘請日期"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:237
+#: lib/account_link_web/templates/member/enroll_4.html.eex:123
+#: lib/account_link_web/templates/member/index.html.eex:886
+#: lib/account_link_web/templates/peme/new.html.eex:86
+msgid "Date of Birth"
+msgstr "出生日期"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:256
+#: lib/account_link_web/templates/member/enroll_1.html.eex:257
+msgid "Employee Number"
+msgstr "員工編號"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:6
+#: lib/account_link_web/templates/member/enroll_2.html.eex:6
+#: lib/account_link_web/templates/member/enroll_3.html.eex:6
+#: lib/account_link_web/templates/member/enroll_4.html.eex:6
+msgid "Enroll New Member"
+msgstr "註冊新會員"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:190
+#: lib/account_link_web/templates/member/show.html.eex:57
+#: lib/account_link_web/templates/peme/new.html.eex:132
+msgid "Expiry Date"
+msgstr "到期日"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:231
+#: lib/account_link_web/templates/peme/new.html.eex:108
+#: lib/account_link_web/templates/user/register.html.eex:39
+msgid "Female"
+msgstr "女"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:337
+msgid "For Card Issuance?"
+msgstr "發卡？"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:220
+#: lib/account_link_web/templates/member/enroll_4.html.eex:121
+#: lib/account_link_web/templates/member/show.html.eex:200
+#: lib/account_link_web/templates/member/show.html.eex:514
+#: lib/account_link_web/templates/peme/new.html.eex:97
+#: lib/account_link_web/templates/peme/step3.html.eex:62
+#: lib/account_link_web/templates/peme/summary.html.eex:55
+#: lib/account_link_web/templates/user/register.html.eex:28
+msgid "Gender"
+msgstr "性別"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:17
+#: lib/account_link_web/templates/member/enroll_1.html.eex:33
+#: lib/account_link_web/templates/member/enroll_2.html.eex:32
+#: lib/account_link_web/templates/member/enroll_3.html.eex:33
+#: lib/account_link_web/templates/member/enroll_4.html.eex:34
+#: lib/account_link_web/templates/member/show.html.eex:131
+#: lib/account_link_web/templates/peme/step3.html.eex:44
+#: lib/account_link_web/templates/peme/tab.html.eex:18
+msgid "General"
+msgstr "一般"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:225
+#: lib/account_link_web/templates/peme/new.html.eex:102
+#: lib/account_link_web/templates/user/register.html.eex:33
+msgid "Male"
+msgstr "男"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:57
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:70
+#: lib/account_link_web/templates/member/enroll_1.html.eex:138
+#: lib/account_link_web/templates/member/enroll_4.html.eex:182
+msgid "Member Type"
+msgstr "會員類型"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:273
+msgid "Member already a regular employee?"
+msgstr "會員已經是正式員工？"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:386
+#: lib/account_link_web/templates/member/enroll_2.html.eex:154
+#: lib/account_link_web/templates/member/enroll_2.html.eex:159
+#: lib/account_link_web/templates/member/enroll_3.html.eex:178
+#: lib/account_link_web/templates/peme/new.html.eex:155
+#: lib/account_link_web/templates/peme/step2.html.eex:94
+msgid "Next"
+msgstr "下一個"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:284
+#: lib/account_link_web/templates/member/enroll_1.html.eex:348
+msgid "No"
+msgstr "沒有"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:320
+msgid "Not Covered"
+msgstr "不包括"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:314
+msgid "Optional to file"
+msgstr "可選的文件"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:96
+#: lib/account_link_web/templates/member/show.html.eex:194
+#: lib/account_link_web/templates/peme/new.html.eex:19
+msgid "Personal Information"
+msgstr "個人信息"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:303
+msgid "PhilHealth"
+msgstr "PhilHealth"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:326
+#: lib/account_link_web/templates/member/enroll_1.html.eex:327
+#: lib/account_link_web/templates/peme/new.html.eex:143
+msgid "PhilHealth Number"
+msgstr "PhilHealth數字"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:161
+msgid "Principal ID - Name"
+msgstr "主要ID  - 名稱"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:51
+#: lib/account_link_web/templates/member/enroll_2.html.eex:50
+#: lib/account_link_web/templates/member/enroll_2.html.eex:98
+#: lib/account_link_web/templates/member/enroll_3.html.eex:51
+#: lib/account_link_web/templates/member/enroll_4.html.eex:52
+#: lib/account_link_web/templates/member/show.html.eex:149
+msgid "Products"
+msgstr "製品"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:290
+#: lib/account_link_web/templates/member/enroll_4.html.eex:166
+#: lib/account_link_web/templates/member/show.html.eex:272
+msgid "Regularization Date"
+msgstr "正規化日期"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:173
+#: lib/account_link_web/templates/member/show.html.eex:545
+msgid "Relationship"
+msgstr "關係"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:308
+msgid "Required to file"
+msgstr "需要文件"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:90
+#: lib/account_link_web/templates/member/enroll_2.html.eex:89
+#: lib/account_link_web/templates/member/enroll_3.html.eex:90
+#: lib/account_link_web/templates/member/enroll_4.html.eex:91
+msgid "Summary"
+msgstr "概要"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:333
+msgid "Tax Identification Number (TIN)"
+msgstr "稅號（TIN）"
+
+#: lib/account_link_web/templates/peme/new.html.eex:79
+msgid "Upload Profile Picture"
+msgstr "上傳個人資料圖片"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:113
+#: lib/account_link_web/templates/peme/new.html.eex:75
+msgid "Upload a Photo"
+msgstr "上傳一張照片"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:278
+#: lib/account_link_web/templates/member/enroll_1.html.eex:342
+msgid "Yes"
+msgstr "是"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:223
+#: lib/account_link_web/templates/member/show.html.eex:630
+msgid "Add"
+msgstr "加"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:170
+msgid "Add Products"
+msgstr "添加產品"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:111
+#: lib/account_link_web/templates/member/enroll_2.html.eex:183
+#: lib/account_link_web/templates/member/show.html.eex:444
+#: lib/account_link_web/templates/member/show.html.eex:594
+msgid "Code"
+msgstr "碼"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:116
+#: lib/account_link_web/templates/member/show.html.eex:449
+msgid "Delete"
+msgstr "刪除"
+
+#: lib/account_link_web/templates/account/product.html.eex:51
+#: lib/account_link_web/templates/account/product_summary.html.eex:60
+#: lib/account_link_web/templates/member/enroll_2.html.eex:115
+#: lib/account_link_web/templates/member/enroll_2.html.eex:187
+#: lib/account_link_web/templates/member/show.html.eex:448
+#: lib/account_link_web/templates/member/show.html.eex:598
+msgid "Limit Amount"
+msgstr "限額"
+
+#: lib/account_link_web/templates/account/product.html.eex:47
+#: lib/account_link_web/templates/account/product_summary.html.eex:34
+#: lib/account_link_web/templates/member/enroll_2.html.eex:114
+#: lib/account_link_web/templates/member/enroll_2.html.eex:186
+#: lib/account_link_web/templates/member/show.html.eex:447
+#: lib/account_link_web/templates/member/show.html.eex:597
+msgid "Limit Type"
+msgstr "限制類型"
+
+#: lib/account_link_web/templates/account/product.html.eex:43
+#: lib/account_link_web/templates/member/enroll_2.html.eex:113
+#: lib/account_link_web/templates/member/enroll_2.html.eex:185
+#: lib/account_link_web/templates/member/show.html.eex:446
+#: lib/account_link_web/templates/member/show.html.eex:596
+msgid "No. of Benefits"
+msgstr "好處數量"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:96
+msgid "Please select the products."
+msgstr "請選擇產品。"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:151
+#: lib/account_link_web/templates/member/enroll_3.html.eex:177
+#: lib/account_link_web/templates/member/enroll_4.html.eex:381
+#: lib/account_link_web/templates/peme/step2.html.eex:93
+msgid "Previous"
+msgstr "以前"
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:110
+#: lib/account_link_web/templates/member/show.html.eex:443
+msgid "Tier"
+msgstr "一級"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:145
+#: lib/account_link_web/templates/member/enroll_4.html.eex:255
+#: lib/account_link_web/templates/member/show.html.eex:389
+#: lib/account_link_web/templates/peme/step2.html.eex:62
+msgid "Building Name"
+msgstr "建築名稱"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:107
+#: lib/account_link_web/templates/member/enroll_4.html.eex:301
+#: lib/account_link_web/templates/member/show.html.eex:359
+msgid "Email Address 2"
+msgstr "電子郵件地址2"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:127
+#: lib/account_link_web/templates/member/show.html.eex:379
+#: lib/account_link_web/templates/peme/step2.html.eex:47
+msgid "Fax Number"
+msgstr "傳真號"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:113
+#: lib/account_link_web/templates/member/enroll_4.html.eex:241
+#: lib/account_link_web/templates/member/show.html.eex:297
+msgid "Mobile Phone 1"
+msgstr "手機1"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:117
+#: lib/account_link_web/templates/member/enroll_4.html.eex:311
+#: lib/account_link_web/templates/member/show.html.eex:369
+msgid "Mobile Phone 2"
+msgstr "手機2"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:95
+#: lib/account_link_web/templates/peme/step2.html.eex:19
+msgid "Please fill the contact information."
+msgstr "請填寫聯繫信息"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:150
+#: lib/account_link_web/templates/member/enroll_4.html.eex:275
+#: lib/account_link_web/templates/member/show.html.eex:327
+#: lib/account_link_web/templates/peme/step2.html.eex:67
+msgid "Street Name"
+msgstr "街道名稱"
+
+#: lib/account_link_web/templates/account/finance.html.eex:42
+#: lib/account_link_web/templates/member/enroll_3.html.eex:123
+#: lib/account_link_web/templates/peme/step2.html.eex:43
+msgid "Telephone"
+msgstr "電話"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:140
+msgid "Unit Number / Floor"
+msgstr "單位數量/樓層"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:144
+msgid "Account Code"
+msgstr "帳戶代碼"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:190
+msgid "Coverage End Date"
+msgstr "覆蓋範圍結束日期"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:158
+msgid "Coverage Start Date"
+msgstr "覆蓋開始日期"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:30
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:71
+#: lib/account_link_web/templates/member/enroll_4.html.eex:214
+#: lib/account_link_web/templates/member/show.html.eex:242
+msgid "Employee No."
+msgstr "員工號。"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:321
+msgid "Fax No."
+msgstr "傳真號碼"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:245
+msgid "Home No."
+msgstr "家庭號碼"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:194
+#: lib/account_link_web/templates/member/show.html.eex:230
+msgid "PhilHealth No."
+msgstr "菲爾健康號"
+
+#: lib/account_link_web/templates/account/product.html.eex:25
+#: lib/account_link_web/templates/account/product_summary.html.eex:26
+#: lib/account_link_web/templates/member/enroll_4.html.eex:162
+msgid "Product Code"
+msgstr "產品代碼"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:204
+#: lib/account_link_web/templates/member/show.html.eex:220
+msgid "TIN"
+msgstr "錫"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:265
+msgid "Unit No. / Floor"
+msgstr "單位號碼/樓層"
+
+#: lib/account_link_web/templates/member/modal_enroll_success.html.eex:18
+msgid "Enrollment Successful!"
+msgstr "報名成功！"
+
+#: lib/account_link_web/templates/member/modal_enroll_success.html.eex:23
+msgid "Ok"
+msgstr "好"
+
+#: lib/account_link_web/templates/member/modal_enroll_success.html.eex:20
+msgid "has been successfully added to the member list."
+msgstr " 已成功添加到成員列表中。"
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:9
+msgid "Are you sure you want to remove this product?"
+msgstr "您確定要刪除此產品嗎？"
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:15
+msgid "No, Keep Product"
+msgstr "不，保留產品"
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:3
+msgid "Remove Product"
+msgstr "刪除產品"
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:19
+msgid "Yes, Remove Product"
+msgstr "是的，刪除產品"
+
+#: lib/account_link_web/templates/account/profile.html.eex:65
+#: lib/account_link_web/templates/member/enroll_1.html.eex:181
+#: lib/account_link_web/templates/member/show.html.eex:49
+#: lib/account_link_web/templates/member/show.html.eex:504
+#: lib/account_link_web/templates/peme/new.html.eex:123
+msgid "Effective Date"
+msgstr "生效日期"
+
+#: lib/account_link_web/templates/peme/new.html.eex:147
+msgid "Tax Identification Number"
+msgstr "稅號"
+
+#: lib/account_link_web/templates/account/finance.html.eex:143
+#: lib/account_link_web/templates/account/finance.html.eex:184
+#: lib/account_link_web/templates/peme/step2.html.eex:71
+msgid "City"
+msgstr "市"
+
+#: lib/account_link_web/templates/account/finance.html.eex:155
+#: lib/account_link_web/templates/account/finance.html.eex:196
+#: lib/account_link_web/templates/account/profile.html.eex:139
+#: lib/account_link_web/templates/account/profile.html.eex:180
+#: lib/account_link_web/templates/member/enroll_3.html.eex:170
+#: lib/account_link_web/templates/member/enroll_4.html.eex:361
+#: lib/account_link_web/templates/member/show.html.eex:347
+#: lib/account_link_web/templates/peme/step2.html.eex:86
+msgid "Country"
+msgstr "國家"
+
+#: lib/account_link_web/templates/account/profile.html.eex:213
+#: lib/account_link_web/templates/member/enroll_3.html.eex:103
+#: lib/account_link_web/templates/member/enroll_4.html.eex:237
+#: lib/account_link_web/templates/member/show.html.eex:287
+#: lib/account_link_web/templates/peme/step2.html.eex:23
+#: lib/account_link_web/templates/peme/step2.html.eex:27
+#: lib/account_link_web/templates/user/register.html.eex:72
+msgid "Email Address"
+msgstr "電子郵件地址"
+
+#: lib/account_link_web/templates/peme/step2.html.eex:57
+msgid "Floor"
+msgstr "地板"
+
+#: lib/account_link_web/templates/peme/step2.html.eex:33
+#: lib/account_link_web/templates/peme/step2.html.eex:37
+msgid "Mobile Phone"
+msgstr "移動電話"
+
+#: lib/account_link_web/templates/account/finance.html.eex:143
+#: lib/account_link_web/templates/account/finance.html.eex:184
+#: lib/account_link_web/templates/peme/step2.html.eex:71
+msgid "Municipality"
+msgstr "市"
+
+#: lib/account_link_web/templates/peme/step2.html.eex:57
+msgid "Unit Number"
+msgstr "單位編號"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:23
+msgid "PEME Date (Up to 7 days from today)"
+msgstr "PEME日期（距離今天最多7天）"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:17
+#: lib/account_link_web/templates/peme/tab.html.eex:57
+msgid "Request"
+msgstr "請求"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:32
+msgid "Select Package"
+msgstr "選擇包"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:56
+#: lib/account_link_web/templates/peme/summary.html.eex:51
+msgid "Age"
+msgstr "年齡"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:50
+#: lib/account_link_web/templates/peme/summary.html.eex:47
+msgid "Birth Date"
+msgstr "生日"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:54
+#: lib/account_link_web/templates/peme/summary.html.eex:33
+msgid "Candidate"
+msgstr "候選人"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:26
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:69
+#: lib/account_link_web/templates/peme/step3.html.eex:60
+#: lib/account_link_web/templates/peme/summary.html.eex:37
+msgid "Card No."
+msgstr "卡號。"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:207
+#: lib/account_link_web/templates/peme/step3.html.eex:48
+msgid "Facility"
+msgstr "設施"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:38
+#: lib/account_link_web/templates/peme/summary.html.eex:80
+msgid "Procedures included for"
+msgstr "該計劃包括在內"
+
+#: lib/account_link_web/templates/peme/step3.html.eex:72
+msgid "Proceed"
+msgstr "繼續"
+
+#: lib/account_link_web/templates/account/profile.html.eex:198
+#: lib/account_link_web/templates/member/enroll_1.html.eex:69
+#: lib/account_link_web/templates/member/enroll_2.html.eex:68
+#: lib/account_link_web/templates/member/enroll_3.html.eex:69
+#: lib/account_link_web/templates/member/enroll_4.html.eex:70
+#: lib/account_link_web/templates/peme/tab.html.eex:36
+msgid "Contact"
+msgstr "聯繫"
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:24
+msgid "All"
+msgstr "所有"
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:44
+msgid "Amount"
+msgstr "量"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:8
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:25
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:85
+msgid "Approved"
+msgstr "批准"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:392
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:34
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:43
+msgid "Coverage"
+msgstr "覆蓋"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:61
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:42
+msgid "Date Requested"
+msgstr "要求的日期"
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:29
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:94
+#: lib/account_link_web/templates/member/index.html.eex:33
+msgid "Export"
+msgstr "出口"
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:41
+#: lib/account_link_web/templates/member/enroll_1.html.eex:99
+#: lib/account_link_web/templates/member/index.html.eex:878
+msgid "Member Information"
+msgstr "會員信息"
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:59
+#: lib/account_link_web/templates/member/index.html.eex:107
+#: lib/account_link_web/templates/member/index.html.eex:282
+#: lib/account_link_web/templates/member/index.html.eex:364
+#: lib/account_link_web/templates/member/index.html.eex:446
+#: lib/account_link_web/templates/member/index.html.eex:528
+#: lib/account_link_web/templates/member/index.html.eex:631
+#: lib/account_link_web/templates/member/index.html.eex:734
+msgid "Member Name"
+msgstr "成員名字"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:10
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:26
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:87
+#: lib/account_link_web/templates/member/index.html.eex:45
+msgid "Pending"
+msgstr "有待"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:22
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:58
+msgid "Reference No."
+msgstr "參考編號。"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:12
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:27
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:89
+msgid "Rejected"
+msgstr "拒絕"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:69
+msgid "Date"
+msgstr "日期"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:17
+msgid "Details"
+msgstr "細節"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:28
+msgid "Faculty"
+msgstr "學院"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:73
+msgid "Package"
+msgstr "包"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:99
+msgid "Print"
+msgstr "打印"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:93
+msgid "Send Email"
+msgstr "發電子郵件"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:88
+msgid "You can send this information to candidate via email, sms or print copy."
+msgstr "您可以通過電子郵件，短信或打印副本將這些信息發送給應聘者。"
+
+#: lib/account_link_web/templates/peme/summary.html.eex:96
+#: lib/account_link_web/templates/session/forgot_password.html.eex:40
+msgid "Send"
+msgstr "發送"
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:95
+#: lib/account_link_web/templates/member/index.html.eex:152
+#: lib/account_link_web/templates/member/index.html.eex:154
+msgid "View Details"
+msgstr "查看詳情"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:141
+msgid "Approve Request"
+msgstr "批准請求"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:81
+msgid "Assessed Amounts"
+msgstr "評估數量"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:105
+msgid "Company pays"
+msgstr "公司支付"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:96
+msgid "Maxicare pays"
+msgstr "Maxicare支付"
+
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:7
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:5
+msgid "Member Details"
+msgstr "會員詳情"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:44
+msgid "Member No."
+msgstr "會員編號"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:87
+msgid "Member pays"
+msgstr "會員支付"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:129
+msgid "Reason for Rejection"
+msgstr "拒絕理由"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:137
+msgid "Reject Request"
+msgstr "拒絕請求"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:117
+msgid "Total"
+msgstr "總"
+
+#: lib/account_link_web/templates/account/finance.html.eex:135
+#: lib/account_link_web/templates/account/finance.html.eex:139
+#: lib/account_link_web/templates/account/finance.html.eex:176
+#: lib/account_link_web/templates/account/finance.html.eex:180
+msgid "Address"
+msgstr "地址"
+
+#: lib/account_link_web/templates/account/finance.html.eex:256
+msgid "Attached Point"
+msgstr "附加點"
+
+#: lib/account_link_web/templates/account/finance.html.eex:293
+msgid "Bank Account No."
+msgstr "銀行帳號"
+
+#: lib/account_link_web/templates/account/finance.html.eex:283
+msgid "Bank Name"
+msgstr "銀行名"
+
+#: lib/account_link_web/templates/account/finance.html.eex:124
+msgid "Billing Address"
+msgstr "帳單地址"
+
+#: lib/account_link_web/templates/account/finance.html.eex:303
+msgid "Branch"
+msgstr "科"
+
+#: lib/account_link_web/templates/account/finance.html.eex:38
+#: lib/account_link_web/templates/account/profile.html.eex:209
+msgid "Contact Type"
+msgstr "聯繫人類型"
+
+#: lib/account_link_web/templates/account/finance.html.eex:90
+#: lib/account_link_web/templates/account/finance.html.eex:102
+msgid "Date Issued"
+msgstr "發行日期"
+
+#: lib/account_link_web/templates/account/finance.html.eex:236
+msgid "Dependent Schedule of Payment"
+msgstr "相關的付款時間表"
+
+#: lib/account_link_web/templates/account/finance.html.eex:34
+msgid "Desination"
+msgstr "目的地"
+
+#: lib/account_link_web/templates/account/finance.html.eex:76
+#: lib/account_link_web/templates/session/forgot_password.html.eex:19
+#: lib/account_link_web/templates/session/resend_code.html.eex:18
+msgid "Email"
+msgstr "電子郵件"
+
+#: lib/account_link_web/templates/account/finance.html.eex:62
+msgid "Fax"
+msgstr "傳真"
+
+#: lib/account_link_web/templates/account/finance.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:73
+msgid "Finance"
+msgstr "金融"
+
+#: lib/account_link_web/templates/account/finance.html.eex:52
+msgid "Mobile"
+msgstr "移動"
+
+#: lib/account_link_web/templates/account/finance.html.eex:266
+msgid "Mode of Payment"
+msgstr "付款方式"
+
+#: lib/account_link_web/templates/account/finance.html.eex:98
+msgid "Passport No."
+msgstr "護照號。"
+
+#: lib/account_link_web/templates/account/finance.html.eex:272
+msgid "Payee Name"
+msgstr "收款人姓名"
+
+#: lib/account_link_web/templates/account/finance.html.eex:94
+#: lib/account_link_web/templates/account/finance.html.eex:106
+msgid "Place Issued"
+msgstr "發行地點"
+
+#: lib/account_link_web/templates/account/finance.html.eex:240
+msgid "Previous Carrier"
+msgstr "以前的運營商"
+
+#: lib/account_link_web/templates/account/finance.html.eex:232
+msgid "Principal Schedule of Payment"
+msgstr "主要付款時間表"
+
+#: lib/account_link_web/templates/account/finance.html.eex:17
+msgid "Signatory Title"
+msgstr "簽字人標題"
+
+#: lib/account_link_web/templates/account/finance.html.eex:228
+msgid "VAT Status"
+msgstr "增值稅身份"
+
+#: lib/account_link_web/templates/account/product.html.eex:34
+msgid "Custom"
+msgstr "習慣"
+
+#: lib/account_link_web/templates/account/product.html.eex:55
+msgid "No. of Members"
+msgstr "會員數目"
+
+#: lib/account_link_web/templates/account/product.html.eex:29
+msgid "Product Classification"
+msgstr "產品分類"
+
+#: lib/account_link_web/templates/account/product.html.eex:39
+#: lib/account_link_web/templates/account/product_summary.html.eex:56
+msgid "Product Type"
+msgstr "產品類別"
+
+#: lib/account_link_web/templates/account/product.html.eex:32
+msgid "Standard"
+msgstr "標準"
+
+#: lib/account_link_web/templates/account/product.html.eex:20
+msgid "View"
+msgstr "視圖"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:431
+msgid "Accredited Facilities"
+msgstr "認可的設施"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:303
+msgid "Adult Dependents"
+msgstr "成年依賴者"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:286
+msgid "Age Eligibility"
+msgstr "年齡限制"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:212
+msgid "All Affiliated Facility"
+msgstr "所有附屬設施"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:337
+msgid "Annual Deduction"
+msgstr "年度扣除"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:77
+msgid "Benefit"
+msgstr "效益"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:86
+msgid "Benefit Code"
+msgstr "收益代碼"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:87
+msgid "Benefit Name"
+msgstr "收益名稱"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:233
+msgid "Category"
+msgstr "類別"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:280
+msgid "Condition"
+msgstr "條件"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:454
+#: lib/account_link_web/templates/account/product_summary.html.eex:495
+#: lib/account_link_web/templates/account/product_summary.html.eex:537
+#: lib/account_link_web/templates/account/product_summary.html.eex:571
+msgid "Covered After Risk Share"
+msgstr "在風險共享後涵蓋"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:325
+msgid "Deduction"
+msgstr "扣除"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:115
+msgid "Exclusion"
+msgstr "排除"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:125
+#: lib/account_link_web/templates/account/product_summary.html.eex:155
+msgid "Exclusion Code"
+msgstr "排除代碼"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:126
+#: lib/account_link_web/templates/account/product_summary.html.eex:156
+msgid "Exclusion Name"
+msgstr "排除名稱"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:509
+msgid "Exempted Facilities"
+msgstr "豁免設施"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:543
+msgid "Exempted Procedures"
+msgstr "豁免程序"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:186
+msgid "Facility Access"
+msgstr "設施訪問"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:229
+#: lib/account_link_web/templates/account/product_summary.html.eex:515
+msgid "Facility Code"
+msgstr "設施代碼"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:230
+#: lib/account_link_web/templates/account/product_summary.html.eex:519
+msgid "Facility Name"
+msgstr "設備名稱"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:231
+msgid "Facility Type"
+msgstr "設施類型"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:387
+#: lib/account_link_web/templates/account/product_summary.html.eex:393
+#: lib/account_link_web/templates/member/show.html.eex:65
+msgid "Funding Arrangement"
+msgstr "資助安排"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:121
+msgid "General Exclusion"
+msgstr "一般排除"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:38
+msgid "Limit Applicability"
+msgstr "限制適用性"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:293
+msgid "Max Age"
+msgstr "最大年齡"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:292
+msgid "Min Age"
+msgstr "最低年齡"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:308
+msgid "Minor Dependents"
+msgstr "次要受撫養人"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:331
+msgid "Network Benefits"
+msgstr "網絡優勢"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:94
+msgid "No benefit is selected for this product."
+msgstr "這個產品沒有選擇好處。"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:193
+msgid "No coverage is selected for this product."
+msgstr "此產品未選擇覆蓋範圍。"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:240
+msgid "No facility is selected."
+msgstr "沒有選擇設施。"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:135
+msgid "No general exclusion is selected for this product."
+msgstr "此產品沒有選擇一般排除。"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:164
+msgid "No pre-existing condition is selected for this product."
+msgstr "此產品沒有選擇預先存在的條件。"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:127
+#: lib/account_link_web/templates/account/product_summary.html.eex:157
+msgid "No. of Diseases"
+msgstr "病數"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:128
+msgid "No. of Procedures"
+msgstr "程序"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:332
+msgid "Non Network Benefits"
+msgstr "非網絡優勢"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:472
+msgid "Non-Accredited Facilities"
+msgstr "未經認可的設施"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:342
+msgid "Out of Pocket Maximum"
+msgstr "超出口袋最大值"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:313
+msgid "Overage Dependents"
+msgstr "超額家屬"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:151
+msgid "Pre-Existing Condition"
+msgstr "預先存在的條件"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:298
+#: lib/account_link_web/templates/member/enroll_1.html.eex:143
+#: lib/account_link_web/templates/member/index.html.eex:78
+msgid "Principal"
+msgstr "主要"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:549
+msgid "Procedure Code"
+msgstr "程序代碼"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:553
+msgid "Procedure Name"
+msgstr "程序名稱"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:30
+msgid "Product Description"
+msgstr "產品描述"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:52
+msgid "Product Name"
+msgstr "產品名稱"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:477
+msgid "Reimbursable"
+msgstr "可償還"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:413
+#: lib/account_link_web/templates/account/product_summary.html.eex:436
+#: lib/account_link_web/templates/account/product_summary.html.eex:481
+#: lib/account_link_web/templates/account/product_summary.html.eex:523
+#: lib/account_link_web/templates/account/product_summary.html.eex:557
+msgid "Risk Share"
+msgstr "風險分享"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:367
+msgid "Room Limit Amount"
+msgstr "房間限額"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:366
+msgid "Room Type"
+msgstr "房型"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:368
+msgid "Room Upgrade"
+msgstr "房間升級"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:365
+msgid "Room and Board"
+msgstr "房間和董事會"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:353
+msgid "Room and board"
+msgstr "房間和董事會"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:210
+msgid "Specific Facility"
+msgstr "具體設施"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:42
+msgid "Standard Product"
+msgstr "標準產品"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:440
+#: lib/account_link_web/templates/account/product_summary.html.eex:485
+#: lib/account_link_web/templates/account/product_summary.html.eex:527
+#: lib/account_link_web/templates/account/product_summary.html.eex:561
+msgid "Value"
+msgstr "值"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:223
+msgid "Exception"
+msgstr "例外"
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:221
+msgid "Inclusion"
+msgstr "入選"
+
+#: lib/account_link_web/templates/member/show.html.eex:581
+msgid "Add Product"
+msgstr "添加產品"
+
+#: lib/account_link_web/templates/member/show.html.eex:41
+#: lib/account_link_web/templates/member/show.html.eex:518
+msgid "Birthdate"
+msgstr "生日"
+
+#: lib/account_link_web/templates/member/show.html.eex:399
+msgid "City / Municipal"
+msgstr "市/市"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:229
+#: lib/account_link_web/templates/member/show.html.eex:281
+msgid "Contact Information"
+msgstr "聯繫信息"
+
+#: lib/account_link_web/templates/member/show.html.eex:189
+msgid "Dependent Members"
+msgstr "附屬成員"
+
+#: lib/account_link_web/templates/member/show.html.eex:522
+msgid "Employee No"
+msgstr "員工號"
+
+#: lib/account_link_web/templates/member/show.html.eex:88
+msgid "For Cancellation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:98
+msgid "For Reactivation"
+msgstr "重新激活"
+
+#: lib/account_link_web/templates/member/show.html.eex:78
+msgid "For Suspension"
+msgstr "暫停"
+
+#: lib/account_link_web/templates/member/show.html.eex:307
+msgid "Home Phone"
+msgstr "家庭電話"
+
+#: lib/account_link_web/templates/member/show.html.eex:496
+msgid "ID"
+msgstr "ID"
+
+#: lib/account_link_web/templates/member/show.html.eex:252
+msgid "Original Effective Date"
+msgstr "原始生效日期"
+
+#: lib/account_link_web/templates/member/show.html.eex:419
+msgid "Postal"
+msgstr "郵政"
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:148
+msgid "Principal ID"
+msgstr "主要ID"
+
+#: lib/account_link_web/templates/member/show.html.eex:169
+#: lib/account_link_web/templates/member/show.html.eex:489
+msgid "Principal Information"
+msgstr "主要信息"
+
+#: lib/account_link_web/templates/member/show.html.eex:317
+msgid "Unit No. / Flr"
+msgstr "單位/ Flr"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:17
+msgid "Enter password"
+msgstr "輸入密碼"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:11
+msgid "Enter username"
+msgstr "輸入用戶名"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:24
+msgid "Chinese"
+msgstr "中文"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:23
+msgid "English"
+msgstr "英語"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:21
+msgid "Select Language"
+msgstr "選擇語言"
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:15
+msgid "Forgot Password?"
+msgstr "忘記密碼？"
+
+#: lib/account_link_web/templates/user/register.html.eex:3
+msgid "Account Information Form"
+msgstr "帳戶信息表格"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:33
+#: lib/account_link_web/templates/session/reset_password.html.eex:36
+#: lib/account_link_web/templates/user/register.html.eex:64
+msgid "Confirm Password"
+msgstr "確認密碼"
+
+#: lib/account_link_web/templates/user/register.html.eex:65
+msgid "Confirm your password"
+msgstr "確認你的密碼"
+
+#: lib/account_link_web/templates/user/register.html.eex:51
+msgid "Create a new username and password to continue."
+msgstr "創建一個新的用戶名和密碼以繼續。"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:48
+msgid "Don't reuse your old password."
+msgstr "不要重複使用舊的密碼。"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:12
+msgid "Enter a new password for"
+msgstr "輸入一個新的密碼"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:108
+msgid "Enter another Email Address (Optional)"
+msgstr "輸入其他電子郵件地址（可選）"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:118
+msgid "Enter another mobile number (Optional)"
+msgstr "輸入另一個手機號碼（可選）"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:128
+msgid "Enter fax number (Optional)"
+msgstr "輸入傳真號碼（可選）"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:104
+msgid "Enter the Email Address"
+msgstr "輸入電子郵件地址"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:146
+msgid "Enter the building name"
+msgstr "輸入建築物名稱"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:156
+msgid "Enter the city / municipality"
+msgstr "輸入城市/城市"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:114
+msgid "Enter the mobile number"
+msgstr "輸入手機號碼"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:137
+msgid "Enter the postal code"
+msgstr "輸入郵政編碼"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:162
+msgid "Enter the province"
+msgstr "輸入省份"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:166
+msgid "Enter the region"
+msgstr "輸入地區"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:151
+msgid "Enter the street name"
+msgstr "輸入街道名稱"
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:141
+msgid "Enter the unit number"
+msgstr "輸入單位編號"
+
+#: lib/account_link_web/templates/user/register.html.eex:73
+msgid "Enter you email address"
+msgstr "輸入你的電子郵件地址"
+
+#: lib/account_link_web/templates/user/register.html.eex:79
+msgid "Enter your mobile number"
+msgstr "輸入你的手機號碼"
+
+#: lib/account_link_web/templates/user/register.html.eex:61
+msgid "Enter your password"
+msgstr "輸入您的密碼"
+
+#: lib/account_link_web/templates/user/register.html.eex:83
+msgid "Enter your telephone number"
+msgstr "輸入你的電話號碼"
+
+#: lib/account_link_web/templates/user/register.html.eex:55
+msgid "Enter your username"
+msgstr "輸入你的用戶名"
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:130
+msgid "Explain the problem, complain or your condition"
+msgstr "解釋問題，抱怨或你的狀況"
+
+#: lib/account_link_web/templates/user/register.html.eex:23
+msgid "Ext"
+msgstr "分機"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:204
+#: lib/account_link_web/templates/member/enroll_1.html.eex:427
+#: lib/account_link_web/templates/member/enroll_1.html.eex:539
+#: lib/account_link_web/templates/user/register.html.eex:14
+msgid "First Name"
+msgstr "名字"
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:3
+#: lib/account_link_web/templates/session/resend_code.html.eex:3
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:3
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:3
+msgid "Forgot Password"
+msgstr "忘記密碼"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:210
+#: lib/account_link_web/templates/member/enroll_1.html.eex:435
+#: lib/account_link_web/templates/member/enroll_1.html.eex:547
+#: lib/account_link_web/templates/user/register.html.eex:20
+msgid "Last Name"
+msgstr "姓"
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:3
+msgid "Login Verification"
+msgstr "登錄驗證"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:45
+msgid "Make your password at least 8 characters long."
+msgstr "輸入您的密碼至少8個字符。"
+
+#: lib/account_link_web/templates/user/register.html.eex:17
+msgid "Middle Name"
+msgstr "中間名字"
+
+#: lib/account_link_web/templates/user/register.html.eex:78
+msgid "Mobile Number"
+msgstr "手機號碼"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:15
+msgid "New Password"
+msgstr "新密碼"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:23
+msgid "Password strength"
+msgstr "密碼強度"
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:15
+msgid "Please check your email and enter your verification code here."
+msgstr "請檢查您的電子郵件，並在這裡輸入您的驗證碼。"
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:15
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:15
+msgid "Please check your mobile and enter your verification code here."
+msgstr "請檢查您的電子郵件，並在這裡輸入您的驗證碼。"
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:14
+#: lib/account_link_web/templates/session/resend_code.html.eex:13
+msgid "Please choose where to send your verification code."
+msgstr "請選擇在哪裡發送您的驗證碼。"
+
+#: lib/account_link_web/templates/user/register.html.eex:69
+msgid "Please enter your email address and phone number so that we can contact you."
+msgstr "請輸入您的電子郵件地址和電話號碼，以便我們與您聯繫。"
+
+#: lib/account_link_web/templates/user/register.html.eex:9
+msgid "Please enter your personal information."
+msgstr "請輸入您的個人信息。"
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:6
+#: lib/account_link_web/templates/session/resend_code.html.eex:5
+msgid "Please enter your username."
+msgstr "請輸入您的用戶名。"
+
+#: lib/account_link_web/templates/user/register.html.eex:4
+msgid "Please fill out the form to complete your sign-up process."
+msgstr "請填寫表格以完成您的註冊過程。"
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:8
+msgid "Please wait for the approval of Maxicare, a notification will be sent to your email."
+msgstr "請等待Maxicare的批准，通知將發送到您的電子郵件。"
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:13
+msgid "Proceed to Login"
+msgstr "繼續登錄"
+
+#: lib/account_link_web/templates/user/register.html.eex:117
+msgid "Register"
+msgstr "寄存器"
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:12
+msgid "Register another user"
+msgstr "註冊另一個用戶"
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:32
+#: lib/account_link_web/templates/session/resend_code.html.eex:30
+msgid "Registered Email Address"
+msgstr "註冊郵箱地址"
+
+#: lib/account_link_web/templates/session/resend_code.html.eex:38
+msgid "Resend Code"
+msgstr "重新發送驗證碼"
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:41
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:41
+msgid "Resend Code?"
+msgstr "重新發送驗證碼？"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:3
+msgid "Reset Password"
+msgstr "重設密碼"
+
+#: lib/account_link_web/templates/user/register.html.eex:46
+msgid "Role"
+msgstr "角色"
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:25
+#: lib/account_link_web/templates/session/resend_code.html.eex:24
+msgid "SMS"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:23
+msgid "Select"
+msgstr "短信"
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:43
+msgid "Send a new PIN code"
+msgstr "發送一個新的PIN碼"
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:4
+msgid "Success!"
+msgstr "成功！"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:334
+msgid "TIN (Optional)"
+msgstr "TIN（可選）"
+
+#: lib/account_link_web/templates/user/register.html.eex:82
+msgid "Telephone Number"
+msgstr "電話號碼"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:42
+msgid "Tips for creating a strong password"
+msgstr "提示創建一個強大的密碼"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:46
+msgid "Use a mix of letters, numbers, and a special characters(e.g. @, #)."
+msgstr "使用字母，數字和特殊字符（例如@，＃）的混合。"
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:47
+msgid "Use both uppercase and lowercase letters."
+msgstr "使用大寫和小寫字母。"
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:49
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:52
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:49
+msgid "Verify"
+msgstr "校驗"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:264
+msgid "YYYY-MM-DD"
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:41
+msgid "You can send a new code after 60 seconds"
+msgstr "您可以在60秒後發送新的代碼"
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:7
+msgid "You have successfully registered in AccountLink."
+msgstr "您已成功在AccountLink中註冊。"
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:14
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:14
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:14
+msgid "Your verification code was sent to"
+msgstr "您的驗證碼已發送至"
+
+#: lib/account_link_web/templates/member/index.html.eex:298
+#: lib/account_link_web/templates/member/index.html.eex:307
+#: lib/account_link_web/templates/member/index.html.eex:380
+#: lib/account_link_web/templates/member/index.html.eex:389
+#: lib/account_link_web/templates/member/index.html.eex:462
+#: lib/account_link_web/templates/member/index.html.eex:471
+#: lib/account_link_web/templates/member/index.html.eex:544
+#: lib/account_link_web/templates/member/index.html.eex:553
+#: lib/account_link_web/templates/member/index.html.eex:647
+#: lib/account_link_web/templates/member/index.html.eex:656
+#: lib/account_link_web/templates/member/index.html.eex:750
+#: lib/account_link_web/templates/member/index.html.eex:759
+msgid "enter date"
+msgstr "輸入日期"
+
+#: lib/account_link_web/templates/member/index.html.eex:283
+#: lib/account_link_web/templates/member/index.html.eex:365
+#: lib/account_link_web/templates/member/index.html.eex:447
+#: lib/account_link_web/templates/member/index.html.eex:529
+#: lib/account_link_web/templates/member/index.html.eex:632
+#: lib/account_link_web/templates/member/index.html.eex:735
+msgid "enter name"
+msgstr "輸入名字"
+
+#: lib/account_link_web/templates/member/index.html.eex:327
+#: lib/account_link_web/templates/member/index.html.eex:573
+msgid "please select reason for cancellation"
+msgstr "請選擇取消的理由"
+
+#: lib/account_link_web/templates/member/index.html.eex:491
+#: lib/account_link_web/templates/member/index.html.eex:779
+msgid "please select reason for reactivation"
+msgstr "請選擇重新激活的原因"
+
+#: lib/account_link_web/templates/member/index.html.eex:409
+#: lib/account_link_web/templates/member/index.html.eex:676
+msgid "please select reason for suspension"
+msgstr "請選擇暫停的原因"
+
+#: lib/account_link_web/templates/member/index.html.eex:336
+#: lib/account_link_web/templates/member/index.html.eex:418
+#: lib/account_link_web/templates/member/index.html.eex:500
+#: lib/account_link_web/templates/member/index.html.eex:582
+#: lib/account_link_web/templates/member/index.html.eex:685
+#: lib/account_link_web/templates/member/index.html.eex:788
+msgid "remarks"
+msgstr "備註"
+
+#: lib/account_link_web/templates/user/register.html.eex:47
+msgid "Please select role"
+msgstr "請選擇角色"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:250
+msgid "Please select Civil Status"
+msgstr "請選擇“公民身份"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:162
+msgid "Please select Principal ID"
+msgstr "請選擇校長ID"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:174
+msgid "Please select Relationship"
+msgstr "請選擇關係"
+
+#: lib/account_link_web/templates/member/index.html.eex:896
+msgid "Full Name"
+msgstr "全名"
+
+#: lib/account_link_web/templates/member/index.html.eex:901
+msgid "Security Questions"
+msgstr "安全問題"
+
+#: lib/account_link_web/templates/member/index.html.eex:902
+msgid "Try Another Question"
+msgstr "試試另一個問題"
+
+#, fuzzy
+#: lib/account_link_web/templates/member/enroll_3.html.eex:124
+msgid "Enter the telephone number (Optional)"
+msgstr "輸入電話號碼"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:213
+#: lib/account_link_web/templates/member/enroll_1.html.eex:439
+#: lib/account_link_web/templates/member/enroll_1.html.eex:551
+msgid "Ext (Optional)"
+msgstr "Ext（可選）"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:207
+#: lib/account_link_web/templates/member/enroll_1.html.eex:431
+#: lib/account_link_web/templates/member/enroll_1.html.eex:543
+msgid "Middle Name (Optional)"
+msgstr "中間名（可選）"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:121
+msgid " Browse Photo"
+msgstr " 瀏覽照片"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:122
+msgid " Remove"
+msgstr " 去掉"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:128
+msgid "Acceptable file types are jpg, jpeg and png."
+msgstr "可接受的文件類型是jpg，jpeg和png。"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:31
+#: lib/account_link_web/templates/member/import_index.html.eex:65
+#: lib/account_link_web/templates/member/import_index.html.eex:155
+msgid "Corporate"
+msgstr "企業"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:126
+msgid "Maximum file size is 5 MB."
+msgstr "最大文件大小為5 MB。"
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:169
+msgid "Principal's Product. (Note: This will determine the hierarchy waiver for the dependent's enrollment)"
+msgstr "校長的產品。 （注意：這將決定受撫養人註冊的等級豁免）"
+
+#: lib/account_link_web/templates/member/import_index.html.eex:28
+msgid "Select Template"
+msgstr "選擇模板"

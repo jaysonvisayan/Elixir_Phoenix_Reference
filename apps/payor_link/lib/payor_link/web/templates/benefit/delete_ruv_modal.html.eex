@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="modalDeleteBenefitRUV">
+  <input type="hidden" id="deleteBenefitRUVID" value="">
+  <div class="header">
+    Remove RUV
+  </div>
+  <div class="content">
+    <p>
+    Are you sure you want to remove this RUV?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep RUV
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBenefitRUV">
+      <i class="trash icon"></i>
+      Yes, Remove RUV
+    </div>
+  </div>
+</div>

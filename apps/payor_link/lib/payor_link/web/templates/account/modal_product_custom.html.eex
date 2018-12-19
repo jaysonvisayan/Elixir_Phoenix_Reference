@@ -1,0 +1,72 @@
+<div class="ui large modal" id="account_product_custom">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Plan (Custom)
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :account_product_custom, class: "form3"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="account_product[product_ids]">
+    <input type="hidden" value="No" name="account_product[standard]">
+    <table class="ui very basic striped selectable table" id="tbl_product_custom">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Plan Name</th>
+          <th>No. of Benefits</th>
+          <th>Type</th>
+          <th>Limit Type</th>
+          <th>Limit Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for product <- Enum.sort_by(@products, &(&1.id)) do %>
+
+          <%= if not product_coverages_is_nil(product) do %>
+            <%= if not if_is_nil_facility_access(product) do %>
+              <%= if not if_is_nil_pcrnb(product) do %>
+
+                <%= if product.standard_product == "No" do %>
+                  <%= if check_account_products(@account_products, product.id)  == false do %>
+                    <tr productID="<%= product.id %>">
+                      <td>
+                        <div class="">
+                          <input type="checkbox" style="height: 20px; width: 20px;" name="account_product[product_id][]" value="<%= product.id %>">
+                        </div>
+                      </td>
+                      <td><%= product.name%></td>
+                      <td><%= Enum.count(product.benefits)%></td>
+                      <td><%= product.type %></td>
+                      <td><%= product.limit_type%></td>
+                      <td><%= product.limit_amount %></td>
+                      <!-- <td><%=# Enum.count(product.account_products)%></td> -->
+                    </tr>
+                  <% end %>
+                <% end %>
+
+              <% end %>
+            <% end %>
+          <% end %>
+
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <a href="#" class="ui deny basic button">
+        Cancel
+      </a>
+      <button class="ui blue button" type="submit">
+        Add Custom Plan
+      </button>
+    </div>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,76 @@
+<div class="ui main container">
+  <div class="ui centered grid">
+    <div class="sixteen wide mobile twelve wide tablet six wide computer column">
+      <div class="raised very padded center aligned ui segment">
+        <div class="content">
+          <div name="VerifyCode" class="ui form mt-3">
+            <%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <h1 class="ui blue header"><%= gettext "Forgot Password" %></h1>
+
+              <p><%= gettext "Your verification code was sent to [63]" %> <%= @mobile %>.</p>
+              <div class="ui hidden divider"></div>
+              <p><%= gettext "Please check your mobile and enter your verification code here" %>.</p>
+
+              <%# <%= hidden_input f, :email, value: @user.email %1> %>
+
+
+              <%
+                info = get_flash(@conn, :info)
+                error = get_flash(@conn, :error)
+                %>
+
+              <div class="four fields" id="verificationInput">
+                <div class="field">
+                  <div class="ui huge input">
+                    <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1 autofocus>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui huge input">
+                    <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui huge input">
+                    <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui huge input">
+                    <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" maxLength=1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <a href="/<%= @locale%>/resend_code_sms/<%=@user.id%>"><%= gettext "Resend Code?" %></a>
+              </div>
+
+              <div class="field">
+                <a href="/<%= @locale%>/resend_code/<%=@user.id%>"><%= gettext "Use a different verification option" %></a>
+              </div>
+
+                <p role="append"></p>
+                <%= if is_nil(error) == false do %>
+                  <div id="message" class="ui negative message">
+                    <%= error %>
+                  </div>
+                <% else %>
+                  <%#= info %>
+                <% end %>
+              <div class="two fields">
+                <div class="field">
+                  <span><a href="/sign_in" class="ui basic fluid button"><%= gettext "Cancel" %></a></span>
+                </div>
+                <div class="field">
+                  <button type="submit" class="ui fluid primary button"><%= gettext "Verify" %></button>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

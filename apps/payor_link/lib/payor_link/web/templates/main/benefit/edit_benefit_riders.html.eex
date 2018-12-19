@@ -1,0 +1,422 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        <%= if @step == 1, do: "Create", else: "Edit" %> Riders Plan
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/web/benefits">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/benefits">Benefits</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin"><%= if @step == 1, do: "Add", else: "Edit" %> Benefit</div>
+        </div>
+      </h1>
+      <%= if @step == 1 do %>
+        <div class="ui header float-right-medium" id="benefit_header_btn">
+          <button id="btnDiscard" class="ui basic button mt-1-small">Discard</button>
+          <button id="btnDraft" class="ui primary button mt-1-small">Save as Draft</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="ui container" id="benefit_riders">
+
+  <div class="content-section white-bg" id="benefit_form_dim" style="z-index: 104;">
+    <div class="ui dimmer">
+      <div class="content">
+        <h2 class="ui inverted icon header">
+          <i class="notched circle loading icon"></i>
+          Loading...
+        </h2>
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <%= form_for @changeset, main_benefit_path(@conn, :update_v2, @benefit_id), [method: "PUT", class: "general-form", id: "riders_form"], fn f -> %>
+            <input type="hidden" name="benefit[category]" value="<%= @benefit_type %>">
+            <input name="benefit[benefit_policy]" value="Policy" type="hidden">
+            <input type="hidden" name="benefit[is_draft]" >
+            <div class="hidden" id="loaded_coverage_id"></div>
+            <div class="hidden" id="loaded_package_id"></div>
+            <input type="hidden" name="benefit_id" value="<%= @benefit_id %>">
+            <div class="ui form">
+              <div class="bottom-border pb-2 mb-2">
+
+                <div class="section-title mt-2">
+                  <div class="title-name">Benefit Information</div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label class="label-title">Benefit Code (required)</label>
+                    <input type="text" name="benefit[code]" id="benefit_code" placeholder="BN 10 ___" disabled>
+                    <input type="hidden" name="benefit[code]" id="benefit_code2">
+                  </div>
+                </div>
+
+                <div class="two fields">
+                  <div class="field">
+                    <label class="label-title">Benefit Name (required)</label>
+                    <input type="text" name="benefit[name]" placeholder="Benefit Name">
+                  </div>
+                </div>
+
+                <div class="two fields">
+                  <div class="field">
+                    <label class="label-title">Select Coverages (required)</label>
+                    <div class="ui selection dropdown" id="coverages_dropdown">
+                      <input name="benefit[coverage_ids]" type="hidden">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Coverages</div>
+                      <div class="menu">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <div class="field">
+                <label class="label-title">Category</label>
+                <%# <%= error_tag f, :standard_product %1> %>
+                <div class="field">
+                  <div class="ui radio checkbox full-width">
+                    <%= radio_button f, :benefit_category2, "Yes", id: "bc_policy", class: "" %>
+                    <label for="bc_policy" class="">Policy</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox full-width">
+                    <%= radio_button f, :benefit_category2, "No", id: "bc_availment", class: "" %>
+                    <label for="bc_availment">Availment</label>
+                  </div>
+                </div>
+              </div>
+
+              <input name="benefit[benefit_policy]" type="hidden">
+              <input name="benefit[type]" type="hidden">
+              <div id="hide_availment_fields" class="" style=""><!-- START HIDE AVAILMENT FIELDS -->
+                <div id="acu_coverage" class="hidden">
+
+                  <div class="highlighted-container mt-1 mb-2">
+                    <div class="two fields">
+                      <div class="field" id="acu_type">
+                        <label class="label-title">ACU Type</label>
+                          <%= select f, :acu_type, ["Regular": "Regular", "Executive": "Executive"], class: "ui fluid dropdown", prompt: "Select ACU Type" %>
+                      </div>
+                      <div class="field" id="acu_coverage">
+                        <label class="label-title">Select ACU Coverages</label>
+                          <%= select f, :acu_coverage, ["Inpatient": "Inpatient", "Outpatient": "Outpatient"], class: "ui fluid dropdown acu_type", prompt: "Select Availment Type", id: "acu_select", disabled: true %>
+                      </div>
+
+                    </div>
+                    <div class="five wide field" id="provider_access">
+                      <%= label f, :provider_access, "Provider Type", class: "label-title" %>
+                      <div class="five wide field ui checkbox"><br />
+                        <input type="checkbox" id="hospital" value="Hospital/Clinic">
+                        <label>Hospital</label>
+                      </div>
+                      <div class="five wide field ui checkbox">
+                        <input type="checkbox" id="clinic" value="Clinic">
+                        <label>Clinic</label>
+                      </div>
+                      <div class="two wide field ui checkbox">
+                        <input type="checkbox" id="mobile" value="Mobile">
+                        <label>Mobile</label>
+                      </div>
+                      <%= hidden_input f, :provider_access, id: "provider_access_value" %>
+                      <%= error_tag f, :provider_access %>
+                    </div>
+                  </div>
+                  <div class="bottom-border pb-2 mb-2">
+                  </div>
+
+                </div>
+
+                <div id="maternity_fields" class="hidden">
+
+                  <div class="highlighted-container mt-1 mb-2">
+
+                  <div class="field" id="maternity_type">
+                    <%= label f, :maternity_type, "Maternity Type", class: "label-title" %>
+                    <%= select f, :maternity_type, ["Consultation": "Consultation", "Inpatient Laboratory": "Inpatient Laboratory", "Outpatient Laboratory": "Outpatient Laboratory"], class: "ui dropdown", prompt: "Select Maternity Coverage" %>
+                    <%= error_tag f, :maternity_type %>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field" id="Covered_Enrollees">
+                      <%= label f, :covered_enrollees, "Covered Enrollees", class: "label-title" %>
+                      <%= select f, :covered_enrollees, ["Single and Married": "Single and Married", "Married only": "Married only", "Married Only and Spouse of Male Employees": "Married Only and Spouse of Male Employees"], class: "ui fluid dropdown", prompt: "Select Covered Enrollees" %>
+                      <%= error_tag f, :Covered_Enrollees %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :rdo_btn, "280-Day Waiting Period", class: "label-title" %>
+                      <div class="ui grid" id="waiting_period" style="padding-top:1rem">
+                        <div class="three wide field" id="rdo_btn">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :waiting_period, "waived") %>
+                            <label>Waived</label>
+                          </div>
+                        </div>
+                        <div class="three wide field">
+                          <div class="ui radio checkbox">
+                            <%= radio_button(f, :waiting_period, "not waived") %>
+                            <label>Not Waived</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  </div>
+
+                  <div class="bottom-border pb-2 mb-2">
+                  </div>
+
+                </div>
+
+                <br>
+                <br>
+
+                <div id="normal_limit_field" class="">
+                  <div class="field">
+                    <div class="ui header">
+                      <div class="section-title mt-2">
+                        <div class="title-name">Limit</div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="is_valid_limit">
+                  </div>
+                  <table role="datatable" class="full-width ui celled striped table" id="tbl_limit">
+                    <thead>
+                      <tr>
+                        <th>Coverage</th>
+                        <th>Limit Type</th>
+                        <th>Limit Amount</th>
+                        <th>Limit Classification</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div id="acu_limit_field" class="hidden">
+                  <div class="field">
+                    <div class="ui header">
+                      <div class="section-title mt-2">
+                        <div class="title-name">Limit</div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="is_valid_acu_limit">
+                  </div>
+
+                  <table role="datatable" class="full-width ui celled striped table" id="acu_tbl_limit">
+                    <thead>
+                      <tr>
+                        <th>Coverage</th>
+                        <th>Limit Type</th>
+                        <th>Limit Session</th>
+                        <th>Limit Amount</th>
+                        <th>Limit Classification</th>
+                        <th width="100%"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+
+              <%# </div> %>
+
+
+              <div id="diagnosis_fields" class="">
+                <div class="two fields">
+                  <div class="field">
+                    <div class="ui header">
+                      <div class="section-title mt-2">
+                        <div class="title-name">Diagnosis</div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="is_valid_diagnosis">
+                  </div>
+                  <div class="field" style="text-align: right;padding-top: 1.4rem">
+                    <a class="ui primary button" id="btn_add_diagnosis">
+                      <i class="white plus icon"></i>
+                      Add Diagnosis
+                    </a>
+                  </div>
+                </div>
+                <table role="datatable" class="full-width ui celled striped table" id="tbl_diagnosis">
+                  <thead>
+                    <tr>
+                      <th width="10%">Code</th>
+                      <th width="60%">Description</th>
+                      <th width="20%">Type</th>
+                      <th width="10%">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                <div class="bottom-border pb-2 mb-2">
+                </div>
+              </div>
+
+              <br>
+              <br>
+
+              <div id="package_procedure_fields" class="">
+                <div class="field">
+                  <div class="section-title mt-2">
+                    <div class="title-name">Packages</div>
+                  </div>
+                  <div class="ui fluid multiple search selection dropdown" id="select-packages">
+                    <input type="hidden" name="benefit[package_ids]">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Packages</div>
+                    <div class="menu">
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <div class="two fields">
+                  <div class="field">
+                    <div class="ui header">
+                      <div class="section-title mt-2">
+                        <div class="title-name">Procedure</div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="is_valid_procedure">
+                  </div>
+                    <div class="field" style="text-align: right;padding-top: 1.4rem" id="">
+                      <a class="ui primary button modal-open-procedure" id="btn_add_procedure">
+                        <i class="white plus icon"></i>
+                        Add Procedures
+                      </a>
+                    </div>
+                </div>
+
+                <div class="div-dim">
+                  <table class="full-width ui celled striped table" id="tbl_package">
+                    <thead>
+                      <tr>
+                        <th>Package Code</th>
+                        <th>CPT Code</th>
+                        <th>CPT Description</th>
+                        <th>Payor CPT Code</th>
+                        <th>Payor CPT Description</th>
+                        <th>Age Range</th>
+                        <th>Gender</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <div class="ui dimmer">
+                    <div class="content">
+                      <h4 class="ui inverted icon header">
+                        <i class="notched circle loading icon"></i>
+                        Loading...
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-border pb-2 mb-2">
+                </div>
+                <br>
+                <br>
+              </div>
+
+
+
+              <div id="acu_package_fields" class="hidden">
+                <div class="field">
+                  <div class="section-title mt-2">
+                    <div class="title-name">Packages</div>
+                  </div>
+                  <div class="ui fluid multiple search selection dropdown" id="acu-select-packages">
+                    <input type="hidden" name="benefit[acu_package_ids]" disabled="">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Packages</div>
+                    <div class="menu">
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <div class="two fields" id="procedure_fields">
+                  <div class="field">
+                    <div class="ui header">
+                      <div class="section-title mt-2">
+                        <div class="title-name">Procedure</div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="is_valid_acu_procedure">
+                  </div>
+
+                </div>
+
+                <div class="div-dim">
+                  <table class="full-width ui celled striped table" id="acu_tbl_package_acu">
+                    <thead>
+                      <tr>
+                        <th>Package Code</th>
+                        <th>CPT Code</th>
+                        <th>CPT Description</th>
+                        <th>Payor CPT Code</th>
+                        <th>Payor CPT Description</th>
+                        <th>Age Range</th>
+                        <th>Gender</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <div class="ui dimmer">
+                    <div class="content">
+                      <h4 class="ui inverted icon header">
+                        <i class="notched circle loading icon"></i>
+                        Loading...
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-border pb-2 mb-2">
+                </div>
+                <br>
+                <br>
+              </div>
+
+         </div> <!-- HIDE AVAILMENT FIELDS -->
+              <div class="ui vertical segment mb-2">
+                <div class="text-right">
+                  <!-- <button type="submit" class="ui primary button large modal-open-complete"> -->
+                  <button type="submit" class="ui primary button large">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+            <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<%= render "modal_limit_form.html" %>
+<%= render "modal_limit_acu_form.html" %>
+<%= render "modal_diagnosis_form.html" %>
+<%= render "modal_procedure_form.html" %>
+<%= render "modal_success.html" %>
+<%= render "modal_confirmation.html" %>
+<%= render "modal_discard.html" %>

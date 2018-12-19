@@ -1,0 +1,196 @@
+
+<div class="sixteen wide computer column" id="main_step1_general_dental">
+  <%= form_for @changeset, @action, [class: "form2", id: "dental_form"], fn f -> %>
+    <%= hidden_input f, :product_category, value: @changeset.data.product_category %>
+    <%= hidden_input f, :is_draft, value: false %>
+    <%= hidden_input f, :product_base, value: @changeset.data.product_base %>
+    <div class="ui form" id="product_dental_plan">
+      <div class="bottom-border pb-2 mb-2" >
+
+        <div class="section-title mt-2">
+          <div class="title-name" >Plan Information</div>
+          <%# <div class="ui header float-right-medium" id="benefit_header_btn"> %>
+        <%#   <button id="btnDiscard" class="ui basic button mt-1-small">Discard</button> %>
+        <%#   <button id="btnDraft" class="ui primary button mt-1-small">Save as Draft</button> %>
+          </div>
+
+        </div>
+
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :code, "Plan Code (required)", class: "label-title" %>
+            <%= text_input f, :code, class: "form-control", placeholder: "Add Plan Code" %>
+            <%= error_tag f, :code %>
+          </div>
+        </div>
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :name, "Plan Name (required)", class: "label-title" %>
+            <%= text_input f, :name, class: "form-control", placeholder: "Add Plan Name" %>
+            <%= error_tag f, :name %>
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <%= label f, :description, "Plan Description(required)", class: "label-title" %>
+            <%= text_input f, :description, class: "form-control", placeholder: "Add Plan Category" %>
+            <%= error_tag f, :description %>
+          </div>
+        </div>
+
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :type, "Plan Type", class: "label-title"  %>
+            <%= select f, :type, ["Select Plan Type": "", "Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze", "Platinum Plus": "Platinum Plus"], class: "ui fluid dropdown" %>
+            <%= error_tag f, :type %>
+          </div>
+        </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="section-title mt-2">
+          <div class="title-name">Setup</div>
+        </div>
+        <div class="field">
+          <label class="label-title">Classification</label>
+          <%= error_tag f, :standard_product %>
+          <div class="field">
+            <div class="ui radio checkbox full-width">
+              <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+              <label for="abl" class="">Standard</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox full-width">
+              <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+              <label for="mbl">Custom</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <%= label f, :limit_amount, "Limit Amount", class: "label-title" %>
+            <%= text_input f, :limit_amount, class: "form-control", id: "product_limit_amt" %>
+            <%= error_tag f, :limit_amount %>
+          </div>
+        </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="section-title mt-2">
+          <div class="title-name">Limit Applicability</div>
+        </div>
+        <div>
+          <div class="field">
+            <%= hidden_input f, :limit_applicability %>
+          </div>
+          <div class="ui grid">
+            <div class="two wide column">
+              <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+                <div class="selection-button" style="max-height: 241.938px">
+                  <img src="/images/Principal_Only.png" class="ui fluid image">
+                  <div class="option" value="Principal Only">Principal Only</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="two wide column">
+              <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal">
+                <div class="selection-button" style="max-height: 241.938px">
+                  <img src="/images/Dependent_Only.png" class="ui fluid image">
+                  <div class="option" value="Dependents Only">Dependents Only</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="two wide column">
+              <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" >
+                <div class="selection-button" style="max-height: 241.938px">
+                  <img src="/images/Principal_dependents.png" class="ui fluid image">
+                  <div class="option" value="Principal Dependents">Principal & Dependents</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="ui grid">
+            <div class="two wide column">
+              <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" >
+                <div class="selection-button "style="max-height: 241.938px">
+                  <img src="/images/Dependent_sharing.png" class="ui fluid image">
+                  <div class="option" value="Dependents Sharing">Dependents Sharing</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="two wide column">
+              <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" >
+                <div class="selection-button" style="max-height: 241.938px">
+                  <img src="/images/Principal_shared_with_dependents.png" class="ui fluid image">
+                  <div class="option" value="Principal shared dependents">Principal shared with dependents</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="two wide column">
+              <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" >
+                <div class="selection-button" style="max-height: 241.938px">
+                  <img src="/images/Principal_shared_with_dependents.png" class="ui fluid image">
+                  <div class="option" value="Principal dependents sharing">Principal & Dependents sharing</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+          <div class="two fields">
+            <div class="section-title mt-2">
+              <div class="title-name">Benefits</div>
+            </div>
+            <div class="field" style="text-align: right;padding-top: 1.4rem">
+              <a class="ui primary button" id="btn_add_benefit">
+                <i class="white plus icon"></i>
+                Benefits
+              </a>
+            </div>
+          </div>
+
+          <div class="field">
+            <input type="hidden" name="product[benefit_ids][]" class="benefit_id" >
+          </div>
+            <div class="ui grid">
+              <table class="full-width ui celled striped table" id="tbl_benefit_dt_table">
+                <thead>
+                  <tr>
+                    <th width="20%">Code</th>
+                    <th width="20%">Name</th>
+                    <th width="20%">No. of CDT</th>
+                    <th width="20%">Limit Type</th>
+                    <th width="20%">Limit Value</th>
+                    <th width="20%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <div class="ui vertical segment mb-2">
+              <div class="text-right">
+                <a class="ui basic button large" href="/web/products" >
+                  <i class="caret left icon"></i>Back
+                </a>
+                <button type="submit" id="create_dental" class="ui primary button large create_dental">Next<i class="caret right icon white"></i></button>
+              </div>
+            </div>
+        </div>
+
+      <% end %>
+      </div>
+
+      <%= render "modal_benefit_form.html", benefit: @benefit%>

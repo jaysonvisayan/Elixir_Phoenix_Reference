@@ -1,0 +1,132 @@
+<div class="ui modal" role="edit-contact" name="facility-formValidate" id="edit_facility_contact">
+  <i class="close icon"></i>
+  <div class="header">
+    Facility Contact
+  </div>
+  <div class="content" id="formUpdateStep3Facility">
+    <%= form_for @changeset, @action, [as: :facility, class: "ui form"], fn f -> %>.
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+<div class="ui grid centered container">
+        <div class="sixteen wide tablet sixteen wide computer column">
+          <div class="fields">
+            <div class="six wide field">
+              <%= label f, :first_name, "First Name" %>
+              <%= text_input f, :first_name, placeholder: "First Name" %>
+              <%= error_tag f, :first_name %>
+            </div>
+            <div class="six wide field">
+              <%= label f, :last_name, "Last Name" %>
+              <%= text_input f, :last_name, placeholder: "Last Name" %>
+              <%= error_tag f, :last_name %>
+            </div>
+            <div class="four wide field">
+              <%= label f, :suffix, "Suffix" %>
+              <%= text_input f, :suffix, maxlength: 4, placeholder: "Suffix" %>
+              <%= error_tag f, :suffix %>
+            </div>
+          </div>
+          <div class="field">
+            <label for="facility_department">Department <i>(optional)</i></label>
+            <%= text_input f, :department, placeholder: "Department" %>
+            <%= error_tag f, :department %>
+          </div>
+          <div class="field">
+            <label for="facility_designation">Designation <i>(optional)</i></label>
+            <%= text_input f, :designation, placeholder: "Designation" %>
+            <%= error_tag f, :designation %>
+          </div>
+          <div class="field">
+            <label>Telephone <i>(optional)</i></label>
+            <div class="fields" role="edit-form-telephone">
+              <div class="three wide field">
+                <input type="text" name="facility[tel_country_code][]" value="+63" id="edit_facility_telephone_cc" maxlength=4 placeholder="Country Code" readonly="true" indexTCC="0">
+              </div>
+              <div class="three wide field">
+                <input type="text" name="facility[tel_area_code][]" maxlength=5 placeholder="Area Code" id="edit_facility_telephone_ac" indexTAC="0" class="number">
+              </div>
+              <div class="four wide field">
+                <input type="text" name="facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" id="edit_facility_telephone" indexT="0">
+                <p role="validate" style="color:red">Minimum length is 11</p>
+                <%= error_tag f, :telephone %>
+              </div>
+              <div class="three wide field">
+                <input type="text" name="facility[tel_local][]" maxlength=5 placeholder="Local" id="edit_facility_telephone_l" indexTL="0" class="number">
+              </div>
+              <div class="field">
+                <a class="ui icon primary button" add="telephone">
+                  <i class="plus icon"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <p role="append-telephone"></p>
+          <div class="field">
+            <label>Mobile Number</label>
+            <div class="fields" role="edit-form-mobile">
+              <div class="three wide field" id="ta_field">
+                <input type="text" name="facility[mobile_country_code][]" id="edit_facility_mobile_cc" maxlength=4 placeholder="Country Code" readonly="true" indexMCC="0">
+                <p role="ta_error"></p>
+              </div>
+              <div class="ten wide field" role="mobile">
+                <input type="text" name="facility[mobile][]" id="edit_facility_mobile" placeholder="Mobile" role="mask" class="mobile" indexM="0" placeholder="Ex. 999-999-9999" >
+                <p role="validate" style="color:red">Minimum digits is 10</p>
+                <%= error_tag f, :mobile %>
+              </div>
+              <div class="field">
+                <a class="ui icon primary button" add="mobile">
+                  <i class="icon add"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <p role="append-mobile"></p>
+          <div class="field">
+            <label>Fax Number <i>(optional)</i></label>
+            <div class="fields" role="edit-form-fax">
+              <div class="three wide field">
+                <input type="text" name="facility[fax_country_code][]" id="edit_facility_fax_cc" maxlength=4 placeholder="Country Code" value="+63" readonly="true" indexFCC="0">
+              </div>
+              <div class="three wide field">
+                <input type="text" name="facility[fax_area_code][]" id="edit_facility_fax_ac" maxlength=5 placeholder="Area Code" indexFAC="0" class="number">
+              </div>
+              <div class="four wide field">
+                <input type="text" role="mask" class="phone" name="facility[fax][]" id="edit_facility_fax" minlength=11 maxlength=14 placeholder="Ex. 999-9999" indexF="0">
+                <%= error_tag f, :fax %>
+              </div>
+              <div class="three wide field">
+                <input type="text" name="facility[fax_local][]" id="edit_facility_fax_l" maxlength=5 placeholder="Local" indexFL="0" class="number">
+              </div>
+              <div class="field">
+                <a class="ui icon primary button" add="fax">
+                  <i class="icon add"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <p role="append-fax"></p>
+          <div class="field">
+            <%= label f, :email, "Email" %>
+            <%= text_input f, :email, placeholder: "Email", class: "email" %>
+            <%= error_tag f, :email %>
+          </div>
+        </div>
+      </div>
+      <%= hidden_input f, :contact_id %>
+  </div>
+  <div class="actions">
+    <button class="ui blue right floated button" type="submit">
+      <i class="edit icon"></i>
+      Update
+    </button>
+    <a href="" class="ui button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+  </div>
+<% end %>
+</div>

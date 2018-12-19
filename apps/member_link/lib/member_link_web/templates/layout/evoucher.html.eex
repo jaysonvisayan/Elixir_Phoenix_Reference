@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        display: none;
+      }
+    </style>
+    <script>
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MemberLink</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container">
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div> <!-- /container -->
+    <footer>
+      <div class="ui center aligned basic segment" id="footer">Medilink Network, Inc. &copy; 2017.
+        <%= if Application.get_env(:member_link, MemberLinkWeb.Endpoint) |> Keyword.get(:env) != "prod" do %>
+            <b>Member</b>Link v<span><%= version %></span>
+        <% end %>
+      </div>
+    </footer>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+  info = get_flash(@conn, :info)
+  error = get_flash(@conn, :error)
+%>
+
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+
+<%= if error do %>
+<script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+</script>
+<% end %>

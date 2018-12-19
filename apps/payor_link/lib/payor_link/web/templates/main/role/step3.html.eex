@@ -1,0 +1,53 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Role</h2>
+  <div class="ui small breadcrumb">
+    <a class="section">Role</a>
+    <i class="right chevron icon divider"></i>
+    <%= if is_nil(@role.created_by_id) == false do %>
+      <div class="active section">Edit Role</div>
+      <% else %>
+      <div class="active section">New Role</div>
+    <% end %>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered three steps">
+            <div class="completed step">
+              <%# <i class="truck icon"></i> %>
+              <div class="content">
+                <div class="title">Basic</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <%# <i class="payment icon"></i> %>
+              <div class="content">
+                <div class="title">Permission</div>
+              </div>
+            </div>
+            <div class="active step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Review</div>
+              </div>
+            </div>
+          </div>
+          <%=
+              render "form-summary.html",
+              changeset: @changeset,
+              role: @role,
+              permissions: @permissions,
+              conn: @conn,
+              action: role_path(@conn, :update_setup, @role, step: "3")
+           %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,64 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Practitioner</h1>
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioner</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Practitioner</div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+              <div class="row">
+                  <div class="sixteen wide column">
+                      <div class="ui four steps form-step">
+                          <div class="  active  step">
+                              <i class="info circle icon"></i>
+                              <div class="content">
+                                  <div class="title">General</div>
+                                  <div class="description">Name, specialization, etc.</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="mail icon"></i>
+                              <div class="content">
+                                  <div class="title">Contact</div>
+                                  <div class="description">Contact info</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="money icon"></i>
+                              <div class="content">
+                                  <div class="title">Financial</div>
+                                  <div class="description">Funding arrangement</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="file text outline icon"></i>
+                              <div class="content">
+                                  <div class="title">Summary</div>
+                                  <div class="description">Confirm your information</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="ui header form-header">
+                          <i class="user icon"></i>
+                          <div class="content">
+                              General
+                              <div class="sub header">Name, specialization, etc.</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <%=
+                render "form.html",
+                changeset: @changeset,
+                specializations: @specializations,
+                conn: @conn,
+                action: practitioner_path(@conn, :create) %>
+          </div>
+      </div>
+  </div>
+</div>

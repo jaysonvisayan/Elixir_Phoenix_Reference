@@ -1,0 +1,24 @@
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Delete Account?
+  </div>
+  <div class="image content">
+    Deleting this account will permanently remove it from the system?
+  </div>
+  <div class="actions">
+    <div class="ui negative button" id="close_modal">
+      <i class="close icon"></i>
+    </div>
+
+    <div class="ui close white button close-modal">
+      <i class="close icon"></i>
+      No, Keep Account
+    </div>
+
+    <div class="ui negative button" role="delete-draft">
+      <i class="checkmark icon"></i>
+      Yes, Delete Account
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="ui main container">
+  <div class="ui centered grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="<%= @result %>">
+            <table role="datatable_no_sort" class="ui celled striped table">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">
+                            <h1 style="color: #464646" >
+                                Affiliated Facilities
+                            </h1>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= for f <- @facilities do %>
+                        <tr>
+                            <td>
+                                <div class="ui grid">
+                                    <div class="one wide column" style="text-align:right">
+                                        <h2 class="ui icon header">
+                                            <i class="hospital icon"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="fourteen wide column">
+                                        <div class="header"><%= f.name %><span></div>
+                                        <div class="description">
+                                            <span id="line1"><%= Enum.join([f.line_1, f.line_2], " ") %></span><br>
+                                            <span id="line2"><%= Enum.join([f.city, f.postal_code, f.province], " ") %></span><br>
+                                            <div class="list-footer">
+                                                <span><%= f.phone_no %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+        <div class="<%= @error %>">
+            <div class="ui icon negative message">
+            <i class="exclamation triangle icon"></i>
+                <div class="content">
+                    <div class="header">
+                    Incorrent URL
+                    </div>
+                    <p>There has been an error on your URL.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

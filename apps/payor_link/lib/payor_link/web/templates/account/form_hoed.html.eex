@@ -1,0 +1,186 @@
+<div class="row">
+  <div class="sixteen wide column">
+    <small>
+      * You can 'drag-and-drop' according to your hierarchy of eligible dependents. Ranking of listed eligible dependents shall be from top to bottom
+    </small>
+  </div>
+</div>
+<div class="row">
+  <input type="hidden" value="<%= @account.step %>" id="step_checker">
+  <div class="sixteen wide column">
+    <div class="ui grid" id="ahoed_container">
+      <div class="two wide column">
+      </div>
+      <div class="four wide column">
+
+        <div class="ui segment">
+          <h4>Married Employees
+            <div class="ui icon circular top right floated pointing dropdown positive mini button" tabindex="0">
+              <i class="plus icon"></i>
+              <div class="right menu" id="me_dd" tabindex="-1">
+
+                <div href="#" class="item clickable-row append_sortable" dependent="Spouse" category="me">
+                  Spouse
+                </div>
+                <div href="#" class="item clickable-row append_sortable" dependent="Child" category="me" >
+                  Child
+                </div>
+                  <div href="#" class="item clickable-row append_sortable" dependent="Parent" category="me" >
+                    Parent
+                  </div>
+                    <div href="#" class="item clickable-row append_sortable" dependent="Sibling" category="me">
+                      Sibling
+                    </div>
+              </div>
+            </div>
+          </h4>
+
+          <div id="me_sortable">
+          </div>
+          <div class="ui basic red pointing prompt label hidden" id="me_validation">
+            Please retain atleast one Married Employee Dependent.
+          </div>
+
+        </div>
+        <input class="validate-r" type="hidden" name="product[married_employee]" value="<%= load_ahoed(@account_group.account_hierarchy_of_eligible_dependents, "Married Employee") %>">
+
+      </div>
+      <div class="one wide column">
+      </div>
+      <div class="four wide column" style="position: static">
+
+        <div class="ui segment">
+          <h4>Single Employees
+            <div class="ui icon circular top right floated pointing dropdown positive mini button" tabindex="0">
+              <i class="plus icon"></i>
+              <div class="left menu" id="se_dd" tabindex="-1">
+
+                <div href="#" class="item clickable-row append_sortable" dependent="Parent" category="se" >
+                  Parent
+                </div>
+                  <div href="#" class="item clickable-row append_sortable" dependent="Sibling" category="se" >
+                    Sibling
+                  </div>
+
+              </div>
+            </div>
+          </h4>
+
+          <div id="se_sortable">
+          </div>
+          <div class="ui basic red pointing prompt label hidden" id="se_validation">
+            Please retain atleast one Single Employee Dependent.
+          </div>
+        </div>
+        <input class="validate-r" type="hidden" name="product[single_employee]" value="<%= load_ahoed(@account_group.account_hierarchy_of_eligible_dependents, "Single Employee") %>">
+
+      </div>
+      <div class="one wide column">
+      </div>
+      <div class="four wide column">
+
+        <div class="ui segment">
+          <h4>Single Parent Employees
+            <div class="ui icon circular top right floated pointing dropdown positive mini button" tabindex="0">
+              <i class="plus icon"></i>
+              <div class="left menu" id="spe_dd" tabindex="-1">
+
+                <div href="#" class="item clickable-row append_sortable" dependent="Child" category="spe" >
+                  Child
+                </div>
+                  <div href="#" class="item clickable-row append_sortable" dependent="Parent" category="spe" >
+                    Parent
+                  </div>
+                    <div href="#" class="item clickable-row append_sortable" dependent="Sibling" category="spe" >
+                      Sibling
+                    </div>
+              </div>
+            </div>
+          </h4>
+
+          <div id="spe_sortable">
+          </div>
+          <div class="ui basic red pointing prompt label hidden" id="spe_validation">
+            Please retain atleast one Single Parent Employee Dependent.
+          </div>
+        </div>
+        <input class="validate-r" type="hidden" name="product[single_parent_employee]" value="<%= load_ahoed(@account_group.account_hierarchy_of_eligible_dependents, "Single Parent Employee") %>">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="sixteen wide column">
+    <div class="ui grid">
+      <div class="two wide column"></div>
+      <div class="fourteen wide column">
+        <h3>Enrollment Period</h3>
+      </div>
+      <div class="two wide column"></div>
+      <div class="five wide column">
+        Principal Enrollment Period<br />
+        <div class="ui right labeled input" id="pep_field">
+          <input type="text" id="pep" value="<%= @account_group.principal_enrollment_period %>" maxlength="5">
+          <div class="ui dropdown label">
+            <%= if @account_group.pep_day_or_month == "month" do %>
+              <div class="text" id="pep_multiplier">Months</div>
+            <% else %>
+              <div class="text" id="pep_multiplier">Days</div>
+            <% end %>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">Days</div>
+              <div class="item">Months</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="six wide column">
+        Dependent Enrollment Period<br />
+        <div class="ui right labeled input" id="dep_field">
+          <input type="text" id="dep" value="<%= @account_group.dependent_enrollment_period %>" maxlength="5">
+          <div class="ui dropdown label">
+            <%= if @account_group.dep_day_or_month == "month" do %>
+              <div class="text" id="dep_multiplier">Months</div>
+            <% else %>
+              <div class="text" id="dep_multiplier">Days</div>
+            <% end %>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">Days</div>
+              <div class="item">Months</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="two wide column"></div>
+    </div>
+  </div>
+
+</div>
+  <div class="row">
+        <div class="eight wide column">
+    <%= if @account.step <= 6 do %>
+      <%= render "modal_draft.html", account: @account %>
+      <a class="ui basic button" id="cancel_button">Delete</a>
+    <% end %>
+  </div>
+  <div class="eight wide right aligned column">
+    <%= if @account.step == 7 do %>
+        <%=# render "modal_cancel.html", account: @account %>
+        <!-- <a id="cancel_button" class="ui button">
+          <i class="remove left icon"></i> Cancel
+        </a> -->
+        <button type="submit" class="ui primary button submit_hoed" step="edit?step=5" accountID="<%= @account.id %>">Save Changes</button>
+    <% else %>
+        <a href="/accounts/<%= @account.id%>/setup?step=3" class="ui basic button">Back to Previous Step</a>
+        <button type="submit" class="ui primary button submit_hoed" step="setup?step=6" accountID="<%= @account.id %>">Continue to Next Step</button>
+      <% end %>
+  </div>
+</div>
+<%= if @conn.assigns[:account] && @account.step <= 7 do %>
+  <%= form_for @conn, account_path(@conn, :delete, @account.account_group_id), [id: "delete-draft", multipart: true, as: :account, method: :delete], fn _f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <% end %>
+<% end %>

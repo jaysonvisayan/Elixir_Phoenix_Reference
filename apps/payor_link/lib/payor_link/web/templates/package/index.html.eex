@@ -1,0 +1,46 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Packages</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/packages/new"><i class="plus icon"></i>Packages</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/packages" class="section">Packages</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Date Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for package <- @packages do %>
+          <tr>
+            <td>
+            <%= if package.step != 0 && package.step != 3 do %>
+              <a href="/packages/<%= package.id %>/setup?step=<%= package.step %>"> <%= package.code %>(Draft)</a>
+            <% else %>
+              <a href="/packages/<%= package.id %>?active=procedures"> <%= package.code %></a>
+            <% end %>
+            </td>
+            <td> <%= package.name %> </td>
+            <td class="valid_timezone date-only"> <%= Ecto.Date.cast!(package.updated_at) %> </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+

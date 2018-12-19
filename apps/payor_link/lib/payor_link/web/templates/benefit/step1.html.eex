@@ -1,0 +1,50 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered six steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Procedures</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Diagnosis</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Packages</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Limits</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset_health.action || @changeset_riders.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step1_form.html", tab_checker: @tab_checker, coverages: @coverages, changeset_riders: @changeset_riders, changeset_health: @changeset_health, conn: @conn, action: benefit_path(@conn, :create_basic) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

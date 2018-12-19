@@ -1,0 +1,40 @@
+<div class="row" id="miscellaneous_step1">
+  <%= form_for @changeset, @action, [as: :miscellaneous, id: "step1_form", multipart: true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="ui centered grid">
+      <div class="six wide tablet ten wide computer column">
+        <div class="field">
+          <%= label f, :code, "Item Code", class: "control-label" %>
+          <%= text_input f, :code, class: "form-control" %>
+          <%= error_tag f, :code %>
+        </div>
+      </div>
+      <div class="six wide tablet ten wide computer column">
+        <div class="field">
+        <%= label f, :description, "Description", class: "control-label" %>
+        <%= text_input f, :description, class: "form-control" %>
+        <%= error_tag f, :description %>
+        </div>
+      </div>
+      <div class="six wide tablet ten wide computer column">
+        <div class="field">
+        <%= label f, :prices, "Maximum Price", class: "control-label" %>
+        <%= text_input f, :price, id: "price", class: "form-control amount_fld", maxLength: 10 %>
+        <%= error_tag f, :price %>
+        </div>
+      </div>
+    </div>
+
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <a href="/miscellaneous" class="ui button">
+          <i class="close left icon"></i> Cancel
+        </a>
+    </div>
+    <div class="column eight wide">
+      <button type="submit" class="ui blue button">Submit <i class="chevron right icon"></i></button>
+    </div>
+  </div>
+
+  <% end %>
+</div>

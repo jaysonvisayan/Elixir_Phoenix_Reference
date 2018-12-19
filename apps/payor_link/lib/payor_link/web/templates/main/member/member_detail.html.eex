@@ -1,0 +1,255 @@
+<div class="page-title">
+		<div class="ui clearing segment">
+			<div class="ui container">
+			  <h1 class="ui left floated header">
+			    Kylle Nicole Red
+			    <div class="clearfix"></div>
+			    <div class="ui breadcrumb">
+					  <a href="/">Dashboard</a>
+					  <i class="right angle icon divider"></i>
+					  <a href="../members">Members</a>
+					  <i class="right angle icon divider"></i>
+					  <div class="active section dim thin">Kylle Nicole Red</div>
+					</div>
+			  </h1>
+			  <div class="ui header float-right-medium">
+			  	<button class="modal-open-main ui primary button mt-1-small">Add Member</button>
+				</div>
+			</div>
+		</div><!-- .ui.clearing.segment -->
+	</div><!-- .page-title -->
+
+	<div class="ui container" id="member_index_page">
+
+		<div class="content-section white-bg">
+			<div class="ui grid">
+				<div class="row">
+
+					<div class="six wide computer eight wide tablet sixteen wide mobile column">
+
+						<div class="member-info">
+							<div class="mr-2"><img class="member-photo" src="img/member-photo.png"></div>
+							<div class="clearfix">
+								<p class="member-name">Kylle Nicole Red</p>
+								<p class="mb-0 dim small">C-20122434321</p>
+								<p class="big">Accenture</p>
+							</div>
+						</div><!--.member-info -->
+					</div><!-- .six.column -->
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+								<tr>
+									<td class="data-label">Birthdate</td>
+									<td>1991-04-21</td>
+								</tr>
+								<tr>
+									<td class="data-label">Civil Status</td>
+									<td>Married</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+
+								<tr>
+									<td class="data-label">Gender</td>
+									<td>Male</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+					<div class="sixteen wide computer column border-bottom">
+						<div class="section-title mt-2"><div class="title-name">Contact Information</div></div>
+					</div>
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+								<tr>
+									<td class="data-label">Email Address 1</td>
+									<td>abc@erd.com</td>
+								</tr>
+								<tr>
+									<td class="data-label">Email Address 2</td>
+									<td>-</td>
+								</tr>
+								<tr>
+									<td class="data-label">Mobile Phone 1</td>
+									<td>987808908</td>
+								</tr>
+								<tr>
+									<td class="data-label">Mobile Phone 2</td>
+									<td>-</td>
+								</tr>
+								<tr>
+									<td class="data-label">Home Number</td>
+									<td>-</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+
+								<tr>
+									<td class="data-label">ADDRESS 1</td>
+									<td>2 Amorsolo Street</td>
+								</tr>
+								<tr>
+									<td class="data-label">ADDRESS 2</td>
+									<td>STU</td>
+								</tr>
+								<tr>
+									<td class="data-label">CITY</td>
+									<td>Legazpi Village</td>
+								</tr>
+								<tr>
+									<td class="data-label">PROVINCE</td>
+									<td>Makati</td>
+								</tr>
+								<tr>
+									<td class="data-label">Region</td>
+									<td>NC</td>
+								</tr>
+								<tr>
+									<td class="data-label">POSTAL CODE</td>
+									<td>00909</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five .column -->
+
+						<div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+
+					<div class="sixteen wide computer column border-bottom">
+						<div class="section-title mt-2"><div class="title-name">Account Information</div></div>
+					</div>
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+								<tr>
+									<td class="data-label">Account Code</td>
+									<td>C0017</td>
+								</tr>
+								<tr>
+									<td class="data-label">Employee Number</td>
+									<td>M-0090</td>
+								</tr>
+								<tr>
+									<td class="data-label">Regular Member</td>
+									<td>Yes</td>
+								</tr>
+								<tr>
+									<td class="data-label">Member Type</td>
+									<td>Principal</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+
+								<tr>
+									<td class="data-label">Date Hired</td>
+									<td>2018-04-17</td>
+								</tr>
+								<tr>
+									<td class="data-label">Regularization Date</td>
+									<td>2018-04-17</td>
+								</tr>
+								<tr>
+									<td class="data-label">PhilHealth No.</td>
+									<td>N/A</td>
+								</tr>
+								<tr>
+									<td class="data-label">TIN Number</td>
+									<td>N/A</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+
+								<tr>
+									<td class="data-label">Senior Citizen </td>
+									<td>No</td>
+								</tr>
+								<tr>
+									<td class="data-label">PWD</td>
+									<td>Yes</td>
+								</tr>
+								<tr>
+									<td class="data-label">PWD Number</td>
+									<td>SC-09090</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+					<div class="sixteen wide computer column pb-2 mb-2">
+
+						<div class="section-title mt-2"><div class="title-name">Plan</div></div>
+
+						<div class="ui right floated header mt-2">
+						<a class="modal-open-main ui primary button">+ Add Plan</a>
+						</div>
+						<table class="full-width ui celled striped table">
+							<thead>
+								<tr>
+									<th>Tier</th>
+									<th>Code</th>
+									<th>Name</th>
+									<th>No. of Benefits</th>
+									<th>Limit Type</ths
+									<th>Limit Amount</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="">BN-0001</a></td>
+									<td>PRD-849613</td>
+									<td><strong>Testproductacu</strong></td>
+									<td>4</td>
+									<td>MBL</td>
+									<td>100000</td>
+									<td class="table-icon--holder">
+										<div class="ui dropdown">
+											<i class="ellipsis vertical icon"></i>
+											<div class="menu">
+												<div class="item">Edit</div>
+												<div class="item">Delete</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+
+		</div> <!-- .white-bg -->
+	</div><!-- .ui.container -->
+

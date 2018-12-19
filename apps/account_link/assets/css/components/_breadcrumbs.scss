@@ -1,0 +1,17 @@
+@import '../variables';
+.breadcrumbs {
+    ul {
+        background-color: $white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        li {
+            padding: 0.75rem 1rem;
+            text-transform: uppercase;
+            display: inline-block;
+            color: #BBBBBB;
+        }
+        li.active {
+            color: $brand_color;
+            border-bottom: 2px solid $brand_color;
+        }
+    }
+}

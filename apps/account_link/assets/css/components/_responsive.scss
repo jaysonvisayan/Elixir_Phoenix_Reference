@@ -1,0 +1,293 @@
+@media only screen and (max-width: 767px) {
+    .ui.steps {
+        &:not(.unstackable) {
+            .step {
+                &:last-child {
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+    .mobile-only {
+        display: inline-block !important;
+    }
+    .tablet-only {
+        display: none;
+    }
+    .mobile-mt-2 {
+        margin-top: 1rem !important;
+    }
+    .mobile-mt-3 {
+        margin-top: 1.5rem !important;
+    }
+    .mobile-mb-2 {
+        margin-bottom: 1rem !important;
+    }
+    .mobile-mr-2 {
+        margin-right: 1rem;
+    }
+    .mobile-px-0 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .mobile-hide {
+        display: none !important;
+    }
+    .mobile-text-left {
+        text-align: left;
+    }
+    .mobile-flex-change {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .mobile-border-none {
+        border: none;
+    }
+    .mobile-pull {
+        order: -1;
+        margin-bottom: 1rem !important;
+    }
+    .main-wrapper {
+        padding-top: 100px;
+    }
+    .breadcrumbs {
+        ul {
+            padding-top: 6rem;
+        }
+    }
+    .sections-wrapper {
+        margin: 1rem 0;
+    }
+    section {
+        padding: 1rem;
+        padding-top: 2rem;
+    }
+    .section-title {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+    table.ui.table.full-width {
+        .menued-rows__item {
+            top: -2.5rem;
+            height: auto;
+            padding: 0.5rem 1rem;
+        }
+    }
+    .mobile-steps {
+        .step {
+            &:not(.active) {
+                display: none;
+            }
+        }
+    }
+    .mobile-overflow {
+        overflow-x: auto !important;
+    }
+    table.responsive-table {
+        thead {
+            tr {
+                th {
+                    min-width: 120px;
+                    padding-left: 14px;
+                    &:first-child {
+                        min-width: 34px;
+                    }
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    min-width: 120px;
+                    padding-left: 14px !important;
+                    &:first-child {
+                        min-width: 34px;
+                    }
+                }
+            }
+        }
+    }
+    .column.mobile-full-width {
+        width: 100% !important;
+    }
+    .segment-mobile-padding {
+        padding: 1em !important;
+    }
+    header {
+        .ui.menu {
+            flex-direction: column;
+        }
+    }
+    .login-wrapper {
+        .logo--medilink {
+            img {
+                height: 80px;
+                background-color: $brand_color;
+                padding: 1.5rem;
+                border-radius: 4px;
+            }
+        }
+        .ui.container {
+            .grid {
+                .row {
+                    .ten.column {
+                        padding-left: 1rem;
+                        padding-right: 1rem;
+                    }
+                }
+            }
+        }
+    }
+    .profile__account-logo {
+        height: 5rem;
+        width: 5rem;
+    }
+    .report--totalutilization {
+        overflow-x: auto;
+    }
+    .report--linechart {
+        overflow-x: auto;
+    }
+    .progress-wrapper {
+        left: 50%;
+        margin-left: -115px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .ui.attached.tabular.menu {
+        .item {
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
+        }
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .hamburger-trigger {
+        display: inline-block;
+    }
+    .ui.left.visible.sidebar {
+        transform: translatex(-100%);
+        transition: 0.3s ease-in;
+        z-index: 1101;
+        padding-top: 0;
+    }
+    .ui.left.visible.sidebar.out {
+        transform: none;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .main-wrapper {
+        padding-left: 0rem !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .ui.mini.modal {
+        width: 360px;
+        margin: 0 0 0 -180px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .ui.mini.modal {
+        width: 340px;
+        margin: 0 0 0 -170px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .ui.mini.modal {
+        width: 35.2%;
+        margin: 0 0 0 -17.6%;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+  .login-wrapper {
+    height: calc(100% - 32px);
+    .medilink-logo {
+      img {
+        height: 100px;
+      }
+    }
+    .maxicare-logo {
+      img {
+        height: 20px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1246px) {
+  .accountlink_evoucher_pdf {
+    height: 25rem !important;
+    width: 40rem !important;
+    border: 3px solid #eaedf2 !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px !important;
+    border-radius: 3px !important;
+  }
+  .pdf_size {
+    zoom: 0.6 !important;
+  }
+}
+
+@media only screen and (max-width: 699px) {
+  .accountlink_evoucher_pdf {
+    height: 25rem !important;
+    width: 25rem !important;
+    border: 3px solid #eaedf2 !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px !important;
+    border-radius: 3px !important;
+  }
+  .pdf_size {
+    zoom: 0.4 !important;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .accountlink_evoucher_pdf {
+    height: 50rem !important;
+    width: 10rem !important;
+    border: 3px solid #eaedf2 !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px !important;
+    border-radius: 3px !important;
+
+  }
+  .pdf_size {
+    zoom: 0.1 !important;
+  }
+}
+
+.pdf_size {
+  zoom: 0.75;
+}
+
+.accountlink_evoucher_pdf {
+  height: 25rem;
+  width: 60rem;
+  border: 3px solid #eaedf2;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.right_floated_button.show_member {
+  float: right;
+  margin-right: 1.5rem;
+}
+
+@media only screen and(max-width: 800px){
+  .right_floated_button.show_member {
+    float: none; margin-right: 0rem;
+  }
+}

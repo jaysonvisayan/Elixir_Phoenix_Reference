@@ -1,0 +1,45 @@
+<div class="ui large modal" id="modalAddProcedure">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Procedures
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+         At least one procedure must be added!
+      </div>
+    <% end %>
+    <input type="hidden" value="<%= @benefit.id %>" id="benefit_id">
+    <%= form_for @conn, benefit_path(@conn, :save, @benefit, tab: "procedures"), [as: :benefit, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="benefit[procedure_ids_main]">
+    <table role="datatable" class="ui stripped table" id="procedure_table_modal">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAllProcedures">
+          </th>
+          <th>Standard CPT Code</th>
+          <th>Standard CPT Description</th>
+          <th>Payor CPT Code</th>
+          <th>Payor CPT Description</th>
+          <th>Procedure Section</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit" id="addBtn">
+      <i class="plus icon"></i>
+    Add
+    </button>
+  </div>
+  <% end %>
+</div>

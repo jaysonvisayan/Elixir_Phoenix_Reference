@@ -1,0 +1,29 @@
+<div class="ui large modal inclusion <%= @coverage %>" style="width: 1200px; top: 704.444px;">
+    <i class="close icon"></i>
+    <div class="header">Inclusion of Facilities</div>
+	<div class="ui segment">
+  	<div class="ui active inverted dimmer hidden" id="overlay-inclusion">
+    	<div class="ui text loader">Loading</div>
+  	</div>
+    <div class="content pt-0">
+        <div class="ui grid form">
+            <div class="sixteen wide column">
+                <table class="full-width ui celled striped table" id="dt-dental-inclusion">
+                    <thead>
+                      <tr>
+                        <th class="small">
+                          <input type="checkbox" role="" name="select_all" value="1" class="facility_chkbx"/> 
+                        </th>
+                            <th class="small">Facility Code</th>
+                            <th class="small">Facility Name</th>
+                            <th class="small">Address</th>
+                            <th class="small">Group</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+

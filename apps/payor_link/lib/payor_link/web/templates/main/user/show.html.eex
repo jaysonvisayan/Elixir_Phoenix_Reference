@@ -1,0 +1,157 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        User
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/users">Users</a>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+				<a href="/web/users/<%= @user.id %>/edit" class="ui primary button mt-1-small">Edit</a>
+			</div>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<% disabled = if String.contains?("access_roles", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+	<div class="ui container">
+		<div class="content-section white-bg">
+			<div class="ui grid">
+				<div class="row">
+
+					<div class="sixteen wide computer column border-bottom">
+						<div class="section-title mt-2"><div class="title-name">User Login</div></div>
+					</div>
+
+					<div class="five wide computer eight wide tablet sixteen wide mobile column">
+						<table class="full-width">
+							<tbody>
+								<tr>
+									<td class="data-label">Username</td>
+                  <td><%= @user.username %></td>
+								</tr>
+								<tr>
+									<td class="data-label">Email Address</td>
+									<td><%= @user.email %></td>
+								</tr>
+								<tr>
+									<td class="data-label">Mobile Number</td>
+									<td><%= @user.mobile %></td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- .five.column -->
+
+					<div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+					<div class="sixteen wide computer column pb-2 mb-2">
+						<div class="section-title mt-2"><div class="title-name">Role</div></div>
+						<table class="full-width ui celled striped table">
+							<thead>
+								<tr>
+									<th>Role Name</th>
+									<th>Application</th>
+									<th>Description</th>
+								</tr>
+              </thead>
+
+							<tbody>
+                <%= for role <- @user.roles do %>
+                  <tr>
+                    <td>
+                      <%= if disabled == "disabled" do %>
+                        <a href="#"><%= role.name %></a>
+                      <% else %>
+                        <a href="/web/roles/<%= role.id %>"><%= role.name %></a>
+                      <% end %>
+                    </td>
+                    <td><%= display_role_applications(role.role_applications) %></td>
+                    <td><%= role.name %></td>
+                  </tr>
+                <% end %>
+							</tbody>
+						</table>
+					</div>
+
+          <%= if notification_checker(@user) do %>
+            <div class="five wide computer eight wide tablet sixteen wide mobile column">Note: User will be notified every time there is an ACU Schedule</div>
+          <% end %>
+
+					<div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+					<div class="sixteen wide computer column border-bottom">
+						<div class="section-title mt-2"><div class="title-name">User Information</div></div>
+					</div>
+					<% application = get_user_application(@user.roles) %>
+					<%= if application == "ProviderLink" do %>
+						<div class="five wide computer eight wide tablet sixteen wide mobile column">
+							<table class="full-width">
+								<tbody>
+                  <tr>
+										<td class="data-label">Name</td>
+                    <td><%= "#{@user.first_name} #{@user.middle_name} #{@user.last_name} #{@user.suffix}" %></td>
+                  </tr>
+                  <tr>
+										<td class="data-label">Gender</td>
+										<td><%= @user.gender %></td>
+									</tr>
+									<tr>
+										<td class="data-label">Facility</td>
+										<td><%= display_user_facility(@user.facility) %></td>
+                  </tr>
+								</tbody>
+							</table>
+						</div><!-- .five.column -->
+					<% else %>
+						<div class="five wide computer eight wide tablet sixteen wide mobile column">
+							<table class="full-width">
+								<tbody>
+									<tr>
+										<td class="data-label">Name</td>
+                    <td><%= "#{@user.first_name} #{@user.middle_name} #{@user.last_name} #{@user.suffix}" %></td>
+									</tr>
+									<tr>
+										<td class="data-label">Company Name</td>
+										<td><%= display_user_company(@user) %></td>
+									</tr>
+									<tr>
+										<td class="data-label">Reporting To</td>
+										<td>
+											<%= for reporting_to <- @user.reporting_to do %>
+												<%= reporting_to.lead.username %>
+												<br>
+											<% end %>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div><!-- .five.column -->
+
+						<div class="five wide computer eight wide tablet sixteen wide mobile column">
+							<table class="full-width">
+								<tbody>
+									<tr>
+										<td class="data-label">Gender</td>
+										<td><%= @user.gender %></td>
+									</tr>
+									<tr>
+										<td class="data-label">Payroll Code</td>
+										<td><%= @user.payroll_code %></td>
+									</tr>
+									<tr>
+										<td class="data-label">Assigned Location</td>
+										<td><%=# @user.mobile %></td>
+									</tr>
+								</tbody>
+							</table>
+						</div><!-- .five.column -->
+					<% end %>
+				</div>
+				<a href="/web/users"><button id="" class="ui basic button mt-1-small">Back</button></a>
+			</div>
+		</div> <!-- .white-bg -->
+	</div><!-- .ui.container -->

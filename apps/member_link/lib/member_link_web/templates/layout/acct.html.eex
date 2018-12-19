@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        display: none;
+      }
+    </style>
+    <script>
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MemberLink</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <header class="header expanded menu fixed top">
+      <div class="ui top fixed">
+        <div class="ui secondary menu top">
+          <div class=" ui fluid container">
+            <div class="item link sidebar-menu-handler">
+              <i class="icon sidebar"></i>
+            </div>
+            <div class="item">
+              <a href="#">
+                <img src="/images/site-logo.png">
+              </a>
+              <a href="/<%= @locale %>"><%= gettext "member" %><b class="primary ui text"><%= gettext "gateway" %></b></a>
+            </div>
+            <input type="hidden" id="locale" value="<%= @locale %>">
+            <div class="right menu sidebar-item">
+              <div class="item">
+                <div class="ui simple dropdown">
+                  <%= if current_user(@conn) do %>
+                    <i class="user outline icon"></i>
+                    <a href="#"> <%= current_user(@conn).username %></a>
+                    <i class="angle down icon"></i>
+                    <div class="menu">
+                      <%= link "Translation", to: translation_path(@conn, :index, @locale), class: "item" %>
+                      <%= link "Search", to: search_path(@conn, :search_doctors, @locale), class: "item" %>
+                      <%= link "Account Settings", to: user_path(@conn, :view_account, @locale), class: "item" %>
+                      <%# <%= link "Smarth Health", to: "https://ssl.adam.com/content.aspx?productId=127&site=maxicare.adam.com&login=MAXI2719&cmd=create&UID=#{@current_user.member_id}", class: "item" %1> %>
+                      <%= link "Smarth Health", to: page_path(@conn, :smarthealth, @locale), class: "item" %>
+                      <%= link "Logout", to: session_path(@conn, :logout, @locale), method: :delete, class: "item" %>
+                    </div>
+                  <% else %>
+                    <%= link "Sign in", to: session_path(@conn, :login, @locale) %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- ui top fixed -->
+    </header>
+
+    <div class="account-sidebar main-sidebar sidebar">
+      <div class="ui secondary vertical menu">
+        <a class="item" id="account" href="/<%= @locale %>/account"><i class="id card icon"></i>My account</a>
+        <a class="item" id="profile" href="/<%= @locale %>/profile"><i class="user icon"></i>My Profile</a>
+        <a class="item" id="contact_details" href="/<%= @locale %>/contact_details"><i class="mail icon"></i>Contact Details</a>
+        <a class="item" href="/<%= @locale %>/kyc"><i class="file icon"></i>Bank KYC Information</a>
+        <a class="item" id="emergency_contact" href="/<%= @locale %>/emergency_contact"><i class="emergency icon"></i>Emergency Contact</a>
+      </div>
+    </div>
+
+    <div class="pusher content-with-sidebar">
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div>
+    <footer>
+      <div class="ui center aligned basic segment" id="footer">Medilink Network, Inc. &copy; 2017.
+        <%= if Application.get_env(:member_link, MemberLinkWeb.Endpoint) |> Keyword.get(:env) != "prod" do %>
+          <b>Member</b>Link v<span><%= version %></span>
+        <% end %>
+      </div>
+    </footer>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+info = get_flash(@conn, :info)
+error = get_flash(@conn, :error)
+%>
+
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+
+<%= if error do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+  </script>
+<% end %>

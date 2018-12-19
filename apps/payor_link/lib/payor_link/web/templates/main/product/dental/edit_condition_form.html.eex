@@ -1,0 +1,376 @@
+<div class="sixteen wide computer column">
+  <%= form_for @changeset_condition, @action, [class: "form2", id: "dental_condition_form"], fn f -> %>
+  <div class="ui form">
+    <input type="hidden" name="product[is_draft]" value="false">
+    <div class="bottom-border pb-2 mb-2">
+
+      <div class="section-title mt-2">
+        <div class="title-name">Eligible Members</div>
+      </div>
+
+      <%= if @product.limit_applicability == nil do %>
+      <h3>No Limit Applicability Selected in General Information</h3>
+      <p> Member Type must be selected, Go back to General(step1) or Go to this link<strong> <a href="/products/<%= @product.id %>/setup?step=1">General-Step1</a></strong></p>
+      <% else %>
+
+      <div class="two fields">
+        <%= case @product.limit_applicability do %>
+        <%= "Principal" -> %>
+        <div class="field">
+          <%= label f, :nem_principal, "Principal", class: "label-title" %>
+          <%= text_input f, :nem_principal, class: "form-control", maxlength: "8", row: "Number of Eligible Members", field_name: "Principal" %>
+          <%= error_tag f, :nem_principal %>
+        </div>
+        <%= "Dependents" -> %>
+        <div class="field">
+          <%= label f, :nem_dependent, "Dependent", class: "label-title" %>
+          <%= text_input f, :nem_dependent, class: "form-control", maxlength: "8", row: "Number of Eligible Members", field_name: "Dependent" %>
+          <%= error_tag f, :nem_dependent %>
+        </div>
+        <%= "Dependents Sharing" -> %>
+        <div class="field">
+          <%= label f, :nem_dependent, "Dependent", class: "label-title" %>
+          <%= text_input f, :nem_dependent, class: "form-control", maxlength: "8", row: "Number of Eligible Members", field_name: "Dependent" %>
+          <%= error_tag f, :nem_dependent %>
+        </div>
+        <%= _ -> %>
+        <div class="field">
+          <%= label f, :nem_principal, "Principal", class: "label-title" %>
+          <%= text_input f, :nem_principal, class: "form-control", maxlength: "8", row: "Number of Eligible Members", field_name: "Principal"  %>
+          <%= error_tag f, :nem_principal %>
+        </div>
+        <div class="field">
+          <%= label f, :nem_dependent, "Dependent", class: "label-title" %>
+          <%= text_input f, :nem_dependent, class: "form-control", maxlength: "8", row: "Number of Eligible Members", field_name: "Dependent" %>
+          <%= error_tag f, :nem_dependent %>
+        </div>
+        <% end %>
+      </div>
+      <% end %>
+
+      <div class="two fields">
+        <%= case @product.limit_applicability do %>
+        <%= "Principal" -> %>
+        <div class="field">
+          <label class="label-title">Default Effective Date for Principal</label>
+          <%= select f, :mded_principal, ["None": "None", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val" %>
+        </div>
+        <%= "Dependents" -> %>
+        <div class="field">
+          <label class="label-title">Default Effective Date for Dependents</label>
+          <%= select f, :mded_dependent, ["None": "None", "Principal’s Effective Date": "Principal’s Effective Date", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val" %>
+        </div>
+        <%= "Dependents Sharing" -> %>
+        <div class="field">
+          <label class="label-title">Default Effective Date for Dependents</label>
+          <%= select f, :mded_dependent, ["None": "None", "Principal’s Effective Date": "Principal’s Effective Date", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val" %>
+        </div>
+        <% _ -> %>
+        <div class="field">
+          <label class="label-title">Default Effective Date for Principal</label>
+          <%= select f, :mded_principal, ["None": "None", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val" %>
+        </div>
+        <div class="field">
+          <label class="label-title">Default Effective Date for Dependents</label>
+          <%= select f, :mded_dependent, ["None": "None", "Principal’s Effective Date": "Principal’s Effective Date", "Date of Hire": "Date of Hire", "Date of Regularization": "Date of Regularization"], class: "ui dropdown mded_val" %>
+        </div>
+        <% end %>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <label class="label-title">Hierarchy Waiver</label>
+          <div class="three fields mt-1 mb-1">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :hierarchy_waiver, "Enforce", id: "enforce", class: "" %>
+                <label for="enforce" class="">Enforce</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :hierarchy_waiver, "Skip Allowed", id: "skipAllowed", class: "" %>
+                <label for="skipAllowed">Skip Allowed</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :hierarchy_waiver, "Waive", id: "waive", class: "" %>
+                <label for="waive">Waive</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-border mb-2">
+      <div class="section-title mt-2">
+        <div class="title-name">Age Eligibility</div>
+      </div>
+
+      <div class="two fields">
+
+        <%= if @product.limit_applicability == nil do %>
+        <div class="four wide column">
+          <div class="inline fields">
+            <h4>No Limit Applicability Selected in General Information please go to step1 or go to this link <a href="/products/<%= @product.id %>/setup?step=1">
+                General-Step1</a></h4>
+          </div>
+        </div>
+        <% else %>
+        <%= if Enum.member?([@product.limit_applicability], "Principal") do %>
+        <div class="field">
+          <label>Principal</label>
+          <div class="four fields">
+            <div class="field">
+              <%= label f, :principal_min_age, "Min Age", class: "label-title" %>
+              <%= select f, :principal_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon", "data-validate": "principal_min_age" %>
+            </div>
+            <div class="field">
+              <%= label f, :principal_min_age, "Min Age", class: "label-title" %>
+              <%= number_input f, :principal_min_age, class: "form-control validate-r p_age age", maxlength: "3", row: "Age Eligibility", field_name: "Principal's Minumum Age", id: "p_min_age", min: "1" %>
+              <%= error_tag f, :principal_min_age %>
+            </div>
+            <div class="field">
+              <%= label f, :principal_max_age, "Max Age", class: "label-title" %>
+              <%= select f, :principal_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :principal_max_age, "Max Age", class: "label-title" %>
+              <%= number_input f, :principal_max_age, class: "form-control validate-r p_age age", maxlength: "3", row: "Age Eligibility", field_name: "Principal's Maximum Age", id: "p_max_age", min: "1" %>
+              <%= error_tag f, :principal_max_age %>
+            </div>
+          </div>
+        </div>
+
+        <% else %>
+
+
+        <div class="field">
+          <label>Parents and Spouse</label>
+          <div class="four fields">
+            <div class="field">
+              <%= label f, :adult_dependent_min_age, "Min Age", class: "label-title" %>
+              <%= select f, :adult_dependent_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :adult_dependent_min_age, "Min Age", class: "label-title" %>
+              <%= number_input f, :adult_dependent_min_age, class: "form-control validate-r age", maxlength: "3", row: "Age Eligibility", field_name: "Adult Dependent's Minimum Age", min: "1", id: "ad_min_age" %>
+              <%= error_tag f, :adult_dependent_min_age %>
+            </div>
+            <div class="field">
+              <%= label f, :adult_dependent_max_age, "Max Age", class: "label-title" %>
+              <%= select f, :adult_dependent_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :adult_dependent_max_age, "Max Age", class: "label-title" %>
+              <%= number_input f, :adult_dependent_max_age, class: "form-control validate-r age", maxlength: "3", row: "Age Eligibility", field_name: "Adult Dependent's Maximum Age", min: "1", id: "ad_max_age" %>
+              <%= error_tag f, :adult_dependent_max_age %>
+            </div>
+            <div class="ui basic red pointing prompt label hidden greater_than_validation_message">
+              Parents and Spouse min age must not be greater than max age
+            </div>
+            <div class="ui basic red pointing prompt label hidden equal_equal_validation_message">
+              Parents and Spouse min age and max age must not be equal
+            </div>
+            <div class="ui basic red pointing prompt label hidden pls_complete_validation_message">
+              Please complete the fill section for Parents and Spouse
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <label>Child and Siblings</label>
+          <div class="four fields">
+            <div class="field">
+              <%= label f, :minor_dependent_min_age, "Min Age", class: "label-title" %>
+              <%= select f, :minor_dependent_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :minor_dependent_min_age, "Min Age", class: "label-title" %>
+              <%= number_input f, :minor_dependent_min_age, class: "form-control validate-r age", maxlength: "3", row: "Age Eligibility", field_name: "Minor Dependent's Minimum Age", min: "1", id: "md_min_age" %>
+              <%= error_tag f, :minor_dependent_min_age %>
+            </div>
+            <div class="field">
+              <%= label f, :minor_dependent_max_age, "Max Age", class: "label-title" %>
+              <%= select f, :minor_dependent_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :minor_dependent_max_age, "Max Age", class: "label-title" %>
+              <%= number_input f, :minor_dependent_max_age, class: "form-control validate-r age", maxlength: "3", row: "Age Eligibility", field_name: "Minor Dependent's Maximum Age", min: "1", id: "md_max_age" %>
+              <%= error_tag f, :minor_dependent_max_age %>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Overage Dependents</label>
+          <div class="four fields">
+            <div class="field">
+              <%= label f, :overage_dependent_min_age, "Min Age", class: "label-title" %>
+              <%= select f, :overage_dependent_min_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :overage_dependent_min_age, "Min Age", class: "label-title" %>
+              <%= number_input f, :overage_dependent_min_age, class: "form-control validate-r age", maxlength: "3", row: "Age Eligibility", field_name: "Overage Dependent's Minimum Age", min: "1", id: "od_min_age" %>
+              <%= error_tag f, :overage_dependent_min_age %>
+            </div>
+            <div class="field">
+              <%= label f, :overage_dependent_max_age, "Max Age", class: "label-title" %>
+              <%= select f, :overage_dependent_max_type, ["Years": "Years", "Months": "Months", "Weeks": "Weeks", "Days": "Days"], class: "dropdown icon" %>
+            </div>
+            <div class="field">
+              <%= label f, :overage_dependent_max_age, "Max Age", class: "label-title" %>
+              <%= number_input f, :overage_dependent_max_age, class: "form-control validate-r age", maxlength: "3", row: "Age Eligibility", field_name: "Overage Dependent's Maximum Age", min: "1", id: "od_max_age" %>
+              <%= error_tag f, :overage_dependent_max_age %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+
+    <div class="bottom-border pb-2 mb-2">
+      <div class="section-title mt-2">
+        <div class="title-name">Authorizations</div>
+      </div>
+      <div class="three fields">
+
+        <div class="field">
+          <label>Mode of Availment</label>
+          <div class="two fields mt-1">
+            <div class="field">
+              <div class="ui checkbox">
+                <% lf = @product.loa_facilitated %>
+                <% lf_state = if is_nil(lf) or lf == false, do: "unchecked", else: "checked" %>
+                <input type="checkbox" name="product[loa_facilitated]" id="product_loa_facilitated" class="mof_input"
+                  <%=lf_state %>>
+                <label>LOA Facilitated</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui checkbox">
+                <% r = @product.reimbursement %>
+                <% r_state = if is_nil(r) or r == false, do: "unchecked", else: "checked" %>
+                <input type="checkbox" name="product[reimbursement]" id="product_reimbursement" class="mof_input" <%=r_state
+                  %>>
+                <label>Reimbursement</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>LOA Validity</label>
+        <div class="eight fields">
+          <div class="field">
+            <%= select f, :loa_validity_type, ["Days": "Days", "Months": "Months"], class: "dropdown icon" %>
+          </div>
+          <div class="field">
+            <%= number_input f, :loa_validity, class: "form-control validate-r loa_v", row: "Age Eligibility", field_name: "Loa Validity", min: "1", id: "loa_validity", maxlength: "3" %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Special Handling</label>
+        <div class="four fields">
+          <div class="field">
+            <%= select f, :special_handling_type, ["Fee for Service": "Fee for Service", "ASO Override": "Aso Override", "Corporate Guarantee": "Corporate Guarantee"], class: "dropdown icon", prompt: " " %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <%= if @product.product_category == "Regular Plan" do %>
+    <div class="bottom-border pb-2 mb-2">
+      <div class="section-title">
+        <div class="title-name">Deductions</div>
+      </div>
+      <div class="mb-1">
+        <label>Annual Deduction</label>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label class="label-title">Network Benefits ( per Year)</label>
+          <%= text_input f, :adnb, class: "form-control", id: "adnb" %>
+        </div>
+
+        <div class="field">
+          <label class="label-title">Non-Network Benefits ( per Year)</label>
+          <%= text_input f, :adnnb, class: "form-control", id: "adnnb" %>
+        </div>
+      </div>
+
+      <div class="mb-1">
+        <label>Out of Pocket Maximum</label>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label class="label-title">Network Benefits ( per Year)</label>
+          <%= text_input f, :opmnb, class: "form-control", id: "opmnb" %>
+        </div>
+
+        <div class="field">
+          <label class="label-title">Non-Network Benefits ( per Year)</label>
+          <%= text_input f, :opmnnb, class: "form-control", id: "opmnnb" %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <div class="bottom-border pb-2 mb-2">
+
+      <div class="section-title">
+        <div class="title-name">Payment</div>
+      </div>
+      <div class="field">
+        <label>Funding Arrangement</label>
+        <br>
+        <div class="eight fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <%= radio_button f, :dental_funding_arrangement, "Full Risk", id: "full_risk", class: "" %>
+              <label>Full Risk</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="eight fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button f, :dental_funding_arrangement, "ASO", id: "aso", class: "" %>
+            <label>ASO</label>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="field">
+        <label>Type of Payment</label>
+        <div class="four fields">
+          <div class="field">
+            <%= select f, :type_of_payment_type, ["Built-in": "Built In", "Charge to ASO": "Charge to Aso", "Seperate Fee": "Seperate Fee"], class: "dropdown icon", prompt: " " %>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui vertical segment mb-2">
+        <div class="text-right">
+          <button type="submit" id="create_dental" class="ui primary button large">Update</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <% end %>
+</div>

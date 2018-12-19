@@ -1,0 +1,39 @@
+<%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    <% end %>
+    <div class="two fields">
+      <div class="field">
+        <%= label f, "Package Code", class: "control-label" %>
+        <%= text_input f, :code, class: "form-control" %>
+        <font color="red"><%= error_tag f, :code %></font>
+      </div>
+      <div class="field">
+        <%= label f, "Package Name", class: "control-label" %>
+        <%= text_input f, :name, class: "form-control" %>
+        <font color="red"><%= error_tag f, :name %></font>
+      </div>
+  </div>
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <%= if @changeset.data.id do %>
+        <button class="ui red button mrg1T" id="deletePackage" packageID="<%= @changeset.data.id %>" type="button">
+          <i class="trash left icon"></i>Delete
+        </button>
+      <% end %>
+    </div>
+    <div class="column eight wide">
+      <button class="ui blue right floated button" type="submit" >
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+        <a href="/packages" class="ui button">
+          <i class="remove left icon"></i>
+          Cancel
+        </a>
+    </div>
+  </div>
+<% end %>

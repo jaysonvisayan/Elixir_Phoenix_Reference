@@ -1,0 +1,23 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Miscellaneous</h2>
+  <div class="ui small breadcrumb">
+    <a href="/miscellaneous" class="section">Miscellaneous</a>
+    <i class="right chevron icon divider"></i>
+    <a href="" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Item</div>
+  </div>
+</div>
+<div name="miscellaneous_step1_edit" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+
+          <%= render "step1_edit_form.html", changeset: @changeset, miscellaneous: @miscellaneous, conn: @conn, action: miscellaneous_path(@conn, :save_edit, @miscellaneous) %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

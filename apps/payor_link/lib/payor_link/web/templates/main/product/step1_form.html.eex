@@ -1,0 +1,245 @@
+<div class="sixteen wide computer column">
+  <%= form_for @changeset_general_edit, @action, [class: "form2", id: "main_general_form"], fn f -> %>
+    <div class="ui form">
+      <div class="bottom-border pb-2 mb-2">
+
+        <div class="section-title mt-2">
+          <div class="title-name">Plan Information</div>
+        </div>
+        <div class="two fields">
+
+         <div class="field">
+              <%= label f, :name, "Plan Name (required)", class: "label-title" %>
+              <%= text_input f, :name, class: "form-control", placeholder: "Add Plan Name" %>
+              <%= error_tag f, :name %>
+          </div>
+
+          <div class="field">
+            <%= label f, :description, "Plan Description(required)", class: "label-title" %>
+            <%= text_input f, :description, class: "form-control", placeholder: "Add Plan Category" %>
+            <%= error_tag f, :description %>
+          </div>
+        </div>
+
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :type, "Plan Type", class: "label-title"  %>
+            <%= select f, :type, ["Select Plan Type": "", "Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze", "Platinum Plus": "Platinum Plus"], class: "ui fluid dropdown" %>
+            <%= error_tag f, :type %>
+          </div>
+
+          <div class="field">
+            <label class="label-title">Plan Classification</label>
+            <%= error_tag f, :standard_product %>
+            <div class="two fields mt-1">
+              <div class="field">
+                <div class="seven wide column">
+                  <div class="ui radio checkbox">
+                    <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+                    <label for="abl" class="">Standard</label>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="eight wide column">
+                  <div class="ui radio checkbox ">
+                    <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+                    <label for="mbl">Custom</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <%= label f, :member_type, "Member Type", class: "label-title" %>
+            <%= error_tag f, :member_type %>
+
+
+            <%= case @product.member_type do %>
+              <%= ["Principal"] -> %>
+                <div class="two fields mt-1">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Principal" name="product[member_type][]" checked="" >
+                      <label for="principal" class="">Principal</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Dependent" name="product[member_type][]" >
+                      <label for="dependent" class="">Dependent</label>
+                    </div>
+                  </div>
+                </div>
+
+              <% ["Dependent"] -> %>
+                <div class="two fields mt-1">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Principal" name="product[member_type][]" >
+                      <label for="principal" class="">Principal</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Dependent" name="product[member_type][]" checked="" >
+                      <label for="dependent" class="">Dependent</label>
+                    </div>
+                  </div>
+                </div>
+
+              <% ["Principal", "Dependent"] -> %>
+                <div class="two fields mt-1">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Principal" name="product[member_type][]" checked="" >
+                      <label for="principal" class="">Principal</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Dependent" name="product[member_type][]" checked="" >
+                      <label for="dependent" class="">Dependent</label>
+                    </div>
+                  </div>
+                </div>
+
+              <% _ -> %>
+                <div class="two fields mt-1">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Principal" name="product[member_type][]" checked="" >
+                      <label for="principal" class="">Principal</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" value="Dependent" name="product[member_type][]" checked="" >
+                      <label for="dependent" class="">Dependent</label>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
+          </div>
+
+          <div class="field">
+            <%= label f, :phic_status, "PHIC Status", class: "label-title" %>
+            <%= error_tag f, :phic_status %>
+            <div class="two fields mt-1">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :phic_status, "Required to File", id: "rtftest", class: "" %>
+                  <label for="rtftest" class="">Required to File</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :phic_status, "Optional to File", id: "otftest", class: "" %>
+                  <label for="otftest">Optional to File</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="bottom-border pb-2 mb-2">
+
+        <div class="section-title mt-2">
+          <div class="title-name">Limit Information</div>
+        </div>
+
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :limit_type, "Limit Type", class: "label-title" %>
+            <%= error_tag f, :limit_type %>
+            <div class="two fields mt-1">
+              <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :limit_type, "ABL", id: "abl", class: "" %>
+                <label for="abl" class="">ABL</label>
+              </div>
+              </div>
+              <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :limit_type, "MBL", id: "mbl", class: "" %>
+                <label for="mbl">MBL</label>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <%= label f, :limit_amount, "Limit Amount", class: "label-title" %>
+             <%= text_input f, :limit_amount, class: "form-control", id: "product_limit_amt" %>
+              <%= error_tag f, :limit_amount %>
+          </div>
+
+
+        </div>
+
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :limit_applicability, "Limit Applicability", class: "label-title" %>
+            <%= error_tag f, :limit_applicability %>
+            <div class="two fields mt-1">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :limit_applicability, "Principal", id: "laprincipal", class: "laprincipal" %>
+                  <label for="laprincipal" class="">Principal</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button f, :limit_applicability, "Share with Dependents", id: "swd", class: "swd" %>
+                  <label for="swd">Share with Dependents</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- shared limit amount -->
+          <%= case @product.limit_applicability do %>
+            <%= "Share with Dependents" -> %>
+              <div class="field" id="slaContainer">
+                <%= label f, :shared_limit_amount, "Shared Limit Amount", class: "label-title" %>
+                <%= text_input f, :shared_limit_amount, class: "form-control", disabled: false, id: "slaTxtBox" %>
+                <%= error_tag f, :shared_limit_amount %>
+              </div>
+
+            <%= _ -> %>
+              <div class="field hidden" id="slaContainer">
+                <%= label f, :shared_limit_amount, "Shared Limit Amount", class: "label-title" %>
+                <%= text_input f, :shared_limit_amount, class: "form-control", disabled: true, id: "slaTxtBox" %>
+                <%= error_tag f, :shared_limit_amount %>
+              </div>
+            <% end %>
+          <!-- shared limit amount -->
+
+
+        </div>
+
+      <input type="hidden" id="product_benefit_highest" value="<%= pbl_highest(@product) %>" name="product[product_benefit_highest]">
+
+      </div>
+
+      <div class="ui vertical segment mb-2">
+        <div class="text-right">
+          <a class="ui basic button large" href="/web/products" >
+            <i class="caret left icon"></i>Back
+          </a>
+          <button type="button" class="ui primary button large submit">Next <i class="caret right icon white"></i></button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

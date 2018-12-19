@@ -1,0 +1,57 @@
+<%= form_for @changeset, @action, [class: "form2", id: "coverage_form"], fn _f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="ui middle aligned  right aligned grid">
+      <br>
+      <br>
+      <br>
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Coverage</h4>
+      </div>
+    </div>
+
+    <div class="ui divider mrg0T mrg1B"></div>
+    <br>
+
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+        <div class="ui grid" id="benefit_cards">
+
+          <%= for coverage <- Enum.sort_by(@coverages, &(&1.description)) do %>
+            <%= if coverage.description != "ACU" do %>
+              <div class="sixteen wide tablet two wide computer column">
+                <div class="ui card b_card">
+                  <div class="content">
+                    <div class="header">
+                      <div class="ui checkbox sixteen wide column">
+                        <input type="checkbox" class="hidden" value="<%= coverage.id %>" name="product[coverages][]" <%= coverage_checkbox_checker(@product, coverage.id) %> >
+                        <label for="<%= coverage.id %>" class=""><%= coverage.description %></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" name="product[step]" value="4" >
+
+    <div class="ui middle aligned  right aligned grid mrg1T">
+      <div class="left floated left aligned six wide column">
+        <a href="#" class="ui negative button" id="delete_draft" productID="<%= @product.id %>">
+    <i class="trash left icon"></i>
+    Delete Draft
+        </a>
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a href="/products/<%= @product.id %>/setup?step=2" class="ui button">
+    <i class="chevron left icon"></i> Back
+        </a>
+        <button type="submit" class="ui blue button">Next <i class="chevron right icon"></i></button>
+      </div>
+    </div>
+
+<% end %>

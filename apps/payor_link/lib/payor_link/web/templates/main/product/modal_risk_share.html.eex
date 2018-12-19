@@ -1,0 +1,63 @@
+<div class="ui small modal risk-share">
+  <i class="close icon"></i>
+  <div class="header">Exempt Facilities in Risk Share</div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <input type="hidden" name="risk-share-coverage">
+        <form class="ui form" id="risk-share-form">
+          <div class="field" id="rs_dropdown">
+            <label class="label-title">Facility</label>
+            <div class="ui fluid selection dropdown" id="select-rs-facility">
+              <input type="hidden" name="risk-share-facility">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Facility</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+
+          <div class="two wide fields">
+            <div class="field" id="rs_dropdown">
+              <label class="label-title">Risk Share</label>
+              <div class="ui fluid selection dropdown" id="select-rs">
+                <input type="hidden" name="risk-share">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Risk Share</div>
+                <div class="menu">
+                  <div class="item">Copayment</div>
+                  <div class="item">CoInsurance</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label-title">Value</label>
+              <div class="ui right labeled input">
+                <input type="text" name="risk-share-value">
+                <div class="ui basic label" id="lbl-risk-share-value">
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label-title">Covered after Risk Share</label>
+            <div class="ui right labeled input">
+              <input type="number" name="covered-after-risk-share">
+              <div class="ui basic label">
+                <span class="covered_label">%</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class=" ui primary basic button cancel">Cancel</button>
+      <button class=" send-rtp ui primary button right floated add">Add</button>
+    </div>
+  </div>
+</div>

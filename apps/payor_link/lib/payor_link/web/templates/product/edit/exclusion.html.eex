@@ -1,0 +1,274 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Plan</div>
+  </div>
+</div>
+<div id="product_exclusions" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui six item menu">
+            <a href="/products/<%= @product.id %>/edit?tab=general" class="item">General</a>
+            <a class="active item">Exclusion</a>
+            <a href="/products/<%= @product.id %>/edit?tab=<%= product_base_link_edittab(@product) %>" class="item" id="cov-ben-edittab"><%= product_base_label(@product) %></a>
+            <a href="/products/<%= @product.id %>/edit?tab=facility_access" class="item">Facility Access</a>
+            <a href="/products/<%= @product.id %>/edit?tab=condition" class="item">Condition</a>
+            <a href="/products/<%= @product.id %>/edit?tab=risk_share" class="item">Risk Share</a>
+          </div>
+          <div class="row">
+            <div class="column">
+              <div class="ui negative message hidden" id="optionValidation">
+                <i class="close icon"></i>
+                <div class="header">
+                  No Exclusion selected.
+                </div>
+                <p>Atleast one of both general and pre-existing exclusion must be added.</p>
+              </div>
+
+
+              <div class="ui middle aligned  right aligned grid">
+                <div class="left floated left aligned six wide column">
+                  <h4 class="ui header">General Exclusion</h4>
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <%= if @product.product_base == "Benefit-based" do %>
+                    <a class="ui disabled small primary add button genex"><i class="plus icon"></i>General Exclusion</a>
+                  <% else %>
+                    <a class="ui small primary add button genex"><i class="plus icon"></i>General Exclusion</a>
+                  <% end %>
+                </div>
+              </div>
+              <div class="ui divider mrg0T mrg1B"></div>
+              <div class="ui grid">
+                <div class="twelve wide column">
+                </div>
+                <div class="four wide column right aligned">
+
+                  <label>Search<input type="search" id="genex_search"></label>
+                </div>
+              </div>
+              <div class="ui cards centered" id="genex_validation">
+
+                 <%= for product_exclusion <- check_exclusion_genex(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+                        <div class="ui card g_card">
+                          <div class="content">
+                            <div class="ui icon top right floated pointing dropdown basic">
+                              <i class="ellipsis horizontal icon"></i>
+                              <div class="left menu">
+                                <div class="item clickable-row" href="#"  onclick="window.open('/exclusions/<%= product_exclusion.exclusion.id %>');" >
+                                  <i class="unhide icon"></i>
+                                  View Exclusion
+                                </div>
+                                <div class="item clickable-row deleting_product_exclusion_edit" href="#" exclusionID="<%= product_exclusion.exclusion.id %>" productID="<%= @product.id %>" productExclusionID="<%= product_exclusion.id %>">
+                                  <i class="trash icon"></i>
+                                    Remove
+                                </div>
+                              </div>
+                            </div>
+                            <div class="header"><%= product_exclusion.exclusion.name %></div>
+                          </div>
+                          <div class="content">
+                            <div class="ui small feed">
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Exclusion Code
+                                        </div>
+                                        <div class="column">
+                                          <%= product_exclusion.exclusion.code %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          No. of Diseases
+                                        </div>
+                                        <div class="column">
+                                          <%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          No. of Procedures
+                                        </div>
+                                        <div class="column">
+                                          <%= Enum.count(product_exclusion.exclusion.exclusion_procedures) %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+              <div class="column">
+                <div class="ui middle aligned  right aligned grid">
+                  <div class="left floated left aligned six wide column">
+                    <h4 class="ui header">Pre-Existing Condition</h4>
+                  </div>
+                  <div class="right floated right aligned six wide column">
+                    <a class="ui small primary add button pre-existing"><i class="plus icon"></i>Pre-Existing Condition</a>
+                  </div>
+                </div>
+                <div class="ui divider mrg0T mrg1B"></div>
+                <div class="ui grid">
+                  <div class="twelve wide column">
+                  </div>
+                  <div class="four wide column right aligned">
+
+                    <label>Search<input type="search" id="pre_search"></label>
+                  </div>
+                </div>
+                <div class="ui cards centered" id="pre_validation">
+
+                 <%= for product_exclusion <- check_pre_existing(Enum.sort_by(@product.product_exclusions, &(&1.exclusion.code))) do %>
+                    <div class="ui card p_card">
+                      <div class="content">
+                        <div class="ui icon top right floated pointing dropdown basic">
+                          <i class="ellipsis horizontal icon"></i>
+                          <div class="left menu">
+                              <div class="item clickable-row" href="#"  onclick="window.open('/exclusions/<%= product_exclusion.exclusion.id %>');" >
+                                <i class="unhide icon"></i>
+                                View Exclusion
+                              </div>
+                              <%= if not is_nil(product_exclusion.product_exclusion_limit) do %>
+                                <div class="item clickable-row edit_pec_limit" href="#" exclusion_id ="<%= product_exclusion.exclusion.id %>" limit_type="<%= product_exclusion.product_exclusion_limit.limit_type %>" limit_peso="<%= product_exclusion.product_exclusion_limit.limit_peso %>" limit_session="<%= product_exclusion.product_exclusion_limit.limit_session %>" limit_percentage="<%= product_exclusion.product_exclusion_limit.limit_percentage %>" >
+                                  <i class="edit icon"></i>
+                                  Edit Limit
+                                </div>
+                              <% end %>
+                              <div class="item clickable-row deleting_product_exclusion_edit" href="#" exclusionID="<%= product_exclusion.exclusion.id %>" productID="<%= @product.id %>" productExclusionID="<%= product_exclusion.id %>">
+                                <i class="trash icon"></i>
+                                Remove
+                              </div>
+                          </div>
+                        </div>
+                        <div class="header">
+                          <%= product_exclusion.exclusion.name %>
+                          <%= if is_nil(product_exclusion.product_exclusion_limit) do %>
+                            (No Exclusion Limit)
+                          <% else %>
+                            <%= if is_nil(product_exclusion.product_exclusion_limit.limit_type) do %>
+                              (No Exclusion Limit)
+                            <% end %>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="content">
+                        <div class="ui small feed">
+                          <div class="event">
+                            <div class="content">
+                              <div class="summary">
+                                <div class="ui grid">
+                                  <div class="doubling two column row">
+                                    <div class="column description">
+                                      Exclusion Code
+                                    </div>
+                                    <div class="column">
+                                      <%= product_exclusion.exclusion.code %>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="event">
+                            <div class="content">
+                              <div class="summary">
+                                <div class="ui grid">
+                                  <div class="doubling two column row">
+                                    <div class="column description">
+                                      No. of Diseases
+                                    </div>
+                                    <div class="column">
+                                      <%= Enum.count(product_exclusion.exclusion.exclusion_diseases) %>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+
+                </div>
+                <a href="/products/<%= @product.id %>" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Cancel
+                </a>
+                <%= render "edit/exclusion_genex_modal.html", product: @product, changeset_genex: @changeset_genex, exclusions: @exclusions, conn: @conn, action: product_path(@conn, :save, @product, tab: "exclusion-genex") %>
+                <%= render "edit/exclusion_pre_existing_modal.html", product: @product, changeset_pre_existing: @changeset_pre_existing, exclusions: @exclusions, conn: @conn, action: product_path(@conn, :save, @product, tab: "exclusion-pre-existing") %>
+                <%= render "edit/exclusion_modal_view.html", product: @product, conn: @conn %>
+                <%= render "step2_modal_edit_pec_limit.html", product: @product, conn: @conn, changeset: @changeset_pre_existing, action: product_path(@conn, :edit_pec_limit_edit, @product) %>
+
+
+                <div class="ui tiny modal" id="confirmation_exclusion_edit" >
+                  <div class="header">
+                    Remove Exclusion
+                  </div>
+                  <div class="content">
+                    <input type="hidden" value="" id="">
+                    <p>
+                    Do you really want to remove this exclusion?
+                    </p>
+                  </div>
+                  <div class="actions">
+                    <div class="ui cancel button" id="confirmation_cancel_exclusion_edit">
+                      <i class="remove icon"></i>
+                      No, Keep Exclusion
+                    </div>
+                    <div class="ui red ok button"  id="confirmation_submit_exclusion_edit">
+                      <i class="trash icon"></i>
+                      Yes, Remove Exclusion
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= if assigns[:modal_open_gen] do %>
+          <input type="hidden" id="open_modal_genex">
+        <% end %>
+
+        <%= if assigns[:modal_open_pre] do %>
+          <input type="hidden" id="open_modal_pre_exist">
+        <% end %>
+

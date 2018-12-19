@@ -1,0 +1,517 @@
+@import '../variables';
+
+body {
+  text-align: center;
+}
+
+a:hover .header {
+  color: rgb(25, 60, 106);
+}
+
+.right-aligned {
+  text-align: right;
+}
+
+.center-aligned {
+  text-align: center;
+}
+
+.dim {
+  color: rgb(41, 67, 94);
+}
+
+.set-bg {
+  background-color: #4e9ac7 !important;
+  color: #FFF !important;
+}
+
+.set-bg:hover {
+  background-color: #327196 !important;
+  color: #FFF !important;
+}
+
+.set-box-width {
+  width: 100% !important;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-margin {
+  margin: 1rem !important;
+}
+
+// /* Smaller phones */
+// @media only screen and (max-width: 269px) and (max-height: 500px) {
+//   body {
+//     zoom: 70%;
+//   }
+
+//   .segment-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//     display: block;
+//   }
+
+//   .message-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//   }
+
+//   .float-buttons {
+//     position: fixed;
+//     bottom: 50px;
+//     left: 0;
+//     padding-left: 1rem;
+//     padding-top: 1rem;
+//     background-color: #FFF;
+//     width: 100%;
+//     border-top: 1px solid rgb(106, 106, 106);
+//     z-index: 99;
+//   }
+
+//   .fbutton {
+//     display: inline-block;
+//   }
+
+//   .spacer {
+//     display: none;
+//     height: 5rem;
+//   }
+
+//   .content-margin {
+//     margin: 1rem !important;
+//     margin-bottom: 13em !important;
+//   }
+// }
+
+/* Smaller phones */
+// @media only screen and (max-width: 269px) and (min-height: 501px) {
+@media only screen and (max-width: 269px) {
+  body {
+    zoom: 70%;
+    overflow: auto;
+  }
+
+  .segment-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+    display: block;
+  }
+
+  .message-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .fbutton {
+    display: inline-block;
+  }
+
+  .spacer {
+    display: none;
+    height: 5rem;
+  }
+
+  .content-margin {
+    margin: 1rem !important;
+  }
+
+  .conforme-spacer {
+    height: 4rem;
+  }
+}
+
+// /* Feature phones */
+// @media only screen and (min-width: 270px) and (max-width: 319px) and (max-height: 699px) {
+//   body {
+//     zoom: 85%;
+//   }
+
+//   .segment-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//     display: block;
+//   }
+
+//   .message-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//   }
+
+//   .float-buttons {
+//     position: fixed;
+//     bottom: 50px;
+//     left: 0;
+//     padding-left: 1rem;
+//     padding-top: 1rem;
+//     background-color: #FFF;
+//     width: 100%;
+//     border-top: 1px solid rgb(106, 106, 106);
+//     z-index: 99;
+//   }
+
+//   .fbutton {
+//     display: inline-block;
+//   }
+
+//   .spacer {
+//     display: none;
+//     height: 5rem;
+//   }
+
+//   .content-margin {
+//     margin: 1rem !important;
+//     margin-bottom: 13em !important;
+//   }
+// }
+
+/* Feature phones */
+// @media only screen and (min-width: 270px) and (max-width: 319px) and (min-height: 700px) {
+@media only screen and (min-width: 270px) and (max-width: 319px) {
+  body {
+    zoom: 85%;
+  }
+
+  .segment-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+    display: block;
+  }
+
+  .message-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .fbutton {
+    display: inline-block;
+  }
+
+  .spacer {
+    display: none;
+    height: 5rem;
+  }
+
+  .content-margin {
+    margin: 1rem !important;
+  }
+
+  .conforme-spacer {
+    height: 5rem;
+  }
+}
+
+/* Mobile */
+// @media only screen and (min-width: 320px) and (max-width: 719px) and (max-height: 699px) {
+//   body {
+//     zoom: 95%;
+//   }
+
+//   .segment-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//     display: block;
+//   }
+
+//   .message-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//   }
+
+
+//   .float-buttons {
+//     position: fixed;
+//     bottom: 50px;
+//     left: 0;
+//     padding-left: 1rem;
+//     padding-top: 1rem;
+//     background-color: #FFF;
+//     width: 100%;
+//     border-top: 1px solid rgb(106, 106, 106);
+//     z-index: 99;
+//   }
+
+//   .fbutton {
+//     display: inline-block;
+//   }
+
+//   .spacer {
+//     display: none;
+//     height: 7rem;
+//   }
+
+//   .content-margin {
+//     margin: 1rem !important;
+//     margin-bottom: 13em !important;
+//   }
+// }
+
+/* Mobile */
+// @media only screen and (min-width: 320px) and (max-width: 719px) and (min-height: 700px) {
+@media only screen and (min-width: 320px) and (max-width: 425px) {
+  body {
+    zoom: 90%;
+  }
+
+  .segment-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+    display: block;
+  }
+
+  .message-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .fbutton {
+    display: inline-block;
+  }
+
+  .spacer {
+    display: none;
+    height: 7rem;
+  }
+
+  .content-margin {
+    margin: 1rem !important;
+  }
+
+  .conforme-spacer {
+    height: 5rem;
+  }
+}
+
+// /* Tablet / iPad Portrait */
+// @media only screen and (min-width: 720px) and (max-width: 1023px) and (max-height: 699px) {
+//   .segment-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//     display: block;
+//   }
+
+//   .message-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//   }
+
+//   .set-scrollable {
+//     max-height: 18rem;
+//     overflow: auto;
+//   }
+
+//   .spacer {
+//     display: none;
+//   }
+
+//   .float-buttons {
+//     position: fixed;
+//     bottom: 25px;
+//     left: 0;
+//     padding-left: 1rem;
+//     padding-top: 1rem;
+//     background-color: #fff;
+//     width: 100%;
+//     border-top: 1px solid rgb(106, 106, 106);
+//     z-index: 99;
+//   }
+//   .content-margin {
+//     margin-bottom: 12em !important;
+//     margin-top: 1.5rem !important;
+//     margin-left: 2rem !important;
+//     margin-right: 2rem !important;
+//   }
+// }
+
+/* Tablet / iPad Portrait */
+// @media only screen and (min-width: 720px) and (max-width: 1023px) and (min-height: 700px) {
+@media only screen and (min-width: 426px) and (max-width: 1023px) {
+  .segment-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+    display: block;
+  }
+
+  .message-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .set-scrollable {
+    max-height: 18rem;
+    overflow: auto;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .content-margin {
+    margin: 2rem !important;
+  }
+
+  .conforme-spacer {
+    height: 3rem;
+  }
+
+}
+
+// /* Computer / Desktop / iPad Landscape */
+// @media only screen and (min-width: 1024px) and (max-width: 1199px) and (max-height: 699px) {
+//   .segment-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//     display: block;
+//   }
+
+//   .message-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//   }
+
+//   .set-scrollable {
+//     max-height: 20rem;
+//     overflow: auto;
+//   }
+
+//   .spacer {
+//     display: none;
+//   }
+
+//   .float-buttons {
+//     position: fixed;
+//     bottom: 25px;
+//     left: 0;
+//     padding-left: 1rem;
+//     padding-top: 1rem;
+//     background-color: #fff;
+//     width: 100%;
+//     border-top: 1px solid rgb(106, 106, 106);
+//     z-index: 99;
+//   }
+
+//   .content-margin {
+//     margin-bottom: 8rem !important;
+//     margin-top: 1rem !important;
+//     margin-left: 1rem !important;
+//     margin-right: 1rem !important;
+//   }
+// }
+
+/* Computer / Desktop / iPad Landscape */
+// @media only screen and (min-width: 1024px) and (max-width: 1199px) and (min-height: 700px) {
+@media only screen and (min-width: 1024px) and (max-width: 1199px) {
+  .segment-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+    display: block;
+  }
+
+  .message-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .set-scrollable {
+    max-height: 20rem;
+    overflow: auto;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .content-margin {
+    margin-top: 3rem !important;
+    margin-left: 3rem !important;
+    margin-right: 3rem !important;
+  }
+
+  .conforme-spacer {
+    height: 4rem;
+  }
+}
+
+// /* Large Monitor, Widescreen Monitor */
+// @media only screen and (min-width: 1200px) and (max-height: 699px) {
+//   .segment-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//     display: block;
+//   }
+
+//   .message-less-opacity {
+//     width: 50rem;
+//     max-width: 50rem;
+//   }
+
+//   .set-scrollable {
+//     max-height: 20rem;
+//     overflow: auto;
+//   }
+
+//   .spacer {
+//     display: none;
+//   }
+
+//   .content-margin {
+//     margin-bottom: 8rem !important;
+//     margin-top: 3rem !important;
+//     margin-left: 3rem !important;
+//     margin-right: 3rem !important;
+//   }
+
+//   .float-buttons {
+//     position: fixed;
+//     bottom: 25px;
+//     left: 0;
+//     padding-left: 1rem;
+//     padding-top: 1rem;
+//     background-color: #fff;
+//     width: 100%;
+//     border-top: 1px solid rgb(106, 106, 106);
+//     z-index: 99;
+//   }
+
+// }
+
+/* Large Monitor, Widescreen Monitor */
+// @media only screen and (min-width: 1200px) and (min-height: 700px) {
+@media only screen and (min-width: 1200px) {
+  .segment-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+    display: block;
+  }
+
+  .message-less-opacity {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .set-scrollable {
+    max-height: 20rem;
+    overflow: auto;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .content-margin {
+    margin-top: 3rem !important;
+    margin-left: 3rem !important;
+    margin-right: 3rem !important;
+  }
+
+  .conforme-spacer {
+    height: 3rem;
+  }
+
+}

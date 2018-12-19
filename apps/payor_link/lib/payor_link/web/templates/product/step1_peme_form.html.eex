@@ -1,0 +1,213 @@
+<%= form_for @changeset_general, @action, [class: "form2", id: "general_form"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= hidden_input f, :product_category, value: @p_cat %>
+
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :name, "Plan Name", class: "control-label" %>
+      <%= text_input f, :name, class: "form-control" %>
+      <%= error_tag f, :name %>
+    </div>
+
+    <div class="field">
+      <%= label f, :description, "Plan Description", class: "control-label" %>
+      <%= text_input f, :description, class: "form-control" %>
+      <%= error_tag f, :description %>
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :type, "Plan Type", class: "control-label"  %>
+      <%= select f, :type, ["": "", "Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze", "Platinum Plus": "Platinum Plus"], class: "" %>
+      <%= error_tag f, :type %>
+    </div>
+
+    <div class="field">
+      <%= label f, :standard_product, "Plan Classification", class: "control-label" %>
+      <%= error_tag f, :standard_product %>
+      <div class="inline field ui grid">
+        <div class="ui radio checkbox seven wide column">
+          <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+          <label for="abl" class="">Standard Plan</label>
+        </div>
+        <div class="ui radio checkbox eight wide column">
+          <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+          <label for="mbl">Custom Plan</label>
+        </div>
+      </div>
+    </div>
+
+    <%# <div class="field"> %>
+    <%#   <%= label f, :limit_amount, "Limit Amount", class: "control-label" %1> %>
+    <%#   <%= text_input f, :limit_amount, class: "form-control", id: "product_limit_amt" %1> %>
+    <%#   <%= error_tag f, :limit_amount %1> %>
+    <%# </div> %>
+  </div>
+
+
+  <!-- for refactor -->
+  <div class="ui grid">
+    <div class="eight wide column">
+
+<%#       <div class="field"> %>
+<%#         <%= label f, :limit_applicability, "Limit Applicability", class: "control-label" %1> %>
+<%#         <%= error_tag f, :limit_applicability %1> %>
+<%#         <div class="inline field ui grid"> %>
+<%#           <div class="ui radio checkbox seven wide column"> %>
+<%#             <%= radio_button f, :limit_applicability, "Principal", id: "laprincipal", class: "laprincipal" %1> %>
+<%#             <label for="laprincipal" class="">Principal</label> %>
+<%#           </div> %>
+<%#           <div class="eight wide column"> %>
+<%#             <div class="ui radio checkbox"> %>
+<%#               <%= radio_button f, :limit_applicability, "Share with Dependents", id: "swd", class: "swd" %1> %>
+<%#               <label for="swd">Share with Dependents</label> %>
+<%#             </div> %>
+<%#           </div> %>
+<%#         </div> %>
+<%#       </div> %>
+
+<%#       <div class="ui grid "> %>
+<%#         <div class="eight wide column"> %>
+
+
+<%#         </div> %>
+<%#         <div class="seven wide column "> %>
+
+<%#           <div class="field hidden" id="slaContainer"> %>
+<%#             <%= label f, :shared_limit_amount, "Shared Limit Amount", class: "control-label" %1> %>
+<%#             <%= text_input f, :shared_limit_amount, class: "form-control", disabled: true, id: "slaTxtBox" %1> %>
+<%#             <%= error_tag f, :shared_limit_amount %1> %>
+<%#           </div> %>
+
+<%#         </div> %>
+<%#       </div> %>
+
+
+<%#       <div class="field"> %>
+<%#         <%= label f, :phic_status, "PHIC Status", class: "control-label" %1> %>
+<%#         <%= error_tag f, :phic_status %1> %>
+<%#         <div class="inline field ui grid"> %>
+<%#           <div class="ui radio checkbox seven wide column"> %>
+<%#             <%= radio_button f, :phic_status, "Required to File", id: "rtftest", class: "" %1> %>
+<%#             <label for="rtftest" class="">Required to File</label> %>
+<%#           </div> %>
+<%#           <div class="ui radio checkbox eight wide column"> %>
+<%#             <%= radio_button f, :phic_status, "Optional to File", id: "otftest", class: "" %1> %>
+<%#             <label for="otftest">Optional to File</label> %>
+<%#           </div> %>
+<%#         </div> %>
+<%#       </div> %>
+
+
+      <div class="field">
+        <%= label f, :member_type, "Member Type", class: "control-label" %>
+        <%= error_tag f, :member_type %>
+        <div class="inline field ui grid">
+          <div class="ui checkbox seven wide column">
+            <input type="checkbox" class="hidden" value="Principal" name="product[member_type][]" >
+            <label for="principal" class="">Principal</label>
+          </div>
+          <div class="ui checkbox seven wide column">
+            <input type="checkbox" class="hidden" value="Dependent" name="product[member_type][]" >
+            <label for="dependent" class="">Dependent</label>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="eight wide column">
+
+      <%# <div class="field"> %>
+      <%#   <%= label f, :limit_type, "Limit Type", class: "control-label" %1> %>
+      <%#   <%= error_tag f, :limit_type %1> %>
+      <%#   <div class="inline field ui grid"> %>
+      <%#     <div class="ui radio checkbox seven wide column"> %>
+      <%#       <%= radio_button f, :limit_type, "ABL", id: "abl", class: "" %1> %>
+      <%#       <label for="abl" class="">ABL</label> %>
+      <%#     </div> %>
+      <%#     <div class="ui radio checkbox eight wide column"> %>
+      <%#       <%= radio_button f, :limit_type, "MBL", id: "mbl", class: "" %1> %>
+      <%#       <label for="mbl">MBL</label> %>
+      <%#     </div> %>
+      <%#   </div> %>
+      <%# </div> %>
+
+      <div class="field">
+        <%= label f, :in_lieu_of_acu, "In Lieu of ACU ", class: "control-label" %>
+        <%= error_tag f, :standard_product %>
+        <div class="inline field ui grid">
+          <div class="ui checkbox seven wide column">
+            <input type="checkbox" class="hidden" value=true name="product[in_lieu_of_acu]" >
+            <label for="in_lieu" class="">In Lieu of ACU</label>
+          </div>
+        </div>
+      </div>
+
+
+      <%# <div class="field"> %>
+      <%#   <%= label f, :standard_product, "Product Classification", class: "control-label" %1> %>
+      <%#   <%= error_tag f, :standard_product %1> %>
+      <%#   <div class="inline field ui grid"> %>
+      <%#     <div class="ui radio checkbox seven wide column"> %>
+      <%#       <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %1> %>
+      <%#       <label for="abl" class="">Standard Product</label> %>
+      <%#     </div> %>
+      <%#     <div class="ui radio checkbox eight wide column"> %>
+      <%#       <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %1> %>
+      <%#       <label for="mbl">Custom Product</label> %>
+      <%#     </div> %>
+      <%#   </div> %>
+      <%# </div> %>
+
+
+      <%= if @p_cat == "PEME Plan" do %>
+        <div class="field hidden">
+          <%= label f, :product_base, "Plan Base", class: "control-label " %>
+          <%= error_tag f, :product_base %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox seven wide column pbase">
+              <%= radio_button f, :product_base, "Exclusion-based", id: "eb", class: "" %>
+              <label for="eb" class="">Exclusion-based</label>
+            </div>
+            <div class="ui radio checkbox eight wide column pbase">
+              <%= radio_button f, :product_base, "Benefit-based", id: "bb", class: "", checked: "" %>
+              <label for="bb">Benefit-based</label>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="field">
+          <%= label f, :product_base, "Plan Base", class: "control-label " %>
+          <%= error_tag f, :product_base %>
+          <div class="inline field ui grid">
+            <div class="ui radio checkbox seven wide column pbase">
+              <%= radio_button f, :product_base, "Exclusion-based", id: "eb", class: "eb" %>
+              <label for="eb" class="">Exclusion-based</label>
+            </div>
+            <div class="ui radio checkbox eight wide column pbase">
+              <%= radio_button f, :product_base, "Benefit-based", id: "bb", class: "bb" %>
+              <label for="bb">Benefit-based</label>
+            </div>
+          </div>
+        </div>
+      <% end%>
+    </div>
+  </div>
+
+  <input type="hidden" id="product_benefit_highest" value="0" name="product[product_benefit_highest]">
+  <!-- for refactor -->
+
+  <div class="ui middle aligned  right aligned grid mrg1T">
+    <div class="right floated right aligned six wide column">
+      <a href="/products" class="ui button">
+        <i class="close left icon"></i> Cancel
+      </a>
+      <button type="submit" class="ui blue button">Next <i class="chevron right icon"></i></button>
+    </div>
+  </div>
+
+<% end %>

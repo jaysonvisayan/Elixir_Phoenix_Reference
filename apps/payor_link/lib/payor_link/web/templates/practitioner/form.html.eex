@@ -1,0 +1,295 @@
+<div class="row">
+  <div class="sixteen wide column" name="formValidateGeneral">
+    <%= form_for @changeset, @action, [class: "ui form", multipart: true, id: "formPractitionerGeneral"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <div class="two fields" id="fileUpload">
+          <div class="three wide field">
+            <%= if  @conn.assigns[:practitioner] && is_nil(@practitioner.photo) == false do %>
+              <img class="ui centered small circular image" id="photo" style="background-image: url("<%= Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @practitioner.photo, @practitioner, :standard)%>"); background-size: cover; background-position: center-center; height: 150px;">
+            <% else %>
+              <img class="ui centered small circular image" src="/images/file-upload (1).png" id="photo">
+            <% end %>
+          </div>
+          <div class="five wide field">
+            <label>Upload Photo</label>
+              <%= if  @conn.assigns[:practitioner] && is_nil(@practitioner.photo) == false do %>
+                <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide", practitionerID: @practitioner.id %>
+              <% else %>
+                <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide" %>
+              <% end %>
+              <div class="ui basic icon fluid buttons">
+                <div class="ui hidden divider"></div>
+                  <label class="ui button" for="imageUpload" id="imageLabel"><i class="open folder icon"></i> Browse Photo</label>
+                  <label class="ui button" id="imageRemove"><i class="remove icon"></i> Remove</label>
+              </div>
+              <p class="ui tiny header">
+                <span class="sub header">
+                  Maximum file size is 5 MB.
+                  <br>
+                  Acceptable file types are jpg, jpeg and png.
+                </span>
+              </p>
+          </div>
+      </div>
+      <h4 class="ui dividing header">Please enter you personal details</h4>
+      <div class="fields">
+          <div class="four wide field">
+            <label>First Name</label>
+            <%= text_input f, :first_name, placeholder: "Enter First Name" %>
+            <%= error_tag f, :first_name %>
+          </div>
+          <div class="four wide field">
+            <label>Middle Name</label>
+            <%= text_input f, :middle_name, placeholder: "Enter Middle Name" %>
+            <%= error_tag f, :middle_name %>
+          </div>
+          <div class="six wide field">
+            <label>Last Name</label>
+            <%= text_input f, :last_name, placeholder: "Enter Last Name" %>
+            <%= error_tag f, :last_name %>
+          </div>
+          <div class="two wide field">
+            <label>Suffix</label>
+            <%= text_input f, :suffix, placeholder: "Enter Suffix" %>
+            <%= error_tag f, :suffix %>
+          </div>
+      </div>
+      <div class="two fields">
+        <div class="field" id="dateFormPicker" role="practitioner-datepicker">
+          <label>Birth Date</label>
+          <div class="ui calendar" id="birthdate1">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <%= text_input f, :birth_date, placeholder: "MMM DD YYYY", value: "", id: "practitioner_birth_date" %>
+              <%= if is_nil(@conn.assigns[:practitioner]) do %>
+                <%= hidden_input f, :hidden_birth_date, value: "" %>
+              <% else %>
+                <%= hidden_input f, :hidden_birth_date, value: @practitioner.birth_date %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <div class="two fields pt_gender">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%=radio_button(f, :gender, "Male", checked: "checked")%>
+                <label class="ui blue text" for="gender_male"><i class="male icon"></i>Male</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%=radio_button(f, :gender, "Female")%>
+                <label class="ui purple text" for="gender_female"><i class="female icon"></i>Female</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="two fields">
+        <div class="field">
+          <label>Specializations</label>
+          <%= if @conn.assigns[:practitioner] do %>
+            <%= for ps <- @practitioner.practitioner_specializations do  %>
+              <%= if ps.type  == "Primary" do %>
+                <%= select f, :specialization_ids, @specializations, practitioner: ps.specialization.name, value: ps.specialization.id, class: "ui search selection dropdown",  name: "practitioner[specialization_ids][]"  %>
+              <% end %>
+            <% end %>
+            <%= error_tag f, :specialization_ids %>
+          <% else %>
+            <%= select f, :specialization_ids, @specializations, class: "ui search selection dropdown",  name: "practitioner[specialization_ids][]", prompt: "Enter Specialization" %>
+            <%= error_tag f, :specialization_ids %>
+          <% end %>
+        </div>
+        <div class="field">
+          <label>Sub-Specialization <i class="gray">(Optional)</i></label>
+          <%= if @conn.assigns[:practitioner] do %>
+            <%# <input type="hidden" id="sub_spec_id" value="<%= loadSubSpecializationIds(@practitioner) %1>" /> %>
+            <%= multiple_select f, :sub_specialization_ids, loadSubSpecializationIds(@practitioner, @specializations), class: "ui dropdown"  %>
+          <% else %>
+            <%= multiple_select f, :sub_specialization_ids, @specializations, class: "ui dropdown"  %>
+          <% end %>
+          <%= error_tag f, :sub_specialization_ids %>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="two fields">
+        <div class="field">
+          <label>PRC Number</label>
+          <%= number_input f, :prc_no, minlength: "7", maxlength: "7", placeholder: "Enter PRC Number" %>
+          <%= error_tag f, :prc_no %>
+        </div>
+        <div class="field">
+          <label>Affiliated</label>
+          <div class="two fields pt_gender">
+            <div class="field">
+              <div class="ui radio checkbox" id="affiliated_yes">
+                <%=radio_button(f, :affiliated, "Yes", checked: "checked")%>
+                <label for="affiliated_yes">Yes</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox" id="affiliated_no">
+                <%=radio_button(f, :affiliated, "No")%>
+                <label for="affiliated_no">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two fields" id="phic-datepicker-container">
+        <div class="field">
+          <label>PHIC Accredited?</label>
+
+          <%= if is_nil(@conn.assigns[:practitioner]) do %>
+            <div class="two fields">
+              <div class="field">
+                <div class="ui radio checkbox" id="phic_accredited_yes">
+                  <%=radio_button(f, :phic_accredited, "Yes", class: "phic_yes")%>
+                  <label for="phic_accredited_yes">Yes</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox" id="phic_accredited_no">
+                  <%=radio_button(f, :phic_accredited, "No", class: "phic_no", checked: "checked")%>
+                  <label for="phic_accredited_no">No</label>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <div class="two fields">
+              <div class="field">
+                <div class="ui radio checkbox" id="phic_accredited_yes">
+                  <%=radio_button(f, :phic_accredited, "Yes", class: "phic_yes")%>
+                  <label for="phic_accredited_yes">Yes</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox" id="phic_accredited_no">
+                  <%=radio_button(f, :phic_accredited, "No", class: "phic_no")%>
+                  <label for="phic_accredited_no">No</label>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="field" id="phic_container">
+          <label>PHIC Accreditation Date</label>
+          <div class="ui calendar" id="prac_phic_date">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <%= if is_nil(@conn.assigns[:practitioner]) do %>
+                <%= text_input f, :phic_date, placeholder: "MMM DD YYYY", value: "", id: "phic-datepicker", disabled: true %>
+              <% else %>
+                <%= if @practitioner.phic_accredited == "No" do %>
+                  <%= text_input f, :phic_date, placeholder: "MMM DD YYYY", value: "", id: "phic-datepicker", disabled: true %>
+                <% else %>
+                  <%= text_input f, :phic_date, placeholder: "MMM DD YYYY", value: "", id: "phic-datepicker", disabled:  false %>
+                <% end %>
+              <% end %>
+
+              <%= if is_nil(@conn.assigns[:practitioner]) do %>
+                <%= hidden_input f, :hidden_phic_date, value: "" %>
+              <% else %>
+                <%= hidden_input f, :hidden_phic_date, value: @practitioner.phic_date %>
+              <% end %>
+            </div>
+          </div>
+          <%= error_tag f, :phic_date %>
+        </div>
+      </div>
+
+
+      <div class="two fields" id="dateFormPicker">
+        <div class="field" role="practitioner-datepicker">
+          <label>Effectivity Date</label>
+          <div class="ui calendar" id="prac_eff_from">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+                <%= text_input f, :effectivity_from, placeholder: "MMM DD YYYY", value: "", id: "eff_from" %>
+                <%= if is_nil(@conn.assigns[:practitioner]) do %>
+                  <%= hidden_input f, :hidden_eff, value: "" %>
+                <% else %>
+                  <%= hidden_input f, :hidden_eff, value: @practitioner.effectivity_from %>
+                <% end %>
+            </div>
+          </div>
+          <%= error_tag f, :effectivity_from_date %>
+        </div>
+        <div class="field" role="practitioner-datepicker">
+            <label>Expiry Date</label>
+            <div class="ui calendar" id="prac_eff_to">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :effectivity_to, placeholder: "MMM DD YYYY", value: "", id: "eff_to" %>
+                  <%= if is_nil(@conn.assigns[:practitioner]) do %>
+                    <%= hidden_input f, :hidden_exp, value: "" %>
+                  <% else %>
+                    <%= hidden_input f, :hidden_exp, value: @practitioner.effectivity_to %>
+                  <% end %>
+                <%= error_tag f, :effectivity_to %>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</div><!--row-->
+<div class="row">
+  <%= if @conn.assigns[:practitioner] do %>
+    <%= if @practitioner.step == 5 do %>
+      <button type="submit" class="ui primary button">Save Changes</button>
+    <% else %>
+      <div class="eight wide column">
+        <a id="cancel_button" class="ui basic button">Delete</a>
+      </div>
+      <div class="eight wide right aligned column">
+        <a href="/practitioners/" class="ui basic button">Cancel</a>
+        <button type="submit" class="ui primary button">Continue to Next Step</button>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="eight wide column">
+    </div>
+    <div class="eight wide right aligned column">
+      <a href="/practitioners/" class="ui basic button">Cancel</a>
+      <button type="submit" class="ui primary button">Continue to Next Step</button>
+    </div>
+  <% end %>
+</div>
+<% end %>
+
+ <%# #Modal Alert %>
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Delete Draft?
+  </div>
+  <div class="image content">
+    Deleting this draft will permanently remove it from the system.
+  </div>
+  <div class="actions">
+    <div class="ui white button deny">
+      No, Keep Draft
+    </div>
+    <%= if @conn.assigns[:practitioner] do %>
+      <%= link "Yes, Delete Draft", to: practitioner_path(@conn, :delete, @practitioner.id), method: :delete,  class: "ui red button" %>
+    <% else %>
+      <div class="ui negative button clickable-row" href="/practitioners">
+        <i class="checkmark icon"></i>
+        Yes, Delete Draft
+      </div>
+    <% end %>
+  </div>
+</div>
+<%# #Modal end %>

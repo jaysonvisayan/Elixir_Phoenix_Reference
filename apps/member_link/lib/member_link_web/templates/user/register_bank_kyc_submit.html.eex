@@ -1,0 +1,217 @@
+<!-- layout.nunjucks -->
+
+		<!DOCTYPE html>
+<!--<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medilink - Successful Signup</title>
+	<link rel="icon" href="img/favicon.jpg" type="image/x-icon"/>
+  <link rel="shortcut icon" href="img/favicon.jp" type="image/x-icon"/>
+  <link rel="stylesheet" href="css/main.css">
+  <script src=""></script>
+</head>
+<body>
+	<header class="header">
+  <div class="ui top fixed menu">
+  <div class=" ui container">
+      <div class="item pl-tablet-0">
+        <a href="index.html">
+          <img src="./img/site-logo.png">
+        </a>
+          <a href="#">member<b class="primary ui text">gateway</b></a>
+      </div>
+    </div>
+  </div>
+	</header>
+
+  -->
+
+  	<div class="pusher">
+  	<!-- You write code for this content block in another file -->
+
+
+
+<div class="ui main container">
+
+	<!-- ///////////////////////// header -->
+	<h1 class="ui huge header">Bank KYC Requirements</h1>
+	<p class="gray">Please fill out the form, we require all the information in order to process your insurance.</p>
+
+	<!-- //////////////////// horizontal line -->
+	<div class="ui divider"></div>
+
+	<!-- ////////////////////// 2steps -->
+	<div class="ui stackable grid">
+		<div class="row">
+			<div class="fourteen wide computer sixteen wide tablet column">
+
+
+<div class="ui three steps form-step">
+
+	<div class="  step">
+		<i class="user icon"></i>
+		<div class="content">
+			<div class="title">Bank KYC requirements</div>
+			<div class="description">To safeguard your account</div>
+		</div>
+	</div>
+
+	<div class="  step">
+		<i class="mail icon"></i>
+		<div class="content">
+			<div class="title">Update Contact Info</div>
+			<div class="description">Confirm that we have your updated contact info</div>
+		</div>
+	</div>
+
+	<div class="  active  step">
+		<i class="id card icon"></i>
+		<div class="content">
+			<div class="title">Submit Requirements to bank</div>
+			<div class="description">Required to process reimbursements</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="ui header form-header">
+	<i class="id card icon"></i>
+	<div class="content">
+		Submit Requirements to bank
+		<div class="sub header">Required to process reimbursements</div>
+	</div>
+</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="ten wide column">
+				<form class="ui form">
+					<div class="two fields">
+						<div class="field">
+							<label>Tin No.</label>
+							<input type="number" name="tin_no" placeholder="Enter TIN no.">
+						</div>
+						<div class="field">
+							<label>SSS No.</label>
+							<input type="number" name="sss_no" placeholder="Enter SSS no.">
+						</div>
+					</div>
+
+					<div class="field">
+						<label>Unified ID No.</label>
+						<input type="number" name="unified_id_no" placeholder="Unified ID no.">
+					</div>
+
+					<h4 class="ui dividing header">Please upload Scanned ID Card.</h4>
+
+					<div class="field">
+						<label>Identification Card</label>
+						<select class="ui fluid search dropdown" name="card[identification]">
+				            <option value="">Company's Id (Issued by private entities registered and regulated by SEC)</option>
+				            <option value="1">0987</option>
+				            <option value="2">0976</option>
+				            <option value="3">0965</option>
+			          	</select>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<div class="ui fluid basic icon buttons">
+							    <button class="ui button"><span class="upload_txt">Upload Front Side</span><i class="cloud upload icon"></i></button>
+							    <button class="ui button"><i class="photo icon"></i></button>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui fluid basic icon buttons">
+							    <button class="ui button"><span class="upload_txt">Upload Back Side</span><i class="cloud upload icon"></i></button>
+							    <button class="ui button"><i class="photo icon"></i></button>
+							</div>
+						</div>
+					</div>
+
+					<div class="field">
+						<p class="ui tiny header"><span class="sub header">Please rename the scanned file according to the type of ID before you upload (eg. sss_id, driver_license, etc.)
+						Maximum file size is 5 MB. Acceptable file types are jpg, jpeg and png.</span></p>
+					</div>
+
+					<h4 class="ui dividing header">Please download the CIR Form to sign it and upload.</h4>
+
+					<div class="field">
+						<a href=""><span><i class="file outline icon"></i></span><b>Download CIR Form</b></a>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>After you have signed the form, please upload it here.</label>
+							<div class="ui fluid basic icon buttons">
+							    <button class="ui button"><span class="upload_txt">Upload CIR Form</span><i class="cloud upload icon"></i></button>
+							    <button class="ui button"><i class="photo icon"></i></button>
+							</div>
+						</div>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>Please upload the Terms and Conditions form.</label>
+							<div class="ui fluid basic icon buttons">
+							    <button class="ui button"><span class="upload_txt">Upload Terms and Conditions</span><i class="cloud upload icon"></i></button>
+							    <button class="ui button"><i class="photo icon"></i></button>
+							</div>
+						</div>
+					</div>
+
+					<div class="field">
+						<button class="ui primary button">Finish</button>
+            <a href="/<%= @locale %>/sign_in" class="skip_text"><b>Skip this for now</b></a>
+					</div>
+				</form>
+			</div>
+
+			<div class="six wide column order-first-mobile">
+				<div class="ui centered grid">
+					<div class="thirteen wide computer sixteen wide mobile right floated column">
+						<div class="secondary ui segment side-card">
+	<div class="secondary description">
+		<!-- <div class="ui hidden divider"></div> -->
+		<div class="ui grid">
+			<div class="sixteen wide tablet five wide mobile column">
+				<div class="image face-image">
+					<img class="ui tiny centered circular image" src="img/face.jpg">
+				</div>
+			</div>
+
+			<div class="sixteen wide tablet eleven wide mobile column">
+				<h2 class="ui medium header">Jose Manuel Barroco III</h2>
+				<div>Metalab Trading Company Ltd.</div>
+				<div>Company Branch Name</div>
+				<div>Card # 1168 1102 1030 5311</div>
+				<div>Birthday Jan 1, 1980</div>
+				<div>Gender <i class="male icon blue"></i><span class="ui blue text">Male</span></div>
+
+				<div class="ui hidden divider"></div>
+				<a href="#">Is this information not correct?</a>
+			</div>
+		</div>
+	</div>
+</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+
+
+</div> <!-- .pusher closed -->
+
+<!--  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/semantic.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
+-->

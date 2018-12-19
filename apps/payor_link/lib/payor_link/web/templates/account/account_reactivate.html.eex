@@ -1,0 +1,106 @@
+
+<div class="ui modal" role="reactivate_account_in_account" >
+  <i class="close icon"></i>
+  <div class="header">
+   Reactivate Account
+  </div>
+  <p role ="append_reactivate"></p>
+
+  <div class="content" id="modal_reactivate_in_account" >
+    <%= form_for @changeset, @action, [class: "ui form",id: "reactivate", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    <% end %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+      <%= hidden_input f, :account_id, class: "form-control", required: "required" %>
+      <%= hidden_input f, :module, class: "form-control", required: "required", value: @module %>
+      <%= hidden_input f, :cluster_id, class: "form-control", required: "required", value: @cluster_id %>
+      <%= hidden_input f, :account_group_id, class: "form-control" %>
+        <div class="two fields">
+          <div class="field">
+            <%= label f, "Account Code/Name", class: "control-label" %>
+             <input type="text"  id="account_code_name" readonly>
+            <p style="color:red"><%= error_tag f, :name%></p>
+          </div>
+
+          <div class="field">
+            <%= label f, "Status", class: "control-label" %>
+            <div class="ui large green label">
+               <%= hidden_input f, :status, class: "form-control" %>
+              <span id="account_status_text"></span>
+            </div>
+         </div>
+        </div>
+
+        <div class="two fields">
+          <div class="disabled field">
+            <%= label f, :account_start_date, "Current Effective Date", class: "control-label" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="text" id="account_start_date" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="disabled field">
+            <%= label f, :account_end_date, "Current Expiry Date", class: "control-label" %>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                  <input type="text" id="account_end_date" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="two fields" >
+          <div class="field">
+            <%= label f, :reactivate_date, "Reactivation Date", class: "control-label" %>
+            <div class="ui calendar" id="account_reactivate_date_picker" >
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :reactivate_date, class: "form-control", required: "required", placeholder: "YYYY-MM-DD"  %>
+                <p style="color:red"> <%= error_tag f, :reactivate_date%></p>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <%= label f, :reactivate_remarks, "Remarks", class: "control-label" %>
+            <%= text_input f, :reactivate_remarks, class: "form-control" %>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui button deny">
+      <i class="close left icon"></i>
+      <%= if @module == "Account" do %>
+         No, don’t reactivate
+      <% else %>
+         Cancel
+      <% end %>
+    </a>
+    <span>
+      <button type="button" class="small ui blue button" id="reactivate_account" role="<%= @module %>">
+      <i class="icon check"></i>
+      <%= if @module == "Account" do %>
+         Yes, Reactivate Account
+      <% else %>
+          Reactivate Account
+      <% end %>
+    </button>
+    </span>
+  </div>
+</div>
+<% end %>
+</div>
+

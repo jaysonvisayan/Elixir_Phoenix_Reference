@@ -1,0 +1,232 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Facility</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/facilities">Facility</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/facilities/<%= @facility.id %>" class="section">Show</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Facility</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="facility-formValidate">
+        <div class="ui form segment" id="formStep1Facility">
+          <div class="ui four item menu">
+            <a class="active item">General</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=address" class="item">Address</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=contact_details" class="item">Contact Details</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=financial" class="item">Financial</a>
+          </div>
+
+          <div class="ui bottom attached segment">
+            <%= if @changeset.action do %>
+              <div class="ui negative message">
+                <i class="close icon"></i>
+                <%= get_flash(@conn, :error) %>
+              </div>
+            <% end %>
+
+
+            <%= form_for @changeset, facility_path(@conn, :update_edit_setup, @facility, tab: "general"), [as: :facility, multipart: true], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :code, "Facility Code" %>
+                  <%= text_input f, :code, placeholder: "Facility Code", disabled: true %>
+                  <%= error_tag f, :code %>
+                </div>
+              </div>
+              <%# 1st row start %>
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :name, "Facility Name" %>
+                  <%= text_input f, :name, placeholder: "Facility Name", disabled: true %>
+                  <%= error_tag f, :name %>
+                </div>
+                <div class="field">
+                  <%= label f, :license_name, "License Name (Payee Name)" %>
+                  <%= text_input f, :license_name, placeholder: "License Name", disabled: true %>
+                  <%= error_tag f, :license_name %>
+                </div>
+              </div>
+              <%# 1st row end %>
+              <%# 2nd row start %>
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :ftype_id, "Facility Type" %>
+                  <div class="ui dropdown selection disabled" tabindex="0">
+                    <%= select f, :ftype_id, Enum.map(@facility_types, &{&1.text, &1.id}), prompt: "Facility Type", disabled: true %>
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Facility Type</div>
+                    <div class="menu" tabindex="-1">
+                      <%= for facility_type <- @facility_types do %>
+                        <div class="item" data-value="<%= facility_type.id %>"><%= facility_type.text %></div>
+                      <% end %>
+                    </div>
+                  </div>
+                  <%= error_tag f, :ftype_id %>
+                </div>
+                <div class="field">
+                  <%= label f, :fcategory_id, "Facility Category" %>
+                  <div class="ui dropdown selection disabled" tabindex="0">
+                    <%= select f, :fcategory_id, Enum.map(@facility_categories, &{&1.text, &1.id}), prompt: "Facility Category", disabled: true %>
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Facility Category</div>
+                    <div class="menu" tabindex="-1">
+                      <%= for facility_category <- @facility_categories do %>
+                        <div class="item" data-value="<%= facility_category.id %>"><%= facility_category.text %></div>
+                      <% end %>
+                    </div>
+                  </div>
+                  <%= error_tag f, :fcategory_id %>
+                </div>
+              </div>
+              <%# 2nd row end %>
+              <%# 3rd row start %>
+              <h4 class="ui header">PHIC Accreditation</h4>
+              <div class="two fields">
+                <div class="field" role="facility-datepicker">
+                  <%= label f, :phic_accreditation_from, "From" %>
+                  <div class="ui calendar" id="phic_accreditation_from">
+                    <div class="ui input right icon">
+                      <i class="calendar icon"></i>
+                      <%= text_input f, :phic_accreditation_from, placeholder: "MMM DD YYYY", role: "mask", class: "date", disabled: true %>
+                    </div>
+                  </div>
+                  <%= error_tag f, :phic_accreditation_from %>
+                </div>
+                <div class="field">
+                  <%= label f, :phic_accreditation_to, "To" %>
+                  <div class="ui calendar" id="phic_accreditation_to">
+                    <div class="ui input right icon">
+                      <i class="calendar icon"></i>
+                      <%= text_input f, :phic_accreditation_to, placeholder: "MMM DD YYYY", role: "mask", class: "date", disabled: true %>
+                    </div>
+                  </div>
+                  <%= error_tag f, :phic_accreditation_to %>
+                </div>
+              </div>
+              <%# 3rd row end %>
+              <%# 4th row start %>
+              <div class="two fields">
+                <div class="field" role="facility-numeric">
+                  <%= label f, :phic_accreditation_no, "Philhealth Accreditation Number" %>
+                  <%= text_input f, :phic_accreditation_no, placeholder: "Philhealth Accreditation Number", disabled: true %>
+                  <%= error_tag f, :phic_accreditation_no %>
+                </div>
+                <div class="field">
+                  <%= label f, :status, "Status" %>
+                  <div class="inline fields">
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <%= radio_button f, :status, "Affiliated", disabled: true %>
+                        <%= label f, "Affiliated" %>
+                      </div>
+                      <div class="ui radio checkbox">
+                        <%= radio_button f, :status, "Pending", disabled: true %>
+                        <%= label f, "Pending" %>
+                      </div>
+                    </div>
+                  </div>
+                  <%= error_tag f, :status %>
+                </div>
+              </div>
+              <%# 4th row end %>
+              <%# 5th row start %>
+              <div class="two fields">
+                <div class="field">
+                  <%= label f, :affiliation_date, "Affiliation Date" %>
+                  <div class="ui calendar" id="affiliation_date">
+                    <div class="ui input right icon">
+                      <i class="calendar icon"></i>
+                      <%= text_input f, :affiliation_date, placeholder: "MMM DD YYYY", role: "mask", class: "date", disabled: true %>
+                    </div>
+                  </div>
+                  <%= error_tag f, :affiliation_date %>
+                </div>
+              </div>
+              <%# 5th row end %>
+              <%# 6th row start %>
+              <div class="two fields">
+                <div class="field">
+                  <label for="facility_phone_no">Phone Number <i>(optional)</i></label>
+                  <%= text_input f, :phone_no, placeholder: "Phone Number", role: "mask", class: "phone", disabled: true %>
+                  <%= error_tag f, :phone_no %>
+                </div>
+                <div class="field">
+                  <label for="facility_email_address"> Email Address <i>(optional)</i></label>
+                  <%= email_input f, :email_address, placeholder: "Email Address", disabled: true %>
+                  <%= error_tag f, :email_address %>
+                </div>
+              </div>
+              <%# 6th row end %>
+              <%# 7th row start %>
+              <div class="two fields">
+                <div class="field">
+                  <label for="facility_website">Website <i>(optional)</i></label>
+                  <%= text_input f, :website, placeholder: "Website", disabled: true %>
+                  <%= error_tag f, :website %>
+                </div>
+              </div>
+              <%# 7th row end %>
+              <%# Logo upload start %>
+              <div class="two fields" id="fileUpload">
+                <div class="field">
+                  <div class="ui centered special cards">
+                    <div class="card">
+                      <div class="blurring dimmable image">
+                        <div class="ui inverted dimmer">
+                          <div class="content">
+                            <div class="center">
+                              <%= if  @conn.assigns[:facility] && is_nil(@facility.logo) == false do %>
+                                <%= file_input f, :logo, id: "imageUpload", accept: "image/*", class: "display-none",facilityID: @facility.id %>
+                              <% else %>
+                                <%= file_input f, :logo, id: "imageUpload", accept: "image/*", class: "display-none" %>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                        <%= if  @conn.assigns[:facility] && is_nil(@facility.logo) == false do %>
+                          <%= if @facility.logo.file_name != "" && not is_nil(@facility.logo.file_name) do %>
+                            <img id="photo" src="<%= String.replace(Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @facility.logo, @facility, :original), "/apps/payor_link/assets/static", "") %>">
+                          <% else %>
+                            <img src="/images/file-upload.png" id="photo">
+                          <% end %>
+                        <% else %>
+                          <img src="/images/file-upload.png" id="photo">
+                        <% end %>
+                      </div>
+                      <div class="extra content">
+                        <span class="left floated">
+                          <div class="ui disabled primary button" id="imageLabel">
+                            <i class="folder open icon"></i> Browse
+                          </div>
+                        </span>
+                        <span class="right floated">
+                          <a class="ui disabled button" id="imageRemove"><i class="remove icon"></i> Remove</a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <%# Logo upload end %>
+              <%# Navigation buttons start %>
+              <button class="ui disabled blue right floated button" type="submit">
+                <i class="save left icon"></i>
+                Save
+              </button>
+              <a href="/facilities" class="ui button">
+                <i class="remove icon"></i>
+                Cancel
+              </a>
+              <%# Navigation buttons end %><% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="benefit_miscellaneous" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+
+          <%= cond do %>
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <%= render "step_miscellaneous_form.html", benefit: @benefit, changeset: @changeset, miscellaneous: @miscellaneous, conn: @conn %>
+              <%= render "step_miscellaneous_modal.html", benefit: @benefit, changeset: @changeset, miscellaneous: @miscellaneous, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "8") %>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <%= render "step_miscellaneous_form.html", benefit: @benefit, changeset: @changeset, miscellaneous: @miscellaneous, conn: @conn %>
+              <%= render "step_miscellaneous_modal.html", benefit: @benefit, changeset: @changeset, miscellaneous: @miscellaneous, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "7") %>
+
+          <%= end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_miscellaneous">
+<% end %>
+
+<%= render "delete_miscellaneous_modal.html" %>

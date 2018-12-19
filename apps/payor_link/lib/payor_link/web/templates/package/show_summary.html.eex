@@ -1,0 +1,74 @@
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <!-- GENERAL -->
+          <div class="ui middle aligned  right aligned grid">
+            <div class="left floated left aligned six wide column">
+              <h4 class="ui header">General</h4>
+            </div>
+          </div>
+          <div class="ui divider mrg0T mrg0B"></div><br />
+          <div class="ui grid centered container">
+            <div class="six wide computer six wide tablet column">
+              Package Code
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @package.code %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Package Name
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @package.name %></b>
+            </div>
+          </div>
+          <!-- END OF GENERAL -->
+          <div class="ui middle aligned  right aligned grid">
+            <div class="left floated left aligned six wide column">
+              <h4 class="ui header">Procedures</h4>
+            </div>
+          </div>
+          <div class="ui divider mrg0T mrg0B"></div><br />
+          <table id="" class="ui stripped table">
+            <thead>
+              <tr>
+                <th width="10%" style="text-align: center;">Standard CPT Code</th>
+                <th width="25%" style="text-align: center;">Standard CPT Description</th>
+                <th width="10%" style="text-align: center;">Payor CPT Code</th>
+                <th width="25%" style="text-align: center;">Payor CPT description</th>
+                <th width="10%" style="text-align: center;">Gender</th>
+                <th width="15%" style="text-align: center;">Age</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= if @package.package_payor_procedure == [] do %>
+                <tr>
+                  <td colspan="7" class="center aligned">
+                    NO RECORD FOUND!
+                  </td>
+                </tr>
+                <% else %>
+                  <%= for package_payor_procedure <-  Enum.sort_by(@package.package_payor_procedure, &(&1.payor_procedure.procedure.code)) do %>
+                  <tr>
+                    <td width="10%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.procedure.code %> </a></td>
+                    <td width="25%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.procedure.description %></td>
+                    <td width="10%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.code %></td>
+                    <td width="25%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.description %></td>
+                    <td width="10%" style="text-align: center;"> 
+                      <%= if package_payor_procedure.female == true and package_payor_procedure.male != true, do: "Female" %>
+                      <%= if package_payor_procedure.male == true and package_payor_procedure.female != true, do: "Male" %>
+                      <%= if package_payor_procedure.male == true and package_payor_procedure.female == true, do: "Male, Female" %>
+                    </td>
+                    <td width="15%" style="text-align: center;"> <%= package_payor_procedure.age_from %> - <%= package_payor_procedure.age_to %> y/o </td>
+                  </tr>
+                  <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

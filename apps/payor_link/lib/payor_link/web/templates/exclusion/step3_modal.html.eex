@@ -1,0 +1,61 @@
+<div class="ui large modal" id="procedure_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Procedure
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+          At least one procedure must be added
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :exclusion, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="exclusion[procedure_ids_main]">
+    <table role="datatable" class="ui stripped table" id="procedure_table_modal">
+      <thead>
+        <tr>
+          <th><input style="width:20px; height:20px" type="checkbox" id="select_allp"/></th>
+          <th>Procedure Code</th>
+          <th>Procedure Description</th>
+          <th>Procedure Section</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for procedure <- filter_exclusion_procedures(@exclusion.exclusion_procedures, @procedures) do %>
+          <%= if procedure.exclusion_type == "N/A" do %>
+          <tr style="background-color: #ddd;cursor: not-allowed;">
+            <td>
+              <input style="width:20px; height:20px" type="checkbox" disabled />
+            </td>
+            <td><%= procedure.code %> (Not a General Exclusion)</td>
+            <td><%= procedure.description %></td>
+            <td><%= procedure.section %></td>
+          </tr>
+          <% else %>
+          <tr>
+            <td>
+              <input style="width:20px; height:20px" type="checkbox" class="selection" name="exclusion[procedure_ids][]" value="<%= procedure.id %>" />
+            </td>
+            <td><%= procedure.code %></td>
+            <td><%= procedure.description %></td>
+            <td><%= procedure.section %></td>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny left floated button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui primary button">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

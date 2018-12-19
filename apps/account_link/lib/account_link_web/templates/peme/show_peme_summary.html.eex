@@ -1,0 +1,290 @@
+<div class="main-wrapper peme show_peme_summary">
+
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li>
+        <a href="/<%= @locale %>/peme"><%= gettext "Peme" %></a>
+      </li>
+      <li>
+        <i class="chevron right icon"></i>
+      </li>
+      <li class="active"><%= @peme.evoucher_number %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="column">
+
+            <section>
+
+              <div style="margin-top: 1%" class="profile__account-logo mobile-hide">
+                <%= if is_nil(@peme.member_id) or @peme.member_id == "" or is_nil(@peme.member.photo) do %>
+                  <img id="photo" src="/images/no-photo-available.png">
+                <% else %>
+                  <img id="photo" src="<%= get_img_url(@peme.member) %>">
+                <% end %>
+              </div>
+
+            <%= if is_nil(@peme.member_id) or @peme.member_id == "" do %>
+
+              <div style="margin-bottom: 1%" class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="profile__header">
+                       <div>
+                        <h1 class="d-inline-block">N/A</h1>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Birthdate" %></span>
+                      <span class="bold uppercase">N/A</span>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Mobile Number" %></span>
+                      <span class="bold ppercase">N/A</span>
+                    </div>
+
+                    <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "PEME Registration" %></span>
+                      <span class="bold uppercase">N/A</span>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Gender" %></span>
+                      <span class="bold uppercase">N/A</span>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Email Address" %></span>
+                      <span class="bold uppercase">N/A</span>
+                    </div>
+
+                   <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                     <%= case @peme.status do %>
+                      <% "Issued" -> %><br>
+                        <div class="status-tag status-tag--orange">
+                          <span>Issued</span>
+                        </div>
+                      <% "Registered" -> %><br>
+                        <div class="status-tag status-tag--green">
+                          <span>Registered</span>
+                        </div>
+                      <% "Cancelled" -> %><br>
+                        <div class="status-tag status-tag--red">
+                          <span>Cancelled</span>
+                        </div>
+                      <% "Availed" -> %><br>
+                        <div class="status-tag status-tag--green">
+                          <span>Availed</span>
+                        </div>
+                      <% "Stale" -> %><br>
+                        <div class="status-tag status-tag--yellow">
+                          <span>Stale</span>
+                        </div>
+                      <% is_nil -> %><br>
+                        <div class="status-tag status-tag--orange">
+                          <span>Pending</span>
+                        </div>
+                      <% end %>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Voucher was sent to:" %></span>
+                      <%= if not is_nil(@peme.email_address) do %>
+                        <span class="bold uppercase"><%= @peme.email_address %></span><br>
+                      <% else %>
+                        <span class="bold uppercase">N/A</span><br>
+                      <% end %>
+                      <%= if not is_nil(@peme.mobile_number) do %>
+                        <span class="bold ppercase"><%= "+63" <> @peme.mobile_number %></span>
+                      <% else %>
+                        <span class="bold uppercase">N/A</span>
+                      <% end %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            <% else %>
+
+              <div style="margin-bottom: 1%" class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="profile__header">
+                       <div>
+                        <h1 class="d-inline-block"><%=member_full_name(@peme.member)%></h1>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Birthdate" %></span>
+                       <%= if not is_nil(@peme.member.birthdate) do %>
+                        <span class="bold uppercase"><%= @peme.member.birthdate %></span>
+                       <% else %>
+                        <span class="bold uppercase">N/A</span>
+                       <% end %>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Mobile Number" %></span>
+                      <%= if not is_nil(@peme.member.mobile) do %>
+                        <span class="bold uppercase"><%= "+63" <> @peme.member.mobile %></span>
+                       <% else %>
+                        <span class="bold uppercase">N/A</span>
+                       <% end %>
+                    </div>
+
+                    <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "PEME Registration" %></span>
+                      <%= if not is_nil(@peme.date_from) do %>
+                        <span class="bold uppercase"><%= @peme.date_from %></span>
+                       <% else %>
+                        <span class="bold uppercase">N/A</span>
+                       <% end %>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Gender" %></span>
+                      <%= if not is_nil(@peme.member.gender) do %>
+                        <span class="bold uppercase"><%= @peme.member.gender %></span>
+                       <% else %>
+                        <span class="bold uppercase">N/A</span>
+                       <% end %>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Email Address" %></span>
+                      <%= if not is_nil(@peme.member.email) do %>
+                        <span class="bold uppercase"><%= @peme.member.email %></span>
+                       <% else %>
+                        <span class="bold uppercase">N/A</span>
+                       <% end %>
+                    </div>
+
+                    <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                     <%= case @peme.status do %>
+                      <% "Issued" -> %><br>
+                        <div class="status-tag status-tag--orange">
+                          <span>Issued</span>
+                        </div>
+                      <% "Registered" -> %><br>
+                        <div class="status-tag status-tag--green">
+                          <span>Registered</span>
+                        </div>
+                      <% "Cancelled" -> %><br>
+                        <div class="status-tag status-tag--red">
+                          <span>Cancelled</span>
+                        </div>
+                      <% "Availed" -> %><br>
+                        <div class="status-tag status-tag--green">
+                          <span>Availed</span>
+                        </div>
+                      <% "Stale" -> %><br>
+                        <div class="status-tag status-tag--yellow">
+                          <span>Stale</span>
+                        </div>
+                      <% is_nil -> %><br>
+                        <div class="status-tag status-tag--orange">
+                          <span>Pending</span>
+                        </div>
+                      <% end %>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Voucher was sent to:" %></span>
+                      <%= if not is_nil(@peme.email_address) do %>
+                        <span class="bold uppercase"><%= @peme.email_address %></span><br>
+                      <% else %>
+                        <span class="bold uppercase">N/A</span><br>
+                      <% end %>
+                      <%= if not is_nil(@peme.mobile_number) do %>
+                        <span class="bold ppercase"><%= "+63" <> @peme.mobile_number %></span>
+                      <% else %>
+                        <span class="bold uppercase">N/A</span>
+                      <% end %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+          <% end %>
+            </section>
+
+            <section>
+              <div class="right_floated_button show_member sixteen wide column view_evoucher">
+                <button class="ui basic primary tiny button print_evoucher_modal" pmID="<%= @peme.id %>">Print E-Voucher</button>
+                <%= if @peme.status != "Registered" do %>
+                  <%= if @peme.member_id == "" or is_nil(@peme.member_id) do %>
+                    <a href="/<%= @locale %>/peme/<%= @peme.id %>/register_peme" class="ui tiny button">Register PEME Voucher</a>
+                  <% else %>
+                    <a href="/<%= @locale %>/members/evoucher/<%= @peme.id %>/facility_edit" class="ui tiny button">Register PEME Voucher</a>
+                  <% end %>
+                <% end %>
+              </div><br><br><br>
+              <div class="sixteen wide column pdf_size">
+                <div class="accountlink_evoucher_pdf ajax_pdf">
+                </div>
+              </div>
+            </section>
+
+          </div><!--column ends here -->
+        </div><!--row ends here -->
+      </div><!-- grid ends here -->
+    </div><!-- container ends here -->
+  </div>
+
+</div>
+
+<div class="ui modal" id="print_evoucher_modal">
+  <i class="close icon"></i>
+  <div class="text-center header">
+    <%= gettext "Pre Employment Evoucher" %>
+  </div>
+  <section class="mb-0">
+    <input type="hidden" id="pmID">
+    <div class="ui grid">
+      <div class="seven wide column">
+        <span class="title"><%= gettext "Peme Information" %></span>
+        <span class="description" id="evoucher_pckg"><%= @peme.package.name %></span>
+        <span class="subdesc" id="evoucher_sub_pckg">
+            <%= gettext "From: " %><%= "#{@peme.date_from}" %>
+            <%= gettext "To: " %><%= "#{@peme.date_to}" %>
+        </span>
+      </div>
+      <div class="one wide column">
+      </div>
+      <div class="eight wide column">
+      </div>
+      <div class="sixteen wide column" style="zoom: 0.8;">
+        <div class="accountlink_evoucher_pdf ajax_pdf" style="height: 27.5rem; width: 50rem; border: 1px solid #000;text-align:left;box-shadow: 15px 20px 5px -5px rgba(140,140,140,1);overflow: auto;">
+        </div>
+      </div>
+      <input hidden style="opacity: 0;" id="member_qrcode" value="<%= @peme.evoucher_qrcode %>"/>
+      <div hidden style="opacity: 0;" id="print_qrcode_evoucher">
+      </div>
+      <div class="sixteen wide column text-center">
+        <%= form_for @changeset, peme_path(@conn, :print_preview_evoucher, @locale, @peme.id), [as: :peme, class: "ui form", multipart: true, method: "post"], fn f -> %>
+        <button id="print_button" class="ui primary button">
+          <i class="print icon"></i>
+          <%= gettext "Print PEME E-voucher" %>
+        </button>
+        <input hidden id="input_print_qrcode_evoucher" name="print_qrcode_evoucher" value="">
+        <%= end %>
+      </div>
+    </div>
+  </section>
+</div>

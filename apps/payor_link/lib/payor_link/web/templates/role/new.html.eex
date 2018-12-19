@@ -1,0 +1,39 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Role</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/roles">Role</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">New Role</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formValidate">
+        <div class="ui form segment" id="formBasicRole">
+          <div class="ui ordered three steps">
+            <div class="active step">
+              <%# <i class="truck icon"></i> %>
+              <div class="content">
+                <div class="title">Basic</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="payment icon"></i> %>
+              <div class="content">
+                <div class="title">Permission</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Review</div>
+              </div>
+            </div>
+          </div>
+          <%= render "form.html", changeset: @changeset, applications: @applications, action: role_path(@conn, :create) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

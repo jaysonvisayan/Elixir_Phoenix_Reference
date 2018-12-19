@@ -1,0 +1,298 @@
+<% coverage = @product_coverage.coverage.code |> String.downcase() %>
+<% pcdrs = @product_coverage.product_coverage_dental_risk_share %>
+<% f = @f %>
+
+<div class="ui form coverage_form" id="coverage-facility">
+  <input type="hidden" name="product[coverages][]" value="<%= coverage %>">
+  <input type="hidden" id="product_id" name="product[id]" value="<%= @product.id %>">
+  <input type="hidden" name="product[pcdrs_id]" value="<%= get_pcdrs_key_value(pcdrs, :id) %>">
+  <input type="hidden" name="product[product_coverage_id]" value="<%= @product_coverage.id %>">
+  <input type="hidden" id="pc_type" value="<%= @product_coverage.type  %>">
+  <input type="hidden" name="product[coverage_facility_id]" value="<%= get_product_coverage_facility_id(@product_coverage.id) %>">
+  <input type="hidden" id="asdf_type" value="<%= get_pcdrs_key_value(pcdrs, :asdf_type) %>">
+
+  <%= if is_nil(List.first(@product_coverage.product_coverage_location_groups)) do %>
+    <input type="hidden" name="product[location_group_id]" value="">
+  <% else %>
+    <input type="hidden" name="product[location_group_id]" value="<%= List.first(@product_coverage.product_coverage_location_groups).location_group.id %>">
+  <% end %>
+  <div class="bottom-border pb-2 mb-2">
+    <div class="section-title mt-2">
+      <div class="title-name">Facilities</div>
+    </div>
+    <a class="modal-open-facilities ui primary button right floated" coverage="<%= coverage %>" id="<%= coverage %>_add_fa_btn" style="margin-right:-8px; margin-top:-20px">
+      <i class="white plus icon"></i>
+      Facilities
+    </a>
+    <div class="three fields">
+      <div class="field" id="radio_df">
+        <h4>Select Dental Facilities </h4>
+        <div class="field mt-1">
+          <%= if is_nil(@product_coverage.type) do %>
+            <div class="three fields">
+              <div class=field>
+                <div class="ui radio checkbox coverage_type_radio" id="dental_grp" coverage="<%= coverage %>">
+                  <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities" %>
+                  <label>Specific dental group</label>
+                </div>
+              </div>
+              <div class="field dental-group-type hidden">
+                <%= if is_nil(List.first(@product_coverage.product_coverage_location_groups)) do %>
+                  <%= select f, :dental_group_type, @location_groups, class: "ui dropdown icon location-group", prompt: "Select location group" %>
+                <% else %>
+                  <%= select f, :dental_group_type, @location_groups, class: "ui dropdown icon location-group", value: List.first(@product_coverage.product_coverage_location_groups).location_group.id, place: "Select location group" %>
+                <% end %>
+              </div>
+            </div><br><br>
+            <div class="field">
+              <div class="ui radio checkbox coverage_type_radio" id="dental_fclt" coverage="<%= coverage %>">
+                <%= radio_button f, :"#{coverage}][type", "Specific Facilities" %>
+                <label>Specific dental facilities</label>
+              </div>
+              <div class="field">
+              </div>
+            </div><br><br>
+		      <% else %>
+            <%= cond do %>
+              <%= String.downcase(@product_coverage.type) == "inclusion" -> %>
+                <div class="two fields">
+                  <div class=field>
+                    <div class="ui radio checkbox coverage_type_radio" id="dental_grp" coverage="<%= coverage %>">
+                      <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities", checked: false %>
+                      <label>Specific dental group</label>
+                    </div>
+                  </div>
+                  <div class="field dental-group-type hidden">
+
+                  <%= if is_nil(List.first(@product_coverage.product_coverage_location_groups)) do %>
+                    <%= select f, :dental_group_type, @location_groups, class: "ui dropdown icon location-group", value: "", prompt: "Select location group" %>
+                  <% else %>
+                    <%= select f, :dental_group_type, @location_groups, class: "ui dropdown icon location-group", value: List.first(@product_coverage.product_coverage_location_groups).location_group.id, prompt: "Select location group" %>
+                  <% end%>
+                  </div>
+                </div><br><br>
+                <div class="field">
+                  <div class="ui radio checkbox coverage_type_radio checked" id="dental_fclt" coverage="<%= coverage %>">
+                    <%= radio_button f, :"#{coverage}][type", "Specific Facilities", checked: true %>
+                    <label>Specific dental facilities</label>
+                  </div>
+                  <div class="field">
+                  </div>
+                </div><br><br>
+
+                <%= String.downcase(@product_coverage.type) == "exception" -> %>
+                  <div class="two fields">
+                    <div class=field>
+                      <div class="ui radio checkbox coverage_type_radio checked" id="dental_grp" coverage="<%= coverage %>">
+                        <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities", checked: true %>
+                        <label>Specific dental group</label>
+                      </div>
+                    </div>
+                    <div class="field dental-group-type">
+                      <%= if is_nil(List.first(@product_coverage.product_coverage_location_groups)) do %>
+                        <%= select f, :dental_group_type, @location_groups, class: "ui dropdown icon location-group", value: "", prompt: "Select location group" %>
+                      <% else %>
+                        <%= select f, :dental_group_type, @location_groups, class: "ui dropdown icon location-group", value: List.first(@product_coverage.product_coverage_location_groups).location_group.id, prompt: "Select location group" %>
+                      <% end%>
+                  </div>
+                </div><br><br>
+                <div class="field">
+                  <div class="ui radio checkbox coverage_type_radio" id="dental_fclt" coverage="<%= coverage %>">
+                    <%= radio_button f, :"#{coverage}][type", "Specific Facilities", checked: false %>
+                    <label>Specific dental facilities</label>
+                  </div>
+                  <div class="field">
+                  </div>
+                </div><br><br>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%= cond do  %>
+      <%= @product_coverage.type  == "inclusion" -> %>
+        <p id="append-facility-inclusion"> </p>
+        <p id="append-facility-exclusion"> </p>
+
+      <%= @product_coverage.type  == "exception" -> %>
+        <label><Strong id="text-dental-type"> Excluded Dental Facilities </Strong></label>
+        <br><br><br>
+        <p id="append-facility-inclusion"> </p>
+        <p id="append-facility-exclusion"> </p>
+
+      <%= true -> %>
+        <label><Strong id="text-dental-type"> </Strong></label>
+        <br><br><br>
+        <p id="append-facility-inclusion"> </p>
+        <p id="append-facility-exclusion"> </p>
+    <% end %>
+
+       <div class="field">
+         <% facilities_val = if Enum.empty?(@product_coverage.product_coverage_facilities), do: "", else: "true" %>
+         <% checker = if @product_coverage.type == "inclusion", do: facilities_val, else: "true" %>
+         <input type="text" class="hidden" name="<%= coverage%>_is_valid_facility" coverage="<%= coverage %>" id="fa_tbl"  value="<%= checker %>" pc_type="<%= @product_coverage.type %>">
+       </div>
+  </div>
+
+  <div class="section-title mt-2">
+    <div class="title-name">Risk share setup</div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <h4>Risk share for all selected facilities</h4>
+
+      <div class="field mt-1" id="radio_rs">
+        <div class="four wide fields">
+          <div class="field">
+            <div style="height: 9px"><br></div>
+            <div class="ui radio checkbox riskshare_type_radio" id="copay_b">
+              <input type="radio" value="Copay" name="product[copay_rss]" id="copay_radio">
+              <label for="copay_radio">Copay</label>
+            </div>
+          </div>
+
+          <div class="field copay-type hidden">
+            <%= if is_nil(@product_coverage.product_coverage_dental_risk_share) do %>
+              <%= text_input f, :copay, class: "ui form-control", value: ""%>
+            <% else %>
+              <%= text_input f, :copay, class: "ui form-control", value: "#{@product_coverage.product_coverage_dental_risk_share.asdf_amount}"%>
+            <% end %>
+          </div>
+        </div>
+        <br>
+
+        <div class="four fields">
+          <div class="field">
+            <div style="height: 9px"><br></div>
+            <div class="ui radio checkbox riskshare_type_radio" id="coinsurance_b">
+              <input type="radio" value="Coinsurance" name="product[copay_rss]" id="coinsurance_radio">
+              <label for="coinsurance_radio">Coinsurance</label>
+            </div>
+          </div>
+          <div class="field coninsurance-type hidden">
+
+            <%= if is_nil(@product_coverage.product_coverage_dental_risk_share) do %>
+              <%= text_input f, :coinsurance, class: "ui form-control", value: "" %>
+            <% else %>
+              <%= text_input f, :coinsurance, class: "ui form-control", value: "#{@product_coverage.product_coverage_dental_risk_share.asdf_percentage}" %>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Special handling</label>
+    <div class="eight fields">
+      <div class="field special-handling" id="special-handling">
+
+            <%= if is_nil(@product_coverage.product_coverage_dental_risk_share) do %>
+              <%= select f, :special_handling_type, ["Corporate Guarantee": "Corporate Guarantee", "ASO Override": "ASO Override", "Fee for Service": "Fee for Service", "Member Pays": "Member Pays"], class: "ui dropdown icon", prompt: "Select One", value: "" %>
+            <% else %>
+              <%= select f, :special_handling_type, ["Corporate Guarantee": "Corporate Guarantee", "ASO Override": "ASO Override", "Fee for Service": "Fee for Service", "Member Pays": "Member Pays"], class: "ui dropdown icon", prompt: "Select One", value: "#{@product_coverage.product_coverage_dental_risk_share.asdf_special_handling}" %>
+            <% end %>
+
+      </div>
+    </div>
+  </div><br><br><br>
+
+  <div class="ui divider"></div><br>
+
+  <a class="modal-open-risk-share ui primary button right floated disabled" id="btnAddRiskShare" style="margin-top:25px">
+    <i class="white plus icon"></i>
+    Risk share
+  </a>
+
+  <div class="section-title mt-2">
+    <h4>Risk share for specific facilities</h4>
+  </div>
+
+  <br>
+    <input type="hidden" name="product[risk_share_datas][]">
+    <input type="hidden" name="product[facility_ids_rs][]">
+  <table role="datatable2" class="full-width ui celled striped table dental" id="risk_share_dt">
+    <thead>
+      <tr>
+        <th>Facility code</th>
+        <th>Facility name</th>
+        <th>Risk share type</th>
+        <th>Risk share amount</th>
+        <th>Special handling</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for pcdrsf <- filter_pcdrs_facility(@product_coverage) do %>
+        <tr>
+          <td>
+            <span class="<%= get_facility(pcdrsf, :code) %>">
+            <%= get_facility(pcdrsf, :code) %>
+            </span>
+          </td>
+          <td>
+            <span class="<%= get_facility(pcdrsf, :name) %>">
+            <%= get_facility(pcdrsf, :name) %>
+          </span>
+          </td>
+          <td>
+            <span id="type<%= get_facility(pcdrsf, :code) %>">
+            <%= if not is_nil(pcdrsf.sdf_type) do %>
+              <%= String.capitalize(pcdrsf.sdf_type) %>
+            <% else %>
+              N/A
+            <% end %>
+          </span>
+          </td>
+          <td>
+            <span id="amount<%= get_facility(pcdrsf, :code) %>">
+            <%= get_sdf_amount(pcdrsf.sdf_amount) %>
+          </span>
+          </td>
+          <td>
+            <span id="handling<%= get_facility(pcdrsf, :code) %>">
+            <%= if not is_nil(pcdrsf.sdf_special_handling) do %>
+              <%= pcdrsf.sdf_special_handling %>
+            <% else %>
+              N/A
+            <% end %>
+          </span>
+          </td>
+
+          <td class="table-icon--holder">
+            <div class="ui dropdown" tabindex="0">
+            <i class="ellipsis vertical icon"></i>
+              <div class="menu transition hidden">
+                <div class="item clickable-row edit_risk_share" href="#" style="color:#00B24F"
+                facility_id="<%= get_facility(pcdrsf, :id) %>"
+                facility_code="<%= get_facility(pcdrsf, :code) %>"
+                facility_name="<%= get_facility(pcdrsf, :name) %>"
+                facility_sdftype = "<%= pcdrsf.sdf_type %>"
+                facility_sftamount = "<%= pcdrsf.sdf_amount %>"
+                facility_s_handling = "<%= pcdrsf.sdf_special_handling %>"
+                pcdrsf_id = "<%= pcdrsf.id %>"
+                >Edit Risk Share
+                <span class="selected_pcdrsf hidden"><%= get_facility(pcdrsf, :id) %></span>
+                <span class="<%= get_facility(pcdrsf, :code) %>_rows selected_ben_rows hidden"><%= get_facility(pcdrsf, :id) %>|<%= pcdrsf.sdf_type %>|<%= pcdrsf.sdf_amount %>|<%= pcdrsf.sdf_special_handling %></span>
+              </div>
+              <div class="item">
+            <a href="#!" product_id="<%= @product.id  %>" pcdrsf_id="<%= pcdrsf.id %>" class="remove_selected_pcdrsf">Remove</a>
+            <input type="hidden" name="product[dentl][pcdrsf_ids][]" value="<%= get_facility(pcdrsf, :id) %>">
+            <span class="selected_pcdrsf hidden"><%= pcdrsf.id %>
+            </span>
+            </div>
+          </div>
+          </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "dental/modal_inclusion_facilities.html", coverage: coverage %>
+<%= render "dental/modal_exclusion_facilities.html", coverage: coverage %>
+<%= render "dental/modal_risk_share_setup.html" %>
+<%= render "dental/modal_edit_risk_share_setup.html" %>

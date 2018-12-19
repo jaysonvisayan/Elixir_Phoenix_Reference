@@ -1,0 +1,452 @@
+<div class="row" style="border: 1px solid #f4a742; background-color: #f4a742;">
+  <div class="sixteen wide column">
+    <div class="ui two grid container">
+      <div class="eight wide column"\
+           style="background-image: linear-gradient(black 33%, rgba(255,255,255,0) 0%);
+                  background-position: right;
+                  background-size: 1px 30px;
+                  background-repeat: repeat-y;">
+        <h3>Emergency Contact Card</h3>
+      </div>
+      <div class="eight wide column">
+        <h3>In case of emergency, please notify</h3>
+      </div>
+    </div>
+  </div>
+</div><!--row-->
+
+<div class="row" style="border: 1px solid #f4a742;border-bottom: 0px">
+  <div class="sixteen wide column">
+    <div class="ui two grid container">
+      <div class="eight wide column"
+           style="background-image: linear-gradient(black 33%, rgba(255,255,255,0) 0%);
+                  background-position: right;
+                  background-size: 1px 30px;
+                  background-repeat: repeat-y;">
+      <div class="ui two grid container">
+        <div class="sixteen wide column"></div>
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Name:</label>
+                </div>
+                <div style="width:70%">
+                  <label><b><%= @user.member.first_name %> <%= @user.member.last_name %></b></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Date of Birth:</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= @user.member.birthdate %></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Blood Type</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= @user.member.blood_type %></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Allergies</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= @user.member.allergies %></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Medications</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= @user.member.medication %></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="sixteen wide column"></div>
+        <div class="twelve wide one wide column"></div>
+        <div class="four wide one wide column">
+          <img src="/images/site-logo.png" style="height:18px;width:100px">
+        </div>
+
+    </div>
+  </div>
+      <div class="eight wide column">
+      <div class="ui two grid container">
+        <div class="sixteen wide column"></div>
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Name:</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><b><%= display_emergency_info(@user.member, :ecp_name) %></b></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Relationship:</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= display_emergency_info(@user.member, :ecp_relationship) %></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Contact</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= display_emergency_info(@user.member, :ecp_phone) %></label>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                    <div style="width:30%">
+                      <label></label>
+                    </div>
+                    <div style="width:70%">
+                      <label><%= display_emergency_info(@user.member, :ecp_phone2) %></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="sixteen wide column">
+            <div class="menu">
+              <div class="item">
+                <div class="ui grid">
+                  <div style="width:30%">
+                    <label>Email:</label>
+                  </div>
+                  <div style="width:70%">
+                    <label><%= display_emergency_info(@user.member, :ecp_email) %></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="sixteen wide column"></div>
+        <div class="twelve wide one wide column"></div>
+        <div class="four wide one wide column">
+          <img src="/images/site-logo.png" style="height:18px;width:100px">
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div><!--row-->
+
+<div class="row" style="background-color: #f4a742;background-image: linear-gradient(to right, black 33%, rgba(255,255,255,0) 0%);
+background-position: top;
+background-size: 30px 1px;
+background-repeat: repeat-x;">
+  <div class="sixteen wide column">
+    <div class="ui two grid container">
+      <div class="eight wide column" style="background-image: linear-gradient(black 33%, rgba(255,255,255,0) 0%);
+background-position: right;
+background-size: 1px 30px;
+background-repeat: repeat-y;">
+        <h3>Hospital Information</h3>
+      </div>
+      <div class="eight wide column">
+        <h3>Donor Info Card</h3>
+      </div>
+    </div>
+  </div>
+</div><!--row-->
+
+<div class="row" style="border: 1px solid #f4a742;">
+  <div class="sixteen wide column">
+    <div class="ui two grid container">
+      <div class="eight wide column" style="background-image: linear-gradient(black 33%, rgba(255,255,255,0) 0%);
+background-position: right;
+background-size: 1px 30px;
+background-repeat: repeat-y;">
+      <div class="eight wide column">
+      <div class="ui two grid container">
+        <div class="sixteen wide column"></div>
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Name:</label>
+                </div>
+                <div style="width:70%">
+                  <label><b><%= display_emergency_info(@user.member, :hospital_name) %></b></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Telephone:</label>
+                </div>
+                <div style="width:70%">
+                  <label><%= display_emergency_info(@user.member, :hospital_telephone) %></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>HMO Name:</label>
+                </div>
+                <div style="width:70%">
+                  <label><%=# display_emergency_info(@user.member, :hmo_name) %> Maxicare</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Member Name:</label>
+                </div>
+                <div style="width:70%">
+                  <label><%= display_emergency_info(@user.member, :member_name) %></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Card Number:</label>
+                </div>
+                <div style="width:70%">
+                  <label><%= @user.member.card_no %></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Policy Number:</label>
+                </div>
+                <div style="width:70%">
+                  <label><%= @user.member.policy_no %></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:30%">
+                  <label>Customer Care:</label>
+                </div>
+                <div style="width:70%">
+                  <label><%= display_emergency_info(@user.member, :customer_care_number) %></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide column"></div>
+        <div class="twelve wide one wide column"></div>
+        <div class="four wide one wide column">
+          <img src="/images/site-logo.png" style="height:18px;width:100px">
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <div class="ui two grid container">
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div class="sixteen wide column">
+                  I, ___________________________ have spoken to my family about organ and tissue donation. The following people have witnessed my commitment to be a donor.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:100%">
+                  I wish to donate the following:
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:100%">
+                  <i class="square outline icon"></i>Any needed organs and tissue
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:100%">
+                  <i class="square outline icon"></i>Only the following tissues: ________________________________________________
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:100%">
+                  _____________________________________________________________________________
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:65%">
+                  <label>Donor Signature: _____________________________</label>
+                </div>
+                <div style="width:35%">
+                  <label>Date: _________________</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:100%">
+                  Witness: ____________________________________________________________________
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="menu">
+            <div class="item">
+              <div class="ui grid">
+                <div style="width:100%">
+                  Witness: ____________________________________________________________________
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+    </div>
+    </div>
+    </div>
+  </div>
+</div><!--row-->
+
+<div class="row">
+  <div class="eight wide column">
+    <button type="submit" class="ui primary button"><i class="paste icon"></i>Print this Card</button>
+  </div>
+</div> 

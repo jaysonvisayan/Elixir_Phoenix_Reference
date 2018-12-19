@@ -1,0 +1,45 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Practitioners</h2>
+  <div class="ui small breadcrumb">
+    <a class="active section" href="/practitioners">Practitioner</a>
+    <i class="right chevron icon divider"></i>
+    <div class="section">Add Practitioner</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formValidateGeneral">
+        <div class="ui form segment" id="formPractitionerGeneral">
+          <div class="ui ordered four steps">
+            <div class="active step">
+              <%# <i class="truck icon"></i> %>
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="payment icon"></i> %>
+              <div class="content">
+                <div class="title">Contact</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Financial</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= render "form.html", changeset: @changeset, practitioner: @practitioner, specializations: @specializations, conn: @conn, action: practitioner_path(@conn, :update_setup, @practitioner, step: "1") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

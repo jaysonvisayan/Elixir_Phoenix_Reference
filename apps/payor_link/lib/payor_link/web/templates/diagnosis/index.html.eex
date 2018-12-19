@@ -1,0 +1,65 @@
+<div class="ui main container" id="diagnosis-index" role="diagnosis-details">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Diseases</h1>
+          <div class="ui breadcrumb">
+              <a href="/diseases" class="section">Diseases</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%" id="diagnosis_table">
+    <thead>
+        <tr>
+          <th>Primary Diagnosis Code</th>
+          <th>Primary Diagnosis Description</th>
+          <th>Diagnosis Group Name</th>
+          <th>Diagnosis Chapter</th>
+          <th>Diagnosis Type</th>
+          <th>Congenital</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for diagnosis <- @diagnoses do %>
+        <tr>
+          <td field="code">
+            <a class="show-diagnosis-details pointer" diagnosisId="<%= diagnosis.id %>"><%= diagnosis.code %></a>
+          </td>
+          <td field="description">
+            <%= diagnosis.description %>
+          </td>
+          <td field="group_name">
+            <%= diagnosis.group_name %>
+          </td>
+          <td field="chapter">
+            <%= diagnosis.chapter %>
+          </td>
+          <td field="type">
+            <%= diagnosis.type %>
+          </td>
+          <td field="congenital">
+            <%= if diagnosis.congenital == "N" do "No" else "Yes" end %>
+          </td>
+          <input type="hidden" field="group_description" value="<%= diagnosis.group_description %>">
+          <input type="hidden" field="group_code" value="<%= diagnosis.group_code %>">
+          <input type="hidden" field="coverages" value="<% diagnosis_coverage = for dc <- diagnosis.diagnosis_coverages, do: dc.coverage.name %><%= filter_coverage(diagnosis_coverage) %>">
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="6">
+          <div class="center_align">
+            <a id="export_button" class="pointer">
+              <i class="download icon"></i><b>Download Result</b>
+            </a>
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<%= render "modal_show.html" %>
+<%= render "modal_logs.html" %>

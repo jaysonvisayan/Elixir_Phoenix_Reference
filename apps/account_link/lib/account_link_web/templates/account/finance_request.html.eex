@@ -1,0 +1,86 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li>Home </li><li><i class="chevron right icon"></i> </li>
+      <li>Account </li><li><i class="chevron right icon"></i></li>
+      <li>Finance</li><li><i class="chevron right icon"></i></li>
+      <li class="active">Request Form</li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper finance-request">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <p>
+              This edit request form is sent to the payor for approval. Please edit the required information below in order to send request.
+              </p>
+
+              <%= form_for @conn, @action, [as: :finance, class: "ui form mt-3"], fn _f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <div class="ui two column grid">
+                  <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                    <div class="field">
+                      <label class="label-title">Signatory Name</label>
+                      <input type="text" name="username" placeholder="Enter username" value="Juan Dela Cruz">
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                    <div class="field">
+                      <label class="label-title">Designation</label>
+                      <input type="text" name="username" placeholder="Enter username" value="HR Manager">
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                    <div class="field">
+                      <label class="label-title">Phone Number 1</label>
+                      <input type="text" name="username" placeholder="Enter username" value="7592416">
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                    <div class="field">
+                      <label class="label-title">Phone Number 2 (optional) </label>
+                      <input type="text" name="username" placeholder="Enter username" value="7582135">
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                    <div class="field">
+                      <label class="label-title">Email Address 1</label>
+                      <input type="text" name="username" placeholder="Enter username" value="juandelacruz@gmail.com">
+                    </div>
+                  </div>
+                  <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                    <div class="field">
+                      <label class="label-title">Email Address 2</label>
+                      <input type="text" name="username" placeholder="Enter username" value="juandela123@gmail.com">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column text-center finance-request__upload mt-3">
+                      <p>Please upload your official ID card as a proof of the changes you mentioned above.</p>
+                      <div class="field">
+                        <input type="file" name="upload-lab-order" id="upload-lab-order" class="hide">
+                        <div class="ui basic icon large buttons">
+                          <label class="ui button" for="upload-lab-order">Upload Profile Picture<i class="upload icon"></i></label>
+                          <label class="ui button"><i class="photo icon"></i></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="eight wide computer centered sixteen wide tablet sixteen wide mobile column">
+                      <button class="ui button fluid mt-4" type="submit">Send Request</button>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

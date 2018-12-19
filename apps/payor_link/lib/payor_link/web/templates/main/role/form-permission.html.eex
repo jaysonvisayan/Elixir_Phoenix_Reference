@@ -1,0 +1,5 @@
+<%# <%= form_for @changeset_permission, @action, [class: "form2"], fn _f -> %1> %>
+<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+<div class="field">
+  <%= render "permissions.html", permissions: @permissions %>
+</div>

@@ -1,0 +1,266 @@
+<div class="module" id="create_pf">
+  <div class="module-header">
+    <div class="ui grid">
+      <div class="twelve wide column">
+        <h1>Create PF Batch</h1>
+        <div class="ui breadcrumb">
+          <a href="#" class="section">Dashboard</a>
+          <div class="divider"> > </div>
+          <div class="section">Create PF Batch</div>
+          <div class="divider"> > </div>
+          <div class="active section">Summary</div>
+        </div>
+      </div>
+      <div class="four wide column">
+        <button class="ui right floated basic green big button">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="module-content">
+    <div class="ui equal width left aligned padded grid stackable">
+      <div class="row">
+        <div class="column">
+          <div class="ui segments">
+            <div class="ui form segment ">
+              <form class="ui form">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>FACILITY</strong>
+                      </div>
+                      <div class="field">
+                        Makati Medical Center
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DOCTOR</strong>
+                      </div>
+                      <div class="field">
+                        Tricia Baylon
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>COVERAGE</strong>
+                      </div>
+                      <div class="field">
+                        Outpatient
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>SOA REF NO</strong>
+                      </div>
+                      <div class="field">
+                        00102111
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>BOX NO.</strong>
+                      </div>
+                      <div class="field">
+                        15
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>ESTIMATED NO. OF CLAIMS</strong>
+                      </div>
+                      <div class="field">
+                        12
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>SOA AMOUNT</strong>
+                      </div>
+                      <div class="field">
+                        15.00
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>EDITED SOA AMOUNT</strong>
+                      </div>
+                      <div class="field">
+                        15.00
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DATE RECEIVED</strong>
+                      </div>
+                      <div class="field">
+                        10/24/2017
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DATE DUE</strong>
+                      </div>
+                      <div class="field">
+                        11/24/2017
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>REMARKS</strong>
+                      </div>
+                      <div class="field">
+                        MRC
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>NOTE</strong>
+                      </div>
+                      <div class="field">
+                        MRC
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DATE CREATED</strong>
+                      </div>
+                      <div class="field">
+                        10/24/2017
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DOCUMENT TYPE</strong>
+                      </div>
+                      <div class="field">
+                        SOA
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="sixteen wide column">
+                    <div class="ui grid">
+                      <div class="three wide column"></div>
+
+                      <div class="ten wide center column">
+                        <div class="ui stackable three column grid">
+                          <div class="column">
+                            <div class="ui card">
+                              <div class="content">
+                                <div class="ui icon top right floated pointing dropdown basic">
+                                  <i class="close icon"></i>
+                                </div>
+                                <div class="description">
+                                  <div class="ui medium rounded image">
+                                    <img src="/images/no-photo-available.png">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="extra content center aligned">
+                                <span class="">
+                                  Reg_001
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="ui card">
+                              <div class="content">
+                                <div class="ui icon top right floated pointing dropdown basic">
+                                  <i class="close icon"></i>
+                                </div>
+                                <div class="description">
+                                  <div class="ui medium rounded image">
+                                    <img src="/images/no-photo-available.png">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="extra content center aligned">
+                                <span class="">
+                                  Reg_002
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="column">
+                            <div class="ui card">
+                              <div class="content">
+                                <div class="ui icon top right floated pointing dropdown basic">
+                                  <i class="close icon"></i>
+                                </div>
+                                <div class="description">
+                                  <div class="ui medium rounded image">
+                                    <img src="/images/no-photo-available.png">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="extra content center aligned">
+                                <span class="">
+                                  Reg_003
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="three wide column"></div>
+                    </div>
+                  </div>
+                </div>
+                <br/><br/>
+
+                <!--button class="ui blue right floated button" type="submit">
+                  Submit&nbsp;&nbsp;&nbsp;<i class="save icon"></i>
+                </button-->
+                <a class="ui blue right floated button" href="/batch_processing">
+                  Submit&nbsp;&nbsp;&nbsp;<i class="save icon"></i>
+                </a>
+                <a class="ui right floated button" href="/batch_processing/pf_batch/new">
+                  <i class="chevron left icon"></i> Back
+                </a>
+
+                <br/><br/>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

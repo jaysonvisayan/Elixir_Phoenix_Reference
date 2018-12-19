@@ -1,0 +1,139 @@
+<%= render "edit/breadcrumbs.html", benefit: @benefit %>
+<div class="ui equal width left aligned padded grid stackable" id="editGeneral">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= cond do %>
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui eight item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=pharmacy" class="item">Pharmacy</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+              <div class="ui six item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui seven item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=pharmacy" class="item">Pharmacy</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+              <div class="ui five item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+              </div>
+
+            <%= true -> %>
+              <div class="ui five item menu">
+                <a class="active item">General</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=diseases" class="item">Diagnosis</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+              </div>
+
+          <%= end %>
+
+
+
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+
+          <center>
+            <h2 class="ui icon header">
+              <i class="heartbeat icon"></i>
+              <div class="content">
+                Health Plan
+              </div>
+            </h2>
+          </center>
+
+          <%= form_for @changeset, benefit_path(@conn, :save, @benefit, tab: "general"), [class: "form2", id: "edit_health_form"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <input type="hidden" name="benefit[category]" value="health">
+            <div class="field required">
+              <%= label f, :coverage_ids, "Coverages" %>
+              <%= multiple_select :disabled, :coverage_ids, filter_coverages(@coverages, "health_plan"), class: "ui fluid dropdown", disabled: "", value: display_edit_coverages(@benefit) %>
+              <%= error_tag f, :coverage_ids %>
+            </div>
+            <div class="two fields">
+              <div class="field required">
+                <%= label f, :code %>
+                <%= text_input f, :code %>
+                <%= error_tag f, :code %>
+              </div>
+              <div class="field required">
+                <%= label f, :name %>
+                <%= text_input f, :name %>
+                <%= error_tag f, :name %>
+              </div>
+            </div>
+
+            <div class="ui middle aligned  right aligned grid">
+              <div class="left floated left aligned six wide column">
+                <h4 class="ui header">Conditions</h4>
+              </div>
+            </div>
+
+            <div class="ui divider mrg1T mrg1B"></div>
+
+            <div class="two fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button(f, :condition, "ALL", checked: "") %>
+                  <label>Procedures (in procedures tab) can only be availed if ALL Diagnoses (in diagnosis tab) are applied</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button(f, :condition, "ANY") %>
+                  <label>Procedures (in procedures tab) can only be availed if ANY Diagnoses (in diagnosis tab) are applied</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui middle aligned  right aligned grid mrg1T">
+              <div class="left floated left aligned six wide column">
+                <a href="/benefits/<%= @benefit.id %>" class="ui button">
+                  <i class="remove left icon"></i> Cancel
+                </a>
+              </div>
+              <div class="right floated right aligned six wide column">
+                <button id="edit_health_submit" class="ui blue button"><i class="save icon"></i> Save </button>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

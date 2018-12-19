@@ -1,0 +1,81 @@
+<div class="ui main container" id="practitioner_edit_contact">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Practitioner</h1>
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioner</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">
+                Edit <%= @practitioner.code %> - <%= Enum.join([@practitioner.first_name, @practitioner.last_name], "  ")%>
+              </div>
+          </div>  
+          <div class="ui divider"></div>
+          <div class="ui stackable grid" id="edit_practitioner" practitionerID="<%= @practitioner.id%>">
+            <div class="row">
+              <div class="sixteen wide column">
+                <div class="ui three item menu">
+                  <a href="/practitioners/<%= @practitioner.id %>/edit?tab=general"  class="item">
+                  <%#  General %>
+                    <div class="edit-menu">
+                      <i class="info circle icon"></i>
+                      <div class="content">
+                        <div class="title">General</div>
+                        <div class="description">Name, specialization, etc.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="active item">
+                    <div class="active edit-menu">
+                      <i class="mail icon"></i>
+                      <div class="content">
+                        <div class="title">Contact</div>
+                        <div class="description">Contact info</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/practitioners/<%= @practitioner.id %>/edit?tab=financial" class="item">
+                    <div class="edit-menu">
+                      <i class="money icon"></i>
+                      <div class="content">
+                        <div class="title">Financial</div>
+                        <div class="description">Funding arrangement</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>        
+              </div>
+            </div>
+            <%= 
+              render "edit/form-edit-contact.html", 
+              changeset: @changeset, 
+              practitioner: @practitioner, 
+              conn: @conn, 
+              contacts: @contacts, 
+              action: practitioner_path(@conn, :update_edit_setup, @practitioner, tab: "contact") %>
+          </div><!--grid-->
+      </div>
+  </div>
+</div>
+
+<% #Modal Tab %>
+<div class="ui small modal" id="modal_tab_switch">
+  <i class="close icon"></i>
+  <div class="header">
+    Unsaved Changes
+  </div>
+  <div class="image content">
+    You have unsaved changes, are you sure you want to continue?
+  </div>
+  <div class="actions">
+    <div class="ui white button deny">
+      No
+    </div>
+    <div class="ui negative button" id="edit_tab_confirm">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>
+<% #Modal end %>

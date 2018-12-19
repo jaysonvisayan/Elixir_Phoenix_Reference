@@ -1,0 +1,360 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container ">
+      <div class="ui right floated header">
+        <a href="/batch_processing" class="ui primary button"> Add New LOA</a>
+      </div>
+      <h1 class="ui left floated header">
+        Batch <%= @batch.batch_no %>
+        <div class="sub header small"><a href="/batch_processing" class="mr-1">Dashboard </a> <span class="rt-arrow mr-1">›</span><%= @batch.batch_no %></div>
+      </h1>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="batchDetails">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide computer column">
+        <div class="section">
+          <div class="ui grid">
+            <div class="row">
+              <div class="eleven wide computer eleven wide tablet sixteen wide mobile column">
+                <div class="ui segment">
+                  <div class="content">
+                    <div class="header">
+                      <div class="ui grid">
+                        <div class="eight wide column">
+                          <h2 class="blacken"><%= @batch.batch_no %></h2>
+                        </div>
+                        <div class="eight wide column right aligned">
+                          <div class="ui icon top right floated pointing dropdown basic">
+                            <i class="large ellipsis vertical icon"></i>
+                            <div class="left menu">
+                              <div class="item" id="addEditedSOAamount">
+                                Add Edited SOA Amount
+                              </div>
+                              <%= if Enum.empty?(@batch.batch_authorizations) do %>
+                                <div class="item" id="deleteBatch">
+                                  Delete Batch
+                                </div>
+                              <% else %>
+                                <div class="item disabled" id="deleteBatch">
+                                  Delete Batch
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui relaxed grid">
+                      <div class="four column row">
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Batch Type</label>
+                            <div class="info__content"><%= @batch.type %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Coverage</label>
+                            <div class="info__content"><%= @batch.coverage %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Facility</label>
+                            <div class="info__content"><%= @batch.facility.name %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Practitioner</label>
+                            <div class="info__content"><%= display_practitioner_name(@batch) %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Est. No. Of LOA</label>
+                            <div class="info__content"><%= @batch.estimate_no_of_claims %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Actual LOA Count</label>
+                            <div class="info__content"><%= Enum.count(@batch.batch_authorizations) %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Count Status</label>
+                            <div class="info__content"><%= check_count_status(@batch) %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Amount Balance</label>
+                            <div class="info__content">
+                              <%= if checker = check_batch_balance(@batch) == "Balanced" do %>
+                                <span class="green"><%= check_batch_balance(@batch) %></span>
+                              <% else %>
+                                <span class="red"><%= check_batch_balance(@batch) %></span>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">SOA Reference No.</label>
+                            <div class="info__content"><%= @batch.soa_ref_no %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">SOA Amount</label>
+                            <div class="info__content"><%= @batch.soa_amount %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Edited SOA Amount</label>
+                            <div class="info__content"><%= @batch.edited_soa_amount || 0 %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Total Amount per LOA</label>
+                            <div class="info__content"><%= get_batch_total_amount(@batch) %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Date Created</label>
+                            <div class="info__content convert-date"><%= @batch.inserted_at |> DateTime.to_date() %></div>
+                          </div>
+                        </div>
+
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Date Recieved</label>
+                            <div class="info__content convert-date"><%= @batch.date_received %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Batch Status</label>
+                            <div class="info__content"><%= @batch.status || "For Processing" %></div>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div class="info">
+                            <label class="dim info__title">Created by</label>
+                            <div class="info__content"><%= display_created_by(@batch) %></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="five wide computer five wide tablet sixteen wide mobile column">
+                <div class="ui segment">
+                  <div class="content">
+                    <div class="header text-center"><h3 class="blacken">Batch Summary</h3></div>
+                    <table class="full-width ui very basic celled table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th><small>Count</small></th>
+                          <th><small>Amount</small></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Est. LOAs </td>
+                          <td class="text-center"><span><%= @batch.estimate_no_of_claims %></span></td>
+                          <td class="text-center"> <span><%= @batch.soa_amount %></span></td>
+                        </tr>
+                        <tr>
+                          <td>Actual Processed</td>
+                          <td class="text-center"><%= loa_count_checker(@batch, "Processed").count %></td>
+                          <td class="text-center"><%= loa_count_checker(@batch, "Processed").amount %></td>
+                        </tr>
+                        <tr>
+                          <td>Actual For Processing</td>
+                          <td class="text-center"><%= loa_count_checker(@batch, "For Processing").count %></td>
+                          <td class="text-center"><%= loa_count_checker(@batch, "For Processing").amount %></td>
+                        </tr>
+                        <tr>
+                          <td>Actual RTP</td>
+                          <td class="text-center">0</td>
+                          <td class="text-center">0</td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td>Total Actual</td>
+                          <td class="text-center"><%= get_total_actual(@batch).count %></td>
+                          <td class="text-center"><%= get_total_actual(@batch).amount %></td>
+                        </tr>
+                        <tr>
+                          <td>Variance</td>
+                          <td class="text-center"><%= get_variance(@batch).count %></td>
+                          <td class="text-center"><%= get_variance(@batch).amount %></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- .row -->
+          </div><!-- .ui.grid -->
+        </div><!-- .section -->
+
+      </div>
+      <!-- . -->
+
+    </div><!-- row ends here -->
+  </div><!-- grid ends here -->
+</div><!-- container ends here -->
+
+<div class="ui container">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide computer column">
+        <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+          <table role="datatable" class="ui very basic striped selectable table">
+            <thead>
+              <tr>
+                <th>LOA No.</th>
+                <th>Reference No.</th>
+                <th>Member Information</th>
+                <th>Coverage</th>
+                <th>Policy Number</th>
+                <th>Amount</th>
+                <th>Admission Date</th>
+                <th>Discharged Date</th>
+                <th>RTP</th>
+                <th width="2%"></th>
+              </tr>
+            </thead>
+            <tbody class="padded-rows menued-rows">
+              <%= for batch_authorization <- @batch.batch_authorizations do %>
+                <tr>
+                  <td><a href="#!"><%= batch_authorization.authorization.number %></a></td>
+                  <td>3018342</td>
+                  <td>
+                    <b><%= display_member_name(batch_authorization.authorization.member) %></b>
+                    <br>
+                    Card no.: <%= batch_authorization.authorization.member.card_no %>
+                  </td>
+                  <td><%= batch_authorization.authorization.coverage.name %></td>
+                  <td><%= batch_authorization.authorization.member.policy_no %></td>
+                  <td>₱ <%= batch_authorization.authorization.authorization_amounts.total_amount %></td>
+                  <td><%= batch_authorization.authorization.admission_datetime |> Ecto.DateTime.to_date() %></td>
+                  <td><%= batch_authorization.authorization.admission_datetime |> Ecto.DateTime.to_date() %></td>
+                  <!-- TODO RTP YES OR NO -->
+                  <td>No</td>
+                  <td>
+                    <div class="ui simple basic dropdown">
+                      <i class="ellipsis vertical icon"></i>
+                      <div class="menu">
+                        <div class="item clickable-row">
+                          Sample 1
+                        </div>
+                        <div class="item clickable-row">
+                          Sample 2
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- row ends here -->
+  </div><!-- grid ends here -->
+</div><!-- container ends here -->
+
+<div class="ui container">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide computer column">
+        <div class="comments-section mt-1">
+
+          <div class="ui segment">
+            <div class="ui form">
+              <div class="field" id="commentField">
+                <label>Add Comment</label>
+                <textarea rows="2" id="commentBox"></textarea>
+              </div>
+              <button class="ui primary basic button" id="addComment">Post</button>
+            </div>
+
+            <div class="title mt-2">Recent Comments</div>
+
+            <div class="comment mt-2 comment-time">
+              <div class="ui relaxed divided list" id="commentContainer">
+                <%= for comment <- @batch.comments do %>
+                  <div class="item">
+                    <div class="mt-1 mb-1 blacken"><%= comment.comment %></div>
+                    <i class="large github middle aligned icon"></i>
+                    <div class="content">
+                      <a class="header"><%= "#{comment.created_by.first_name} #{comment.created_by.last_name}" %></a>
+                      <div class="description timefromnow blacken" timestamp="<%= comment.inserted_at %>"><%= comment.inserted_at %></div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- row ends here -->
+  </div><!-- grid ends here -->
+</div><!-- container ends here -->
+
+<div class="ui small modal" id="addEditedSOAamountModal">
+  <div class="header">
+    Add Edited SOA Amount
+  </div>
+  <div class="content">
+    <%= form_for @changeset, batch_path(@conn, :update_soa_amount, @batch), [class: "ui form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= number_input f, :edited_soa_amount, value: "", autocomplete: "off" %>
+  </div>
+  <div class="actions">
+    <button type="submit" class="ui positive button">
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>
+
+<div class="ui small modal" id="deleteBatchModal">
+  <input type="hidden" id="batchID" value="<%= @batch.id %>">
+  <div class="header">
+    Delete Batch?
+  </div>
+  <div class="content">
+    <p>
+    Deleting this Batch will permanently remove it from the system.
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      <i class="remove icon"></i>
+      No, Keep Batch
+    </div>
+    <div class="ui red ok button"  id="confirmDeleteBatch">
+      <i class="trash icon"></i>
+      Yes, Delete Batch
+    </div>
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <br>
+      <h1 class="ui huge header">ACU Scheduling</h1>
+      <div class="ui breadcrumb">
+        <a href="/web/acu_schedules" class="section">ACU Scheduling</a>
+        <div class="divider"> > </div>
+        <div class="active section">View Schedule</div>
+      </div>
+      <div class="ui divider"></div>
+        <%# FORM %>
+        <div class="row" role="show">
+          <input type="hidden" name="asm[as_id]" value="<%= @changeset.data.id %>"/>
+          <div class="sixteen wide column">
+            <%= form_for @changeset, acu_schedule_path(@conn, :update_acu_schedule, @changeset.data.id), [as: :acu_schedule,  multipart: true, class: "ui form", id: "acu_mobile_edit_form"], fn f -> %>
+              <%= if @changeset.action do %>
+                <div class="ui negative message">
+                  <i class="close icon"></i>
+                  <%= get_flash(@conn, :error) %>
+                </div>
+              <% end %>
+
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <input type="hidden" name="product_codes" value="<%= map_products(@changeset.data.acu_schedule_products) %>">
+              <input type="hidden" name="facility_id" value="<%= @changeset.data.facility_id%>">
+              <input type="hidden" name="account_end_date" value="<%= get_account(@changeset.data.account_group) %>">
+              <input type="hidden" name="datetime" value="<%= @acu_schedule.inserted_at %>" id="date_time">
+              <input type="hidden" name="id" value="<%= @acu_schedule.id %>" id="acus_id">
+              <div class="ui grid">
+                <div class="row">
+                  <div class="eight wide column">
+                    <h3 class="ui left aligned header">General</h3>
+                  </div>
+                  <div class="right aligned right floated eight wide column">
+                    <div class="ui icon top right floated pointing dropdown">
+                      <i class="primary large ellipsis vertical icon"></i>
+                      <div class="left menu transition hidden">
+                        <div class="<%= if_draft_edit(@acu_schedule.status)%> item" href="/web/acu_schedules/<%= @acu_schedule.id %>/edit">
+                          <i class="edit icon"></i>
+                          Edit
+                        </div>
+                        <div class="<%= if_draft_delete(@acu_schedule.status) %> item discard_acu_schedule">
+                          <i class="trash icon"></i>
+                          Delete
+                        </div>
+                        <%= if @acu_schedule.status == "Completed" do %>
+                        <div class="<%= if_draft_export(@acu_schedule.status) %> item " id="export_button">
+                          <i class="download icon"></i>
+                          Export Masterlist
+                        </div>
+                        <% end %>
+                        <div class="<%= if_draft_finalize(@acu_schedule.acu_schedule_packages, @acu_schedule.status) %> item" id="new_submit_acu_schedule">
+                          <i class="check circle icon"></i>
+                          Finalize
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+              </br>
+
+              <div class="fields">
+                <div class="two wide field">
+                  <label class="label-title">BATCH NO</label>
+                </div>
+                <div class="five wide field">
+                  <label><%= @acu_schedule.batch_no %></label>
+                </div>
+                <div class="thirteen wide field"></div>
+              </div>
+
+              <div class="six fields">
+                <div class="two wide field">
+                  <label class="label-title">CLUSTER</label>
+                </div>
+                <div class="five wide field">
+                  <label><%= check_cluster(@acu_schedule.cluster) %></label>
+                </div>
+                <div class="two wide field">
+                  <label class="label-title">NUMBER OF MEMBERS</label>
+                </div>
+                <div class="four wide field">
+                  <label><%= @acu_schedule.no_of_members %></label>
+                </div>
+                <div class="three wide field">
+                  <label class="label-title">MEMBER TYPE</label>
+                </div>
+                <div class="four wide field">
+                  <label><%= @acu_schedule.member_type %></label>
+                </div>
+              </div>
+
+              <div class="six fields">
+                <div class="two wide field">
+                  <label class="label-title">ACCOUNT</label>
+                </div>
+                <div class="five wide field">
+                  <label><%= check_account(@acu_schedule.account_group) %></label>
+                </div>
+                <div class="two wide field">
+                  <label class="label-title">GUARANTEED AMOUNT</label>
+                </div>
+                <div class="four wide field">
+                  <label><%= @acu_schedule.guaranteed_amount %></label>
+                </div>
+                <div class="three wide field">
+                  <label class="label-title">SCHEDULE TIME FROM - TIME TO</label>
+                </div>
+                <div class="four wide field">
+                  <label><%= check_schedule_time(@acu_schedule) %></label>
+                </div>
+              </div>
+
+              <div class="six fields">
+                <div class="two wide field">
+                  <label class="label-title">PRODUCT</label>
+                </div>
+                <div class="five wide field">
+                  <label><%= check_product(@acu_schedule) %></label>
+                </div>
+                <div class="two wide field">
+                  <label class="label-title">MOBILE FACILITY</label>
+                </div>
+                <div class="four wide field">
+                  <label><%= @acu_schedule.facility.name %></label>
+                </div>
+                <div class="three wide field">
+                  <label class="label-title">SCHEDULE DATE FROM - DATE TO</label>
+                </div>
+                <div class="four wide field">
+                  <label><%= check_schedule_date(@acu_schedule) %></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <%# FORM END %>
+        <div class="ui divider"></div>
+        <div class="sixteen wide right aligned column">
+          <h3 class="ui left aligned header">Members</h3>
+        </div>
+        </br>
+        <div class="row" id="new_as_members_tbl">
+          <table role="datatable" id="acu_schedule_tablea" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <%# <th style="font-size: 12px;color: #333333;font-weight: 400;"><input type="checkbox" id="checkAllacu"</th> %>
+                <th style="font-size: 12px;color: #333333;font-weight: 400;">Card number</th>
+                <th style="font-size: 12px;color: #333333;font-weight: 400;">Full Name</th>
+                <th style="font-size: 12px;color: #333333;font-weight: 400;">Gender</th>
+                <th style="font-size: 12px;color: #333333;font-weight: 400;">Birthdate</th>
+                <th style="font-size: 12px;color: #333333;font-weight: 400;">Age</th>
+                <th style="font-size: 12px;color: #333333;font-weight: 400;">Package Code</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%# <%= for asm <- @acu_schedule_members do %1> %>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              <%# <% end %1> %>
+                  <%# <td><input id="acu_sched_ids" type="checkbox" value="<%= asm.card_no %1>"></td> %>
+                  <%# <td><%= asm.card_no %1></td> %>
+                  <%# <td><%= Enum.join([asm.first_name, asm.middle_name, asm.last_name], " ") %1></td> %>
+                  <%# <td><%= asm.gender %1></td> %>
+                  <%# <td><%= asm.birthdate %1></td> %>
+                  <%# <td><%= member_age(asm.birthdate) %1></td> %>
+                  <%# <td><%= asm.package %1></td> %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sixteen wide column">
+          <div class="ui divider"></div>
+          <h3 class="ui left aligned header">Packages</h3>
+          <div class= "ui centered grid">
+            <div class="row">
+              <%= if !Enum.empty?(@acu_schedule.acu_schedule_packages) do %>
+                <%= for asp <- @acu_schedule.acu_schedule_packages do %>
+                <div class="four wide computer sixteen wide tablet sixteen wide mobile column" style="margin: 1rem !important;">
+                  <div class="ui fluid card">
+                    <div class="content" style="background-color: lightgrey !important;">
+                      <br>
+                        <div class="field" style="display: inline-block;">
+                          <label style="font-color: lightgrey !important;"><b>Package Code</b></label>
+                          <h4 style="margin-top: -0.1rem;"><%= asp.package.code %></h4>
+                        </div>
+                        <div class="field" style="display: inline-block;">
+                          <label style="font-color: lightgrey !important; margin-left: 1rem;"><b>Package Name</b></label>
+                          <br>
+                          <h4 style="margin-top: -0.1rem; margin-left: 1rem;"><%= asp.package.code %></h4>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="field" style="display: inline-block;">
+                          <label style="font-color: lightgrey !important;"><b>Package Rate</b></label>
+                          <br>
+                          <h4 style="margin-top: -0.1rem;"><%= asp.rate %> php</h4>
+                        </div>
+                        <a href="/packages/<%= asp.package_id %>/summary" target="_blank" class="ui primary right floated button" style="border-radius: 3rem !important;" style="display: inline-block;">
+                          View
+                        </a>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+            <br />
+              No Records Found
+            <br /><br />
+            <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input id='acu_schedule_id' type='hidden' value='<%= @acu_schedule.id %>'>
+
+<%= form_for @changeset, main_acu_schedule_path(@conn, :submit_acu_schedule_member, @acu_schedule.id), [as: :acu_schedule,  multipart: true, class: "form2", id: "new_submit_acu_schedule_member", method: "post", style: "margin-top: 2rem !important;"], fn f -> %>
+    <% count = count_selected_members(@acu_schedule.acu_schedule_members) %>
+    <input type="hidden" name="acu_schedule[no_of_guaranteed]" value="<%= count %>" />
+    <input type="hidden" name="acu_schedule[no_of_selected_members]" value="<%= count %>" />
+    <input type="hidden" class="valid_timezoned" name="acu_schedule[date_inserted]" value="<%= @acu_schedule.inserted_at%>">
+  <% end %>

@@ -1,0 +1,90 @@
+<%# <div class="ui tiny modal" id="cvv_consult_modal">
+  <div class="header">
+    <div class="row">
+      <div class="ui grid">
+        <div class="fourteen wide column">
+          Enter OTP/CVV
+        </div>
+        <div class="two wide column">
+          <small><a href="#" id="skip_cvv">Skip</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="ui grid">
+        <div class="three wide column"></div>
+        <div class="thirteen wide column">
+            Please enter code below or <a href="#" id="enter_otp">Enter OTP</a> to continue
+        </div>
+        <div class="three wide column"></div>
+        <div class="thirteen wide column">
+            Enter CVV
+        <br />
+          <div class="ui input" id="cvv_field">
+            <input type="text" placeholder="Enter CVV here" id="cvv" maxlength="3">
+            <div id="cvv_error"></div>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="ui primary button" type="button" id="cvv_submit_button">
+      Authenticate
+    </button>
+  </div>
+</div> %>
+
+<div class="hide" id="otp_consult_modal">
+  <div class="header">
+    <div class="row">
+      <div class="ui grid">
+        <div class="fourteen wide column">
+          Enter OTP
+        </div>
+        <div class="two wide column">
+          <%# <small><a href="#" id="skip_otp">Skip</a></small> %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui content">
+    <div class="row">
+      <div class="ui grid">
+        <div class="three wide column"></div>
+        <div class="ten wide column">
+            We have sent a code to the member's registered mobile number for LOA printing.
+        </div>
+        <div class="three wide column"></div>
+        <%# <div class="three wide column"></div> %>
+        <%# <div class="thirteen wide column"> %>
+            <%# Please enter code below or <a href="#" id="enter_cvv">Enter CVV</a> to continue %>
+        <%# </div> %>
+        <div class="three wide column"></div>
+        <div class="thirteen wide column">4 Digit PIN Code
+        <br />
+
+          <div class="ui input" id="otp_field">
+            
+              <input type="text" placeholder="Enter 4-Digit PIN Code here" id="otp" maxlength="4">
+              <div id="otp_error"></div>
+            
+          </div>
+
+        </div>
+
+        <div class="sixteen wide column center aligned"><a href="#" id="send_otp" style="pointer-events: none;cursor: default;text-decoration:none;color:black;">SMS New PIN Code</a><br><span id="timer" style="font-size:15px"><span>60</span> Seconds</span></h6></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="actions">
+    <button class="ui primary button" type="button" id="otp_submit_button" >
+      Authenticate
+    </button>
+  </div>
+    </div>

@@ -1,0 +1,68 @@
+<div class="row" id="benefitMiscellaneousForm">
+  <div class="column">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Pharmacy</h4>
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small add button add_miscellaneous" id=""><i class="plus icon"></i>Miscellaneous</a>
+      </div>
+    </div>
+    <div class="ui divider mrg0T mrg0B"></div><br />
+    <table role="datatable" id="" class="ui stripped table">
+      <thead>
+        <tr>
+          <th>Item Code</th>
+          <th>Description</th>
+          <th>Maximum Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for benefit_miscellaneous <- Enum.sort_by(@benefit.benefit_miscellaneous, &(&1.miscellaneous.code)) do %>
+          <tr>
+            <td><%= benefit_miscellaneous.miscellaneous.code %></td>
+            <td><%= benefit_miscellaneous.miscellaneous.description %></td>
+            <td><%= benefit_miscellaneous.miscellaneous.price %></td>
+            <td class="center aligned">
+              <a style="cursor: pointer;" class="delete-benefit-miscellaneous" benefitMiscellaneousID="<%= benefit_miscellaneous.id %>" >
+                <i class="trash icon"></i>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui negative button mrg1T" id="deleteBenefit" benefitID="<%= @benefit.id %>">
+      <i class="trash left icon"></i>Delete Draft
+    </button>
+  </div>
+  <div class="column eight wide">
+    <%= cond do %>
+      <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+        <a href="/benefits/<%= @benefit.id %>/setup?step=7" class="ui button mrg1T">
+
+      <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+        <a href="/benefits/<%= @benefit.id %>/setup?step=6" class="ui button mrg1T">
+    <%= end %>
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+
+    <%= cond do %>
+      <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+        <a href="/benefits/<%= @benefit.id %>/setup?step=9" class="ui blue button mrg1T">
+
+      <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+        <a href="/benefits/<%= @benefit.id %>/setup?step=8" class="ui blue button mrg1T">
+    <%= end %>
+    Next
+    <i class="chevron right icon"></i>
+        </a>
+  </div>
+</div>

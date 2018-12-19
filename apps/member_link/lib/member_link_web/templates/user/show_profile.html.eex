@@ -1,0 +1,100 @@
+<div class="content-holder">
+  <div class="ui container">
+    <div class="ui grid" name="ProfileValidation">
+      <div class="sixteen wide computer twelve wide tablet sixteen wide mobile column">
+        <div class="ui grid" id="fileUpload">
+
+          <div class="ten wide computer sixteen wide tablet  column">
+            <h1 class="ui huge header">My Profile</h1>
+            <%= form_for @changeset, user_path(@conn, :update_profile, @locale), [as: :member, multipart: true, class: "ui form", id: "ProfileForm"], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <div class="ui hidden divider"></div>
+
+              <div class="two fields">
+
+                <div class=" four wide field">
+                  <%= if is_nil(@user.member) do %>
+                    <img src="/images/no-photo-available.png" id="photo" class="ui medium circular image">
+                  <% else %>
+                    <%= if is_nil(@user.member.photo) do %>
+                      <img src="/images/no-photo-available.png" id="photo" class="ui medium circular image">
+                    <% else %>
+                      <img id="photo" class="ui medium circular image" style="background-size: cover; background-position: center-center; height: 150px;" src="<%= get_img_url(@user.member) %>">
+                    <% end %>
+                  <% end %>
+                </div>
+
+                <div id="upload_photo" class="twelve wide field">
+                  <label>Upload Photo</label>
+                  <%= file_input f, :photo, id: "imageUpload", accept: "image/*", class: "ui hide" %>
+                  <div class="ui basic icon large buttons">
+                    <label class="ui button" for="imageUpload" id="imageLabel">
+                      Upload Profile Picture
+                      <i class="upload icon"></i>
+                    </label>
+                    <%# <label class="ui button"><i class="photo icon"></i></label> %>
+                  </div>
+                  <p id="desc_upload_photo" class="ui tiny header"><span class="sub header">
+                      Maximum file size is 5 MB.<br>
+                      Acceptable file types are jpg, jpeg and png.
+                    </span>
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="twelve wide field">
+                <button class="fluid ui primary button" type="submit">
+                  <i class="save icon"></i>
+                  Save Changes
+                </button>
+              </div>
+
+            <% end %>
+          </div>
+
+          <div class="six wide computer fourteen wide tablet and sixteen wide mobile column">
+            <div class="very padded center aligned secondary ui segment">
+              <div class="secondary description">
+                <div class="ui hidden divider"></div>
+                <div class="image face-image">
+                  <%= if is_nil(@user.member) do %>
+                    <img src="/images/no-photo-available.png" id="imagePreview" class="ui tiny centered circular image">
+                  <% else %>
+                    <%= if is_nil(@user.member.photo) do %>
+                      <img src="/images/no-photo-available.png" id="imagePreview" class="ui tiny centered circular image">
+                    <% else %>
+                      <img id="photo" class="ui tiny centered circular image" style="background-size: cover; background-position: center-center; height: 75px;" src="<%= get_img_url(@user.member) %>">
+                    <% end %>
+                  <% end %>
+                </div>
+                <h2 class="ui medium header"><%= format_name_first(@user.member) %></h2>
+                <div><%= @user.member.account_group.name %></div>
+                <div>Company Branch Name</div>
+                <div>Card # <%= format_card_no(@user.member.card_no) %></div>
+                <div>Birthday <%= format_date(@user.member.birthdate) %></div>
+                <div>Gender
+                  <%= if String.capitalize(@user.member.gender) == "Male" do %>
+                    <i class="male icon blue"></i>
+                    <span class="ui blue text">
+                  <% else %>
+                    <i class="female icon pink"></i>
+                    <span class="ui text" style="color: #C71585">
+                  <% end %>
+                    <%= String.capitalize(@user.member.gender) %>
+                    </span>
+                </div>
+
+                <div class="ui hidden divider"></div>
+                <div>
+                  <a href="/<%= @locale %>/profile/request/correction">Is this information not correct?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

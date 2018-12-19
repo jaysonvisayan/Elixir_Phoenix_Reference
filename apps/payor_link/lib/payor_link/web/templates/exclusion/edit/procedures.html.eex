@@ -1,0 +1,94 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Exclusions</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/exclusions">Search</a>
+    <i class="right chevron icon divider"></i>
+    <%= if @exclusion.coverage == "General Exclusion" do %>
+    <div class="active section">Edit Exclusion</div>
+    <% else %>
+    <div class="active section">Edit Pre-existing condition</div>
+    <% end %>
+  </div>
+</div>
+<div id="exclusion_procedures" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <div class="ui three item menu">
+            <a href="/exclusions/<%= @exclusion.id %>/edit?tab=general" class="item">General</a>
+            <a href="/exclusions/<%= @exclusion.id %>/edit?tab=diseases" class="item">Diseases</a>
+            <a class="active item">Procedures</a>
+          </div>
+          <div class="row">
+            <div class="column"><p role ="append_procedure_form"></p>
+              <div class="ui middle aligned right aligned grid">
+                <div class="left floated left aligned six wide column">
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <a class="ui small add button"><i class="plus icon"></i>CPT</a>
+                </div>
+              </div>
+              <table role="datatable" id="edit_procedure_table" class="ui striped table">
+                <thead>
+                  <tr>
+                    <th>CPT Code</th>
+                    <th>CPT Description</th>
+                    <th>Procedure Section</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for exclusion_procedure <- Enum.sort_by(@exclusion.exclusion_procedures, &(&1.procedure.code)) do %>
+                    <tr>
+                      <td field="exclusion_code"><%= exclusion_procedure.procedure.code %></td>
+                      <td field="exclusion_description"><%= exclusion_procedure.procedure.description %></td>
+                      <td><%= exclusion_procedure.procedure.procedure.procedure_category.name %></td>
+                      <td>
+                      <a style="cursor: pointer" class="delete" exclusion_id="<%= @exclusion.id %>"" procedure_id="<%= exclusion_procedure.id %>">
+                          <i class="trash icon"></i>
+                      </a>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div><br />
+        <div class="ui one column right aligned grid">
+          <div class="column eight wide left aligned">
+            <%= if Enum.empty?(@exclusion.exclusion_procedures) and Enum.empty?(@exclusion.exclusion_diseases) do %>
+              <button type="button" class="ui button mrgIT" id="empty_procedure">
+                  <i class="remove left icon"></i>
+                Cancel
+              </button>
+            <% else %>
+              <a href="/exclusions/<%= @exclusion.id %>" class="ui button">
+                <i class="remove left icon"></i>
+                Cancel
+              </a>
+            <% end %>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render "edit/procedures_modal.html", exclusion: @exclusion, changeset: @changeset, conn: @conn, action: exclusion_path(@conn, :save, @exclusion, tab: "procedures"), procedures: @procedures %>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_exclusion_procedure">
+<% end %>
+
+<div class="ui modal" id="DeleteModal">
+  <i class="close icon"></i>
+  <div class="header">
+      Remove CPT?
+  </div>
+  <div class="actions">
+      <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "3.1"), method: :delete, id: "delete_procedure" do %>
+        <button type="button" class="ui blue right floated button">Yes, Remove CPT</button>
+      <% end %>
+    <button type="button" class="ui cancel right floated button">No, Keep CPT</button>
+  </div>
+</div>

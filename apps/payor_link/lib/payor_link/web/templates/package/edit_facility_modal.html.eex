@@ -1,0 +1,45 @@
+<div class="ui modal" role="package_procedure_modal" id="add_package_facility">
+  <i class="close icon"></i>
+  <div class="header">
+     Update Facility
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :package_facility, class: "ui form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= hidden_input f, :facility_id, class: "form-control", id: "facility_id" %>
+    <%= hidden_input f, :package_id, class: "form-control", id: "package_id" %>
+    <%= hidden_input f, :package_facility_id, class: "form-control", id: "package_facility_id" %>
+    <div class="disabled field" width="40%">
+      <%= label f, :facility_name, "Facility Name" %>
+      <%= text_input f, :facility_name%>
+      <%= error_tag f, :facility_name %>
+    </div>
+    <div class="disabled field" width="40%">
+      <%= label f, :facility_code, "Facility Code" %>
+      <%= text_input f, :facility_code%>
+      <%= error_tag f, :facility_code %>
+    </div>
+    <div class="field" width="40%">
+      <%= label f, :rate, "Facility Rate" %>
+      <%= text_input f, :rate %>
+      <%= error_tag f, :rate %>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Update
+    </button>
+  </div>
+  <% end %>
+</div>

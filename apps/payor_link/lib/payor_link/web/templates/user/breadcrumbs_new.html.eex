@@ -1,0 +1,21 @@
+<%= if @conn.assigns[:user] && @user.step == 4 do %>
+    <h1 class="ui huge header">Users</h1>
+    <div class="ui breadcrumb">
+        <a href="/users" class="section">Users</a>
+        <div class="divider"> / </div>
+        <a href="/users" class="section">Search</a>
+        <div class="divider"> / </div>
+        <div class="active section">Edit User</div>
+    </div> 
+    <div class="ui divider"></div>                            
+  <% else %>
+    <h1 class="ui huge header">Users</h1>
+    <div class="ui breadcrumb">
+        <a href="/users" class="section">Users</a>
+        <div class="divider"> / </div>
+        <a href="/users" class="section">Search</a>
+        <div class="divider"> / </div>
+        <div class="active section">Add User</div>
+    </div> 
+    <div class="ui divider"></div>                            
+<% end %>

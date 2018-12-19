@@ -1,0 +1,22 @@
+<div class="max-width">
+  <div class="ui segment">
+    <img src='<%= static_path(@conn, "/images/logo.png") %>'>
+    <br>
+    <br>
+    <br>
+    <br>
+    <%= form_for @changeset, member_path(@conn, :validate_evoucher, @locale), [as: :evoucher, class: "ui form", multipart: true, id: "validateEvoucher"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui input large-input">
+        <%= text_input f, :evoucher, placeholder: "Enter e-voucher" %>
+      </div>
+      <br>
+      <br>
+      <h3>Please enter your E-voucher Number to Proceed</h3>
+      <br>
+      <button class="ui primary button index-proceed">
+        PROCEED
+      </button>
+    <% end %>
+  </div>
+</div>

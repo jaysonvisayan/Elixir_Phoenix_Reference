@@ -1,0 +1,69 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/products">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Plan</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" id="step6_risk_share">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered seven steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Exclusion</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title"><%= product_base_label(@product) %></div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Facility Access</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Conditions</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Risk Share</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+            <%= render "step6_form.html", product_coverages: @product_coverages, product_risk_share: @product_risk_share, product: @product, changeset: @changeset, action: product_path(@conn, :update_setup, @product , step: "6") %>
+            <%= render "step6_facility_modal.html", product_risk_share: @product_risk_share, product: @product, changeset_risk_share_facility: @changeset_risk_share_facility, standard_facility: @standard_facility, delete_facility: @delete_facility, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "6.1") %>
+            <%= render "step6_procedure_modal.html", product_risk_share: @product_risk_share, product: @product, changeset_risk_share_facility: @changeset_risk_share_facility, standard_procedure: @standard_procedure, changeset_risk_share_facility_procedure: @changeset_risk_share_facility_procedure, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "6.2") %>
+          <%= render "step6_rsfp_r_c_modal.html" %>
+          <%= render "step6_rsfpp_r_c_modal.html" %>
+          <%= render "product_delete_confirmation.html" %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>
+

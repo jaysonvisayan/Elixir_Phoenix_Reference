@@ -1,0 +1,82 @@
+<head>
+  <style>
+        html {
+            display: none;
+        }
+    </style>
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+</head>
+
+<div class="ui middle aligned center aligned grid" name="forgotPasswordValidate">
+  <div class="nine wide column" id="verifyCodeValidate">
+    <h1 class="ui image header">
+      <div class="content">
+        Forgot Password
+      </div>
+    </h1>
+    <%= form_for @changeset, @action, [class: "ui large form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= hidden_input f, :email, value: @user.email %>
+      <div class="ui stacked">
+        <%= if @changeset.action do %>
+          <div class="ui negative message">
+            <i class="close icon"></i>
+            <%= get_flash(@conn, :error) %>
+          </div>
+        <% end %>
+        <p class="mrg1T">Your verification code was sent to <%= @email %>.
+        <br>Please check your email and enter your verification code here.
+        </p>
+        <div class="six fields" id="verificationInput">
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]" autofocus >
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui huge input">
+              <input type="text" placeholder="_" class="verificationCode" name="user[verification_code][]">
+            </div>
+          </div>
+        </div>
+          <div class="field">
+              <button type="submit" class="ui center floated green circular submit huge button">Continue</button>
+          </div>
+        <div class="ui divider hidden" style="color: black;"></div>
+        <a href="/resend_code/<%=@user.id%>">Didn't get the code Resend IT</a>
+        <div class="ui divider hidden"></div>
+        <%# <div class="two fields"> %>
+        <%#   <div class="field"> %>
+        <%#     <span><a href="/sign_in" class="ui fluid button">Cancel</a></span> %>
+        <%#   </div> %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

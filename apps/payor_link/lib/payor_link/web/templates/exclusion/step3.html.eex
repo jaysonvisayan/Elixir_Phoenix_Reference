@@ -1,0 +1,41 @@
+<%= render "breadcrumbs.html" %>
+    <div class="active section">Add Procedure</div>
+  </div>
+</div>
+<div id="exclusion_procedures" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Procedure</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+            <%= render "step3_form.html", exclusion: @exclusion, conn: @conn, action: exclusion_path(@conn, :create_basic) %>
+            <%= render "step3_modal.html", exclusion: @exclusion, changeset: @changeset, conn: @conn, action: exclusion_path(@conn, :update_setup, @exclusion, step: "3"), procedures: @procedures %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_exclusion_procedure">
+<% end %>

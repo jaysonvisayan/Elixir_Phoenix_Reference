@@ -1,0 +1,146 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Location Group</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/location_groups">Location Group</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Show</div>
+  </div>
+</div>
+
+<div id="show_location_group" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+
+          <!-- GENERAL -->
+          <div class="ui two column centered grid" style="word-break:break-all;">
+            <div class="centered aligned column">
+              <div class="ui statistic">
+                <div class="">
+                  Location Group Code
+                </div>
+                <div class="text value">
+                  <%= @location_group.code %>
+                </div>
+              </div>
+            </div>
+            <div class="two column center aligned row">
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Name
+                  </div>
+                  <div class="text value">
+                    <%= @location_group.name %>
+                  </div>
+                </div>
+              </div>
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Description
+                  </div>
+                  <div class="text value">
+                    <%= @location_group.description %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END OF GENERAL -->
+
+          <div class="ui top attached tabular menu" role="location_group">
+            <a class="item active" data-tab="region">Region</a>
+            <a class="item" data-tab="facility">Facility</a>
+          </div>
+
+          <!-- Region TAB -->
+          <div class="ui bottom attached tab segment active" data-tab="region">
+            <div class="ui grid">
+              <div class="sixteen wide column">
+                <div class="ui grid">
+                  <div class="sixteen wide column">
+                    <h4 class="ui header">Luzon</h4>
+                    <div class="ui divider"></div>
+                  </div>
+                  <div class="sixteen wide column">
+                    <div class="ui grid">
+                      <%= for luzon_island <- @luzon_island do %>
+                        <div class="five wide column">
+                          <i class="small circle icon"></i>
+                          <%= luzon_island.region_name %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide column">
+                    <h4 class="ui header">Visayas</h4>
+                    <div class="ui divider"></div>
+                  </div>
+                  <div class="sixteen wide column">
+                    <div class="ui grid">
+                      <%= for visayas_island <- @visayas_island do %>
+                        <div class="five wide column">
+                          <i class="small circle icon"></i>
+                          <%= visayas_island.region_name %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide column">
+                    <h4 class="ui header">Mindanao</h4>
+                    <div class="ui divider"></div>
+                  </div>
+                  <div class="sixteen wide column">
+                    <div class="ui grid">
+                      <%= for mindanao_island <- @mindanao_island do %>
+                        <div class="five wide column">
+                          <i class="small circle icon"></i>
+                          <%= mindanao_island.region_name %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Facility TAB -->
+          <div class="ui bottom attached tab segment" data-tab="facility">
+            <table id="" class="ui striped table">
+              <thead>
+                <tr>
+                  <th>Facility Name</th>
+                  <th>Facility Code</th>
+                  <th>Facility Region</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for facility <- @facility do %>
+                  <tr>
+                    <td> <%= facility.code %> </td>
+                    <td> <%= facility.name %> </td>
+                    <td> <%= facility.region %> </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ui middle aligned left aligned grid mrg1T">
+          <div class="left floated left aligned six wide column">
+            <a href="/location_groups" class="ui button">
+              <i class="chevron left icon"></i> Back
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

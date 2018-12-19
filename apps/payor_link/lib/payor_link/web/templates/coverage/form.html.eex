@@ -1,0 +1,63 @@
+<div class="row" id="validate">
+  <div class="sixteen wide column">
+    <%= form_for @changeset, @action, [as: :coverage, class: "ui form form2", id: "coverage"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <div class="two fields">
+        <div class="field">
+          <label>Code</label>
+          <%= text_input f, :code, placeholder: "Enter Coverage Code" %>
+          <%= error_tag f, :code %>
+        </div>
+        <div class="field">
+          <label>Name</label>
+          <%= text_input f, :name, placeholder: "Enter Coverage Name" %>
+          <%= error_tag f, :name %>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>Description</label>
+          <%= text_input f, :description, placeholder: "Enter Description" %>
+          <%= error_tag f, :description %>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <%= text_input f, :status, placeholder: "Enter Status" %>
+          <%= error_tag f, :status %>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>Type</label>
+          <%= text_input f, :type, placeholder: "Enter Coverage Type" %>
+          <%= error_tag f, :type %>
+        </div>
+        <div class="field">
+          <label>Plan Type</label>
+          <%= select f, :plan_type, ["health_plan", "riders"], class: "ui dropdown" %>
+          <%= error_tag f, :plan_type %>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="eight wide column">
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/coverages" class="ui basic button">Cancel</a>
+    <%= if @conn.assigns[:coverage] do %>
+      <button type="submit" class="ui primary button">Save Changes</button>
+    <% else %>
+      <button type="submit" class="ui primary button">Submit Coverage</button>
+    <% end %>
+</div>
+</div>
+<% end %>
+

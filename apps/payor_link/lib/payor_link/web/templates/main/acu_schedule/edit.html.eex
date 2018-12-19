@@ -1,0 +1,353 @@
+  <div class="page-title">
+		<div class="ui clearing segment">
+			<div class="ui container">
+
+			  <h1 class="ui left floated header">
+			    Acu Scheduling
+			    <div class="clearfix"></div>
+				 	<div class="ui breadcrumb">
+					  <a href="/web/acu_schedules">Acu Scheduling</a>
+					  <i class="right angle icon divider"></i>
+					  <div class="active section dim thin">Add Scheduling</div>
+					</div>
+			  </h1>
+			</div>
+		</div><!-- .ui.clearing.segment -->
+  </div><!-- .page-title -->
+
+  <div id="new_acu_schedule_edit_form" class="ui container">
+    <div class="content-section white-bg">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <%= form_for @changeset, main_acu_schedule_path(@conn, :update_acu_schedule, @acu_schedule.id), [as: :acu_schedule,  multipart: true, class: "ui form", id: "acu_mobile_edit_form"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <input type="hidden" id="acu_schedule_id" value="<%= @acu_schedule.id %>">
+            <input type="hidden" name="product_codes" value="<%= map_products(@changeset.data.acu_schedule_products) %>">
+            <input type="hidden" name="facility_id" value="<%= @changeset.data.facility_id%>">
+            <input type="hidden" name="account_end_date" value="<%= get_account(@changeset.data.account_group) %>">
+            <input type="hidden" name="acu_schedule[save_as_draft]" id="save_as_draft" value="false">
+            <input type="hidden" name="product_codes_all">
+
+            <div class="section-title mt-2"><div class="title-name">Schedule Information</div></div>
+
+            <div class="ui grid">
+              <div class="row">
+                <div class="right aligned right floated eight wide column">
+                  <div class="ui icon top right floated pointing dropdown">
+                    <i class="primary large ellipsis vertical icon"></i>
+                    <div class="left menu transition hidden">
+                      <div class="<%= if_draft_delete(@acu_schedule.status) %> item discard_acu_schedule">
+                        <i class="trash icon"></i>
+                        Delete
+                      </div>
+                      <div class="<%= if_draft_delete(@acu_schedule.status) %> item" id="new_submit_acu_schedule">
+                        <i class="check circle icon"></i>
+                        Finalize
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </div>
+            </br>
+
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :cluster_id, "Cluster Code/Name", class: "control-label" %>
+                <%= select f, :cluster_id, [] ++ map_clusters(@clusters), prompt: ""  %>
+                <%= error_tag f, :cluster_id %>
+              </div>
+
+              <div class="field">
+                <%= label f, :account_code, "Account Code/Name", class: "control-label" %>
+                <%= select f, :account_code, map_accounts(@account_groups), prompt: "", value: @changeset.data.account_group.code  %>
+                <%= error_tag f, :account_code %>
+              </div>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :product_code, "Plan", class: "label-title" %>
+                <%= multiple_select f, :product_code, [], class: "ui search selection dropdown", prompt: ""  %>
+                <%= error_tag f, :product_code %>
+              </div>
+              <% [principal, dependent] = is_check(@changeset.data.member_type) %>
+              <div class="field">
+                <%= label f, :member_type, "Member Type", class: "label-title" %>
+                <div class="field"></div>
+                <div class="two inline fields">
+                  <div class="field">
+                    <div class="ui checkbox" id="member_principal">
+                      <input type="checkbox" name="acu_schedule[principal]" class="acu_schedule_member_type" id="acu_schedule_member_type" value="Principal" <%= principal %>>
+                      <label>Principal</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox" id="member_dependent">
+                      <input type="checkbox" name="acu_schedule[dependent]" class="acu_schedule_member_type" id="acu_schedule_member_type" value="Dependent" <%= dependent %>>
+                      <label>Dependent</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :facility_id, "Mobile Facility", class: "label-title" %>
+                <%= select f, :facility_id, [], class: "ui search selection dropdown facility", prompt: "Select Facility"  %>
+                <%= error_tag f, :facility_id %>
+              </div>
+              <div class="field">
+                <div class="two fields">
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :date_from, "Date From", class: "label-title" %>
+                    <div class="ui calendar" id="acu_date_from">
+                      <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input name="acu_schedule[date_from]" type="text" value="<%= @changeset.data.date_from %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :date_to, class: "label-title" %>
+                    <div class="ui calendar" id="acu_date_to">
+                      <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input name="acu_schedule[date_to]" type="text" value="<%= @changeset.data.date_to %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :time_from, class: "label-title" %>
+                    <div class="ui calendar time" id="acu_time_from">
+                      <div class="ui input right icon">
+                        <input name="acu_schedule[time_from]" type="text" placeholder="00:00" value="<%= @changeset.data.time_from %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :time_to, class: "label-title" %>
+                    <div class="ui calendar time" id="acu_time_to">
+                      <div class="ui input right icon">
+                        <input name="acu_schedule[time_to]" type="text" placeholder="00:00" value="<%= @changeset.data.time_to %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :number_of_members, "Number of Members", class: "label-title" %>
+                <%= number_input f, :number_of_members_val, readonly: true, value: @changeset.data.no_of_members %>
+                <%= error_tag f, :number_of_members_val %>
+              </div>
+              <input type="hidden" id="number_of_members" accountCode="" productCode="">
+              <div class="field">
+                <%= label f, :guaranteed_amount, "Guaranteed Amount", class: "label-title" %>
+                <%= text_input f, :guaranteed_amount, disabled: false, value: @changeset.data.guaranteed_amount %>
+                <%= error_tag f, :guaranteed_amount %>
+              </div>
+            </div>
+            <button class="ui right floated primary button" id="acu_submit">
+              <i class="inverted save icon"></i>
+              Save
+            </button>
+          <% end %>
+        </div>
+        <div class="sixteen wide column">
+          <div class="ui divider"></div>
+        </div>
+        <div class="sixteen wide column">
+          <button class="ui primary <%= if Enum.empty?(@asm_removes), do: "disabled" %> right floated button" id="new_show_add_asm">
+            <i class="inverted plus icon"></i>
+            Add Member
+          </button>
+          <h4 class="ui left aligned header">Members</h4>
+        </div>
+        <div class="sixteen wide column" id="new_as_members_tbl">
+          <table id="acu_schedule_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Card No</th>
+                <th>Full Name</th>
+                <th>Gender</th>
+                <th>Birthdate</th>
+                <th>Age</th>
+                <th>Package Code</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%# <%= for asm <- @acu_schedule_members do %1> %>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                  <%# <td><input id="acu_sched_ids" type="checkbox" value="<%= asm.card_no %1>"></td> %>
+                  <%# <td><%= asm.card_no %1></td> %>
+                  <%# <td><%= Enum.join([asm.first_name, asm.middle_name, asm.last_name], " ") %1></td> %>
+                  <%# <td><%= asm.gender %1></td> %>
+                  <%# <td><%= asm.birthdate %1></td> %>
+                  <%# <td><%= member_age(asm.birthdate) %1></td> %>
+                  <%# <td><%= asm.package %1></td> %>
+                  <%# <td> %>
+                  <%#   <a class="clickable-row" href="#" asm_id="<%= asm.id %1>" id="asm_update_status"><i class="red trash icon"></i></a> %>
+                  <%# </td> %>
+              <%# <% end %1> %>
+            </tbody>
+          </table>
+        </div>
+  <%= form_for @conn, main_acu_schedule_path(@conn, :update_asm_status), [id: "remove_member", multipart: true, as: :asm, method: :put], fn _f -> %>
+    <input type="hidden" name="asm[asm_id]"/>
+    <input type="hidden" name="asm[as_id]" value="<%= @changeset.data.id %>"/>
+  <% end %>
+
+  <%= render "add_members_modal.html", conn: @conn, acu_schedule_id: @changeset.data.id, removed: @removed, asm_removes: @asm_removes, changeset: @changeset%>
+        <div class="sixteen wide column">
+          <div class="ui divider"></div>
+          <br>
+          <h4 class="ui left aligned header">Packages</h4>
+          <div class= "ui centered grid">
+            <div class="row">
+              <%= if !Enum.empty?(@acu_schedule.acu_schedule_packages) do %>
+              <%= for asp <- @acu_schedule.acu_schedule_packages do %>
+              <div class="four wide computer sixteen wide tablet sixteen wide mobile column" style="margin: 1rem !important;">
+                <div class="ui fluid card">
+                  <div class="content" style="background-color: lightgrey !important;">
+                    <br>
+                      <div class="field" style="display: inline-block;">
+                        <label style="font-color: lightgrey !important;"><b>Package Code</b></label>
+                        <h4 style="margin-top: -0.1rem;"><%= asp.package.code %></h4>
+                      </div>
+                      <div class="field" style="display: inline-block;">
+                        <label style="font-color: lightgrey !important; margin-left: 1rem;"><b>Package Name</b></label>
+                        <br>
+                        <h4 style="margin-top: -0.1rem; margin-left: 1rem;"><%= asp.package.name %></h4>
+                      </div>
+                  </div>
+                  <div class="content">
+                    <%= if Decimal.cmp(get_package_facility(asp.package_id, asp.facility_id).rate, asp.rate) == :eq do %>
+                      <div class="field" style="display: inline-block;">
+                        <label style="font-color: lightgrey !important;"><b>Package Rate</b></label>
+                        <br>
+                        <h4 style="margin-top: -0.1rem;"><%= asp.rate %> php</h4>
+                      </div>
+                      <button type="button" class="ui primary right floated button open_modal_package_new" asp_code="<%= asp.package.code %>" asp_description="<%= asp.package.name %>" asp_rate="<%= asp.rate %>" asp_id="<%= asp.id %>" original_package_rate="<%= get_package_facility(asp.package_id, asp.facility_id).rate %>" style="border-radius: 3rem !important;" style="display: inline-block;">
+                        Append
+                      </button>
+                    <% else %>
+                      <div class="row">
+                        <div class="field" style="display: inline-block;">
+                          <label style="font-color: lightgrey !important;"><b>Adjusted Package Rate</b></label>
+                          <br>
+                          <h4 style="margin-top: -0.1rem;"><%= asp.rate %> php</h4>
+                        </div>
+                        <div class="right floated" style="display: inline-block;">
+                          <button type="button" class="ui primary button open_modal_package_new" asp_code="<%= asp.package.code %>" asp_description="<%= asp.package.name %>" asp_rate="<%= asp.rate %>" asp_id="<%= asp.id %>" original_package_rate="<%= get_package_facility(asp.package_id, asp.facility_id).rate %>" style="border-radius: 3rem !important;">
+                            Edit Package Rate Adjustment
+                          </button>
+                          <br>
+                          <a href="#" class="view_adjusted_package_rate" asp_code="<%= asp.package.code %>" asp_description="<%= asp.package.name %>" asp_rate="<%= asp.rate %>" asp_id="<%= asp.id %>" original_package_rate="<%= get_package_facility(asp.package_id, asp.facility_id).rate %>" adjusted_amount="<%= Decimal.sub(asp.rate, get_package_facility(asp.package_id, asp.facility_id).rate) %>">View Package Rate Adjustment Details</a>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <div class="row">
+                        <div class="field" style="display: inline-block;">
+                          <label style="font-color: lightgrey !important;"><b>Original Package Rate</b></label>
+                          <br>
+                          <h4 style="margin-top: -0.1rem;"><%= get_package_facility(asp.package_id, asp.facility_id).rate %> php</h4>
+                        </div>
+                        <div class="right floated field" style="display: inline-block;">
+                          <label style="font-color: lightgrey !important;"><b>Adjusted amount</b></label>
+                          <br>
+                          <h4 style="margin-top: -0.1rem;"><%= Decimal.sub(asp.rate, get_package_facility(asp.package_id, asp.facility_id).rate) %> php</h4>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <% else %>
+            <br />
+              No Records Found
+            <br /><br />
+            <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="ui divider"></div>
+        </div>
+      </div>
+
+      <div class="ui vertical segment mb-2">
+        <div class="text-right">
+          <%= form_for @changeset, main_acu_schedule_path(@conn, :submit_acu_schedule_member, @acu_schedule.id), [as: :acu_schedule,  multipart: true, class: "form2", id: "new_submit_acu_schedule_member", method: "post", style: "margin-top: 2rem !important;"], fn f -> %>
+            <% count = count_selected_members(@acu_schedule.acu_schedule_members) %>
+            <input type="hidden" name="acu_schedule[no_of_guaranteed]" value="<%= count %>" />
+            <input type="hidden" name="acu_schedule[no_of_selected_members]" value="<%= count %>" />
+            <input type="hidden" class="valid_timezoned" name="acu_schedule[date_inserted]" value="<%= @acu_schedule.inserted_at%>">
+          <% end %>
+          <%# <a href="#!" class="ui primary button large" id="submitGeneral">Next</a> %>
+        </div>
+      </div><!-- .vertical.segment -->
+
+    </div>
+  </div>
+</div><!-- row ends here -->
+</div><!-- grid ends here -->
+    </div><!-- .white-bg -->
+  </div>
+</div>
+
+<%= render "package.html", changeset: @changeset, conn: @conn, acu_schedule: @acu_schedule %>
+<%= render "select_package.html", changeset: @changeset, conn: @conn, acu_schedule: @acu_schedule, acu_schedule_members: @acu_schedule_members %>
+
+<div class="ui tiny modal" id="adjusted_package_rate_modal">
+  <div class="header">
+    Adjusted Package Rate
+  </div>
+  <div class="content">
+    <div class="ui three column grid">
+      <div class="column">
+        <div class="field">
+          <b style="margin-bottom: -1.5rem !important;">Package Code</b>
+          <br>
+          <h3 id="acu_package_code_display" style="display: inline-block;"></h3>
+        </div>
+        <br>
+        <div class="field">
+          <b style="margin-bottom: -1.5rem !important;">Package Name</b>
+          <br>
+          <h3 id="acu_package_description_display" style="display: inline-block;"></h3>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <b style="margin-bottom: -1.5rem !important;">Package rate</b>
+          <h3 id="view_acu_package_rate_display"></h3>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <b style="margin-bottom: -1.5rem !important;">Adjusted amount</b>
+          <h3 id="adjusted_amount_display"></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui deny right floated button">
+      Close
+    </button>
+  </div>
+</div>

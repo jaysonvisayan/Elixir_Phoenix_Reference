@@ -1,0 +1,42 @@
+<div class="ui modal" id="edit_pec_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    PEC Limit
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :product_exclusion, class: "ui form", id: "edit_pec_form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= hidden_input f, :exclusion_id, id: "exclusion_id" %>
+    <div class="field">
+      <label>PEC Limit Type</label>
+      <%= select f, :limit_type, ["Percentage", "Peso", "Sessions"], class: "ui dropdown" %>
+      <%= error_tag f, :limit_type %>
+    </div>
+    <div class="field input">
+      <label>PEC Limit Amount</label>
+      <div class="ui labeled input">
+        <div class="ui label" id="limit_icon"></div>
+        <input type="text" id="limit_amount" name="limit_amount" %>
+        <%= hidden_input f, :amount, id: "hidden_limit_amount" %>
+      </div>
+      <%= error_tag f, :amount %>
+    </div>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="button" id="edit_pec_submit">
+      <i class="save icon"></i>
+      Update
+    </button>
+  </div>
+  <% end %>
+</div>

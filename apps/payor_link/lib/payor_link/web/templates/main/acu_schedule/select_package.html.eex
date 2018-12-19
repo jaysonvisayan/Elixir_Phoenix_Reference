@@ -1,0 +1,104 @@
+<div class="ui medium modal" id="new_select_package_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    <p  style="display: inline-block;">
+      <i class="circular large warning icon"></i>
+    </p>
+    <p  style="display: inline-block;">
+      Oops! It seems like you have added member/s with multiple packages.<br> Please select package for each.
+    </p>
+  </div>
+  <div class="content">
+    <%= form_for @changeset, main_acu_schedule_path(@conn, :update_multiple_asm_status), [as: :asm,  multipart: true, class: "form2", id: "new_select_package_form", style: "margin-top: 2rem !important;"], fn f -> %>
+      <input type="hidden" name="asm[asm_ids]">
+      <table role="datatable" id="acu_schedule_select_package_table" class="ui striped selectable table" width="100%">
+        <thead>
+          <tr>
+            <%# <th><input type="checkbox" id="checkAllacu"</th> %>
+            <th>Card No</th>
+            <th>Full Name</th>
+            <th>Package Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%# <%= for asm <- @acu_schedule_members do %1> %>
+          <%#   <%= if Enum.count(String.split(asm.package, ", ")) > 1 do %1> %>
+          <%#     <tr> %>
+          <%#       <1%# <td><input id="acu_sched_ids" type="checkbox" value="<%= asm.card_no %2>"></td> %1> %>
+          <%#       <td><%= asm.card_no %1></td> %>
+          <%#       <td><%= Enum.join([asm.first_name, asm.middle_name, asm.last_name], " ") %1></td> %>
+          <%#       <td> %>
+          <%#         <div class="field"> %>
+          <%#           <div class="ui fluid dropdown selected_package"> %>
+          <%#             <input type="hidden" name="acu_schedule[selected_package][]"> %>
+          <%#             <i class="dropdown icon"></i> %>
+          <%#             <div class="default text">Select Package Rate Adjustment</div> %>
+          <%#             <div class="menu"> %>
+          <%#               <%= for package_code <- String.split(asm.package, ", ") do %1> %>
+          <%#               <% end %1> %>
+          <%#             </div> %>
+          <%#           </div> %>
+          <%#         </div> %>
+          <%#       </td> %>
+          <%#     </tr> %>
+          <%#   <% end %1> %>
+          <%# <% end %1> %>
+        </tbody>
+      </table>
+      <input type="hidden" name="asm[as_id]" value="<%= @acu_schedule.id %>" id="as_id"/>
+      <% count = count_selected_members(@acu_schedule.acu_schedule_members) %>
+      <input type="hidden" name="acu_schedule[no_of_guaranteed]" value="<%= count %>" />
+      <input type="hidden" name="acu_schedule[no_of_selected_members]" value="<%= count %>" />
+      <input type="hidden" class="valid_timezoned" name="acu_schedule[date_inserted]" value="<%= @acu_schedule.inserted_at%>">
+      <%# <input type="hidden" name="acu_schedule_package[id]" id="acu_package_id" value=""> %>
+      <%# <input type="hidden" name="acu_schedule_package[acu_schedule_id]" value="<%= @acu_schedule.id %1>"> %>
+      <%# <div class="ui three column grid"> %>
+      <%#   <div class="column"> %>
+      <%#     <div class="field"> %>
+      <%#       <label style="margin-bottom: -1.5rem !important;">Package</label> %>
+      <%#       <h3 id="acu_package_code" style="display: inline-block;"></h3> %>
+      <%#       <h3 id="acu_package_description" style="display: inline-block;padding-left: 1rem;"></h3> %>
+      <%#     </div> %>
+      <%#   </div> %>
+      <%#   <div class="column"> %>
+      <%#   </div> %>
+      <%#   <div class="column"> %>
+      <%#     <div class="field"> %>
+      <%#       <label style="margin-bottom: -1.5rem !important;">Package rate</label> %>
+      <%#       <h3 id="acu_package_rate_display"></h3> %>
+      <%#     </div> %>
+      <%#   </div> %>
+      <%# </div> %>
+      <%# <div class="ui one column grid"> %>
+      <%#   <div class="column"> %>
+      <%#     <div class="field"> %>
+      <%#       <label>Adjusment</label> %>
+      <%#     </div> %>
+      <%#     <div class="two fields"> %>
+      <%#       <div class="field"> %>
+      <%#         <select name="acu_schedule_package[adjustment_type]"  style="width: 15rem;"  class="ui dropdown" id="dropdown_adjustment"> %>
+      <%#           <option value="">Select adjustment</option> %>
+      <%#           <option value="Add">Add</option> %>
+      <%#           <option value="Deduct">Deduct</option> %>
+      <%#         </select> %>
+      <%#       </div> %>
+      <%#       <div class="field"> %>
+      <%#         <div class="ui input" style="margin-left: -1.1rem !important;width: 18rem;"> %>
+      <%#           <input type="text" name="acu_schedule_package[adjustment_rate]" value="" id="acu_package_adjustment" style="margin-right: -.25rem;"> %>
+      <%#           <div class="ui basic label"> %>
+      <%#             php %>
+      <%#           </div> %>
+      <%#         </div> %>
+      <%#       </div> %>
+      <%#     </div> %>
+      <%#   </div> %>
+      <%# </div> %>
+    </div>
+    <div class="actions">
+      <button type="button" id="new_select_package_submit" class="ui blue button">
+        Continue
+      </button>
+    </div>
+    <div id="new_overlay3" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div> <p></p>
+  <% end %>
+</div>

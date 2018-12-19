@@ -1,0 +1,65 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Room</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/rooms/new"><i class="plus icon"></i>Room</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/rooms" class="section">Room</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Room Code</th>
+          <th>Room Type</th>
+          <th>Hierarchy</th>
+          <th>RUV Rate</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for room <- @rooms do %>
+        <tr>
+          <td><a style="cursor: pointer" class="edit_room" field="room_code" rid="<%= room.id %>"><%= room.code %></a></td>
+          <td field="room_type"><%=room.type %></td>
+          <td field="room_hierarchy"><%=room.hierarchy %></td>
+          <td field="room_ruv_rate"><%=room.ruv_rate %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "room_details_modal.html", conn: @conn, rooms: @rooms, permission: @permission %>
+
+  <div class="ui modal" id="RoomLogsModal">
+    <i class="close icon"></i>
+    <div class="header">
+      Logs
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="column">
+          <div class="ui segments">
+            <div class="ui segment">
+              <div class="ui feed timeline" id="timeline">
+                <table id="room_logs_table">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

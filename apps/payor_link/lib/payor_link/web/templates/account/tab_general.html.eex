@@ -1,0 +1,104 @@
+<h3>ADDRESS</h3>
+<div class="ui divider"></div>
+<%= if Enum.count(@account_group.account_group_address) == 1 && Enum.at(@account_group.account_group_address, 0).is_check do %>
+  <%= for address <- @account_group.account_group_address do %>
+    <h3 class="ui header">
+      <%= address.type %>
+    </h3>
+    <div class="ui grid">
+      <div class="sixteen wide tablet six wide computer column">
+        <div class="six wide column">
+          <div class="ui grid">
+            <div class="eight wide column">
+              <b>Unit Number/Floor:</b>
+            </div>
+            <div class="eight wide column">
+              <%= address.unit_no %>
+            </div>
+          </div>
+        </div>
+        <div class="six wide column">
+          <div class="field">
+            <div class="ui grid">
+              <div class="eight wide column">
+                <b>Building Name:</b>
+              </div>
+              <div class="eight wide column">
+                <%= address.building_name%>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="six wide column">
+          <div class="ui grid">
+            <div class="eight wide column">
+              <b>Street Name:</b>
+            </div>
+            <div class="eight wide column">
+              <%= address.street %>
+            </div>
+          </div>
+        </div>
+        <div class="six wide column">
+          <div class="ui grid">
+            <div class="eight wide column">
+              <b>City/Municipality:</b>
+            </div>
+            <div class="eight wide column">
+              <%= address.city %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sixteen wide tablet six wide computer column">
+        <div class="field">
+          <div class="six wide column">
+            <div class="ui grid">
+              <div class="eight wide column">
+                <b>Province:</b>
+              </div>
+              <div class="eight wide column">
+                <%= address.province %>
+              </div>
+            </div>
+          </div>
+          <div class="six wide column">
+            <div class="ui grid">
+              <div class="eight wide column">
+                <b>Region:</b>
+              </div>
+              <div class="eight wide column">
+                <%= address.region %>
+              </div>
+            </div>
+          </div>
+          <div class="six wide column">
+            <div class="ui grid">
+              <div class="eight wide column">
+                <b>Country:</b>
+              </div>
+              <div class="eight wide column">
+                <%= address.country %>
+              </div>
+            </div>
+          </div>
+          <div class="six wide column">
+            <div class="ui grid">
+              <div class="eight wide column">
+                <b>Postal Code:</b>
+              </div>
+              <div class="eight wide column">
+                <%= address.postal_code %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<h3>Contact</h3>
+<div class="ui divider"></div>
+

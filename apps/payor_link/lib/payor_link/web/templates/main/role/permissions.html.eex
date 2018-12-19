@@ -1,0 +1,77 @@
+<table class="ui striped table" style="overflow:scroll;">
+  <thead>
+    <tr>
+      <th data-field="payor_pages">Pages</th>
+      <th data-field="full_access">Full access</th>
+      <th data-field="read_only">Read only</th>
+      <th data-field="not_allowed">Not Allowed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for r <- @permissions do %>
+      <tr>
+        <td>
+          <%= r.module %>
+          <%= if r.module == "Authorizations" do %>
+            <a id="modal_show_approval_limit" style="cursor:pointer" hidden>Approval Limit<i class="edit icon"></i></a>
+            <%# <input type="hidden" id="approval_limit_val" name="role[approval_limit]" value=<%= @role.approval_limit%>>
+          <% end %>
+        </td>
+        <%
+access = Enum.join(["access_", r.module])
+|> String.downcase
+subname = Enum.join([r.module, "_permissions"])
+|> String.downcase
+          %>
+          <%= for p <- load_permissions(r.keyword) do %>
+            <%# <%  permission = load_role_permission(@role.id, p.id) %1> %>
+            <% permission = "manage" %>
+            <%= if permission == "manage" do %>
+              <td>
+                <input type="radio" name="role[<%= subname %>]" id="<%= p.name %>" class="with-gap" value="<%= p.id %>" checked = "checked">
+                <label for="<%= p.name %>"></label>
+              </td>
+              <%= for p <- load_permissions(access) do %>
+                <td>
+                  <input type="radio" name="role[<%= subname %>]" value="<%= p.id %>" id="<%= p.name %>" class="with-gap" >
+                  <label for="<%= p.name %>"></label>
+                </td>
+              <% end %>
+              <td>
+                <input type="radio" name="role[<%= subname %>]" id="<%= subname %>" class="with-gap" value="">
+                <label for="<%= subname %>"></label>
+              </td>
+            <% else %>
+              <td>
+                <input type="radio" name="role[<%= subname %>]" id="<%= p.name %>" value="<%= p.id %>" class="with-gap" >
+                <label for="<%= p.name %>"></label>
+              </td>
+              <%= for p <- load_permissions(access) do %>
+                <% permission = "access" %>
+                <%= case permission == "access" do %>
+                  <%= true -> %>
+                    <td>
+                      <input type="radio" name="role[<%= subname %>]" id="<%= p.name %>" class="with-gap" value="<%= p.id %>" checked = "checked">
+                      <label for="<%= p.name %>"></label>
+                    </td>
+                    <td>
+                      <input type="radio" name="role[<%= subname %>]" id="<%= subname %>" class="with-gap" value="">
+                      <label for="<%= subname %>"></label>
+                    </td>
+                    <% false -> %>
+                      <td>
+                        <input type="radio" name="role[<%= subname %>]" id="<%= p.name %>" value="<%= p.id %>" class="with-gap" value="" >
+                        <label for="<%= p.name %>"></label>
+                      </td>
+                      <td>
+                        <input type="radio" name="role[<%= subname %>]" id="<%= subname %>" class="with-gap" value="" checked="checked">
+                        <label for="<%= subname %>"></label>
+                      </td>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

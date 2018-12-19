@@ -1,0 +1,272 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i> </li>
+      <li><%= gettext "Account" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Profile" %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper profile">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="column">
+            <section>
+              <div class="profile__account-logo mobile-hide">
+                <%= if is_nil(@account_group.photo) do %>
+                  <img src="/images/no-photo-available.png" id="imagePreview" class="ui small circular image">
+                <% else %>
+                  <img id="photo" src="<%= get_img_url(@account_group) %>">
+                <% end %>
+              </div>
+
+              <div class="ui container">
+                <div class="ui grid">
+                  <div class="row mobile-only">
+                    <div class="sixteen wide column">
+                      <div class="profile__account-logo">
+                        <%= if is_nil(@account_group.photo) do %>
+                          <img src="/images/no-photo-available.png" id="imagePreview" class="ui small circular image">
+                        <% else %>
+                          <img id="photo" src="<%= get_img_url(@account_group) %>">
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="profile__header">
+                        <div>
+                          <h1 class="d-inline-block"><%= @account_group.name %></h1>
+                          <%# <a href="" class="float-right mt-2">Edit</a> %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Company Id, Company Type" %></span>
+                      <span class="f-blue bold uppercase"><%= @account_group.code %>, <%= @account_group.segment %></span>
+                    </div>
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Industry" %></span>
+                      <span class="uppercase"><%= @account_group.industry.code %></span>
+                    </div>
+                    <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Version" %></span>
+                      <span class="uppercase">
+                      <%= 
+                        if is_nil(@account.major_version) || is_nil(@account.minor_version) || is_nil(@account.build_version) 
+                        do
+                          "N/A"
+                        else
+                          Enum.join([
+                            @account.major_version,
+                            @account.minor_version,
+                            @account.build_version], ".")
+                        end 
+                      %>
+                      </span>
+                    </div>
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Effective Date" %></span>
+                      <span><%= @account.start_date %> to <%= @account.end_date %></span>
+                    </div>
+                    <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Company Type" %></span>
+                      <span class="uppercase"><%= @account_group.type%></span>
+                    </div>
+                    <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                      <span class="data-label data-label--small"><%= gettext "Status" %></span>
+                      <span class="uppercase"><%= @account.status %></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <%= if is_nil(@account.reactivate_date) == false && @account.status == "Suspended" do %>
+                        <div class="ui basic blue label">
+                          For Reactivation on <%= @account.reactivate_date %>
+                        </div>
+                      <% end %>
+
+                      <%= if is_nil(@account.suspend_date ) == false && @account.status == "Active" do %>
+                        <div class="ui red label">
+                          For Suspension on <%= @account.suspend_date %>
+                        </div>
+                      <% end %>
+
+                      <%= if is_nil(@account.cancel_date) == false && @account.status == "Suspended" || is_nil(@account.cancel_date) == false && @account.status == "Active" do %>
+                        <div class="ui basic red label">
+                          For Cancellation on <%= @account.cancel_date %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Account Address" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+                    <%= if Enum.count(@account_group.account_group_address) > 1 do %>
+                      <%= for address <- @account_group.account_group_address do %>
+                        <%= if address.type == "Account Address" do %>
+                          <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                            <img src="/images/placeholder.png" alt="">
+                          </div>
+                          <div class="eight wide computer sixteen wide tablet sixteen wide mobile column mobile-mt-2">
+                            <table class="full-width ui celled table">
+                              <tbody>
+                                <tr>
+                                  <td class="data-label"><%= gettext "Address 1" %></td>
+                                  <td><%= address.line_1 %></td>
+                                </tr>
+                                <tr>
+                                  <td class="data-label"><%= gettext "Address 2" %></td>
+                                  <td><%= address.line_2 %></td>
+                                </tr>
+                                <tr>
+                                  <td class="data-label"><%= gettext "City / Municipality" %></td>
+                                  <td><%= address.city %></td>
+                                </tr>
+                                <tr>
+                                  <td class="data-label"><%= gettext "Province" %></td>
+                                  <td><%= address.province %></td>
+                                </tr>
+                                <tr>
+                                  <td class="data-label"><%= gettext "Region" %></td>
+                                  <td><%= address.region %></td>
+                                </tr>
+                                <tr>
+                                  <td class="data-label"><%= gettext "Country" %></td>
+                                  <td><%= address.country %></td>
+                                </tr>
+                                <tr>
+                                  <td class="data-label"><%= gettext "Postal Code" %></td>
+                                  <td><%= address.postal_code %></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <% address = Enum.at(@account_group.account_group_address, 0)%>
+                      <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                        <img src="/images/placeholder.png" alt="">
+                      </div>
+                      <div class="eight wide computer sixteen wide tablet sixteen wide mobile column mobile-mt-2">
+                        <table class="full-width ui celled table">
+                          <tbody>
+                            <tr>
+                              <td class="data-label"><%= gettext "Address 1" %></td>
+                              <td><%= address.line_1 %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Address 2" %></td>
+                              <td><%= address.line_2 %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "City / Municipality" %></td>
+                              <td><%= address.city %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Province" %></td>
+                              <td><%= address.province %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Region" %></td>
+                              <td><%= address.region %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Country" %></td>
+                              <td><%= address.country %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Postal Code" %></td>
+                              <td><%= address.postal_code %></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Contact" %>
+              </div>
+              <div class="ui container">
+                <div class="ui grid">
+                  <div class="row">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <thead>
+                          <tr>
+                            <%# <th><input type="checkbox"></th> %>
+                            <th><%= gettext "Name" %></th>
+                            <th><%= gettext "Contact Type" %></th>
+                            <th><%= gettext "Designation" %></th>
+                            <th><%= gettext "Phone No." %></th>
+                            <th><%= gettext "Mobile No." %></th>
+                            <th><%= gettext "Email Address" %></th>
+                          </tr>
+                        </thead>
+                        <tbody class="padded-rows">
+                          <%= if Enum.empty?(@contacts) do %>
+                            <tr>
+                              <td colspan="5">No Record Found</td>
+                            </tr>
+                          <% else %>
+                            <%= for contact <- @contacts do %>
+                              <tr>
+                                <td><%= contact.last_name %></td>
+                                <td><%= contact.type%></td>
+                                <td><%= contact.designation %></td>
+                                <td>
+                                  <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                                    <p>No Record Found</p>
+                                  <% else %>
+                                    <%= for phone <- contact.phones do %>
+                                      <%= if phone.type == "telephone" do %>
+                                        <p><%= phone.number %></p>
+                                      <% end %>
+                                    <% end %>
+                                  <% end %>
+                                </td>
+                                <td>
+                                  <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                                    <p>No Record Found</p>
+                                  <% else %>
+                                    <%= for phone <- contact.phones do %>
+                                      <%= if phone.type == "mobile" do %>
+                                        <p><%= phone.number %></p>
+                                      <% end %>
+                                    <% end %>
+                                  <% end %>
+                                </td>
+                                <td><%= contact.email %></td>
+                              </tr>
+                            <% end %>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

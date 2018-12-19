@@ -1,0 +1,43 @@
+<%= render "breadcrumbs.html" %>
+<div id="location_group_step2" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Region</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <br/><br/>
+          <div class="row">
+            <div class="sixteen wide column">
+                <h3 class="ui center aligned primary header">
+                          <%= @location_group.code %> - <%= @location_group.name %>
+                      </h3>
+                  </div>
+          </div>
+          <%= render "step2_form.html",
+            changeset: @changeset,
+            location_group: @location_group,
+            conn: @conn,
+            lcr_list: @lcr_list,
+            action: location_group_path(@conn, :update_setup, @location_group, step: "2")
+          %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+@import '../variables';
+.evoucher-container {
+    .ui.segment {
+        padding: 5rem 2rem 5rem 2rem;
+        max-width: 700px;
+    }
+
+    .ten.wide.computer.column {
+        padding-top: 7rem;
+        text-align: center !important;
+    }
+
+    img {
+        width: 16rem;
+    }
+
+    .large-input {
+        font-size: 1rem;
+        width: 70%;
+    }
+
+    .index-proceed {
+        width: 40%;
+    }
+
+    label {
+        text-align: left;
+    }
+
+    .mini-sublabel {
+        color: #999;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .large-sublabel {
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    .align-left {
+        text-align: left;
+    }
+    .align-center {
+        text-align: center;
+    }
+    .max-width {
+        width: 100%;
+        text-align: center;
+        text-align: -webkit-center;
+    }
+    .ui.fluid.primary.button {
+      width: 30%;
+      margin-left:auto;
+      margin-right:auto;
+    }
+}

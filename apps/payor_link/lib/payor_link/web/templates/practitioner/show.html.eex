@@ -1,0 +1,382 @@
+  <div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h1 class="ui huge header">Practitioners</h1>
+      <div class="ui breadcrumb">
+          <a href="/practitioners" class="section">Practitioners</a>
+          <div class="divider"> / </div>
+          <a href="/practitioners" class="section">Search</a>
+          <div class="divider"> / </div>
+          <div class="active section">
+            View <%= Enum.join([@practitioner.first_name, @practitioner.middle_name, @practitioner.last_name], "  ") %>
+          </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui stackable grid" id="showPractitioner">
+        <% disabled = if String.contains?("access_practitioners", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+        <div class="row">
+          <div class="four wide computer sixteen wide mobile column">
+            <%= if  @conn.assigns[:practitioner] && is_nil(@practitioner.photo) == false do %>
+              <img id="photo" class="ui circular image" style="background-image: url("<%= Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @practitioner.photo, @practitioner, :standard)%>"); background-size: cover; background-position: center-center; height: 150px;">
+            <% else %>
+              <img src="/images/no-photo-available.png" id="photo" class="ui circular image">
+            <% end %>
+          </div>
+          <div class="twelve wide computer sixteen wide mobile column mrg1halfT">
+            <div class="row">
+              <div class="sixteen wide column">
+                <div class="ui right aligned grid">
+                    <div class="left floated left aligned eight wide column">
+                      <h2 class="ui primary header with-button doctor-affiliated">
+                        <%= Enum.join([@practitioner.first_name, @practitioner.middle_name, @practitioner.last_name], "  ") %>
+                        <%= if @practitioner.affiliated == "Yes" do %>
+                          <div class="ui basic label no-border mrg0B pb_zero">
+                            AFFILIATED
+                          </div>
+                        <% else %>
+                          <div class="ui basic label no-border mrg0B pb_zero">
+                            <p class="gray">NON-AFFILIATED</p>
+                          </div>
+                        <% end %>
+                      </h2>
+                    </div>
+                    <div class="right floated right aligned eight wide column">
+                      <div class="ui icon top right floated pointing dropdown">
+                        <i class="primary large ellipsis horizontal icon"></i>
+                        <div class="left menu transition hidden">
+                          <div class="item clickable-row" href="/practitioners/<%= @practitioner.id%>/edit?tab=general">
+                            <i class="edit icon"></i>
+                            Edit
+                          </div>
+                          <div class="item <%= disabled %>" role="print_practitioner", pracID="<%= @practitioner.id %>">
+                            <i class="print icon"></i>
+                            Print
+                          </div>
+                          <div class="item <%= disabled %>" id="logs">
+                            <i class="file text outline icon"></i>
+                            Logs
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="ui stackable two column grid">
+                <div class="column">
+                  <table class="ui table no-border borderless">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td>
+                              <%= if @practitioner.gender == "Male" do %>
+                                <p><i class="male icon"></i>Male</p>
+                              <% else %>
+                                <p><i class="female icon"></i>Female</p>
+                              <% end %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <%= if @practitioner.practitioner_contact == nil do %>
+                                  <b>N/A</b>
+                                <% else %>
+                                  <% contacts = @practitioner.practitioner_contact.contact %>
+                                  <%= for telephone <- contacts.phones do %>
+                                    <%= if telephone.type == "telephone" do %>
+                                      <p class="mrg2R"><i class="call icon"></i><%= telephone.number || "N/A" %></p>
+                                    <% end %>
+                                  <% end %>
+                                  <% contacts = @practitioner.practitioner_contact.contact %>
+                                  <%= for mobile <- contacts.phones do %>
+                                    <%= if mobile.type == "mobile" do %>
+                                      <p class="mrg2R"><i class="mobile icon"></i><%= mobile.number || "N/A" %></p>
+                                    <% end %>
+                                  <% end %>
+                                  <% contacts = @practitioner.practitioner_contact.contact %>
+                                  <%= for fax <- contacts.phones do %>
+                                    <%= if fax.type == "fax" do %>
+                                      <p class="mrg2R"><i class="fax icon"></i><%= fax.number || "N/A" %></p>
+                                    <% end %>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <%= if @practitioner.practitioner_contact == nil do %>
+                                  <b>N/A</b>
+                                <% else %>
+                                  <% contacts = @practitioner.practitioner_contact.contact %>
+                                  <%= for email <- contacts.emails do %>
+                                    <p><i class="mail icon"></i><%= email.address %></p>
+                                    <br>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="column">
+                  <table class="ui table no-border borderless">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><label class="gray">PRC Number</label></td>
+                              <td><%= @practitioner.prc_no %></td>
+                            </tr>
+                            <tr>
+                              <td><label class="gray">Effectivity Date</label></td>
+                              <td><%= @practitioner.effectivity_from || "N/A" %></td>
+                            </tr>
+                            <tr>
+                              <td><label class="gray">Expiry Date</label></td>
+                              <td><%= @practitioner.effectivity_to || "N/A" %></td>
+                            </tr>
+
+                            <%= if @practitioner.phic_accredited == "Yes" do %>
+                              <tr>
+                                <td><label class="gray">PHIC Accreditation Date</label></td>
+                                <td><%= @practitioner.phic_date || "N/A" %></td>
+                              </tr>
+                            <% end %>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="ui secondary pointing menu" role="benefits">
+              <a class="item <%= if @active_tab == "profile" do "active" end %>" data-tab="profile" role="show-tab">Profile</a>
+              <a class="item <%= if @active_tab == "affiliation" do "active" end %>" data-tab="affiliation" role="show-tab">Affiliation</a>
+            </div>
+
+            <div class="ui tab segment no-border borderless no-shadow <%= if @active_tab == "profile" do "active" end %>" data-tab="profile">
+              <div class="row">
+                <div class="ui stackable two column grid cards-holder">
+                  <div class="column">
+                    <table class="ui table summary-table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <table>
+                              <tr>
+                                <td><label class="gray">Specialization</label></td>
+                                <td>
+                                  <%= for ps <- @practitioner.practitioner_specializations do %>
+                                    <%= if ps.type == "Primary" do %>
+                                      <%= ps.specialization.name %>
+                                    <% end %>
+                                  <% end %>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="column">
+                    <table class="ui table summary-table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <table>
+                              <tr>
+                                <td><label class="gray">Sub Specialization</label></td>
+                                <td>
+                                  <%= for ps <- @practitioner.practitioner_specializations do %>
+                                    <%= if ps.type == "Secondary" do %>
+                                      <%= ps.specialization.name %>
+                                    <% end %>
+                                  <% end %>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <h4 class="ui header">Miscellaneous</h4>
+              <div class="ui divider"></div>
+              <div class="row">
+                <div class="ui stackable two column grid cards-holder">
+                  <div class="column">
+                    <table class="ui table summary-table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <table>
+                              <tr>
+                                  <td><label class="gray">Exclusive</label></td>
+                                  <td>
+                                    <%= if is_nil(@practitioner.exclusive) == false do %>
+                                      <%= Enum.join(@practitioner.exclusive, ", ") %>
+                                    <% else %>
+                                      N/A
+                                    <% end %>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td><label class="gray">VAT Status</label></td>
+                                  <td><%= #@practitioner.dropdown_vat_status.text %></td>
+                              </tr>
+                              <tr>
+                                  <td><label class="gray">Tax Identification Number</label></td>
+                                  <td><%= @practitioner.tin || "N/A" %></td>
+                              </tr>
+                              <tr>
+                                <td><label class="gray">Bank</label></td>
+                                <td>
+                                  <%= if is_nil(@practitioner.bank) == false do %>
+                                    <%= @practitioner.bank.account_name || "N/A" %>
+                                  <% else %>
+                                    N/A
+                                  <% end %>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="column">
+                    <table class="ui table summary-table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <table>
+                              <tr>
+                                  <td><label class="gray">XP Card Number</label></td>
+                                  <td><%= @practitioner.xp_card_no || "N/A"%></td>
+                              </tr>
+                              <tr>
+                                  <td><label class="gray">Prescription Period</label></td>
+                                  <td><%= @practitioner.prescription_period || "N/A" %></td>
+                              </tr>
+                              <tr>
+                                  <td><label class="gray">Withholding Tax</label></td>
+                                  <td><%= @practitioner.withholding_tax || "N/A" %></td>
+                              </tr>
+                              <tr>
+                                  <td><label class="gray">Account Number</label></td>
+                                  <td><%= @practitioner.account_no || "N/A"%></td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+           <div class="ui tab segment no-border borderless no-shadow <%= if @active_tab == "affiliation" do "active" end %>" data-tab="affiliation">
+            <div class="row">
+              <div class="ui one column right aligned grid">
+                <div class="sixteen wide column">
+                    <div class="ui simple primary basic dropdown right floated button">
+                      <i class="icon add"></i>
+                      Affiliation
+                      <i class="dropdown icon"></i>
+                      <div class="menu">
+                        <%= if Enum.count(@practitioner.practitioner_accounts) == Enum.count(@accounts) || filter_accounts(@practitioner.practitioner_accounts, @accounts) == [] do %>
+                          <div class="item disabled">
+                            Corporate Retainer
+                          </div>
+                        <% else %>
+                          <div class="item clickable-row <%= disabled %>" href="/practitioners/<%=@practitioner.id %>/pa/new" >
+                            Corporate Retainer
+                          </div>
+                        <% end %>
+                        <div class="item clickable-row <%= disabled %>" href="/practitioners/<%=@practitioner.id %>/pf/new" >
+                          Primary Care/Specialist
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="sixteen wide column">
+                <%= if Enum.count(@practitioner_facilities) == 0 do %>
+                <% else %>
+                    <div class="ui cards">
+                      <div class="ui fluid card">
+                        <div class="ui middle aligned divided items">
+                          <%= for practitioner_facility <- @practitioner_facilities do %>
+                          <div class="item">
+                            <div class="content">
+                              <div class="padder">
+                                <div class="right floated content">
+                                  <%= if practitioner_facility.step == 6 do %>
+                                    <a class="ui button mini request <%= disabled %>" href="/practitioners/<%=practitioner_facility.id %>/pf/edit?tab=general">
+                                      <i class="edit icon"></i> Edit
+                                    </a>
+                                  <% else %>
+                                    <a class="ui button mini request <%= disabled %>" href="/practitioners/<%=practitioner_facility.id %>/pf/create?step=<%= practitioner_facility.step %>">
+                                      <i class="edit icon"></i> Edit <i>(Draft)</i>
+                                    </a>
+                                  <% end %>
+                                </div>
+                                <%= if  @conn.assigns[:practitioner_facility] && is_nil(practitioner_facility.facility.logo) == false do %>
+                                  <img id="photo" class="left floated tiny ui image" style="background-image: url("<%= String.replace(Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, practitioner_facility.facility.logo, practitioner_facility, :original), "/apps/payor_link/assets/static", "") %>"); background-size: cover; background-position: center-center; height: 80px;">
+                                <% else %>
+                                  <img src="/images/no-photo-available.png" id="photo" class="left floated tiny ui image">
+                                <% end %>
+                                <div class="header"><h4><%= practitioner_facility.facility.code %> - <%= practitioner_facility.facility.name %> <small class="status theme-color mrg1L">Mode of Releasing</small></h4></div>
+                                <div class="meta">
+                                  <p><%= practitioner_facility.facility.line_1 %> <%= practitioner_facility.facility.line_2 %> <%= practitioner_facility.facility.city %> <%= practitioner_facility.facility.region %></p>
+                                </div>
+                                <div class="description">
+                                  <p class="left floated mrg2R"><i class="call icon"></i>Telephone</p>
+                                  <p><i class="mobile icon"></i>Mobile</p>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+
+                <% end %>
+              </div>
+
+
+            </div>
+           </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

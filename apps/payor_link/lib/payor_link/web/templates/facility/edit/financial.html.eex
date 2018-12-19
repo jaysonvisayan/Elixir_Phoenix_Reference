@@ -1,0 +1,204 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Facility</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/facilities">Facility</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Facility</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="facility-formValidate">
+        <div class="ui form segment" id="formStep4Facility">
+          <div class="ui four item menu">
+            <a href="/facilities/<%= @facility.id %>/edit?tab=general" class="item">General</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=address" class="item">Address</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=contact_details" class="item">Contact Details</a>
+            <a class="active item">Financial</a>
+          </div>
+
+
+          <%= form_for @changeset, facility_path(@conn, :update_edit_setup, @facility, tab: "financial"), fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="two fields">
+              <div class="field" role="facility-numeric">
+                <%= label f, :tin, "TIN" %>
+                <%= text_input f, :tin, placeholder: "TIN", class: "email" %>
+                <%= error_tag f, :tin %>
+              </div>
+              <div class="field">
+                <label for="facility_vat_status_id">VAT Status </label>
+                <div class="ui dropdown selection" tabindex="0">
+                  <%= select f, :vat_status_id, Enum.map(@vat_statuses, &{&1.text, &1.id}), prompt: "VAT Status" %>
+                  <%= error_tag f, :vat_status_id %>
+                  <i class="dropdown icon"></i>
+                  <div class="default text">VAT Status</div>
+                  <div class="menu" tabindex="-1">
+                    <%= for vat_status <- @vat_statuses do %>
+                      <div class="item" data-value="<%= vat_status.id %>"><%= vat_status.text %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4 class="ui dividing header">Billings</h4>
+            <div class="two fields">
+              <div class="field">
+                <label for="facility_prescription_term">Prescription Term </label>
+                <%= text_input f, :prescription_term, placeholder: "Prescription Term" %>
+                <%= error_tag f, :prescription_term %>
+              </div>
+              <div class="field">
+                <label for="facility_prescription_clause_id">Prescription Clause </label>
+                <div class="ui dropdown selection" tabindex="0">
+                  <%= select f, :prescription_clause_id, Enum.map(@prescription_clauses, &{&1.text, &1.id}), prompt: "Prescription Clause" %>
+                  <%= error_tag f, :prescription_clause_id %>
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Prescription Clause</div>
+                  <div class="menu" tabindex="-1">
+                    <%= for prescription_clause <- @prescription_clauses do %>
+                      <div class="item" data-value="<%= prescription_clause.id %>"><%= prescription_clause.text %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4 class="ui dividing header">Payment</h4>
+            <div class="two fields">
+              <div class="field">
+                <label for="facility_credit_term">Credit Term </label>
+                <%= text_input f, :credit_term, placeholder: "Credit Term" %>
+                <%= error_tag f, :credit_term %>
+              </div>
+              <div class="field">
+                <label for="facility_credit_limit">Credit Limit </label>
+                <%= text_input f, :credit_limit, placeholder: "Credit Limit" %>
+                <%= error_tag f, :credit_limit %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field" role="facility-onchange">
+                <label for="facility_payment_mode_id">Mode of Payment </label>
+                <div class="ui dropdown selection" tabindex="0">
+                  <%= select f, :payment_mode_id, Enum.map(@payment_modes, &{&1.text, &1.id}), prompt: "Mode of Payment" %>
+                  <%= error_tag f, :payment_mode_id %>
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Mode of Payment</div>
+                  <div class="menu" tabindex="-1">
+                    <%= for payment_mode <- @payment_modes do %>
+                      <div class="item" data-value="<%= payment_mode.id %>"><%= payment_mode.text %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="facility_releasing_mode_id">Mode of Releasing </label>
+                <div class="ui dropdown selection" tabindex="0">
+                  <%= select f, :releasing_mode_id, Enum.map(@releasing_modes, &{&1.text, &1.id}), prompt: "Mode of Releasing" %>
+                  <%= error_tag f, :releasing_mode_id %>
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Mode of Releasing</div>
+                  <div class="menu" tabindex="-1">
+                    <%= for releasing_mode <- @releasing_modes do %>
+                      <div class="item" data-value="<%= releasing_mode.id %>"><%= releasing_mode.text %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :bank_id, "Bank Name", class: "control-label" %>
+                <%= select f, :bank_id, [], class: "ui search selection dropdown", prompt: "Bank Name", disabled: true %>
+                <%= error_tag f, :bank_id %>
+              </div>
+              <div class="field">
+                <%= label f, :bank_account_no, "Bank Account No.", class: "control-label" %>
+                <%= text_input f, :bank_account_no, placeholder: "Bank Account No", disabled: true %>
+                <%= error_tag f, :bank_account_no %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :payee_name, "Payee Name", class: "control-label" %>
+                <%= text_input f, :payee_name, placeholder: "Payee Name", disabled: true %>
+                <%= error_tag f, :payee_name %>
+              </div>
+              <div class="field">
+                <%= label f, :bank_charge, "Bank Charge", class: "control-label" %>
+                <%= text_input f, :bank_charge, disabled: true %>
+                <%= error_tag f, :bank_charge %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :withholding_tax, "Withholding Tax", class: "control-label" %>
+                <%= text_input f, :withholding_tax, placeholder: "Withholding Tax" %>
+                <%= error_tag f, :withholding_tax %>
+              </div>
+              <div class="field">
+                <%= label f, :balance_biller, "Balance Biller" %>
+                <div class="inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                     <%= radio_button f, :balance_biller, true, checked: "checked" %>
+                     <%= label f, "Yes" %>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <%= radio_button f, :balance_biller, false %>
+                      <%= label f, "No" %>
+                    </div>
+                  </div>
+                </div>
+                <%= error_tag f, :balance_biller %>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :authority_to_credit, "Auhotirity to Credit" %>
+                <div class="inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                     <%= radio_button f, :authority_to_credit, true, checked: "checked" %>
+                     <%= label f, "Yes" %>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <%= radio_button f, :authority_to_credit, false %>
+                      <%= label f, "No" %>
+                    </div>
+                  </div>
+                </div>
+                <%= error_tag f, :authority_to_credit %>
+              </div>
+            </div>
+            <h4 class="ui dividing header">Miscellaneous</h4>
+            <div class="two fields">
+              <div class="field">
+                <label for="facility_no_of_beds">No. of Beds <i>(optional)</i></label>
+                <%= text_input f, :no_of_beds, placeholder: "No of Beds" %>
+                <%= error_tag f, :no_of_beds %>
+              </div>
+              <div class="field">
+                <label for="facility_bond">Bond <i>(optional)</i></label>
+                <%= text_input f, :bond, placeholder: "Bond" %>
+                <%= error_tag f, :bond %>
+              </div>
+            </div>
+            <button class="ui blue right floated button" type="submit">
+             <i class="save icon"></i>
+              Save
+            </button>
+            <a href="/facilities/<%= @facility.id %>?active=profile" class="ui button">
+              <i class="chevron left icon"></i>
+              Cancel
+            </a>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

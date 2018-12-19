@@ -1,0 +1,415 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Practitioner</h2>
+  <div class="ui small breadcrumb">
+    <a href="/practitioners" class="section">Practitioner</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/practitioners" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="section">Edit Practitioner</div>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Corporate Retainer</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable" id="edit_practitioner">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment" id="formStep1PractitionerAccount">
+          <div class="ui two item menu">
+            <a class="active item">General</a>
+            <a href="/practitioners/<%= @practitioner_account.id %>/pa/edit?tab=schedule" class="item">Schedule</a>
+          </div>
+
+          <div class="ui bottom attached segment">
+            <%= if @changeset.action do %>
+              <div class="ui negative message">
+                <i class="close icon"></i>
+                <%= get_flash(@conn, :error) %>
+              </div>
+            <% end %>
+            <%= form_for @changeset, practitioner_path(@conn, :update_edit_pa_setup, @practitioner_account, tab: "general"), fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <div class="ui centered container">
+                <%# Start of 1st row%>
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet column">
+                    <h2>Corporate Retainer</h2>
+                  </div>
+                </div>
+                <%# Start of 2nd row %>
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet column">
+                    <div class="field">
+                      <%= label f, :account_group_id, "Account Code/ Account Name" %>
+                      <%= if @changeset.data.id do %>
+                        <%= select f, :account_group_id, @accounts, class: "ui dropdown", practitioner_account: @practitioner_account.account_group.name %>
+                      <% else %>
+                        <%= select f, :account_group_id, filter_accounts(@practitioner.practitioner_accounts, @accounts), class: "ui dropdown" %>
+                      <% end %>
+                      <%= error_tag f, :account_group_id %>
+                    </div>
+                  </div>
+                </div>
+                <%# End of 2nd row %>
+                <%# Start of 3rd row %>
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet column">
+                    <%= if @conn.assigns[:practitioner_account] do %>
+                      <%  account_contact = @practitioner_account.practitioner_account_contact.contact %>
+                      <%= if Enum.count(contact = check_telephone(account_contact.phones)) == 1 do %>
+                        <div class="two fields" role="form-telephone">
+                          <div class="field fourteen wide computer fourteen wide tablet column">
+                            <label for="practitioner_telephone">Telephone</label>
+                            <input type="text" name="practitioner_account[telephone][]" id="facility_telephone" placeholder="Telephone"  value=<%= Enum.at(contact, 0).number %> role="mask" class="phone">
+                            <%= error_tag f, :telephone %>
+                          </div>
+                          <div class="field two wide computer two wide tablet column">
+                            <%= label f, :telephone, "Telephone", style: "color:white" %>
+                            <a class="small ui blue button btnAddTelephone" add="telephone">
+                              <i class="icon add"></i>
+                            </a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <% index1 =  Enum.at(check_telephone(account_contact.phones), 0)%>
+                        <% index2 = check_telephone(account_contact.phones) -- [index1] %>
+                        <%= if is_nil(index1) == false do %>
+                          <div class="two fields" role="form-telephone">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_telephone">Telephone</label>
+                              <input type="text" name="practitioner_account[telephone][]" id="facility_telephone" placeholder="Telephone" value=<%= index1.number %> role="mask" class="phone">
+                              <%= error_tag f, :telephone %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :telephone, "Telephone", style: "color:white" %>
+                              <a class="small ui blue button btnAddTelephone" add="telephone">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <%= for contact <- index2 do %>
+                            <div class="two fields" role="form-telephone" id="append-telephone">
+                              <div class="field fourteen wide computer fourteen wide tablet column">
+                                <input type="text" name="practitioner_account[telephone][]" id="facility_telephone" placeholder="Telephone" value="<%= contact.number %>" role="mask" class="phone">
+                              </div>
+                              <div class="field two wide computer two wide tablet column">
+                                <a class="small ui red button btnTelephoneRemove" remove="telephone"><i class="icon trash"></i></a>
+                              </div>
+                            </div>
+                          <% end %>
+                        <% else %>
+                          <div class="two fields" role="form-telephone">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_telephone">Telephone</label>
+                              <input type="text" name="practitioner_account[telephone][]" id="facility_telephone" placeholder="Telephone" role="mask" class="phone">
+                              <%= error_tag f, :telephone %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :telephone, "Telephone", style: "color:white" %>
+                              <a class="small ui blue button btnAddTelephone" add="telephone">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <div class="two fields" role="form-telephone">
+                        <div class="field fourteen wide computer fourteen wide tablet column">
+                          <label for="practitioner_telephone">Telephone</label>
+                          <input type="text" name="practitioner_account[telephone][]" id="facility_telephone" placeholder="Telephone" role="mask" class="phone">
+                          <%= error_tag f, :telephone %>
+                        </div>
+                        <div class="field two wide computer two wide tablet column">
+                          <%= label f, :telephone, "Telephone", style: "color:white" %>
+                          <a class="small ui blue button btnAddTelephone" add="telephone">
+                            <i class="icon add"></i>
+                          </a>
+                        </div>
+                      </div>
+                    <% end %>
+                    <p role="append-telephone"></p>
+                  </div>
+                </div>
+                <%# End of 3rd row %>
+                <%# Start of 4th row %>
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet column">
+                    <%= if @conn.assigns[:practitioner_account] do %>
+                      <%  account_contact = @practitioner_account.practitioner_account_contact.contact %>
+                      <%= if Enum.count(contact = check_fax(account_contact.phones)) == 1 do %>
+                        <div class="two fields" role="form-fax">
+                          <div class="field fourteen wide computer fourteen wide tablet column">
+                            <label for="practitioner_fax">Fax</label>
+                            <input type="text" name="practitioner_account[fax][]" id="facility_telephone" placeholder="Fax" role="mask" class="phone" value=<%= Enum.at(contact, 0).number %> >
+                            <%= error_tag f, :fax %>
+                          </div>
+                          <div class="field two wide computer two wide tablet column">
+                            <%= label f, :fax, "Fax", style: "color:white" %>
+                            <a class="small ui blue button btnAddFax" add="fax">
+                              <i class="icon add"></i>
+                            </a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <% index1 =  Enum.at(check_fax(account_contact.phones), 0)%>
+                        <% index2 = check_fax(account_contact.phones) -- [index1] %>
+                        <%= if is_nil(index1) == false do %>
+                          <div class="two fields" role="form-fax">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_fax">Fax</label>
+                              <input type="text" name="practitioner_account[fax][]" id="facility_telephone" placeholder="Fax" role="mask" class="phone" value=<%= index1.number %> >
+                              <%= error_tag f, :telephone %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :fax, "Fax", style: "color:white" %>
+                              <a class="small ui blue button btnAddFax" add="fax">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <%= for contact <- index2 do %>
+                            <div class="two fields" role="form-fax" id="append-fax">
+                              <div class="field fourteen wide computer fourteen wide tablet column">
+                                <input type="text" name="practitioner_account[fax][]" id="facility_telephone" placeholder="Fax" role="mask" class="phone" value="<%= contact.number %>" >
+                              </div>
+                              <div class="field two wide computer two wide tablet column">
+                                <a class="small ui red button btnFaxRemove" remove="fax"><i class="icon trash"></i></a>
+                              </div>
+                            </div>
+                          <% end %>
+                        <% else %>
+                          <div class="two fields" role="form-fax">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_fax">Fax</label>
+                              <input type="text" name="practitioner_account[fax][]" id="facility_telephone" placeholder="Fax" role="mask" class="phone" >
+                              <%= error_tag f, :fax %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :fax, "Fax", style: "color:white" %>
+                              <a class="small ui blue button btnAddFax" add="fax">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <div class="two fields" role="form-fax">
+                        <div class="field fourteen wide computer fourteen wide tablet column">
+                          <label for="practitioner_fax">Fax</label>
+                          <input type="text" name="practitioner_account[fax][]" id="facility_telephone" placeholder="Fax" role="mask" class="phone" >
+                          <%= error_tag f, :fax %>
+                        </div>
+                        <div class="field two wide computer two wide tablet column">
+                          <%= label f, :fax, "Fax", style: "color:white" %>
+                          <a class="small ui blue button btnAddFax" add="fax">
+                            <i class="icon add"></i>
+                          </a>
+                        </div>
+                      </div>
+                    <% end %>
+                    <p role="append-fax"></p>
+                  </div>
+                </div>
+                <%# End of 4th row %>
+                <%# Start of 5th row %>
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet column">
+                    <%= if @conn.assigns[:practitioner_account] do %>
+                      <%  account_contact = @practitioner_account.practitioner_account_contact.contact %>
+                      <%= if Enum.count(contact = check_mobile(account_contact.phones)) == 1 do %>
+                        <div class="two fields" role="form-mobile">
+                          <div class="field fourteen wide computer fourteen wide tablet column">
+                            <label for="practitioner_mobile">Mobile</label>
+                            <input type="text" name="practitioner_account[mobile][]" id="facility_telephone" placeholder="Mobile" role="mask" class="mobile" value=<%= Enum.at(contact, 0).number %> >
+                            <%= error_tag f, :mobile %>
+                          </div>
+                          <div class="field two wide computer two wide tablet column">
+                            <%= label f, :mobile, "Mobile", style: "color:white" %>
+                            <a class="small ui blue button btnAddMobile" add="mobile">
+                              <i class="icon add"></i>
+                            </a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <% index1 =  Enum.at(check_mobile(account_contact.phones), 0)%>
+                        <% index2 = check_mobile(account_contact.phones) -- [index1] %>
+                        <%= if is_nil(index1) == false do %>
+                          <div class="two fields" role="form-mobile">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_mobile">Mobile</label>
+                              <input type="text" name="practitioner_account[mobile][]" id="facility_telephone" placeholder="Mobile" role="mask" class="mobile" value=<%= index1.number %> >
+                              <%= error_tag f, :mobile %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :mobile, "Mobile", style: "color:white" %>
+                              <a class="small ui blue button btnAddMobile" add="mobile">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <%= for contact <- index2 do %>
+                            <div class="two fields" role="form-mobile" id="append-mobile">
+                              <div class="field fourteen wide computer fourteen wide tablet column">
+                                <input type="text" name="practitioner_account[mobile][]" id="facility_telephone" placeholder="Mobile" role="mask" class="mobile" value="<%= contact.number %>" >
+                              </div>
+                              <div class="field two wide computer two wide tablet column">
+                                <a class="small ui red button btnMobileRemove" remove="mobile"><i class="icon trash"></i></a>
+                              </div>
+                            </div>
+                          <% end %>
+                        <% else %>
+                          <div class="two fields" role="form-mobile">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_mobile">Mobile</label>
+                              <input type="text" name="practitioner_account[mobile][]" id="facility_telephone" placeholder="Mobile" role="mask" class="mobile" >
+                              <%= error_tag f, :mobile %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :mobile, "Mobile", style: "color:white" %>
+                              <a class="small ui blue button btnAddMobile" add="mobile">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <div class="two fields" role="form-mobile">
+                        <div class="field fourteen wide computer fourteen wide tablet column">
+                          <label for="practitioner_mobile">Mobile</label>
+                          <input type="text" name="practitioner_account[mobile][]" id="facility_telephone" placeholder="Mobile" role="mask" class="mobile" >
+                          <%= error_tag f, :mobile %>
+                        </div>
+                        <div class="field two wide computer two wide tablet column">
+                          <%= label f, :mobile, "Mobile", style: "color:white" %>
+                          <a class="small ui blue button btnAddMobile" add="mobile">
+                            <i class="icon add"></i>
+                          </a>
+                        </div>
+                      </div>
+                    <% end %>
+                    <p role="append-mobile"></p>
+                  </div>
+                </div>
+                <%# End of 5th row %>
+                <%# Start of 6th row %>
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet column">
+                    <%= if @conn.assigns[:practitioner_account] do %>
+                      <%  account_contact = @practitioner_account.practitioner_account_contact.contact %>
+                      <%= if Enum.count(contact = check_email(account_contact.emails)) == 1 do %>
+                        <div class="two fields" role="form-email">
+                          <div class="field fourteen wide computer fourteen wide tablet column">
+                            <label for="practitioner_email">Email Address</label>
+                            <input type="email" name="practitioner_account[email][]" id="facility_telephone" placeholder="Email Address" value=<%= Enum.at(contact, 0).address %> class="email" >
+                            <%= error_tag f, :email %>
+                          </div>
+                          <div class="field two wide computer two wide tablet column">
+                            <%= label f, :email, "Email", style: "color:white" %>
+                            <a class="small ui blue button btnAddEmail" add="email">
+                              <i class="icon add"></i>
+                            </a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <% index1 =  Enum.at(check_email(account_contact.emails), 0)%>
+                        <% index2 = check_email(account_contact.emails) -- [index1] %>
+                        <%= if is_nil(index1) == false do %>
+                          <div class="two fields" role="form-email">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_email">Email Address</label>
+                              <input type="email" name="practitioner_account[email][]" id="facility_telephone" placeholder="Email" value=<%= index1.address %> class="email">
+                              <%= error_tag f, :email %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :email, "Email", style: "color:white" %>
+                              <a class="small ui blue button btnAddEmail" add="email">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <%= for contact <- index2 do %>
+                            <div class="two fields" role="form-email" id="append-email">
+                              <div class="field fourteen wide computer fourteen wide tablet column">
+                                <input type="email" name="practitioner_account[email][]" id="facility_telephone" placeholder="Email" value="<%= contact.address %>" class="email">
+                              </div>
+                              <div class="field two wide computer two wide tablet column">
+                                <a class="small ui red button btnEmailRemove" remove="email"><i class="icon trash"></i></a>
+                              </div>
+                            </div>
+                          <% end %>
+                        <% else %>
+                          <div class="two fields" role="form-email">
+                            <div class="field fourteen wide computer fourteen wide tablet column">
+                              <label for="practitioner_email">Email Address</label>
+                              <input type="email" name="practitioner_account[email][]" id="facility_telephone" placeholder="Email" class="email">
+                              <%= error_tag f, :email %>
+                            </div>
+                            <div class="field two wide computer two wide tablet column">
+                              <%= label f, :email, "Email", style: "color:white" %>
+                              <a class="small ui blue button btnAddEmail" add="email">
+                                <i class="icon add"></i>
+                              </a>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <div class="two fields" role="form-email">
+                        <div class="field fourteen wide computer fourteen wide tablet column">
+                          <label for="practitioner_email">Email Address</label>
+                          <input type="email" name="practitioner_account[email][]" id="facility_telephone" placeholder="Email" class="email">
+                          <%= error_tag f, :email %>
+                        </div>
+                        <div class="field two wide computer two wide tablet column">
+                          <%= label f, :email, "Email", style: "color:white" %>
+                          <a class="small ui blue button btnAddEmail" add="email">
+                            <i class="icon add"></i>
+                          </a>
+                        </div>
+                      </div>
+                    <% end %>
+                    <p role="append-email"></p>
+                  </div>
+                </div>
+                <%# End of 6th row %>
+                <%= hidden_input f, :id %>
+              </div>
+              <%# Navigation buttons start %>
+              <button class="ui blue right floated button" type="submit">
+                <i class="save icon"></i>
+                Save
+              </button>
+              <a id="edit_cancel_button" class="ui button" href="/practitioners/<%=@practitioner.id%>?active=affiliation">
+                <i class="remove icon"></i>
+                Cancel
+              </a>
+              <%# Navigation buttons end %>
+              <% #Modal Alert %>
+              <div class="ui small modal" id="modal_cancel">
+                <i class="close icon"></i>
+                <div class="header">
+                  Discard Changes?
+                </div>
+                <div class="image content">
+                  If you go back now, your changes will be discarded.
+                </div>
+                <div class="actions">
+                  <div class="ui white button deny">
+                    No, Keep Changes
+                  </div>
+                  <div class="ui negative button clickable-row" href="/practitioners/<%= @practitioner.id%>">
+                    <i class="checkmark icon"></i>
+                    Yes, Discard Changes
+                  </div>
+                </div>
+              </div>
+              <% #Modal end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

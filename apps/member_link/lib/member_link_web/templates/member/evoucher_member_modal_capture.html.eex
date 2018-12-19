@@ -1,0 +1,58 @@
+<div id="modal_facial_capture" class="ui tiny modal">
+    <i class="close icon"></i>
+    <div class="content">
+        <div class="fs-20 bold mb-2 text-center">Capture Image</div>
+
+        <div class="ui segments">
+            <div class="ui segment" id="fileUpload">
+                <br>
+                <div class="ui grid centered container">
+                    <div class="ui centered special cards">
+                        <video width=320 height=240 id="video" autoplay style="margin-top: 20px"></video>
+                        <canvas id="canvas" height=240 width=320 name="member[facial_image]" style="margin-top: 20px">
+                        </canvas>
+                    </div>
+                    <div class="extra content">
+												<input accept="image/*" class="ui hide" id="photo-web-cam" name="member[photo]" type="hidden">
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="loader"></div>
+        <p role="append_new_capture"></p>
+        <button type="button" class="ui fluid primary button large" id="take_image"><i class="camera icon"></i>Capture</button>
+				</br>
+        <button type="button" class="ui fluid primary button large" id="submit_capture" value="Submit">Save</button>
+    </div>
+</div>
+
+<div id="modal_facial_capture2" class="ui tiny modal">
+    <i class="close icon"></i>
+    <div class="content">
+        <div class="fs-20 bold mb-2 text-center">Capture Image</div>
+        <div class="ui segments">
+            <div class="ui segment" id="fileUpload2">
+                <br>
+                <div class="ui grid centered container">
+                    <div class="ui centered special cards">
+                        <video width=320 height=240 id="video2" autoplay style="margin-top: 20px"></video>
+                        <canvas id="canvas2" height=240 width=320 name="member[facial_image2]" style="margin-top: 20px">
+                        </canvas>
+                    </div>
+                    <div class="extra content">
+												<input accept="image/*" class="ui hide" id="photo-web-cam2" name="member[photo2]" type="hidden">
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="loader"></div>
+        <p role="append_new_capture2"></p>
+        <button type="button" class="ui fluid primary button large" id="take_image2"><i class="camera icon"></i>Capture</button>
+				</br>
+        <button type="button" class="ui fluid primary button large" id="submit_capture2" value="Submit">Save</button>
+    </div>
+</div>

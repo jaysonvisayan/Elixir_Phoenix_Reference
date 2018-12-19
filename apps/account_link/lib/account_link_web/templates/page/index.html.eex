@@ -1,0 +1,28 @@
+<div class="main-wrapper main-wrapper--fullscreen-banner">
+  <div class="banner banner--home">
+    <div class="ui vertical stripe segment">
+      <div class="ui bottom aligned grid container">
+        <div class="seven wide computer ten wide tablet right floated sixteen wide mobile column">
+          <div class="ui middle aligned grid">
+            <div class="ten wide mobile centered sixteen wide tablet column">
+              <form class="ui form">
+                <%# <div class="ui very padded raised segment"> %>
+                <%#   <h2 class="ui center aligned header">Login to your Medilink account</h2> %>
+                <%#   <div class="field"><label for="email">Username</label><input type="text" name="email" placeholder="Enter your username"></div> %>
+                <%#   <div class="field"> %>
+                <%#     <label for="email">Password <span class="ui float-right"> <a href="#">Forgot password</a></span></label> <input type="password" name="password" placeholder="Password"> %>
+                <%#   </div> %>
+
+                <%#   <div class="ui fluid large primary submit button">Login</div> %>
+                <%#   <div class="ui hidden divider"></div> %>
+                <%#   <p class="text-center">Not Registered yet? <a href="#">Sign up now</a></p> %>
+                <%# </div> %>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- form -->
+      </div>
+    </div>
+  </div>
+</div>

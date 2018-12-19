@@ -1,0 +1,88 @@
+<div class="ui main container" id="product_index">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Plans</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+              <div class="ui simple primary basic dropdown right floated button">
+                  <i class="icon add"></i>
+                  Plan
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <div class="item clickable-row" href="/products/new/peme" >
+                      PEME Plan
+                    </div>
+                    <div class="item clickable-row" href="/products/new/reg" >
+                      Regular Plan
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/products" class="section">Plan</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" id="product_datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Plan Code</th>
+          <th>Plan Name</th>
+          <th>Plan Description</th>
+          <th>Plan Classification</th>
+          <th>Created by</th>
+          <th>Date Created</th>
+          <th>Updated by</th>
+          <th>Date Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for product <- @products do %>
+        <tr>
+          <td>
+            <%= if product.step == "8" do %>
+              <%= if check_facility_access(product) == true do %>
+                <a href="/products/<%= product.id %>/revert_step/4"><%= product.code <> " (Draft/Step 4)" %></a>
+              <% else %>
+                <a href="/products/<%= product.id %>"><%= product.code %></a>
+              <% end %>
+
+            <% else %>
+              <a href="/products/<%= product.id %>/setup?step=<%= product.step %>"><%= product.code <> " (Draft)" %></a>
+            <% end %>
+          </td>
+          <%= if is_nil(product.name) do %>
+            <td>(copy / draft)</td>
+            <td>(copy / draft)</td>
+          <% else %>
+          <td><%= product.name %></td>
+          <td><%= product.description %></td>
+          <% end %>
+          <td><%= load_classification(product.standard_product) %></td>
+          <td><%= check_user(product.created_by) %></td>
+          <td class="valid_timezone date-only"><%= load_date(product.inserted_at) %></td>
+          <td><%= check_user(product.updated_by) %></td>
+          <td class="valid_timezone date-only"><%= load_date(product.updated_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="8">
+          <div class="center_align">
+            <a id="export_button" class="pointer">
+              <i class="download icon"></i><b>Download Result</b>
+            </a>
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

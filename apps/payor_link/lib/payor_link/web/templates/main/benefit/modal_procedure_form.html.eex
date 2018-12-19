@@ -1,0 +1,31 @@
+<div class="ui large modal procedure">
+    <i class="close icon"></i>
+    <div class="header">Add Procedure</div>
+
+    <div class="content pt-0">
+
+        <div class="ui grid form">
+            <div class="sixteen wide column">
+
+                <table class="full-width ui celled striped table" id="tbl_add_procedure">
+                    <thead>
+                        <tr>
+                            <th class="small"></th>
+                            <th class="small">CPT Code</th>
+                            <th class="small">CPT Description</th>
+                            <th class="small">Payor CPT Code</th>
+                            <th class="small">Payor CPT Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+            <button class=" ui primary basic button close" type="submit" id="btn_cancel_procedure">Cancel</button>
+            <button class=" send-rtp right floated ui primary button close" id="btn_submit_procedure" type="submit">Add</button>
+        </div>
+    </div>
+</div>

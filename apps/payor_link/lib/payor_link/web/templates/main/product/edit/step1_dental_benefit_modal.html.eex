@@ -1,0 +1,46 @@
+<div class="ui large modal proceduredraft">
+  <i class="close icon"></i>
+  <div class="header">Add Benefits</div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+        <table class="full-width ui celled striped table" id="tbl_add_procedure_draft">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" style="width:20px; height:20px" id="checkAllBenefits">
+              </th>
+              <th class="small">Benefit Code</th>
+              <th class="small">Benefit Name</th>
+              <th class="small">No. of CDT</th>
+              <th class="small">Limit Type</th>
+              <th class="small">Limit Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%# <%= for benefit <- filter_product_benefit_dental(@benefit, @product) do %1> %>
+            <%# 	<tr> %>
+              <%# 		<td> %>
+                <%# 			<div class="ui checkbox"> %>
+                  <%# 				<input type="checkbox" style="width:20px; height:20px" name="product[benefit_ids][]" value="<%= benefit.id %1>" class="selection" /> %>
+                  <%# 			</div> %>
+                <%# 		</td> %>
+              <%# 		<td> <%= benefit.code %1> </td> %>
+              <%# 		<td> <%= benefit.name %1> </td> %>
+              <%# 		<td> <%= count_procedure(benefit.benefit_procedures) %1> </td> %>
+              <%# 		<td> <%= get_benefit_limit_type(benefit) %1> </td> %>
+              <%# 		<td> <%= get_benefit_limit_amount(benefit) %1> </td> %>
+              <%# 	</tr> %>
+            <%# <% end %1> %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class=" ui primary basic button close" type="submit" id="btn_cancel_benefit1">Cancel</button>
+      <button class=" send-rtp right floated ui primary button close" id="create_dental3" type="submit">Add</button>
+    </div>
+  </div>
+</div>

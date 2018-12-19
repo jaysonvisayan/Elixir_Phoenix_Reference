@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        display: none;
+      }
+    </style>
+    <script>
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MemberLink </title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+
+    <meta property="og:site_name" content="Memberlink">
+    <meta property="og:url" content="https://memberlink-ip-staging.medilink.com.ph">
+    <meta property="og:title" content="<%= gettext "Manage your account in Maxicare." %>">
+    <meta property="og:description" content="<%= gettext "Easily manage your members in your account on Maxicare." %>">
+    <meta property="og:image" content="<%= static_url(@conn, "/images/OG_Facebook.png") %>" />
+    <meta property="og:type" content="website">
+    <!-- Generate og:locale tags -->
+    <%= for {property, content} <- fb_locales() do %>
+      <%= Phoenix.HTML.Tag.tag(:meta, property: property, content: content) %>
+    <% end %>
+
+    <!-- Generate link alternate tags -->
+    <%= for {lang, path} <- language_annotations(@conn) do %>
+      <%= Phoenix.HTML.Tag.tag(:link, rel: "alternate", hreflang: lang, href: path) %>
+    <% end %>
+  </head>
+  <body>
+    <header class="header">
+      <div class="ui top fixed menu">
+        <div class=" ui container">
+          <div class="item pl-tablet-0">
+            <a href="/<%= @conn.assigns.locale%>/sign_in">
+              <img src="<%= static_path(@conn, "/images/site-logo.png") %>">
+            </a>
+            <a href="/<%= @locale %>"><%= gettext "member" %><b class="primary ui text"><%= gettext "gateway" %></b></a>
+          </div>
+          <div class="right aligned item pl-tablet-0">
+            <a href="/en"><strong>English</strong></a>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <a href="/zh"><strong>中文</strong></a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pusher">
+      <%= render @view_module, @view_template, assigns %>
+    </div> <!-- .pusher closed -->
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script>
+      $(document).ready(function(){
+        $('.modal-open-main.button').click(function(){
+          $('.ui.modal').modal('show');
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<%
+  info = get_flash(@conn, :info)
+  error = get_flash(@conn, :error)
+
+  error =
+    if error == "Invalid Login! Please try again." || error == "You must be signed in to access that page." do
+      false
+    else
+      error
+    end
+%>
+
+<%= if info do %>
+ <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+
+<%#= if error do %>
+<!--  <script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+  </script>
+  <%# end %> -->

@@ -1,0 +1,27 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Case Rate</h2>
+  <div class="ui small breadcrumb">
+    <a href="/case_rates" class="section">Case Rate</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/case_rates" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Case Rate</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" id="CaseRateValidation">
+  <div class="row">
+    <div class="column">
+        <div class="ui form segment ">
+          <%= render "form.html",
+          changeset: @changeset,
+          diagnoses: @diagnoses,
+          case_rates: @case_rates,
+          ruvs: @ruvs,
+          conn: @conn,
+          action: case_rate_path(@conn, :create) %>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,194 @@
+<%= cond do %>
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+    <div class="ui ordered nine steps" style="width:100%">
+
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+    <div class="ui ordered seven steps">
+
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+    <div class="ui ordered eight steps">
+
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+    <div class="ui ordered six steps">
+
+  <%= true -> %>
+    <div class="ui ordered six steps">
+<%= end %>
+
+<div class="<%= check_active_step(@conn, 1) %> step">
+  <div class="content">
+    <div class="title">General</div>
+  </div>
+</div>
+
+<div class="<%= check_active_step(@conn, 2) %> step">
+  <div class="content">
+    <div class="title">Procedures</div>
+  </div>
+</div>
+
+
+<%= cond do %>
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+    <div class="<%= check_active_step(@conn, 3) %> step">
+      <div class="content">
+        <div class="title">RUV</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 4) %> step">
+      <div class="content">
+        <div class="title">Diagnosis</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 5) %> step">
+      <div class="content">
+        <div class="title">Packages</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 6) %> step">
+      <div class="content">
+        <div class="title">Limits</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 7) %> step">
+      <div class="content">
+        <div class="title">Pharmacy</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 8) %> step">
+      <div class="content">
+        <div class="title">Miscellaneous</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 9) %> step">
+      <div class="content">
+        <div class="title">Summary</div>
+      </div>
+    </div>
+
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+    <div class="<%= check_active_step(@conn, 3) %> step">
+      <div class="content">
+        <div class="title">RUV</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 4) %> step">
+      <div class="content">
+        <div class="title">Diagnosis</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 5) %> step">
+      <div class="content">
+        <div class="title">Packages</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 6) %> step">
+      <div class="content">
+        <div class="title">Limits</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 7) %> step">
+      <div class="content">
+        <div class="title">Summary</div>
+      </div>
+    </div>
+
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+    <div class="<%= check_active_step(@conn, 3) %> step">
+      <div class="content">
+        <div class="title">Diagnosis</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 4) %> step">
+      <div class="content">
+        <div class="title">Packages</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 5) %> step">
+      <div class="content">
+        <div class="title">Limits</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 6) %> step">
+      <div class="content">
+        <div class="title">Pharmacy</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 7) %> step">
+      <div class="content">
+        <div class="title">Miscellaneous</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 8) %> step">
+      <div class="content">
+        <div class="title">Summary</div>
+      </div>
+    </div>
+
+  <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+    <div class="<%= check_active_step(@conn, 3) %> step">
+      <div class="content">
+        <div class="title">Diagnosis</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 4) %> step">
+      <div class="content">
+        <div class="title">Packages</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 5) %> step">
+      <div class="content">
+        <div class="title">Limits</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 6) %> step">
+      <div class="content">
+        <div class="title">Summary</div>
+      </div>
+    </div>
+
+  <%= true -> %>
+    <div class="<%= check_active_step(@conn, 3) %> step">
+      <div class="content">
+        <div class="title">Diagnosis</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 4) %> step">
+      <div class="content">
+        <div class="title">Packages</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 5) %> step">
+      <div class="content">
+        <div class="title">Limits</div>
+      </div>
+    </div>
+
+    <div class="<%= check_active_step(@conn, 6) %> step">
+      <div class="content">
+        <div class="title">Summary</div>
+      </div>
+    </div>
+<%= end %>
+
+</div>

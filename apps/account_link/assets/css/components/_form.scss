@@ -1,0 +1,74 @@
+@import '../variables';
+.ui.form {
+    .fields {
+        .field {
+            .ui.input {
+                input {
+                    width: 100%;
+                }
+            }
+        }
+        .field.upload {
+            .ui.icon.buttons {
+                .button {
+                    padding: 0.67857143em 1em;
+                    &:first-child {
+                        width: 80%;
+                    }
+                    span {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+    .field {
+        .ui.input {
+            input {
+                width: 100%;
+            }
+        }
+    }
+    textarea {
+        font-family: 'Lato';
+    }
+    .field.disabled {
+        opacity: 1;
+        >label {
+            opacity: 1;
+        }
+        input {
+            opacity: 1;
+            background-color: #F8F8F8;
+            border: 1px solid #F8F8F8;
+        }
+    }
+}
+
+.ui.disabled.input {
+    input {
+        background-color: #EFEFEF;
+    }
+}
+
+.field {
+    .label-title {
+        font-size: 14px;
+        color: #212121;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    input[type="date"] {
+        background-color: transparent;
+    }
+    input[type="text"] {
+        background-color: transparent;
+    }
+    input[type="password"] {
+        background-color: transparent;
+    }
+}
+
+.inline.fields {
+    flex-wrap: wrap;
+}

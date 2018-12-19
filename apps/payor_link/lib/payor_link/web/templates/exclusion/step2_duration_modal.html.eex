@@ -1,0 +1,69 @@
+<div class="ui modal" id="DurationModal">
+  <i class="close icon"></i>
+  <div class="header">
+    Duration
+  </div>
+
+  <!-- GENERAL -->
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :exclusion, class: "ui form", id: "exclusion_duration_form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <input type="hidden" id="exclusion_id" exclusion_id="<%= @exclusion.id %>">
+      <div class="ui grid">
+        <div class="four wide field"></div>
+        <div class="twelve wide field">
+          <h4><%= label f, "Disease Type:" %></h4>
+        </div>
+        <div class="four wide field"></div>
+        <div class="seven wide field">
+          <%= select f, :disease_type, ["Dreaded": "Dreaded", "Non-Dreaded": "Non-Dreaded"], class: "ui fluid dropdown", id: "disease_type" %>
+        </div>
+        <div class="five wide field"></div>
+        <div class="four wide field"></div>
+        <div class="twelve wide field">
+          <h4><%= label f, "Duration:" %></h4>
+        </div>
+        <div class="four wide field"></div>
+        <div class="seven wide field">
+          <div class="ui right labeled input">
+            <%= number_input f, :duration, min: "1" %>
+            <div class="ui label">
+              Months
+            </div>
+          </div>
+        </div>
+        <div class="five wide field"></div>
+        <div class="four wide field"></div>
+        <div class="twelve wide field">
+          <h4><%= label f, "Covered After Duration:" %></h4>
+        </div>
+        <div class="four wide field"></div>
+        <div class="four wide field">
+          <div class="ui right labeled input">
+          <%= select f, :covered_after_duration, ["Peso": "Peso", "Percentage": "Percentage"], class: "ui fluid dropdown", id: "covered_after_duration" %>
+          </div>
+        </div>
+
+        <div class="three wide field">
+          <div class="ui right labeled input">
+            <%= text_input f, :cad_value, id: "cad_value" %>
+            <div class="ui label" id="cad_value_label">
+              php
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+    <button class="ui right floated primary button">
+      <i class="plus icon"></i>
+        Add
+    </button>
+    <button type="button" class="ui cancel left floated button">
+      <i class="remove icon"></i>
+        Cancel
+    </button>
+    <br><br><br>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,651 @@
+<%= form_for @changeset, @action, [class: "ui form", multipart: :true, id: "memberForm"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="ui grid">
+
+    <%# 1st column %>
+    <div class="sixteen wide tablet eight wide computer column">
+      <div class="ui centered column grid" style="padding:5%" id="fileUpload">
+        <div class="sixteen wide tablet eight wide computer column">
+
+          <div class="ui centered special cards">
+            <div class="card">
+              <div class="blurring dimmable image">
+                <div class="ui inverted dimmer">
+                  <div class="content">
+                    <div class="center">
+                      <%= file_input f, :photo, id: "imageUploadCard", accept: "image/*", class: "display-none", "data-validate": "photo" %>
+                    </div>
+                  </div>
+                </div>
+                <%= if assigns[:member] do %>
+                  <%= if is_nil(@member.photo) do %>
+                    <img src="/images/file-upload.png" id="photo">
+                  <% else %>
+                    <img id="photo" src="<%= get_img_url(@member) %>">
+                  <% end %>
+                <% else %>
+                  <img src="/images/file-upload.png" id="photo">
+                <% end %>
+              </div>
+              <div class="extra content">
+                <span class="left floated like">
+                  <div class="ui primary button" id="imageLabel">
+                    <i class="folder open icon"></i> Browse
+                  </div>
+                </span>
+                <span class="right floated star">
+                  <a class="ui button" role="remove"><i class="remove icon"></i> Remove</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%# End of 1st column %>
+
+    <%# 2nd column %>
+    <div class="sixteen wide tablet eight wide computer column">
+      <div class="field">
+        <%= label f, :account_code, "Account Code", class: "control-label" %>
+        <%= select f, :account_code, map_accounts(@accounts), "data-validate": "account_code", prompt: "" %>
+        <%= error_tag f, :account_code %>
+      </div>
+
+      <div class="field">
+        <label>Member Type</label>
+      </div>
+      <div class="inline fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button(f, :type, "Principal", checked: "", disabled: "") %>
+            <label>Principal</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button(f, :type, "Dependent", disabled: "") %>
+            <label>Dependent</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button(f, :type, "Guardian", disabled: "") %>
+            <label>Guardian</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label f, :principal_id, "Principal ID - Name", class: "control-label" %>
+        <%= select f, :principal_id, [], "data-validate": "principal_id", disabled: "true", id: "principalID", prompt: "" %>
+        <%= error_tag f, :principal_id %>
+      </div>
+
+      <div class="field">
+        <%= label f, :principal_product_id, "Principal's Plan (Note: This will determine the hierarchy waiver for the dependent's enrollment", class: "control-label" %>
+        <%= select f, :principal_product_id, [], class: "ui dropdown", "data-validate": "principal_product_id", prompt: "Select Principal Plan", id: "principalProductID", disabled: "" %>
+        <%= error_tag f, :principal_product_id %>
+      </div>
+
+      <div class="field">
+        <%= label f, :relationship, "Relationship", class: "control-label" %>
+          <%= select f, :relationship, [], class: "ui dropdown", "data-validate": "relationship", prompt: "Select Relationship", id: "relationship", disabled: "" %>
+        <%= error_tag f, :relationship %>
+      </div>
+
+      <div class="field" id="dateFormPicker">
+        <div class="two fields">
+          <div class="field">
+            <%= label f, :effectivity_date, "Effective Date", class: "control-label" %>
+            <div class="ui calendar" id="effectiveDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :effectivity_date, placeholder: "MMM DD YYYY", "data-validate": "effectivity_date", disabled: "" %>
+              </div>
+            </div>
+            <%= error_tag f, :effectivity_date %>
+          </div>
+          <div class="field">
+            <%= label f, :expiry_date, "Expiry Date", class: "control-label" %>
+            <div class="ui calendar" id="expiryDate">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :expiry_date, placeholder: "MMM DD YYYY", "data-validate": "expiry_date", disabled: "" %>
+                <%= error_tag f, :expiry_date %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label f, :first_name, "First Name", class: "control-label" %>
+        <%= text_input f, :first_name, "data-validate": "first_name", class: "alphanumeric", maxlength: "150" %>
+        <%= error_tag f, :first_name %>
+      </div>
+
+      <div class="field">
+        <%= label f, :middle_name, "Middle Name", class: "control-label" %>
+        <%= text_input f, :middle_name, "data-validate": "middle_name", class: "alphanumeric", maxlength: "150" %>
+        <%= error_tag f, :middle_name %>
+      </div>
+
+      <div class="field">
+        <%= label f, :last_name, "Last Name", class: "control-label" %>
+        <%= text_input f, :last_name, "data-validate": "last_name", class: "alphanumeric", maxlength: "150" %>
+        <%= error_tag f, :last_name %>
+      </div>
+
+      <div class="field">
+        <%= label f, :suffix, "Suffix (Optional)", class: "control-label" %>
+        <%= text_input f, :suffix, "data-validate": "suffix", class: "alphanumeric", maxlength: "10" %>
+        <%= error_tag f, :suffix %>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <div class="field">
+            <label>For card issuance?</label>
+          </div>
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :for_card_issuance, true) %>
+                <label>Yes</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :for_card_issuance, false) %>
+                <label>No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field">
+            <label>Is Member VIP?</label>
+          </div>
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :vip, true) %>
+                <label>Yes</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :vip, false) %>
+                <label>No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <div class="field">
+            <label>Gender</label>
+          </div>
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :gender, "Male", checked: "") %>
+                <label>Male <i class="male icon large teal"></i></label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :gender, "Female") %>
+                <label>Female <i class="female icon large pink"></i></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= label f, :civil_status, "Civil Status", class: "control-label" %>
+          <%= select f, :civil_status, ["Married", "Single Parent", "Single"], class: "form-control ui dropdown", prompt: "Select Civil Status", "data-validate": "civil_status" %>
+          <%= error_tag f, :civil_status %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label f, :birthdate, "Birthdate", class: "control-label" %>
+        <div class="ui calendar" id="birthdate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :birthdate, placeholder: "MMM DD YYYY", "data-validate": "birthdate" %>
+          </div>
+        </div>
+        <%= error_tag f, :birthdate %>
+      </div>
+
+      <div class="three fields">
+        <%= if is_nil(@conn.assigns[:member]) do %>
+
+          <div class="field">
+            <div class="field">
+              <label>Member a senior citizen?</label>
+            </div>
+            <div class="inline fields" id="senior_radio">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button(f, :senior, "true") %>
+                  <label>Yes </label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button(f, :senior, "false", checked: "") %>
+                  <label>No </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%= else %>
+          <div class="field">
+            <div class="field">
+              <label>Member a senior citizen?</label>
+            </div>
+            <div class="inline fields" id="senior_radio">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button(f, :senior, "true") %>
+                  <label>Yes </label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <%= radio_button(f, :senior, "false") %>
+                  <label>No </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <% end %>
+
+        <div class="field">
+          <%= label f, :senior_id, "Senior Citizen ID Number", class: "control-label" %>
+          <%= text_input f, :senior_id, class: "", maxlength: "150" %>
+
+          <%= if is_nil(@conn.assigns[:member]) do %>
+            <%= hidden_input f, :senior_id_copy, class: "", maxlength: "150", value: "" %>
+          <%= else %>
+            <%= hidden_input f, :senior_id_copy, class: "", maxlength: "150", value: @member.senior_id %>
+          <% end %>
+          <%= error_tag f, :senior_id%>
+        </div>
+        <div class="field" id="senior_upload">
+          <%= label f, :senior_photo, "Senior Citizen Photo", class: "control-label" %>
+          <%= file_input f, :senior_photo,  id: "senior_photo", class: "hide", value: "" %>
+          <div class="" role="loafileupload">
+            <div class="ui basic icon small buttons upload-order fluid">
+              <%= if is_nil(@conn.assigns[:member]) do %>
+                <a class="ui button">
+                  <span class="upload_txt" name="senior_photo">
+                    Upload Senior ID
+                  </span><i class="cloud upload icon"></i>
+                </a>
+                <button type="button" class="ui button" file="senior_photo" id="upload"><i class="photo icon"></i></button>
+              <%= else %>
+                <%= if is_nil(@member.senior_photo) do %>
+                  <a class="ui button">
+                    <span class="upload_txt" name="senior_photo">
+                      Upload Senior ID
+                    </span><i class="cloud upload icon"></i>
+                  </a>
+                  <button type="button" class="ui button" file="senior_photo" id="upload"><i class="photo icon"></i></button>
+                  <%= else %>
+                  <a class="ui button">
+                    <span class="upload_txt" name="senior_photo">
+                      <%= @member.senior_photo.file_name %>
+                    </span><i class="cloud upload icon"></i>
+                  </a>
+                  <button type="button" class="ui button" file="senior_photo" id="upload"><i class="photo icon"></i></button>
+                <% end %>
+
+              <% end %>
+            </div>
+
+          </div>
+          <%= error_tag f, :civil_status %>
+        </div>
+      </div>
+
+      <div class="three fields">
+        <div class="field">
+          <div class="field">
+            <label>Member a PWD?</label>
+          </div>
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :pwd, "true") %>
+                <label>Yes </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :pwd, "false") %>
+                <label>No </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= label f, :pwd_id, "PWD ID Number", class: "control-label" %>
+          <%= text_input f, :pwd_id, class: "", maxlength: "150", "data-validate": "pwd_id", valid: "" %>
+
+          <%= if is_nil(@conn.assigns[:member]) do %>
+            <%= hidden_input f, :pwd_id_copy, class: "", maxlength: "150", value: "" %>
+          <%= else %>
+            <%= hidden_input f, :pwd_id_copy, class: "", maxlength: "150", value: @member.pwd_id %>
+          <% end %>
+          <%= error_tag f, :pwd_id%>
+        </div>
+        <div class="field" id="upload_file_photo">
+          <%= label f, :pwd_photo, "PWD Photo", class: "control-label" %>
+          <%= file_input f, :pwd_photo,  id: "pwd_photo", class: "hide", value: "" %>
+          <div class="" role="loafileupload">
+            <div class="ui basic icon small buttons upload-order fluid">
+
+              <%= if is_nil(@conn.assigns[:member]) do %>
+                <a class="ui button">
+                  <span class="upload_txt" name="pwd_photo">
+                    Upload PWD ID
+                  </span><i class="cloud upload icon"></i>
+                </a>
+                <button type="button" class="ui button" file="pwd_photo" id="upload"><i class="photo icon"></i></button>
+              <% else %>
+                <%= if is_nil(@member.pwd_photo) do %>
+                  <a class="ui button">
+                    <span class="upload_txt" name="pwd_photo">
+                      Upload PWD ID
+                    </span><i class="cloud upload icon"></i>
+                  </a>
+                  <button type="button" class="ui button" file="pwd_photo" id="upload"><i class="photo icon"></i></button>
+                  <%= else %>
+                  <a class="ui button">
+                    <span class="upload_txt" name="pwd_photo">
+                      <%= @member.pwd_photo.file_name %>
+                    </span><i class="cloud upload icon"></i>
+                  </a>
+                  <button type="button" class="ui button" file="pwd_photo" id="upload"><i class="photo icon"></i></button>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="field">
+        <%= label f, :employee_no, "Employee No", class: "control-label", id: "employeeNoLabel" %>
+        <%= text_input f, :employee_no, "data-validate": "employee_no" %>
+      </div>
+
+      <div class="field">
+        <%= label f, :date_hired, "Date Hired", class: "control-label" %>
+        <div class="ui calendar" id="dateHired">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :date_hired, placeholder: "MMM DD YYYY", "data-validate": "date_hired" %>
+          </div>
+        </div>
+        <%= error_tag f, :date_hired %>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <div class="field">
+            <label>Member already regular?</label>
+          </div>
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :is_regular, true) %>
+                <label>Yes</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :is_regular, false) %>
+                <label>No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= label f, :regularization_date, "Regularization Date", class: "control-label" %>
+          <div class="ui calendar" id="regularizationDate">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <%= text_input f, :regularization_date, placeholder: "MMM DD YYYY", "data-validate": "regularization_date" %>
+            </div>
+          </div>
+          <%= error_tag f, :regularization_date %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label f, :tin, "Tax Identification Number (TIN) (Optional)", class: "control-label" %>
+        <%= number_input f, :tin, "data-validate": "tin", maxlength: "12" %>
+        <%= error_tag f, :tin %>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <div class="field">
+            <label>PhilHealth</label>
+          </div>
+          <div class="inline fields">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :philhealth_type, "Required to file", checked: "checked") %>
+                <label>Required to file</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :philhealth_type, "Optional to file") %>
+                <label>Optional to file</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button(f, :philhealth_type, "Not Covered") %>
+                <label>Not Covered</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= label f, :philhealth, "PhilHealth Number", class: "control-label" %>
+          <%= number_input f, :philhealth, "data-validate": "philhealth", maxlength: "12" %>
+          <%= error_tag f, :philhealth %>
+        </div>
+      </div>
+
+      <input type="hidden" name="member[skipping_hierarchy][]" id="skipping_hierarchy_data_value">
+
+    </div>
+    <%# End of 2nd column %>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <div class="ui middle aligned  right aligned grid">
+        <div class="right floated right aligned six wide column">
+          <button type="button" id="addDependentSkip" class="ui small add button disabled"><i class="plus icon"></i>Hierarchy Skipping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="ui very basic striped selectable table" cellspacing="0" width="100%" id="hierarchy_table" style="display: none;">
+    <thead>
+      <tr>
+        <th>Relationship</th>
+        <th>Full Name</th>
+        <th>Gender</th>
+        <th>Birthdate</th>
+        <th>Reason</th>
+        <th>Supporting Document</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="hierarchy_data">
+    </tbody>
+  </table>
+
+  <button class="ui blue right right floated button" type="button" id="submitGeneral">
+    Next
+    <i class="chevron right icon"></i>
+  </button>
+  <a href="/members" class="ui button">
+    <i class="cancel left icon"></i>
+    Cancel
+  </a>
+<% end %>
+
+<div class="ui large modal add_skipping_hierarchy">
+  <i class="close icon"></i>
+  <div class="header">
+    Skipping Hierarchy
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :member, class: "ui form",  id: "submit_skipping_hierarchy"], fn _f -> %>
+      <div class="ui two column grid">
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field select-validate-required">
+            <label for="member_relationship">Relationship</label>
+            <div class="ui dropdown selection skip_dropdown" tabindex="0">
+              <select name="member_relationship" class="skip_relationship">
+              </select>
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Relationship</div>
+              <div class="menu" tabindex="-1"></div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+        </div>
+        <div class="five wide computer five wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label for="">First Name</label>
+            <input class="person name" name="member_first_name" type="text">
+          </div>
+        </div>
+        <div class="four wide computer four wide tablet sixteen wide mobile column">
+          <div class="field ">
+            <label>Middle Name</label>
+            <input class="person name" name="member_middle_name" type="text">
+          </div>
+        </div>
+        <div class="five wide computer five wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label>Last Name</label>
+            <input class="person name" name="member_last_name" type="text">
+          </div>
+        </div>
+        <div class="two wide computer two wide tablet sixteen wide mobile column">
+          <div class="field ">
+            <div class="field">
+              <label>Suffix</label>
+              <input name="member_suffix" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <label>Birthdate</label>
+            <div class="skip-calendar ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <input name="member_birthdate" placeholder="MMM DD YYYY" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field validate-required">
+            <div class="field">
+              <label>Gender</label>
+            </div>
+            <div class="inline fields">
+              <div class="field">
+                <div class="ui radio checkbox" id="male">
+                  <input checked="" name="member_gender" id="skipped_gender_Male" type="radio" value="Male" tabindex="0" class="hidden">
+                  <label>Male <i class="male icon large teal"></i></label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox" id="female">
+                  <input name="member_gender" id="skipped_gender_Female" type="radio" value="Female" tabindex="0" class="hidden">
+                  <label>Female <i class="female icon large pink"></i></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field select-validate-required">
+            <label>Reason</label>
+            <div class="ui dropdown selection skip_reason" tabindex="0">
+              <select class="person name" name="member_reason" id="skip_reason">
+                <option value="">Select Reason</option>
+                <option value="Annulled Marriage">Annulled Marriage</option>
+                <option value="Coverage with other HMO">Coverage with other HMO</option>
+                <option value="Death">Death</option>
+                <option value="Out of the Country">Out of the Country</option>
+                <option value="Overaged">Overaged</option>
+                <option value="Separated">Separated</option>
+              </select>
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Reason</div>
+              <div class="menu">
+                <div class="item" data-value="Annulled Marriage">Annulled Marriage</div>
+                <div class="item" data-value="Coverage with other HMO">Coverage with other HMO</div>
+                <div class="item" data-value="Death">Death</div>
+                <div class="item" data-value="Out of the Country">Out of the Country</div>
+                <div class="item" data-value="Overaged">Overaged</div>
+                <div class="item" data-value="Separated">Separated</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+          <div class="field file-validate-required">
+            <label>Supporting Document</label>
+            <input name="member_supporting_document" type="file" accept=".pdf,.xls,.jpg,.csv,.doc,.docx,.xlsx,.png">
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="actions">
+    <button type="button" class="ui button cancel-skip">Cancel</button>
+    <button type="button" class="ui button add-skip-item">Add</button>
+  </div>
+</div>
+
+<%= if assigns[:member] do %>
+  <input type="hidden" id="memberID" value="<%= @member.id %>">
+  <input type="hidden" id="memberPrincipalID" value="<%= @member.principal_id %>">
+  <input type="hidden" id="memberRelationship" value="<%= @member.relationship %>">
+  <input type="hidden" id="memberPrincipalProductID" value="<%= @member.principal_product_id %>">
+<% else %>
+  <input type="hidden" id="memberID" value="">
+  <input type="hidden" id="memberPrincipalID" value="">
+  <input type="hidden" id="memberRelationship" value="">
+  <input type="hidden" id="memberPrincipalProductID" value="">
+<% end %>
+
+<%= for account <- @accounts do %>
+  <input type="hidden" id="<%= account.account_group.code %>" segment="<%= account.account_group.segment %>" effectiveDate="<%= account.start_date %>" expiryDate="<%= account.end_date %>">
+<% end %>

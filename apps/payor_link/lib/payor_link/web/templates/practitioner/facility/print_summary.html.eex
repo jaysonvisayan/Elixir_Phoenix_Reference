@@ -1,0 +1,254 @@
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" >
+        <div class="ui form segment">
+          <%# General start %>
+        <h4 class="ui dividing header">General</h4>
+        <div class="ui grid centered container">
+          <div class="four wide computer four wide tablet column">
+            <b>Practitioner Types</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <div class="ui grid">
+              <%= for pf_type <- @practitioner_facility.practitioner_facility_practitioner_types do %>
+                <div class="sixteen wide computer sixteen wide tablet column">
+                  <%= pf_type.type %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="eight wide computer eight wide tablet column">
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <b>Facility</b>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <%= @practitioner_facility.facility.name %>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <b>Status</b>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <%= @practitioner_facility.practitioner_status.text %>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <b>Affiliation Date</b>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <%= @practitioner_facility.affiliation_date %>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <b>Disaffiliation Date</b>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <%= @practitioner_facility.disaffiliation_date %>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <b>Mode of Payment</b>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <%= @practitioner_facility.payment_mode %>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <b>Credit Term</b>
+          </div>
+          <div class="four wide computer six wide tablet column">
+            <%= @practitioner_facility.credit_term %>
+          </div>
+        </div>
+        <%# General end %>
+        <%# Contacts start %>
+        <h4 class="ui dividing header">Contacts</h4>
+        <div class="ui grid centered container">
+          <div class="four wide computer four wide tablet column">
+            <b>Telephone No.</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <b>Phone No.</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <b>Fax No.</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <b>Email</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <%= if @practitioner_facility.practitioner_facility_contacts.contact.phones == nil || Enum.empty?(@practitioner_facility.practitioner_facility_contacts.contact.phones) do %>
+              <%= else %>
+              <%= for phone <- @practitioner_facility.practitioner_facility_contacts.contact.phones do %>
+                <%= if phone.type == "telephone" do %>
+                  <p><%= phone.number %></p>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <%= if @practitioner_facility.practitioner_facility_contacts.contact.phones == nil || Enum.empty?(@practitioner_facility.practitioner_facility_contacts.contact.phones) do %>
+              <%= else %>
+              <%= for phone <- @practitioner_facility.practitioner_facility_contacts.contact.phones do %>
+                <%= if phone.type == "mobile" do %>
+                  <p><%= phone.number %></p>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <%= if @practitioner_facility.practitioner_facility_contacts.contact.phones == nil || Enum.empty?(@practitioner_facility.practitioner_facility_contacts.contact.phones) do %>
+              <%= else %>
+              <%= for phone <- @practitioner_facility.practitioner_facility_contacts.contact.phones do %>
+                <%= if phone.type == "fax" do %>
+                  <p><%= phone.number %></p>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <%= if @practitioner_facility.practitioner_facility_contacts.contact.emails == nil || Enum.empty?(@practitioner_facility.practitioner_facility_contacts.contact.emails) do %>
+              <%= else %>
+              <%= for email <- @practitioner_facility.practitioner_facility_contacts.contact.emails do %>
+                <p><%= email.address %></p>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <%# Contacts end %>
+        <%# Rates start %>
+        <h4 class="ui dividing header">Rates</h4>
+        <div class="ui grid centered container">
+          <div class="sixteen wide computer sixteen wide tablet column">
+            <h5 class="ui dividing header">Inpatient</h5>
+            <div class="ui grid centered container">
+              <div class="four wide computer four wide tablet column">
+                <b>Coordinator</b>
+              </div>
+              <div class="four wide computer four wide tablet column">
+                <%= case @practitioner_facility.coordinator do %>
+                  <%= true -> %>
+                    <%= "Yes" %>
+                    <% _ -> %>
+                      <%= "No" %>
+                    <% end %>
+              </div>
+              <div class="four wide computer four wide tablet column">
+                <b>Coordinator Fee</b>
+              </div>
+              <div class="four wide computer four wide tablet column">
+                <%= if @practitioner_facility.fixed == true do %>
+                  <%= @practitioner_facility.fixed_fee %>
+                <% else %>
+                  <table class="ui celled table">
+                    <thead>
+                      <tr>
+                        <th>Room Type</th>
+                        <th>Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%= for pf_room <- @practitioner_facility.practitioner_facility_rooms do %>
+                        <tr>
+                          <td>
+                            <%= pf_room.facility_room.facility_room_type %>
+                          </td>
+                          <td>
+                            <%= pf_room.rate %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="sixteen wide computer sixteen wide tablet column">
+            <h5 class="ui dividing header">Consultation</h5>
+          </div>
+          <div class="ui grid centered container">
+            <div class="four wide computer four wide tablet column">
+              <b>Consultation Fee</b>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <table class="ui very basic striped selectable table practitioner_cf_table">
+                <thead>
+                  <tr>
+                    <th>Specialization</th>
+                    <th>Fees</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for ps <- Enum.sort_by(@practitioner.practitioner_specializations, &(&1.specialization.name)) do %>
+                    <tr>
+                      <td>
+                        <%= ps.specialization.name %>
+                      </td>
+                      <td>
+                        <span class="cf_specialization"><%= check_cf_fee(@practitioner_facility, ps.id) %></span>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <b>Coordinator Fee</b>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <%= @practitioner_facility.coordinator_fee %>
+            </div>
+          </div>
+          <div class="sixteen wide computer sixteen wide tablet column">
+            <h5 class="ui dividing header">CP Clearance</h5>
+            <div class="ui grid centered container">
+              <div class="four wide computer four wide tablet column">
+                <b>CP Clearance</b>
+              </div>
+              <div class="four wide computer four wide tablet column">
+                <%= if not is_nil(@practitioner_facility.cp_clearance) do @practitioner_facility.cp_clearance.text end %>
+              </div>
+              <div class="four wide computer four wide tablet column">
+                <b>CP Clearance Rate</b>
+              </div>
+              <div class="four wide computer four wide tablet column">
+                <%= @practitioner_facility.cp_clearance_rate %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%# Rates end %>
+        <%# Schedule start %>
+        <h4 class="ui dividing header">Schedule</h4>
+        <div class="ui grid centered container">
+          <div class="four wide computer four wide tablet column">
+            <b>Day</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <b>Room</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <b>Time From</b>
+          </div>
+          <div class="four wide computer four wide tablet column">
+            <b>Time To</b>
+          </div>
+          <%= for schedule <- @practitioner_facility.practitioner_schedules do %>
+            <div class="four wide computer four wide tablet column">
+              <p><%= schedule.day %></p>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <p><%= schedule.room %></p>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <p><%= schedule.time_from %></p>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <p><%= schedule.time_to %></p>
+            </div>
+          <% end %>
+        </div>
+        <%# Schedule end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

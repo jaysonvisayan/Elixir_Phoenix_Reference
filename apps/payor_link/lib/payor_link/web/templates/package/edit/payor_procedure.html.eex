@@ -1,0 +1,46 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Packages</h2>
+  <div class="ui small breadcrumb">
+    <a href="/packages" class="section">Packages</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages/<%= @package.id %>?active=procedures" class="section">View Package</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit <%= @package.code %> </div>
+  </div>
+</div>
+
+<div id="package_payor_procedure" class="ui equal width left aligned padded grid stackable" name="Step2PackageValidation">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment" id="Step2Package">
+          <div class="ui two item menu">
+            <a href="/packages/<%= @package.id %>/edit?tab=general" class="item">General</a>
+            <a class="active item">Procedure</a>
+          </div>
+           <%= render "edit/payor_procedure_form.html",
+           package: @package,
+           packages: @packages,
+           package_payor_procedures: @package_payor_procedures,
+           payor_procedures: @payor_procedures,
+           conn: @conn, action:
+           package_path(@conn, :create)
+           %>
+           <%= render "edit/payor_procedure_modal.html",
+           package: @package,
+           changeset: @changeset,
+           payor_procedures: @payor_procedures,
+           all_package_payor_procedures: @all_package_payor_procedures,
+           conn: @conn,
+           action: package_path(@conn, :update_edit_setup, @package, tab: "payor_procedure") %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

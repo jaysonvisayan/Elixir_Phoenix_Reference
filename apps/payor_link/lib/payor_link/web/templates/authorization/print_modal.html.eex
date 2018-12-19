@@ -1,0 +1,29 @@
+<div class="ui tiny modal" id="print_modal">
+  <input type="hidden" id="copy">
+  <div class="header">
+    <div class="row">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          print loa
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="ui grid">
+        <div class="three wide column"></div>
+        <div class="thirteen wide column">
+            please select a file to print
+        </div>
+        <div class="three wide column"></div>
+        <div class="six wide column">
+          <button type="button" class="ui blue button" id="otp_original_button">original copy</button>
+        </div>
+        <div class="six wide column">
+          <button type="button" class="ui blue button" id="otp_duplicate_button">duplicate copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="main-wrapper single_peme">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li>PEME</li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Single" %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <%= render "tab.html", tab: "request_loa", member: @member %>
+              <p><%= gettext "Request" %> PEME.</p>
+
+              <div id="request_loa">
+                <%= form_for @changeset, peme_path(@conn, :update_request_loa, @locale, @member), [class: "ui form", multipart: :true, id: "singlePemeForm"], fn f -> %>
+                  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "PEME Date (Up to 7 days from today)" %></label>
+                      <div class="ui calendar" id="pemedate">
+                        <div class="ui input right icon">
+                          <i class="calendar icon"></i>
+                          <%= text_input f, :peme_date, placeholder: "Select date of birth", "data-validate": "peme_date" %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Select Package" %></label>
+                      <%= select f, :package_id, [], class: "ui fluid dropdown", id: "package_dd", prompt: "Select Package" %>
+                    </div>
+                  </div>
+
+                  <div class="package-list" style="display: none">
+                    <span id="procedure_list"><%= gettext "Procedures included for" %>
+                      <span id="package_name"></span><span id="procedure_record" class="bold ml-2"></span>
+                    </span>
+                  </div>
+
+                  <div class="peme-general-info" style="display: none">
+                    <div class="section-title mt-4"><%= gettext "General" %></div>
+                    <table class="full-width ui celled table">
+                      <tbody>
+                        <tr>
+                          <td class="data-label"><%= gettext "Facility" %></td>
+                          <td id="facility_name"></td>
+                          <td class="data-label"><%= gettext "Birth Date"%></td>
+                          <td><%= @member.birthdate %></td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "Candidate" %></td>
+                          <td><%= load_name(@member) %></td>
+                          <td class="data-label"><%= gettext "Age" %></td>
+                          <td><%= DateTime.utc_now.year - @member.birthdate.year %></td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "Card No." %></td>
+                          <td><%= @member.card_no %></td>
+                          <td class="data-label"><%= gettext "Gender" %></td>
+                          <td><%= @member.gender %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="ui divider mt-4"></div>
+
+                  <div class="text-center">
+                    <button class="ui button mt-2" type="submit"><%= gettext "Proceed" %></button>
+                  </div>
+                <% end %>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

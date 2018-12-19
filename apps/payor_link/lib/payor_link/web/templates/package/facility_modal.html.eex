@@ -1,0 +1,45 @@
+<div class="ui modal" id="add_package_facility_form">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Facility
+  </div>
+  <p role ="append_procedure"></p>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :package, class: "ui form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="field">
+    <%= label f, :facility_id, "Facility Name" %>
+      <div class="field">
+        <%= select f, :facility_id, map_facilities(@package, @facilities), prompt: "" %>
+        <%= error_tag f, :facility_id %>
+      </div>
+    </div>
+    <div class="disabled field" width="40%">
+      <%= label f, :facility_code, "Facility Code" %>
+      <%= text_input f, :facility_code%>
+      <%= error_tag f, :facility_code %>
+    </div>
+    <div class="field" width="40%">
+      <%= label f, :rate, "Facility Rate" %>
+      <%= text_input f, :rate %>
+      <%= error_tag f, :rate %>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

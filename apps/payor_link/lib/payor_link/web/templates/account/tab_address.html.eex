@@ -1,0 +1,52 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+        <h2 class="ui header">Account</h2>
+    </div>
+  </div>
+  <div class="ui small breadcrumb">
+    <a href="/accounts" class="section">Account</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Search</div>
+    <i class="right chevron icon divider"></i>
+    <div class="active section"><%= @account_group.code%></div>
+    <i class="right chevron icon divider"></i>
+    <a href="/accounts/<%= @account_group.id %>/versions" class="section">Versions</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">
+      <%= Enum.join([
+          @account.major_version,
+          @account.minor_version,
+          @account.build_version], ".") %>
+    </div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+
+          <%= render "show_account.html", account: @account, account_group: @account_group %>
+
+          <div class="ui top attached tabular menu">
+            <a class="item" data-tab="general" href="/accounts/<%= @account.id %>/edit?step=1">General</a>
+            <a class="active item" data-tab="address" href="/accounts/<%= @account.id %>/edit?step=2">Address</a>
+            <a class="item" data-tab="contact" href="/accounts/<%= @account.id %>/edit?step=3">Contact</a>
+            <a class="item" data-tab="financial" href="/accounts/<%= @account.id %>/edit?step=4">Financial</a>
+            <a class="item" data-tab="product" href="/accounts/<%= @account.id %>/edit?step=5">Plan</a>
+          </div>
+          <div class="active ui bottom attached tab segment" data-tab="address">
+          <%=
+            render "form_address.html",
+            changeset: @changeset,
+            account: @account,
+            conn: @conn,
+            billing: @billing,
+            action: account_path(@conn, :update_setup, @account, step: 2) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,19 @@
+<!-- <div class="ui main container">
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <h1 class="ui huge header text-center">Welcome to InnerPeace</h1>
+            <div class="ui divider"></div>                            
+        </div>
+    </div>
+  </div> -->
+
+<div class="page-title">
+  <div class="ui clearing segment" style="text-align: center">
+    <div class="ui container">
+      <h1 class="ui header">
+        Welcome to Innerpeace!
+        <div class="clearfix"></div>
+      </h1>
+    </div>
+  </div>
+</div>

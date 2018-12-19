@@ -1,0 +1,369 @@
+<div class="row ui form" id="dental_summary_form">
+  <div class="column" id="step">
+    <br>
+    <!-- GENERAL -->
+    <h4 class="ui dividing header">GENERAL</h4>
+    <div class="ui grid container">
+      <!-- part 1-->
+      <div class="sixteen wide computer eight wide tablet column">
+        <div class="ui grid">
+          <div class="three wide computer six wide tablet column">
+            <strong>Plan Code</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= @product.code %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide computer six wide tablet column">
+            <strong> Plan Name</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= @product.name %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide computer six wide tablet column">
+            <strong>Plan Description</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= @product.description %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide computer six wide tablet column">
+            <strong>Plan Classification</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= if @product.standard_product == "Yes", do: "Standard Plan", else: "Custom Plan" %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide computer six wide tablet column">
+            <strong>Plan Applicability</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= get_plan_applicability(@product.limit_applicability) %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide computer six wide tablet column">
+            <strong>Dental Plan Limit</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column" id="limit_amount">
+            <span>PHP </span><span role="mask-decimal"><%= @product.limit_amount %></span>
+          </div>
+        </div>
+        <%= if @product.limit_applicability == "Share with Dependents" do %>
+          <div class="ui grid">
+            <div class="three wide computer six wide tablet column">
+              <strong>Dental Plan Shared Limit</strong>
+            </div>
+            <div class="eight wide computer six wide tablet column">
+              <%= @product.shared_limit_amount  %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- End of General -->
+
+    <!-- Start of Benefits-->
+
+    <h4 class="ui dividing header">BENEFITS</h4>
+    <div class="sixteen wide computer sixteen wide tablet column">
+    </div><br><br>
+    <div class="ui grid container">
+      <table class="full-width ui celled striped table" id="product_dental_benefit_index">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>No. of CDT</th>
+            <th>Limit Type</th>
+            <th>Limit Value</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div><br><br>
+
+    <!-- End of Benefits-->
+
+    <!-- Start of Facilities -->
+
+    <%= if @product.product_coverages == [] do %>
+      <h2>No facility selected.</h2>
+    <% else %>
+      <h4 class="ui dividing header">FACILITIES</h4>
+      <div class="ui grid container">
+        <%= for product_coverage <- Enum.sort(@product.product_coverages) do %>
+          <div class="sixteen wide computer eight wide tablet column facility-coverage">
+            <div class="ui grid">
+              <div class="three wide computer three wide tablet column">
+                <strong>Type</strong>
+              </div>
+              <div class="eight wide column twelve tablet column">
+                <%= case product_coverage.type  do %>
+                  <% "inclusion" -> %>
+                    <%= "Specific Dental Facilities" %>
+                  <% "exception" -> %>
+                    <%= "Specific Dental Group" %>
+                  <% _ -> %>
+                    <%= "Plan Coverage Type is null" %>
+                <% end %>
+              </div>
+            </div>
+            <%= if product_coverage.type == "exception" do %>
+              <div class="ui grid">
+                <div class="three wide computer three wide tablet column">
+                  <strong>Dental Group Name</strong>
+                </div>
+                <div class="eight wide column twelve tablet column">
+                  <%= get_dental_location_group(product_coverage, nil) %>
+                </div>
+              </div>
+            <% end %>
+            <%= if not Enum.empty?(product_coverage.product_coverage_facilities) do %>
+              <div class="ui grid facility-coverage-table-div">
+                <div class="three wide computer two wide tablet column">
+                  <strong>
+                    <%= case product_coverage.type  do %>
+                      <% "inclusion" -> %>
+                        <%= "Included Facilities" %>
+                      <% "exception" -> %>
+                        <%= "Exempted Facilities" %>
+                      <% _ -> %>
+                        <%= "Plan Coverage Type is null" %>
+                    <% end %>
+                  </strong>
+                </div>
+                <div class="thirtheen wide thirteen wide tablet column">
+                </div>
+              </div>
+              <table class="full-width ui celled striped table" id="product_dental_facility_index">
+                <thead>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <%= if product_coverage.type == "exception" do %>
+                    <th>Location Group</th>
+                  <% end %>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            <% end %>
+          </div>
+          <div class="sixteen wide computer sixteen wide tablet column"></div>
+          <div class="sixteen wide computer sixteen wide tablet column dental-risk-share-facility-div">
+            <div class="ui grid">
+              <div class="sixteen wide computer three wide tablet column">
+                <h5 class="ui dividing header">RISK SHARE</h5>
+              </div>
+              <div class="sixteen wide computer three wide tablet column dental-risk-share" drsType="<%= get_dental_risk_share_type(product_coverage.product_coverage_dental_risk_share) %>">
+                <div class="ui grid">
+                  <div class="one wide computer six wide tablet column"></div>
+                  <div class="three wide computer six wide tablet column">
+                    <strong>All Selected Facilities</strong>
+                  </div>
+                  <div class="eight wide computer six wide tablet column"></div>
+                </div>
+                <div class="ui grid">
+                  <div class="two wide computer six wide tablet column"></div>
+                  <div class="three wide computer six wide tablet column">
+                    <strong>Risk Share Type</strong>
+                  </div>
+                  <div class="eight wide computer six wide tablet column">
+                    <%= get_dental_risk_share_type(product_coverage.product_coverage_dental_risk_share) %>
+                  </div>
+                </div>
+                <div class="ui grid">
+                  <div class="two wide computer six wide tablet column"></div>
+                  <div class="three wide computer six wide tablet column">
+                    <strong>Risk Share Value</strong>
+                  </div>
+                  <div class="eight wide computer six wide tablet column">
+                    <span role="mask-decimal"><%= get_dental_risk_share_value(product_coverage.product_coverage_dental_risk_share) %>
+                    </span>
+                  </div>
+                </div>
+                <%= if not is_nil(product_coverage.product_coverage_dental_risk_share) do %>
+                  <%= if not is_nil(product_coverage.product_coverage_dental_risk_share.asdf_special_handling) do %>
+                  <div class="ui grid">
+                    <div class="two wide computer six wide tablet column"></div>
+                    <div class="three wide computer six wide tablet column">
+                      <strong>Special Handling</strong>
+                    </div>
+                    <div class="eight wide computer six wide tablet column">
+                      <%= get_dental_risk_share_sh(product_coverage.product_coverage_dental_risk_share) %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+              </div>
+              <div class="sixteen wide computer three wide tablet column dental-risk-share-facility" pcdrVal="<%= get_dental_risk_share_type(product_coverage.product_coverage_dental_risk_share) %>">
+                <div class="ui grid">
+                  <div class="five wide computer six wide tablet column">
+                    <strong>Specific Facilities</strong>
+                  </div>
+                </div>
+                <div class="ui grid">
+                  <div class="sixteen wide computer six wide tablet column">
+                    <table class="full-width ui celled striped table" id="product_dental_risk_share_index">
+                      <thead>
+                        <tr>
+                          <th>Facility Code</th>
+                          <th>Facility Name</th>
+                          <th>Risk Share Type</th>
+                          <th>Risk Share Amount</th>
+                          <th>Special Handling</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%= if is_nil(product_coverage.product_coverage_dental_risk_share) do %>
+                          <td colspan=5>
+                            NO RECORDS FOUND
+                          </td>
+                        <% else %>
+                          <%= for pcdrsf <- product_coverage.product_coverage_dental_risk_share.product_coverage_dental_risk_share_facilities do %>
+                            <tr class="dental-risk-share-facility-tr" drsfType="<%= pcdrsf.sdf_type %>">
+                              <td>
+                                <%= pcdrsf.facility.code %>
+                              </td>
+                              <td><strong>
+                                  <%= pcdrsf.facility.name %>
+                                </strong>
+                              </td>
+                              <td>
+                                <%= get_dental_risk_share_facility_type(pcdrsf) %>
+                              </td>
+                              <td>
+                                <span role="mask-decimal"><%= get_dental_risk_share_facility_value(pcdrsf) %>
+                              </td>
+                              <td>
+                                <%= if not is_nil(pcdrsf.sdf_special_handling) do %>
+                                  <%= pcdrsf.sdf_special_handling %>
+                                <% else %>
+                                  N/A
+                                <% end %>
+                              </td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div><br><br>
+    <% end %>
+    <!-- End of Facilities -->
+
+    <!-- Start of Condition -->
+    <h4 class="ui dividing header">CONDITIONS</h4>
+    <div class="ui grid container">
+      <div class="row">
+        <div class="sixteen wide computer eight wide tablet column">
+          <h5 class="ui dividing header">AUTHORIZATION</h5>
+        </div>
+      </div>
+
+      <div class="sixteen wide computer eight wide tablet column">
+        <div class="ui grid">
+          <div class="one wide computer six wide tablet column"></div>
+          <div class="three wide computer six wide tablet column">
+            <strong>Mode of Payment</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= get_mode_of_payment(@product) %>
+          </div>
+        </div>
+        <%= if @product.mode_of_payment == "capitation" do %>
+          <div class="ui grid">
+            <div class="one wide computer six wide tablet column"></div>
+            <div class="three wide computer six wide tablet column">
+              <strong>Capitation Fee</strong>
+            </div>
+            <div class="eight wide computer six wide tablet column">
+              <span>PHP </span><span role="mask-decimal"><%= @product.capitation_fee %>
+            </div>
+          </div>
+        <% end %>
+        <div class="ui grid">
+          <div class="one wide computer six wide tablet column"></div>
+          <div class="three wide computer six wide tablet column">
+            <strong> LOA Validity</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= get_loa_validity(@product) %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="one wide computer six wide tablet column"></div>
+          <div class="three wide computer six wide tablet column">
+            <strong>Special Handling</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= @product.special_handling_type %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start of payment funding arrangement -->
+      <div class="row">
+        <div class="sixteen wide computer eight wide tablet column">
+          <h5 class="ui dividing header">PAYMENT</h5>
+        </div>
+      </div>
+
+      <div class="sixteen wide computer eight wide tablet column">
+        <div class="ui grid">
+          <div class="one wide computer six wide tablet column"></div>
+          <div class="three wide computer six wide tablet column">
+            <strong>Funding Arrangement</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= @product.dental_funding_arrangement %>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="one wide computer six wide tablet column"></div>
+          <div class="three wide computer six wide tablet column">
+            <strong>Type of Payment</strong>
+          </div>
+          <div class="eight wide computer six wide tablet column">
+            <%= @product.type_of_payment_type %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End of Condition -->
+
+  </div> <!-- end column -->
+
+  <div class="ui middle aligned  right aligned grid mrg1T">
+    <div class="right floated right aligned six wide column">
+      <a href="/web/products/<%= @product.id %>/setup?step=3" class="ui basic button large">
+        <i class="caret left icon"></i>
+        Back
+      </a>
+      <a href="/web/products/<%= @product.id %>/save_dental_plan" productID="<%= @product.id %>" class="ui green primary button large">
+        Create Plan
+        <i class="caret right icon white"></i>
+      </a>
+    </div>
+  </div>
+</div> <!-- end row -->
+<%= render "dental_complete_question_modal.html", product: @product %>
+
+<%= if @modal_result == true do %>
+<input type="hidden" id="show_confirmation_result">
+<% end %>
+<input type="hidden" value="<%= @product.id %>" id="product_id">

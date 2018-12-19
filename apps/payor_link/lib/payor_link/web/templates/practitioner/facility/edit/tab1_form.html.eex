@@ -1,0 +1,138 @@
+<div class="row">
+  <div class="sixteen wide column" name="pf-formValidate">
+    <%= form_for @changeset, @action, [as: :practitioner_facility, multipart: true, class: "ui form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+
+      <%# <h4 class="ui dividing header">Please enter you personal details</h4> %>
+      <div class="field">
+        <label for="practitioner_facility_types">Practitioner Type</label>
+      </div>
+      <div class="two inline fields">
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox">
+              <input type="checkbox", name="practitioner_facility[types][]" id="practitioner_facility_types" value="Primary Care" 
+              <%= if !is_nil(@conn.assigns[:practitioner_facility]) do %>
+                <%= if is_nil(Enum.find(@practitioner_facility.practitioner_facility_practitioner_types, fn pfpt -> pfpt.type == "Primary Care" end)) == false do %>checked
+                <% end %>
+              <% end %>>
+              <label for="practitioner_facility_type" class="coloring green">Primary Care</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox">
+              <input type="checkbox", name="practitioner_facility[types][]" id="practitioner_facility_types" value="Specialist"
+              <%= if !is_nil(@conn.assigns[:practitioner_facility]) do %>
+                <%= if is_nil(Enum.find(@practitioner_facility.practitioner_facility_practitioner_types, fn pfpt -> pfpt.type == "Specialist" end)) == false do %>checked
+                <% end %>
+              <% end %>>
+              <label for="practitioner_facility_type" class="coloring green">Specialist</label>
+            </div>
+          </div>
+        </div>
+        <%= error_tag f, :types %>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label for="practitioner_facility_facility_id">Facility</label>
+            <%= select f, :facility_id, Enum.map(@facilities, &{&1.name, &1.id}), prompt: "" %>
+          <p style="color: red"><%= error_tag f, :facility_id %></p>
+        </div>
+        <div class="field">
+          <label for="practitioner_facility_pstatus_id">Status</label>
+          <div class="ui dropdown selection" tabindex="0">
+            <%= select f, :pstatus_id, Enum.map(@statuses, &{&1.text, &1.id}), prompt: "Status" %>
+            <i class="dropdown icon"></i>
+            <div class="default text">Status</div>
+            <div class="menu" tabindex="-1">
+              <%= for status <- @statuses do %>
+                <div class="item" data-value="<%= status.id %>"><%= status.text %></div>
+              <% end %>
+            </div>
+          </div>
+          <p style="color: red"><%= error_tag f, :pstatus_id %></p>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field" role="pf-datepicker">
+          <label for="practitioner_facility_affiliation_date">Affiliation Date <i class="gray">(Optional)</i></label>
+          <div class="ui calendar" id="pf_affiliation_date">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <%= text_input f, :affiliation_date, placeholder: "Affiliation_date", role: "mask", class: "date", value: ""%>
+              <%= if is_nil(@conn.assigns[:practitioner_facility]) do %>
+                <%= hidden_input f, :hidden_ad, value: "" %>
+              <% else %>
+                <%= hidden_input f, :hidden_ad, value: @practitioner_facility.affiliation_date %>
+              <% end %>
+            </div>
+          </div>
+          <p style="color:red"><%= error_tag f, :affiliation_date %></p>
+        </div>
+        <div class="field">
+          <label for="practitioner_facility_disaffiliation_date">Disaffiliation Date <i class="gray">(Optional)</i></label>
+          <div class="ui calendar" id="pf_disaffiliation_date">
+            <div class="ui input right icon">
+              <i class="calendar icon"></i>
+              <%= text_input f, :disaffiliation_date, placeholder: "Disaffiliation_date", role: "mask", class: "date", value: "" %>
+              <%= if is_nil(@conn.assigns[:practitioner_facility]) do %>
+                <%= hidden_input f, :hidden_dd, value: "" %>
+              <% else %>
+                <%= hidden_input f, :hidden_dd, value: @practitioner_facility.disaffiliation_date %>
+              <% end %>
+            </div>
+          </div>
+          <p style="color:red"><%= error_tag f, :disaffiliation_date %></p>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="two fields">
+        <div class="field">
+          <label for="practitioner_facility_payment_mode">Mode of Payment</label>
+          <div class="two fields pt_gender">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :payment_mode, "Umbrella", checked: "checked" %>
+                <label class="coloring green">Umbrella</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <%= radio_button f, :payment_mode, "Individual" %>
+                <label class="coloring green">Individual</label>
+              </div>
+            </div>
+          </div>
+          <%= error_tag f, :payment_mode %>
+        </div>
+        <div class="field">
+          <label for="practitioner_facility_credit_term">Credit Term <i class="gray">(Optional)</i></label>
+          <div class="ui right labeled input">
+            <%= number_input f, :credit_term, placeholder: "Credit Term" %>
+            <div class="ui basic label">day/s</div>
+          </div>
+          <%= error_tag f, :credit_term %>
+        </div>
+      </div>
+      <%= hidden_input f, :id %>
+  </div>
+</div><!--row-->
+<div class="row">
+    <div class="eight wide column">
+    </div>
+    <div class="eight wide right aligned column">
+      <a href="/practitioners/<%=@practitioner.id%>?active=affiliation" class="ui basic button">Cancel</a>
+      <button type="submit" class="ui primary button">Save Changes</button>
+    </div>
+</div>
+<% end %>
+

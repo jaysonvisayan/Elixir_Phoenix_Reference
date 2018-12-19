@@ -1,0 +1,20 @@
+<div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h1 class="ui huge header">Pharmacy</h1>
+      <div class="ui breadcrumb">
+        <a href="/pharmacies" class="section">Search</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section">Edit Medicine</div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui form segment">
+        <%= render "form_edit.html",
+            changeset: @changeset,
+            conn: @conn,
+            action: pharmacy_path(@conn, :update, @pharmacy)
+          %>
+      </div>
+     </div>
+   </div>
+ </div>

@@ -1,0 +1,39 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Facility Group
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/web/facility_groups">FACILITY GROUP</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">SEARCH</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <br>
+        <a href="/web/facility_groups/new" style="position:fixed;margin-top:45px;margin-left:-200px"class="ui primary button mt-1-small"><i class="small white add icon"></i>Facility Group</a>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br><br>
+<div class="ui main container" role="facility_index">
+  <div class="ui grid">
+  <table class="ui very basic striped selectable table" cellspacing="0" width="100%" id="facility_group_index">
+    <thead>
+      <tr>
+        <th>Facility Code</th>
+        <th>Facility Name</th>
+        <th>Facility Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

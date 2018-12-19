@@ -1,0 +1,58 @@
+<div class="ui large modal" id="modalAddPharmacy">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Pharmacy
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        At least one Pharmacy must be added!
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :benefit, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="benefit[pharmacy_ids_main]">
+    <table role="datatable" class="ui stripped table" id="pharmacy_table_modal">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAllPharmacy">
+          </th>
+          <th>Drug Code</th>
+          <th>Generic Name</th>
+          <th>Brand</th>
+          <th>Strength</th>
+          <th>Form</th>
+          <th>Maximum Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for pharmacy <- filter_benefit_pharmacies(@benefit.benefit_pharmacies, @pharmacies) do %>
+          <tr>
+            <td>
+              <input type="checkbox" style="width:20px; height:20px" name="benefit[pharmacy_ids][]" value="<%= pharmacy.id %>" class="selection" />
+            </td>
+            <td><%= pharmacy.drug_code %></td>
+            <td><%= pharmacy.generic_name %></td>
+            <td><%= pharmacy.brand %></td>
+            <td><%= pharmacy.strength %></td>
+            <td><%= pharmacy.form %></td>
+            <td><%= pharmacy.maximum_price %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit" id="addBtn">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

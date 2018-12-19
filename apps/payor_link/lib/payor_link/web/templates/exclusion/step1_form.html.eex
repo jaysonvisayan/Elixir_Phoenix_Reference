@@ -1,0 +1,80 @@
+<div id="exclusion_step">
+<%= case @tab_checker do %>
+  <%= "pre_existing" -> %>
+    <div id="step1_tab" class="ui top attached tabular menu" role="benefits">
+      <a class="item" data-tab="exclusion">
+        <div class="ui grid">
+          <div class="ui exclusion radio checkbox">
+            <input type="radio" name="coverage"  tabindex="0" value="exclusion">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i id="icon_exclusion" class="huge ban icon mrg0R"></i>
+            Exclusion
+          </center>
+        <label>
+      </a>
+      <a class="active item" data-tab="pre_existing">
+        <div class="ui grid">
+          <div class="ui pre_existing radio checkbox">
+        <input type="radio" name="coverage" checked="checked" tabindex="0" value="pre_existing">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i "icon_pre_existing" class="huge paste icon mrg0R"></i>
+            Pre-existing Condition
+          </center>
+        </label>
+      </a>
+      </div>
+    <div class="ui bottom attached segment">
+      <div class="ui tab" data-tab="exclusion">
+        <%= render "step1_exclusion_form.html", changeset: @changeset_exclusion, action: @action, conn: @conn %>
+      </div>
+      <div class="active ui tab" data-tab="pre_existing">
+        <%= render "step1_pre_existing_form.html", changeset: @changeset_pre_existing, action: @action, conn: @conn %>
+      </div>
+    </div>
+  <% _ -> %>
+    <div id="step1_tab" class="ui top attached tabular menu" role="benefits">
+      <a class="active item" data-tab="exclusion">
+        <div class="ui grid">
+          <div class="ui exclusion radio checkbox">
+            <input type="radio" name="coverage" checked="checked" tabindex="0" value="exclusion">
+            <label></label>
+          </div>
+        </div>
+            <label  class="pointer">
+            <i id="icon_exclusion" class="huge ban icon mrg0R"></i>
+            Exclusion
+            <label>
+      </a>
+      <a class="item" data-tab="pre_existing">
+        <div class="ui grid">
+          <div class="ui pre_existing radio checkbox">
+            <input type="radio" name="coverage" tabindex="0" value="pre_existing">
+            <label></label>
+          </div>
+        </div>
+        <label class="pointer">
+          <center>
+            <i id="icon_pre_existing" class="huge paste icon mrg0R"></i>
+            Pre-existing Condition
+          </center>
+        </label>
+      </a>
+    </div>
+    <div class="ui bottom attached segment">
+      <div class="active ui tab" data-tab="exclusion">
+        <%= render "step1_exclusion_form.html", changeset: @changeset_exclusion, action: @action, conn: @conn %>
+      </div>
+      <div class="ui tab" data-tab="pre_existing">
+        <%= render "step1_pre_existing_form.html", changeset: @changeset_pre_existing, action: @action, conn: @conn %>
+      </div>
+    </div>
+<% end %>
+</div>

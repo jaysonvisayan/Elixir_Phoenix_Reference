@@ -1,0 +1,56 @@
+<div class="ui pre-existing large modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Pre-Existing
+  </div>
+  <div class="content">
+    <%= if @changeset_pre_existing.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset_pre_existing, @action, [as: :product, class: "ui form"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="product[pre_existing_ids_main]">
+    <table role="datatable" class="ui stripped table" id="pre">
+      <thead>
+        <tr>
+          <th>
+            <div class="ui checkbox">
+              <input type="checkbox" id="select_pre_ex" value="false"/>
+            </div>
+          </th>
+          <th>Exclusion Code</th>
+          <th>Exclusion Name</th>
+          <th>No. of Diseases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for exclusion <- filter_pre_existing(@product.product_exclusions, @exclusions) do %>
+          <tr>
+            <td>
+              <div class="ui checkbox">
+                  <input type="checkbox" class="input_pre_ex" name="product[exclusion_ids][]" value="<%= exclusion.id %>" />
+              </div>
+            </td>
+            <td> <%= exclusion.code %> </td>
+            <td> <%= exclusion.name %> </td>
+            <td> <%= exclusion.exclusion_diseases %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,2053 @@
+## This file is a PO Template file.
+##
+## `msgid`s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
+##
+## Run `mix gettext.extract` to bring this file up to
+## date. Leave `msgstr`s empty as changing them here as no
+## effect: edit them in PO (`.po`) files instead.
+msgid ""
+msgstr ""
+
+#: lib/account_link_web/templates/layout/auth.html.eex:15
+msgid "Easily manage your members in your account on Maxicare."
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:37
+msgid "Login"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/auth.html.eex:14
+msgid "Manage your account in Maxicare."
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:18
+#: lib/account_link_web/templates/session/sign_in.html.eex:14
+#: lib/account_link_web/templates/user/register.html.eex:60
+msgid "Password"
+msgstr ""
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:9
+#: lib/account_link_web/templates/session/sign_in.html.eex:10
+#: lib/account_link_web/templates/user/register.html.eex:54
+msgid "Username"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:5
+#: lib/account_link_web/templates/account/finance.html.eex:224
+#: lib/account_link_web/templates/account/product.html.eex:5
+#: lib/account_link_web/templates/account/product_summary.html.eex:5
+#: lib/account_link_web/templates/account/profile.html.eex:5
+#: lib/account_link_web/templates/layout/app.html.eex:67
+msgid "Account"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:122
+#: lib/account_link_web/templates/member/import_index.html.eex:5
+msgid "Batch Processing"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:99
+#: lib/account_link_web/templates/member/enroll_1.html.eex:5
+#: lib/account_link_web/templates/member/enroll_2.html.eex:5
+#: lib/account_link_web/templates/member/enroll_3.html.eex:5
+#: lib/account_link_web/templates/member/enroll_4.html.eex:5
+#: lib/account_link_web/templates/member/index.html.eex:11
+#: lib/account_link_web/templates/member/show.html.eex:5
+msgid "Member"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:20
+msgid "accountgateway"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:72
+#: lib/account_link_web/templates/member/show.html.eex:432
+#: lib/account_link_web/templates/member/show.html.eex:435
+msgid "Product"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:71
+msgid "Profile"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:5
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:182
+msgid "Approval"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:157
+msgid "Batch"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:152
+msgid "PEME"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:209
+msgid "Report"
+msgstr ""
+
+#: lib/account_link_web/templates/layout/app.html.eex:156
+#: lib/account_link_web/templates/peme/new.html.eex:6
+#: lib/account_link_web/templates/peme/step2.html.eex:6
+#: lib/account_link_web/templates/peme/step3.html.eex:6
+#: lib/account_link_web/templates/peme/summary.html.eex:6
+msgid "Single"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:6
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:7
+#: lib/account_link_web/templates/layout/app.html.eex:185
+msgid "Special"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:51
+msgid "Active"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:22
+#: lib/account_link_web/templates/member/index.html.eex:28
+msgid "Advanced Search"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:219
+#: lib/account_link_web/templates/member/index.html.eex:221
+#: lib/account_link_web/templates/member/index.html.eex:226
+#: lib/account_link_web/templates/member/index.html.eex:342
+#: lib/account_link_web/templates/member/index.html.eex:424
+#: lib/account_link_web/templates/member/index.html.eex:506
+#: lib/account_link_web/templates/member/index.html.eex:588
+#: lib/account_link_web/templates/member/index.html.eex:600
+#: lib/account_link_web/templates/member/index.html.eex:691
+#: lib/account_link_web/templates/member/index.html.eex:703
+#: lib/account_link_web/templates/member/index.html.eex:794
+#: lib/account_link_web/templates/member/index.html.eex:806
+#: lib/account_link_web/templates/member/show.html.eex:626
+#: lib/account_link_web/templates/session/forgot_password.html.eex:37
+#: lib/account_link_web/templates/session/resend_code.html.eex:35
+#: lib/account_link_web/templates/session/reset_password.html.eex:54
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:46
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:49
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:46
+msgid "Cancel"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:63
+msgid "Cancelled"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:108
+#: lib/account_link_web/templates/member/show.html.eex:544
+msgid "Card Number"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:149
+#: lib/account_link_web/templates/member/index.html.eex:84
+msgid "Dependent"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:382
+#: lib/account_link_web/templates/member/index.html.eex:34
+msgid "Enroll"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:155
+#: lib/account_link_web/templates/member/index.html.eex:90
+msgid "Guardian"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:4
+#: lib/account_link_web/templates/account/product.html.eex:4
+#: lib/account_link_web/templates/account/product_summary.html.eex:4
+#: lib/account_link_web/templates/account/profile.html.eex:4
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:4
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:5
+#: lib/account_link_web/templates/member/enroll_1.html.eex:4
+#: lib/account_link_web/templates/member/enroll_2.html.eex:4
+#: lib/account_link_web/templates/member/enroll_3.html.eex:4
+#: lib/account_link_web/templates/member/enroll_4.html.eex:4
+#: lib/account_link_web/templates/member/import_index.html.eex:4
+#: lib/account_link_web/templates/member/index.html.eex:10
+#: lib/account_link_web/templates/member/show.html.eex:4
+#: lib/account_link_web/templates/peme/new.html.eex:4
+#: lib/account_link_web/templates/peme/step2.html.eex:4
+#: lib/account_link_web/templates/peme/step3.html.eex:4
+#: lib/account_link_web/templates/peme/summary.html.eex:4
+msgid "Home"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:69
+msgid "Lapsed"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:186
+#: lib/account_link_web/templates/member/index.html.eex:106
+#: lib/account_link_web/templates/member/show.html.eex:542
+msgid "Member ID"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:74
+msgid "Member Type:"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:130
+#: lib/account_link_web/templates/member/index.html.eex:145
+msgid "Request LOA"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:41
+#: lib/account_link_web/templates/member/index.html.eex:38
+msgid "Search only the selected members:"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:73
+#: lib/account_link_web/templates/member/index.html.eex:110
+#: lib/account_link_web/templates/member/index.html.eex:288
+#: lib/account_link_web/templates/member/index.html.eex:370
+#: lib/account_link_web/templates/member/index.html.eex:452
+#: lib/account_link_web/templates/member/index.html.eex:534
+#: lib/account_link_web/templates/member/index.html.eex:637
+#: lib/account_link_web/templates/member/index.html.eex:740
+msgid "Status"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:41
+msgid "Status:"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:176
+#: lib/account_link_web/templates/member/index.html.eex:181
+msgid "Suspend"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:57
+msgid "Suspended"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:109
+msgid "Type"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:149
+msgid "View Log"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:198
+#: lib/account_link_web/templates/member/index.html.eex:203
+msgid "Reactivate"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:314
+#: lib/account_link_web/templates/member/index.html.eex:560
+msgid "Cancel Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:274
+#: lib/account_link_web/templates/member/index.html.eex:520
+msgid "Cancel Member"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:296
+#: lib/account_link_web/templates/member/index.html.eex:378
+#: lib/account_link_web/templates/member/index.html.eex:460
+#: lib/account_link_web/templates/member/index.html.eex:542
+#: lib/account_link_web/templates/member/index.html.eex:645
+#: lib/account_link_web/templates/member/index.html.eex:748
+msgid "Current Effective Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:305
+#: lib/account_link_web/templates/member/index.html.eex:387
+#: lib/account_link_web/templates/member/index.html.eex:469
+#: lib/account_link_web/templates/member/index.html.eex:551
+#: lib/account_link_web/templates/member/index.html.eex:654
+#: lib/account_link_web/templates/member/index.html.eex:757
+msgid "Current Expiry Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:251
+msgid "Member Activity Log"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:325
+#: lib/account_link_web/templates/member/index.html.eex:407
+#: lib/account_link_web/templates/member/index.html.eex:489
+#: lib/account_link_web/templates/member/index.html.eex:571
+#: lib/account_link_web/templates/member/index.html.eex:674
+#: lib/account_link_web/templates/member/index.html.eex:777
+msgid "Reason"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:335
+#: lib/account_link_web/templates/member/index.html.eex:417
+#: lib/account_link_web/templates/member/index.html.eex:499
+#: lib/account_link_web/templates/member/index.html.eex:581
+#: lib/account_link_web/templates/member/index.html.eex:684
+#: lib/account_link_web/templates/member/index.html.eex:787
+msgid "Remarks"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:478
+#: lib/account_link_web/templates/member/index.html.eex:766
+msgid "Reactivate Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:438
+#: lib/account_link_web/templates/member/index.html.eex:726
+msgid "Reactivate Member"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:346
+#: lib/account_link_web/templates/member/index.html.eex:428
+#: lib/account_link_web/templates/member/index.html.eex:510
+#: lib/account_link_web/templates/session/reset_password.html.eex:57
+msgid "Submit"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:396
+#: lib/account_link_web/templates/member/index.html.eex:663
+msgid "Suspend Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:356
+#: lib/account_link_web/templates/member/index.html.eex:623
+msgid "Suspend Member"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:868
+#: lib/account_link_web/templates/member/index.html.eex:929
+msgid "Authenticate"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:858
+msgid "CVV (3 digit number at the back of member's card)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:611
+msgid "Cancel Cancellation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:817
+msgid "Cancel Reactivation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:714
+msgid "Cancel Suspension"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:840
+msgid "Card Number (16 digit number at the front of member's card)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:594
+#: lib/account_link_web/templates/member/index.html.eex:697
+#: lib/account_link_web/templates/member/index.html.eex:800
+msgid "Edit"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:838
+msgid "Enter 16-digit card number"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:829
+msgid "Member Authentication"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:863
+msgid "Member doesn't have a card now?"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:864
+msgid "Try another method"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:607
+#: lib/account_link_web/templates/member/index.html.eex:710
+#: lib/account_link_web/templates/member/index.html.eex:813
+msgid "Update"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:80
+msgid "Batch No."
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:32
+#: lib/account_link_web/templates/member/import_index.html.eex:59
+#: lib/account_link_web/templates/member/import_index.html.eex:156
+msgid "Cancellation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:87
+msgid "Date Finished"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:86
+msgid "Date Uploaded"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:102
+#: lib/account_link_web/templates/member/import_index.html.eex:105
+#: lib/account_link_web/templates/member/import_index.html.eex:111
+#: lib/account_link_web/templates/member/import_index.html.eex:114
+msgid "Download"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:85
+msgid "Failed"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:81
+msgid "File Name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:34
+#: lib/account_link_web/templates/member/import_index.html.eex:53
+#: lib/account_link_web/templates/member/import_index.html.eex:158
+msgid "Reactivation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:154
+msgid "Select the file upload type"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:84
+msgid "Successful"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:33
+#: lib/account_link_web/templates/member/import_index.html.eex:47
+#: lib/account_link_web/templates/member/import_index.html.eex:157
+msgid "Suspension"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:83
+msgid "Total Members"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:163
+msgid "Upload"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:37
+#: lib/account_link_web/templates/member/import_index.html.eex:140
+msgid "Upload File"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:82
+#: lib/account_link_web/templates/member/import_index.html.eex:152
+msgid "Upload Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:104
+msgid "Account Address"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:119
+#: lib/account_link_web/templates/account/profile.html.eex:160
+msgid "Address 1"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:123
+#: lib/account_link_web/templates/account/profile.html.eex:164
+msgid "Address 2"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:127
+#: lib/account_link_web/templates/account/profile.html.eex:168
+#: lib/account_link_web/templates/member/enroll_3.html.eex:155
+#: lib/account_link_web/templates/member/enroll_4.html.eex:331
+msgid "City / Municipality"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:48
+msgid "Company Id, Company Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:69
+msgid "Company Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:210
+msgid "Designation"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:52
+msgid "Industry"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:212
+msgid "Mobile No."
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:30
+#: lib/account_link_web/templates/account/profile.html.eex:208
+#: lib/account_link_web/templates/member/enroll_1.html.eex:201
+#: lib/account_link_web/templates/member/enroll_2.html.eex:112
+#: lib/account_link_web/templates/member/enroll_2.html.eex:184
+#: lib/account_link_web/templates/member/show.html.eex:445
+#: lib/account_link_web/templates/member/show.html.eex:500
+#: lib/account_link_web/templates/member/show.html.eex:543
+#: lib/account_link_web/templates/member/show.html.eex:595
+#: lib/account_link_web/templates/peme/new.html.eex:57
+#: lib/account_link_web/templates/peme/summary.html.eex:24
+#: lib/account_link_web/templates/user/register.html.eex:11
+msgid "Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:211
+msgid "Phone No."
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:159
+#: lib/account_link_web/templates/account/finance.html.eex:200
+#: lib/account_link_web/templates/account/profile.html.eex:143
+#: lib/account_link_web/templates/account/profile.html.eex:184
+#: lib/account_link_web/templates/member/enroll_3.html.eex:136
+#: lib/account_link_web/templates/member/enroll_4.html.eex:351
+#: lib/account_link_web/templates/peme/step2.html.eex:53
+msgid "Postal Code"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:147
+#: lib/account_link_web/templates/account/finance.html.eex:188
+#: lib/account_link_web/templates/account/profile.html.eex:131
+#: lib/account_link_web/templates/account/profile.html.eex:172
+#: lib/account_link_web/templates/member/enroll_3.html.eex:161
+#: lib/account_link_web/templates/member/enroll_4.html.eex:285
+#: lib/account_link_web/templates/member/show.html.eex:337
+#: lib/account_link_web/templates/peme/step2.html.eex:77
+msgid "Province"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:151
+#: lib/account_link_web/templates/account/finance.html.eex:192
+#: lib/account_link_web/templates/account/product_summary.html.eex:232
+#: lib/account_link_web/templates/account/profile.html.eex:135
+#: lib/account_link_web/templates/account/profile.html.eex:176
+#: lib/account_link_web/templates/member/enroll_3.html.eex:165
+#: lib/account_link_web/templates/member/enroll_4.html.eex:341
+#: lib/account_link_web/templates/member/show.html.eex:409
+#: lib/account_link_web/templates/peme/step2.html.eex:81
+msgid "Region"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:56
+msgid "Version"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:136
+#: lib/account_link_web/templates/peme/new.html.eex:119
+msgid "Account Information"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:249
+#: lib/account_link_web/templates/member/enroll_4.html.eex:127
+#: lib/account_link_web/templates/member/show.html.eex:210
+#: lib/account_link_web/templates/peme/new.html.eex:114
+msgid "Civil Status"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:260
+#: lib/account_link_web/templates/member/show.html.eex:262
+msgid "Date Hired"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:237
+#: lib/account_link_web/templates/member/enroll_4.html.eex:123
+#: lib/account_link_web/templates/member/index.html.eex:886
+#: lib/account_link_web/templates/peme/new.html.eex:86
+msgid "Date of Birth"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:256
+#: lib/account_link_web/templates/member/enroll_1.html.eex:257
+msgid "Employee Number"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:6
+#: lib/account_link_web/templates/member/enroll_2.html.eex:6
+#: lib/account_link_web/templates/member/enroll_3.html.eex:6
+#: lib/account_link_web/templates/member/enroll_4.html.eex:6
+msgid "Enroll New Member"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:190
+#: lib/account_link_web/templates/member/show.html.eex:57
+#: lib/account_link_web/templates/peme/new.html.eex:132
+msgid "Expiry Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:231
+#: lib/account_link_web/templates/peme/new.html.eex:108
+#: lib/account_link_web/templates/user/register.html.eex:39
+msgid "Female"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:337
+msgid "For Card Issuance?"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:220
+#: lib/account_link_web/templates/member/enroll_4.html.eex:121
+#: lib/account_link_web/templates/member/show.html.eex:200
+#: lib/account_link_web/templates/member/show.html.eex:514
+#: lib/account_link_web/templates/peme/new.html.eex:97
+#: lib/account_link_web/templates/peme/step3.html.eex:62
+#: lib/account_link_web/templates/peme/summary.html.eex:55
+#: lib/account_link_web/templates/user/register.html.eex:28
+msgid "Gender"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:17
+#: lib/account_link_web/templates/member/enroll_1.html.eex:33
+#: lib/account_link_web/templates/member/enroll_2.html.eex:32
+#: lib/account_link_web/templates/member/enroll_3.html.eex:33
+#: lib/account_link_web/templates/member/enroll_4.html.eex:34
+#: lib/account_link_web/templates/member/show.html.eex:131
+#: lib/account_link_web/templates/peme/step3.html.eex:44
+#: lib/account_link_web/templates/peme/tab.html.eex:18
+msgid "General"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:225
+#: lib/account_link_web/templates/peme/new.html.eex:102
+#: lib/account_link_web/templates/user/register.html.eex:33
+msgid "Male"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:57
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:70
+#: lib/account_link_web/templates/member/enroll_1.html.eex:138
+#: lib/account_link_web/templates/member/enroll_4.html.eex:182
+msgid "Member Type"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:273
+msgid "Member already a regular employee?"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:386
+#: lib/account_link_web/templates/member/enroll_2.html.eex:154
+#: lib/account_link_web/templates/member/enroll_2.html.eex:159
+#: lib/account_link_web/templates/member/enroll_3.html.eex:178
+#: lib/account_link_web/templates/peme/new.html.eex:155
+#: lib/account_link_web/templates/peme/step2.html.eex:94
+msgid "Next"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:284
+#: lib/account_link_web/templates/member/enroll_1.html.eex:348
+msgid "No"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:320
+msgid "Not Covered"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:314
+msgid "Optional to file"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:96
+#: lib/account_link_web/templates/member/show.html.eex:194
+#: lib/account_link_web/templates/peme/new.html.eex:19
+msgid "Personal Information"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:303
+msgid "PhilHealth"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:326
+#: lib/account_link_web/templates/member/enroll_1.html.eex:327
+#: lib/account_link_web/templates/peme/new.html.eex:143
+msgid "PhilHealth Number"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:161
+msgid "Principal ID - Name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:51
+#: lib/account_link_web/templates/member/enroll_2.html.eex:50
+#: lib/account_link_web/templates/member/enroll_2.html.eex:98
+#: lib/account_link_web/templates/member/enroll_3.html.eex:51
+#: lib/account_link_web/templates/member/enroll_4.html.eex:52
+#: lib/account_link_web/templates/member/show.html.eex:149
+msgid "Products"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:290
+#: lib/account_link_web/templates/member/enroll_4.html.eex:166
+#: lib/account_link_web/templates/member/show.html.eex:272
+msgid "Regularization Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:173
+#: lib/account_link_web/templates/member/show.html.eex:545
+msgid "Relationship"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:308
+msgid "Required to file"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:90
+#: lib/account_link_web/templates/member/enroll_2.html.eex:89
+#: lib/account_link_web/templates/member/enroll_3.html.eex:90
+#: lib/account_link_web/templates/member/enroll_4.html.eex:91
+msgid "Summary"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:333
+msgid "Tax Identification Number (TIN)"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/new.html.eex:79
+msgid "Upload Profile Picture"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:113
+#: lib/account_link_web/templates/peme/new.html.eex:75
+msgid "Upload a Photo"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:278
+#: lib/account_link_web/templates/member/enroll_1.html.eex:342
+msgid "Yes"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:223
+#: lib/account_link_web/templates/member/show.html.eex:630
+msgid "Add"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:170
+msgid "Add Products"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:111
+#: lib/account_link_web/templates/member/enroll_2.html.eex:183
+#: lib/account_link_web/templates/member/show.html.eex:444
+#: lib/account_link_web/templates/member/show.html.eex:594
+msgid "Code"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:116
+#: lib/account_link_web/templates/member/show.html.eex:449
+msgid "Delete"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:51
+#: lib/account_link_web/templates/account/product_summary.html.eex:60
+#: lib/account_link_web/templates/member/enroll_2.html.eex:115
+#: lib/account_link_web/templates/member/enroll_2.html.eex:187
+#: lib/account_link_web/templates/member/show.html.eex:448
+#: lib/account_link_web/templates/member/show.html.eex:598
+msgid "Limit Amount"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:47
+#: lib/account_link_web/templates/account/product_summary.html.eex:34
+#: lib/account_link_web/templates/member/enroll_2.html.eex:114
+#: lib/account_link_web/templates/member/enroll_2.html.eex:186
+#: lib/account_link_web/templates/member/show.html.eex:447
+#: lib/account_link_web/templates/member/show.html.eex:597
+msgid "Limit Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:43
+#: lib/account_link_web/templates/member/enroll_2.html.eex:113
+#: lib/account_link_web/templates/member/enroll_2.html.eex:185
+#: lib/account_link_web/templates/member/show.html.eex:446
+#: lib/account_link_web/templates/member/show.html.eex:596
+msgid "No. of Benefits"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:96
+msgid "Please select the products."
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:151
+#: lib/account_link_web/templates/member/enroll_3.html.eex:177
+#: lib/account_link_web/templates/member/enroll_4.html.eex:381
+#: lib/account_link_web/templates/peme/step2.html.eex:93
+msgid "Previous"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_2.html.eex:110
+#: lib/account_link_web/templates/member/show.html.eex:443
+msgid "Tier"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:145
+#: lib/account_link_web/templates/member/enroll_4.html.eex:255
+#: lib/account_link_web/templates/member/show.html.eex:389
+#: lib/account_link_web/templates/peme/step2.html.eex:62
+msgid "Building Name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:107
+#: lib/account_link_web/templates/member/enroll_4.html.eex:301
+#: lib/account_link_web/templates/member/show.html.eex:359
+msgid "Email Address 2"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:127
+#: lib/account_link_web/templates/member/show.html.eex:379
+#: lib/account_link_web/templates/peme/step2.html.eex:47
+msgid "Fax Number"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:113
+#: lib/account_link_web/templates/member/enroll_4.html.eex:241
+#: lib/account_link_web/templates/member/show.html.eex:297
+msgid "Mobile Phone 1"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:117
+#: lib/account_link_web/templates/member/enroll_4.html.eex:311
+#: lib/account_link_web/templates/member/show.html.eex:369
+msgid "Mobile Phone 2"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:95
+#: lib/account_link_web/templates/peme/step2.html.eex:19
+msgid "Please fill the contact information."
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:150
+#: lib/account_link_web/templates/member/enroll_4.html.eex:275
+#: lib/account_link_web/templates/member/show.html.eex:327
+#: lib/account_link_web/templates/peme/step2.html.eex:67
+msgid "Street Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:42
+#: lib/account_link_web/templates/member/enroll_3.html.eex:123
+#: lib/account_link_web/templates/peme/step2.html.eex:43
+msgid "Telephone"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:140
+msgid "Unit Number / Floor"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:144
+msgid "Account Code"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:190
+msgid "Coverage End Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:158
+msgid "Coverage Start Date"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:30
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:71
+#: lib/account_link_web/templates/member/enroll_4.html.eex:214
+#: lib/account_link_web/templates/member/show.html.eex:242
+msgid "Employee No."
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:321
+msgid "Fax No."
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:245
+msgid "Home No."
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:194
+#: lib/account_link_web/templates/member/show.html.eex:230
+msgid "PhilHealth No."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:25
+#: lib/account_link_web/templates/account/product_summary.html.eex:26
+#: lib/account_link_web/templates/member/enroll_4.html.eex:162
+msgid "Product Code"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:204
+#: lib/account_link_web/templates/member/show.html.eex:220
+msgid "TIN"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:265
+msgid "Unit No. / Floor"
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_enroll_success.html.eex:18
+msgid "Enrollment Successful!"
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_enroll_success.html.eex:23
+msgid "Ok"
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_enroll_success.html.eex:20
+msgid "has been successfully added to the member list."
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:9
+msgid "Are you sure you want to remove this product?"
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:15
+msgid "No, Keep Product"
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:3
+msgid "Remove Product"
+msgstr ""
+
+#: lib/account_link_web/templates/member/modal_product_remove.html.eex:19
+msgid "Yes, Remove Product"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:65
+#: lib/account_link_web/templates/member/enroll_1.html.eex:181
+#: lib/account_link_web/templates/member/show.html.eex:49
+#: lib/account_link_web/templates/member/show.html.eex:504
+#: lib/account_link_web/templates/peme/new.html.eex:123
+msgid "Effective Date"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/new.html.eex:147
+msgid "Tax Identification Number"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:143
+#: lib/account_link_web/templates/account/finance.html.eex:184
+#: lib/account_link_web/templates/peme/step2.html.eex:71
+msgid "City"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:155
+#: lib/account_link_web/templates/account/finance.html.eex:196
+#: lib/account_link_web/templates/account/profile.html.eex:139
+#: lib/account_link_web/templates/account/profile.html.eex:180
+#: lib/account_link_web/templates/member/enroll_3.html.eex:170
+#: lib/account_link_web/templates/member/enroll_4.html.eex:361
+#: lib/account_link_web/templates/member/show.html.eex:347
+#: lib/account_link_web/templates/peme/step2.html.eex:86
+msgid "Country"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:213
+#: lib/account_link_web/templates/member/enroll_3.html.eex:103
+#: lib/account_link_web/templates/member/enroll_4.html.eex:237
+#: lib/account_link_web/templates/member/show.html.eex:287
+#: lib/account_link_web/templates/peme/step2.html.eex:23
+#: lib/account_link_web/templates/peme/step2.html.eex:27
+#: lib/account_link_web/templates/user/register.html.eex:72
+msgid "Email Address"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step2.html.eex:57
+msgid "Floor"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step2.html.eex:33
+#: lib/account_link_web/templates/peme/step2.html.eex:37
+msgid "Mobile Phone"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:143
+#: lib/account_link_web/templates/account/finance.html.eex:184
+#: lib/account_link_web/templates/peme/step2.html.eex:71
+msgid "Municipality"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step2.html.eex:57
+msgid "Unit Number"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:23
+msgid "PEME Date (Up to 7 days from today)"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:17
+#: lib/account_link_web/templates/peme/tab.html.eex:57
+msgid "Request"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:32
+msgid "Select Package"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:56
+#: lib/account_link_web/templates/peme/summary.html.eex:51
+msgid "Age"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:50
+#: lib/account_link_web/templates/peme/summary.html.eex:47
+msgid "Birth Date"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:54
+#: lib/account_link_web/templates/peme/summary.html.eex:33
+msgid "Candidate"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:26
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:69
+#: lib/account_link_web/templates/peme/step3.html.eex:60
+#: lib/account_link_web/templates/peme/summary.html.eex:37
+msgid "Card No."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:207
+#: lib/account_link_web/templates/peme/step3.html.eex:48
+msgid "Facility"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:38
+#: lib/account_link_web/templates/peme/summary.html.eex:80
+msgid "Procedures included for"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/step3.html.eex:72
+msgid "Proceed"
+msgstr ""
+
+#: lib/account_link_web/templates/account/profile.html.eex:198
+#: lib/account_link_web/templates/member/enroll_1.html.eex:69
+#: lib/account_link_web/templates/member/enroll_2.html.eex:68
+#: lib/account_link_web/templates/member/enroll_3.html.eex:69
+#: lib/account_link_web/templates/member/enroll_4.html.eex:70
+#: lib/account_link_web/templates/peme/tab.html.eex:36
+msgid "Contact"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:24
+msgid "All"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:44
+msgid "Amount"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:8
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:25
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:85
+msgid "Approved"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:392
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:34
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:43
+msgid "Coverage"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:61
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:42
+msgid "Date Requested"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:29
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:94
+#: lib/account_link_web/templates/member/index.html.eex:33
+msgid "Export"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:41
+#: lib/account_link_web/templates/member/enroll_1.html.eex:99
+#: lib/account_link_web/templates/member/index.html.eex:878
+msgid "Member Information"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:59
+#: lib/account_link_web/templates/member/index.html.eex:107
+#: lib/account_link_web/templates/member/index.html.eex:282
+#: lib/account_link_web/templates/member/index.html.eex:364
+#: lib/account_link_web/templates/member/index.html.eex:446
+#: lib/account_link_web/templates/member/index.html.eex:528
+#: lib/account_link_web/templates/member/index.html.eex:631
+#: lib/account_link_web/templates/member/index.html.eex:734
+msgid "Member Name"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:10
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:26
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:87
+#: lib/account_link_web/templates/member/index.html.eex:45
+msgid "Pending"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:22
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:58
+msgid "Reference No."
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:12
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:27
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:89
+msgid "Rejected"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:69
+msgid "Date"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:17
+msgid "Details"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:28
+msgid "Faculty"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:73
+msgid "Package"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:99
+msgid "Print"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:93
+msgid "Send Email"
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:88
+msgid "You can send this information to candidate via email, sms or print copy."
+msgstr ""
+
+#: lib/account_link_web/templates/peme/summary.html.eex:96
+#: lib/account_link_web/templates/session/forgot_password.html.eex:40
+msgid "Send"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:95
+#: lib/account_link_web/templates/member/index.html.eex:152
+#: lib/account_link_web/templates/member/index.html.eex:154
+msgid "View Details"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:141
+msgid "Approve Request"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:81
+msgid "Assessed Amounts"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:105
+msgid "Company pays"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:96
+msgid "Maxicare pays"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_details.html.eex:7
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:5
+msgid "Member Details"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:44
+msgid "Member No."
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:87
+msgid "Member pays"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:129
+msgid "Reason for Rejection"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:137
+msgid "Reject Request"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:117
+msgid "Total"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:135
+#: lib/account_link_web/templates/account/finance.html.eex:139
+#: lib/account_link_web/templates/account/finance.html.eex:176
+#: lib/account_link_web/templates/account/finance.html.eex:180
+msgid "Address"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:256
+msgid "Attached Point"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:293
+msgid "Bank Account No."
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:283
+msgid "Bank Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:124
+msgid "Billing Address"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:303
+msgid "Branch"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:38
+#: lib/account_link_web/templates/account/profile.html.eex:209
+msgid "Contact Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:90
+#: lib/account_link_web/templates/account/finance.html.eex:102
+msgid "Date Issued"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:236
+msgid "Dependent Schedule of Payment"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:34
+msgid "Desination"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:76
+#: lib/account_link_web/templates/session/forgot_password.html.eex:19
+#: lib/account_link_web/templates/session/resend_code.html.eex:18
+msgid "Email"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:62
+msgid "Fax"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:6
+#: lib/account_link_web/templates/layout/app.html.eex:73
+msgid "Finance"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:52
+msgid "Mobile"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:266
+msgid "Mode of Payment"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:98
+msgid "Passport No."
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:272
+msgid "Payee Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:94
+#: lib/account_link_web/templates/account/finance.html.eex:106
+msgid "Place Issued"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:240
+msgid "Previous Carrier"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:232
+msgid "Principal Schedule of Payment"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:17
+msgid "Signatory Title"
+msgstr ""
+
+#: lib/account_link_web/templates/account/finance.html.eex:228
+msgid "VAT Status"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:34
+msgid "Custom"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:55
+msgid "No. of Members"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:29
+msgid "Product Classification"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:39
+#: lib/account_link_web/templates/account/product_summary.html.eex:56
+msgid "Product Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:32
+msgid "Standard"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product.html.eex:20
+msgid "View"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:431
+msgid "Accredited Facilities"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:303
+msgid "Adult Dependents"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:286
+msgid "Age Eligibility"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:212
+msgid "All Affiliated Facility"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:337
+msgid "Annual Deduction"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:77
+msgid "Benefit"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:86
+msgid "Benefit Code"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:87
+msgid "Benefit Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:233
+msgid "Category"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:280
+msgid "Condition"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:454
+#: lib/account_link_web/templates/account/product_summary.html.eex:495
+#: lib/account_link_web/templates/account/product_summary.html.eex:537
+#: lib/account_link_web/templates/account/product_summary.html.eex:571
+msgid "Covered After Risk Share"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:325
+msgid "Deduction"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:115
+msgid "Exclusion"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:125
+#: lib/account_link_web/templates/account/product_summary.html.eex:155
+msgid "Exclusion Code"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:126
+#: lib/account_link_web/templates/account/product_summary.html.eex:156
+msgid "Exclusion Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:509
+msgid "Exempted Facilities"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:543
+msgid "Exempted Procedures"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:186
+msgid "Facility Access"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:229
+#: lib/account_link_web/templates/account/product_summary.html.eex:515
+msgid "Facility Code"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:230
+#: lib/account_link_web/templates/account/product_summary.html.eex:519
+msgid "Facility Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:231
+msgid "Facility Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:387
+#: lib/account_link_web/templates/account/product_summary.html.eex:393
+#: lib/account_link_web/templates/member/show.html.eex:65
+msgid "Funding Arrangement"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:121
+msgid "General Exclusion"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:38
+msgid "Limit Applicability"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:293
+msgid "Max Age"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:292
+msgid "Min Age"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:308
+msgid "Minor Dependents"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:331
+msgid "Network Benefits"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:94
+msgid "No benefit is selected for this product."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:193
+msgid "No coverage is selected for this product."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:240
+msgid "No facility is selected."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:135
+msgid "No general exclusion is selected for this product."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:164
+msgid "No pre-existing condition is selected for this product."
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:127
+#: lib/account_link_web/templates/account/product_summary.html.eex:157
+msgid "No. of Diseases"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:128
+msgid "No. of Procedures"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:332
+msgid "Non Network Benefits"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:472
+msgid "Non-Accredited Facilities"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:342
+msgid "Out of Pocket Maximum"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:313
+msgid "Overage Dependents"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:151
+msgid "Pre-Existing Condition"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:298
+#: lib/account_link_web/templates/member/enroll_1.html.eex:143
+#: lib/account_link_web/templates/member/index.html.eex:78
+msgid "Principal"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:549
+msgid "Procedure Code"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:553
+msgid "Procedure Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:30
+msgid "Product Description"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:52
+msgid "Product Name"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:477
+msgid "Reimbursable"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:413
+#: lib/account_link_web/templates/account/product_summary.html.eex:436
+#: lib/account_link_web/templates/account/product_summary.html.eex:481
+#: lib/account_link_web/templates/account/product_summary.html.eex:523
+#: lib/account_link_web/templates/account/product_summary.html.eex:557
+msgid "Risk Share"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:367
+msgid "Room Limit Amount"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:366
+msgid "Room Type"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:368
+msgid "Room Upgrade"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:365
+msgid "Room and Board"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:353
+msgid "Room and board"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:210
+msgid "Specific Facility"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:42
+msgid "Standard Product"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:440
+#: lib/account_link_web/templates/account/product_summary.html.eex:485
+#: lib/account_link_web/templates/account/product_summary.html.eex:527
+#: lib/account_link_web/templates/account/product_summary.html.eex:561
+msgid "Value"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:223
+msgid "Exception"
+msgstr ""
+
+#: lib/account_link_web/templates/account/product_summary.html.eex:221
+msgid "Inclusion"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:581
+msgid "Add Product"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:41
+#: lib/account_link_web/templates/member/show.html.eex:518
+msgid "Birthdate"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:399
+msgid "City / Municipal"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:229
+#: lib/account_link_web/templates/member/show.html.eex:281
+msgid "Contact Information"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:189
+msgid "Dependent Members"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:522
+msgid "Employee No"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:88
+msgid "For Cancellation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:98
+msgid "For Reactivation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:78
+msgid "For Suspension"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:307
+msgid "Home Phone"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:496
+msgid "ID"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:252
+msgid "Original Effective Date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:419
+msgid "Postal"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_4.html.eex:148
+msgid "Principal ID"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:169
+#: lib/account_link_web/templates/member/show.html.eex:489
+msgid "Principal Information"
+msgstr ""
+
+#: lib/account_link_web/templates/member/show.html.eex:317
+msgid "Unit No. / Flr"
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:17
+msgid "Enter password"
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:11
+msgid "Enter username"
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:24
+msgid "Chinese"
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:23
+msgid "English"
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:21
+msgid "Select Language"
+msgstr ""
+
+#: lib/account_link_web/templates/session/sign_in.html.eex:15
+msgid "Forgot Password?"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:3
+msgid "Account Information Form"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:33
+#: lib/account_link_web/templates/session/reset_password.html.eex:36
+#: lib/account_link_web/templates/user/register.html.eex:64
+msgid "Confirm Password"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:65
+msgid "Confirm your password"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:51
+msgid "Create a new username and password to continue."
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:48
+msgid "Don't reuse your old password."
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:12
+msgid "Enter a new password for"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:108
+msgid "Enter another Email Address (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:118
+msgid "Enter another mobile number (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:128
+msgid "Enter fax number (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:104
+msgid "Enter the Email Address"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:146
+msgid "Enter the building name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:156
+msgid "Enter the city / municipality"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:114
+msgid "Enter the mobile number"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:137
+msgid "Enter the postal code"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:162
+msgid "Enter the province"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:166
+msgid "Enter the region"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:151
+msgid "Enter the street name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:141
+msgid "Enter the unit number"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:73
+msgid "Enter you email address"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:79
+msgid "Enter your mobile number"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:61
+msgid "Enter your password"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:83
+msgid "Enter your telephone number"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:55
+msgid "Enter your username"
+msgstr ""
+
+#:
+#: lib/account_link_web/templates/approval/approval_special_details_form.html.eex:130
+msgid "Explain the problem, complain or your condition"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:23
+msgid "Ext"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:204
+#: lib/account_link_web/templates/member/enroll_1.html.eex:427
+#: lib/account_link_web/templates/member/enroll_1.html.eex:539
+#: lib/account_link_web/templates/user/register.html.eex:14
+msgid "First Name"
+msgstr ""
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:3
+#: lib/account_link_web/templates/session/resend_code.html.eex:3
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:3
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:3
+msgid "Forgot Password"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:210
+#: lib/account_link_web/templates/member/enroll_1.html.eex:435
+#: lib/account_link_web/templates/member/enroll_1.html.eex:547
+#: lib/account_link_web/templates/user/register.html.eex:20
+msgid "Last Name"
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:3
+msgid "Login Verification"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:45
+msgid "Make your password at least 8 characters long."
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:17
+msgid "Middle Name"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:78
+msgid "Mobile Number"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:15
+msgid "New Password"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:23
+msgid "Password strength"
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:15
+msgid "Please check your email and enter your verification code here."
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:15
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:15
+msgid "Please check your mobile and enter your verification code here."
+msgstr ""
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:14
+#: lib/account_link_web/templates/session/resend_code.html.eex:13
+msgid "Please choose where to send your verification code."
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:69
+msgid "Please enter your email address and phone number so that we can contact you."
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:9
+msgid "Please enter your personal information."
+msgstr ""
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:6
+#: lib/account_link_web/templates/session/resend_code.html.eex:5
+msgid "Please enter your username."
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:4
+msgid "Please fill out the form to complete your sign-up process."
+msgstr ""
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:8
+msgid "Please wait for the approval of Maxicare, a notification will be sent to your email."
+msgstr ""
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:13
+msgid "Proceed to Login"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:117
+msgid "Register"
+msgstr ""
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:12
+msgid "Register another user"
+msgstr ""
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:32
+#: lib/account_link_web/templates/session/resend_code.html.eex:30
+msgid "Registered Email Address"
+msgstr ""
+
+#: lib/account_link_web/templates/session/resend_code.html.eex:38
+msgid "Resend Code"
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:41
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:41
+msgid "Resend Code?"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:3
+msgid "Reset Password"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:46
+msgid "Role"
+msgstr ""
+
+#: lib/account_link_web/templates/session/forgot_password.html.eex:25
+#: lib/account_link_web/templates/session/resend_code.html.eex:24
+msgid "SMS"
+msgstr ""
+
+#: lib/account_link_web/templates/approval/approval_special_index.html.eex:23
+msgid "Select"
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:43
+msgid "Send a new PIN code"
+msgstr ""
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:4
+msgid "Success!"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:334
+msgid "TIN (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:82
+msgid "Telephone Number"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:42
+msgid "Tips for creating a strong password"
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:46
+msgid "Use a mix of letters, numbers, and a special characters(e.g. @, #)."
+msgstr ""
+
+#: lib/account_link_web/templates/session/reset_password.html.eex:47
+msgid "Use both uppercase and lowercase letters."
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:49
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:52
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:49
+msgid "Verify"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:264
+msgid "YYYY-MM-DD"
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:41
+msgid "You can send a new code after 60 seconds"
+msgstr ""
+
+#: lib/account_link_web/templates/user/modal_success.html.eex:7
+msgid "You have successfully registered in AccountLink."
+msgstr ""
+
+#: lib/account_link_web/templates/session/verify_code_email.html.eex:14
+#: lib/account_link_web/templates/session/verify_code_login.html.eex:14
+#: lib/account_link_web/templates/session/verify_code_sms.html.eex:14
+msgid "Your verification code was sent to"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:298
+#: lib/account_link_web/templates/member/index.html.eex:307
+#: lib/account_link_web/templates/member/index.html.eex:380
+#: lib/account_link_web/templates/member/index.html.eex:389
+#: lib/account_link_web/templates/member/index.html.eex:462
+#: lib/account_link_web/templates/member/index.html.eex:471
+#: lib/account_link_web/templates/member/index.html.eex:544
+#: lib/account_link_web/templates/member/index.html.eex:553
+#: lib/account_link_web/templates/member/index.html.eex:647
+#: lib/account_link_web/templates/member/index.html.eex:656
+#: lib/account_link_web/templates/member/index.html.eex:750
+#: lib/account_link_web/templates/member/index.html.eex:759
+msgid "enter date"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:283
+#: lib/account_link_web/templates/member/index.html.eex:365
+#: lib/account_link_web/templates/member/index.html.eex:447
+#: lib/account_link_web/templates/member/index.html.eex:529
+#: lib/account_link_web/templates/member/index.html.eex:632
+#: lib/account_link_web/templates/member/index.html.eex:735
+msgid "enter name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:327
+#: lib/account_link_web/templates/member/index.html.eex:573
+msgid "please select reason for cancellation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:491
+#: lib/account_link_web/templates/member/index.html.eex:779
+msgid "please select reason for reactivation"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:409
+#: lib/account_link_web/templates/member/index.html.eex:676
+msgid "please select reason for suspension"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:336
+#: lib/account_link_web/templates/member/index.html.eex:418
+#: lib/account_link_web/templates/member/index.html.eex:500
+#: lib/account_link_web/templates/member/index.html.eex:582
+#: lib/account_link_web/templates/member/index.html.eex:685
+#: lib/account_link_web/templates/member/index.html.eex:788
+msgid "remarks"
+msgstr ""
+
+#: lib/account_link_web/templates/user/register.html.eex:47
+msgid "Please select role"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:250
+msgid "Please select Civil Status"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:162
+msgid "Please select Principal ID"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:174
+msgid "Please select Relationship"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:896
+msgid "Full Name"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:901
+msgid "Security Questions"
+msgstr ""
+
+#: lib/account_link_web/templates/member/index.html.eex:902
+msgid "Try Another Question"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_3.html.eex:124
+msgid "Enter the telephone number (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:213
+#: lib/account_link_web/templates/member/enroll_1.html.eex:439
+#: lib/account_link_web/templates/member/enroll_1.html.eex:551
+msgid "Ext (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:207
+#: lib/account_link_web/templates/member/enroll_1.html.eex:431
+#: lib/account_link_web/templates/member/enroll_1.html.eex:543
+msgid "Middle Name (Optional)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:121
+msgid " Browse Photo"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:122
+msgid " Remove"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:128
+msgid "Acceptable file types are jpg, jpeg and png."
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:31
+#: lib/account_link_web/templates/member/import_index.html.eex:65
+#: lib/account_link_web/templates/member/import_index.html.eex:155
+msgid "Corporate"
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:126
+msgid "Maximum file size is 5 MB."
+msgstr ""
+
+#: lib/account_link_web/templates/member/enroll_1.html.eex:169
+msgid "Principal's Product. (Note: This will determine the hierarchy waiver for the dependent's enrollment)"
+msgstr ""
+
+#: lib/account_link_web/templates/member/import_index.html.eex:28
+msgid "Select Template"
+msgstr ""

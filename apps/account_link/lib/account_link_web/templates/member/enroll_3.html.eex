@@ -1,0 +1,163 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Member" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Enroll New Member" %> (<%= @member.id %> - <%= @member.first_name %> <%= @member.middle_name %> <%= @member.last_name %>)</li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <div class="ui small steps fluid mobile-steps">
+                <%= render "link_steps.html", step: @member.step, type: "Contact", member: @member, locale: @locale %>
+              </div>
+
+              <div name="MemberContacts">
+                <p><%= gettext "Please fill the contact information." %></p>
+
+                <div class="ui divider"></div>
+
+                <%= form_for @changeset, member_path(@conn, :update_setup, @locale, @member, step: "3"), [as: :member, class: "ui form"], fn f -> %>
+                  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                  <input type="hidden" id="member_type" value="<%= @member.type %>">
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Email Address" %></label>
+                      <%= text_input f, :email, class: "email", placeholder: gettext "Enter the Email Address (Optional)" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Email Address 2" %></label>
+                      <%= text_input f, :email2, placeholder: gettext "Enter another Email Address (Optional)" %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Mobile Phone 1" %></label>
+                      <div class="fields">
+                        <div class="three wide field">
+                          <%= text_input f, :mcc, value: "+63", maxlength: 4, readonly: true %>
+                        </div>
+                        <div class="thirteen wide field">
+                          <%= text_input f, :mobile, role: "mask", class: "mobile", placeholder: gettext "Enter the mobile number (Optional)" %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Mobile Phone 2" %></label>
+                      <div class="fields">
+                        <div class="three wide field">
+                          <%= text_input f, :mcc2, value: "+63", maxlength: 4, readonly: true %>
+                        </div>
+                        <div class="thirteen wide field">
+                          <%= text_input f, :mobile2, role: "mask", class: "mobile", placeholder: gettext "Enter another mobile number (Optional)" %>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Telephone" %></label>
+                      <div class="fields">
+                        <div class="three wide field">
+                          <%= text_input f, :tcc, value: "+63", maxlength: 4, readonly: true %>
+                        </div>
+                        <div class="three wide field">
+                          <%= text_input f, :tac, maxlength: 5, class: "area_and_local", placeholder: gettext "Area Code" %>
+                        </div>
+                        <div class="seven wide field">
+                          <%= text_input f, :telephone, role: "mask", class: "phone", placeholder: gettext "Enter the telephone number (Optional)" %>
+                        </div>
+                        <div class="three wide field">
+                          <%= text_input f, :tlc, maxlength: 5, class: "area_and_local", placeholder: gettext "Local" %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Fax Number" %></label>
+                      <div class="fields">
+                        <div class="three wide field">
+                          <%= text_input f, :fcc, value: "+63", maxlength: 4, readonly: true %>
+                        </div>
+                        <div class="three wide field">
+                          <%= text_input f, :fac, maxlength: 5, class: "area_and_local", placeholder: gettext "Area Code" %>
+                        </div>
+                        <div class="seven wide field">
+                          <%= text_input f, :fax, role: "mask", class: "phone", placeholder: gettext "Enter fax number (Optional)" %>
+                        </div>
+                        <div class="three wide field">
+                          <%= text_input f, :flc, maxlength: 5, class: "area_and_local", placeholder: gettext "Local" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ui divider"></div>
+
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Postal Code" %></label>
+                      <%= text_input f, :postal, role: "mask", class: "postal", placeholder: gettext "Enter the postal code" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Unit Number / Floor" %></label>
+                      <%= text_input f, :unit_no, placeholder: gettext "Enter the unit number" %>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label-title"><%= gettext "Building Name" %></label>
+                    <%= text_input f, :building_name, maxlength: "150", placeholder: gettext "Enter the building name" %>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Street Name" %></label>
+                      <%= text_input f, :street_name, maxlength: "150", class: "key-up-address", placeholder: gettext "Enter the street name" %>
+
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "City / Municipality" %></label>
+                      <%= text_input f, :city, maxlength: "150", class: "key-up-address",  placeholder: gettext "Enter the city / municipality" %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Province" %></label>
+                      <%= text_input f, :province, maxlength: "150", class: "key-up-address", placeholder: gettext "Enter the province" %>
+                    </div>
+                    <div class="field">
+                      <label class="label-title"><%= gettext "Region" %></label>
+                      <%= text_input f, :region, maxlength: "150", placeholder: gettext "Enter the region" %>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label-title"><%= gettext "Country" %></label>
+                    <%= text_input f, :country, value: "Philippines", readonly: "true" %>
+                  </div>
+
+                  <div class="ui divider mt-4"></div>
+
+                  <div class="sixteen wide computer column mt-4 text-right">
+                    <%= if assigns[:member] && @member.step >= 5 do %>
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/show"><i class="remove icon"></i><%= gettext "Cancel" %></a>
+                      <button class="ui button" type="submit">
+                        <%= gettext "Update" %> <i class="save right icon"></i>
+                      </button>
+                    <%= else %>
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/setup?step=2"><i class="caret left icon"></i><%= gettext "Previous" %></a>
+                      <button class="ui button" type="submit"><%= gettext "Next" %> <i class="caret right icon"></i></button>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

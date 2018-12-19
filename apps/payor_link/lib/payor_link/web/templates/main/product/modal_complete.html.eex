@@ -1,0 +1,21 @@
+<div class="ui tiny modal complete">
+  <i class="close icon"></i>
+  <div class="header text-centered">
+    <div class="header-icon--container text-centered">
+      <i class="icon-success icon"></i>
+    </div>
+    Plan Successfully Created.
+    <div class="description">Benefit Based Plan. PRD 10 2020</div>
+  </div>
+
+  <div class="content">
+
+    <div class="button-label text-centered mb-1">Do you want to create another Plan?</div>
+    <div class="ui grid">
+      <div class="ten wide computer sixteen wide mobile column centered">
+        <button class="ui primary basic button" type="submit">No</button>
+        <button class="ui primary button float-right close" type="submit">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

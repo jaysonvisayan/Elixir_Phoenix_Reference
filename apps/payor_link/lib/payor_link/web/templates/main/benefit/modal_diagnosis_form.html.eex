@@ -1,0 +1,49 @@
+<div class="ui large modal diagnosis">
+    <i class="close icon"></i>
+    <div class="header">Add Diagnosis</div>
+
+    <div class="content pt-0">
+    <div class="ui active inverted dimmer hidden" id="diagnosis_loader">
+      <div class="ui text loader">loading</div>
+    </div>
+        <div class="ui grid form">
+            <div class="sixteen wide column">
+
+                <%# <div style="position: fixed; z-index: 99"> %>
+                <%#     <span>Select By:</span> %>
+                <%#     <br> %>
+                <%#     <div class="ui selection multiple dropdown" id="diagnosis_type_dropdown"> %>
+                <%#         <input name="diagnosis_type_dropdown_val" type="hidden"> %>
+                <%#         <i class="dropdown icon"></i> %>
+                <%#         <div class="default text">Select Type</div> %>
+                <%#         <div class="menu"> %>
+                <%#             <div class="item">Dreaded</div> %>
+                <%#             <div class="item">Non-Dreaded</div> %>
+                <%#         </div> %>
+                <%#     </div> %>
+                <%# </div> %>
+
+                <table class="full width ui celled striped selectable table" id="tbl_add_diagnosis" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="small">
+                              <input type="checkbox" style="width:20px; height:20px" name="select_all_diagnosis" value="false" />
+                            </th>
+                            <th class="small">CDT Code</th>
+                            <th class="small">CDT Description</th>
+                        </tr>
+                    </thead>
+                </table>
+
+
+            </div>
+        </div>
+        <div class="ten wide computer sixteen wide mobile column centered mt-2">
+            <%# <button class=" ui primary basic button close" type="submit" id="btn_cancel_diagnosis">Cancel</button> %>
+            <%# <button class=" send-rtp ui left floated primary button close" type="submit" id="btn_submit_diagnosis"> %>
+            <%#     Add %>
+            <%# </button> %>
+            <%# <br><br> %>
+        </div>
+    </div>
+</div>

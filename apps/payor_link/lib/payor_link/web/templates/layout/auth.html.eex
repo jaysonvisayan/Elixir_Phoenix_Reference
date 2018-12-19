@@ -1,0 +1,55 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PayorLink</title>
+
+    <style>
+      html {
+        display: none;
+      }
+    </style>
+    <script>
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body class="login">
+    <main role="main">
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+info = get_flash(@conn, :info)
+error = get_flash(@conn, :error)
+if error == "Invalid Login! Please try again." || error == "You must be signed in to access that page." do
+  error = false
+end
+%>
+  <%= if info do %>
+    <script type="text/javascript">
+$(function() {
+  alertify.success('<i class="close icon"></i><%= info %>')
+});
+    </script>
+  <% end %>
+  <%= if error do %>
+    <script type="text/javascript">
+$(function() {
+  alertify.error('<i class="close icon"></i><%= error %>')
+});
+    </script>
+  <% end %>

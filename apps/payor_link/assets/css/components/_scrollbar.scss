@@ -1,0 +1,17 @@
+/* =============Scrollbar Ios============ */
+html.ios {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.ios,
+    html.ios body {
+  height: initial !important;
+}
+/* =============Scrollbar Ios============ */
+
+/* =============Hide Scrollbar============= */
+.sidebar::-webkit-scrollbar {
+  display: none !important;
+}
+/* =============Hide Scrollbar============= */

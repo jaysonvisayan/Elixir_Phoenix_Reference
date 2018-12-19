@@ -1,0 +1,8 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Benefits</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/benefits">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Benefit</div>
+  </div>
+</div>

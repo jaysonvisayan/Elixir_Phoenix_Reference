@@ -1,0 +1,107 @@
+<div class="main-wrapper peme" id="peme_generate_evoucher">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "PEME" %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <form action="" class="ui form">
+                <div class="section-control">
+                  <div class="ui grid">
+                    <div style="padding-bottom: 0rem; !important;" class="row">
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                        <h2 style="padding-top: 1rem"><b><%= gettext "Pre- Employment E-voucher" %></b><h2>
+                      </div>
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile right floated column text-right mobile-text-left mobile-pull">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <%= form_for @changeset, peme_path(@conn, :peme_generate_evoucher, @locale), [class: "ui form", multipart: :true, id: "PemeForm"], fn f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <input hidden id="account_id" value="<%= @account.id %>">
+                <input hidden id="account_expiry_date" value="<%= @account.end_date %>">
+                <input hidden id="account_effective_date" value="<%= @account.start_date %>">
+                <div class="section-control">
+                  <div class="ui grid">
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="field">
+                        <label class="label-title"><%= gettext "Package" %></label>
+                        <%= select f, :package_id, filter_packages(@packages), class: "ui dropdown search selection package_class", id: "packageID", prompt: gettext "Please select Package" %>
+                        <%= error_tag f, :package_id %>
+                      </div>
+                      <div class="ui teal message" style="display: none;" id="procedure_list_message"></div>
+                    </div>
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="two fields">
+                        <div class="field">
+                          <label class="label-title"><%= gettext "Medical Examination (PEME) Date From" %></label>
+                          <div class="ui calendar" id="date_from">
+                            <div class="ui input right icon">
+                              <i class="calendar icon"></i>
+                              <%= text_input f, :date_from, id: "peme_input_date_from", class: "peme_date_from form-control", placeholder: "YYYY-MM-DD", "data-validate": "date_from", maxlength: "10" %>
+                            </div>
+                          </div>
+                        </div>
+                        <%= error_tag f, :date_from %>
+                        <div class="field">
+                          <label class="label-title"><%= gettext "Medical Examination (PEME) Date To" %></label>
+                          <div class="ui calendar" id="date_to">
+                            <div class="ui input right icon">
+                              <i class="calendar icon"></i>
+                              <%= text_input f, :date_to, id: "peme_input_date_to", class: "peme_date_to form-control", placeholder: "YYYY-MM-DD", "data-validate": "date_to", maxlength: "10" %>
+                            </div>
+                          </div>
+                        </div>
+                        <%= error_tag f, :date_to %>
+                      </div>
+                    </div>
+                    <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                      <div class="two fields">
+                        <div class="field">
+                          <div class="field">
+                            <label>Select Provider</label>
+                          </div>
+                          <div class="field facility_field">
+                            <%= select f, :facility_id, [], class: "ui dropdown search selection facility_class", style: "max-width: 0rem; !important;", id: "facilityID", prompt: gettext "Please select Provider" %>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="field">
+                            <label>How many E-voucher/s to be generated and printed?</label>
+                          </div>
+                          <div class="inline fields">
+                            <div class="field" id="member_count">
+                              <%= select f, :member_count, 1..50, id: "peme_member_countID", class: "ui fluid dropdown selection", style: "max-width: 0rem; !important;"  %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              <form action="" class="ui form">
+                <div class="ui grid">
+                  <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                    <button type="button" id="submit_generate_evoucher" class="large right floated ui button"><i class="add icon"></i><%= gettext "Generate E- Voucher" %></button>
+                    <a href="/<%= @locale %>/peme" class="large right floated ui button"><%= gettext "Cancel" %></a>
+                  </div>
+                </div>
+              </form>
+              <%= render "modal_send_evoucher.html", conn: @conn, changeset: @changeset, locale: @locale %>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

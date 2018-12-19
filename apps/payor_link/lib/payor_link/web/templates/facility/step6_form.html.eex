@@ -1,0 +1,401 @@
+<%# General start %>
+<h4 class="ui dividing header">General</h4>
+<div class="ui grid centered container">
+  <%# Logo start %>
+  <div class="four wide computer six wide tablet column">
+    <div class="ui centered special cards">
+      <div class="card">
+        <%= if  @conn.assigns[:facility] && is_nil(@facility.logo) == false do %>
+          <img class="ui top aligned medium image" id="photo" src="<%= String.replace(Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @facility.logo, @facility, :original), "/apps/payor_link/assets/static", "") %>">
+        <% else %>
+          <img src="/images/file-upload.png" id="photo" class="ui top aligned medium image">
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%# Logo end %>
+  <div class="twelve wide computer six wide tablet column">
+    <div class="ui grid centered container">
+      <div class="four wide computer six wide tablet column">
+        <b>Facility Code</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.code %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+      </div>
+      <div class="four wide computer six wide tablet column">
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Facility Name</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.name %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>License Name</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.license_name %></b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Facility Type</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+      <%= case @facility.type == nil do %>
+        <%= true -> %>
+          <%= %>
+        <% false -> %>
+          <%= @facility.type.text %>
+        <% end %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Facility Category</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= case @facility.category == nil do %>
+          <%= true -> %>
+            <%= %>
+          <% false -> %>
+            <%= @facility.category.text %>
+        <% end %>
+      </div>
+      <div class="sixteen wide computer six wide tablet column">
+        <b>PHIC Accreditation</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>From</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.phic_accreditation_from %>      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>To</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.phic_accreditation_to %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Philhealth Accreditation Number</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.phic_accreditation_no %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Status</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.status %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Affiliation Date</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.affiliation_date %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Disaffiliation Date</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.disaffiliation_date %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Phone Number</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.phone_no %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Email</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.email_address %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <b>Website</b>
+      </div>
+      <div class="four wide computer six wide tablet column">
+        <%= @facility.website %>
+      </div>
+      <div class="four wide computer six wide tablet column">
+      </div>
+      <div class="four wide computer six wide tablet column">
+      </div>
+    </div>
+  </div>
+</div>
+<%# General end %>
+<%# Address start %>
+<h4 class="ui dividing header">Address</h4>
+<div class="ui grid centered container">
+  <div class="four wide computer six wide tablet column">
+    <b>Address Line 1</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.line_1 %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Address Line 2</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.line_2 %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>City / Municipality</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.city %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Province</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.province %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Region</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.region %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Country</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.country %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Postal Code</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.postal_code %>
+  </div>
+</div>
+<%# Address end %>
+<%# Contact Details start %>
+<h4 class="ui dividing header">Contact Details</h4>
+<div class="ui grid centered container">
+  <div class="two wide computer six wide tablet column">
+    <b>Name</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+    <b>Department</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+    <b>Designation</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+    <b>Telephone No.</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+    <b>Phone No.</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+    <b>Fax No.</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+    <b>Email</b>
+  </div>
+  <div class="two wide computer six wide tablet column">
+  </div>
+  <%= for contact <- @contacts do %>
+    <div class="two wide computer six wide tablet column">
+      <%= name(contact.first_name, contact.last_name, contact.suffix) %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+      <%= contact.department %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+      <%= contact.designation %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+      <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+        <%= else %>
+        <%= for phone <- contact.phones do %>
+          <%= if phone.type == "telephone" do %>
+            <p><%= phone.number %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+      <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+        <%= else %>
+        <%= for phone <- contact.phones do %>
+          <%= if phone.type == "mobile" do %>
+            <p><%= phone.number %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+      <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+        <%= else %>
+        <%= for phone <- contact.phones do %>
+          <%= if phone.type == "fax" do %>
+            <p><%= phone.number %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+      <%= if contact.email == nil || Enum.empty?(contact.emails) do %>
+        <%= else %>
+        <%= for email <- contact.emails do %>
+          <p><%= email.address %></p>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="two wide computer six wide tablet column">
+    </div>
+  <% end %>
+</div>
+<%# Contact Details end %>
+<%# Financial start %>
+<h4 class="ui dividing header">Financial</h4>
+<div class="ui grid centered container">
+  <div class="four wide computer six wide tablet column">
+    <b>TIN</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.tin %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>VAT Status</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= case @facility.vat_status == nil do %>
+      <%= true -> %>
+        <%= %>
+      <% false -> %>
+        <%= @facility.vat_status.text %>
+    <% end %>
+  </div>
+  <div class="sixteen wide computer six wide tablet column">
+    <b>Billings</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Prescription Term</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.prescription_term %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Prescription Clause</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= case @facility.prescription_clause == nil do %>
+      <%= true -> %>
+        <%= %>
+      <% false -> %>
+        <%= @facility.prescription_clause.text %>
+    <% end %>
+  </div>
+  <div class="sixteen wide computer six wide tablet column">
+    <b>Payment</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Credit Term</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.credit_term %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Credit Limit</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.credit_limit %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Mode of Payment</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= case @facility.payment_mode == nil do %>
+      <%= true -> %>
+        <%= %>
+      <% false -> %>
+        <%= @facility.payment_mode.text %>
+    <% end %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Mode of Releasing</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= case @facility.releasing_mode == nil do %>
+      <%= true -> %>
+        <%= %>
+      <% false -> %>
+        <%= @facility.releasing_mode.text %>
+    <% end %>
+  </div>
+  <div class="sixteen wide computer six wide tablet column">
+    <b>Miscellaneous</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>No. of Beds</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.no_of_beds %>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Bond</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <%= @facility.bond %>
+  </div>
+</div>
+<%# Financial end %>
+<%# Service Fee start %>
+<h4 class="ui dividing header">Service Fee</h4>
+<div class="ui grid centered container">
+  <div class="four wide computer six wide tablet column">
+    <b>Coverage</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Mode of Payment</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Service Fee</b>
+  </div>
+  <div class="four wide computer six wide tablet column">
+    <b>Rate</b>
+  </div>
+  <%= for service_fee <- @facility.facility_service_fees do %>
+    <div class="four wide computer six wide tablet column">
+      <b><%= service_fee.coverage.name %></b>
+    </div>
+    <div class="four wide computer six wide tablet column">
+      <b><%= service_fee.payment_mode %></b>
+    </div>
+    <div class="four wide computer six wide tablet column">
+      <b><%= service_fee.service_type.text %></b>
+    </div>
+    <div class="four wide computer six wide tablet column">
+      <b><%= display_service_fee_rate(service_fee) %></b>
+    </div>
+  <% end %>
+</div>
+<%# Service Fee end %>
+<%# Navigation buttons start %>
+<div class = "ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <div class="ui red button" role="delete-facility" facilityId="<%= @facility.id %>">
+      <i class="trash icon"></i>
+      Delete Draft
+    </div>
+  </div>
+  <div class="column eight wide">
+    <a href="/facilities/<%= @facility.id %>/setup?step=5" class="ui button">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <a href="/facilities/<%= @facility.id %>/summary" class="ui blue right floated button">
+      <i class="send icon"></i>
+      Submit
+    </a>
+    <div class="ui blue right floated button" role="facility-print" facilityID="<%= @facility.id %>">
+      <i class="print icon"></i>
+      Print
+    </div>
+  </div>
+</div>
+<%# Navigation buttons end %>

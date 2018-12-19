@@ -1,0 +1,16 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Edit Member
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/members">Member</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section">Edit <%= @member.id %> - <%= @member.first_name %> <%= @member.middle_name %> <%= @member.last_name %></div>
+      </h1>
+  </div>
+</div>
+</div>

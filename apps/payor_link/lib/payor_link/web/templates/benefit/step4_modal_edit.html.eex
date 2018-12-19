@@ -1,0 +1,72 @@
+<div class="ui modal" id="edit_modal">
+  <input type="hidden" id="coverage_list" value="<%= display_coverages_code(@benefit) %>">
+  <input type="hidden" id="coverage_list_name" value="<%= display_coverages(@benefit) %>">
+  <i class="close icon"></i>
+  <div class="header">
+    Update Limit
+  </div>
+  <div class="content">
+    <%= form_for @conn, @action, [as: :benefit, class: "ui form", id: "edit_form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= hidden_input f, :benefit_limit_id %>
+    <div class="field coverages">
+      <div class="ui sub header">Coverages</div>
+      <div class="ui fluid multiple search selection dropdown " id="edit_coverages">
+        <input name="benefit[coverages]" type="hidden" data-validate="edit_coverages">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select Coverages</div>
+        <div class="menu" id="coverage_items">
+        </div>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <%= label f, :limit_type, "Inner Limit Type" %>
+        <%= select f, :limit_type, Enum.sort(["Plan Limit Percentage", "Peso", "Sessions"]), class: "ui dropdown", id: "edit_limit_type", prompt: "Select Limit Type" %>
+        <%= error_tag f, :limit_type %>
+      </div>
+      <div class="field input">
+        <%= label f, :amount %>
+        <div class="ui labeled input">
+          <div class="ui label" id="editLimitAmountIcon">
+            PHP
+          </div>
+          <%= number_input f, :amount, step: "any", "data-validate": "edit_amount", id: "edit_amount" %>
+        </div>
+        <%= error_tag f, :amount %>
+      </div>
+    </div>
+    <div class="three fields">
+      <div class="field">
+        <label>Limit classification</label>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= radio_button(f, :limit_classification, "Per Transaction", checked: "", id: "limitClassificationPT") %>
+          <label>Per Transaction</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <%= radio_button(f, :limit_classification, "Per Coverage Period", id: "limitClassificationPCP") %>
+          <label>Per Coverage Period</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <a class="ui button left floated" id="remove_button">
+      <i class="trash icon"></i>
+      Remove
+    </a>
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="save icon"></i>
+      Save
+    </button>
+    <% end %>
+  </div>
+</div>

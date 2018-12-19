@@ -1,0 +1,55 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Users</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/users/new"><i class="plus icon"></i> Users</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/users" class="section">Users</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Created By</th>
+          <th>Date Created</th>
+          <th>Updated By</th>
+          <th>Date Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for user <- @users do %>
+        <tr>
+          <td><a href="/users/<%= user.id %>"><%= user.username %></a></td>
+          <td><%= user.email %></td>
+          <td>Active</td>
+          <%= if not is_nil(user.created_by) do %>
+            <td> <%=user.created_by.username %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+          <td class="valid_timezone date-only"><%= NaiveDateTime.to_date(user.inserted_at) %></td>
+          <%= if not is_nil(user.updated_by) do %>
+            <td><%= user.updated_by.username %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+          <td class="valid_timezone date-only"><%= NaiveDateTime.to_date(user.updated_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

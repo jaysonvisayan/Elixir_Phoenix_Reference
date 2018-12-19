@@ -1,0 +1,23 @@
+<%= form_for @changeset, @action, [as: :authorization, multipart: true, id: "member_card"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="field" id="member_card">
+    <%= label f, :card_number, "Card Number" %>
+    <%= number_input f, :card_number, maxlength: 16 %>
+    <%= error_tag f, :card_number %>
+  </div>
+  <div class="fields">
+    <div class=" fourteen wide field">
+      <%= label f, :cvv_number, "CVV Number" %>
+      <%= number_input f, :cvv_number, maxlength: 3 %>
+      <%= error_tag f, :cvv_number %>
+    </div>
+    <div class="two wide field">
+      <%= label f, :cvv_number, "CVV Number", style: "color: white" %>
+      <i class="big credit card alternative icon"></i>
+    </div>
+  </div>
+  <button class="ui blue right floated button" type="submit">
+    <i class="checkmark icon"></i>
+    Validate
+  </button>
+<% end %>

@@ -1,0 +1,87 @@
+<div class="main-wrapper">
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <div class="pusher" id="evoucherSelectFacility">
+                <div class="ui container">
+                  <div class="ui grid">
+                    <div class="sixteen wide column">
+                      <%= form_for @changeset, member_path(@conn, :update_evoucher_facility, @locale, @peme.id), [as: :peme, id: "selectFacilityForm", class: "ui form"], fn f -> %>
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                      <%= hidden_input f, :facility_id, value: "" %>
+
+                      <div class="field" id="">
+                        <div class="ui search">
+                          <div class="ui left icon input">
+                            <%= if facility_checker(@facilities, @peme.facility_id) do %>
+                              <% facility = get_facility(@peme.facility_id) %>
+                            <%= text_input f, :code, placeholder: "Select Facility", class: "prompt", value: "#{facility["name"]} | #{facility["line_1"]} #{facility["line_2"]}", disabled: true %>
+                            <% else %>
+                              <%= text_input f, :code, placeholder: "Select Facility", class: "prompt" %>
+                            <% end %>
+                            <i class="search icon"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style="overflow-x: auto !important; white-space: nowrap !important;" class="selectFacility">
+
+                        <input type="hidden" id="original_facility" value="<%= @peme.facility_id %>">
+                        <%= for facility <- Poison.decode!(@facilities) do %>
+                        <div id='<%= facility["id"] %>' class="ui card" style="zoom: 60%; display: inline-block !important;">
+                          <a class="image facility-card" facilityID='<%= facility["id"] %>' long='<%= facility["longitude"] %>' lat='<%= facility["latitude"] %>' code='<%= facility["code"] %>' facility_name='<%= facility["name"] %>' facility_line1='<%= facility["line_1"] %>' facility_line2='<%= facility["line_2"] %>'>
+                            <%= if is_nil(facility["logo"]) do %>
+                              <img id="photo_<%= @peme.facility_id %>" src="/images/no-photo-available.png">
+                            <% else %>
+                              <img id="photo_<%= @peme.facility_id %>" src="">
+                            <% end %>
+                          </a>
+                          <div class="content">
+                            <div class="description"><%= facility["name"] %></div>
+                          </div>
+                        </div>
+                        <% end %>
+                      </div>
+
+                      <%# Start of Map %>
+                      <div class="ui segments" role="pin-select-map">
+                        <div class="ui segment">
+                          <div class="field">
+                            <div class="ui container" id="map" style="height: 500px;">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sixteen wide tablet eight wide computer column" role="hide-map">
+                          <input type="hidden" id="facilities" value="<%= @facilities %>">
+                          <input type="hidden" id="result_facilities" value="">
+                          <input type="hidden" id="member_facilities" value="">
+                          <input type="hidden" id="selected_facilities">
+                        </div>
+                      </div>
+                      <%# End of Map %>
+
+                      <div class="two fields">
+                        <div class="field">
+                          <a href="/<%= @locale %>/peme/<%= @peme.id %>/edit_register_peme" class="fluid ui button">Back</a>
+                        </div>
+                        <div class="field">
+                          <button type="submit" class="fluid ui blue button">Finish</button>
+                        </div>
+                      </div>
+
+                      <% end %>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div><!--column ends here -->
+        </div><!--row ends here -->
+      </div><!-- grid ends here -->
+    </div><!-- container ends here -->
+  </div>
+</div>

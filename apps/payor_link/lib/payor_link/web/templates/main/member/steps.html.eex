@@ -1,0 +1,36 @@
+<div class="ui container">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+
+
+            <div class="<%= check_active_step(@conn, 1) %> step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </div>
+
+            <div class="<%= check_active_step(@conn, 2) %> step">
+              <i class="icon-telephone icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Contact</div>
+              </div>
+            </div>
+
+
+            <div class="<%= check_active_step(@conn, 3) %> step">
+              <i class="icon-product icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Plan</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

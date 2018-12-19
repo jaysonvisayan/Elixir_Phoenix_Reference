@@ -1,0 +1,55 @@
+<div class="ui small modal" role="add-coverage-fund">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Coverage Fund
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :account, class: "ui form", id: "modal_coverage_fund", multipart: :true, method: "post"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+      <%= hidden_input f, :account_id, value: @account.id %>
+
+      <div class="field">
+        <label>Coverage</label>
+        <%= multiple_select f, :coverage_ids, @coverages, class: "ui fluid dropdown", id: "coverage_ids" %>
+      </div>
+      <div class="two fields">
+        <div class="field">
+            <label>Revolving Fund</label>
+            <div class="ui labeled input">
+              <div class="ui label">
+                PHP
+              </div>
+              <%= text_input f, :revolving_fund, placeholder: "Enter Revolving Fund", role: "mask", class: "currency"%>
+            </div>
+          </div>
+        <div class="field">
+            <label>Replenish Threshold</label>
+            <div class="ui labeled input">
+              <div class="ui label">
+                PHP
+              </div>
+            <%= text_input f, :replenish_threshold, placeholder: "Enter Replenish Threshold", role: "mask", class: "currency"%>
+            <p style="color:red"><%= error_tag f, :replenish_threhold %>
+            </div>
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <button type="button" class="ui close white button" name="hide_coverage_fund">
+        Cancel
+      </button>
+      <button type="button" class="ui blue button" name="save_coverage_fund">
+        Add Coverage Fund
+      </button>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+

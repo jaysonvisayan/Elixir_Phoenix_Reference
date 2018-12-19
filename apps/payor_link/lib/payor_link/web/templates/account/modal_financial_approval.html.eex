@@ -1,0 +1,70 @@
+<div class="ui small modal" role="add-approval">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Approver
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :account, class: "ui form", id: "modal_financial", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+      <%= hidden_input f, :account_id, value: @account.id %>
+
+      <div class="field">
+        <label>Name</label>
+        <%= text_input f, :approval_name, placeholder: "Enter Name"%>
+      </div>
+      <div class="two fields">
+        <div class="field">
+            <label>Department</label>
+            <%= text_input f, :approval_department, placeholder: "Enter Department" %>
+        </div>
+        <div class="field">
+            <label>Designation</label>
+            <%= text_input f, :approval_designation, placeholder: "Enter Designation" %>
+            <p style="color:red"><%= error_tag f, :approval_designation %>
+        </div>
+      </div> 
+      <div class="ui divider"></div>
+      <div class="field">
+        <label>Telephone</label>
+        <%= text_input f, :approval_telephone, class: "phone", role: "mask" %>
+        <%= error_tag f, :approval_telephone %>
+      </div>
+
+      <div class="field">
+        <label>Mobile Number</label>
+        <%= text_input f, :approval_mobile, class: "mobile", role: "mask" %>
+        <%= error_tag f, :approval_mobile%>
+      </div>
+
+      <div class="field">
+        <label>Fax Number</label>
+        <%= text_input f, :approval_fax, class: "phone", role: "mask" %>
+        <%= error_tag f, :approval_fax%>
+      </div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <%= email_input f, :approval_email, placeholder: "Enter Email Address"%>
+        <%= error_tag f, :approval_email%>
+      </div>
+
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <button class="ui deny basic button">
+        Cancel
+      </button>
+      <button type="submit" class="ui blue button" name="save_approver">
+        Add Approver
+      </button>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+

@@ -1,0 +1,109 @@
+<div class="pusher">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+
+        <br><br><br>
+
+        <h2 class="ui header">Emergency Contact Card</h2>
+
+        <%= form_for @changeset, member_path(@conn, :save_emergency_contact, @locale), [class: "ui form", as: :member, id: "emergencyContactForm"], fn f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <div class="two fields">
+            <div class="field">
+              <label>Emergency Contact Person</label>
+              <%= text_input f, :ecp_name, placeholder: "" %>
+            </div>
+            <div class="field">
+              <label>Relationship</label>
+              <%= select f, :ecp_relationship, ["Parent", "Sibling", "Child", "Spouse", "Others"], class: "ui dropdown", prompt: "Select Relationship" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Phone Number</label>
+              <%= number_input f, :ecp_phone, maxlength: "11"%>
+            </div>
+            <div class="field">
+              <label>Additional Phone Number</label>
+              <%= number_input f, :ecp_phone2, maxlength: "11" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Email</label>
+              <%= text_input f, :ecp_email, placeholder: "" %>
+            </div>
+          </div>
+
+          <br>
+          <h4 class="ui header">Your Emergency Information</h4>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Blood Type</label>
+              <%= select f, :blood_type, ["O", "A", "B", "AB"], class: "ui dropdown", prompt: "Select Blood Type" %>
+            </div>
+            <div class="field">
+              <label>Allergies</label>
+              <%= text_input f, :allergies, placeholder: "" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Medication</label>
+              <%= text_input f, :medication, placeholder: "" %>
+            </div>
+          </div>
+
+          <br>
+          <h4 class="ui header">Hospital Information</h4>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Hospital Name</label>
+              <%= text_input f, :hospital_name, placeholder: "" %>
+            </div>
+            <div class="field">
+              <label>Telephone</label>
+              <%= text_input f, :hospital_telephone, placeholder: "" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>HMO Name</label>
+              <%= text_input f, :hmo_name, disabled: true, value: "Maxicare" %>
+            </div>
+            <div class="field">
+              <label>Member Name</label>
+              <%= text_input f, :member_name, placeholder: "" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Card Number</label>
+              <%= text_input f, :card_number, disabled: true, value: @user.member.card_no %>
+            </div>
+            <div class="field">
+              <label>Policy Number</label>
+              <%= text_input f, :policy_number, disabled: true, value: @user.member.policy_no %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Customer Care Number</label>
+              <%= text_input f, :customer_care_number, placeholder: "" %>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <button type="submit" class="fluid ui blue button">Save Changes</button>
+            </div>
+          </div>
+       <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

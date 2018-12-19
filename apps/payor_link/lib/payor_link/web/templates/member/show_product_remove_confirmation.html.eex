@@ -1,0 +1,22 @@
+<div class="ui tiny modal" id="product_removal_confirmation">
+  <div class="header">
+    Remove Plan
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_m_id">
+    <input type="hidden" value="" id="confirmation_mp_id">
+    <p>
+    Are you sure you want to remove this Plan?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_p">
+      <i class="remove icon"></i>
+      No, Keep Plan
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_p">
+      <i class="trash icon"></i>
+      Yes, Remove Plan
+    </div>
+  </div>
+</div>

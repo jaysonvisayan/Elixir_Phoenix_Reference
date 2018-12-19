@@ -1,0 +1,19 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Procedures</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/procedures">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add CPT</div>
+  </div>
+</div>
+<div id="procedures_new" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "form_cpt.html", active_payor_procedures: @active_payor_procedures, conn: @conn, payor: @payor, standard_procedures: @standard_procedures, changeset: @changeset, action: procedure_path(@conn, :create_cpt) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

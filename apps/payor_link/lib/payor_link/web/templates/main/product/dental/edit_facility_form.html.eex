@@ -1,0 +1,116 @@
+<% coverage = @product_coverage.coverage.code |> String.downcase() %>
+<% f = @f %>
+
+<div class="ui form coverage_form">
+  <input type="hidden" name="product[coverages][]" value="<%= coverage %>">
+  <div class="bottom-border pb-2 mb-2">
+    <div class="section-title mt-2">
+      <div class="title-name">Facilities</div>
+    </div>
+    <a class="modal-open-facilities ui primary button right floated" coverage="<%= coverage %>" id="<%= coverage %>_add_fa_btn">
+      <i class="white plus icon"></i>
+      Add Facilities
+    </a>
+
+    <div class="three fields">
+      <div class="field">
+        <label class="label-title">Select Facilities </label>
+        <div class="two fields mt-1">
+          <%= if is_nil(@product_coverage.type) do %>
+            <div class="field">
+              <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities" %>
+                <label>All Affilated Facilities</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                <%= radio_button f, :"#{coverage}][type", "Specific Facilities" %>
+                <label>Specific facilities</label>
+              </div>
+            </div>
+          <% else %>
+            <%= cond do %>
+              <%= String.downcase(@product_coverage.type) == "inclusion" -> %>
+                <div class="field">
+                  <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                    <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities", checked: false%>
+                    <label>All Affilated Facilities</label>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                    <%= radio_button f, :"#{coverage}][type", "Specific Facilities", checked: true, value: @product_coverage.type %>
+                    <label>Specific facilities</label>
+                  </div>
+                </div>
+                <%= String.downcase(@product_coverage.type) == "exception" -> %>
+                  <div class="field">
+                    <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                      <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities", checked: true, value: @product_coverage.type %>
+                      <label>All Affilated Facilities</label>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                      <%= radio_button f, :"#{coverage}][type", "Specific Facilities", checked: false %>
+                      <label>Specific facilities</label>
+                    </div>
+                  </div>
+                  <%= true -> %>
+                    <div class="field">
+                      <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                        <%= radio_button f, :"#{coverage}][type", "All Affiliated Facilities" %>
+                        <label>All Affilated Facilities</label>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="ui radio checkbox coverage_type_radio" coverage="<%= coverage %>">
+                        <%= radio_button f, :"#{coverage}][type", "Specific Facilities" %>
+                        <label>Specific facilities</label>
+                      </div>
+                    </div>
+                  <%end%>
+                <% end%>
+        </div>
+        <div class="field">
+          <input type="text" class="hidden" name="<%= coverage%>_is_valid_facility" coverage="<%= coverage %>" id="fa_tbl" value="<%= @product_coverage.id %>">
+        </div>
+      </div>
+    </div>
+
+    <table role="datatable" class="full-width ui celled striped table" id="<%= coverage %>_fa_tbl">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Group</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for pcf <- @product_coverage.product_coverage_facilities do %>
+          <tr>
+            <td> <%= pcf.facility.code %> </td>
+            <td> <%= pcf.facility.name %> </td>
+            <td> <%= filter_address(pcf.facility) %> </td>
+            <td> <%= pcf.facility.type.text %> </td>
+            <td><a href="#!" class="remove_facility">Remove</a>
+              <input type="hidden" name="product[dentl][facility_ids][]" value="<%= pcf.facility.id %>">
+              <span class="selected_dentl_fa_id hidden"><%= pcf.facility.id %> </span></td>
+          </tr>
+        <% end%>
+      </tbody>
+    </table>
+    <div class="field">
+      <input type="text" class="hidden" name="<%= coverage%>_is_valid_facility" coverage="<%= coverage %>" id="fa_tbl">
+    </div>
+  </div>
+
+</div>
+<%= render "dental/modal_facility_dental.html", coverage: coverage %>

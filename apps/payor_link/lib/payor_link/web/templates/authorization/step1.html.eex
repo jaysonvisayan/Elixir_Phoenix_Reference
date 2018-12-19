@@ -1,0 +1,69 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">Validate Member</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Facility</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Coverage</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Details</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <div class="ui equal width left aligned padded grid stackable">
+            <div class="column">
+              <div class="ui horizontal segments">
+
+                <div class="ui segment">
+                  <h3 class="ui centered dividing header">Card Details</h3>
+                <%= render "form_card.html", changeset: @changeset, action: authorization_path(@conn, :validate_card)%>
+                </div>
+                <div class="ui segment">
+                  <h3 class="ui centered dividing header">Member Information</h3>
+                <%= render "form_member_info.html", changeset: @changeset, action: authorization_path(@conn, :validate_member_info)%>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <%# Navigation buttons start %>
+          <a href="/authorizations/" class="ui button">
+            <i class="remove icon"></i>
+            Cancel
+          </a>
+          <%# Navigation buttons end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <div role="validate_member">
+    <%= render "modal_list_members.html", members: @members, conn: @conn %>
+  </div>
+<% end %>

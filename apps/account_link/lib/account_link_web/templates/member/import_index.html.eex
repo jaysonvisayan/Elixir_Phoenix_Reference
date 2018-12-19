@@ -1,0 +1,169 @@
+<div id="member_batch_upload" class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Batch Processing" %></li>
+    </ul>
+  </div><!-- breadcrumbs ends here-->
+
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <form action="" class="ui form">
+                <div class="section-control">
+                  <div class="ui grid">
+                    <div class="row">
+                      <div class="eight wide computer eight wide tablet sixteen wide mobile column">
+                        <div class="ui form">
+                          <div class="inline field">
+                            <a href="#" class="advanced-search-trigger"><%= gettext "Advanced Search" %></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="seven wide computer seven wide tablet sixteen wide mobile right floated column right floated text-right mobile-text-left mobile-pull">
+                        <div class="ui medium simple primary dropdown button">
+                          <%= gettext "Select Template" %>
+                          <i class="dropdown icon"></i>
+                          <div class="menu">
+                            <div class="item" id="batch_enrollment_template"><%= gettext "Corporate" %></div>
+                            <div class="item" id="batch_cancellation_template"><%= gettext "Cancellation" %></div>
+                            <div class="item" id="batch_suspension_template"><%= gettext "Suspension" %></div>
+                            <div class="item" id="batch_reactivation_template"><%= gettext "Reactivation" %></div>
+                          </div>
+                        </div>
+                        <button type="button" class="large ui button modal-open-actionConfirmation-file-upload"><i class="cloud upload icon"></i><%= gettext "Upload File" %></button>
+                      </div>
+                      <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                        <div class="advanced-search mt-2">
+                          <p><%= gettext "Search only the selected members:" %></p>
+                          <div class="ui form">
+                            <div class="inline fields">
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="suspended" id="suspension_type">
+                                  <label><%= gettext "Suspension" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="reactivated" id="reactivation_type">
+                                  <label><%= gettext "Reactivation" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="cancelled" id="cancellation_type">
+                                  <label><%= gettext "Cancellation" %></label>
+                                </div>
+                              </div>
+                              <div class="field">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" name="enrolled" id="enrollment_type">
+                                  <label><%= gettext "Corporate" %></label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                <table role="datatable" class="full-width ui celled table" id="member_batch_table">
+                  <thead>
+                    <tr>
+                      <th><%= gettext "Batch No." %></th>
+                      <th><%= gettext "File Name" %></th>
+                      <th><%= gettext "Upload Type" %></th>
+                      <th><%= gettext "Total Members" %></th>
+                      <th><%= gettext "Successful" %></th>
+                      <th><%= gettext "Failed" %></th>
+                      <th><%= gettext "Date Uploaded" %></th>
+                      <th><%= gettext "Date Finished" %></th>
+                    </tr>
+                  </thead>
+                  <tbody class="padded-rows menued-rows">
+                    <%= for logs <- @member_upload_files do %>
+                      <%= if logs.upload_type != "Individual, Family, Group (IFG)" do %>
+                      <tr>
+                        <td><%= logs.batch_no %></td>
+                        <td><%= logs.filename %></td>
+                        <td><%= logs.upload_type %></td>
+                        <td>
+                        <%= count_result(logs, "success") + count_result(logs, "failed") %></td>
+                        <td>
+                          <%= if count_result(logs, "success") == 0 do %>
+                            <%= count_result(logs, "success") %><br>
+                            <a id="success" style="color:#7f8187"><%= gettext "Download" %></a>
+                            <% else %>
+                            <%= count_result(logs, "success") %><br>
+                            <u><a id="success" style="cursor: pointer" class="download_success_button" member_upload_logs_id="<%= logs.id %>" status="success" file_name="<%= logs.filename %>" upload_type="<%= logs.upload_type %>"><%= gettext "Download" %></a></u>
+                          <% end %>
+                        </td>
+                        <td>
+                          <%= if count_result(logs, "failed") == 0 do %>
+                            <%= count_result(logs, "failed") %><br>
+                            <a id="failed" style="color:#7f8187"><%= gettext "Download" %></a>
+                            <% else %>
+                            <%= count_result(logs, "failed") %> <br>
+                            <u><a id="failed" style="cursor: pointer" class="download_failed_button" member_upload_logs_id="<%= logs.id %>" file_name="<%= logs.filename %>" status="failed" upload_type="<%= logs.upload_type %>"><%= gettext "Download" %></a></u>
+                          <% end %>
+                        </td>
+                          <td><%= logs.inserted_at %></td>
+                        <td><%= logs.inserted_at %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui small modal action-confirmation-upload-file">
+  <i class="close icon"></i>
+  <section class="mb-0">
+    <%= form_for @conn, member_path(@conn, :import_member, @locale), [multipart: true, id: "import_member", as: "member"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui two column centered grid">
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Upload File" %></label>
+            <div class="sixteen wide column">
+              <div class="field">
+                <div class="ui segment">
+                  <%= file_input f, :file, id: "file_upload", accept: "application/csv", style: "width: 650px;" %>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <div class="field">
+            <label class="label-title"><%= gettext "Upload Type" %></label>
+            <select class="ui fluid dropdown" name="member[upload_type]">
+              <option value=""><%= gettext "Select the file upload type" %></option>
+              <option value="Corporate"><%= gettext "Corporate" %></option>
+              <option value="Cancellation"><%= gettext "Cancellation" %></option>
+              <option value="Suspension"><%= gettext "Suspension" %></option>
+              <option value="Reactivation"><%= gettext "Reactivation" %></option>
+            </select>
+          </div>
+        </div>
+        <div class="sixteen wide column">
+          <button type="submit" class="large ui fluid button"><%= gettext "Upload" %></button>
+        </div>
+      </div>
+    <% end %>
+  </section>
+</div>

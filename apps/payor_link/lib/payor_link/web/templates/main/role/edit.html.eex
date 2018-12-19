@@ -1,0 +1,768 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Role
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/roles">Roles</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Edit Role</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <a id="btnCancel" class="ui primary basic button mt-1-small cancel_button_role">Discard</a>
+        <button id="draft_button2" class="ui primary button mt-1-small">Save as Draft</button>
+      </div>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+  <div class="ui container">
+    <div class="content-section white-bg">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column" id="main_step1_general" name="main_role_form">
+            <%= form_for @changeset, main_role_path(@conn, :save, @changeset.data.id), [class: "form2", id: "formEditRole"], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <input type="hidden" name="role[is_draft]">
+              <input type="hidden" class="hidden-role-name" value="<%= @changeset.data.name %>">
+              <div class="ui form">
+                <div class="bottom-border pb-2 mb-2">
+
+                  <div class="section-title mt-2">
+                    <div class="title-name">Role Information</div>
+                  </div>
+
+                  <div class="two fields">
+                    <div class="field required">
+                      <%= label f, :name, "Role Name", class: "label-title" %>
+                      <%= text_input f, :name, value: @changeset.data.name, class: "email" %>
+                      <%= error_tag f, :name %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :application_id, "Select Application (required)", class: "label-title" %>
+                     <%= select f, :application_id, @applications, class: "ui dropdown select-web-application disabled"%>
+                      <%= error_tag f, :application_id %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :description, "Role Description", class: "label-title" %>
+                      <%= textarea f, :description, rows: "2", value: @changeset.data.description, class: "email" %>
+                      <%= error_tag f, :description %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :description, "Allowed to view Personally Identifiable Information (PII)", class: "label-title" %>
+                      <div class="two fields mt-1">
+                        <div class="field">
+                          <div class="ui radio checkbox seven wide column">
+                            <%= radio_button f, :pii, true, id: "pii_yes", value: @changeset.data.pii %>
+                            <label for="pii" class="">Yes</label>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <div class="ui radio checkbox eight wide column">
+                            <%= radio_button f, :pii, false, id: "pii_no", value: @changeset.data.pii %>
+                            <label for="pii">No</label>
+                          </div>
+                        </div>
+                      </div>
+                      <%= error_tag f, :pii %>
+                    </div>
+                  </div>
+                </div>
+
+                <table class="ui table">
+                  <thead>
+                    <th width="20%">Category</th>
+                    <th width="20%">Module</th>
+                    <th colspan="3" width="60%">Permission</th>
+                  </thead>
+                  <tbody>
+                    <tr class="b">
+                      <td>Account Plan Details (APD)</td>
+                      <td>
+                        <div style="padding-bottom: 2rem">Benefits</div>
+                        <div style="padding-bottom: 2rem">Exclusions</div>
+                        <div style="padding-bottom: 2rem">Plans</div>
+                        <div style="padding-bottom: 2rem">Accounts</div>
+                        <div style="padding-bottom: 2rem">Clusters</div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% apd = ["Benefits", "Exclusions", "Products", "Accounts", "Clusters"] %>
+                        <%= for x <- apd do %>
+                          <% apd_subname = Enum.join([x, "_permissions"]) |> String.downcase
+apd_read_only = Enum.join(["access_", x]) |> String.downcase
+apd_name = String.downcase(x)
+                        %>
+                        <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                        <% checker = if validate_permission == "Full Access", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[<%= apd_subname %>]" id="<%= apd_subname %>" class="with-gap" value="manage_<%= apd_name %>" <%= checker %>>
+                          <label for="role[<%= apd_subname %>]">Full Access</label>
+                        </div>
+                      <%end%>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% apd = ["Benefits", "Exclusions", "Products", "Accounts", "Clusters"] %>
+                        <%= for x <- apd do %>
+                          <% apd_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                              apd_read_only = Enum.join(["access_", x]) |> String.downcase
+                            apd_name = String.downcase(x)
+                          %>
+                        <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                        <% checker = if validate_permission == "Read Only", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[<%= apd_subname %>]" id="<%= apd_subname %>" class="with-gap" value="access_<%= apd_name %>" <%= checker %>>
+                          <label for="role[<%= apd_subname %>]">Read Only</label>
+                        </div>
+                      <%end%>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% apd = ["Benefits", "Exclusions", "Products", "Accounts", "Clusters"] %>
+                        <%= for x <- apd do %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% checker = if validate_permission == "Not Allowed", do: "checked" %>
+                          <% apd_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                            apd_read_only = Enum.join(["access_", x]) |> String.downcase
+                            apd_name = String.downcase(x)
+                          %>
+                          <div class="clicker" style="padding-bottom: 2rem;">
+                            <input type="radio" name="role[<%= apd_subname %>]" id="<%= apd_subname %>" class="with-gap" value=""<%= checker%> >
+                            <label for="role[<%= apd_subname %>]">Not Allowed</label>
+                          </div>
+                        <%end%>
+                      </td>
+                    </tr>
+                    <tr class="b">
+                      <td>Underwriting (URG)</td>
+                      <td>
+                        <div style="padding-bottom: 2rem">Members</div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Members", @changeset.data.id)%>
+                        <% checker = if validate_permission == "Full Access", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[members_permissions]" id="members_permissions" class="with-gap" value="manage_members" <%= checker %>>
+                          <label for="role[members_permissions]">Full Access</label>
+                        </div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Members", @changeset.data.id)%>
+                        <% checker = if validate_permission == "Read Only", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[members_permissions]" id="members_permissions" class="with-gap" value="access_members" <%= checker %>>
+                          <label for="role[members_permissions]">Read Only</label>
+                        </div>
+                        <div class="clicker member-permitted" style="padding-bottom: 2rem; cursor: pointer;">
+                          <% member_permitted = if @role.member_permitted, do: "checked" %>
+                          <input type="radio" name="role[members_permissions]" id="members_permitted" class="with-gap" value="member_permitted" <%= member_permitted %>>
+                          <label for="role[manage_permissions]">Permitted Access</label>
+                        </div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Members", @changeset.data.id) %>
+                        <% checker = if validate_permission == "Not Allowed" and not @role.member_permitted, do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[members_permissions]" id="members_permissions" class="with-gap" value="" <%= checker %>>
+                          <label for="role[manage_permissions]">Not Allowed</label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="b">
+                      <td>Medical</td>
+                      <td>
+                        <div style="padding-bottom: 2rem">Diseases</div>
+                        <div style="padding-bottom: 2rem">Procedures</div>
+                        <div style="padding-bottom: 2rem">Packages</div>
+                        <div style="padding-bottom: 2rem">RUVs</div>
+                        <div style="padding-bottom: 2rem">Case Rates</div>
+                        <div style="padding-bottom: 2rem">Pharmacies</div>
+                        <div style="padding-bottom: 2rem">Miscellaneous</div>
+                        <div style="padding-bottom: 2rem">Rooms</div>
+                        <div style="padding-bottom: 2rem">Location Groups</div>
+                        <div style="padding-bottom: 2rem">Facilities</div>
+                        <div style="padding-bottom: 2rem">Practitioners</div>
+                        <div style="padding-bottom: 2rem">ACU Schedules</div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% medical = ["Diseases", "Procedures", "Packages", "RUVs", "CaseRates", "Pharmacies", "Miscellaneous", "Rooms", "Location_Groups", "Facilities", "Practitioners", "Acu_Schedules"] %>
+                        <%= for x <- medical do %>
+                          <% med_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                              med_read_only = Enum.join(["access_", x]) |> String.downcase
+                              med_name = String.downcase(x)
+                          %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% checker = if validate_permission == "Full Access", do: "checked" %>
+                          <%= if med_subname == "diseases_permissions" do %>
+                            <div style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" value="" disabled>
+                              <label for="role[<%= med_subname %>]">Full Access</label>
+                            </div>
+                          <% else %>
+                            <div class="clicker" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap" value="manage_<%= med_name %>" <%= checker %>>
+                              <label for="role[<%= med_subname %>]">Full Access</label>
+                            </div>
+                          <% end %>
+                        <%end%>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% medical = ["Diseases", "Procedures", "Packages", "RUVs", "CaseRates", "Pharmacies", "Miscellaneous", "Rooms", "Location_Groups", "Facilities", "Practitioners", "Acu_Schedules"] %>
+                        <%= for x <- medical do %>
+                          <% med_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                            med_read_only = Enum.join(["access_", x]) |> String.downcase
+                            med_name = String.downcase(x)
+                          %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% checker = if validate_permission == "Read Only", do: "checked" %>
+                          <%= if med_subname == "diseases_permissions" do %>
+                            <div style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" value="<%= med_read_only %>" checked class="disabled disease-readonly">
+                              <label for="role[<%= med_subname %>]">Read Only</label>
+                            </div>
+                          <% else %>
+                            <div class="clicker" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap" value="<%= med_read_only %>" <%= checker %>>
+                              <label for="role[<%= med_subname %>]">Read Only</label>
+                            </div>
+                          <% end %>
+                        <%end%>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% medical = ["Diseases", "Procedures", "Packages", "RUVs", "CaseRates", "Pharmacies", "Miscellaneous", "Rooms", "Location_Groups", "Facilities", "Practitioners", "Acu_Schedules"] %>
+                        <%= for x <- medical do %>
+                          <% med_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                            med_read_only = Enum.join(["access_", x]) |> String.downcase
+                            med_name = String.downcase(x)
+                          %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                          <%= if med_subname == "diseases_permissions" do %>
+                            <div style="padding-bottom: 2rem;">
+                              <input type="radio" name="rols[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap disease-not-allowed" value="" disabled>
+                              <label for="role[<%= med_subname %>]">Not Allowed</label>
+                            </div>
+                          <% else %>
+                            <div class="clicker" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap" value="" <%= med_checker %>>
+                              <label for="role[<%= med_subname %>]">Not Allowed</label>
+                            </div>
+                          <% end %>
+                        <%end%>
+                      </td>
+                    </tr>
+
+                    <!--ProviderLink Medical-->
+                    <tr class="a">
+                      <td>Medical</td>
+                      <td>
+                        <div style="padding-bottom: 2rem">ACU Schedules</div>
+                        <div style="padding-bottom: 2rem">Patients</div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% medical = ["ProviderLink_Acu_Schedules", "Patients"] %>
+                        <%= for x <- medical do %>
+                          <%  med_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                              med_read_only = Enum.join(["access_", x]) |> String.downcase
+                              med_name = String.downcase(x)
+                          %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% checker = if validate_permission == "Full Access", do: "checked" %>
+                          <%= if med_subname == "diseases_permissions" do %>
+                            <div style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" value="" disabled>
+                              <label for="role[<%= med_subname %>]">Full Access</label>
+                            </div>
+                          <% else %>
+                            <div class="clicker" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap" value="manage_<%= med_name %>" <%= checker %>>
+                              <label for="role[<%= med_subname %>]">Full Access</label>
+                            </div>
+                          <% end %>
+                        <%end%>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% medical = ["ProviderLink_Acu_Schedules", "Patients"] %>
+                        <%= for x <- medical do %>
+                          <%  med_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                              med_read_only = Enum.join(["access_", x]) |> String.downcase
+                              med_name = String.downcase(x)
+                          %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% checker = if validate_permission == "Read Only", do: "checked" %>
+                          <%= if med_subname == "diseases_permissions" do %>
+                            <div style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" value="<%= med_read_only %>" class="disabled disease-readonly">
+                              <label for="role[<%= med_subname %>]">Read Only</label>
+                            </div>
+                          <% else %>
+                            <div class="clicker" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap" value="<%= med_read_only %>" <%= checker %>>
+                              <label for="role[<%= med_subname %>]">Read Only</label>
+                            </div>
+                          <% end %>
+                        <%end%>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% medical = ["ProviderLink_Acu_Schedules", "Patients"] %>
+                        <%= for x <- medical do %>
+                          <%  med_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                              med_read_only = Enum.join(["access_", x]) |> String.downcase
+                              med_name = String.downcase(x)
+                          %>
+                          <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                          <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                          <%= if med_subname == "diseases_permissions" do %>
+                            <div style="padding-bottom: 2rem;">
+                              <input type="radio" name="rols[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap disease-not-allowed" value="" disabled>
+                              <label for="role[<%= med_subname %>]">Not Allowed</label>
+                            </div>
+                          <% else %>
+                            <div class="clicker" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[<%= med_subname %>]" id="<%= med_subname %>" class="with-gap" value="" <%= med_checker %>>
+                              <label for="role[<%= med_subname %>]">Not Allowed</label>
+                            </div>
+                          <% end %>
+                        <%end%>
+                      </td>
+                    </tr>
+
+                    <tr style="border-bottom: 0px" class="b">
+                      <td>Customer Care</td>
+                      <td>
+                        <div style="padding-bottom: 2rem">Authorizations</div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Authorizations", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                        <div class="clicker open-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[authorizations_permissions]" id="authorizations_permissions" class="with-gap auth-permission" value="manage_authorizations" <%= med_checker %>>
+                          <label for="authorizations_permissions">Full Access</label>
+                        </div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Authorizations", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[authorizations_permissions]" id="authorizations_permissions" class="with-gap" value="access_authorizations" <%= med_checker %>>
+                          <label for="authorizations_permissions2">Read Only</label>
+                        </div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Authorizations", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[authorizations_permissions]" id="authorizations_permissions" class="with-gap" value="" <%= med_checker %>>
+                          <label for="authorizations_permissions3">Not Allowed</label>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!--ProviderLink Customer Care-->
+                    <tr style="border-bottom: 0px" class="a">
+                      <td>Customer Care</td>
+                      <td>
+                        <div style="padding-bottom: 2rem">Home</div>
+                        <div style="padding-bottom: 2rem">LOAs</div>
+                        <div style="padding-bottom: 2rem">Authorizations</div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Home", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[home_permissions]" id="home_permissions" class="with-gap" value="manage_home" <%= med_checker %>>
+                          <label for="home_permissions">Full Access</label>
+                        </div>
+                        <% validate_permission = get_permission_by_module("LOAs", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[loas_permissions]" id="loas_permissions" class="with-gap" value="manage_loas" <%= med_checker %>>
+                          <label for="loas_permissions">Full Access</label>
+                        </div>
+                        <% validate_permission = get_permission_by_module("Batch", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                        <div class="clicker" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[batch_permissions]" id="batch_permissions" class="with-gap" value="manage_batch" <%= med_checker %>>
+                          <label for="batch_permissions">Full Access</label>
+                        </div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Home", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[home_permissions]" id="home_permissions" class="with-gap" value="access_home" <%= med_checker %>>
+                          <label for="home_permissions2">Read Only</label>
+                        </div>
+                        <% validate_permission = get_permission_by_module("LOAs", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[loas_permissions]" id="loas_permissions" class="with-gap" value="access_loas" <%= med_checker %>>
+                          <label for="loas_permissions2">Read Only</label>
+                        </div>
+                        <% validate_permission = get_permission_by_module("Batch", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[batch_permissions]" id="batch_permissions" class="with-gap" value="access_batch" <%= med_checker %>>
+                          <label for="batch_permissions2">Read Only</label>
+                        </div>
+                      </td>
+                      <td style="cursor: pointer">
+                        <% validate_permission = get_permission_by_module("Home", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[home_permissions]" id="home_permissions" class="with-gap" value="" <%= med_checker %>>
+                          <label for="home_permissions3">Not Allowed</label>
+                        </div>
+                        <% validate_permission = get_permission_by_module("LOAs", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[loas_permissions]" id="loas_permissions" class="with-gap" value="" <%= med_checker %>>
+                          <label for="loas_permissions3">Not Allowed</label>
+                        </div>
+                        <% validate_permission = get_permission_by_module("Home", @changeset.data.id)%>
+                        <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                        <div class="clicker close-table" style="padding-bottom: 2rem;">
+                          <input type="radio" name="role[batch_permissions]" id="batch_permissions" class="with-gap" value="" <%= med_checker %>>
+                          <label for="batch_permissions3">Not Allowed</label>
+                        </div>
+                      </td>
+                    </tr>
+
+            <tr style="border-top: 0px" class="b" id="approval_limit">
+                        <td></td>
+                        <td>
+                        </td>
+                        <td colspan="3">
+                          <div style="padding-bottom: 2rem" class="approval-label">Set Approval Limit per Coverage (required)</div>
+                          <div style="padding-bottom: 2rem">
+                            <table class="ui striped table coverage-amount-table">
+                              <thead>
+                                <th>
+                                  COVERAGES
+                                </th>
+                                <th>
+                                  APPROVAL LIMIT AMOUNT
+                                </th>
+                              </thead>
+                              <tbody>
+                                <%= if Enum.empty?(@role.coverage_approval_limit_amounts) do %>
+                                  <%= for c <- @coverages do %>
+                                    <tr>
+                                      <td>
+                                        <%= c.name %>
+                                      </td>
+                                      <td>
+                                        <div class="field div_limit_edit_amount">
+                                          <%= text_input f, :approval_limit_amount, class: "approval-limit-amount txt_limit_edit_amount", name: "role[approval_limit_amount][#{c.id}]" %>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  <% end %>
+                                <% else %>
+                                  <%= for c <- @role.coverage_approval_limit_amounts do %>
+                                    <tr>
+                                      <td>
+                                        <%= c.coverage.name %>
+                                      </td>
+                                      <td>
+                                        <div class="field div_limit_edit_amount">
+                                          <%= text_input f, :approval_limit_amount, class: "approval-limit-amount txt_limit_edit_amount", name: "role[approval_limit_amount][#{c.coverage.id}]", value: c.approval_limit_amount %>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  <% end %>
+                                <% end %>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="b">
+                        <td>Administration</td>
+                        <td>
+                          <div style="padding-bottom: 2rem">Roles</div>
+                          <div style="padding-bottom: 2rem">Company Maintenance</div>
+                          <div style="padding-bottom: 2rem">Users</div>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% admin = ["Roles", "Company_Maintenance", "Users"] %>
+                          <%= for x <- admin do %>
+                            <% validate_permission = get_permission_by_module(x, @changeset.data.id) %>
+                            <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                            <%  admin_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                                admin_read_only = Enum.join(["access_", x]) |> String.downcase
+                                admin_name = String.downcase(x)
+                              %>
+                              <%= if admin_subname == "users_permissions"  do %>
+                                <div class="clicker user-full-access" style="padding-bottom: 2rem;">
+                                  <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap user-full-access" value="manage_<%= admin_name %>" <%= med_checker %>>
+                                  <label for="role[<%= admin_subname %>]">Full Access</label>
+                                </div>
+                              <% else %>
+                                <div class="clicker" style="padding-bottom: 2rem;">
+                                  <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="manage_<%= admin_name %>" <%= med_checker %>>
+                                  <label for="role[<%= admin_subname %>]">Full Access</label>
+                                </div>
+                              <% end %>
+                            <% end %>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% admin = ["Roles", "Company_Maintenance", "Users"] %>
+                          <%= for x <- admin do %>
+                            <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                            <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                            <% admin_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                              admin_read_only = Enum.join(["access_", x]) |> String.downcase
+                              admin_name = String.downcase(x)
+                            %>
+                            <%= if admin_subname == "users_permissions"  do %>
+                              <div class="clicker user-not-allowed" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="<%= admin_read_only %>" <%= med_checker%>>
+                                <label for="role[<%= admin_subname %>]">Read Only</label>
+                              </div>
+                            <% else %>
+                              <div class="clicker" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="<%= admin_read_only %>" <%= med_checker%>>
+                                <label for="role[<%= admin_subname %>]">Read Only</label>
+                              </div>
+                            <%end%>
+                          <%end%>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% admin = ["Roles", "Company_Maintenance", "Users"] %>
+                          <%= for x <- admin do %>
+                            <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                            <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                            <% admin_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                                admin_read_only = Enum.join(["access_", x]) |> String.downcase
+                                admin_name = String.downcase(x)
+                            %>
+                            <%= if admin_subname == "users_permissions"  do %>
+                              <div class="clicker user-not-allowed" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="" <%= med_checker %>>
+                                <label for="role[<%= admin_subname %>]">Not Allowed</label>
+                              </div>
+                            <% else %>
+                              <div class="clicker" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="" <%= med_checker %>>
+                                <label for="role[<%= admin_subname %>]">Not Allowed</label>
+                              </div>
+                            <%end%>
+                          <%end%>
+                        </td>
+                      </tr>
+
+                      <!--ProviderLink Administration-->
+                      <tr style="border-bottom: 0px" class="a">
+                        <td>Administration</td>
+                        <td>
+                          <div style="padding-bottom: 2rem">Reports</div>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% admin = ["Reports"] %>
+                          <%= for x <- admin do %>
+                            <% validate_permission = get_permission_by_module(x, @changeset.data.id) %>
+                            <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                            <%  admin_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                                admin_read_only = Enum.join(["access_", x]) |> String.downcase
+                                admin_name = String.downcase(x)
+                              %>
+                              <%= if admin_subname == "users_permissions"  do %>
+                                <div class="clicker user-full-access" style="padding-bottom: 2rem;">
+                                  <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap user-full-access" value="manage_<%= admin_name %>" <%= med_checker %>>
+                                  <label for="role[<%= admin_subname %>]">Full Access</label>
+                                </div>
+                              <% else %>
+                                <div class="clicker" style="padding-bottom: 2rem;">
+                                  <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="manage_<%= admin_name %>" <%= med_checker %>>
+                                  <label for="role[<%= admin_subname %>]">Full Access</label>
+                                </div>
+                              <% end %>
+                            <% end %>
+                          </td>
+                          <td style="cursor: pointer">
+                            <% admin = ["Reports"] %>
+                            <%= for x <- admin do %>
+                              <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                              <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                              <%  admin_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                                  admin_read_only = Enum.join(["access_", x]) |> String.downcase
+                                  admin_name = String.downcase(x)
+                            %>
+                            <%= if admin_subname == "users_permissions"  do %>
+                              <div class="clicker user-not-allowed" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="<%= admin_read_only %>" <%= med_checker%>>
+                                <label for="role[<%= admin_subname %>]">Read Only</label>
+                              </div>
+                            <% else %>
+                              <div class="clicker" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="<%= admin_read_only %>" <%= med_checker%>>
+                                <label for="role[<%= admin_subname %>]">Read Only</label>
+                              </div>
+                            <%end%>
+                          <%end%>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% admin = ["Reports"] %>
+                          <%= for x <- admin do %>
+                            <% validate_permission = get_permission_by_module(x, @changeset.data.id)%>
+                            <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                            <%  admin_subname = Enum.join([x, "_permissions"]) |> String.downcase
+                                admin_read_only = Enum.join(["access_", x]) |> String.downcase
+                                admin_name = String.downcase(x)
+                            %>
+                            <%= if admin_subname == "users_permissions"  do %>
+                              <div class="clicker user-not-allowed" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="" <%= med_checker %>>
+                                <label for="role[<%= admin_subname %>]">Not Allowed</label>
+                              </div>
+                            <% else %>
+                              <div class="clicker" style="padding-bottom: 2rem;">
+                                <input type="radio" name="role[<%= admin_subname %>]" id="<%= admin_subname %>" class="with-gap" value="" <%= med_checker %>>
+                                <label for="role[<%= admin_subname %>]">Not Allowed</label>
+                              </div>
+                            <%end%>
+                          <%end%>
+                        </td>
+                      </tr>
+
+                      <tr class="b">
+                        <td>Full Access</td>
+                        <td>
+                          <div style="padding-bottom: 2rem" class="create-user-by">Create full access user for: </div>
+                          <div style="padding-bottom: 2rem">User Access Activation</div>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% checker = if @role.create_full_access == "payorlink" || is_nil(@role.create_full_access), do: "checked" %>
+                          <div class="field">
+                            <div class="clicker create-user-by" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[create_full_access]" id="create_full_access" class="with-gap radio-access payorlink" value="payorlink" <%= checker %>>
+                              <label for="role[manage_permissions]">PayorLink</label>
+                            </div>
+                          </div>
+                          <div class="clicker full-access-user-access" style="padding-bottom: 2rem;">
+                            <% validate_permission = get_permission_by_module("User_Access", @changeset.data.id)%>
+                            <% med_checker = if validate_permission == "Full Access", do: "checked" %>
+                            <input type="radio" name="role[user_access_permissions]" id="user_access_permissions" class="with-gap" value="manage_user_access" <%= med_checker %>>
+                            <label for="role[user_access_permissions]">Full Access</label>
+                          </div>
+                          <input type="hidden" id="upload_sample" value="<%= med_checker %>">
+                          <div id="upload_days">
+                            <div class="field">
+                              <label>No. of Days to upload file</label>
+                              <%= text_input f, :no_of_days, maxLength: "2" %>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="cursor: pointer">
+                          <% checker = if @role.create_full_access == "accountlink", do: "checked" %>
+                          <div class="field">
+                            <div class="clicker create-user-by" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[create_full_access]" id="create_full_access" class="with-gap radio-access" value="accountlink" <%= checker %>>
+                              <label for="role[manage_permissions]">AccountLink</label>
+                            </div>
+                          </div>
+                          <% validate_permission = get_permission_by_module("User_Access", @changeset.data.id)%>
+                          <% med_checker = if validate_permission == "Read Only", do: "checked" %>
+                          <div class="clicker readonly-user-access" style="padding-bottom: 2rem;">
+                            <input type="radio" name="role[user_access_permissions]" id="user_access_permissions" class="with-gap readonly" value="access_user_access" <%= med_checker %>>
+                            <label for="role[user_access_permissions]">Read Only</label>
+                          </div>
+                          <div id="cut_off_dates">
+                            <div class="field" id="cutOffDateContainer">
+                              <%= if check_cut_off_dates(@role.cut_off_dates) do %>
+                                <%= for {c, index} <- Enum.with_index(@role.cut_off_dates, 1) do %>
+                                  <%= if index == 1 do %>
+                                    <div class="field">
+                                      <label class="label-title">Cut-off Dates</label>
+                                      <div class="ui search">
+                                        <div class="ui icon input">
+                                          <input type="text" class="prompt email reporting-to-primary reporting-cutoff" name="role[cut_off_dates][]" maxLength="2" value="<%= c %>">
+                                          <i class="inverted circular green active add link icon add-cut-off-date"></i>
+                                          <input type="hidden" class="hidden-cut-off-date" value="<%= c %>">
+                                        </div>
+                                        <div class="results"></div>
+                                      </div>
+                                      <div class="error-msg"></div>
+                                    </div>
+                                  <% else %>
+                                    <div class="field txtbox-cut-off">
+                                      <br>
+                                      <div class="ui search">
+                                        <div class="ui icon input">
+                                          <input type="text" class="prompt email reporting-to-secondary reporting-cutoff" maxLength="2" name="role[cut_off_dates][]" value=<%= c %>>
+                                          <i class="inverted circular green active minus link icon remove-cut-off-date"></i>
+                                          <input type="hidden" class="hidden-cut-off-date" value="<%= c %>">
+                                        </div>
+                                        <div class="results"></div>
+                                      </div>
+                                      <div class="error-msg"></div>
+                                    </div>
+
+                                  <% end %>
+                                <% end %>
+                              <% else %>
+                                <div class="field">
+                                  <label class="label-title">Cut-off Dates</label>
+                                  <div class="ui search">
+                                    <div class="ui icon input">
+                                      <input type="text" class="prompt email reporting-to-primary reporting-cutoff" name="role[cut_off_dates][]" maxLength="2">
+                                      <i class="inverted circular green active add link icon add-cut-off-date"></i>
+                                    </div>
+                                    <div class="results"></div>
+                                  </div>
+                                  <div class="error-msg"></div>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        </td>
+
+                        <td style="cursor: pointer">
+                          <% checker = if @role.create_full_access == "providerlink", do: "checked" %>
+                          <div class="field">
+                            <div class="clicker create-user-by" style="padding-bottom: 2rem;">
+                              <input type="radio" name="role[create_full_access]" id="create_full_access" class="with-gap radio-access" value="providerlink"<%= checker %>>
+                              <label for="role[manage_permissions]">ProviderLink</label>
+                            </div>
+                          </div>
+                          <% validate_permission = get_permission_by_module("User_Access", @changeset.data.id)%>
+                          <% med_checker = if validate_permission == "Not Allowed", do: "checked" %>
+                          <div class="clicker not-allowed-user-access" style="padding-bottom: 2rem;">
+                            <input type="radio" name="role[user_access_permissions]" id="user_access_permissions" class="with-gap notallowed" value="" <%= med_checker %>>
+                            <label for="role[manage_permissions]">Not Allowed</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tbody>
+                </table>
+
+                <%= hidden_input f, :hidden_create_full_access %>
+                <div class="two inline fields">
+                  <div class="field">
+                    <span><a class="ui basic primary button" href="/web/roles/<%= @changeset.data.id %>">Cancel</a></span>
+                  </div>
+                  <div class="right aligned field">
+                    <%# <%= submit "Update", class: "ui right floated primary submit button" %1> %>
+                    <span><a class="ui right floated primary button" id="show_swal_update">Update</a></span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div> <!-- .white-bg -->
+    </div><!-- .ui.container -->
+    <%= form_for @conn, main_role_path(@conn, :delete, @role.id), [id: "delete-draft-role", multipart: true, as: :delete, method: :delete], fn _f -> %>
+    <% end %>
+
+
+
+<%= render "modal_save_draft.html" %>
+
+

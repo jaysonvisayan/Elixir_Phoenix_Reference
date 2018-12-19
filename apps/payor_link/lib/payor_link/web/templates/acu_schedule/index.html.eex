@@ -1,0 +1,82 @@
+<div class="ui main container" id="acu_mobile">
+  <% disabled = if String.contains?("access_acu_schedules", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">ACU Scheduling</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                <a class="ui primary basic button <%= disabled %>" href="#!" id="export_btn"><i class="upload icon"></i> Export Masterlist</a>
+                <%# <a class="ui primary basic button" href="#!" id="export_acu_btn"><i class="upload icon"></i> Export Masterlist 2</a> %>
+                <%# <div class="ui primary basic button" id="addACUMobile"><i class="plus icon"></i> Schedule</div> %>
+                <a class="ui primary basic button" href="/acu_schedules/new"><i class="plus icon"></i> Schedule</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/acu_schedules" class="section">ACU Schedules</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" id="acu_schedule_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+          <th><input type="checkbox" id="checkAllacu"</th>
+          <th>Batch No.</th>
+          <th>Facility Code/Name</th>
+          <th>Cluster Code/Name</th>
+          <th>Account Code/Name</th>
+          <th>Schedule Date From/Time From</th>
+          <th>Schedule Date To/Time To</th>
+          <%# <th>No. of Guaranteed Heads</th> %>
+          <th>No. of Members</th>
+          <th>Schedule Created By</th>
+          <th>Masterlist Generation Date and Time</th>
+          <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for acu_schedule <- @acu_schedules do %>
+        <tr>
+          <%= cond do %>
+            <%= is_nil(acu_schedule.status) || acu_schedule.status == "Draft" -> %>
+              <td></td>
+              <td><a href='/acu_schedules/<%= acu_schedule.id %>/edit' id="show_acu_schedule" acuID="<%= acu_schedule.id %>"><%= acu_schedule.batch_no %></a></td>
+            <%= acu_schedule.status == "Draft2" -> %>
+              <td></td>
+              <td><a href='/acu_schedules/<%= acu_schedule.id %>/packages' id="show_acu_schedule" acuID="<%= acu_schedule.id %>"><%= acu_schedule.batch_no %></a></td>
+            <%= true -> %>
+              <td><input id="acu_sched_ids" type="checkbox" value="<%= acu_schedule.id %>"></td>
+              <td><a href='/acu_schedules/<%= acu_schedule.id %>' id="show_acu_schedule" acuID="<%= acu_schedule.id %>"><%= acu_schedule.batch_no %></a></td>
+            <% end %>
+            <td><%= acu_schedule.facility_code %> / <%= acu_schedule.facility_name %></td>
+            <td>N/A</td>
+          <td><%= acu_schedule.account_group_code %> / <%= acu_schedule.account_group_name %></td>
+
+          <% dates = date_diff(acu_schedule.date_from, acu_schedule.date_to) %>
+          <%= if is_nil(acu_schedule.time_from) || is_nil(acu_schedule.time_to) do %>
+            <td><%= acu_schedule.date_from %></td>
+            <td><%= acu_schedule.date_to %></td>
+            <%= else %>
+            <td class="valid_timezone">
+              <%= cast_date_time(acu_schedule.date_from, acu_schedule.time_from) %>
+            </td>
+            <td class="valid_timezone">
+              <%= cast_date_time(acu_schedule.date_to, acu_schedule.time_to) %>
+            </td>
+         <% end %>
+          <%# <td><%= acu_schedule.no_of_guaranteed %1></td> %>
+          <td><%= acu_schedule.no_of_members%></td>
+          <td><%= acu_schedule.created_by %></td>
+          <td class="valid_timezone"><%= acu_schedule.inserted_at %> </td>
+          <td><%= if is_nil(acu_schedule.status) or acu_schedule.status == "Draft2" do "Draft" else acu_schedule.status end %></td>
+          <%# <input type="hidden" class="valid_timezone" value="<%= acu_schedule.inserted_at %1>"> %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,35 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "show_emergency_form.html",
+          conn: @conn,
+          changeset: @changeset,
+          special_approval: @special_approval,
+          authorization_procedures: @authorization_procedures,
+          procedures: @procedures,
+          diagnoses: @diagnoses,
+          authorization: @authorization,
+          practitioners: @practitioners,
+          member: @member,
+          ruvs: @ruvs,
+          facility_contacts: @facility_contacts,
+          action: authorization_path(@conn, :update_setup, @authorization, step: "4") %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

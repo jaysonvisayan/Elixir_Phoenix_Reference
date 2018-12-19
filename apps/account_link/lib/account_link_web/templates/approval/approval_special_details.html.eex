@@ -1,0 +1,11 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %> </li><li><i class="chevron right icon"></i> </li>
+      <li><%= gettext "Approval" %> </li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Special" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Member Details" %></li>
+    </ul>
+  </div>
+  <%= render "approval_special_details_form.html", special: @special, conn: @conn, changeset: @changeset, action: approval_path(@conn, :special_action, @locale, @id) %>
+</div>

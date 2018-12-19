@@ -1,0 +1,19 @@
+<%= render "breadcrumbs_new.html" %>
+<div id="benefit_ruv" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+          <%= render "step_ruv_form.html", benefit: @benefit, changeset: @changeset, ruvs: @ruvs, conn: @conn, action: benefit_path(@conn, :create_basic) %>
+          <%= render "step_ruv_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "3"), ruvs: @ruvs %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_ruv">
+<% end %>
+
+<%= render "delete_ruv_modal.html" %>

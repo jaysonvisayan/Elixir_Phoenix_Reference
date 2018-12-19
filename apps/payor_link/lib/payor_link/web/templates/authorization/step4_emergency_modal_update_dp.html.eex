@@ -1,0 +1,46 @@
+<div class="ui large modal" id="update_dp_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Update Diagnosis/Procedure
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :authorization,  multipart: true, class: "ui form", id: "update_diagnosis_form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= hidden_input f, :authorization_type, value: "emergency" %>
+      <%= hidden_input f, :authorization_procedure_id, id: "aid" %>
+      <input type="hidden" id="hidden_update_procedure">
+      <div class="field">
+        <label class="label-title">Diagnosis</label>
+        <input type="text" id="update_diagnosis" readonly="true">
+      </div>
+      <div class="fields">
+        <div class="six wide field">
+          <label class="label-title">Procedure</label>
+          <input type="text" id="update_procedure" readonly="true">
+        </div>
+        <div class="two wide field" id="update_unit_field">
+          <%= label f, :unit, "Unit", class: "label-title index", id: "unit_label" %>
+          <input type="text" name="authorization[unit]" id="update_unit" role="unit">
+        </div>
+        <div class="two wide field">
+          <%= label f, :amount, "Amount", class: "label-title index", id: "amount_label"%>
+          <input type="text" name="authorization[amount]" id="update_amount" role="amount" readonly="true">
+        </div>
+        <div class="five wide field">
+          <label class="label-title">Practitioner</label>
+          <input type="text" id="update_practitioner" readonly="true">
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+      <a class="ui deny button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+      <button class="ui blue button btnUpdateEmergencyProcedure" type="button" id="update_submit" >
+        <i class="save icon"></i>
+        Update
+      </button>
+    </div>
+    <% end %>
+</div>

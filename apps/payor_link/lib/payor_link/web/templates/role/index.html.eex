@@ -1,0 +1,68 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Roles</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/roles/new"><i class="plus icon"></i>Roles</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/roles" class="section">Roles</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Applications</th>
+          <th>Role Name</th>
+          <th>Date Created</th>
+          <th>Created by</th>
+          <th>Date Updated</th>
+          <th>Updated by</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for role <- @roles do %>
+        <tr>
+          <td>
+            <% role_application = [] ++ for ra <- role.role_applications, do: ra.application.name  %>
+            <%= Enum.join(role_application, ", ") %>
+          </td>
+          <td>
+            <a href ="/roles/<%= role.id %>"><%= role.name %></a>
+          </td>
+          <td class="valid_timezone date-only">
+            <%= if is_nil(role.created_by) == false do %>
+              <%= role.inserted_at %>
+            <% end %>
+          </td>
+          <td>
+            <%= if is_nil(role.created_by) == false do %>
+              <%= role.created_by.username %>
+            <% end %>
+          </td>
+          <%= if is_nil(role.updated_by) == false do  %>
+          <td class="valid_timezone date-only">
+              <%= role.updated_at %>
+            </td>
+            <% else %>
+            <td></td>
+          <% end %>
+          <td>
+            <%= if is_nil(role.updated_by) == false do %>
+              <%= role.updated_by.username %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

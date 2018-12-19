@@ -1,0 +1,19 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "steps.html", conn: @conn, benefit: @benefit %>
+          <%= if @changeset_health.action || @changeset_riders.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step1_form.html", benefit: @benefit, coverages: @coverages, changeset_riders: @changeset_riders, changeset_health: @changeset_health, conn: @conn, action: benefit_path(@conn, :update_setup, @benefit, step: "1"), tab_checker: @tab_checker %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

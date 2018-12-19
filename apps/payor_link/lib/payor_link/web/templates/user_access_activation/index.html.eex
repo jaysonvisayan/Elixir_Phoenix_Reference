@@ -1,0 +1,128 @@
+<div id="main_file_upladed_procedure">
+<div class="ui segment-breadcrumbs no-shadow no-radius" id="member_batch_upload_export">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+      <h2 class="ui header">User Access Activation</h2>
+    </div>
+    <div class="right floated right aligned six wide column">
+      <div class="ui simple primary dropdown right floated button clickable-row" href="/user_access_activations/download/template">
+        <i class="download icon"></i>Download Template</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small breadcrumb">
+    <a class="section" href="/members">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">User Access Activation</div>
+  </div>
+</div>
+
+<div id="batch_upload" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+
+          <%= form_for @conn, user_access_activation_path(@conn, :import_activation), [multipart: true, id: "import-user-activation", as: "activation"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="ui two column centered grid">
+              <div class="six wide computer seven wide tablet column">
+                <div class="ui segment" name="form_import_procedure">
+
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <div class="field">
+                        <label>Filename</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ui grid">
+                    <div class="eleven wide column">
+                      <div class="field">
+                        <%= file_input f, :file, id: "file_upload" %>
+                      </div>
+                    </div>
+
+                    <div class="five wide column">
+                      <div class="five wide computer column" id="form_import_cpt">
+                        <button type="button" id="upload_batch_user_csv" class="ui primary right floated button submit">
+                          <i class="send left icon"></i>
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div id="overlay2" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div> <p></p>
+
+            <div class="ui grid">
+              <div class="sixteen wide computer eleven wide tablet column">
+                <table role="datatable" class="ui striped table" id="account_datatable">
+                  <thead>
+                    <tr>
+                      <th>Batch No.</th>
+                      <th>Filename</th>
+                      <th>Total Employees</th>
+                      <th>Successful</th>
+                      <th>Failed</th>
+                      <th>Date Uploaded</th>
+                      <th>Date Finished</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for file <- @uaa_files do %>
+                      <% count = count_data(file.user_access_activation_logs) %>
+                      <tr>
+                        <td><%= file.batch_no %></td>
+                        <td><%= file.filename %></td>
+                        <td><%= count.total %></td>
+                        <td>
+                          <%= if count.success == 0 do %>
+                            0<br>
+                            <a id="success" style="color:#7f8187">Download</a>
+                          <% else %>
+                            <%= count.success%><br>
+                            <u><a id="success" style="cursor: pointer" class="uaa_file_download_success_button" uaa_file_id="<%= file.id %>" status="success" file_name="<%= file.filename %>">Download</a></u>
+                          <% end %>
+                        </td>
+                        <td>
+                          <%= if count.failed == 0 do %>
+                            0<br>
+                            <a id="failed" style="color:#7f8187">Download</a>
+                          <% else %>
+                            <%= count.failed %><br>
+                            <u><a id="failed" style="cursor: pointer" class="uaa_file_download_success_button" uaa_file_id="<%= file.id %>" file_name="<%= file.filename %>" status="failed">Download</a></u>
+                          <% end %>
+                        </td>
+                        <td class="date_transform"><%= file.inserted_at %></td>
+                        <td class="date_transform"><%= file.updated_at %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="ui one column aligned grid">
+              <div class="column eight wide">
+                <a id="cancelBtn" class="ui button clickable-row" href="/members" type="button">
+                  <i class="remove icon"></i>
+                  Cancel
+                </a>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

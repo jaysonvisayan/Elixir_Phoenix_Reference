@@ -1,0 +1,38 @@
+<div class="ui large modal cdt" style="width: 1200px; top: 704.444px;">
+  <i class="close icon"></i>
+  <div class="header">Add CDT</div>
+  <div class="ui segment">
+    <div class="ui active inverted dimmer hidden" id="cdt_loader">
+      <div class="ui text loader">Loading</div>
+    </div>
+    <p></p>
+
+    <div class="content pt-0">
+      <div class="ui grid form">
+        <div class="sixteen wide column">
+          <table class="full-width ui celled striped table" id="tbl_add_cdt">
+            <thead>
+              <tr>
+                <th class="small">
+                  <input type="checkbox" role="" style="width:20px; height:20px" name="select_all_cdt" value="false"/>
+                </th>
+                <th class="small">CDT Code</th>
+                <th class="small">CDT Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ten wide computer sixteen wide mobile column centered mt-2">
+        <%# <button class=" ui primary basic button close" type="submit" id="btn_cancel_diagnosis">Cancel</button> %>
+        <%# <button class=" send-rtp ui left floated primary button close" type="submit" id="btn_submit_diagnosis"> %>
+          <%#     Add %>
+          <%# </button> %>
+        <%# <br><br> %>
+      </div>
+    </div>
+  </div>
+</div>

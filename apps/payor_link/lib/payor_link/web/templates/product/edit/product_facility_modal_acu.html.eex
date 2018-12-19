@@ -1,0 +1,116 @@
+<div class="ui large modal" id="facilities_acu">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Facility
+  </div>
+  <div class="content">
+
+    <div class="ui grid">
+      <div class="four wide column">
+        <%# Guidelines %>
+        <h4>
+          Guidelines
+        </h4>
+        <div class="ui bulleted list" style="max-height: 280px; overflow: auto">
+          <div class="item">
+            <div>Northern Luzon Access</div>
+            <div class="list">
+              <div class="item">Region 1 (Ilocos Region)</div>
+              <div class="item">Region 2 (Cagayan Valley)</div>
+              <div class="item">Region 3 (Central Luzon)</div>
+              <div class="item">Cordilla Administrative</div>
+            </div>
+          </div>
+          <div class="item">
+            <div>Southern Luzon Access</div>
+            <div class="list">
+              <div class="item">National Capital Region</div>
+              <div class="item">Region 4-A (CALABARZON)</div>
+              <div class="item">Region 4-B (MIMAROPA)</div>
+              <div class="item">Region 5 (Bicol Region)</div>
+            </div>
+          </div>
+          <div class="item">
+            <div>Visayas Access</div>
+            <div class="list">
+              <div class="item">National Capital Region</div>
+              <div class="item">Region 4-A (CALABARZON)</div>
+              <div class="item">Region 4-B (MIMAROPA)</div>
+              <div class="item">Region 5 (Bicol Region)</div>
+            </div>
+          </div>
+          <div class="item">
+            <div>Mindanao Access</div>
+            <div class="list">
+              <div class="item">Region 9 (Zamboanga Peninsula)</div>
+              <div class="item">Region 10 (Northern Mindanao)</div>
+              <div class="item">Region 11 (Davao Region)</div>
+              <div class="item">Region 12 (Soccsksargen)</div>
+              <div class="item">Region 13 (Caraga Region)</div>
+              <div class="item">Autonomous Region in Muslim Mindanao (ARMM)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <%# checkbox regions %>
+        <div id="regions">
+          <div class="ui centered grid">
+            <div class="three wide column" style="margin-top:5px">
+              <label>Location Group: </label>
+            </div>
+            <div class="ten wide column">
+              <%= form_for @changeset, @action, [as: :product, class: "form2.1"], fn f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <%= multiple_select f, :facility_region_acu, Enum.map(@location_group, &{&1.name, &1.id}), class: "ui fluid dropdown", id: "location_group" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <%# end %>
+
+      <div class="twelve wide column">
+        <%= if @changeset.action do %>
+          <div class="ui negative message">
+            <i class="close icon"></i>
+            <%= get_flash(@conn, :error) %>
+          </div>
+        <% end %>
+        <%= form_for @changeset, @action, [as: :product, class: "form2"], fn _f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <input type="hidden" value="" name="product[facility_ids_main]">
+          <input type="hidden" value="" name="product[product_coverage_id]">
+          <div class="ui segment">
+            <table role="datatable" class="ui stripped table" id="modal_pcf_tbl_acu" width="100%">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" style="height:20px; width:20px" id="facility_select_acu" value="false"/>
+                  </th>
+                  <th>Facility</th>
+                  <th>Facility Name</th>
+                  <th>Facility Type</th>
+                  <th>Region</th>
+                  <th>Category</th>
+                  <th>Location Group</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <div class="ui dimmer dimmer_container">
+              <div class="ui loader"></div>
+            </div>
+          </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui blue button" id="facility_submit"  type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+        <% end %>
+</div>

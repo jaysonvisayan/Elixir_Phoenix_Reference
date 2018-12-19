@@ -1,0 +1,31 @@
+<%= render "breadcrumbs.html" %>
+<div name="location_group_step1" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Region</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+
+          <%= render "step1_edit_form.html", changeset: @changeset, conn: @conn, location_group: @location_group, action: location_group_path(@conn, :update_setup, @location_group, step: "1") %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

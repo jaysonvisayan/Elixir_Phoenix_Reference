@@ -1,0 +1,864 @@
+before_script:
+  - export PAYORLINK_VERSION=2.17.20
+  - export REGISTRATIONLINK_VERSION=0.4.9
+  - export ACCOUNTLINK_VERSION=2.3.10
+  - export MEMBERLINK_VERSION=2.2.3
+  - export AUTH_VERSION=1.2.1
+  - export WORKER_VERSION=0.6.14
+  - export SCHEDULER_VERSION=0.1.15
+  - mix deps.get
+  - mix compile
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - deps/
+  - _build/
+
+stages:
+  - test
+  - build
+  - deploy
+  - migrate
+
+test:
+  stage: test
+  only:
+    - branches
+  tags:
+    - test
+  script:
+    - MIX_ENV=test mix ecto.setup-no-seed
+    - mix test
+
+# IST env
+# PAYORLINK
+build-payorlink:
+  stage: build
+  environment:
+    name: ist
+    url: https://payorlink-ip-ist.medilink.com.ph/
+  only:
+    - ist/payorlink
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/payor_link
+    - mix edeliver build release
+
+deploy-payorlink to ist:
+  stage: deploy
+  environment:
+    name: ist
+    url: https://payorlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/payorlink
+  script:
+    - cd apps/payor_link
+    - mix edeliver deploy release to staging --version=${PAYORLINK_VERSION}
+    - ssh medi@172.16.45.5 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@172.16.45.44 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@172.16.24.181 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@172.16.24.182 services/payorsuite/restart-payorlink-service.sh
+
+migrate-payorlink ist:
+  stage: migrate
+  environment:
+    name: ist
+    url: https://payorlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/payorlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# REGISTRATIONLINK
+build-registrationlink:
+  stage: build
+  environment:
+    name: ist
+    url: https://registrationlink-ip-ist.medilink.com.ph/
+  only:
+    - ist/registrationlink
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/registration_link
+    - mix edeliver build release
+
+deploy-registrationlink to ist:
+  stage: deploy
+  environment:
+    name: ist
+    url: https://registrationlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/registrationlink
+  script:
+    - cd apps/registration_link
+    - mix edeliver deploy release to staging --version=${REGISTRATIONLINK_VERSION}
+    - ssh medi@172.16.45.5 services/payorsuite/restart-registrationlink-service.sh
+    - ssh medi@172.16.45.44 services/payorsuite/restart-registrationlink-service.sh
+    - ssh medi@172.16.24.181 services/payorsuite/restart-registrationlink-service.sh
+    - ssh medi@172.16.24.182 services/payorsuite/restart-registrationlink-service.sh
+
+migrate-registrationlink ist:
+  stage: migrate
+  environment:
+    name: ist
+    url: https://registrationlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/registrationlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# ACCOUNTLINK
+build-accountlink:
+  stage: build
+  environment:
+    name: ist
+    url: https://accountlink-ip-ist.medilink.com.ph/
+  only:
+    - ist/accountlink
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/account_link
+    - mix edeliver build release
+
+deploy-accountlink to ist:
+  stage: deploy
+  environment:
+    name: ist
+    url: https://accountlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/accountlink
+  script:
+    - cd apps/account_link
+    - mix edeliver deploy release to staging --version=${ACCOUNTLINK_VERSION}
+    - ssh medi@172.16.45.5 services/payorsuite/restart-accountlink-service.sh
+    - ssh medi@172.16.45.44 services/payorsuite/restart-accountlink-service.sh
+    - ssh medi@172.16.24.181 services/payorsuite/restart-accountlink-service.sh
+    - ssh medi@172.16.24.182 services/payorsuite/restart-accountlink-service.sh
+
+migrate-accountlink ist:
+  stage: migrate
+  environment:
+    name: ist
+    url: https://accountlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/accountlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# MEMBERLINK
+build-memberlink:
+  stage: build
+  environment:
+    name: ist
+    url: https://memberlink-ip-ist.medilink.com.ph/
+  only:
+    - ist/memberlink
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/member_link
+    - mix edeliver build release
+
+deploy-memberlink to ist:
+  stage: deploy
+  environment:
+    name: ist
+    url: https://memberlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/memberlink
+  script:
+    - cd apps/member_link
+    - mix edeliver deploy release to staging --version=${MEMBERLINK_VERSION}
+    - ssh medi@172.16.45.5 services/payorsuite/restart-memberlink-service.sh
+    - ssh medi@172.16.45.44 services/payorsuite/restart-memberlink-service.sh
+    - ssh medi@172.16.24.181 services/payorsuite/restart-memberlink-service.sh
+    - ssh medi@172.16.24.182 services/payorsuite/restart-memberlink-service.sh
+
+migrate-memberlink ist:
+  stage: migrate
+  environment:
+    name: ist
+    url: https://memberlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/memberlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# AUTH
+build-auth:
+  stage: build
+  environment:
+    name: ist
+    url: https://auth-ip-ist.medilink.com.ph/
+  only:
+    - ist/auth
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/auth
+    - mix edeliver build release
+
+deploy-auth to ist:
+  stage: deploy
+  environment:
+    name: ist
+    url: https://auth-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/auth
+  script:
+    - cd apps/auth
+    - mix edeliver deploy release to staging --version=${AUTH_VERSION}
+    - ssh medi@172.16.45.5 services/payorsuite/restart-auth-service.sh
+    - ssh medi@172.16.45.44 services/payorsuite/restart-auth-service.sh
+    - ssh medi@172.16.24.181 services/payorsuite/restart-auth-service.sh
+    - ssh medi@172.16.24.182 services/payorsuite/restart-auth-service.sh
+
+migrate-auth ist:
+  stage: migrate
+  environment:
+    name: ist
+    url: https://auth-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/auth
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# WORKER
+build-worker to ist:
+  stage: build
+  environment:
+    name: ist
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  only:
+    - ist/worker
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/worker
+    - mix edeliver build release
+
+deploy-worker to ist:
+  stage: deploy
+  environment:
+    name: ist
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/worker
+  script:
+    - cd apps/worker
+    - mix edeliver deploy release to staging --version=${WORKER_VERSION}
+    - ssh medi@172.16.45.27 services/payorsuite/restart-worker-service.sh
+    - ssh medi@172.16.45.29 services/payorsuite/restart-worker-service.sh
+    - ssh medi@172.16.20.182 services/payorsuite/restart-worker-service.sh
+
+migrate-worker ist:
+  stage: migrate
+  environment:
+    name: ist
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/worker
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# SCHEDULER
+build-scheduler to ist:
+  stage: build
+  environment:
+    name: ist
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  only:
+    - ist/scheduler
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/scheduler
+    - mix edeliver build release
+
+deploy-scheduler to ist:
+  stage: deploy
+  environment:
+    name: ist
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/scheduler
+  script:
+    - cd apps/scheduler
+    - mix edeliver deploy release to staging --version=${SCHEDULER_VERSION}
+    - ssh medi@172.16.45.24 services/payorsuite/restart-scheduler-service.sh #ist
+
+migrate-scheduler ist:
+  stage: migrate
+  environment:
+    name: ist
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - ist/scheduler
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-ist.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-migration.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+    # - source /home/gitlab-runner/payorsuite/migrate-autotest.env
+    # - MIX_ENV=prod mix ecto.setup-no-seed
+
+# UAT Env
+# PAYORLINK
+deploy-payorlink to uat:
+  stage: deploy
+  environment:
+    name: uat
+    url: https://payorlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/payorlink
+  script:
+    - cd apps/payor_link
+    - mix edeliver deploy release to uat --version=${PAYORLINK_VERSION}
+    - ssh medi@172.16.45.22 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@172.16.45.25 services/payorsuite/restart-payorlink-service.sh
+
+migrate-payorlink uat:
+  stage: migrate
+  environment:
+    name: uat
+    url: https://payorlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/payorlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# REGISTRATIONLINK
+deploy-registrationlink to uat:
+  stage: deploy
+  environment:
+    name: uat
+    url: https://registrationlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/registrationlink
+  script:
+    - cd apps/registration_link
+    - mix edeliver deploy release to uat --version=${REGISTRATIONLINK_VERSION}
+    - ssh medi@172.16.45.22 services/payorsuite/restart-registrationlink-service.sh
+    - ssh medi@172.16.45.25 services/payorsuite/restart-registrationlink-service.sh
+
+migrate-registrationlink uat:
+  stage: migrate
+  environment:
+    name: uat
+    url: https://registrationlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/registrationlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# ACCOUNTLINK
+deploy-accountlink to uat:
+  stage: deploy
+  environment:
+    name: uat
+    url: https://accountlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/accountlink
+  script:
+    - cd apps/account_link
+    - mix edeliver deploy release to uat --version=${ACCOUNTLINK_VERSION}
+    - ssh medi@172.16.45.22 services/payorsuite/restart-accountlink-service.sh
+    - ssh medi@172.16.45.25 services/payorsuite/restart-accountlink-service.sh
+
+migrate-accountlink uat:
+  stage: migrate
+  environment:
+    name: uat
+    url: https://accountlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/accountlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# MEMBERLINK
+deploy-memberlink to uat:
+  stage: deploy
+  environment:
+    name: uat
+    url: https://memberlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/memberlink
+  script:
+    - cd apps/member_link
+    - mix edeliver deploy release to uat --version=${MEMBERLINK_VERSION}
+    - ssh medi@172.16.45.22 services/payorsuite/restart-memberlink-service.sh
+    - ssh medi@172.16.45.25 services/payorsuite/restart-memberlink-service.sh
+
+migrate-memberlink uat:
+  stage: migrate
+  environment:
+    name: uat
+    url: https://memberlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/memberlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# AUTH
+deploy-auth to uat:
+  stage: deploy
+  environment:
+    name: uat
+    url: https://auth-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/auth
+  script:
+    - cd apps/auth
+    - mix edeliver deploy release to uat --version=${AUTH_VERSION}
+    - ssh medi@172.16.45.22 services/payorsuite/restart-auth-service.sh
+    - ssh medi@172.16.45.25 services/payorsuite/restart-auth-service.sh
+
+migrate-auth uat:
+  stage: migrate
+  environment:
+    name: uat
+    url: https://auth-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - UAT/auth
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# WORKER
+deploy-worker to uat:
+  stage: deploy
+  environment:
+    name: uat
+  tags:
+    - builder
+  only:
+    - UAT/worker
+  script:
+    - cd apps/worker
+    - mix edeliver deploy release to uat --version=${WORKER_VERSION}
+    - ssh medi@172.16.45.34 services/payorsuite/restart-worker-service.sh
+
+migrate-worker uat:
+  stage: migrate
+  environment:
+    name: uat
+  tags:
+    - builder
+  only:
+    - UAT/worker
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# UAT HOTFIX env
+# PAYORLINK
+build-payorlink to uat-hotfix:
+  stage: build
+  environment:
+    name: uat-hotfix
+    url: https://payorlink-ip-uat.medilink.com.ph/
+  only:
+    - uat-hotfix/payorlink
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/payor_link
+    - mix edeliver build release
+
+deploy-payorlink to uat-hotfix:
+  stage: deploy
+  environment:
+    name: uat-hotfix
+    url: https://payorlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - uat-hotfix/payorlink
+  script:
+    - cd apps/payor_link
+    - mix edeliver deploy release to uat --version=${PAYORLINK_VERSION}
+    - ssh medi@172.16.45.22 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@172.16.45.25 services/payorsuite/restart-payorlink-service.sh
+
+migrate-payorlink uat-hotfix:
+  stage: migrate
+  environment:
+    name: uat-hotfix
+    url: https://payorlink-ip-uat.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - uat-hotfix/payorlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# WORKER
+build-worker to uat-hotfix:
+  stage: build
+  environment:
+    name: uat-hotfix
+    # url: https://payorlink-ip-ist.medilink.com.ph/
+  only:
+    - uat-hotfix/worker
+  tags:
+    - builder
+  script:
+    - git branch -f master HEAD
+    - cd apps/worker
+    - mix edeliver build release
+
+deploy-worker to uat-hotfix:
+  stage: deploy
+  environment:
+    name: uat-hotfix
+  tags:
+    - builder
+  only:
+    - uat-hotfix/worker
+  script:
+    - cd apps/worker
+    - mix edeliver deploy release to uat --version=${WORKER_VERSION}
+    - ssh medi@172.16.45.34 services/payorsuite/restart-worker-service.sh
+
+migrate-worker uat-hotfix:
+  stage: migrate
+  environment:
+    name: uat-hotfix
+  tags:
+    - builder
+  only:
+    - uat-hotfix/worker
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-uat.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# PROD Env
+# PAYORLINK
+deploy-payorlink to prod:
+  stage: deploy
+  environment:
+    name: prod
+    url: https://payorlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/payorlink
+  script:
+    - cd apps/payor_link
+    - mix edeliver deploy release to production --version=${PAYORLINK_VERSION}
+    - ssh medi@172.16.24.142 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@172.16.24.143 services/payorsuite/restart-payorlink-service.sh
+    - ssh medi@35.201.224.242 services/payorsuite/restart-payorlink-service.sh
+
+migrate-payorlink prod:
+  stage: migrate
+  environment:
+    name: prod
+    url: https://payorlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/payorlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-prod.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# REGISTRATIONLINK
+deploy-registrationlink to prod:
+  stage: deploy
+  environment:
+    name: prod
+    url: https://registrationlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/registrationlink
+  script:
+    - cd apps/registration_link
+    - mix edeliver deploy release to production --version=${REGISTRATIONLINK_VERSION}
+    - ssh medi@172.16.24.142 services/payorsuite/restart-registrationlink-service.sh
+    - ssh medi@172.16.24.143 services/payorsuite/restart-registrationlink-service.sh
+    - ssh medi@35.201.224.242 services/payorsuite/restart-registrationlink-service.sh
+
+migrate-registrationlink prod:
+  stage: migrate
+  environment:
+    name: prod
+    url: https://registrationlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/registrationlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-prod.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# ACCOUNTLINK
+deploy-accountlink to prod:
+  stage: deploy
+  environment:
+    name: prod
+    url: https://accountlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/accountlink
+  script:
+    - cd apps/account_link
+    - mix edeliver deploy release to production --version=${ACCOUNTLINK_VERSION}
+    - ssh medi@172.16.24.142 services/payorsuite/restart-accountlink-service.sh
+    - ssh medi@172.16.24.143 services/payorsuite/restart-accountlink-service.sh
+    - ssh medi@35.201.224.242 services/payorsuite/restart-accountlink-service.sh
+
+migrate-accountlink prod:
+  stage: migrate
+  environment:
+    name: prod
+    url: https://accountlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/accountlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-prod.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# MEMBERLINK
+deploy-memberlink to prod:
+  stage: deploy
+  environment:
+    name: prod
+    url: https://memberlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/memberlink
+  script:
+    - cd apps/member_link
+    - mix edeliver deploy release to production --version=${MEMBERLINK_VERSION}
+    - ssh medi@172.16.24.142 services/payorsuite/restart-memberlink-service.sh
+    - ssh medi@172.16.24.143 services/payorsuite/restart-memberlink-service.sh
+    - ssh medi@35.201.224.242 services/payorsuite/restart-memberlink-service.sh
+
+migrate-memberlink prod:
+  stage: migrate
+  environment:
+    name: prod
+    url: https://memberlink-prod.medilink.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/memberlink
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-prod.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# AUTH
+deploy-auth to prod:
+  stage: deploy
+  environment:
+    name: prod
+    url: https://auth.maxicare.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/auth
+  script:
+    - cd apps/auth
+    - mix edeliver deploy release to production --version=${AUTH_VERSION}
+    - ssh medi@172.16.24.142 services/payorsuite/restart-auth-service.sh
+    - ssh medi@172.16.24.143 services/payorsuite/restart-auth-service.sh
+    - ssh medi@35.201.224.242 services/payorsuite/restart-auth-service.sh
+
+migrate-auth prod:
+  stage: migrate
+  environment:
+    name: prod
+    url: https://auth.maxicare.com.ph/
+  tags:
+    - builder
+  only:
+    - prod/auth
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-prod.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# WORKER
+deploy-worker to prod:
+  stage: deploy
+  environment:
+    name: prod
+  tags:
+    - builder
+  only:
+    - prod/worker
+  script:
+    - cd apps/worker
+    - mix edeliver deploy release to production --version=${WORKER_VERSION}
+    - ssh medi@172.16.24.206 services/payorsuite/restart-worker-service.sh
+
+migrate-worker prod:
+  stage: migrate
+  environment:
+    name: prod
+  tags:
+    - builder
+  only:
+    - prod/worker
+  script:
+    - source /home/gitlab-runner/payorsuite/migrate-prod.env
+    - MIX_ENV=prod mix ecto.setup-no-seed
+
+# Trigger build
+
+# deploy-staging:
+#   stage: deploy
+#   script:
+#     - mix edeliver deploy release to staging --version=0.21.1
+#     # - mix edeliver restart staging #Comment this since we are now using systemd
+#   environment:
+#     name: staging
+#     url: http://payorlink-ip-staging.medilink.com.ph/
+#   only:
+#     - staging
+#   tags:
+#     - IP
+# migrate-staging:
+#   stage: migrate
+#   script:
+#     - mix edeliver migrate staging
+#   only:
+#     - staging
+#   tags:
+#     - IP
+# K8 configs
+# build-staging:
+#   stage: build
+#   script:
+#     - docker-compose build ip-build
+#     - docker-compose build payorlink
+#   only:
+#     - staging
+#   tags:
+#     - IP
+
+# deploy-staging:
+#   stage: deploy
+#   only:
+#     - staging
+#   environment:
+#     name: staging
+#     url: http://payorlink-ip-staging.medilink.com.ph/
+#   script:
+#     - gcloud docker -- push asia.gcr.io/silver-approach-172802/payorlink:0.5.0 # Manually update this version
+#     - kubectl apply -f scripts/k8/payorlink.yml
+#   tags:
+#     - IP
+
+# migrate-staging:
+#   stage: migrate
+#   only:
+#     - staging
+#   script:
+#     - docker run --env-file ~/.env asia.gcr.io/silver-approach-172802/ip-build scripts/build/migrate.sh
+#     # If you need to reset DB
+#     # - kubectl delete -f scripts/k8/payorlink.yml
+#     # - docker run --env-file ~/.env asia.gcr.io/silver-approach-172802/ip-build scripts/build/migrate-with-seed.sh
+#     # - kubectl apply -f scripts/k8/payorlink.yml
+#   tags:
+#     - IP

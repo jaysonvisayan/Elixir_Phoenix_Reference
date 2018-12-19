@@ -1,0 +1,324 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i> </li>
+      <li><%= gettext "Account" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Finance" %></li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper finance">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+            <section>
+              <div class="section-title">
+                <%= gettext "Signatory Title" %>
+              </div>
+
+              <div class="ui grid">
+                <div class="row">
+                  <%= if Enum.empty?(@account_group.account_group_contacts) do %>
+                    <h4>No Records Found!</h4>
+                  <% else %>
+                    <%= for contacts <- @account_group.account_group_contacts do %>
+                      <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                        <table class="full-width ui celled table">
+                          <tbody>
+                            <tr>
+                              <td class="data-label"><%= gettext "Name" %></td>
+                              <td class="f-blue uppercase bold"><%= contacts.contact.last_name %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Desination" %></td>
+                              <td><%= contacts.contact.designation%></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Contact Type" %></td>
+                              <td><%= contacts.contact.type%></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Telephone" %></td>
+                              <td>
+                                <%= for telephone <- contacts.contact.phones do %>
+                                  <%= if telephone.type == "telephone" do %>
+                                    <%= telephone.number %>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Mobile" %></td>
+                              <td>
+                                <%= for mobile <- contacts.contact.phones do %>
+                                  <%= if mobile.type == "mobile" do %>
+                                    <%= mobile.number %>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Fax" %></td>
+                              <td>
+                                <%= if Enum.empty?(contacts.contact.fax) do %>
+                                  N/A
+                                <% else %>
+                                  <%= for mobile <- contacts.contact.phones do %>
+                                    <%= if mobile.type == "mobile" do %>
+                                      <%= mobile.number %>
+                                    <% end %>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Email" %></td>
+                              <td><%= contacts.contact.email%></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                        <table class="full-width ui celled table">
+                          <tbody>
+                            <tr>
+                              <td class="data-label">CTC</td>
+                              <td><%= contacts.contact.ctc%></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Date Issued" %></td>
+                              <td><%= contacts.contact.ctc_date_issued %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Place Issued" %></td>
+                              <td><%= contacts.contact.ctc_place_issued %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Passport No." %></td>
+                              <td><%= contacts.contact.ctc%></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Date Issued" %></td>
+                              <td><%= contacts.contact.passport_date_issued %></td>
+                            </tr>
+                            <tr>
+                              <td class="data-label"><%= gettext "Place Issued" %></td>
+                              <td><%= contacts.contact.passport_place_issued %></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="sixteen wide column">
+                        <%# <a class="ui tiny basic button mt-2" href="/account/finance/:id/request_edit">Request Edit</a> %>
+                        <hr>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= gettext "Billing Address" %>
+              </div>
+              <div class="ui grid">
+                <div class="row">
+                  <%= if Enum.count(@account_group.account_group_address) > 1 do %>
+                    <%= for address <- @account_group.account_group_address do %>
+                      <%= if address.type == "Billing Address" do %>
+                        <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                          <table class="full-width ui celled table">
+                            <tbody>
+                              <tr>
+                                <td class="data-label"><%= gettext "Address" %> 1</td>
+                                <td><%= address.line_1 %></td>
+                              </tr>
+                              <tr>
+                                <td class="data-label"><%= gettext "Address" %> 2</td>
+                                <td><%= address.line_2 %></td>
+                              </tr>
+                              <tr>
+                                <td class="data-label"><%= gettext "City" %> / <%= gettext "Municipality" %></td>
+                                <td><%= address.city %></td>
+                              </tr>
+                              <tr>
+                                <td class="data-label"><%= gettext "Province" %></td>
+                                <td><%= address.province %></td>
+                              </tr>
+                              <tr>
+                                <td class="data-label"><%= gettext "Region" %></td>
+                                <td><%= address.region %></td>
+                              </tr>
+                              <tr>
+                                <td class="data-label"><%= gettext "Country" %></td>
+                                <td><%= address.country %></td>
+                              </tr>
+                              <tr>
+                                <td class="data-label"><%= gettext "Postal Code" %></td>
+                                <td><%= address.postal_code %></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                          <img src="/images/placeholder.png" alt="">
+                        </div>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+                    <% address = Enum.at(@account_group.account_group_address, 0)%>
+                    <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                      <table class="full-width ui celled table">
+                        <tbody>
+                          <tr>
+                            <td class="data-label"><%= gettext "Address" %> 1</td>
+                            <td><%= address.line_1 %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Address" %> 2</td>
+                            <td><%= address.line_2 %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "City" %> / <%= gettext "Municipality" %></td>
+                            <td><%= address.city %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Province" %></td>
+                            <td><%= address.province %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Region" %></td>
+                            <td><%= address.region %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Country" %></td>
+                            <td><%= address.country %></td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Postal Code" %></td>
+                            <td><%= address.postal_code %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                      <img src="/images/placeholder.png" alt="">
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <%= @account_group.payment_account.funding_arrangement %>
+              </div>
+              <div class="ui grid">
+                <div class="row">
+                  <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                    <table class="full-width ui celled table">
+                      <tbody>
+                        <tr>
+                          <td class="data-label"><%= gettext "Account" %> TIN</td>
+                          <td class="f-blue uppercase bold"><%= @account_group.payment_account.account_tin %></td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "VAT Status" %></td>
+                          <td><%= @account_group.payment_account.vat_status%></td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "Principal Schedule of Payment" %></td>
+                          <td><%= @account_group.payment_account.p_sched_of_payment%></td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "Dependent Schedule of Payment" %></td>
+                          <td><%= @account_group.payment_account.d_sched_of_payment%></td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "Previous Carrier" %></td>
+                          <td>
+                            <%= if is_nil(@account_group.payment_account.previous_carrier) do %>
+                              N/A
+                            <% else %>
+                              <%= @account_group.payment_account.previous_carrier %>
+                            <% end %>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                    <table class="full-width ui celled table">
+                      <tbody>
+                        <tr>
+                          <td class="data-label"><%= gettext "Attached Point" %></td>
+                          <td>
+                            <%= if is_nil(@account_group.payment_account.attached_point) do %>
+                              N/A
+                            <% else %>
+                              <%= @account_group.payment_account.attached_point %>
+                            <% end %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="data-label"><%= gettext "Mode of Payment" %></td>
+                          <td><%= @account_group.payment_account.mode_of_payment %></td>
+                        </tr>
+
+                        <%= if @account_group.payment_account.mode_of_payment == "Check" do %>
+                          <tr>
+                            <td class="data-label"><%= gettext "Payee Name" %></td>
+                            <td>
+                              <%= if is_nil(@account_group.payment_account.payee_name) do %>
+                                N/A
+                                <% else %>
+                                <%= @account_group.payment_account.payee_name %>
+                              <% end %>
+                            </td>
+                          </tr>
+                        <% else %>
+                          <tr>
+                            <td class="data-label"><%= gettext "Bank Name" %></td>
+                            <td>
+                              <%= if is_nil(@account_group.bank.account_name) do %>
+                                N/A
+                              <% else %>
+                                <%= @account_group.bank.account_name %>
+                              <% end %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Bank Account No." %></td>
+                            <td>
+                              <%= if is_nil(@account_group.bank.account_no) do %>
+                                N/A
+                              <% else %>
+                                <%= @account_group.bank.account_no%>
+                              <% end %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="data-label"><%= gettext "Branch" %></td>
+                            <td>
+                              <%= if is_nil(@account_group.bank.branch) do %>
+                                N/A
+                              <% else %>
+                                <%= @account_group.bank.branch%>
+                              <% end %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

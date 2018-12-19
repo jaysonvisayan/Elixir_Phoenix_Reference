@@ -1,0 +1,109 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Location Group</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/location_groups">Location Group</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Show</div>
+  </div>
+</div>
+
+<div class="ui main container">
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">General</h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+
+    <div class="ui two column centered grid">
+      <div class="column">
+        <table class="ui table no-border borderless">
+          <tbody>
+            <tr>
+              <td>
+                <table>
+                  <tr>
+                    <td><label class="gray">Location Group Code</label></td>
+                    <td><%= @location_group.code %></td>
+                  </tr>
+                  <tr>
+                    <td><label class="gray">Location Group Name</label></td>
+                    <td><%= @location_group.name %></td>
+                  </tr>
+                  <tr>
+                    <td><label class="gray">Location Group Description</label></td>
+                    <td><%= @location_group.description %></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Regions</h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+
+    <div class="ui grid">
+      <div class="two wide column">
+      </div>
+      <div class="twelve wide column">
+        <div class="ui grid">
+          <div class="four wide column">
+            Luzon
+          </div>
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <%= for luzon_island <- @luzon_island do %>
+                <div class="five wide column">
+                  <%= luzon_island.region_name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="four wide column">
+            Visayas
+          </div>
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <%= for visayas_island <- @visayas_island do %>
+                <div class="five wide column">
+                  <%= visayas_island.region_name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="four wide column">
+            Mindanao
+          </div>
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <%= for mindanao_island <- @mindanao_island do %>
+                <div class="five wide column">
+                  <%= mindanao_island.region_name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui middle aligned left aligned grid mrg1T">
+    <div class="left floated left aligned six wide column">
+      <a href="/location_groups" class="ui button">
+        <i class="close left icon"></i> Back
+      </a>
+    </div>
+  </div>
+
+</div>

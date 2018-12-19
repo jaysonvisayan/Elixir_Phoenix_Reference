@@ -1,0 +1,95 @@
+<div class="ui small modal" id="show_details">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Diagnosis Details
+  </div>
+  <div class="content">
+    <div class="ui two column centered grid">
+      <div class="four column centered row">
+        <div class="column">
+          <b>Primary Diagnosis Code</b>
+        </div>
+        <div class="column">
+          <label id="code"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Primary Diagnosis Description</b>
+        </div>
+        <div class="column">
+          <label id="description"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Diagnosis Code</b>
+        </div>
+        <div class="column">
+          <label id="group_code"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Diagnosis Description</b>
+        </div>
+        <div class="column">
+          <label id="group_description"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Diagnosis Group Name</b>
+        </div>
+        <div class="column">
+          <label id="group_name"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Diagnosis Chapter</b>
+        </div>
+        <div class="column">
+          <label id="chapter"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Type</b>
+        </div>
+        <div class="column">
+          <label id="type"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Congenital</b>
+        </div>
+        <div class="column">
+          <label id="congenital"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Exclusion Type</b>
+        </div>
+        <div class="column">
+          <label id="exclusion_type"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Coverage/s</b>
+        </div>
+        <div class="column">
+          <label id="coverages"></label>
+        </div>
+      </div>
+      <input type="hidden" value="<%= Plug.CSRFProtection.get_csrf_token() %>" name="_csrf_token">
+      <input type="hidden" id="diagnosis_id">
+    </div>
+  </div>
+  <div class="actions">
+  </div>
+</div>
+

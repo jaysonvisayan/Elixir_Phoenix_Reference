@@ -1,0 +1,473 @@
+<div class="page-title" id="main_view_benefit">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        View Benefit
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/benefits">Benefits</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin"><%= @benefit.code %></div>
+        </div>
+      </h1>
+      <%# <div class="ui header float-right-medium"> %>
+        <%# <a %>
+          <%# data-csrf='<%= Plug.CSRFProtection.get_csrf_token() %1>' %>
+          <%# data-method='put' data-to='/web/benefits/<%= @benefit.id %1>/edit' %>
+          <%# class="ui primary button mt-1-small <%= is_benefit_already_used?(@benefit) %1>" %>
+          <%# > %>
+          <%# Edit Benefit %>
+          <%# </a> %>
+        <%# </div> %>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="main_benefit_modals">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="two wide computer sixteen wide mobile column">
+                <div class="mb-2 center aligned">
+                  <%= if @benefit.category == "Health" do %>
+                    <div class="mr-2"><i class="icon icon-benefit-card huge black "></i></div>
+                    &nbsp;<label>Health Plan</label>
+                  <% else %>
+                    <div class="mr-2"><i class="icon icon-riders big black "></i></div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<label>Riders</label>
+                  <% end %>
+                </div>
+              </div>
+              <div class="six wide computer eight wide tablet eight wide mobile column">
+                <p class="member-name" style="color: #00B24F"><%= @benefit.code %></p>
+                <div class="section-title mt-2"><h1><div class="title-name"><%= @benefit.name %></div></h1></div>
+              </div>
+              <div class="six wide computer eight wide tablet eight wide mobile column">
+                <p>
+                  <%# <span class="info__title dim capitalize"> %>
+                    <%#   Coverages %>
+                    <%# </span> %>
+                  <%# <span class="info__content"> %>
+                    <%#   <%= display_coverages(@benefit) %1> %>
+                    <%#   <div class="text value"> %>
+                      <%#     <%= if @benefit.status == "Discontinuing" do %1> %>
+                      <%#       <p style="color: red"> %>
+                        <%#         For Discontinuation <span id="main_dbdate"> %>
+                          <%#           (<%=convert_date_discontinue @benefit %1> ) </span> %>
+                        <%#       </p> %>
+                      <%#     <% end %1> %>
+                      <%#     <%= if @benefit.status == "Discontinued" do %1> %>
+                      <%#       <p style="color: red"> %>
+                        <%#         Discontinued since  <span id="main_dbdate"> %>
+                          <%#           (<%=convert_date_discontinue @benefit %1>) </span> %>
+                        <%#       </p> %>
+                      <%#     <% end %1> %>
+                      <%#     <%= if @benefit.status == "For Deletion" do %1> %>
+                      <%#       <p style="color: red;"> %>
+                        <%#         For Deletion <span id="main_dbdeletedate"> %>
+                          <%#           (<%= convert_date_delete @benefit %1>) </span> %>
+                        <%#       </p> %>
+                      <%#     <% end %1> %>
+                      <%#     <%= if @benefit.status == "Disabling" do %1> %>
+                      <%#       <p style="color: red;"> %>
+                        <%#         For Disabling <span id="main_disabled_date"> %>
+                          <%#           (<%= convert_date_disable @benefit %1>) </span> %>
+                        <%#       </p> %>
+                      <%#     <% end %1> %>
+                      <%#     <%= if @benefit.status == "Disabled" do %1> %>
+                      <%#       <p style="color: red;"> %>
+                        <%#         Disabled since <span id="main_disabled_date"> %>
+                          <%#           (<%= convert_date_disable @benefit %1>) </span> %>
+                        <%#       </p> %>
+                      <%#     <% end %1> %>
+                      <%#   </div> %>
+                    <%# </span> %>
+                </p>
+              </div>
+
+              <%= if peme_coverage?(@benefit) do %>
+                <div class="two wide computer sixteen wide mobile column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+                  <div class="ui dropdown">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                      <% status = if @benefit.status == "Disabling" || @benefit.status == "For Deletion" || @benefit.status == "Disabled" || @benefit.status == "Discontinued" || @benefit.status == "Discontinuing", do: "disabled" %>
+
+                      <div class="item <%= status %> <%= is_benefit_already_used?(@benefit) %>" id="mainDiscontinueBenefitID">
+                        <i class="hand paper icon" ></i>
+                        Discontinue Benefit
+                      </div>
+                      <div class="item <%= status %>" id="mainDisableBenefitID">
+                        <i class="ban icon" ></i>
+                        Disable Benefit
+                      </div>
+                      <%= if @benefit.product_benefit == [] do %>
+                        <div class="item <%= status %> <%= is_benefit_already_used?(@benefit) %>" id="mainDeleteBenefitID">
+                          <i class="trash alternate icon" ></i>
+                          Delete Benefit
+                        </div>
+                        <%= end %>
+                        <div class="item" >
+                          <i class="print icon"></i>
+                          Print
+                        </div>
+                        <div class="item" id="benefit_logs">
+                          <i class="file text outline icon"></i>
+                          Logs
+                        </div>
+                      </div>
+                    </div>
+
+                    <%= render "discontinue_peme.html", benefit: @benefit, conn: @conn, changeset_discontinue_benefit: @changeset_discontinue_benefit %>
+                    <%= render "delete_peme_modal.html", benefit: @benefit, conn: @conn, changeset_delete_benefit: @changeset_delete_benefit %>
+                    <%= render "disabling_peme_modal.html", benefit: @benefit, conn: @conn, changeset_disabling_benefit: @changeset_disabling_benefit %>
+                    <%# </div> %>
+
+                  <%= else %>
+                  <% status = if @benefit.status == "Disabling" || @benefit.status == "For Deletion" || @benefit.status == "Disabled" || @benefit.status == "Discontinued" || @benefit.status == "Discontinuing", do: "disabled" %>
+                  <%# TEMPORARY ACU %>
+                  <div class="two wide computer sixteen wide mobile column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+                    <div class="ui dropdown">
+                      <i class="ellipsis vertical icon"></i>
+                      <div class="menu">
+                        <div data-csrf='<%= Plug.CSRFProtection.get_csrf_token() %>'
+                          data-method='put' data-to='/web/benefits/<%= @benefit.id %>/edit'
+                          class="item <%= is_benefit_already_used?(@benefit) %>"
+                          id="">
+                          <i class="edit outline icon" ></i>
+                          Edit
+                        </div>
+                        <div class="item " id="mainDisableBenefitID">
+                          <i class="clone outline icon" ></i>
+                          Versions
+                        </div>
+                        <div class="item" >
+                          <i class="icon-product icon"></i>
+                          View plans
+                        </div>
+                        <div class="divider"></div>
+                        <%= if @benefit.product_benefit == [] do %>
+                          <div class="item <%= status %> <%= is_benefit_already_used?(@benefit) %>" id="mainDeleteBenefitID">
+                            <i class="trash alternate icon" ></i>
+                            Delete
+                          </div>
+                          <%= end %>
+                        </div>
+                      </div>
+                      <%= render "delete_peme_modal.html", benefit: @benefit, conn: @conn, changeset_delete_benefit: @changeset_delete_benefit %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui grid">
+          <div class="six wide column">
+            <div class="ui form">
+              <%= if not is_nil(@benefit.updated_at) and @benefit.updated_at != "" do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    LAST UPDATE
+                  </div>
+                  <div class="valid_timezone field">
+                    <%= convert_date_time(@benefit.updated_at)%>
+                  </div>
+                </div>
+              <% end %>
+              <%= if not is_nil(@benefit.updated_by) and @benefit.updated_by != "" do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    UPDATED BY
+                  </div>
+                  <div class="field">
+                    <%= "#{@benefit.updated_by}" %>
+                  </div>
+                </div>
+              <% end %>
+              <div class="two fields">
+                <div class="field dim">
+                  COVERAGE
+                </div>
+                <div class="field">
+                  <%= display_coverages(@benefit) %>
+                </div>
+              </div>
+              <%= if not is_nil(@benefit.type) and @benefit.type == "Availment" do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    CATEGORY
+                  </div>
+                  <div class="field">
+                    <%= if display_category(@benefit) == "", do: "N/a", else: display_category(@benefit)%>
+                  </div>
+                </div>
+              <% end %>
+              <%= if not is_nil(@benefit.classification) and @benefit.classification != "" do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    CLASSIFICATION
+                  </div>
+                  <div class="field">
+                    <%= @benefit.classification %>
+                  </div>
+                </div>
+              <% end %>
+              <%= if acu_coverage?(@benefit) do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    ACU TYPE
+                  </div>
+                  <div class="field">
+                    <%= @benefit.acu_type %>
+                  </div>
+                </div>
+              <% end %>
+              <%= if not is_nil(@benefit.provider_access) and @benefit.provider_access != "" do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    AVAILMENT CHANNEL
+                  </div>
+                  <div class="field">
+                    <%= "#{@benefit.provider_access}" %>
+                  </div>
+                </div>
+              <% end %>
+              <%= if not is_nil(@benefit.all_procedure) and @benefit.all_procedure != false do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    Procedure
+                  </div>
+                  <div class="field">
+                    All Procedures
+                  </div>
+                </div>
+              <% end %>
+              <%= if not is_nil(@benefit.all_diagnosis) and @benefit.all_diagnosis != false do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    Diagnoses
+                  </div>
+                  <div class="field">
+                    All Diagnoses
+                  </div>
+                </div>
+              <% end %>
+              <%= if not is_nil(@benefit.type) and @benefit.type != "" do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    TYPE
+                  </div>
+                  <div class="field">
+                    <%= @benefit.type %>
+                  </div>
+                </div>
+              <% else %>
+                <div class="two fields">
+                  <div class="field dim">
+                    TYPE
+                  </div>
+                  <div class="field">
+                    Availment
+                  </div>
+                </div>
+              <% end %>
+              <%= if @benefit.benefit_limit != [] and Enum.count(@benefit.benefit_limit) < 2 do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    LIMIT TYPE
+                  </div>
+                  <div class="field">
+                    <%= display_limit_type(@benefit) %>
+                  </div>
+                </div>
+              <% end %>
+              <%= if @benefit.benefit_limit != [] and Enum.count(@benefit.benefit_limit) < 2 do %>
+                <div class="two fields">
+                  <div class="field dim">
+                    LIMIT
+                  </div>
+                  <div class="field">
+                    <%= display_limit(@benefit) %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" name="benefit[id]" value=<%= @benefit.id%>>
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+        <!-- BENEFIT LIMIT -->
+        <%= if @benefit.type == "Availment" or is_nil(@benefit.type) do %>
+          <%= if Enum.count(@benefit.benefit_limit) > 1 do %>
+            <div class="bottom-border pb-2 mb-2" id="benefit_limit_dt">
+              <div class="section-title mt-2"><div class="title-name">Limits</div></div>
+              <div class="field">
+
+                <table class="ui very basic striped selectable table" cellspacing="0" width="100%" id="benefit_limit_coverages_dt">
+                  <thead>
+                    <tr>
+                      <th>Coverage</th>
+                      <th>Limit Type</th>
+                      <th>Limit Amount</th>
+                      <%# <th>Limit Classification</th> %>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <% end %>
+          <!-- END BENEFIT LIMIT -->
+
+          <!-- PACKAGES -->
+          <%= if acu_coverage?(@benefit) or peme_coverage?(@benefit) do %>
+            <div class="bottom-border pb-2 mb-2" id="benefit_package_dt">
+              <div class="section-title mt-2"><div class="title-name">Packages</div></div>
+              <div class="field">
+
+                <table class="ui very basic striped selectable table" cellspacing="0" width="100%" id="benefit_packages_dt">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th>Gender</th>
+                      <th>Age</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <% end %>
+          <!-- END PACKAGES -->
+
+          <!-- DIAGNOSES -->
+          <%= if !acu_coverage?(@benefit) and !peme_coverage?(@benefit) do %>
+            <%= if not is_nil(@benefit.all_diagnosis) and @benefit.all_diagnosis == false do %>
+              <div class="bottom-border pb-2 mb-2" id="benefit_diagnosis_dt">
+                <div class="section-title mt-2">
+                  <div class="title-name">ICD</div>
+                </div>
+                <%# <div class="ui right floated header mt-2"> %>
+                  <%#   <1%# <a class="modal-open-procedure ui primary button">+ Add Procedure</a> %1> %>
+                  <%# </div> %>
+                <div class="field">
+                  <table class="full-width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_diagnoses_dt">
+                    <thead>
+                      <tr>
+                        <th>ICD Code</th>
+                        <th>ICD Description</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            <% end %>
+            <!-- PROCEDURES -->
+
+            <br>
+            <%= if !dental_coverage?(@benefit) do %>
+              <%= if not is_nil(@benefit.all_procedure) and @benefit.all_procedure == false do %>
+                <div class="bottom-border pb-2 mb-2" id="benefit_procedure_dt">
+                  <div class="section-title mt-2">
+                    <div class="title-name">CPT</div>
+                  </div>
+                  <div class="field">
+
+                    <table class="full width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_procedures_dt">
+                      <thead>
+                        <tr>
+                          <th>CPT Code</th>
+                          <th>CPT Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+
+            <!-- DENTAL CDT -->
+            <br>
+            <%= if dental_coverage?(@benefit) do %>
+              <%= if not is_nil(@benefit.all_procedure) and @benefit.all_procedure == false do %>
+                <div class="bottom-border pb-2 mb-2" id="benefit_procedure_dental_dt">
+                  <div class="section-title mt-2">
+                    <div class="title-name">CDT</div>
+                  </div>
+                  <div class="field">
+
+                    <table class="full width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_procedures_dental_dt">
+                      <thead>
+                        <tr>
+                          <th>CDT Code</th>
+                          <th>CDT Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <!-- END PROCEDURES -->
+          <!-- RUV'S -->
+
+          <%= if @benefit.benefit_ruv != [] do %>
+            <div class="ui left floated header">
+              <div class="section-title mt-2"><div class="title-name">RUV</div></div>
+            </div>
+
+            <div class="ui right floated header mt-2">
+            </div>
+            <table class="full-width ui celled striped table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Value</th>
+                  <th>Effectivity Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for r <- @benefit.benefit_ruv do %>
+                  <tr>
+                    <td><%= r.ruv_code %></td>
+                    <td width="20%"><%= r.ruv_description %></td>
+                    <td><%= r.ruv_type %></td>
+                    <td width="20%"><%= r.ruv_value %></td>
+                    <td><%= r.ruv_effectivity_date %></td>
+                    <td class="table-icon--holder">
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% end %>
+
+        <% end %>
+        <!-- END RUVS -->
+        <br><br>
+        <a href="/web/benefits"><button id="" class="ui basic button mt-1-small">Back</button></a>
+      </div><!-- row ends here -->
+    </div><!-- grid ends here -->
+  </div><!-- .white-bg -->
+</div><!-- container ends here -->

@@ -1,0 +1,280 @@
+<!-- layout.nunjucks -->
+
+<!DOCTYPE html>
+<!--<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="icon" href="img/favicon.jpg" type="image/x-icon"/>
+    <link rel="shortcut icon" href="img/favicon.jp" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src=""></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="ui top fixed menu">
+        <div class=" ui container">
+          <div class="item link sidebar-menu-handler" id="sidebar_menu">
+            <i class="icon sidebar"></i>
+          </div>
+          <div class="item">
+            <a href="index.html">
+              <img src="./img/site-logo.png">
+            </a>
+            <a href="#">member<b class="blue ui text">gateway</b></a>
+          </div>
+          <div class="item sidebar-item">
+            <div class="ui left icon input">
+              <input type="text" placeholder="Search for doctors and hospitals">
+              <i class="search link icon"></i>
+            </div>
+          </div>
+
+          <div class="right menu sidebar-item">
+            <div class="item">
+              <button class="ui primary dropdown basic button">
+                <span class="text">REQUEST LOA</span>
+                <i class="icon angle down"></i>
+                <div class="menu">
+                  <div class="item">Request Lab</div>
+                  <div class="item">Request Consultant</div>
+                </div>
+              </button>
+            </div>
+            <div class="item">
+              <img src="img/face.jpg" class="ui mini circular image"/>
+              <i class="icon angle down"></i>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </header>
+
+
+
+
+
+
+
+    <div class="account-sidebar ui sidebar offcanvas-sidebar">
+
+
+      <div class="main-navigation-side ui secondary vertical menu">
+        <div class="item">
+          <div class="ui left icon input fluid">
+            <input type="text" placeholder="Search for doctors and hospitals">
+            <i class="search link icon"></i>
+          </div>
+        </div>
+
+        <div class="item">
+          <button class="ui primary dropdown basic button fluid">
+            <span class="text">REQUEST LOA</span>
+            <i class="icon angle down"></i>
+            <div class="menu">
+              <div class="item">Request Lab</div>
+              <div class="item">Request Consultant</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui secondary vertical menu">
+
+        <a class="item " href="account_my_account.html"><i class="id card icon"></i>My account</a>
+
+
+        <a class="item " href="account_my_profile.html"><i class="user icon"></i>My Profile</a>
+
+
+        <a class="item " href="#"><i class="mail icon"></i>Contact Details</a>
+
+
+        <a class="item " href="account_kyc_bank_info.html"><i class="file icon"></i>Bank KYC Information</a>
+
+
+        <a class="item " href="#"><i class="users icon"></i>Dependents</a>
+
+
+      </div>
+
+
+      <div class="ui divider"></div>
+      <div class="ui secondary vertical menu">
+        <a class="item" href="#"><i class="sign out icon"></i> Logout</a>
+      </div>
+
+    </div>
+
+
+    -->
+
+    <div class="pusher">
+      <!-- You write code for this content block in another file -->
+
+
+      <div class="content-holder">
+        <div class="ui main container">
+          <div class="ui grid">
+
+            <div class="sixteen wide computer ten wide tablet sixteen wide mobile column">
+              <div class="chart-container pie-chart" style="">
+                <canvas id="loaChart"></canvas>
+              </div>
+            </div>
+
+            <div class="ui divider hidden"></div>
+
+            <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+              <div class="ui stackable grid">
+                <div class="four wide computer four wide tablet sixteen wide mobile column"><h1 class="ui huge header">Transactions</h1></div>
+                <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column">
+                  <form >
+                    <div class="ui form dashboard">
+                      <div class="inline fields">
+                        <div class="field">
+                          <div class="ui selection dropdown">
+                            <input type="hidden" name="transaction">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Transaction</div>
+                            <div class="menu">
+                              <div class="item" data-value="1">Transaction</div>
+                              <div class="item" data-value="0">LOAs</div>
+                            </div>
+                          </div>
+                        </div>
+                        <%# <div class="field" id="dateFormPicker"> %>
+                        <%#   <div class="ui calendar" id="example3"> %>
+                        <%#     <div class="ui input left icon"> %>
+                        <%#       <i class="calendar icon"></i> %>
+                        <%#       <input type="text" id="example3"> %>
+                        <%#     </div> %>
+                        <%#   </div> %>
+                        <%# </div> %>
+                        <div class="field">
+                          <div class="ui selection dropdown">
+                            <input type="hidden" name="member">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Member</div>
+                            <div class="menu">
+                              <div class="item" data-value="1">Member</div>
+                              <div class="item" data-value="0">NO</div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="field">
+                          <div class="ui primary buttons">
+                            <div class="ui button">EXPORT</div>
+                            <div class="ui floating dropdown icon button">
+                              <i class="dropdown icon"></i>
+                              <div class="menu export-pdf">
+                                <div class="item export-pdf-loa" memberID="<%= @member.id %>">Export to PDF</div>
+                                <div class="item clickable-row download-csv" role="download" href="#" memberID="<%= @member.id %>">Export to Excel</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+                  </form>
+                </div>
+              </div>
+
+              <table role="" class="ui very basic striped selectable table">
+                <thead>
+                  <tr>
+                    <th>Member</th>
+                    <th>Facility/ Doctor</th>
+                    <th>Service Date <i class="icon angle down"></i></th>
+                    <th>Coverage <i class="icon angle down"></i></th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= if Enum.empty?(@authorizations) == false do %>
+                    <input type="hidden" status="for-approval" value="<%= count_status(@authorizations)["For Approval"]%>">
+                    <input type="hidden" status="pending"  value="<%= count_status(@authorizations)["Pending"]%>">
+                    <input type="hidden" status="approved"  value="<%= count_status(@authorizations)["Approved"]%>">
+                    <%= for authorization <- @authorizations do %>
+                      <tr>
+                        <td>
+                          <div class="dim">
+                            <%= if authorization.member.id == @member.id do %>
+                              Me
+                            <%= else %>
+                              <%= authorization.member.relationship %>
+                            <% end %>
+                          </div>
+                        </td>
+                        <td>
+                          <a href="localhost:4000/facilities/<%= if !is_nil(authorization.facility), do: authorization.facility.name %>" class="header">
+                              <%= if !is_nil(authorization.facility), do: authorization.facility.name %>
+                              /
+                              <%= if !is_nil(authorization.authorization_practitioners) do %>
+                                <%=  Enum.into(authorization.authorization_practitioners, [], fn(ap) ->
+                                        Enum.join([ap.practitioner.last_name, ap.practitioner.first_name], " ")
+                                     end)
+                                %>
+                              <% end %>
+                          </a>
+                        </td>
+                        <td class="date_transform"><%= authorization.admission_datetime %></td>
+                        <td>
+                          <%= if is_nil(authorization.coverage) == false, do: authorization.coverage.name %>
+                        </td>
+                        <td><span class="dim">LOA</span></td>
+                        <td>
+                          <small class="status <%= status[authorization.status]%>"><i class="icon circle"></i>
+                          <%= if authorization.status == "Pending" do %>
+                            PROCESSING
+                          <%= else %>
+                            <%= authorization.status %>
+                          <% end %>
+                          </small>
+                        </td>
+                        <td>
+                          <%= if is_nil(authorization.authorization_amounts) do %>
+                            0
+                          <%= else %>
+                            <%= authorization.authorization_amounts.total_amount %>
+                          <% end %>
+                        </td>
+                        <td><a href="" class="clickable-row"><i class="icon download"></i></a></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div> <!-- .pusher closed -->
+
+<!--  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/semantic.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+</body>
+</html> -->

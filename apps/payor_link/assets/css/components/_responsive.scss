@@ -1,0 +1,133 @@
+/* =============Sidebar Layout============= */
+
+
+/* Hide Top Bar */
+
+@media only screen and (min-width: 1145px) {
+    .admin .fixed.main.menu {
+        display: none;
+    }
+}
+
+
+/* Remove Fixed Sidebar /  Show Top Bar */
+
+@media only screen and (max-width: 1144px) {
+    /* Hide Fixed Sidebar */
+    .admin .full.height>.toc {
+        display: none;
+    }
+    #footer {
+        margin-left: 0px !important;
+        font-size: 8px !important;
+    }
+}
+
+
+/* =============Sidebar Layout============= */
+
+
+/* =============Nav ============= */
+
+@media screen and (max-width: 1144px) {
+    .navmenu {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {}
+
+@media only screen and (max-width: 420px) {
+    .fixed.top.menu {
+        display: none;
+    }
+}
+
+
+/* =============Nav ============= */
+
+
+/* =============Button,Label,Input Margin Fix On Tablet============= */
+
+.ui.button,
+.ui.label,
+.ui.input {
+    margin-bottom: 5px;
+}
+
+
+/* =============Button,Label,Input Margin Fix On Tablet============= */
+
+
+/* =============Mobil Side Menu Z-Index Fix============= */
+
+#toc {
+    z-index: 999;
+}
+
+
+/* =============Mobil Side Menu Z-Index Fix============= */
+
+
+/* =========================LOGIN PAGE=============================== */
+
+
+/* Mobile */
+
+@media only screen and (max-width: 360px) {
+    .plr_login {
+        padding-left: 1.5em !important;
+        padding-right: 1.5em !important;
+    }
+    .login .column {
+        max-width: 300px !important;
+        margin-top: 1px;
+    }
+    .login .image {
+        width: 200px !important;
+    }
+}
+
+@media only screen and (min-width: 361px) and (max-width: 767px) {
+    .plr_login {
+        padding-left: 1.5em !important;
+        padding-right: 1.5em !important;
+    }
+    .login .column {
+        max-width: 350px !important;
+    }
+    .login .image {
+        width: 200px !important;
+    }
+}
+
+
+/* Tablet / iPad Portrait */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .plr_login {
+        padding-left: 6em !important;
+        padding-right: 6em !important;
+    }
+    .login .column {
+        max-width: 650px !important;
+    }
+    .login .image {
+        width: 250px !important;
+    }
+}
+
+
+/* Computer / Desktop / iPad Landscape */
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {}
+
+
+/* Large Monitor */
+
+@media only screen and (min-width: 1200px) and (max-width: 1919px) {}
+
+
+/* Widescreen Monitor */
+
+@media only screen and (min-width: 1920px) {}

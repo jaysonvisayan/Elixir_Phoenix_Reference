@@ -1,0 +1,67 @@
+.alertify-notifier.ajs-right {
+    right: -20px;
+}
+
+.alertify-notifier.ajs-top {
+    top: 60px;
+}
+
+.ajs-message.ajs-info {
+    color: #276f86 !important;
+    background-color: #f8ffff !important;
+    box-shadow: 0 0 0 1px #a9d5de inset, 0 0 0 0 transparent !important;
+}
+
+.alertify-notifier .ajs-message.ajs-success {
+    color: #2c662d !important;
+    background-color: #fcfff5 !important;
+    box-shadow: 0 0 0 1px #a3c293 inset, 0 0 0 0 transparent !important;
+    text-shadow: none;
+}
+
+.alertify-notifier .ajs-message.ajs-warning {
+    color: #573a08 !important;
+    background-color: #fffaf3 !important;
+    box-shadow: 0 0 0 1px #c9ba9b inset, 0 0 0 0 transparent !important;
+    text-shadow: none;
+}
+
+.alertify-notifier .ajs-message.ajs-error {
+    color: #9f3a38 !important;
+    background-color: #fff6f6 !important;
+    box-shadow: 0 0 0 1px #e0b4b4 inset, 0 0 0 0 transparent !important;
+    text-shadow: none;
+}
+
+.alertify-notifier .ajs-message {
+    text-align: left;
+    position: relative;
+    min-height: 1em;
+    margin: 1em 0em;
+    background: #F8F8F9;
+    padding: 1em 1.5em;
+    line-height: 1.4285em;
+    color: rgba(0, 0, 0, 0.87);
+    -webkit-transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+    transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
+    border-radius: 0.28571429rem;
+    box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.22) inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.alertify-notifier .ajs-message>.close.icon {
+    cursor: pointer;
+    position: absolute;
+    margin: 0em;
+    top: 0.78575em;
+    right: 0.5em;
+    opacity: 0.7;
+    -webkit-transition: opacity 0.1s ease;
+    transition: opacity 0.1s ease;
+}
+
+.alertify-notifier .ajs-message .header {
+    display: block;
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    margin: -.14285714em 0 0 0;
+}

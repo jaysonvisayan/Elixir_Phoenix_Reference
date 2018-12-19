@@ -1,0 +1,49 @@
+<%= form_for @changeset, @action, [class: "form2"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="two fields">
+    <div class="field required">
+      <%= label f, :name %>
+      <%= hidden_input f, :hidden_name %>
+      <%= text_input f, :name %>
+      <%= error_tag f, :name %>
+    </div>
+    <div class="field">
+      <%= label f, :application_ids, "Application" %>
+      <%= multiple_select f, :application_ids, @applications, class: "ui dropdown" %>
+      <%= error_tag f, :application_ids %>
+    </div>
+  </div>
+  <div class="field">
+    <%= label f, :description, class: "control-label" %>
+    <%= textarea f, :description, rows: "2" %>
+    <%= error_tag f, :description %>
+  </div>
+  <div class="two inline fields">
+    <div class="field">
+      <span><a class="ui button" id="cancel_button">Cancel</a></span>
+    </div>
+    <div class="right aligned field">
+      <%= submit "Next", class: "ui right floated blue submit button" %>
+    </div>
+  </div>
+<% end %>
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Unsaved Changes
+  </div>
+  <div class="image content">
+    You have unsaved changes. Are you sure you want to cancel?
+  </div>
+  <div class="actions">
+    <div class="ui negative button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui positive button">
+      <i class="checkmark icon"></i>
+        <a href="/roles" style="color:white;">Yes</a>
+    </div>
+  </div>
+</div>
+

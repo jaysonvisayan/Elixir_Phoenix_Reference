@@ -1,0 +1,61 @@
+<div class="ui view large modal" role="view" id="view_m">
+  <i class="close icon"></i>
+  <div class="header" id="exclusion_name">
+     Exclusion
+  </div>
+  <div class="content">
+    <input type="hidden" name="product[product_exclusion_id]" id="product_exclusion_id" value="">
+    <input type="hidden" name="product[product_id]" id="product_id" value="">
+
+
+    <div class="ui grid">
+      <div class="two wide columns">
+        <h4 id="parsed-duration-title"> Duration: </h4>
+      </div>
+      <div class="fourteen wide columns">
+        <div id="parsed-duration">
+        </div>
+      </div>
+    </div>
+
+    <h4>Disease</h4>
+    <table id="disease_tbl" class="ui striped table">
+      <thead>
+        <tr>
+          <th>Exclusion Code</th>
+          <th>Exclusion Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- -->
+      </tbody>
+    </table>
+
+    <h4 id="label">Procedure</h4>
+    <table id="procedure_tbl" class="ui striped table">
+      <thead>
+        <tr>
+          <th>Exclusion Code</th>
+          <th>Exclusion Name</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- -->
+      </tbody>
+    </table>
+
+  </div>
+
+
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui red button" type="submit" role="deleting_product_exclusion" >
+      <i class="trash icon"></i>
+      Remove
+    </button>
+  </div>
+</div>

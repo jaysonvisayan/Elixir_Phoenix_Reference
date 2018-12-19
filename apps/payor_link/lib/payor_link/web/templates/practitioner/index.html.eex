@@ -1,0 +1,96 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Practitioners</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/practitioners/new"><i class="plus icon"></i>Practitioners</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioners</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div> 
+          <div class="ui divider"></div>                            
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+          <th>Practitioner Code</th>
+          <th>Practitioner Name</th>
+          <th>Status</th>
+          <th>Specialization</th>
+          <th>Sub-Specialization</th>
+          <th>Facility Code</th>
+          <th>Facility Name</th>
+        </tr>
+    </thead>
+    <tbody>
+      <%= for practitioner <- @practitioners do %>
+        <tr>
+          <td>
+            <%= practitioner.code %>
+          </td>
+          <td>
+            <%= if practitioner.step == 5 do %>
+              <a href ="/practitioners/<%= practitioner.id %>?active=profile"><%= Enum.join([practitioner.first_name, practitioner.middle_name, practitioner.last_name], " ") %></a>
+              <%  else %>
+              <a href ="/practitioners/<%= practitioner.id %>/setup?step=<%= practitioner.step %>"><%= Enum.join([practitioner.first_name, practitioner.middle_name, practitioner.last_name], " ") %></a>
+            <% end %>
+          </td>
+          <td>
+            <%= practitioner.status %>
+          </td>
+          <td>
+            <%= for practitioner_specialization <- practitioner.practitioner_specializations do %>
+              <%= if practitioner_specialization.type == "Primary" do %>
+                <%= practitioner_specialization.specialization.name %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= for practitioner_specialization <- practitioner.practitioner_specializations do %>
+              <%= if practitioner_specialization.type == "Secondary" do %>
+                <%= Enum.join([practitioner_specialization.specialization.name, ", "]) %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= if practitioner.practitioner_facilities == [] do %>
+              N/A
+            <% else %>
+              <%= for fp <- practitioner.practitioner_facilities do %>
+                <%= fp.facility.code %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= if practitioner.practitioner_facilities == [] do %>
+              N/A
+            <% else %>
+              <%= for fp <- practitioner.practitioner_facilities do %>
+                <%= fp.facility.name %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="7">
+          <div class="center_align">
+            <a id="export_button" class="pointer">
+              <i class="download icon"></i><b>Download Result</b>
+            </a>
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

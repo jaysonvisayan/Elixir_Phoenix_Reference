@@ -1,0 +1,123 @@
+<div class="row" id="kycStep2">
+  <div class="eleven wide column">
+    <%= form_for @changeset, @action, [as: :kyc, class: "ui form", id: "step2_form", multipart: :true], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+        </div>
+      </div>
+    <% end %>
+    <div class="two fields">
+      <div class="field">
+        <label>Street No.</label>
+        <%= number_input f, :street_no, placeholder: "Enter street number"%>
+        <%= error_tag f, :street_no%>
+      </div>
+      <div class="field">
+        <label>Subd / District / Town</label>
+        <%= text_input f, :subd_dist_town, placeholder: "Enter subdivison / district / town" %>
+        <%= error_tag f,  :subd_dist_town %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label>Country</label>
+        <%= select f, :country, @countries, class: "ui fluid dropdown countries", required: ""%>
+        <%= error_tag f, :country%>
+      </div>
+      <div class="field">
+        <label>City / Province</label>
+        <%= select f, :city, @cities,  placeholder: "Enter city / province" %>
+        <%= error_tag f, :city%>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label>ZipCode</label>
+        <%= text_input f, :zip_code, role: "mask", class: "zip" %>
+        <%= error_tag f, :zip_code%>
+      </div>
+    </div>
+    <h4 class="ui header">Contact Information</h4>
+    <div class="two fields">
+      <div class="field">
+        <label>Residential Line</label>
+        <input type="text" name="kyc[residential_line]" id="kyc_residential_line" role="mask" class="phone"  value="<%= @kyc.residential_line %>">
+        <%= error_tag f, :residential_line%>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="field">
+        <label>Mobile Number</label>
+        <%= text_input f, :mobile1, role: "mask", class: "mob" %>
+        <%= error_tag f, :mobile1 %>
+      </div>
+      <div class="field">
+        <label>Secondary Mobile Number</label>
+        <%= text_input f, :mobile2, role: "mask", class: "mob" %>
+        <%= error_tag f, :mobile2 %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <label>Email Address</label>
+        <%= text_input f, :email1 %>
+        <%= error_tag f, :email1 %>
+      </div>
+      <div class="field">
+        <label>Secondary Email Address</label>
+        <%= text_input f, :email2 %>
+        <%= error_tag f, :email2 %>
+      </div>
+    </div>
+   </div>
+
+  <div class="five wide column">
+    <br>
+    <br>
+    <div class="ui card">
+      <div class="image">
+        <img id="photo" src="<%= get_img_url(@member) %>">
+      </div>
+      <div class="content">
+        <a class="header"><%= @member.first_name %>  <%= @member.middle_name %> <%= @member.last_name %> </a>
+        <div class="meta">
+          <span class="date">Metalab Trading Company Ltd. </span> <br>
+          <span class="date">Quezon Branch </span>
+        </div>
+        <div class="description">
+          Card #: <%= @member.card_no %>
+        </div>
+        <div class="description">
+          Birthday: <%= @member.birthdate %>
+        </div>
+        <div class="description">
+          Gender: <%= @member.gender %>
+        </div>
+        <br>
+      </div>
+      <div class="extra content">
+        <center>
+          <a>Is this information not correct?</a>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="eight wide column">
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+    <a id="skipDeleteKYC" class="skip_text" style="cursor: pointer;"><b>Skip this for now</b></a>
+  </div>
+  <div class="eight wide column">
+  </div>
+</div>
+
+<% end %>
+
+<input type="hidden" id="kycID" value="<%= @kyc.id %>">
+
+<br><br><br><br><br>

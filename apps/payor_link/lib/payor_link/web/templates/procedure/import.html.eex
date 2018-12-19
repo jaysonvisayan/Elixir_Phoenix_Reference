@@ -1,0 +1,31 @@
+<div id="main_import_procedure">
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+      <h2 class="ui header">Procedures</h2>
+    </div>
+    <div class="right floated right aligned ten wide column">
+      <a href="/procedures/download/template" id="download_template_button" class="ui primary button">
+      <i class="download icon"></i>Download Template</a>
+    </div>
+  </div>
+
+  <div class="ui small breadcrumb">
+    <a class="section" href="/procedures">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Import Procedures</div>
+  </div>
+</div>
+
+<div id="procedures_import" name ="name_procedure_import" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "import_form.html", active_payor_procedures: @active_payor_procedures, conn: @conn, payor: @payor, standard_procedures: @standard_procedures, changeset: @changeset, action: procedure_path(@conn, :import) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,693 @@
+<div id="view_account" code="<%= @code %>" token="<%= Innerpeace.PayorLink.Web.LayoutView.generate_api_token(@conn) %>">
+  <input type="hidden" value="<%= @code %>" id="account_code_id">
+  <div id="view_account_group">
+    <div class="page-title">
+      <div class="ui clearing segment">
+        <div class="ui container">
+          <h1 class="ui left floated header">
+            Account
+            <div class="clearfix"></div>
+            <div class="ui breadcrumb">
+              <a href="/">Dashboard</a>
+              <i class="right angle icon divider"></i>
+              <a href="/web/accounts">Accounts</a>
+              <i class="right angle icon divider"></i>
+              <%= @code %>
+              <div class="active section dim thin"></div>
+            </div>
+          </h1>
+        </div>
+      </div><!-- .ui.clearing.segment -->
+    </div><!-- .page-title -->
+
+    <div class="ui container">
+      <div class="content-section white-bg">
+        <div class="ui grid">
+          <div class="two wide computer two wide mobile column">
+            <div class="mb-2 center aligned">
+              <div class="mr-2">
+                <img src="/images/no-photo-available.png" height="150" width="150" class= "ui circular image">
+                </img>
+              </div>
+            </div>
+          </div>
+          <div class="fourteen wide computer sixteen wide mobile column">
+            <div class="ui grid">
+              <div class="four wide column field">
+                <h2 class="account-name">
+                  <%= @code %>&nbsp{{results.name}}
+                </h2>
+              </div>
+              <div class="eight wide column field">
+                <%# <i class="circle icon green">&nbsp&nbspActive</i> %>
+
+                <div v-if='(results.status == "Active")'>
+                  <i class="circle icon green">&nbsp&nbspActive</i>
+                </div>
+                <div v-else-if='(results.status == "Stale")'>
+                  <i class="circle icon yellow">&nbsp&nbspStale</i>
+                </div>
+                <div v-else-if='(results.status == "Pending")'>
+                  <i class="circle icon yellow">&nbsp&nbspPending</i>
+                </div>
+                <div v-else>N/A</div>
+              </div>
+              <div class="right floated right aligned two wide column">
+                <div class="ui icon top right floated pointing dropdown">
+                  <i class="primary large ellipsis vertical icon"></i>
+                  <div class="left menu transition hidden">
+                    <div class="item clickable-row" href="">
+                      <i class="edit icon"></i>
+                      Edit
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item clickable-row" href="">
+                      <i class="print icon"></i>
+                      Print
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item">
+                      <i class="bar chart icon"></i>
+                      Versions
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item" id="account_logs">
+                      <i class="file text outline icon"></i>
+                      Logs
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item" id="account_logs">
+                      <i class="comment outline icon"></i>
+                      Comment
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item">
+                      <i class="expand icon"></i>
+                      Extend
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item" name="modal_suspend_account">
+                      <i class="refresh icon"></i>
+                      Renew
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item">
+                      <i class="ban icon"></i>
+                      Suspend
+                    </div>
+                    <div class="divider"></div>
+                    <div class="item" id="modal_cancel_button">
+                      <i class="cancel icon"></i>
+                      Cancel
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui grid">
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;" >Segment</label>
+              </div>
+              <div class= "three wide column field">
+                {{results.segment}}
+              </div>
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;">Industry</label>
+              </div>
+              <div class= "five wide column field">
+                {{results.industry_code}}
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;">Effective Date</label>
+              </div>
+              <div class= "three wide column field">
+                {{results.effective_date}}
+                <%# <input type="hidden" id="effective_date" v-model ='(results.effective_date)'> %>
+                <%# <div id="effective_date_display" class="text"></div> %>
+              </div>
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;">Expiry Date</label>
+              </div>
+              <div class= "three wide column field">
+                {{results.expiry_date}}
+                <%# <input type="hidden" id="expiry_date" v-model ='(results.expiry_date)'> %>
+                <%# <div id="expiry_date_display" class="text"></div> %>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;">Versions</label>
+              </div>
+              <div class= "three wide column field">
+                {{results.versions}}
+              </div>
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;">Original Effective Date</label>
+              </div>
+              <div class= "three wide column field">
+                {{results.original_effective_date}}
+                <%# <input type="hidden" id="original_effective_date" v-model ='(results.original_effective_date)'> %>
+                <%# <div id="original_effective_date_display" class="text"></div> %>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class= "three wide column field">
+                <label style="font-weight: lighter;">Account Type</label>
+              </div>
+              <div class= "three wide column field">
+                {{results.type}}
+              </div>
+            </div>
+          </div>
+
+          <%#----- End of General Info ------ %>
+
+          <%#----- Start of Tab Pages ------ %>
+
+          <div class="sixteen wide column">
+            <div class="ui secondary pointing demo menu green" role="benefits">
+              <a class="active item profile" data-tab="profile" value="profile" id="profile_tab">Profile</a>
+              <a class="item product" data-tab="product" value="product" id="product_tab" >Plan</a>
+              <a class="item financial" data-tab="financial" value="financial" id="financial_tab">Financial</a>
+              <a class="item fulfillment" data-tab="fulfillment" value="fulfillment" id="fulfilment_tab">Fulfillment</a>
+              <a class="item approver" data-tab="approver" value="approver" id="approve_tab">Approver</a>
+            </div>
+
+            <%#----- Start of Profile Tab ------ %>
+
+            <div class="ui active tab segment no-border borderless no-shadow" data-tab="profile">
+              <div class="ui container address" id="company_address">
+                <h3 class="ui header">Address</h4>
+                <br>
+                <div class="row">
+                  <div class="ui stackable two column grid cards-holder">
+                    <div class="column">
+                      <div v-for = "addresses in addresses" v-if = '(addresses.type == "Account Address")'>
+                        <div class="ui grid">
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Address 1</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.line1}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Address 2</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.line2}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">City/Municipality</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.city}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Province</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.province}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Region</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.region}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Country</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.country}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Postal Code</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if ='(addresses.type == "Account Address")'>
+                              {{addresses.postal_code}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column">
+                    </div>
+                  </div>
+                </div>
+                <br><br>
+                <div class="ui divider"></div>
+                <h3 class="ui header">Contact</h4>
+                <br>
+                <div v-for="contact in contact_arrays">
+                  <div class="row contact_person" id="contact_person">
+                    <div class="ui stackable two column grid cards-holder">
+                      <div class="column contact_per">
+                        <div class="ui grid">
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Contact Type</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.type}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Name</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.full_name}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Designation</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.designation}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Telephone Number</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            <div v-if = '(contact.telephone == "")'>
+                              No Records Found!
+                            </div>
+                            <div else id="contacts_telephone">
+                              {{contact.telephone.join(', ')}}
+                            </div>
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Mobile Number</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            <div v-if = '(contact.mobile_numbers == "")'>
+                              No Records Found!
+                            </div>
+                            <div else>
+                              <input type="hidden" id="contact_mobile" v-model="contact.mobile">
+                              {{contact.mobile.join(', ')}}
+                            </div>
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Fax Number</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            <div v-if = '(contact.fax == "")'>
+                              No Records Found!
+                            </div>
+                            <div else id="contacts_fax">
+                              <input type="hidden" id="contact_fax" v-model="contact.fax">
+                              {{contact.fax.join(', ')}}
+                            </div>
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Email Address</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.email}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="column">
+                        <div class="ui grid">
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">CTC</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.ctc_number}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Date Issued</label>
+                          </div>
+                          <div class= "ten wide column field">
+                           <%# <input type="hidden" id="ctc_date_issued" v-model ='(contact.ctc_date_issued)'> %>
+                           <%#  <div id="ctc_date_issued_display" class="text"></div> %>
+                           {{contact.ctc_date_issued}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Place Issued</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.passport_place_issued}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Passport Number</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.passport_number}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">Date Issued</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            <%# <input type="hidden" id="passport_date_issued" v-model ='(contact.passport_date_issued)'> %>
+                            <%# <div id="passport_date_issued_display" class="text"></div> %>
+                            {{contact.passport_date_issued}}
+                          </div>
+                          <div class= "six wide column field">
+                            <label style="font-weight: lighter;">CTC Place Issued</label>
+                          </div>
+                          <div class= "ten wide column field">
+                            {{contact.ctc_place_issued}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br><br><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%#----- End of Profile Tab ------ %>
+
+            <%#----- Start of Plans Tab ------ %>
+
+            <div class="ui tab segment no-border borderless no-shadow" data-tab="product">
+              <div class="ui container account_plan" id="account_plans">
+                <%# <div v-for = "plan in plan"> %>
+                <%#   <div class="ui container plans" id="plans"> %>
+                <%#     <h4 class="ui header green">Plan Inpatient</h4> %>
+                <%#     <div class="ui divider"></div> %>
+                    <%# <div class="row account_plans" id="account_plan_rows"> %>
+                    <%#   <div class="column"> %>
+                    <%#     <div class="ui grid"> %>
+                    <%#       <div class= "two wide column field"> %>
+                    <%#         <label class="ui gray">Plan Code</label> %>
+                    <%#       </div> %>
+                    <%#       <div class= "three wide column field"> %>
+                    <%#         {{plan.products_code}} %>
+                    <%#       </div> %>
+                    <%#       <div class= "two wide column field"> %>
+                    <%#         <label class="gray">Limit Type</label> %>
+                    <%#       </div> %>
+                    <%#       <div class= "three wide column field"> %>
+                    <%#         {{plan.limit_type}} %>
+                    <%#       </div> %>
+                    <%#       <div class= "two wide column field"> %>
+                    <%#         <label class="gray">No. of Members</label> %>
+                    <%#       </div> %>
+                    <%#       <div class= "three wide column field"> %>
+                    <%#         {{plan.no_of_members}} %>
+                    <%#       </div> %>
+                    <%#       <div class= "two wide column field"> %>
+                    <%#         <label class="gray">Plan Type</label> %>
+                    <%#       </div> %>
+                    <%#       <div class= "three wide column field"> %>
+                    <%#         {{plan.plan_type}} %>
+                    <%#       </div> %>
+                    <%#       <div class= "two wide column field"> %>
+                    <%#         <label class="gray">Limit Amount</label> %>
+                    <%#       </div> %>
+                    <%#       <div class= "three wide column field"> %>
+                    <%#         {{plan.limit_amount}} %>
+                    <%#       </div> %>
+                    <%#       <div class= "two wide column field"> %>
+                    <%#         <label class="gray">No. of Benefits</label> %>
+                    <%#       </div> %>
+                    <%#       <div class= "three wide column field"> %>
+                    <%#         {{plan.no_of_benefits}} %>
+                    <%#       </div> %>
+                    <%#     </div> %>
+                    <%#   </div> %>
+                    <%# </div> %>
+                  <%# </div> %>
+                <%# </div> %>
+                <br><br>
+              </div>
+            </div>
+
+            <%#----- End of Plan Tab ------ %>
+
+            <%#----- Start of Financial Tab ------ %>
+
+            <div class="ui tab segment no-border borderless no-shadow" data-tab="financial">
+              <div class="ui container">
+                <h3 class="ui header">Billing Address</h4>
+                <br>
+                <div class="row">
+                  <div class="ui stackable two column grid cards-holder">
+                    <div class="column">
+                      <div v-for = "addresses in addresses" v-if ='(addresses.type == "Billing Address")'>
+                        <div class="ui grid">
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Address 1</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.line1}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Address 2</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.line2}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">City/Municipality</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.city}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Province</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.province}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Region</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.region}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Country</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.country}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Postal Code</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if = '(addresses.type == "Billing Address")'>
+                              {{addresses.postal_code}}
+                            </div>
+                            <div else>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column">
+                      <%# <img src="/images/map.png" id="imagePreview" class="ui right large image mrg1halfT"> %>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="ui divider"></div>
+                  <h3 class="ui header">Billing Account Information</h4>
+                  <br>
+                  <div class="row">
+                  <div class="ui stackable two column grid cards-holder">
+                      <div class="column contact_per">
+                        <div class="ui grid">
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Account TIN</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            {{financial.tin}}
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">VAT-Status</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            {{financial.vat_status}}
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Previous Carrier</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if='(financial.previous_carrier == "")'>
+                              N/A
+                            </div>
+                            <div v-else>{{financial.previous_carrier}}</div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Attachment Point</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if='(financial.attachment_point == "")'>
+                              N/A
+                            </div>
+                            <div v-else>{{financial.attached_point}}</div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Mode of Payment</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            {{financial.payment_mode}}
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Payee Name</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if='(financial.payee_name == "")'>
+                              N/A
+                            </div>
+                            <div v-else>{{financial.payee_name}}</div>
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Bank Account</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            {{financial.bank_account_number}}
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Bank Name</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            {{financial.bank_name}}
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Branch</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            {{financial.bank_branch}}
+                          </div>
+                          <div class= "three wide column field">
+                            <label style="font-weight: lighter;">Authority to Debit</label>
+                          </div>
+                          <div class= "thirteen wide column field">
+                            <div v-if='(financial.authority_to_debit == true)'>
+                              Yes
+                            </div>
+                            <div v-else>
+                              No
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%#----- End of Financial Tab ------ %>
+
+            <%#----- Start of Fulfillment Tab ------ %>
+
+            <div class="ui tab segment no-border borderless no-shadow" data-tab="fulfillment">
+              <div class="ui container fulfillment">
+                <div class="row">
+                  <h3 class="ui header">Card: Digital</h4>
+                  <br>
+                  <div class="ui middle aligned right aligned stackable three column grid">
+                    <div class="eight column wide">
+                      <br>
+                      <img src="/images/maxicare_card.png" id="card_image" class="ui right aligned big image mrg1halfT">
+                      </img>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="ui middle aligned right aligned stackable three column grid">
+                    <div class="four column wide">
+                      <a href="#" class="green" id="view_card">
+                        <i class="green eye icon"></i>
+                        View
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%#----- End of Fulfillment Tab ------ %>
+
+            <%#----- Start of Approver Tab ------ %>
+
+            <div class="ui tab segment no-border borderless no-shadow" data-tab="approver">
+              <div class="ui container approver">
+                <div class="sixteen wide computer column">
+                    <table id="approve_table" role="data-table" class="full-width ui celled striped table" width="100%">
+                      <thead>
+                        <tr>
+                          <th width="20%">Username</th>
+                          <th width="20%">Name</th>
+                          <th width="20%">Telephone</th>
+                          <th width="20%">Mobile</th>
+                          <th width="20%">Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%# <tr v-for = 'approver in approver'> %>
+                        <%#   <td width="20%">{{approver.username}}</td> %>
+                        <%#   <td width="20%">{{approver.name}}</td> %>
+                        <%#   <td width="20%">{{approver.telephone}}</td> %>
+                        <%#   <td width="20%">{{approver.mobile}}</td> %>
+                        <%#   <td width="20%">{{approver.email}}</td> %>
+                        <%# </tr> %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

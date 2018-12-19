@@ -1,0 +1,73 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Practitioner</h1>
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioner</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners" class="section">Search</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners/<%= @practitioner.id %>?active=profile" class="section">View <%= Enum.join([@practitioner.first_name, @practitioner.middle_name, @practitioner.last_name], "  ") %></a>
+              <div class="divider"> / </div>
+              <div class="active section">Edit Practitioner Facility</div>
+          </div>  
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+            <div class="row">
+              <div class="sixteen wide column">
+                <div class="ui four item menu">
+                  <a href="/practitioners/<%= @practitioner_facility.id %>/pf/edit?tab=general" class=" item">
+                  <%#  General %>
+                    <div class="edit-menu">
+                      <i class="info circle icon"></i>
+                      <div class="content">
+                        <div class="title">General</div>
+                        <div class="description">Practitioner type, facility, etc.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/practitioners/<%= @practitioner_facility.id %>/pf/edit?tab=contacts" class=" item">
+                    <div class="edit-menu">
+                      <i class="mail icon"></i>
+                      <div class="content">
+                        <div class="title">Contact</div>
+                        <div class="description">Contact info</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/practitioners/<%= @practitioner_facility.id %>/pf/edit?tab=rates" class="item">
+                    <div class="edit-menu">
+                      <i class="money icon"></i>
+                      <div class="content">
+                        <div class="title">Rates</div>
+                        <div class="description">Pay rate for services</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="active item">
+                    <div class="active edit-menu">
+                      <i class="money icon"></i>
+                      <div class="content">
+                        <div class="title">Schedules</div>
+                        <div class="description">Set your availability</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>        
+              </div>
+            </div>
+            <%= if @changeset.action do %>
+              <div class="ui negative message">
+                <i class="close icon"></i>
+                <%= get_flash(@conn, :error) %>
+              </div>
+            <% end %>
+            <%= 
+              render "facility/edit/tab4_grid.html", 
+              changeset: @changeset, 
+              action: practitioner_path(@conn, :update_edit_pf_setup, @practitioner_facility, tab: "rates"), 
+              practitioner: @practitioner, practitioner_facility: @practitioner_facility, schedules: @schedules, conn: @conn %>
+          </div>
+      </div>
+  </div>
+</div>

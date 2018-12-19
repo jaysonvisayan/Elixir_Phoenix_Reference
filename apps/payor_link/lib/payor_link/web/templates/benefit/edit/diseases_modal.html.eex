@@ -1,0 +1,52 @@
+<div class="ui large modal" id="modalAddDisease">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Diagnosis
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        At lease one disease must be added!
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :benefit, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="benefit[diagnosis_ids_main]">
+    <table role="datatable" class="ui stripped table" id="disease_table_modal">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAll">
+          </th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>ICD Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for diagnosis <- filter_benefit_diagnoses(@benefit.benefit_diagnoses, @diagnoses) do %>
+          <tr>
+            <td>
+              <input type="checkbox" style="width:20px; height:20px" name="benefit[diagnosis_ids][]" value="<%= diagnosis.id %>" class="selection" />
+            </td>
+            <td><%= diagnosis.code %></td>
+            <td><%= diagnosis.description %></td>
+            <td><%= diagnosis.type %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit" id="addBtn">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

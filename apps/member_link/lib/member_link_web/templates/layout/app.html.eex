@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        display: none;
+      }
+    </style>
+    <script>
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      } else {
+        top.location = self.location;
+      }
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MemberLink</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container" id="search_app">
+      <header class="header expanded menu fixed top">
+        <div class="ui top fixed">
+          <div class="ui secondary menu top">
+            <div class=" ui fluid container">
+              <div class="item link sidebar-menu-handler" id="sidebar_menu">
+                <i class="icon sidebar"></i>
+              </div>
+              <div class="item">
+                <a href="#">
+                  <img src="/images/site-logo.png">
+                </a>
+                <a href="/<%= @locale %>"><%= gettext "member" %><b class="primary ui text"><%= gettext "gateway" %></b></a>
+              </div>
+              <input type="hidden" id="locale" value="<%= @locale %>">
+              <div class="right menu sidebar-item">
+                <%= if !String.contains?(@conn.request_path, "translations") do %>
+                  <div class="item">
+                    <div class="ui primary dropdown basic button request_loa">
+                      <span class="text"><%= gettext "REQUEST LOA" %></span>
+                      <i class="icon angle down"></i>
+                      <div class="menu">
+                        <div class="item"><%= gettext "Request Lab" %></div>
+                        <div class="item"><%= gettext "Request Consultation" %></div>
+                        <div class="item"><%= gettext "Request ACU" %></div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+                <div class="item">
+                  <div class="ui simple dropdown">
+                    <%= if current_user(@conn) do %>
+                      <% user = member_image_load(current_user(@conn))%>
+                      <%= if is_nil(user.member.photo) do %>
+                        <img src="/images/no-photo-available.png" class="ui avatar image">
+                      <% else %>
+                        <img class="ui avatar image" src="<%= get_img_url(user.member) %>">
+                      <% end %>
+                      <a href="#"> <%= current_user(@conn).username %></a>
+                      <i class="angle down icon"></i>
+                      <div class="menu">
+                        <%= link "Translation", to: translation_path(@conn, :index, @locale), class: "item" %>
+                        <%= link "Search", to: search_path(@conn, :search_doctors, @locale), class: "item" %>
+                        <%= link "Account Settings", to: user_path(@conn, :view_account, @locale), class: "item" %>
+                        <%# <%= link "Smarth Health", to: "https://ssl.adam.com/content.aspx?productId=127&site=maxicare.adam.com&login=MAXI2719&cmd=create&UID=#{@current_user.member_id}", class: "item" %1> %>
+                        <%= link "Smarth Health", to: page_path(@conn, :smarthealth, @locale), class: "item" %>
+                        <%= link "Logout", to: session_path(@conn, :logout, @locale), method: :delete, class: "item" %>
+                      </div>
+                    <% else %>
+                      <%= link "Sign in", to: session_path(@conn, :login, @locale) %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div><!-- ui top fixed -->
+      </header>
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div> <!-- /container -->
+    <footer>
+      <div class="ui center aligned basic segment" id="footer">Medilink Network, Inc. &copy; 2017.
+        <%= if Application.get_env(:member_link, MemberLinkWeb.Endpoint) |> Keyword.get(:env) != "prod" do %>
+            <b>Member</b>Link v<span><%= version %></span>
+        <% end %>
+      </div>
+    </footer>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

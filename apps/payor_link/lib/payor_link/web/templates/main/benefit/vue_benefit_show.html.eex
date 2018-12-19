@@ -1,0 +1,475 @@
+<div id="show_benefit_all_coverage" code="<%= @code %>" token="<%= Innerpeace.PayorLink.Web.LayoutView.generate_api_token(@conn) %>">
+  <div id="view_benefit_all_coverage">
+    <div class="page-title">
+      <div class="ui clearing segment">
+        <div class="ui container">
+          <h1 class="ui left floated header">
+            View Benefit
+            <div class="clearfix"></div>
+            <div class="ui breadcrumb">
+              <a href="/">Dashboard</a>
+              <i class="right angle icon divider"></i>
+              <a href="/web/benefits">Benefits</a>
+              <i class="right angle icon divider"></i>
+              {{results.code}}
+              <div class="active section dim thin"></div>
+            </div>
+          </h1>
+        </div>
+      </div><!-- .ui.clearing.segment -->
+    </div><!-- .page-title -->
+
+    <div class="ui container">
+      <div class="content-section white-bg">
+        <div class="ui grid">
+          <div class="row">
+            <div class="six wide computer eight wide tablet eight wide mobile column">
+              <div class="ui grid">
+                  <div class="three wide computer sixteen wide tablet sixteen wide mobile column">
+                    <div v-if='(results.category == "Health")'>
+                      <div class="" style="display: inline-block; vertical-align: top;"><i class="icon icon-benefit-card huge black "></i></div>
+                      <div class="" style="display: inline-block; vertical-align: top;"><label>Health Plan</label></div>
+                    </div>
+                    <div v-else>
+                      <div class=""><i class="icon icon-riders big black "></i></div>
+                      <div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Riders</label></div>
+                    </div>
+                  </div>
+                  <div class="thirteen wide computer sixteen wide tablet sixteen wide mobile column" style="padding-left: 0px;!important">
+                    <div>
+                      <p class="member-name" style="color: #00B24F; margin-bottom: 0px;!important">{{results.code}}</p>
+                      <div class="section-title mt-2" style="margin-top: 5px!important">
+                        <h1>
+                          <div class="title-name">{{results.name}}</div>
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                  </div>
+                  <div class="four wide computer sixteen wide tablet sixteen wide mobile column">
+                  </div>
+                </div>
+            </div><!--end of six wide computer column-->
+            <div class="ten wide computer eight wide tablet eight wide mobile column">
+              <div v-if='(coverages.peme)'>
+                <div class="two wide computer sixteen wide mobile column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+                  <div class="ui dropdown">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                      <div class="item">
+                        <i class="hand paper icon" ></i>
+                        Discontinue Benefit
+                      </div>
+                      <div class="item" id="">
+                        <i class="ban icon" ></i>
+                        Disable Benefit
+                      </div>
+                      <div class="item" id="">
+                        <i class="trash alternate icon" ></i>
+                        Delete Benefit
+                      </div>
+                      <div class="item" >
+                        <i class="print icon"></i>
+                        Print
+                      </div>
+                      <div class="item" id="benefit_logs">
+                        <i class="file text outline icon"></i>
+                        Logs
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                <div class="two wide computer sixteen wide mobile column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+                  <div class="ui dropdown">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                      <div data-csrf='<%= Plug.CSRFProtection.get_csrf_token() %>'
+                        <%# data-method='put' data-to='/web/benefits/<%= @benefit.id %1>/edit' %>
+                        class="item"
+                        id="">
+                        <i class="edit outline icon" ></i>
+                        Edit
+                      </div>
+                      <div class="item " id="mainDisableBenefitID">
+                        <i class="clone outline icon" ></i>
+                        Versions
+                      </div>
+                      <div class="item" >
+                        <i class="icon-product icon"></i>
+                        View plans
+                      </div>
+                      <div class="divider"></div>
+                      <div class="item" id="">
+                        <i class="trash alternate icon" ></i>
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="eight wide computer eight wide tablet eight wide mobile column">
+              <div class="ui grid">
+                <div class="sixteen wide column">
+                  <br>
+                  <div style="height: 9px"><br></div>
+                  <div class="ui form">
+                    <%# <div v-if='(results.provider_access != null)'> %>
+                      <div class="three fields">
+                        <div class="field dim">
+                          LAST UPDATE
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <div class="field">
+                          N/A
+                        </div>
+                      </div>
+                      <%# </div> %>
+                    <div class="three fields">
+                      <div class="field dim">
+                        UPDATED BY
+                      </div>
+                      <%# <div class="field"></div> %>
+                      <div class="field">
+                        N/A
+                      </div>
+                    </div>
+                    <div v-if='(coverages.count > 1)'>
+                      <div class="three fields">
+                        <div class="field dim" style="margin-right: 6px;">
+                          COVERAGES
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <%# <div class="field"> %>
+                          {{coverages.coverage}}
+                        <%# </div> %>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div class="three fields">
+                        <div class="field dim" style="margin-right: 6px;">
+                          COVERAGE
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <%# <div class="field"> %>
+                          {{coverages.coverage}}
+                        <%# </div> %>
+                      </div>
+                    </div>
+                    <div v-if='(results.type == null || results.type == "")'>
+                      <div class="three fields">
+                        <div class="field dim">
+                          CATEGORY
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <div class="field">
+                          {{category}}
+                        </div>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div v-if='(results.type == "Availment" || results.type == null)'>
+                        <div class="three fields">
+                          <div class="field dim">
+                            CATEGORY
+                          </div>
+                          <%# <div class="field"></div> %>
+                          <div class="field">
+                            {{category}}
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div class="three fields">
+                          <div class="field dim">
+                            CATEGORY
+                          </div>
+                          <%# <div class="field"></div> %>
+                          <div class="field">
+                            {{results.type}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div v-if='(results.category == "Health")'>
+                      <div class="three fields">
+                        <div class="field dim">
+                          CLASSIFICATION
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <div class="field">
+                          <div v-if='(results.classification != null || results.classification != "")'>
+                            {{results.classification}}
+                          </div>
+                          <div v-else>
+                            N/A
+                          </div>
+                        </div>
+                      </div>
+                      <div v-if='(results.risk_share_type) != null'>
+                        <div v-if='(results.risk_share_type == "None" || results.risk_share_type == "none")'>
+                          <div class="three fields">
+                            <div class="field dim">
+                              RISK SHARE
+                            </div>
+                            <%# <div class="field"></div> %>
+                            <div class="field">
+                              None
+                            </div>
+                          </div>
+                        </div>
+                        <div v-else>
+                          <div class="three fields">
+                            <div class="field dim">
+                              RISK SHARE
+                            </div>
+                            <%# <div class="field"></div> %>
+                            <div class="field">
+                              {{results.risk_share_type}}, Php {{results.risk_share_value}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-if='(results.all_procedures == true)'>
+                        <div class="three fields">
+                          <div class="field dim">
+                            PROCEDURES
+                          </div>
+                          <%# <div class="field"></div> %>
+                          <div class="field">
+                            All Procedures
+                          </div>
+                        </div>
+                      </div>
+                      <div v-if='(results.all_diagnoses == true)'>
+                        <div class="three fields">
+                          <div class="field dim">
+                            DIAGNOSES
+                          </div>
+                          <%# <div class="field"></div> %>
+                          <div class="field">
+                            All Diagnoses
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div v-if='(results.risk_share_type) != null'>
+                        <div v-if='(results.risk_share_type == "None" || results.risk_share_type == "none")'>
+                          <div class="three fields">
+                            <div class="field dim">
+                              RISK SHARE
+                            </div>
+                            <%# <div class="field"></div> %>
+                            <div class="field">
+                              None
+                            </div>
+                          </div>
+                        </div>
+                        <div v-else>
+                          <div class="three fields">
+                            <div class="field dim">
+                              RISK SHARE
+                            </div>
+                            <%# <div class="field"></div> %>
+                            <div class="field">
+                              {{results.risk_share_type}}, Php {{results.risk_share_value}}
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div v-if='(results.type == "Availment" || results.type == null)'>
+                      <div v-if='(coverages.acu == true)'>
+                        <div v-if='(results.acu_type == "Executive")'>
+                          <div class="three fields">
+                            <div class="field dim">
+                              ACU TYPE
+                            </div>
+                            <%# <div class="field"></div> %>
+                            <div class="field">
+                              {{results.acu_type}}, {{results.acu_coverage}}
+                            </div>
+                          </div>
+                        </div>
+                        <div v-else>
+                          <div class="three fields">
+                            <div class="field dim">
+                              ACU TYPE
+                            </div>
+                            <%# <div class="field"></div> %>
+                            <div class="field">
+                              {{results.acu_type}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if='(results.provider_access != null)'>
+                      <div class="three fields">
+                        <div class="field dim" style="">
+                          AVAILMENT CHANNEL
+                        </div>
+                        <%# <div class="field" style="width: 0%"></div> %>
+                        <div class="field">
+                          {{provider_access}}
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if='(results.member_pays_handling != null)'>
+                      <div class="three fields">
+                        <div class="field dim" style="margin-right: 6px;">
+                          MEMBER PAYS HANDLING
+                        </div>
+                        <%# <div class="field" style="width: 0%"></div> %>
+                        <%# <div class="field"> %>
+                        <%#   <div v-for="mp in results.member_pays_handling"> %>
+                        <%#     {{mp}} %>
+                        <%#   </div> %>
+                        <%# </div> %>
+                         {{member_pays}}
+                      </div>
+                    </div>
+                    <div v-if='(limits.limit_count != 0 && limits.limit_count < 2)'>
+                      <div class="three fields">
+                        <div class="field dim">
+                          LIMIT TYPE
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <div class="field">
+                          <div v-for="limit in results.limits">
+                            <div v-if='(limit.limit_type == null)'>
+                              N/A
+                            </div>
+                            <div v-else>
+                              {{limit.limit_type}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="three fields">
+                        <div class="field dim">
+                          LIMIT
+                        </div>
+                        <%# <div class="field"></div> %>
+                        <div class="field">
+                          {{limits.limit_values}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+
+            <div v-if='(results.type != "Policy")' class="sixteen wide computer column">
+              <!---LIMITS DT--->
+              <div v-if='(limits.limit_count > 1)' class="sixteen wide computer column">
+                <div class="bottom-border pb-2 mb-2" id="benefit_limit_dt2">
+                  <div class="section-title mt-2"><div class="title-name">Limits</div></div>
+                  <%# <div class="ui grid"> %>
+                  <%#   <div class="row"> %>
+                      <div class="ten wide computer column">
+
+                        <table class="full-width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_limit_coverages_dt2">
+                          <thead>
+                            <tr>
+                              <th width="18%">Coverage</th>
+                              <th width="18%">Limit Type</th>
+                              <th>Limit Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="six wide computer column">
+                      </div>
+                    <%# </div> %>
+                  <%# </div> %>
+                </div>
+              </div>
+
+              <!---PACKAGES DT--->
+              <%# <div v-if='(coverages.peme == true || coverages.acu == true)' class="sixteen wide computer column"> %>
+                <div class="bottom-border pb-2 mb-2" id="benefit_package_dt2">
+                  <div class="section-title mt-2"><div class="title-name">Packages</div></div>
+                  <div class="field">
+
+                    <table class="full-width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_packages_dt2">
+                      <thead>
+                        <tr>
+                          <th width="18%">Package Code</th>
+                          <th>Description</th>
+                          <th width="15%">Gender</th>
+                          <th width="20%">Age</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              <%# </div> %>
+
+              <!---DIAGNOSES-->
+              <div v-if='(coverages.peme == false && coverages.acu == false)' class="sixteen wide computer column">
+                <div v-if='(results.all_diagnoses == false || results.all_diagnoses =="")'>
+                  <div class="bottom-border pb-2 mb-2" id="benefit_diagnosis_dt2">
+                    <div class="section-title mt-2">
+                      <div class="title-name">ICD</div>
+                    </div>
+                    <div class="field">
+                      <table class="full-width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_diagnoses_dt2">
+                        <thead>
+                          <tr>
+                            <th width="18%">ICD Code</th>
+                            <th>ICD Description</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!---PROCEDURES-->
+              <div v-if='(results.category == "Health")' class="sixteen wide computer column">
+                <div v-if='(results.all_procedures == false && results.all_procedures != null)'>
+                  <div class="bottom-border pb-2 mb-2" id="benefit_procedure_dt2">
+                    <div class="section-title mt-2">
+                      <div class="title-name">CPT</div>
+                    </div>
+                    <div class="field">
+
+                      <table class="full-width ui celled striped selectable table" cellspacing="0" width="100%" id="benefit_procedures_dt2">
+                        <thead>
+                            <th width="18%">CPT Code</th>
+                            <th>CPT Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <%# <br><br> %>
+          <%# <a href="/web/benefits"><button id="" class="ui basic button mt-1-small">Back</button></a> %>
+
+          <%= render "modal_show_diagnosis.html" %>
+        </div>
+      </div> <!--end of ui grid-->
+    </div> <!-- end of content section -->
+  </div> <!-- end of ui-container -->

@@ -1,0 +1,1529 @@
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+      <div class="column">
+          <div class="ui segments" id="formValidation">
+              <form class="ui form segment">
+                <div class="ui ordered three steps">
+                  <div class="completed step">
+                    <%# <i class="truck icon"></i> %>
+                    <div class="content">
+                      <div class="title">Shipping</div>
+                    </div>
+                  </div>
+                  <div class="active step">
+                    <%# <i class="payment icon"></i> %>
+                    <div class="content">
+                      <div class="title">Billing</div>
+                    </div>
+                  </div>
+                  <div class="disabled step">
+                    <%# <i class="info icon"></i> %>
+                    <div class="content">
+                      <div class="title">Confirm Order</div>
+                    </div>
+                  </div>
+                </div>
+                  <div class="ui middle aligned  right aligned grid">
+                    <div class="left floated left aligned six wide column">
+                      <h4 class="ui header">Basic Information</h4>
+                    </div>
+                    <div class="right floated right aligned six wide column">
+                      <%# <a class="ui small button"><i class="pencil icon"></i>Edit</a> %>
+                      <div class="ui dropdown primary button">
+                        <i class="plus icon"></i> Dropdown <i class="dropdown icon"></i>
+                        <div class="menu">
+                          <div class="item">Item 1</div>
+                          <div class="item">Item 2</div>
+                          <div class="item">Item 3</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui divider mrg0T mrg1B"></div>
+                  <%# <h4 class="ui dividing header">Basic Information</h4> %>
+                  <div class="two fields">
+                      <div class="field">
+                          <label>Name</label>
+                          <input placeholder="First Name" name="name" type="text">
+                      </div>
+                      <div class="field">
+                          <label>Gender</label>
+                          <div class="ui dropdown selection" tabindex="0">
+                              <select name="gender">
+                                  <option value="">Gender</option>
+                                  <option value="male">Male</option>
+                                  <option value="female">Female</option>
+                              </select><i class="dropdown icon"></i><div class="default text">Gender</div><div class="menu" tabindex="-1"><div class="item" data-value="male">Male</div><div class="item" data-value="female">Female</div></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="two fields">
+                      <div class="field">
+                          <label>Username</label>
+                          <input placeholder="Username" name="username" type="text">
+                      </div>
+                      <div class="field">
+                          <label>Password</label>
+                          <input type="password" name="password">
+                      </div>
+                  </div>
+                  <div class="field">
+                      <label>Skills</label>
+                      <div class="ui dropdown selection multiple" tabindex="0">
+                          <select name="skills" multiple="">
+                              <option value="">Select Skills</option>
+                              <option value="css">CSS</option>
+                              <option value="html">HTML</option>
+                              <option value="javascript">Javascript</option>
+                              <option value="design">Graphic Design</option>
+                              <option value="plumbing">Plumbing</option>
+                              <option value="mech">Mechanical Engineering</option>
+                              <option value="repair">Kitchen Repair</option>
+                          </select><i class="dropdown icon"></i><div class="default text">Select Skills</div><div class="menu" tabindex="-1"><div class="item" data-value="css">CSS</div><div class="item" data-value="html">HTML</div><div class="item" data-value="javascript">Javascript</div><div class="item" data-value="design">Graphic Design</div><div class="item" data-value="plumbing">Plumbing</div><div class="item" data-value="mech">Mechanical Engineering</div><div class="item" data-value="repair">Kitchen Repair</div></div>
+                      </div>
+                  </div>
+                  <div class="inline field">
+                      <div class="ui checkbox">
+                          <input type="checkbox" name="terms" tabindex="0" class="hidden">
+                          <label>I agree to the terms and conditions</label>
+                      </div>
+                  </div>
+                  <div class="ui blue submit button"><i class="send icon"></i>Submit</div>
+                  <div class="ui reset button">Reset</div>
+                  <div class="ui clear button">Clear</div>
+                  <div class="ui error message"></div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="column">
+          <div class="ui segments" id="formValidation">
+              <form class="ui form segment">
+                <div class="ui positive button">Add Additional Validation</div>
+                <div class="ui negative button">Remove Additional Validation</div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label>Username</label>
+                      <input type="text" name="username">
+                    </div>
+                    <div class="field">
+                      <label>Password</label>
+                      <input type="password" name="password">
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label>Gender</label>
+                      <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="gender">
+                        <div class="default text">Gender</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                          <div class="item" data-value="1">Male</div>
+                          <div class="item" data-value="0">Female</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui primary submit button">Submit</div>
+                  <div class="ui clear button">Clear</div>
+                  <div class="ui error message"></div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <h5 class="ui header">
+              Notification
+          </h5>
+        </div>
+        <div class="ui segment" role="notification">
+          <button class="ui button" id="defaultNotification">Default Notification</button>
+          <button class="ui red button" id="errorNotification">Error Notification</button>
+          <button class="ui orange button" id="warningNotification">Warning Notification</button>
+          <button class="ui green button" id="successNotification">Success Notification</button>
+          <button class="ui blue button" id="infoNotification">Info Notification</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="eight wide column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <h5 class="ui header">
+              Modal
+          </h5>
+        </div>
+        <div class="ui segment" id="sizesModal">
+          <button class="ui button" id="miniModal">Mini Modal</button>
+          <button class="ui button" id="tinyModal">Tiny Modal</button>
+          <button class="ui button" id="smallModal">Small Modal</button>
+          <button class="ui button" id="largeModal">Large Modal</button>
+          <div class="ui mini modal">
+            <div class="header">Mini Modal</div>
+            <div class="content">
+              <p>Mini Modal</p>
+            </div>
+            <div class="actions">
+              <div class="ui approve button">Approve</div>
+              <div class="ui button">Neutral</div>
+              <div class="ui cancel button">Cancel</div>
+            </div>
+          </div>
+
+          <div class="ui tiny modal">
+            <div class="header">Tiny Modal</div>
+            <div class="content">
+              <p>Tiny Modal</p>
+            </div>
+            <div class="actions">
+              <div class="ui approve button">Approve</div>
+              <div class="ui button">Neutral</div>
+              <div class="ui cancel button">Cancel</div>
+            </div>
+          </div>
+
+          <div class="ui small modal">
+            <div class="header">Small Modal</div>
+            <div class="content">
+              <p>Small Modal</p>
+            </div>
+            <div class="actions">
+              <div class="ui approve button">Approve</div>
+              <div class="ui button">Neutral</div>
+              <div class="ui cancel button">Cancel</div>
+            </div>
+          </div>
+
+          <div class="ui large modal">
+            <div class="header">Large Modal</div>
+            <div class="content">
+              <p>Large Modal</p>
+            </div>
+            <div class="actions">
+              <div class="ui approve button">Approve</div>
+              <div class="ui button">Neutral</div>
+              <div class="ui cancel button">Cancel</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <h5 class="ui header">
+            Confirmation Modal
+          </h5>
+        </div>
+        <div class="ui segment" role="confirmation">
+          <button class="ui button" id="btnDelete"><i class="trash icon"></i> Delete</button>
+          <button class="ui button" id="btnCancel"><i class="remove icon"></i> Cancel</button>
+          <button class="ui blue button" id="btnSave"><i class="save icon"></i> Save</button>
+          <button class="ui blue button" id="btnSubmit"><i class="send icon"></i> Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+        <div class="ui segments">
+            <div class="ui segment">
+                <h3 class="ui header">Vertical Timeline</h3>
+            </div>
+            <div class="ui segment">
+              <div class="ui feed timeline">
+                <div class="event">
+                  <div class="label">
+                    <i class="blue circle icon"></i>
+                  </div>
+                  <div class="content">
+                      <div class="summary">
+                          <a>Today</a> 10 Aug
+                      </div>
+                      <div class="extra text">
+                          Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all over again. Even if we don't run extra laps that day, we surely will come back for more of the same another day soon.
+                      </div>
+                  </div>
+                </div>
+                <div class="event">
+                  <div class="label">
+                    <i class="blue circle icon"></i>
+                  </div>
+                  <div class="content">
+                      <div class="summary">
+                          <a>7 Aug</a>
+                          <div class="date">
+                              3 days ago
+                          </div>
+                      </div>
+                      <div class="extra text">
+                          Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all over again. Even if we don't run extra laps that day, we surely will come back for more of the same another day soon.
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row" id="timeline">
+    <div class="column">
+        <div class="ui segments">
+            <div class="ui segment">
+                <h3 class="ui header">
+                    Horizontal Timeline
+                </h3>
+            </div>
+            <div class="ui segment">
+                <section class="cd-horizontal-timeline">
+                    <div class="h-timeline">
+                        <div class="events-wrapper">
+                            <div class="events">
+                                <ul>
+                                    <li><a href="#0" data-date="16/01/2017" class="selected">16 Jan</a></li>
+                                    <li><a href="#0" data-date="28/02/2017">28 Feb</a></li>
+                                    <li><a href="#0" data-date="20/04/2017">20 Mar</a></li>
+                                    <li><a href="#0" data-date="20/05/2017">20 May</a></li>
+                                    <li><a href="#0" data-date="09/07/2017">09 Jul</a></li>
+                                    <li><a href="#0" data-date="30/08/2017">30 Aug</a></li>
+                                    <li><a href="#0" data-date="15/09/2017">15 Sep</a></li>
+                                    <li><a href="#0" data-date="01/11/2017">01 Nov</a></li>
+                                    <li><a href="#0" data-date="10/12/2017">10 Dec</a></li>
+                                </ul>
+                                <span class="filling-line" aria-hidden="true"></span>
+                            </div> <!-- .events -->
+                        </div> <!-- .events-wrapper -->
+
+                        <ul class="cd-timeline-navigation">
+                            <li><a href="#0" class="prev inactive">Prev</a></li>
+                            <li><a href="#0" class="next">Next</a></li>
+                        </ul> <!-- .cd-timeline-navigation -->
+                    </div> <!-- .timeline -->
+                    <div class="events-content">
+                        <ol>
+                            <li class="selected" data-date="16/01/2017">
+                                <h2>Horizontal Timeline</h2>
+                                <em>January 16, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="28/02/2017">
+                                <h2>Event title here</h2>
+                                <em>February 28, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="20/04/2017">
+                                <h2>Event title here</h2>
+                                <em>March 20, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="20/05/2017">
+                                <h2>Event title here</h2>
+                                <em>May 20, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="09/07/2017">
+                                <h2>Event title here</h2>
+                                <em>July 9, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="30/08/2017">
+                                <h2>Event title here</h2>
+                                <em>August 30, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="15/09/2017">
+                                <h2>Event title here</h2>
+                                <em>September 15, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="01/11/2017">
+                                <h2>Event title here</h2>
+                                <em>November 1, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                            <li data-date="10/12/2017">
+                                <h2>Event title here</h2>
+                                <em>December 10, 2017</em>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                </p>
+                            </li>
+                        </ol>
+                    </div> <!-- .events-content -->
+                </section>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row" id="summary">
+      <div class="column">
+          <div class="ui segments">
+              <form class="ui form segment">
+                  <div class="ui grid centered container">
+                    <div class="twelve wide computer sixteen wide tablet column">
+                      <div class="ui middle aligned  right aligned grid">
+                        <div class="left floated left aligned six wide column">
+                          <h4 class="ui header">Summary</h4>
+                        </div>
+                        <div class="right floated right aligned six wide column">
+                          <a class="ui small button" id="btnEdit"><i class="pencil icon"></i>Edit</a>
+                          <a class="ui small primary button display-none" id="btnSave"><i class="save icon"></i>Save</a>
+                        </div>
+                      </div>
+                      <div class="ui divider mrg0T mrg0B"></div>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Full Name
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b class="editable">Mara Khristine Amoyo</b>
+                      <%# <input type="text" class="editable"> %>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Gender
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b class="editable">Female</b>
+                      <%# <input type="text" class="editable"> %>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Email Address
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b class="editable">mara_amoyo@medilink.com.ph</b>
+                      <%# <input type="text" class="editable"> %>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Mobile Number
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b>(63) 926-493-3360</b>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Username
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b>mara_amoyo</b>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Password
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b><i>Auto generated</i></b>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Application
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b>PayorLink</b>
+                    </div>
+                    <div class="six wide computer six wide tablet column">
+                      Role
+                    </div>
+                    <div class="six wide computer ten wide tablet column">
+                      <b><a href="#">Claims Processor 1</a></b>
+                    </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+        <div class="ui top attached tabular menu">
+          <a class="active item" data-tab="health_plan">
+            <div class="ui grid">
+                <div class="ui health_plan radio checkbox">
+                  <input type="radio" name="plan_category" checked="checked" tabindex="0" id="health_plan" value="health_plan">
+                  <label></label>
+                </div>
+            </div>
+            <label class="pointer">
+              <center>
+              <i class="huge heartbeat icon mrg0R"></i>
+              <br>Health Plan
+              </center>
+            <label>
+          </a>
+          <a class="item" data-tab="riders">
+            <div class="ui grid">
+                <div class="ui riders radio checkbox">
+                  <input type="radio" name="plan_category" tabindex="0" id="riders" value="riders">
+                  <label></label>
+                </div>
+            </div>
+            <label class="pointer">
+              <center>
+              <i class="huge add square icon mrg0R"></i>
+              <br>Riders
+              </center>
+            <label>
+          </a>
+        </div>
+          <div class="ui bottom attached segment">
+            <div class="ui tab active" data-tab="health_plan">
+              <center>
+                <i class="massive heartbeat icon"></i>
+                <br><h1>Health Plan</h1>
+              </center>
+            </div>
+            <div class="ui tab" data-tab="riders">
+              <center>
+                <i class="massive add square icon"></i>
+                <br><h1>Riders</h1>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="sixteen wide  column">
+        <div class="ui segments">
+            <div class="ui segment">
+              <div class="ui column stackable padded grid">
+                <div class="red column">Inpatient</div>
+                <div class="orange column">Orange</div>
+                <div class="yellow column">Outpatient (Consultation and Laboratory)</div>
+                <div class="olive column">Olive</div>
+                <div class="green column">ACU</div>
+                <div class="teal column">Teal</div>
+                <div class="light_blue column">Dental</div>
+                <div class="blue column">Optical</div>
+                <div class="violet column">Medicine</div>
+                <div class="purple column">Purple</div>
+                <div class="pink column">Maternity</div>
+                <div class="brown column">Brown</div>
+                <div class="grey column">Grey</div>
+                <div class="black column">Black</div>
+              </div>
+            </div>
+
+        </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="sixteen wide  column">
+          <div class="ui segments">
+              <div class="ui segment">
+                  <h5 class="ui header">
+                      Coverage Colored Radio
+                  </h5>
+              </div>
+              <div class="ui segment">
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio" checked="checked">
+                      <label class="coloring red">Inpatient</label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring blue">Optical</label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring yellow">Outpatient (Consultation and Laboratory) </label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring violet">Medicine</label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring light_blue">Dental</label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring green">ACU</label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring grey">Emergency (Not Sure)</label>
+                  </div>
+                  <div class="ui radio checkbox">
+                      <input type="radio" name="radio">
+                      <label class="coloring pink">Maternity</label>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="sixteen wide column">
+          <div class="ui segments">
+              <div class="ui segment">
+                  <h5 class="ui header">
+                      Coverage Colored Checkbox
+                  </h5>
+              </div>
+              <div class="ui segment">
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring red">Inpatient</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring blue">Optical</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring yellow">Outpatient (Consultation and Laboratory)</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring violet">Medicine</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring light_blue">Dental</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring green">ACU</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring grey">Emergency (Not Sure)</label>
+                  </div>
+                  <div class="ui checkbox">
+                      <input type="checkbox" checked name="example">
+                      <label class="coloring pink">Maternity</label>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="column">
+        <div class="ui segments">
+          <div class="ui segment">
+              <h5 class="ui header">
+                Mask
+              </h5>
+          </div>
+          <form class="ui form segment">
+            <div class="three fields">
+              <div class="field">
+                <label>Mobile</label>
+                <input placeholder="Mobile" name="mobile" type="text" class="mobile" role="mask">
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+            <h5 class="ui header">
+              Datatable
+            </h5>
+        </div>
+        <div class="ui segment">
+          <table role="datatable" id="example" class="ui striped table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Edinburgh</td>
+                    <td>61</td>
+                    <td>2011/04/25</td>
+                    <td>$320,800</td>
+                </tr>
+                <tr>
+                    <td>Garrett Winters</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>63</td>
+                    <td>2011/07/25</td>
+                    <td>$170,750</td>
+                </tr>
+                <tr>
+                    <td>Ashton Cox</td>
+                    <td>Junior Technical Author</td>
+                    <td>San Francisco</td>
+                    <td>66</td>
+                    <td>2009/01/12</td>
+                    <td>$86,000</td>
+                </tr>
+                <tr>
+                    <td>Cedric Kelly</td>
+                    <td>Senior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                    <td>2012/03/29</td>
+                    <td>$433,060</td>
+                </tr>
+                <tr>
+                    <td>Airi Satou</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>33</td>
+                    <td>2008/11/28</td>
+                    <td>$162,700</td>
+                </tr>
+                <tr>
+                    <td>Brielle Williamson</td>
+                    <td>Integration Specialist</td>
+                    <td>New York</td>
+                    <td>61</td>
+                    <td>2012/12/02</td>
+                    <td>$372,000</td>
+                </tr>
+                <tr>
+                    <td>Herrod Chandler</td>
+                    <td>Sales Assistant</td>
+                    <td>San Francisco</td>
+                    <td>59</td>
+                    <td>2012/08/06</td>
+                    <td>$137,500</td>
+                </tr>
+                <tr>
+                    <td>Rhona Davidson</td>
+                    <td>Integration Specialist</td>
+                    <td>Tokyo</td>
+                    <td>55</td>
+                    <td>2010/10/14</td>
+                    <td>$327,900</td>
+                </tr>
+                <tr>
+                    <td>Colleen Hurst</td>
+                    <td>Javascript Developer</td>
+                    <td>San Francisco</td>
+                    <td>39</td>
+                    <td>2009/09/15</td>
+                    <td>$205,500</td>
+                </tr>
+                <tr>
+                    <td>Sonya Frost</td>
+                    <td>Software Engineer</td>
+                    <td>Edinburgh</td>
+                    <td>23</td>
+                    <td>2008/12/13</td>
+                    <td>$103,600</td>
+                </tr>
+                <tr>
+                    <td>Jena Gaines</td>
+                    <td>Office Manager</td>
+                    <td>London</td>
+                    <td>30</td>
+                    <td>2008/12/19</td>
+                    <td>$90,560</td>
+                </tr>
+                <tr>
+                    <td>Quinn Flynn</td>
+                    <td>Support Lead</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                    <td>2013/03/03</td>
+                    <td>$342,000</td>
+                </tr>
+                <tr>
+                    <td>Charde Marshall</td>
+                    <td>Regional Director</td>
+                    <td>San Francisco</td>
+                    <td>36</td>
+                    <td>2008/10/16</td>
+                    <td>$470,600</td>
+                </tr>
+                <tr>
+                    <td>Haley Kennedy</td>
+                    <td>Senior Marketing Designer</td>
+                    <td>London</td>
+                    <td>43</td>
+                    <td>2012/12/18</td>
+                    <td>$313,500</td>
+                </tr>
+                <tr>
+                    <td>Tatyana Fitzpatrick</td>
+                    <td>Regional Director</td>
+                    <td>London</td>
+                    <td>19</td>
+                    <td>2010/03/17</td>
+                    <td>$385,750</td>
+                </tr>
+                <tr>
+                    <td>Michael Silva</td>
+                    <td>Marketing Designer</td>
+                    <td>London</td>
+                    <td>66</td>
+                    <td>2012/11/27</td>
+                    <td>$198,500</td>
+                </tr>
+                <tr>
+                    <td>Paul Byrd</td>
+                    <td>Chief Financial Officer (CFO)</td>
+                    <td>New York</td>
+                    <td>64</td>
+                    <td>2010/06/09</td>
+                    <td>$725,000</td>
+                </tr>
+                <tr>
+                    <td>Gloria Little</td>
+                    <td>Systems Administrator</td>
+                    <td>New York</td>
+                    <td>59</td>
+                    <td>2009/04/10</td>
+                    <td>$237,500</td>
+                </tr>
+                <tr>
+                    <td>Bradley Greer</td>
+                    <td>Software Engineer</td>
+                    <td>London</td>
+                    <td>41</td>
+                    <td>2012/10/13</td>
+                    <td>$132,000</td>
+                </tr>
+                <tr>
+                    <td>Dai Rios</td>
+                    <td>Personnel Lead</td>
+                    <td>Edinburgh</td>
+                    <td>35</td>
+                    <td>2012/09/26</td>
+                    <td>$217,500</td>
+                </tr>
+                <tr>
+                    <td>Jenette Caldwell</td>
+                    <td>Development Lead</td>
+                    <td>New York</td>
+                    <td>30</td>
+                    <td>2011/09/03</td>
+                    <td>$345,000</td>
+                </tr>
+                <tr>
+                    <td>Yuri Berry</td>
+                    <td>Chief Marketing Officer (CMO)</td>
+                    <td>New York</td>
+                    <td>40</td>
+                    <td>2009/06/25</td>
+                    <td>$675,000</td>
+                </tr>
+                <tr>
+                    <td>Caesar Vance</td>
+                    <td>Pre-Sales Support</td>
+                    <td>New York</td>
+                    <td>21</td>
+                    <td>2011/12/12</td>
+                    <td>$106,450</td>
+                </tr>
+                <tr>
+                    <td>Doris Wilder</td>
+                    <td>Sales Assistant</td>
+                    <td>Sidney</td>
+                    <td>23</td>
+                    <td>2010/09/20</td>
+                    <td>$85,600</td>
+                </tr>
+                <tr>
+                    <td>Angelica Ramos</td>
+                    <td>Chief Executive Officer (CEO)</td>
+                    <td>London</td>
+                    <td>47</td>
+                    <td>2009/10/09</td>
+                    <td>$1,200,000</td>
+                </tr>
+                <tr>
+                    <td>Gavin Joyce</td>
+                    <td>Developer</td>
+                    <td>Edinburgh</td>
+                    <td>42</td>
+                    <td>2010/12/22</td>
+                    <td>$92,575</td>
+                </tr>
+                <tr>
+                    <td>Jennifer Chang</td>
+                    <td>Regional Director</td>
+                    <td>Singapore</td>
+                    <td>28</td>
+                    <td>2010/11/14</td>
+                    <td>$357,650</td>
+                </tr>
+                <tr>
+                    <td>Brenden Wagner</td>
+                    <td>Software Engineer</td>
+                    <td>San Francisco</td>
+                    <td>28</td>
+                    <td>2011/06/07</td>
+                    <td>$206,850</td>
+                </tr>
+                <tr>
+                    <td>Fiona Green</td>
+                    <td>Chief Operating Officer (COO)</td>
+                    <td>San Francisco</td>
+                    <td>48</td>
+                    <td>2010/03/11</td>
+                    <td>$850,000</td>
+                </tr>
+                <tr>
+                    <td>Shou Itou</td>
+                    <td>Regional Marketing</td>
+                    <td>Tokyo</td>
+                    <td>20</td>
+                    <td>2011/08/14</td>
+                    <td>$163,000</td>
+                </tr>
+                <tr>
+                    <td>Michelle House</td>
+                    <td>Integration Specialist</td>
+                    <td>Sidney</td>
+                    <td>37</td>
+                    <td>2011/06/02</td>
+                    <td>$95,400</td>
+                </tr>
+                <tr>
+                    <td>Suki Burks</td>
+                    <td>Developer</td>
+                    <td>London</td>
+                    <td>53</td>
+                    <td>2009/10/22</td>
+                    <td>$114,500</td>
+                </tr>
+                <tr>
+                    <td>Prescott Bartlett</td>
+                    <td>Technical Author</td>
+                    <td>London</td>
+                    <td>27</td>
+                    <td>2011/05/07</td>
+                    <td>$145,000</td>
+                </tr>
+                <tr>
+                    <td>Gavin Cortez</td>
+                    <td>Team Leader</td>
+                    <td>San Francisco</td>
+                    <td>22</td>
+                    <td>2008/10/26</td>
+                    <td>$235,500</td>
+                </tr>
+                <tr>
+                    <td>Martena Mccray</td>
+                    <td>Post-Sales support</td>
+                    <td>Edinburgh</td>
+                    <td>46</td>
+                    <td>2011/03/09</td>
+                    <td>$324,050</td>
+                </tr>
+                <tr>
+                    <td>Unity Butler</td>
+                    <td>Marketing Designer</td>
+                    <td>San Francisco</td>
+                    <td>47</td>
+                    <td>2009/12/09</td>
+                    <td>$85,675</td>
+                </tr>
+                <tr>
+                    <td>Howard Hatfield</td>
+                    <td>Office Manager</td>
+                    <td>San Francisco</td>
+                    <td>51</td>
+                    <td>2008/12/16</td>
+                    <td>$164,500</td>
+                </tr>
+                <tr>
+                    <td>Hope Fuentes</td>
+                    <td>Secretary</td>
+                    <td>San Francisco</td>
+                    <td>41</td>
+                    <td>2010/02/12</td>
+                    <td>$109,850</td>
+                </tr>
+                <tr>
+                    <td>Vivian Harrell</td>
+                    <td>Financial Controller</td>
+                    <td>San Francisco</td>
+                    <td>62</td>
+                    <td>2009/02/14</td>
+                    <td>$452,500</td>
+                </tr>
+                <tr>
+                    <td>Timothy Mooney</td>
+                    <td>Office Manager</td>
+                    <td>London</td>
+                    <td>37</td>
+                    <td>2008/12/11</td>
+                    <td>$136,200</td>
+                </tr>
+                <tr>
+                    <td>Jackson Bradshaw</td>
+                    <td>Director</td>
+                    <td>New York</td>
+                    <td>65</td>
+                    <td>2008/09/26</td>
+                    <td>$645,750</td>
+                </tr>
+                <tr>
+                    <td>Olivia Liang</td>
+                    <td>Support Engineer</td>
+                    <td>Singapore</td>
+                    <td>64</td>
+                    <td>2011/02/03</td>
+                    <td>$234,500</td>
+                </tr>
+                <tr>
+                    <td>Bruno Nash</td>
+                    <td>Software Engineer</td>
+                    <td>London</td>
+                    <td>38</td>
+                    <td>2011/05/03</td>
+                    <td>$163,500</td>
+                </tr>
+                <tr>
+                    <td>Sakura Yamamoto</td>
+                    <td>Support Engineer</td>
+                    <td>Tokyo</td>
+                    <td>37</td>
+                    <td>2009/08/19</td>
+                    <td>$139,575</td>
+                </tr>
+                <tr>
+                    <td>Thor Walton</td>
+                    <td>Developer</td>
+                    <td>New York</td>
+                    <td>61</td>
+                    <td>2013/08/11</td>
+                    <td>$98,540</td>
+                </tr>
+                <tr>
+                    <td>Finn Camacho</td>
+                    <td>Support Engineer</td>
+                    <td>San Francisco</td>
+                    <td>47</td>
+                    <td>2009/07/07</td>
+                    <td>$87,500</td>
+                </tr>
+                <tr>
+                    <td>Serge Baldwin</td>
+                    <td>Data Coordinator</td>
+                    <td>Singapore</td>
+                    <td>64</td>
+                    <td>2012/04/09</td>
+                    <td>$138,575</td>
+                </tr>
+                <tr>
+                    <td>Zenaida Frank</td>
+                    <td>Software Engineer</td>
+                    <td>New York</td>
+                    <td>63</td>
+                    <td>2010/01/04</td>
+                    <td>$125,250</td>
+                </tr>
+                <tr>
+                    <td>Zorita Serrano</td>
+                    <td>Software Engineer</td>
+                    <td>San Francisco</td>
+                    <td>56</td>
+                    <td>2012/06/01</td>
+                    <td>$115,000</td>
+                </tr>
+                <tr>
+                    <td>Jennifer Acosta</td>
+                    <td>Junior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>43</td>
+                    <td>2013/02/01</td>
+                    <td>$75,650</td>
+                </tr>
+                <tr>
+                    <td>Cara Stevens</td>
+                    <td>Sales Assistant</td>
+                    <td>New York</td>
+                    <td>46</td>
+                    <td>2011/12/06</td>
+                    <td>$145,600</td>
+                </tr>
+                <tr>
+                    <td>Hermione Butler</td>
+                    <td>Regional Director</td>
+                    <td>London</td>
+                    <td>47</td>
+                    <td>2011/03/21</td>
+                    <td>$356,250</td>
+                </tr>
+                <tr>
+                    <td>Lael Greer</td>
+                    <td>Systems Administrator</td>
+                    <td>London</td>
+                    <td>21</td>
+                    <td>2009/02/27</td>
+                    <td>$103,500</td>
+                </tr>
+                <tr>
+                    <td>Jonas Alexander</td>
+                    <td>Developer</td>
+                    <td>San Francisco</td>
+                    <td>30</td>
+                    <td>2010/07/14</td>
+                    <td>$86,500</td>
+                </tr>
+                <tr>
+                    <td>Shad Decker</td>
+                    <td>Regional Director</td>
+                    <td>Edinburgh</td>
+                    <td>51</td>
+                    <td>2008/11/13</td>
+                    <td>$183,000</td>
+                </tr>
+                <tr>
+                    <td>Michael Bruce</td>
+                    <td>Javascript Developer</td>
+                    <td>Singapore</td>
+                    <td>29</td>
+                    <td>2011/06/27</td>
+                    <td>$183,000</td>
+                </tr>
+                <tr>
+                    <td>Donna Snider</td>
+                    <td>Customer Support</td>
+                    <td>New York</td>
+                    <td>27</td>
+                    <td>2011/01/25</td>
+                    <td>$112,000</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <h5 class="ui header">
+            Card
+          </h5>
+        </div>
+        <div class="ui segment">
+          <h4 class="ui dividing header">Benefit</h4>
+          <div class="ui card">
+            <div class="content">
+                <div class="header">Arthrocentesis</div>
+                <div class="ui small feed">
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                              <div class="ui grid">
+                                <div class="doubling two column row">
+                                  <div class="column description">
+                                    Procedures
+                                  </div>
+                                  <div class="column">
+                                    6
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                              <div class="ui grid">
+                                <div class="doubling two column row">
+                                  <div class="column description">
+                                    Limit Type
+                                  </div>
+                                  <div class="column">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="content">
+                            <div class="summary">
+                              <div class="ui grid">
+                                <div class="doubling two column row">
+                                  <div class="column description">
+                                    Limit Amount
+                                  </div>
+                                  <div class="column">
+                                    Up to MBL
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <%#  <div class="extra content">
+                <button class="ui button">View</button>
+            </div> %>
+            <div class="ui bottom attached button">
+              <i class="unhide icon"></i>
+              View
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <h5 class="ui header">
+            File Upload
+          </h5>
+        </div>
+        <div class="ui segment" id="fileUpload">
+          <form class="ui form">
+            <div class="ui grid centered container">
+              <div class="six wide computer sixteen wide tablet column">
+                <div class="ui centered special cards">
+                    <div class="card">
+                      <div class="blurring dimmable image">
+                        <div class="ui inverted dimmer">
+                          <div class="content">
+                            <div class="center">
+                              <div class="ui primary button" id="imageLabel">
+                                <i class="folder open icon"></i> Browse
+                              </div>
+                              <input type="file" id="imageUpload" accept="image/*" class="ui hide">
+                            </div>
+                          </div>
+                        </div>
+                        <img src="/images/file-upload.png" id="imagePreview">
+                      </div>
+                      <div class="extra content">
+                        <span class="left floated">
+                          <a class="ui primary button"><i class="upload icon"></i> Upload</a>
+                        </span>
+                        <span class="right floated">
+                          <a class="ui button" id="imageRemove"><i class="remove icon"></i> Remove</a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="nine wide computer sixteen wide tablet column grid">
+                <div class="field">
+                  <label>First Name</label>
+                  <input type="text" name="first-name" placeholder="First Name">
+                </div>
+                <div class="field">
+                  <label>Middle Name</label>
+                  <input type="text" name="middle-name" placeholder="Middle Name">
+                </div>
+                <div class="fields">
+                  <div class="twelve wide field">
+                    <label>Last Name</label>
+                    <input type="text">
+                  </div>
+                  <div class="four wide field">
+                    <label>Suffix</label>
+                    <input type="text">
+                  </div>
+                </div>
+                <div class="fields">
+                  <div class="twelve wide field">
+                    <label>Birth Date</label>
+                    <input type="text">
+                  </div>
+                  <div class="four wide field">
+                    <label>Gender</label>
+                    <div class="inline fields">
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="gender" checked="" tabindex="0" class="hidden">
+                          <label>Male</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="gender" tabindex="0" class="hidden">
+                          <label>Female</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>PRC</label>
+                  <input type="text">
+                </div>
+                <div class="field">
+                  <label>TIN</label>
+                  <input type="text">
+                </div>
+                <label>Affiliated</label>
+                <div class="inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="affiliated" checked="" tabindex="0" class="hidden">
+                      <label>Yes</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="affiliated" tabindex="0" class="hidden">
+                      <label>No</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Physician Type</label>
+                  <select multiple="" class="ui dropdown">
+                    <option value="">Select Physician Type</option>
+                    <option value="Corporate Retainer">Corporate Retainer</option>
+                    <option value="Dentist">Dentist</option>
+                    <option value="Primary Care">Primary Care</option>
+                    <option value="Specialist">Specialist</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Specialization</label>
+                  <div class="ui selection dropdown">
+                      <input type="hidden" name="specialization">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Specialization</div>
+                      <div class="menu">
+                          <div class="item" data-value="1">Specialization 1</div>
+                          <div class="item" data-value="0">Specialization 1</div>
+                      </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Sub Specialization</label>
+                  <div class="ui selection dropdown">
+                      <input type="hidden" name="sub-specialization">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Sub Specialization</div>
+                      <div class="menu">
+                          <div class="item" data-value="1">Sub Specialization 1</div>
+                          <div class="item" data-value="0">Sub Specialization 1</div>
+                      </div>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label>Effective Date From</label>
+                    <div class="ui calendar" id="rangestart">
+                      <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Effective Date To</label>
+                    <div class="ui calendar" id="rangeend">
+                      <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment" id="dateFormPicker">
+          <h5 class="ui header">
+            DateTimePicker
+          </h5>
+        </div>
+        <form class="ui form segment">
+          <h4 class="ui dividing header">DateTime</h4>
+          <div class="three fields">
+            <div class="field">
+              <label>Date and Time</label>
+              <div class="ui calendar" id="example1">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date/Time">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Date only</label>
+              <div class="ui calendar" id="example2">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Time only</label>
+               <div class="ui calendar" id="example3">
+                <div class="ui input right icon">
+                  <i class="time icon"></i>
+                  <input type="text" placeholder="Time">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="four fields">
+            <div class="field">
+              <label>Year first</label>
+              <div class="ui calendar" id="example4">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date/Time">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Initial value</label>
+              <div class="ui calendar" id="example5">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date" value="5/30/2015 3pm">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>24-hour</label>
+              <div class="ui calendar" id="example6">
+                <div class="ui input right icon">
+                  <i class="time icon"></i>
+                  <input type="text" placeholder="Time">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Month and year</label>
+              <div class="ui calendar" id="example7">
+                <div class="ui input right icon">
+                  <i class="time icon"></i>
+                  <input type="text" placeholder="Time">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="four fields">
+            <div class="field">
+              <label>Year only</label>
+              <div class="ui calendar" id="example8">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Year">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Min/Max date</label>
+              <div class="ui calendar" id="example11">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Day first</label>
+              <div class="ui calendar" id="example12">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Date">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Custom format</label>
+              <div class="ui calendar" id="example13">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Custom">
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4 class="ui dividing header">Range</h4>
+          <div class="two fields">
+            <div class="field">
+              <label>Start date</label>
+              <div class="ui calendar" id="rangestart">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="Start">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>End date</label>
+              <div class="ui calendar" id="rangeend">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <input type="text" placeholder="End">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <h4 class="ui dividing header">Button</h4>
+          <div class="two fields">
+            <div class="field">
+              <label>Button</label>
+              <div class="ui calendar" id="example9">
+                <div class="ui button">Select date</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Hover</label>
+              <div class="ui calendar" id="example10">
+                <div class="ui button">Hover me</div>
+              </div>
+            </div>
+          </div>
+          <h4 class="ui dividing header">Inline</h4>
+          <div class="ui calendar" id="example14"></div>
+          <h4 class="ui dividing header">Implicit inline (no popup activator)</h4>
+          <div class="ui calendar" id="example15"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

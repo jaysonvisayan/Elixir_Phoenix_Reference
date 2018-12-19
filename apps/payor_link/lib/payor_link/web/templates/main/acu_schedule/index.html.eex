@@ -1,0 +1,82 @@
+  <div class="page-title">
+		<div class="ui clearing segment">
+			<div class="ui container">
+
+			  <h1 class="ui left floated header">
+			    Acu Scheduling
+			    <div class="clearfix"></div>
+				 	<div class="ui breadcrumb">
+					  <a href="/web/acu_schedules">Acu Scheduling</a>
+					  <i class="right angle icon divider"></i>
+					  <div class="active section dim thin">Search</div>
+					</div>
+			  </h1>
+			  <div class="ui header float-right-medium">
+          <a href="/web/acu_schedules/new"class="ui primary button mt-1-small"><i class="inverted small plus icon"></i>Add Schedule</a>
+				</div>
+			</div>
+		</div><!-- .ui.clearing.segment -->
+  </div><!-- .page-title -->
+
+
+  <div class="ui container" id="new_acu_mobile">
+    <div class="content-section white-bg">
+      <div class="ui grid">
+        <div class="row">
+
+          <br><br>
+          <div class="sixteen wide computer column">
+
+            <br><br>
+            <table role="datatable" class="full-width ui celled striped table" id="new_acu_schedule_table" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Batch No.</th>
+                  <th>Cluster Code</th>
+                  <th>Cluster Name</th>
+                  <th>Account Code</th>
+                  <th>Account Name</th>
+                  <th>Schedule Date</th>
+                  <th>Schedule Time</th>
+                  <th>Guaranteed Amount</th>
+                  <th>No. of Members</th>
+                  <th>Schedule Created By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for acu_schedule <- @acu_schedules do %>
+                  <tr>
+                    <td><a href='/web/acu_schedules/<%= acu_schedule.id %>' id="show_acu_schedule" acuID="<%= acu_schedule.id %>">
+                      <%= if is_nil(acu_schedule.status) || acu_schedule.status == "Draft" do %>
+                        <%= acu_schedule.batch_no %> (Draft)
+                      <% else %>
+                        <%= acu_schedule.batch_no %>
+                      <% end %>
+                    </a></td>
+                    <td><%= acu_schedule.cluster_code %></td>
+                    <td><%= acu_schedule.cluster_name %></td>
+                    <td><%= acu_schedule.account_group_code %></td>
+                    <td><%= acu_schedule.account_group_name %></td>
+                    <%= if is_nil(acu_schedule.date_from) || is_nil(acu_schedule.date_to) do %>
+                    <%= else %>
+                      <% dates = date_diff(acu_schedule.date_from, acu_schedule.date_to) %>
+                    <% end %>
+                    <td><%= acu_schedule.date_from %>-<%= acu_schedule.date_to %></td>
+                    <%= if is_nil(acu_schedule.time_from) || is_nil(acu_schedule.time_to) do %>
+                      N/A
+                      <%= else %>
+                      <td><%= remove_seconds(acu_schedule.time_from)%>-<%= remove_seconds(acu_schedule.time_to)%></td>
+                    <% end %>
+                    <td><%= acu_schedule.guaranteed_amount %></td>
+                    <td><%= acu_schedule.no_of_members%></td>
+                    <td><%= acu_schedule.created_by %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

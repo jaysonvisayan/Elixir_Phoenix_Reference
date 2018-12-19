@@ -1,0 +1,22 @@
+<div class="ui tiny modal" id="yes_or_no_modal">
+        <div class="header">
+          <label style="font-size:20px">
+            <b>Do you want to go back to step 2?</b>
+          </label>
+          <br>
+          <label style="font-size:16px; color:#696969;">
+            Going back to step 2 will not save your inputted data <u style="color:Red"><span id="main_dbdeletedate" style="color:#ff4d4d; font-size:17px"></span></u>.
+          </label>
+        </div>
+      
+          <div class="actions">
+            <button class="ui left floated button deny" id="noDentalBtn">
+              <i class="remove icon"></i><b>
+                No, keep this page
+              </b> </button>
+              <button class="ui red ok button approve">
+                <i class="trash icon"></i><b>
+                Yes, leave this page
+              </b> </button>
+          </div>
+      </div>

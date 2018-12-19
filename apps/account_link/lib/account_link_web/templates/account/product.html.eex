@@ -1,0 +1,68 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Account" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Product" %></li>
+    </ul>
+  </div><!-- breadcrumbs ends here-->
+
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <%= if Enum.count(@account_products) != 0 do %>
+            <%= for account_product <- @account_products do %>
+              <div class="eight wide computer sixteen wide tablet sixteen wide mobile column">
+                <section>
+                  <div class="section-title section-title--with-button">
+                    <span><%= account_product.name %></span>
+                    <a class="ui tiny basic button" href="/<%= @locale %>/account/product/<%= account_product.product_id %>/summary"><i class="unhide icon"></i><%= gettext "View" %></a>
+                  </div>
+                  <table class="full-width ui celled table">
+                    <tbody>
+                      <tr>
+                        <td class="data-label"><%= gettext "Product Code" %></td>
+                        <td class="f-blue bold"><%= account_product.product.code %></td>
+                      </tr>
+                      <tr>
+                        <td class="data-label"><%= gettext "Product Classification" %></td>
+                        <td class="f-blue bold">
+                          <%= if account_product.standard_product == "Yes" do %>
+                            <%= gettext "Standard" %>
+                          <% else %>
+                            <%= gettext "Custom" %>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="data-label"><%= gettext "Product Type" %></td>
+                        <td><%= account_product.type %></td>
+                      </tr>
+                      <tr>
+                        <td class="data-label"><%= gettext "No. of Benefits" %></td>
+                        <td><%= Enum.count(account_product.product.benefits) %></td>
+                      </tr>
+                      <tr>
+                        <td class="data-label"><%= gettext "Limit Type" %></td>
+                        <td><%= account_product.limit_type %></td>
+                      </tr>
+                      <tr>
+                        <td class="data-label"><%= gettext "Limit Amount" %></td>
+                        <td>Php <%= account_product.limit_amount %></td>
+                      </tr>
+                      <tr>
+                        <td class="data-label"><%= gettext "No. of Members" %></td>
+                        <td><%= Enum.count(account_product.member_products) %></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="ui tiny modal" id="benefit_removal_confirmation">
+  <div class="header">
+    Remove Benefit
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_p_id">
+    <input type="hidden" value="" id="confirmation_pb_id">
+    <p>
+    Do you really want to remove this benefit?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_b">
+      <i class="remove icon"></i>
+      No, Keep Benefit
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_b_edit">
+      <i class="trash icon"></i>
+      Yes, Remove Benefit
+    </div>
+  </div>
+</div>

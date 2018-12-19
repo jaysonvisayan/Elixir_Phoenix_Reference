@@ -1,0 +1,351 @@
+<div class="row">
+    <div class="sixteen wide column" role="financial">
+        <%= form_for @changeset, @action, [as: :account, class: "ui form", id: "financial", multipart: :true], fn f -> %>
+        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+        <%= hidden_input f, :account_id_v2, value: @account.id %>
+            <div class="two fields">
+                <div class="field">
+                    <label>Account TIN</label>
+                    <%= if is_nil(@changeset.data.account_tin) do %>
+                        <%= text_input f, :account_tin, placeholder: "Enter Account TIN", role: "mask", class: "tin" %>
+                    <% else %>
+                        <%= text_input f, :account_tin, dummy_val: @changeset.data.account_tin, role: "mask", class: "tin"%>
+                    <% end %>
+                    <p style="color:red"><%= error_tag f, :account_tin %></p>
+                </div>
+                <div class="field">
+                    <label>VAT Status</label>
+                    <%= select f, :vat_status, [
+                        "20% VAT-able": "20% VAT-able",
+                        "Fully VAT-able": "Fully VAT-able",
+                        "Others": "Others",
+                        "VAT Exempt": "VAT Exempt",
+                        "VAT-able": "VAT-able",
+                        "Zero-Rated": "Zero-Rated"
+                        ],
+                        prompt: "Select One",
+                        class: "ui dropdown" %>
+                    <p style="color:red"><%= error_tag f, :vat_status%></p>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Previous Carrier <i class="gray">(Optional)</i></label>
+                    <%= text_input f, :previous_carrier, class: "alphanumeric", placeholder: "Enter previous carrier" %>
+                    <%= error_tag f, :previous_carrier %>
+                </div>
+                <div class="field">
+                    <label>Attachment Point <i class="gray">(Optional)</i></label>
+                    <%= number_input f, :attached_point, placeholder: "Enter attached point" %>
+                    <%= error_tag f, :attached_point %>
+                </div>
+            </div>
+            <h4 class="ui divider"></h4>
+            <div for="ASA">
+                <div class="field">
+                  <a class="ui primary basic right floated button" name="coverage_funds" accountGroupID="<%= @account.account_group_id%>">
+                    <i class="icon add"></i>
+                    Coverage Fund
+                  </a>
+                </div>
+                <div class="field">
+                  <label>Coverage Fund</label>
+                  <table class="ui very basic striped selectable table" role="modified_table" id="coverage_funds_tbl" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th>Coverage</th>
+                        <th>Revolving Fund</th>
+                        <th>Replenish Threshold</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="remove_body">
+                        <%= for coverage_fund <- @coverage_funds do %>
+                          <tr>
+                            <td><%= coverage_fund.coverage.name %></td>
+                            <td><%= coverage_fund.revolving_fund%></td>
+                            <td><%= coverage_fund.replenish_threshold%></td>
+                            <td>
+                              <a href="#!" coverageFundId="<%= coverage_fund.id %>" name="delete_coverage_fund">
+                                <i class="red large trash link icon"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        <% end %>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+            <h4 class="ui divider"></h4>
+            <%= if is_nil(@bank) do %>
+                <div class="two fields">
+                    <div class="field" mode="1">
+                        <label>Mode of Payment</label>
+                        <%= select f, :mode_of_payment, [
+                            "Check": "Check",
+                            "Electronic Debit": "Electronic Debit"],
+                            prompt: "Select One",
+                            class: "ui dropdown",
+                            mode: 1,
+                            step: @account.step %>
+                        <%= error_tag f, :mode_of_payment%>
+                    </div>
+                    <div class="field" for="Check">
+                        <label>Payee Name <i class="gray">(Please enter exact payee name)</i></label>
+                        <%= if is_nil(@changeset.data.account_tin) do %>
+                            <%= text_input f, :payee_name, class: "person name", minlength: 3%>
+                        <% else %>
+                            <%= text_input f, :payee_name, class: "person name", minlength: 3, value: @changeset.data.payee_name%>
+                        <% end %>
+                        <%= error_tag f, :payee_name%>
+                    </div>
+                    <div class="field" for="Electronic_debit">
+                      <label>Bank Account # <i class="gray">(Optional)</i></label>
+                        <%= number_input f, :account_no, minlength: 9, maxlength: 17%>
+                        <%= error_tag f, :account_no%>
+                    </div>
+                </div>
+                <div class="two fields" for="Electronic_debit">
+                    <div class="field">
+                      <label>Bank Name <i class="gray">(Optional)</i></label>
+                        <%= text_input f, :account_name, placeholder: "Enter Bank Name"%>
+                        <%= error_tag f, :account_name %>
+                    </div>
+                    <div class="field">
+                        <label>Branch <i class="gray">(Optional)</i></label>
+                        <%= text_input f, :branch, placeholder: "Enter Branch"%>
+                        <%= error_tag f, :branch %>
+                    </div>
+                </div>
+
+            <% else %>
+                <div class="two fields">
+                    <div class="field" mode="1">
+                        <label>Mode of Payment</label>
+                        <%= select f, :mode_of_payment, [
+                            "Check": "Check",
+                            "Electronic Debit": "Electronic Debit"],
+                            prompt: "Select One",
+                            class: "ui dropdown",
+                            mode: 1,
+                            step: @account.step %>
+                        <%= error_tag f, :mode_of_payment%>
+                    </div>
+                    <div class="field" for="Check">
+                        <label>Payee Name <i class="gray">(Please enter exact payee name)</i></label>
+                        <%= if is_nil(@changeset.data.account_tin) do %>
+                            <%= text_input f, :payee_name, class: "person name", minlength: 3, disabled: "disalbed"%>
+                        <% else %>
+                            <%= text_input f, :payee_name, class: "person name", minlength: 3, value: @changeset.data.payee_name%>
+                        <% end %>
+                        <%= error_tag f, :payee_name%>
+                    </div>
+                    <div class="field" for="Electronic_debit">
+                        <label>Bank Account # <i class="gray">(Optional)</i></label>
+                        <%= number_input f, :account_no, minlength: 9, maxlength: 17, value: @bank.account_no%>
+                        <%= error_tag f, :account_no%>
+                    </div>
+                </div>
+                <div class="two fields" for="Electronic_debit">
+                    <div class="field">
+                        <label>Bank Name <i class="gray">(Optional)</i></label>
+                        <%= text_input f, :account_name, value: @bank.account_name %>
+                        <%= error_tag f, :account_name %>
+                    </div>
+                    <div class="field">
+                        <label>Branch <i class="gray">(Optional)</i></label>
+                        <%= text_input f, :branch, value: @bank.branch%>
+                        <%= error_tag f, :branch %>
+                    </div>
+                </div>
+            <% end %>
+            <div role="authority" for="Electronic_debit">
+                <div class="ui divider"></div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Authority to Debit</label>
+                        <div class="ui horizontal segments">
+                            <div class="ui segment" role="clickable-segment">
+                                <div class="ui radio checkbox">
+                                    <%= radio_button(f, :authority_debit, "true", checked: "") %>
+                                    <label><b>Yes</b></label>
+                                </div>
+                            </div>
+                            <div class="ui segment" role="clickable-segment">
+                                <div class="ui radio checkbox">
+                                <%= radio_button(f, :authority_debit, "false") %>
+                                <label><b>No</b></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Please upload Authorization Form.</label>
+                        <%= file_input f, :file, id: "fileUpload", class: "hide"%>
+                        <div class="ui fluid basic icon buttons">
+                            <label class="ui button" for="fileUpload"><span class="upload_txt">Upload Authorization Form</span><i class="cloud upload icon"></i></label>
+                            <label class="ui button"><i class="remove icon"></i> Remove</label>
+                        </div>
+                        <%= error_tag f, :file%>
+                    </div>
+                </div>
+            </div>
+            <div class="ui request-form accordion" id="full_risk">
+                <div class="accordion-wrapper">
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        <label>Special Approval</label>
+                    </div>
+                    <div class="active content">
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <%= checkbox f, :approval_is_check, id: "approval_check_box", value: @account_group.is_check%>
+                                <label>Check if Funding Source is from the same bank account</label>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field" mode="2">
+                                <label>Mode of Payment</label>
+                                <%= select f, :mode_of_payment, [
+                                    "Check": "Check",
+                                    "Electronic Debit": "Electronic Debit"],
+                                    prompt: "Select One",
+                                    step: @account.step,
+                                    mode: 2,
+                                    class: "ui dropdown"%>
+                                <%= error_tag f, :mode_of_payment%>
+                            </div>
+                            <div class="field" for="Check">
+                                <label>Payee Name <i class="gray">(Please enter exact payee name)</i></label>
+                                <%= hidden_input f, :approval_payee_name, class: "person name", minlength: 3, value: @account_group.payee_name%>
+                                <%= text_input f, :approval_payee_name, class: "person name", minlength: 3, value: @account_group.payee_name, id: "approval_payee_name"%>
+
+                                <%= error_tag f, :payee_name%>
+                            </div>
+                            <div class="field" for="Electronic_debit">
+                                <label>Bank Account #<i class="gray">(Optional)</i></label>
+                                <%= hidden_input f, :approval_account_no, minlength: 9, maxlength: 17, value: @account_group.account_no %>
+                                <%= number_input f, :approval_account_no, minlength: 9, maxlength: 17, value: @account_group.account_no, id: "approval_account_no" %>
+
+                                <%= error_tag f, :account_no%>
+                            </div>
+                        </div>
+                        <div class="two fields" for="Electronic_debit">
+                            <div class="field">
+                                <label>Bank Name <i class="gray">(Optional)</i></label>
+                                <%= hidden_input f, :approval_account_name, value: @account_group.account_name%>
+                                <%= text_input f, :approval_account_name, value: @account_group.account_name, id: "approval_account_name"%>
+                                <%= error_tag f, :account_name %>
+                            </div>
+
+                            <div class="field" for="Electronic_debit">
+                                <label>Branch  <i class="gray">(Optional)</i></label>
+                                <%= hidden_input f, :approval_branch, value: @account_group.branch%>
+                                <%= text_input f, :approval_branch, value: @account_group.branch%>
+                                <%= error_tag f, :branch %>
+                            </div>
+                        </div>
+                        <div class="ui divider" for="Electronic_debit"></div>
+                        <div class="two fields" for="Electronic_debit">
+                            <div class="field">
+                                <label>Authority to Debit</label>
+                                <div class="ui horizontal segments">
+                                  <div class="ui segment" role="clickable-segment">
+                                    <div class="ui radio checkbox">
+                                      <%= radio_button(f, :approval_authority_debit, "true", checked: "") %>
+                                      <label><b>Yes</b></label>
+                                    </div>
+                                  </div>
+                                  <div class="ui segment" role="clickable-segment">
+                                    <div class="ui radio checkbox">
+                                      <%= radio_button(f, :approval_authority_debit, "false") %>
+                                      <label><b>No</b></label>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields" for="Electronic_debit">
+                            <div class="field">
+                                <label>Please upload Authorization Form.</label>
+                                <%= file_input f, :file, id: "fileUpload", class: "hide"%>
+                                <div class="ui fluid basic icon buttons">
+                                    <label class="ui button" for="fileUpload"><span class="upload_txt">Upload Authorization Form</span><i class="cloud upload icon"></i></label>
+                                    <label class="ui button"><i class="remove icon"></i>Remove</label>
+                                </div>
+                                <%= error_tag f, :file%>
+                            </div>
+                        </div>
+                        <div class="ui divider"></div>
+                        <a class="ui primary basic right floated button" name="approver" accountGroupID="<%= @account.account_group_id%>">
+                          <i class="icon add"></i>
+                          Approver
+                        </a>
+                        <table class="ui very basic striped selectable table" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Designation</th>
+                                    <th>Telephone number</th>
+                                    <th>Mobile number</th>
+                                    <th>Email Address</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%= if Enum.empty?(@approvers) do %>
+                                    <tr class="center aligned">
+                                        <td colspan="7">No Records Found!</td>
+                                    </tr>
+                                <% else %>
+                                    <%= for approver <- @approvers do %>
+                                        <tr>
+                                            <td><%= approver.name %></td>
+                                            <td><%= approver.designation%></td>
+                                            <td><%= approver.telephone%></td>
+                                            <td><%= approver.mobile%></td>
+                                            <td><%= approver.email%></td>
+                                            <td>
+                                              <%= link to: account_path(@conn, :delete_approver, approver.id, @account), method: :delete, data: [confirm: "Are you sure?"] do %> <i class="red large trash link icon"></i>
+                                              <% end %>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                <% end %>
+                              </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <%= if @account.step <= 6 do %>
+      <%= render "modal_draft.html", account: @account %>
+      <a class="ui basic button" id="cancel_button">Delete</a>
+    <% end %>
+  </div>
+  <div class="eight wide right aligned column">
+    <%= if @account.step == 7 do %>
+        <%=# render "modal_cancel.html", account: @account %>
+        <!-- <a id="cancel_button" class="ui button">
+          <i class="remove left icon"></i> Cancel
+        </a> -->
+        <button type="submit" class="ui primary button">Save Changes</button>
+    <% else %>
+        <a href="/accounts/<%= @account.id%>/setup?step=3" class="ui basic button">Back to Previous Step</a>
+        <button type="submit" class="ui primary button">Continue to Next Step</button>
+      <% end %>
+  </div>
+</div>
+<% end %>
+
+<%= if @conn.assigns[:account] && @account.step <= 6 do %>
+  <%= form_for @conn, account_path(@conn, :delete, @account.account_group_id), [id: "delete-draft", multipart: true, as: :account, method: :delete], fn _f -> %>
+  <% end %>
+<% end %>
+

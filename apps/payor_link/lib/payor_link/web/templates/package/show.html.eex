@@ -1,0 +1,233 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Packages</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/packages">Packages</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/packages">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">View <%= @package.code %> </div>
+  </div>
+</div>
+<div id="showPackage" class="ui equal width left aligned padded grid stackable" name="PackageValidations">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+
+          <div class="ui icon top right floated pointing dropdown basic button">
+            <i class="list icon"></i>
+            <div class="left menu">
+              <% disabled = if String.contains?("access_packages", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+              <div class="item clickable-row" href="/packages/<%= @package.id %>/edit?tab=general">
+                <i class="edit icon"></i>
+                Edit
+              </div>
+              <div class="item <%= disabled %>" id="logs">
+                <i class="file text outline icon"></i>
+                Logs
+              </div>
+              <div class="item <%= disabled %>">
+                <i class="print icon"></i>
+                Print
+              </div>
+            </div>
+          </div>
+          <!-- GENERAL -->
+          <div class="ui one column centered grid">
+
+            <div class="two column center aligned row">
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Code
+                  </div>
+                  <div style="font-size: 2rem !important; font-weight: 900;">
+                    <%= @package.code %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="centered aligned column">
+             <div class="ui statistic">
+                <div class="">
+                  name
+                </div>
+                <div style="font-size: 2rem !important; font-weight: 900;">
+                  <%= @package.name %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END OF GENERAL -->
+
+          <!-- TABS -->
+          <div class="ui top attached tabular menu" role="benefits">
+            <% case @active do %>
+              <%= "procedures" -> %>
+                <%=
+                  procedures = "active"
+                  facilities = ""
+                 %>
+              <% "facilities" -> %>
+                <%=
+                  procedures = ""
+                  facilities = "active"
+                 %>
+            <% end %>
+               <a class="item <%= procedures %>" data-tab="procedures">Procedures</a>
+               <a class="item <%= facilities %>" data-tab="facilities">Facilities</a>
+          </div>
+
+          <!-- PROCEDURES TAB -->
+          <div class="ui bottom attached tab segment <%= procedures %>" data-tab="procedures">
+            <table class="ui striped table">
+              <thead>
+                <tr>
+                  <th width="10%" style="text-align: center;">Standard CPT Code</th>
+                  <th width="25%" style="text-align: center;">Standard CPT Description</th>
+                  <th width="10%" style="text-align: center;">Payor CPT Code</th>
+                  <th width="25%" style="text-align: center;">Payor CPT description</th>
+                  <th width="10%" style="text-align: center;">Gender</th>
+                  <th width="15%" style="text-align: center;">Age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= if @package_payor_procedures == [] do %>
+                  <tr>
+                    <td colspan="7" class="center aligned">
+                      NO RECORD FOUND!
+                    </td>
+                  </tr>
+                  <% else %>
+                  <%= for package_payor_procedure <-  Enum.sort_by(@package_payor_procedures, &(&1.payor_procedure.procedure.code)) do %>
+                    <tr>
+                      <td width="10%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.procedure.code %> </a></td>
+                      <td width="25%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.procedure.description %></td>
+                      <td width="10%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.code %></td>
+                      <td width="25%" style="text-align: center;"> <%= package_payor_procedure.payor_procedure.description %></td>
+                      <td width="10%" style="text-align: center;">
+                        <%= if package_payor_procedure.female == true and package_payor_procedure.male != true, do: "Female" %>
+                        <%= if package_payor_procedure.male == true and package_payor_procedure.female != true, do: "Male" %>
+                        <%= if package_payor_procedure.male == true and package_payor_procedure.female == true, do: "Male, Female" %>
+                      </td>
+                      <td width="15%" style="text-align: center;"> <%= package_payor_procedure.age_from %> - <%= package_payor_procedure.age_to %> y/o</td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <!-- END OF PROCEDURES TAB -->
+
+          <!-- FACILITIES TAB -->
+          <div class=" <%= facilities %> ui bottom attached tab segment" data-tab="facilities">
+            <div class="row">
+              <div class="column">
+                <table id="tblpackage_payor_procedure" class="ui stripped table">
+                  <thead>
+                    <tr>
+                      <th width="10%" style="text-align: center;">Facility Code</th>
+                      <th width="10%" style="text-align: center;">Facility Name</th>
+                      <th width="15%" style="text-align: center;">Facility Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if @package_facilities == [] do %>
+                      <tr>
+                        <td colspan="7" class="center aligned">
+                          NO RECORD FOUND!
+                        </td>
+                      </tr>
+                      <% else %>
+                      <%= for package_facility <-  Enum.sort_by(@package_facilities, &(&1.facility.code)) do %>
+                        <tr>
+                          <td width="10%" style="text-align: center;">
+                            <%= package_facility.facility.code %>
+                          </td>
+                          <td width="25%" style="text-align: center;"> <%= package_facility.facility.name %></td>
+                          <td width="10%" style="text-align: center;"> <%= package_facility.rate %></td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- END OF FACILITIES TAB -->
+        </div>
+      </div>
+      <%= render "facility_modal.html",
+package: @package,
+changeset: @changeset,
+facilities: @facilities,
+all_package_facilities: @all_package_facilities,
+conn: @conn,
+action: package_path(@conn, :create_facility_setup, @package) %>
+
+<%= render "edit_facility_modal.html",
+changeset: @changeset,
+conn: @conn,
+action: package_path(@conn, :update_package_facilities, @package) %>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="logsModal">
+  <i class="close icon"></i>
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="ui right aligned grid">
+      <div class="right floated right aligned six wide column">
+        <div class="ui action input">
+          <div class="field error">
+            <div class="ui action input">
+              <input type="text" class="email" placeholder="Search..." name="package[search]" id="package_search">
+              <div class="ui basic icon buttons">
+                <button class="ui button" id="btnSearchLogs">
+                  <i class="search icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row" style="overflow: auto; max-height: 350px">
+          <div class="column">
+            <%= if @package.package_log == [] do %>
+              <p>NO LOGS FOUND</p>
+            <% else %>
+              <div class="ui feed timeline" id="timeline">
+                <input type="hidden" name="package_id" value="<%= @package.id %>" >
+                <%= for log <- Enum.reverse(@package.package_log) do %>
+                  <div class="event row_logs">
+                    <div class="label">
+                      <i class="blue circle icon"></i>
+                    </div>
+                    <div class="content">
+                      <div class="summary">
+                        <a>
+                          <p class="log-date" ><%= log.inserted_at %></p>
+                        </a>
+                      </div>
+                      <div class="extra text" id="log_message">
+                        <%= sanitize_log_message(log.message) %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <p role="append_logs" style="text-align: center"> </p>
+  </div>
+</div>
+
+
+
+
+

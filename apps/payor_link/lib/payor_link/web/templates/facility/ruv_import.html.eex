@@ -1,0 +1,128 @@
+<div id="main_file_upladed_ruv">
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned six wide column">
+      <h2 class="ui header">Facility</h2>
+    </div>
+    <div class="right floated right aligned six wide column">
+      <a href="/ruv/download/template" id="download_template_button" class="ui primary button">
+      <i class="download icon"></i>Download Template</a>
+    </div>
+  </div>
+
+  <div class="ui small breadcrumb">
+    <a class="section" href="/ruvs">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Import RUVs</div>
+  </div>
+</div>
+
+<div id="fr_import" name ="name_ruv_import" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+
+          <%= form_for @changeset, facility_path(@conn, :import_facility_ruv, @facility), [multipart: true, id: "import_facility"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="ui two column centered grid">
+              <div class="eight wide computer seven wide tablet column">
+                <div class="ui segment" name="form_import_ruv">
+
+                  <div class="ui grid">
+                    <div class="sixteen wide column">
+                      <div class="field" id="form_import_ruv">
+                        <%= label f, :filename, class: "control-label" %>
+                      </div>
+
+                    </div>
+
+                    <div class="eleven wide column">
+                      <div class="field">
+                        <%= file_input f, :file, id: "file_upload" %>
+                      </div>
+                    </div>
+
+                    <div class="five wide column">
+                      <div class="five wide computer column" id="form_import_ruv">
+                        <button type="submit" class="ui blue right floated button submit">
+                          <i class="send left icon"></i>
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="ui grid">
+              <div class="sixteen wide computer eleven wide tablet column">
+                <table role="datatable" class="ui striped table" id="account_datatable">
+                  <thead>
+                    <tr>
+                      <th>Batch No.</th>
+                      <th>RUV File</th>
+                      <th>Total RUV</th>
+                      <th>Successful</th>
+                      <th>Failed</th>
+                      <th>Date Uploaded</th>
+                      <th>Date Finished</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if Enum.empty?(@uploaded_files) == false do %>
+                      <%= for ruv_logs <- @uploaded_files do %>
+                        <tr>
+                          <td><%= ruv_logs.batch_no%></td>
+                          <td><%= ruv_logs.filename %></td>
+                          <td>
+                            <%= count_ruv_result(ruv_logs.id, "success") + count_ruv_result(ruv_logs.id, "failed")
+                          %>
+                          </td>
+                          <td>
+                            <%= if count_ruv_result(ruv_logs.id, "success") == 0 do %>
+                              <%= count_ruv_result(ruv_logs.id, "success") %><br>
+                              <a id="success" style="color:#7f8187">Download</a>
+                            <% else %>
+                              <%= count_ruv_result(ruv_logs.id, "success") %><br>
+                              <u><a id="success" style="cursor: pointer" class="download_success_button" frLogsID="<%= ruv_logs.id %>" status="success" >Download</a></u>
+                            <% end %>
+                          </td>
+                          <td>
+                            <%= if count_ruv_result(ruv_logs.id, "failed") == 0 do %>
+                              <%= count_ruv_result(ruv_logs.id, "failed") %><br>
+                              <a id="failed" style="color:#7f8187">Download</a>
+                            <% else %>
+                              <%= count_ruv_result(ruv_logs.id, "failed") %> <br>
+                              <u><a id="failed" style="cursor: pointer" class="download_success_button" frLogsID="<%= ruv_logs.id %>" status="failed" >Download</a></u>
+                            <% end %>
+                          </td>
+                          <td class="date_transform"><%= ruv_logs.inserted_at %></td>
+                          <td class="date_transform"><%= ruv_logs.inserted_at %></td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="ui one column aligned grid">
+              <div class="column eight wide">
+                <a id="cancelBtn" class="ui button clickable-row" href="/facilities/<%=@facility.id %>?active=ruv">
+                  <i class="remove icon"></i>
+                  Cancel
+                </a>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

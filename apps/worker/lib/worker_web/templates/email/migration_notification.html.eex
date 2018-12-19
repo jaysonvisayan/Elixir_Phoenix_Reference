@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
+    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900,400italic,700italic&subset=latin');
+
+      body {
+        font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
+
+      .bordered-table, .bordered-td, .bordered-th {
+        border: 0.5px solid #ddd;
+        text-align: left;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      td, th {
+        padding: 0.7rem !important;
+      }
+
+      th {
+        text-transform: uppercase;
+      }
+
+      .dim {
+        font-size: 1rem;
+        color: #666;
+      }
+
+      .no-margin {
+        margin: 0;
+      }
+
+      .underlined {
+        text-decoration: underline;
+      }
+
+      .header {
+        margin-top: 2rem;
+      }
+
+      .align-right {
+        text-align: right;
+      }
+
+
+      .align-center {
+        text-align: center;
+      }
+
+      .border-btm {
+        border-bottom: 1px solid #000;
+      }
+
+      .alternating-color:nth-child(odd) {background: #F3F3F3}
+
+      .h3 {
+        font-size: 1.2rem;
+        font-color: #000;
+        font-weight: 600;
+      }
+
+      .h4 {
+        font-size: 1rem;
+        font-color: #000;
+        font-weight: 600;
+      }
+
+    </style>
+  </head>
+
+  <body>
+  <!-- for Gmail and Bamboo LocalAdapter format -->
+  <div class="header">
+    <p align="center" class="dim no-margin">User:</p>
+    <p align="center" class="no-margin h3"><%= "#{@migration.user.first_name} #{@migration.user.last_name}" %></p>
+    <br>
+    <p align="center" class="dim no-margin">Migration ID:</p>
+    <p align="center" class="no-margin h4"><%= @migration.id %></p>
+  </div>
+  <br><br>
+    <table align="center" border="1" cellpadding="0" cellspacing="0" width="700" class="bordered-table">
+      <tbody>
+        <tr>
+          <th colspan="3" class="bordered-th">
+            <p align="center" class="h3">Migration Result</p>
+            <br>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="200" class="no-border">
+              <tbody>
+                <tr>
+                  <td class="align-right dim" width="50%">Success:</td>
+                  <td class="align-center" width="50%"><%= count_result(@migration_notification_false, true) %></td>
+                </tr>
+                <tr>
+                  <td class="align-right dim border-btm" style="color:#ff4d4d;">Failed:</td>
+                  <td class="align-center border-btm" style=""><%= count_result(@migration_notification_false, false) %></td>
+                </tr>
+                <tr>
+                  <td class="align-right dim">Total:</td>
+                  <td class="align-center"><%= Enum.count(@migration_notification_false) %></td>
+                </tr>
+              </tbody>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th width="5%" class="bordered-th"></th>
+          <th width="20%" class="bordered-th">Is success</th>
+          <th width="75%" class="bordered-th">Details</th>
+        </tr>
+
+        <%= for {migration_notification, index} <- Enum.with_index(Enum.sort(@migration_notification_false), 1) do %>
+          <tr class="alternating-color">
+            <td class="align-right bordered-td"><%= index %></td>
+            <%= if migration_notification.is_success == false do %>
+              <td class="bordered-td" style="color:#ff4d4d;"><%= migration_notification.is_success %></td>
+            <% else %>
+              <td class="bordered-td"><%= migration_notification.is_success %></td>
+            <% end%>
+            <td class="bordered-td"><%= migration_notification.details %></td>
+          </tr>
+        <% end %>
+
+      </tbody>
+    </table>
+
+  </body>
+</html>

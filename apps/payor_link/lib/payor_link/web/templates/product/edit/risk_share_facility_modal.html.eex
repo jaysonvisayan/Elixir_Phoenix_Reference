@@ -1,0 +1,81 @@
+<div class="ui small modal" id="add_facility">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Exempted Facility
+  </div>
+  <div class="content">
+    <%= if @changeset_risk_share_facility.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+
+
+    <%= form_for @changeset_risk_share_facility, product_path(@conn, :save, @product, tab: "risk_share_facility"), [as: :product, class: "ui form rs_f_valid", id: "rs_facility_validation"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" name="product[product_risk_share_id]" id="prsID">
+    <input type="hidden" name="product[product_risk_share_facility_id]" id="f_prsfID">
+
+
+    <div class="field disable_all">
+      <%= label f, :facility_id, "Facility (Code/Name)", class: "control-label"  %>
+      <%= select f, :facility_id, [], class: "ui std_facility search selection dropdown", prompt: "Select Facility", id: "f_name", "data-validate": "facility_id" %>
+      <%= error_tag f, :facility_id %>
+    </div>
+
+    <div class="two wide fields">
+      <div class="field disable_all disable_fields">
+        <%= label f, :type, "Risk Share", class: "control-label"  %>
+        <%= select f, :type, ["": "", "Copayment": "Copayment", "CoInsurance": "CoInsurance"], class: "ui selection dropdown", id: "f_type", "data-validate": "type" %>
+        <%= error_tag f, :type %>
+      </div>
+
+      <div class="field disable_all disable_fields">
+        <%= label f, :value, "Value", class: "control-label"  %>
+        <div class="ui right labeled input">
+          <%= text_input f, :value, class: "form-control input", id: "f_value", "data-validate": "value" %>
+          <div class="ui basic label" id="facility_value_label">
+            %
+          </div>
+        </div>
+        <%= error_tag f, :value %>
+      </div>
+    </div>
+    <div class="field disable_all disable_fields">
+      <%= label f, :value, "Covered after Risk Share", class: "control-label"  %>
+      <div class="ui right labeled input">
+        <%= number_input f, :covered, class: "form-control input", id: "f_covered", "data-validate": "covered" %>
+        <div class="ui basic label">
+          <span class="covered_label">%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="actions">
+
+    <a class="ui small button right floated" id="btnEdit">
+      <i class="pencil icon"></i>
+      Edit
+    </a>
+
+    <button class="ui blue button right floated" type="submit" id="btnSubmit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+
+  <% end %>
+
+  <%# form_for @delete_facility, @action, [as: :product, class: "ui form"], fn f -> %>
+    <a class="ui red button" id="btn_delete_facility">
+      <i class="trash icon"></i>
+        Remove
+        <%#= link "Delete", to: product_path(@conn, :delete_prs_facility, @product), method: :delete, data: [confirm: "Are you sure?"], class: "" %>
+    </a>
+    <input type="hidden" name="product[product_risk_share_facility_id]" id="btn_prsfID">
+  <%# end %>
+
+
+  </div>
+</div>

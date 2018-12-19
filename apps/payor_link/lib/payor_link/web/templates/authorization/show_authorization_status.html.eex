@@ -1,0 +1,763 @@
+<%= form_for @changeset, @action, [as: :authorization, multipart: true, id: "form_consult"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="ui grid" name="formConsultation">
+    <div class="eleven wide computer eleven wide tablet column">
+    <div class="ui segment">
+      <div class="ui active inverted dimmer" id="overlay" style="display: none">
+        <div class="ui massive text loader">Checking the availability of LOA...</div>
+      </div>
+      <p></p>
+      <div class="ui segments">
+        <div class="ui segment">
+          <h3 class="ui dividing center aligned header">
+            OP Consultation
+            <div class="ui icon top right floated pointing dropdown basic button" style="padding: 4px 10px 4px 10px !important;">
+              <i class="list icon" style="font-size: 14px"></i>
+              <div class="left menu">
+                <div class="item" id="showLogs">
+                  <i class="bar chart icon"></i>
+                  Logs
+                </div>
+              </div>
+            </div>
+          </h3>
+
+          <%= hidden_input f, :authorization_id, value: @authorization.id, id: "authorization_id" %>
+            <%= if @authorization.authorization_diagnosis != [] do %>
+            <%= hidden_input f, :product_exclusion_id, readonly: true, value: List.first(@authorization.authorization_diagnosis).product_exclusion_id %>
+            <%= hidden_input f, :product_benefit_id, readonly: true, value: List.first(@authorization.authorization_diagnosis).product_benefit_id %>
+            <%= hidden_input f, :member_product_id, readonly: true, value: List.first(@authorization.authorization_diagnosis).member_product_id %>
+          <% else %>
+            <%= hidden_input f, :product_exclusion_id, readonly: true %>
+            <%= hidden_input f, :product_benefit_id, readonly: true %>
+            <%= hidden_input f, :member_product_id, readonly: true %>
+          <% end %>
+
+          <div class="field">
+            <label>Consultation Type</label>
+            <%= select f, :consultation_type, ["Initial": "initial", "Follow Up": "follow_up", "Clearance": "clearance"], prompt: "Consultation Type", class: "ui search selection dropdown search-dropdown disabled" %>
+            <font color="red"><%= error_tag f, :consultation_type %></font>
+          </div>
+
+          <div class="field">
+            <label>Chief Complaint</label>
+            <%= select f, :chief_complaint, ["Fever": "Fever","Cough and Colds": "Cough and Colds","Accidents and Trauma": "Accidents and Trauma","Abdominal pain": "Abdominal pain","High blood pressure": "High blood pressure","Chest pain and palpitations": "Chest pain and palpitations", "Dizziness": "Dizziness","Back pain and Low back pain": "Back pain and Low back pain","Rashes, allergy and itchiness": "Rashes, allergy and itchiness","Headache": "Headache","Others": "Others",], prompt: "Chief Complaint", class: "ui search selection dropdown search-dropdown disabled" %>
+            <%= if @authorization.chief_complaint == "Others" do %>
+              <%= textarea f, :chief_complaint_others, class: "form-control", placeholder: "Explain the problem, complaint or condition of the member", style: "margin-top: 20px", readonly: "readonly" %>
+            <% end %>
+            <font color="red"><%= error_tag f, :chief_complaint %></font>
+          </div>
+
+          <div class="field">
+            <label>Practitioner</label>
+            <input type="text" value="<%= get_auth_ps_name(List.first(@authorization.authorization_practitioner_specializations)) %>" disabled>
+          </div>
+
+          <div class="field">
+            <label>Diagnosis</label>
+            <%= if @conn.assigns[:authorization] do %>
+              <%= if Enum.count(@authorization.authorization_diagnosis) > 0 do %>
+                <%= for ap <- @authorization.authorization_diagnosis do %>
+                  <%= select f, :diagnosis_id, Enum.map(@diagnoses, &{"#{&1.code} | #{&1.description}", &1.id}), prompt: "", selected: ap.diagnosis_id, disabled: true %>
+                <% end %>
+              <% else %>
+                <%= select f, :diagnosis_id, Enum.map(@diagnoses, &{"#{&1.code} | #{&1.description}", &1.id}), prompt: "" %>
+              <% end %>
+              <%= error_tag f, :diagnosis_id %>
+            <% else %>
+              <%= select f, :diagnosis_id, Enum.map(@diagnoses, &{"#{&1.code} | #{&1.description}", &1.id}), prompt: "" %>
+              <%= error_tag f, :diagnosis_id %>
+            <% end %>
+          </div>
+
+          <%= if Decimal.to_float(List.first(@authorization.authorization_diagnosis).member_pay) != Decimal.to_float(Decimal.new(0)) do %>
+            <div class="field" id="MemberPayField">
+              <div class="ui segment" role="clickable-segment">
+                <div class="ui checkbox">
+                  <input type="checkbox" class="hidden" name="authorization[isMemberPay][]" checked="<%= if is_nil(@authorization.special_approval_id), do: 'checked', else: '' %>" disabled>
+                  <label class="coloring green"v><b>Member will pay for member excess.</b></label>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%= if not is_nil(@authorization.special_approval_id) do %>
+            <div class="field">
+              <div class="ui grid">
+                <div class="twelve wide column">
+                  <div class="field" id="sa_field">
+                    <label>Special Approval</label>
+                    <%= select f, :special_approval_id, Enum.map(@special_approval, &{&1.text, &1.id}), prompt: "Special Approval", class: "ui selection dropdown disabled" %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <div class="field disabled" id="saa_field">
+                    <label>Special Approval Amount</label>
+                    <div class="ui right labeled input">
+                      <input type="text" style="width: 40px" name="authorization[special_approval_amount]" class="disabled" readonly="true" value="<%= if not is_nil(@authorization.authorization_amounts) do %>
+                        <%= check_nil(@authorization.authorization_amounts.special_approval_amount) %>
+                        <% else %>
+                          0
+                        <% end %>" />
+                      <div class="ui basic label">
+                        PHP
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <%# AUTHORIZATION FILE %>
+                <div class="sixteen wide column">
+                  <div class="field">
+                    <label>Attached Files</label>
+                    <div class="ui middle aligned list" id="filePreviewContainer">
+                      <%= for af <- @authorization_files do %>
+                        <div class="item file-item">
+                          <div class="right floated content">
+                            <div class="ui small basic icon buttons">
+                              <a class="ui button text-center" href="<%=
+        Innerpeace.FileUploader
+        |> Innerpeace.PayorLink.Web.LayoutView.file_url_for(af.file.type, af.file)
+        |> String.replace("/apps/payor_link/assets/static", "")
+                              %>" download><i class="download icon"></i></a>
+                            <a href="<%=
+        Innerpeace.FileUploader
+        |> Innerpeace.PayorLink.Web.LayoutView.file_url_for(af.file.type, af.file)
+        |> String.replace("/apps/payor_link/assets/static", "")
+                            %>" target="_blank" class="ui button"><i class="eye icon"></i></a>
+                            </div>
+                          </div>
+                          <i class="big file outline icon"></i>
+                          <div class="content">
+                            <%= af.file.name %>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <%# AUTHORIZATION FILE %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <label>Internal Remarks</label>
+            <%= if @authorization.status == "Disapproved" do %>
+              <%= textarea f, :internal_remarks, class: "form-control", readonly: true, value: "Reason for LOA Disapproval: #{@authorization.reason}" %>
+            <%= else %>
+              <%= textarea f, :internal_remarks, class: "form-control", readonly: true %>
+            <% end %>
+            <%# <font color="red"><%= error_tag f, :internal_remarks %1></font> %>
+          </div>
+
+            <%= cond do %>
+              <%= @authorization.status == "For Approval" -> %>
+                <div id="btn_edit_loa" class="ui blue right floated button mrg1T" authorization_id="<%= @authorization.id %>">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+                <div id="btn_approve_loa" class="ui green right floated button mrg1T" authorization_id="<%= @authorization.id %>" >
+                  <i class="check circle outline icon"></i>
+                  Approve
+                </div>
+                <div id="btn_disapprove_loa" class="ui red right floated button mrg1T" authorization_id="<%= @authorization.id %>">
+                  <i class="remove circle outline icon"></i>
+                  Disapprove
+                </div>
+              <% @authorization.status == "OTP Verified" -> %>
+                <a class="ui default right floated button mrg1T" id="print_button" authorization_id="<%= @authorization.id %>" >
+                  <i class="print icon"></i>
+                  Print
+                </a>
+              <% @authorization.status == "Pending" -> %>
+                <div id="" class="ui blue right floated button mrg1T">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+              <% @authorization.status == "Approved" -> %>
+                <a class="ui default button mrg1T" id="print_button" authorization_id="<%= @authorization.id %>" >
+                  <i class="print icon"></i>
+                  Print
+                </a>
+                <div class="ui green right floated button mrg1T hide">
+                  <i class="credit card alternative icon"></i>
+                  Enter OTP/CVV
+                </div>
+                <%= if is_nil(@authorization.valid_until) do %>
+                <% else %>
+                  <%= if check_validity(@authorization.valid_until) == false do %>
+                    <a href="#" id="reschedule_button" class="ui blue button mrg1T" >
+                      <i class="calendar icon"></i>
+                      Reschedule LOA
+                    </a>
+                  <% end %>
+                <% end %>
+              <% true -> %>
+                  <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="five wide computer eleven wide tablet column">
+      <div class="ui styled fluid accordion">
+        <div class="title">
+          <h3>
+            Member
+            <i class="dropdown icon" style="float: right"></i>
+          </h3>
+        </div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="eight wide computer eight wide computer column">
+              <label>Name</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= member_full_name(@member) %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Card Number</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.card_no %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Effective Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.effectivity_date %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Expiry Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.expiry_date %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Birth Date</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= format_birthdate(@member.birthdate) %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Age</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= get_age(@member.birthdate) %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Gender</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.gender %></label>
+            </div>
+             <div class="eight wide computer eight wide computer column">
+              <label>Status</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @member.status %></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui styled fluid accordion">
+        <div class="title">
+          <h3>
+            Facility
+            <i class="dropdown icon" style="float: right"></i>
+          </h3>
+        </div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Code</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @authorization.facility.code %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Name</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @authorization.facility.name %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Type</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @authorization.facility.type.text %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Category</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @authorization.facility.category.text %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Address</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_address">
+                <%= @authorization.facility.line_1 %>  <%= @authorization.facility.line_2 %>
+                <%= @authorization.facility.city %>  <%= @authorization.facility.province %>
+                <%= @authorization.facility.postal_code %>  <%= @authorization.facility.country %>
+              </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Contact Number</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @authorization.facility.phone_no %> </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-center">Details</h3>
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui grid">
+            <div class="eight wide computer eight wide computer column">
+              <label>Coverage</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label><%= @authorization.coverage.name %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Date Created</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <p class="date_created">
+                <%= @authorization.inserted_at %>
+              </p>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Valid until</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="valid_until"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-center">Fees</h3>
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui grid">
+
+            <%# Consultation Fee %>
+            <div class="ui styled fluid accordion">
+             <div class="title active" style="cursor: default;">
+              <h5>
+               Consultation Fee (Php)
+                <i class="icon" style="float: right"></i>
+                <p style="float: right" id="acc_consultation_fee">
+                  <%= if not is_nil(@authorization.authorization_amounts) do %>
+                    <%= check_nil(@authorization.authorization_amounts.consultation_fee) %>
+                  <% else %>
+                    0
+                  <% end %>
+                </p>
+                  <%= if not is_nil(@authorization.authorization_amounts) do %>
+                    <%= hidden_input f, :consultation_fee,  value: check_nil(@authorization.authorization_amounts.consultation_fee), readonly: true %>
+                  <% else %>
+                    <%= hidden_input f, :consultation_fee,  value: 0, readonly: true %>
+                  <% end %>
+              </h5>
+             </div>
+            </div>
+
+            <%# PEC AMOUNT %>
+            <div class="ui styled fluid accordion">
+             <div class="title active" style="cursor: default;">
+              <h5>
+               Pre-existing Condition (Php)
+                <i class="icon" style="float: right"></i>
+                <p style="float: right" id="acc_pre_existing_amount">
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= List.first(@authorization.authorization_diagnosis).pre_existing_amount %>
+                  <% else %>
+                    0
+                  <% end %>
+                </p>
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= hidden_input f, :pre_existing_amount, value: check_nil(List.first(@authorization.authorization_diagnosis).pre_existing_amount), readonly: true %>
+                  <% else %>
+                    <%= hidden_input f, :pre_existing_amount, value: 0, readonly: true %>
+                  <% end %>
+              </h5>
+             </div>
+            </div>
+
+            <%# MEMBER PAYS ACCORDION %>
+
+            <div class="ui styled fluid accordion">
+             <div class="title">
+              <h5>
+                Member Pays (Php)
+                <i class="dropdown icon" style="float: right"></i>
+                <p style="float: right" id="authorization_member_total">
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= List.first(@authorization.authorization_diagnosis).member_pay %>
+                  <% else %>
+                    0
+                  <% end %>
+                </p>
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= hidden_input f, :member_pays, value: check_nil(List.first(@authorization.authorization_diagnosis).member_pay), readonly: true %>
+                    <%= hidden_input f, :member_pays2, value: get_member_pays(List.first(@authorization.authorization_diagnosis).member_pay, List.first(@authorization.authorization_diagnosis).special_approval_amount), readonly: true %>
+                  <% else %>
+                    <%= hidden_input f, :member_pays, value: 0, readonly: true %>
+                    <%= hidden_input f, :member_pays2, value: 0, readonly: true %>
+                  <% end %>
+
+              </h5>
+            </div>
+              <div class="content">
+                <div class="ui grid" style="margin: 0px !important;" >
+                  <div class="eight wide computer eight wide computer column">
+                    <b>
+                      <label style="text-align: right;" id="member_product_code">
+                        <%= if @authorization.authorization_diagnosis != [] do %>
+                          <%= if is_nil(get_member_product(List.first(@authorization.authorization_diagnosis).member_product_id)) do %>
+                          <% else %>
+                            <%= get_member_product(List.first(@authorization.authorization_diagnosis).  member_product_id).account_product.product.code %>
+                          <% end %>
+                        <% else %>
+                        ""
+                        <% end %>
+                      </label>
+                    </b>
+                  </div>
+                  <div class="eight wide computer eight wide computer column">
+                  </div>
+
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= if Decimal.to_float(List.first(@authorization.authorization_diagnosis).pre_existing_amount) > Decimal.to_float(Decimal.new(0)) do %>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition1" style="display:block;">
+                        <b> <label style="text-align: right;">PRE EXISTING CONDITION</label> </b>
+                      </div>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition2" style="display:block;">
+                      </div>
+                    <% end %>
+                  <% else %>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition1" style="display:none;">
+                        <b> <label style="text-align: right;">PRE EXISTING CONDITION</label> </b>
+                      </div>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition2" style="display:none;">
+                      </div>
+                  <% end %>
+
+                  <div class="eight wide computer eight wide computer column">
+                    <label id="acc_member_covered_portion_label">UNCOVERED PORTION</label>
+                    <%= if @authorization.authorization_diagnosis != [] do %>
+                      <%= hidden_input f, :member_portion, value: check_nil(List.first(@authorization.authorization_diagnosis).member_portion), readonly: true %>
+                    <% else %>
+                      <%= hidden_input f, :member_portion, value: 0, readonly: true %>
+                    <% end %>
+                  </div>
+                  <div class="eight wide computer eight wide computer column" style="text-align: right;">
+                    <label style="text-align: right" id="acc_member_covered_portion">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).member_portion %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label>
+                  </div>
+
+                  <div class="eight wide computer eight wide computer column">
+                    <label>VAT AMOUNT</label>
+                  </div>
+                  <div class="eight wide computer eight wide computer column" style="text-align: right;">
+                    <label style="text-align: right;" id="acc_member_vat_amount">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).member_vat_amount %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label>
+                    <%= if @authorization.authorization_diagnosis != [] do %>
+                      <%= hidden_input f, :member_vat_amount, value: check_nil(List.first(@authorization.authorization_diagnosis).member_vat_amount), readonly: true %>
+                    <% else %>
+                      <%= hidden_input f, :member_vat_amount, value: 0, readonly: true %>
+                    <% end %>
+                  </div>
+
+                  <div class="four wide computer column">
+                  </div>
+                  <div class="four wide computer column">
+                  </div>
+                  <div class="four wide computer column">
+                    <b> <label>TOTAL</label> </b>
+                  </div>
+                  <div class="four wide computer column" style="text-align: right;">
+                    <b> <label id="acc_member_total">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).member_pay %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label> </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%# PAYOR PAYS ACCORDION %>
+
+            <div class="ui styled fluid accordion">
+             <div class="title">
+              <h5>
+                Payor Pays (Php)
+                <i class="dropdown icon" style="float: right"></i>
+                <p style="float: right" id="authorization_payor_total">
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= List.first(@authorization.authorization_diagnosis).payor_pay %>
+                  <% else %>
+                    0
+                  <% end %>  </p>
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= hidden_input f, :payor_pays, value: check_nil(List.first(@authorization.authorization_diagnosis).payor_pay), readonly: true %>
+                  <% else %>
+                    <%= hidden_input f, :payor_pays, value: 0, readonly: true %>
+                  <% end %>
+              </h5>
+            </div>
+              <div class="content">
+                <div class="ui grid" style="margin: 0px !important;" >
+                  <div class="eight wide computer eight wide computer column">
+                    <b>
+                      <label style="text-align: right;" id="payor_product_code">
+                        <%= if @authorization.authorization_diagnosis != [] do %>
+                          <%= if is_nil(get_member_product(List.first(@authorization.authorization_diagnosis).member_product_id)) do %>
+                          <% else %>
+                            <%= get_member_product(List.first(@authorization.authorization_diagnosis).  member_product_id).account_product.product.code %>
+                          <% end %>
+                        <% else %>
+                        ""
+                        <% end %>
+                      </label>
+                    </b>
+                  </div>
+                  <div class="eight wide computer eight wide computer column">
+                  </div>
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= if Decimal.to_float(List.first(@authorization.authorization_diagnosis).pre_existing_amount) > Decimal.to_float(Decimal.new(0)) do %>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition1" style="display:block;">
+                        <b> <label style="text-align: right;">PRE EXISTING CONDITION</label> </b>
+                      </div>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition2" style="display:block;">
+                      </div>
+                    <% end %>
+                  <% else %>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition1" style="display:none;">
+                        <b> <label style="text-align: right;">PRE EXISTING CONDITION</label> </b>
+                      </div>
+                      <div class="eight wide computer eight wide computer column" id="payor_pre_existing_condition2" style="display:none;">
+                      </div>
+                  <% end %>
+                  <div class="eight wide computer eight wide computer column">
+                    <label id="acc_payor_covered_portion_label">COVERED PORTION</label>
+                    <%= if @authorization.authorization_diagnosis != [] do %>
+                      <%= hidden_input f, :payor_portion, value: check_nil(List.first(@authorization.authorization_diagnosis).payor_portion), readonly: true %>
+                    <% else %>
+                      <%= hidden_input f, :payor_portion, value: 0, readonly: true %>
+                    <% end %>
+                  </div>
+                  <div class="eight wide computer eight wide computer column" style="text-align: right;">
+                    <label style="text-align: right" id="acc_payor_covered_portion">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).payor_portion %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label>
+                  </div>
+
+                  <div class="eight wide computer eight wide computer column">
+                    <label>VAT AMOUNT</label>
+                  </div>
+                  <div class="eight wide computer eight wide computer column" style="text-align: right;">
+                    <label style="text-align: right;" id="acc_payor_vat_amount">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).payor_vat_amount %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label>
+                    <%= if @authorization.authorization_diagnosis != [] do %>
+                      <%= hidden_input f, :payor_vat_amount, value: check_nil(List.first(@authorization.authorization_diagnosis).payor_vat_amount), readonly: true %>
+                    <% else %>
+                      <%= hidden_input f, :payor_vat_amount, value: 0, readonly: true %>
+                    <% end %>
+                  </div>
+                  <div class="four wide computer column">
+                  </div>
+                  <div class="four wide computer column">
+                  </div>
+                  <div class="four wide computer column">
+                    <b> <label>TOTAL</label> </b>
+                  </div>
+                  <div class="four wide computer column" style="text-align: right;">
+                    <b>
+                      <label id="acc_payor_total">
+                        <%= if @authorization.authorization_diagnosis != [] do %>
+                          <%= List.first(@authorization.authorization_diagnosis).payor_pay %>
+                        <% else %>
+                          0
+                        <% end %>
+                      </label>
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%# SPECIAL APPROVAL AMOUNT %>
+
+            <div class="ui styled fluid accordion">
+             <div class="title">
+              <h5>
+                Special Approval Amount (Php)
+                <i class="dropdown icon" style="float: right"></i>
+                <p style="float: right" id="authorization_special_approval_total">
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= List.first(@authorization.authorization_diagnosis).special_approval_amount %>
+                  <% else %>
+                    0
+                  <% end %>  </p>
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= hidden_input f, :special_approval_amount2, value: check_nil(List.first(@authorization.authorization_diagnosis).special_approval_amount), readonly: true %>
+                  <% else %>
+                    <%= hidden_input f, :special_approval_amount2, value: 0, readonly: true %>
+                  <% end %>
+              </h5>
+            </div>
+              <div class="content">
+                <div class="ui grid" style="margin: 0px !important;" >
+                  <div class="eight wide computer eight wide computer column">
+                    <label>AMOUNT PORTION</label>
+                    <%= if @authorization.authorization_diagnosis != [] do %>
+                      <%= hidden_input f, :special_approval_portion, value: check_nil(List.first(@authorization.authorization_diagnosis).special_approval_portion), readonly: true %>
+                    <% else %>
+                      <%= hidden_input f, :special_approval_portion, value: 0, readonly: true %>
+                    <% end %>
+                  </div>
+                  <div class="eight wide computer eight wide computer column" style="text-align: right;">
+                    <label style="text-align: right" id="acc_special_approval_covered_portion">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).special_approval_portion %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label>
+                  </div>
+
+                  <div class="eight wide computer eight wide computer column">
+                    <label>VAT AMOUNT</label>
+                  </div>
+                  <div class="eight wide computer eight wide computer column" style="text-align: right;">
+                    <label style="text-align: right;" id="acc_special_approval_vat_amount">
+                      <%= if @authorization.authorization_diagnosis != [] do %>
+                        <%= List.first(@authorization.authorization_diagnosis).special_approval_vat_amount %>
+                      <% else %>
+                        0
+                      <% end %>
+                    </label>
+                    <%= if @authorization.authorization_diagnosis != [] do %>
+                      <%= hidden_input f, :special_approval_vat_amount, value: check_nil(List.first(@authorization.authorization_diagnosis).special_approval_vat_amount), readonly: true %>
+                    <% else %>
+                      <%= hidden_input f, :special_approval_vat_amount, value: 0, readonly: true %>
+                    <% end %>
+                  </div>
+                  <div class="four wide computer column">
+                  </div>
+                  <div class="four wide computer column">
+                  </div>
+                  <div class="four wide computer column">
+                    <b> <label>TOTAL</label> </b>
+                  </div>
+                  <div class="four wide computer column" style="text-align: right;">
+                    <b>
+                      <label id="acc_special_approval_total">
+                       <%= if @authorization.authorization_diagnosis != [] do %>
+                          <%= List.first(@authorization.authorization_diagnosis).special_approval_amount %>
+                        <% else %>
+                          0
+                        <% end %>
+                       </label>
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%# TOTAL PAYS ACCORDION %>
+            <div class="ui styled fluid accordion">
+             <div class="title active" style="cursor: default;">
+              <h5>
+               Total Amount (Php)
+                <i class="icon" style="float: right"></i>
+                <p style="float: right" id="acc_total_amount">
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= List.first(@authorization.authorization_diagnosis).total_amount %>
+                  <% else %>
+                    0
+                  <% end %>
+                </p>
+                  <%= if @authorization.authorization_diagnosis != [] do %>
+                    <%= hidden_input f, :total_amount, value: check_nil(List.first(@authorization.authorization_diagnosis).total_amount), readonly: true %>
+                  <% else %>
+                    <%= hidden_input f, :total_amount, value: 0, readonly: true %>
+                  <% end %>
+              </h5>
+            </div>
+           </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<% end %>
+
+<div class="ui modal logs-format-datetime" id="authorizationLogsModal">
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="column" style="overflow:scroll;height:500px;overflow:auto">
+        <div class="ui segments">
+          <div class="ui segment" id="logsContainer">
+            <%= if Enum.empty?(@authorization.logs) do %>
+              <p>NO LOGS FOUND</p>
+              <% else %>
+              <div class="ui feed timeline">
+                <%= for log <- @authorization.logs do %>
+                  <div class="event">
+                    <div class="label">
+                      <i class="blue circle icon"></i>
+                    </div>
+                    <div class="content">
+                      <div class="summary">
+                        <p class="format-inserted-at"><%= log.inserted_at %></p>
+                      </div>
+                      <div class="extra text">
+                        <%= log.message %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <%= render "reschedule_modal.html", conn: @conn, authorization: @authorization %>

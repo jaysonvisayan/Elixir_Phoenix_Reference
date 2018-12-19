@@ -1,0 +1,178 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Plan</div>
+  </div>
+</div>
+<div id="product_benefits" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui six item menu">
+            <a href="#" class="benefit_item_edit item" link="general" productID="<%= @product.id %>" >General</a>
+            <a href="#" class="benefit_item_edit item" link="exclusion" productID="<%= @product.id %>" >Exclusion</a>
+            <a class="active item">Benefit</a>
+            <a href="#" class="benefit_item_edit item" link="facility_access" productID="<%= @product.id %>" >Facility Access</a>
+            <a href="#" class="benefit_item_edit item" link="condition" productID="<%= @product.id %>" >Condition</a>
+            <a href="#" class="benefit_item_edit item" link="risk_share" productID="<%= @product.id %>" >Risk Share</a>
+          </div>
+          <div class="row">
+            <div class="column">
+              <div>
+                <h4>
+                  <%= @product.code %> : <%= @product.name %>
+                </h4>
+              </div>
+              <br />
+              <div class="ui negative message hidden" id="benefitOptionValidation">
+                <i class="close icon"></i>
+                <div class="header">
+                  No Benefit selected.
+                </div>
+                <p>Atleast one benefit must be added.</p>
+              </div>
+
+              <div class="ui middle aligned  right aligned grid">
+                <div class="left floated left aligned six wide column">
+                  <h4 class="ui header">Benefit</h4>
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <a class="ui small primary add button btn_add_benefit"><i class="plus icon"></i>Benefit</a>
+                </div>
+              </div>
+              <div class="ui divider mrg0T mrg1B"></div>
+
+              <div class="ui grid">
+                <div class="twelve wide column">
+                </div>
+                <div class="four wide column right aligned">
+
+                  <label>Search<input type="search" id="benefit_search"></label>
+                </div>
+              </div>
+              <!-- from grid to card type -->
+
+              <div class="ui grid">
+                <div class="sixteen wide tablet sixteen wide computer column">
+                  <div class="ui grid" id="benefit_cards">
+
+                    <%= for product_benefit <- Enum.sort_by(@product.product_benefits, &(&1.benefit.code)) do %>
+                      <div class="sixteen wide tablet four wide computer column">
+                        <div class="ui card b_card">
+                          <div class="content">
+                            <div class="header">
+                              <%= product_benefit.benefit.name %>
+                              <div class="ui icon top right floated pointing dropdown basic">
+                                <i class="ellipsis horizontal icon"></i>
+                                <div class="left menu">
+
+                                  <div class="item" onclick="window.open('/benefits/<%= product_benefit.benefit.id %>/summary');" >
+                                    <i class="unhide icon"></i>
+                                    View
+                                  </div>
+
+                                  <% var = check_acu_coverage(product_benefit.benefit.benefit_coverages) %>
+                                  <%= if Enum.member?(var, "ACU") do %>
+                                    <!-- do nothing -->
+                                  <% else %>
+                                    <div class="item clickable-row" href="/products/<%= @product.id %>/product_benefit/<%= product_benefit.id %>/edit?tab=benefit-limit" >
+                                      <i class="pencil icon"></i>
+                                      Edit Limit
+                                    </div>
+                                  <% end %>
+
+                                  <div class="ui divider"></div>
+                                  <div class="item clickable-row delete_benefit"  href="#" productID="<%= @product.id%>"  productBenefitID="<%= product_benefit.id %>" >
+                                    <i class="trash icon"></i>
+                                    Remove
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="content">
+                            <div class="ui small feed">
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Plan Code
+                                        </div>
+                                        <div class="column">
+                                          <%= product_benefit.benefit.code %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Coverage
+                                        </div>
+                                        <div class="column">
+                                          <%= display_coverages_index(product_benefit.benefit.benefit_coverages) %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Benefit Limit Coverage
+                                        </div>
+                                        <div class="column">
+                                          <%= display_limit_coverages_index(product_benefit.product_benefit_limits) %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+
+                  </div>
+                </div>
+              </div>
+
+                <%= for product_benefit <- @product.product_benefits do %>
+                  <input type="hidden" name="product[test]" class="benefit_validate" value="<%= product_benefit.benefit.name %>" id="<% product_benefit.benefit.name %>" >
+                <% end %>
+
+
+            </div>
+          </div>
+
+          <a href="/products/<%= @product.id %>" class="ui button mrg1T">
+            <i class="chevron left icon"></i>
+            Cancel
+          </a>
+          <%= render "edit/benefit_modal.html", product: @product, changeset: @changeset, conn: @conn, action: product_path(@conn, :save, @product, tab: "benefit"), benefits: @benefits %>
+          <%= render "edit/benefit_remove_confirmation.html" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_pb">
+<% end %>

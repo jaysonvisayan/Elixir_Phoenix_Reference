@@ -1,0 +1,129 @@
+<div class="ui modal sf">
+  <i class="close icon"></i>
+  <div class="header">Risk Share Setup</div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <input type="hidden" name="specific-facility-coverage">
+        <form class="ui form" id="specific-facility-form">
+          <div class="field">
+            <label class="label-title">Apply Risk Share to: Specific Facilities</label>
+          </div>
+
+          <div class="field">
+            <div class="four fields">
+              <div class="field" style="width: 40%">
+                <label class="label-title">Risk Share</label>
+                <input type="text" name="specific-facility-rs-fname" placeholder="Enter code/name">
+              </div>
+              <div class="field" style="width: 25%">
+                  <label class="label-title">Risk Share</label>
+                  <div class="ui fluid selection dropdown" name="specific-facility-rs-ftype">
+                    <input type="hidden" name="risk-share">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Risk Share</div>
+                    <div class="menu">
+                      <div class="item">Copayment</div>
+                      <div class="item">CoInsurance</div>
+                    </div>
+                  </div>
+              </div>
+              <div class="field" style="width: 20%">
+                  <label class="label-title">Risk Share Value</label>
+                  <input type="text" name="specific-facility-rs-fvalue" placeholder="Enter Amount">
+              </div>
+              <div class="field" style="width: 15%">
+                  <label class="label-title">&nbsp;</label>
+                  <a href="#!" class="ui basic primary button">
+                    <i class="plus green icon"></i>
+                  </a>
+              </div>
+            </div>
+
+          </div>
+          <div class="bottom-border pb-2 mb-2"></div>
+
+          <div class="field">
+              <label class="label-title">Diagnosis Copay</label>
+            </div>
+  
+            <div class="field">
+              <div class="four fields">
+                <div class="field" style="width: 40%">
+                  <label class="label-title">Diagnosis Name/Code</label>
+                  <input type="text" name="specific-facility-rs-dname" placeholder="Enter code/name">
+                </div>
+                <div class="field" style="width: 25%">
+                    <label class="label-title">Risk Share</label>
+                    <div class="ui fluid selection dropdown" name="specific-facility-rs-dtype">
+                      <input type="hidden" name="risk-share">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Risk Share</div>
+                      <div class="menu">
+                        <div class="item">Copayment</div>
+                        <div class="item">CoInsurance</div>
+                      </div>
+                    </div>
+                </div>
+                <div class="field" style="width: 20%">
+                    <label class="label-title">Risk Share Value</label>
+                    <input type="text" name="specific-facility-rs-dvalue" placeholder="Enter Amount">
+                </div>
+                <div class="field" style="width: 15%">
+                    <label class="label-title">&nbsp;</label>
+                    <a href="#!" class="ui basic primary button">
+                      <i class="plus green icon"></i>
+                    </a>
+                </div>
+              </div>
+  
+            </div>
+            <div class="bottom-border pb-2 mb-2"></div>
+
+            <div class="field">
+                <label class="label-title">Procedure Name/Code</label>
+              </div>
+    
+              <div class="field">
+                <div class="four fields">
+                  <div class="field" style="width: 40%">
+                    <label class="label-title">Risk Share</label>
+                    <input type="text" name="specific-facility" placeholder="Enter code/name">
+                  </div>
+                  <div class="field" style="width: 25%">
+                      <label class="label-title">Risk Share</label>
+                      <div class="ui fluid selection dropdown" id="select-rs">
+                        <input type="hidden" name="risk-share">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Risk Share</div>
+                        <div class="menu">
+                          <div class="item">Copayment</div>
+                          <div class="item">CoInsurance</div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="field" style="width: 20%">
+                      <label class="label-title">Risk Share Value</label>
+                      <input type="text" name="specific-facility" placeholder="Enter Amount">
+                  </div>
+                  <div class="field" style="width: 15%">
+                      <label class="label-title">&nbsp;</label>
+                      <a href="#!" class="ui basic primary button">
+                        <i class="plus green icon"></i>
+                      </a>
+                  </div>
+                </div>
+    
+              </div>
+              <div class="bottom-border pb-2 mb-2"></div>
+        </form>
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class=" ui primary basic button cancel">Cancel</button>
+      <button class=" send-rtp ui primary button right floated add">Add</button>
+    </div>
+  </div>
+</div>

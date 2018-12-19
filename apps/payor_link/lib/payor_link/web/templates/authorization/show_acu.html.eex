@@ -1,0 +1,490 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formShowAcu">
+        <div class="ui form segment">
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= form_for @changeset, authorization_path(@conn, :cancel_loa, @authorization.id), [as: :authorization, multipart: true, id: "form_acu"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <div class="ui grid" name="formLOA">
+              <div class="eleven wide computer eleven wide tablet column">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <h3 class="ui dividing center aligned header">
+                      Annual Check-up
+                      <div class="ui icon top right floated pointing dropdown basic button" style="padding: 4px 10px 4px 10px !important;">
+                        <i class="list icon" style="font-size: 14px"></i>
+                        <div class="left menu">
+                          <div class="item" id="showLogs">
+                            <i class="bar chart icon"></i>
+                            Logs
+                          </div>
+                        </div>
+                      </div>
+                    </h3>
+                    <% amount = @authorization.authorization_amounts %>
+                    <%= hidden_input f, :authorization_id, value: @authorization.id %>
+                    <%= hidden_input f, :product_id, value: @product.id %>
+                    <%= hidden_input f, :facility_id, value: @authorization.facility.id %>
+                    <%= hidden_input f, :benefit_package_id, value: @benefit_package.id %>
+
+                    <div class="field">
+                      <label>ACU Type</label>
+                      <%= text_input f, :acu_type, class: "form-control", value: "#{@benefit.acu_type} - #{@benefit.acu_coverage}", readonly: true %>
+                    </div>
+
+                    <div class="field">
+                      <label>Package</label>
+                      <table class="ui table">
+                        <thead>
+                          <tr>
+                            <th>Package Code</th>
+                            <th>Package Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><%= @package.code %></td>
+                            <td><%= @package.name %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="field">
+                      <label>Procedures</label>
+                      <table class="ui table">
+                        <thead>
+                          <tr>
+                            <th>CPT Code</th>
+                            <th>CPT Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= for payor_procedure <- payor_procedures(@package, @member) do %>
+                            <tr>
+                              <td><%= payor_procedure.code %></td>
+                              <td><%= payor_procedure.description %></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <%= if @benefit.acu_type == "Executive" and @benefit.acu_coverage == "Inpatient" do %>
+                      <div class="field">
+                        <label>Room and Board</label>
+                        <%= select f, :room_id, Enum.map(@facility_rooms, &{&1.room.type, &1.room.id}), selected: @authorization.room_id, prompt: "Select Room and Board", class: "ui selection dropdown disabled", rnb: @rnb.room_and_board, rnbAmount: @rnb.room_limit_amount, rnbId: @rnb.room_type, rnbHierarchy: @rnb_hierarchy %>
+                      </div>
+
+                      <div class="two fields">
+                        <div class="field">
+                          <label>Admission Date</label>
+                          <div class="ui calendar" id="admissionDate">
+                            <div class="ui input right icon disabled">
+                              <i class="calendar icon"></i>
+                              <%= text_input f, :admission_datetime, placeholder: "YYYY-MM-DD" %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label>Discharge Date</label>
+                          <div class="ui calendar" id="dischargeDate">
+                            <div class="ui input right icon disabled">
+                              <i class="calendar icon"></i>
+                              <%= text_input f, :discharge_datetime, placeholder: "YYYY-MM-DD" %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+
+                    <div class="field">
+                      <label>Internal Remarks</label>
+                      <%= textarea f, :internal_remarks, readonly: true %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="five wide computer eleven wide tablet column">
+                <div class="ui styled fluid accordion">
+                  <div class="title">
+                    <h3>
+                      Member
+                      <i class="dropdown icon" style="float: right"></i>
+                    </h3>
+                  </div>
+                  <div class="content">
+                    <div class="ui grid">
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Name</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= member_full_name(@member) %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Card Name</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @member.card_no %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Birth Date</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label id="birth_date"><%= @member.birthdate %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Age</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label id="age"></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Gender</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @member.gender %></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ui styled fluid accordion">
+                  <div class="title">
+                    <h3>
+                      Facility
+                      <i class="dropdown icon" style="float: right"></i>
+                    </h3>
+                  </div>
+                  <div class="content">
+                    <div class="ui grid">
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Facility Code</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @authorization.facility.code %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Facility Name</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @authorization.facility.name %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Facility Type</label>
+                      </div>
+                      <div class="eight wide computer eight wide omputer column">
+                        <%= if is_nil(@authorization.facility.type) do %>
+                          ""
+                        <% else %>
+                          <label><%= @authorization.facility.type.text %></label>
+                        <% end %>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Facility Category</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <%= if is_nil(@authorization.facility.category) do %>
+                          ""
+                        <% else %>
+                          <label><%= @authorization.facility.category.text %></label>
+                        <% end %>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Address</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label id="facility_address">
+                          <%= @authorization.facility.line_1 %>  <%= @authorization.facility.line_2 %>
+                          <%= @authorization.facility.city %>  <%= @authorization.facility.province %>
+                          <%= @authorization.facility.postal_code %>  <%= @authorization.facility.country %>
+                        </label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Contact Number</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @authorization.facility.phone_no %></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ui styled fluid accordion">
+                  <div class="title">
+                    <h3>
+                      Plan
+                      <i class="dropdown icon" style="float: right"></i>
+                    </h3>
+                  </div>
+                  <div class="content">
+                    <div class="ui grid">
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Plan Name</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @product.name %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Plan Code</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @product.code %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Plan Limit</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label id="p_limit_amount"><%= @product.limit_amount %></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h3>Details</h3>
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Coverage</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label><%= @authorization.coverage.name %></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Date Created</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label id="date_created" class="ui hide"></label>
+                        <%= hidden_input f, :date_created, value: @authorization.inserted_at %>
+                        <label id="show_date_created"></label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label>Valid until</label>
+                      </div>
+                      <div class="eight wide computer eight wide computer column">
+                        <label id="valid_until" class="ui hide"></label>
+                        <%= hidden_input f, :valid_until, value: @authorization.valid_until %>
+                        <label id="show_valid_until"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h3>Fees</h3>
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <div class="row">
+                        <div class="eight wide computer eight wide computer column">
+                          <label><%= @package.name %></label>
+                        </div>
+                        <div class="eight wide computer eight wide computer column ui transparent input">
+                          <%= if Enum.empty?(@member.acu_schedule_members) == true do %>
+                          <%= text_input f, :package_rate, readonly: true, value: package_facility_rate(@package.package_facility, @authorization.facility_id) %>
+                        <% else %>
+                          <%= text_input f, :package_rate, readonly: true, value: get_package_rate_of_acu_schedule(List.first(@member.acu_schedule_members).acu_schedule_id, @product.id, @package.id) %>
+                        <% end %>
+                        </div>
+                      </div>
+                      <%= if @benefit.acu_type == "Executive" and @benefit.acu_coverage == "Inpatient" do %>
+                        <div class="row">
+                          <div class="eight wide computer eight wide computer column">
+                            <label>Room Rate</label>
+                          </div>
+                          <div class="eight wide computer eight wide computer column ui transparent input">
+                            <%= text_input f, :room_rate, readonly: true, value: if not is_nil(amount), do: amount.room_rate %>
+                          </div>
+                        </div>
+                      <% end%>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <div class="ui grid">
+                      <%= if @benefit.acu_type == "Executive" and @benefit.acu_coverage == "Inpatient" do %>
+                        <div class="row">
+                          <div class="eight wide computer eight wide computer column">
+                            <label>Member Pays (Php)</b>
+                          </div>
+                          <div class="eight wide computer eight wide computer column ui transparent input">
+                            <%= text_input f, :member_covered, readonly: true, value: if not is_nil(amount), do: amount.member_covered  %>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="eight wide computer eight wide computer column">
+                            <label>Payor Pays (Php)</b>
+                          </div>
+                          <div class="eight wide computer eight wide computer column ui transparent input">
+                            <%= text_input f, :payor_covered,  readonly: true, value: if not is_nil(amount), do: amount.payor_covered %>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="eight wide computer eight wide computer column">
+                            <label>Total Amount (Php)</label>
+                          </div>
+                          <div class="eight wide computer eight wide computer column ui transparent input">
+                            <%= text_input f, :total_amount, readonly: true, value: if not is_nil(amount), do: amount.total_amount  %>
+                          </div>
+                        </div>
+                      <% else %>
+                        <div class="row">
+                          <div class="eight wide computer eight wide computer column">
+                            <label>Payor Pays (Php)</b>
+                          </div>
+                          <div class="eight wide computer eight wide computer column ui transparent input">
+                            <%= text_input f, :payor_covered, readonly: true, value: if not is_nil(amount), do: amount.payor_covered  %>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="eight wide computer eight wide computer column">
+                            <label>Total Amount (Php)</label>
+                          </div>
+                          <div class="eight wide computer eight wide computer column ui transparent input">
+                            <%= text_input f, :total_amount,  readonly: true, value: if not is_nil(amount), do:  amount.total_amount%>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%# <a href="/authorizations/<%= @authorization.id %1>/setup?step=3" class="ui button mrg1T"> %>
+              <%#   <i class="chevron left icon"></i> %>
+              <%#   Back %>
+              <%# </a> %>
+            <%# <button class="ui green right floated button mrg1T"> %>
+              <%#   <i class="send icon"></i> %>
+              <%#   Enter OTP %>
+              <%# </button> %>
+
+            <%= cond do %>
+              <%= @authorization.status == "For Approval" -> %>
+
+                <a href="/authorizations" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Back
+                </a>
+                <a href="#" class="ui button red mrg1T">
+                  <i class="cancel icon"></i>
+                  Cancel LOA
+                </a>
+                <div id="" class="ui blue right floated button mrg1T">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+                <div id="" class="ui green right floated button mrg1T">
+                  <i class="check circle outline icon"></i>
+                  Approve
+                </div>
+                <div id="" class="ui red right floated button mrg1T">
+                  <i class="remove circle outline icon"></i>
+                  Disapprove
+                </div>
+              <% @authorization.status == "Canceled" || @authorization.status == "Cancelled" || @authorization.status == "Disapproved"-> %>
+                <a href="/authorizations" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Back
+                </a>
+              <% @authorization.status == "OTP Verified" -> %>
+                <a href="/authorizations" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Back
+                </a>
+                <a href="/authorizations/<%= @authorization.id %>/print_authorization" class="ui green right floated button mrg1T">
+                    <i class="print icon"></i>
+                    Print
+                  </a>
+              <% @authorization.status == "Pending" -> %>
+                <a href="/authorizations" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Back
+                </a>
+                <div id="" class="ui blue right floated button mrg1T">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+              <% @authorization.status == "Approved" -> %>
+                <a href="/authorizations" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Back
+                </a>
+                <a href="#" class="ui button red mrg1T">
+                  <i class="cancel icon"></i>
+                  Cancel LOA
+                </a>
+              <%= if !check_validity(@authorization.valid_until) do %>
+                <a href="#" class="ui blue button mrg1T">
+                  <i class="calendar icon"></i>
+                  Reschedule LOA
+                </a>
+                <% end %>
+                <div id="" class="ui blue right floated button mrg1T">
+                  <i class="edit icon"></i>
+                  Edit
+                </div>
+                <a href="/authorizations/<%= @authorization.id %>/print_authorization" class="ui green right floated button mrg1T">
+                  <i class="print icon"></i>
+                  Print
+                </a>
+                <a href="#" class="ui green right floated button mrg1T hide">
+                  <i class="credit card alternative icon"></i>
+                  Enter OTP/CVV
+                </a>
+              <% true -> %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="ui modal logs-format-datetime" id="authorizationLogsModal">
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="column" style="overflow:scroll;height:500px;overflow:auto">
+        <div class="ui segments">
+          <div class="ui segment" id="logsContainer">
+            <%= if Enum.empty?(@authorization.logs) do %>
+              <p>NO LOGS FOUND</p>
+              <% else %>
+              <div class="ui feed timeline">
+                <%= for log <- @authorization.logs do %>
+                  <div class="event">
+                    <div class="label">
+                      <i class="blue circle icon"></i>
+                    </div>
+                    <div class="content">
+                      <div class="summary">
+                        <p class="format-inserted-at"><%= log.inserted_at %></p>
+                      </div>
+                      <div class="extra text">
+                        <%= log.message %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

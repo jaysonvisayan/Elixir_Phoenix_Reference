@@ -1,0 +1,393 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Practitioners</h1>
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioners</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Practitioners</div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui stackable grid" id="practitioner_new_contact">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui four steps form-step">
+                        <div class=" step">
+                            <i class="user icon"></i>
+                            <div class="content">
+                                <div class="title">General</div>
+                                <div class="description">Account name, type, etc.</div>
+                            </div>
+                        </div>
+                        <div class=" step">
+                            <i class="mail icon"></i>
+                            <div class="content">
+                                <div class="title">Contact</div>
+                                <div class="description">Contact info</div>
+                            </div>
+                        </div>
+                        <div class=" step">
+                            <i class="money icon"></i>
+                            <div class="content">
+                                <div class="title">Financial</div>
+                                <div class="description">Funding arrangement</div>
+                            </div>
+                        </div>
+                        <div class="active  step">
+                            <i class="file text outline icon"></i>
+                            <div class="content">
+                                <div class="title">Summary</div>
+                                <div class="description">Confirm your information</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui header form-header">
+                        <i class="user icon"></i>
+                        <div class="content">
+                            Summary
+                            <div class="sub header">Confirm your information</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="sixteen wide column">
+                <h3 class="ui primary header">General</h3>
+                <div class="ui divider"></div>
+              </div>
+              <div class="three wide computer sixteen wide mobile column">
+                <%= if  @conn.assigns[:practitioner] && is_nil(@practitioner.photo) == false do %>
+                  <img id="photo" class="ui circular image" style="background-image: url("<%= Innerpeace.PayorLink.Web.LayoutView.image_url_for(Innerpeace.ImageUploader, @practitioner.photo, @practitioner, :standard)%>"); background-size: cover; background-position: center-center; height: 150px;">
+                <% else %>
+                  <img src="/images/no-photo-available.png" id="imagePreview" class="ui circular image">
+                <% end %>
+              </div>
+              <div class="thirteen wide computer sixteen wide mobile column">
+              <%# GENERAL %>
+                <div class="row">
+                  <div class="ui one column grid cards-holder">
+                    <div class="column">
+                      <table class="ui table no-border borderless full-width">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <table>
+                                <tr>
+                                  <td><b>Name</b></td>
+                                  <td><%= @practitioner.first_name %> <%= @practitioner.middle_name %> <%= @practitioner.last_name %> <%= @practitioner.suffix %></td>
+                                </tr>
+                                <tr>
+                                  <td class="text-white"><b>Effectivity Date</b></td>
+                                  <td></td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="ui two column grid cards-holder">
+                    <div class="column">
+                      <table class="ui table no-border borderless">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <table>
+                                <tr>
+                                  <td><b>Birthdate</b></td>
+                                  <td><%= @practitioner.birth_date %></td>
+                                </tr>
+                                <tr>
+                                  <td><b>Specialization</b></td>
+                                  <td>
+
+                                    <%= for ps <- @practitioner.practitioner_specializations do %>
+                                      <%= if ps.type == "Primary" do %>
+                                        <%= Enum.join([ps.specialization.name, ""], ", ") %>
+                                      <% end %>
+                                    <% end %>
+
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td><b>PRC</b></td>
+                                  <td> <%= @practitioner.prc_no %> </td>
+                                </tr>
+                                <tr>
+                                  <td><b>Effectivity Date</b></td>
+                                  <td> <%= @practitioner.effectivity_from %> </td>
+                                </tr>
+
+                                <%= if @practitioner.phic_accredited == "Yes" do %>
+                                  <tr>
+                                    <td><b>PHIC Accreditation Date</b></td>
+                                    <td> <%= @practitioner.phic_date %> </td>
+                                  </tr>
+                                <% end %>
+
+
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="column">
+                      <table class="ui table no-border borderless">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <table>
+                                <%# <tr>
+                                  <td class="text-white"><b>blank</b></td>
+                                  <td></td>
+                                </tr> %>
+                                <tr>
+                                  <td><b>Gender</b></td>
+                                  <td><%= @practitioner.gender %></td>
+                                </tr>
+                                <tr>
+                                  <td><b>Affiliated</b></td>
+                                  <td><%= @practitioner.affiliated %></td>
+                                </tr>
+                                <tr>
+                                  <td><b>Expiry Date</b></td>
+                                  <td><%= @practitioner.effectivity_to %></td>
+                                </tr>
+                                <tr>
+                                  <td><b>Sub-Specialization</b></td>
+                                  <td>
+                                    <%= for ps <- @practitioner.practitioner_specializations do %>
+                                      <%= if ps.type == "Secondary" do %>
+                                        <%= Enum.join([ps.specialization.name, ""], ", ") %>
+                                      <% end %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              <%# END OF GENERAL %>
+              </div>
+              <div class="sixteen wide column">
+                <%# CONTACT %>
+                  <h3 class="ui primary header">Contact</h3>
+                  <div class="ui divider"></div>
+                  <% contacts = @practitioner.practitioner_contact.contact %>
+                  <div class="row">
+                    <div class="ui two column grid cards-holder">
+                      <div class="column">
+                        <table class="ui table no-border borderless">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <tr>
+                                    <td><b>Telephone Number</b></td>
+                                    <td>
+                                      <%= for telephone <- contacts.phones do %>
+                                        <%= if telephone.type == "telephone" do %>
+                                          <%= telephone.number %>
+                                        <% end %>
+                                      <% end %>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Fax Number</b></td>
+                                    <td>
+                                      <%= for fax <- contacts.phones do %>
+                                        <%= if fax.type == "fax" do %>
+                                          <%= fax.number %>
+                                        <% end %>
+                                      <% end %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="column">
+                        <table class="ui table no-border borderless">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <tr>
+                                    <td><b>Mobile Number</b></td>
+                                    <td>
+                                      <%= for mobile <- contacts.phones do %>
+                                        <%= if mobile.type == "mobile" do %>
+                                          <%= mobile.number %>
+                                        <% end %>
+                                      <% end %>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Email Address</b></td>
+                                    <td>
+                                      <%= for email <- contacts.emails do %>
+                                        <%= email.address %>
+                                      <% end %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                <%# END OF CONTACT %>
+                <%# FINANCIAL %>
+                  <h3 class="ui primary header">Financial</h3>
+                  <div class="ui divider"></div>
+                  <div class="row">
+                    <div class="ui one column grid cards-holder">
+                    <div class="column">
+                      <table class="ui table no-border borderless full-width">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <table>
+                                <tr>
+                                  <td><b>Exclusive</b></td>
+                                  <td><%= Enum.join(@practitioner.exclusive, ", ") %></td>
+                                </tr>
+                                <tr>
+                                  <td class="text-white"><b>Effectivity Date</b></td>
+                                  <td></td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                    <div class="ui two column grid cards-holder">
+                      <div class="column">
+                        <table class="ui table no-border borderless">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <tr>
+                                    <td><b>VAT Status</b></td>
+                                    <td><%= @practitioner.dropdown_vat_status.text %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Tax Identification Number</b></td>
+                                    <td><%= @practitioner.tin %></td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Payment Type</b></td>
+                                    <td><%= @practitioner.payment_type %></td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="column">
+                        <table class="ui table no-border borderless">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <table>
+                                  <tr>
+                                    <td><b>Presscription Period</b></td>
+                                    <td>
+                                      <%= if is_nil(@practitioner.prescription_period) == false do %>
+                                        <%= Enum.join([@practitioner.prescription_period, "days"], "  ") %>
+                                      <% else %>
+                                          N/A
+                                      <% end %>
+                                  </td>
+                                  </tr>
+                                  <tr>
+                                    <td><b>Withholding Tax</b></td>
+                                    <td><%= @practitioner.withholding_tax || "N/A"%></td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <%= cond do %>
+                                        <%= @practitioner.payment_type == "MediLink XP Card" -> %>
+                                          <b>XP Card Number</b>
+                                        <% @practitioner.payment_type == "Check" -> %>
+                                          <b>Payee Name</b>
+                                        <% true -> %>
+                                          <b>Account Name</b>
+                                      <% end %>
+                                    </td>
+                                    <td>
+                                      <%= cond do %>
+                                        <%= @practitioner.payment_type == "MediLink XP Card" -> %>
+                                          <%= @practitioner.xp_card_no %>
+                                        <% @practitioner.payment_type == "Check" -> %>
+                                          <%= @practitioner.payee_name %>
+                                        <% true -> %>
+                                          <%= Enum.join([@practitioner.bank.account_name, @practitioner.account_no], " - ") %>
+                                      <% end %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                <%# END OF FINANCIAL %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="eight wide column">
+                <a id="cancel_button" class="ui basic button">Delete</a>
+              </div>
+              <div class="eight wide right aligned column">
+                <a href="/practitioners/<%= @practitioner.id%>/setup?step=3" class="ui basic button" data-content="test">Back to Previous Step</a>
+                <a href="/practitioners/<%= @practitioner.id%>/summary" class="ui primary button">Finish</a>
+              </div>
+            </div>
+          </div><!--grid-->
+      </div>
+  </div>
+</div>
+
+<% #Modal Alert %>
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Delete Draft?
+  </div>
+  <div class="image content">
+    Deleting this draft will permanently remove it from the system.
+  </div>
+  <div class="actions">
+    <div class="ui white button deny">
+      No, Keep Draft
+    </div>
+    <%= if @conn.assigns[:practitioner] do %>
+      <%= link "Yes, Delete Draft", to: practitioner_path(@conn, :delete, @practitioner.id), method: :delete,  class: "ui red button" %>
+    <% else %>
+      <div class="ui negative button clickable-row" href="/practitioners">
+        <i class="checkmark icon"></i>
+        Yes, Delete Draft
+      </div>
+    <% end %>
+  </div>
+</div>
+<% #Modal end %>

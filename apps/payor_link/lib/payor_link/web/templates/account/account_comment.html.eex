@@ -1,0 +1,112 @@
+<div class="ui large modal"  id="Comment" role="add-comment">
+  <i class="close icon"></i>
+  <div class="content">
+    <%= form_for @changeset, @action, [class: "ui form", id: "addcomments", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+      <div class="ui form">
+      <p role="app"></p>
+        <div class="field" id="comment_text_area">
+          <%= textarea f, :comment, class: "form-control", placeholder: "Write a comment . . .", maxlength: 250 %>
+          <%= error_tag f, :comment%>
+        </div>
+        <%= hidden_input f, :account_id, class: "form-control", readonly: true%>
+        <%= hidden_input f, :user_id, class: "form-control", readonly: true %>
+        <input class="form-control" id="comment_count" type="hidden" readonly="true" value = "<%= _count = count_comment(@account.id)%>">
+        <input class="form-control" id="user_firstname" type="hidden" readonly="true">
+        <input class="form-control" id="user_lastname" type="hidden" readonly="true">
+
+        <div class="ui segment-breadcrumbs no-shadow no-radius">
+          <div class="ui right aligned grid">
+            <div class="left floated left aligned six wide column">
+              <h2 class="ui header">Comments</h2>
+            </div>
+            <div class="right floated right aligned six wide column">
+             <a class="title" id ="message_count">250/250</a> <a>&emsp;</a>
+              <button type="button" class="ui blue button" id="btnComment" >
+              <i class="icon edit"> </i>
+                COMMENT
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="scrolling image content" style="overflow: auto; max-height: 300px">
+          <div class="description">
+            <p role="append"></p>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              <%= for account_comment <- @account_comment do %>
+                <tr>
+                  <td>
+                    <div class="field">
+                      <div class="ui comments">
+                        <div class="comment">
+                          <a class="avatar">
+                           <img src="/images/file-upload.png">
+                          </a>
+                          <div class="content">
+                            <a class="author"> <%= account_comment.user.first_name %>
+                            <%= account_comment.user.last_name %> </a>
+                            <div class="metadata">
+                              <div class="date">
+                              <%=
+                              year = DateTime.utc_now.year - account_comment.inserted_at.year
+                              month = DateTime.utc_now.month - account_comment.inserted_at.month
+                              day = DateTime.utc_now.day - account_comment.inserted_at.day
+                              hour = DateTime.utc_now.hour - account_comment.inserted_at.hour
+                              minute = DateTime.utc_now.minute - account_comment.inserted_at.minute
+                              second = DateTime.utc_now.second - account_comment.inserted_at.second
+
+                              get_datetime(year, month, day, hour, minute, second)
+
+                              %>
+                              </div>
+                            </div>
+                            <div class="text" id="comment_text">
+                              <%= account_comment.comment %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui vertically divided grid">
+        <div class="one column row">
+          <div class="column floated">
+          <p role="append_loader"></p>
+
+            <a class="reply">
+              <p align="right" style="display: none" id ="LoadMore">
+              <u>
+                <span id="load_counter" style="display: none"></span>
+                <span style="cursor: pointer;">Load More</span><br>
+              </u>
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+  </div>
+   <div id="overlay2" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">Loading</div> </div> <p></p> </div>
+<% end %>
+</div>

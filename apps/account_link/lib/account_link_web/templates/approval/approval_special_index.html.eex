@@ -1,0 +1,113 @@
+<%= form_for @conn, approval_path(@conn, :show_special, @locale), [class: "ui form", id: "approval", as: :approval],  fn _f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="main-wrapper" id="special_index">
+    <div class="breadcrumbs">
+      <ul>
+        <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i> </li>
+        <li><%= gettext "Approval" %></li><li><i class="chevron right icon"></i></li>
+        <li class="active"><%= gettext "Special" %></li>
+      </ul>
+    </div>
+    <div class="sections-wrapper">
+      <div class="ui container">
+        <div class="ui grid">
+          <div class="row">
+            <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+              <section>
+                <form action="" class="ui form">
+                  <div class="section-control">
+                    <div class="ui grid">
+                      <div class="row">
+                        <div class="eight wide computer eight wide tablet sixteen wide mobile right floated column mobile-mt-2">
+                          <div class="d-flex jc-fe mobile-flex-change mobile-text-left">
+                            <select class="ui dropdown mr-2" name="drpdwn_status">
+                              <option value=""><%= gettext "Select" %></option>
+                              <option value="All" selected=""><%= gettext "All" %></option>
+                              <option value="Approved"><%= gettext "Approved" %></option>
+                              <option value="For Approval"><%= gettext "Pending" %></option>
+                              <option value="Rejected"><%= gettext "Rejected" %></option>
+                            </select>
+                            <a id="export_button" class="ui button modal-open-actionConfirmation mobile-mt-2" ><i class="external icon"></i><%= gettext "Export" %></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="sixteen wide computer sixteen wide tablet sixteen wide mobile column">
+                  <table role="datatable" class="full-width ui celled table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th><%= gettext "Member Information" %></th>
+                        <th><%= gettext "Date Requested" %></th>
+                        <th><%= gettext "Coverage" %></th>
+                        <th><%= gettext "Amount" %></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody class="padded-rows menued-rows">
+                      <%= for special <- @specials do %>
+                        <tr>
+                          <td>
+                            <div class="ui checkbox">
+                              <input type="checkbox">
+                            </div>
+                          </td>
+                          <td>
+                            <div><span class="dim"><%= gettext "Reference No." %></span> <%= special.member.policy_no %></div>
+                            <div><span class="dim"><%= gettext "Member Name" %></span>
+                              <%=
+Enum.join([
+special.member.first_name,
+special.member.middle_name,
+special.member.last_name,
+special.member.suffix
+], " ")
+                            %>
+                            </div>
+                            <div><span class="dim"><%= gettext "Card No." %></span> <%= special.member.card_no %> </div>
+                            <div><span class="dim"><%= gettext "Member Type" %></span> <%= special.member.type %> </div>
+                            <div><span class="dim"><%= gettext "Employee No."%></span> <%= special.member.employee_no %> </div>
+                          </td>
+                          <td>
+                            <%= Enum.join([
+load_date(special.inserted_at),
+display_time(special.inserted_at)
+], " ")
+                          %>
+                          </td>
+                          <td> <%= special.coverage.description %> </td>
+                          <td>Php <%= compute_total_amount(special.authorization_amounts) #special.authorization_amounts %></td>
+                          <td>
+                            <%= case special.status do %>
+                              <%= "Approved" -> %>
+                                <div class="status-tag status-tag--green"><%= gettext "Approved" %></div>
+                                <% "For Approval" -> %>
+                                  <div class="status-tag status-tag--orange"><%= gettext "Pending" %></div>
+                                  <% _ -> %>
+                                    <div class="status-tag status-tag--red"><%= gettext "Rejected" %></div>
+                                  <% end %>
+                          </td>
+                          <td class="menued-rows__wrap">
+                            <div class="menued-rows__item">
+                              <button class="ui button"><i class="external icon"></i><%= gettext "Export" %></button>
+                              <a href="/<%= @locale %>/approval/special/<%= special.id %>/details" class="ui basic button"><i class="unhide icon"></i><%= gettext "View Details" %></a>
+                            </div>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

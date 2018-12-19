@@ -1,0 +1,108 @@
+<%= form_for @changeset, @action, [as: :location_group, multipart: true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%# <%= raise @luzon_island %1> %>
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">General</h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+
+    <div class="ui two column centered grid">
+      <div class="column">
+        <table class="ui table no-border borderless">
+          <tbody>
+            <tr>
+              <td>
+                <table>
+                  <tr>
+                    <td><label class="gray">Location Group Code</label></td>
+                    <td><%= @location_group.code %></td>
+                  </tr>
+                  <tr>
+                    <td><label class="gray">Location Group Name</label></td>
+                    <td><%= @location_group.name %></td>
+                  </tr>
+                  <tr>
+                    <td><label class="gray">Location Group Description</label></td>
+                    <td><%= @location_group.description %></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Regions</h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+
+    <div class="ui grid">
+      <div class="two wide column">
+      </div>
+      <div class="twelve wide column">
+        <div class="ui grid">
+          <div class="four wide column">
+            Luzon
+          </div>
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <%= for luzon_island <- @luzon_island do %>
+                <div class="five wide column">
+                  <%= luzon_island.region_name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="four wide column">
+            Visayas
+          </div>
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <%= for visayas_island <- @visayas_island do %>
+                <div class="five wide column">
+                  <%= visayas_island.region_name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="four wide column">
+            Mindanao
+          </div>
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <%= for mindanao_island <- @mindanao_island do %>
+                <div class="five wide column">
+                  <%= mindanao_island.region_name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <button class="ui negative button mrg1T" id="deleteLG" lg_ID="<%= @location_group.id %>" type="button">
+        <i class="trash left icon"></i>Delete Draft
+      </button>
+    </div>
+    <div class="column eight wide">
+      <a href="/location_groups/<%= @location_group.id %>/setup?step=2" class="ui button">
+        <i class="chevron left icon"></i> Previous
+      </a>
+      <button type="submit" class="ui blue button">Submit <i class="chevron right icon"></i></button>
+    </div>
+  </div>
+
+<% end %>

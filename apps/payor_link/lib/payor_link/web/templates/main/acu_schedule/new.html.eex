@@ -1,0 +1,202 @@
+  <div class="page-title">
+		<div class="ui clearing segment">
+			<div class="ui container">
+
+			  <h1 class="ui left floated header">
+			    Acu Scheduling
+			    <div class="clearfix"></div>
+				 	<div class="ui breadcrumb">
+					  <a href="/web/acu_schedules">Acu Scheduling</a>
+					  <i class="right angle icon divider"></i>
+					  <div class="active section dim thin">Search</div>
+					</div>
+			  </h1>
+			  <div class="ui header float-right-medium">
+          <a href="#" class="ui negative basic button mt-1-small discard_acu_schedule">Discard</a>
+          <button class="ui grey button acu_schedule_save_as_draft">Save as Draft</button>
+				</div>
+			</div>
+		</div><!-- .ui.clearing.segment -->
+  </div><!-- .page-title -->
+
+  <div id="new_acu_schedule_form" class="ui container">
+    <div class="content-section white-bg">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <%= form_for @changeset, main_acu_schedule_path(@conn, :create_acu_schedule), [as: :acu_schedule,  multipart: true, class: "ui form", id: "acu_mobile_form"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <input type="hidden" name="acu_schedule[save_as_draft]" id="save_as_draft" value="false">
+
+            <div class="section-title mt-2"><div class="title-name">Schedule Information</div></div>
+
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :cluster_id, "Cluster Code/Name", class: "control-label" %>
+                <%= select f, :cluster_id, [] ++ map_clusters(@clusters), prompt: ""  %>
+                <%= error_tag f, :cluster_id %>
+              </div>
+
+              <div class="field">
+                <%= label f, :account_code, "Account Code/Name", class: "control-label" %>
+                <%= select f, :account_code, map_accounts(@account_groups), prompt: "" %>
+                <%= error_tag f, :account_code %>
+              </div>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :product_code, "Plan", class: "label-title" %>
+                <%= multiple_select f, :product_code, [], class: "ui search selection dropdown", prompt: ""  %>
+                <%= error_tag f, :product_code %>
+              </div>
+              <div class="field">
+                <%= label f, :member_type, "Member Type", class: "label-title" %>
+                <div class="field"></div>
+                <div class="two inline fields">
+                  <div class="field">
+                    <div class="ui checkbox" id="member_principal">
+                      <input type="checkbox" name="acu_schedule[principal]" class="acu_schedule_member_type" id="acu_schedule_member_type" value="Principal">
+                      <label>Principal</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox" id="member_dependent">
+                      <input type="checkbox" name="acu_schedule[dependent]" class="acu_schedule_member_type" id="acu_schedule_member_type" value="Dependent">
+                      <label>Dependent</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :facility_id, "Mobile Facility", class: "label-title" %>
+                <%= select f, :facility_id, [], class: "ui search selection dropdown facility", prompt: "Select Facility"  %>
+                <%= error_tag f, :facility_id %>
+              </div>
+              <div class="field">
+                <div class="two fields">
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :date_from, "Date From", class: "label-title" %>
+                    <div class="ui calendar" id="acu_date_from">
+                      <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input name="acu_schedule[date_from]" type="text" value="<%= @changeset.data.date_from %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :date_to, class: "label-title" %>
+                    <div class="ui calendar" id="acu_date_to">
+                      <div class="ui input right icon">
+                        <i class="calendar icon"></i>
+                        <input name="acu_schedule[date_to]" type="text" value="<%= @changeset.data.date_to %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :time_from, class: "label-title" %>
+                    <div class="ui calendar time" id="acu_time_from">
+                      <div class="ui input right icon">
+                        <input name="acu_schedule[time_from]" type="text" placeholder="00:00" value="<%= @changeset.data.time_from %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="four wide field" id="dateFormPicker">
+                    <%= label f, :time_to, class: "label-title" %>
+                    <div class="ui calendar time" id="acu_time_to">
+                      <div class="ui input right icon">
+                        <input name="acu_schedule[time_to]" type="text" placeholder="00:00" value="<%= @changeset.data.time_to %>" autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="two fields">
+              <div class="field">
+                <%= label f, :number_of_members, "Number of Members", class: "label-title" %>
+                <%= number_input f, :number_of_members_val, readonly: true %>
+                <%= error_tag f, :number_of_members_val %>
+              </div>
+              <input type="hidden" id="number_of_members" accountCode="" productCode="">
+              <div class="field">
+                <%= label f, :guaranteed_amount, "Guaranteed Amount", class: "label-title" %>
+                <%= text_input f, :guaranteed_amount, value: @changeset.data.no_of_guaranteed %>
+                <%= error_tag f, :guaranteed_amount %>
+              </div>
+            </div>
+            <button class="ui right floated primary button" id="acu_submit">
+              <i class="inverted save icon"></i>
+              Save
+            </button>
+          <% end %>
+        </div>
+        <div class="sixteen wide column">
+          <div class="ui divider"></div>
+        </div>
+        <div class="sixteen wide column">
+          <button class="ui primary <%= if Enum.empty?(@asm_removes), do: "disabled" %> right floated button" id="show_add_asm">
+            <i class="inverted plus icon"></i>
+            Add Member
+          </button>
+          <h4 class="ui left aligned header">Members</h4>
+        </div>
+        <div class="sixteen wide column">
+          <table role="datatable" id="acu_schedule_table" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="checkAllacu"</th>
+                <th>Card No</th>
+                <th>Full Name</th>
+                <th>Gender</th>
+                <th>Birthdate</th>
+                <th>Age</th>
+                <th>Package Code</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for asm <- @acu_schedule_members do %>
+                <tr>
+                  <td><input id="acu_sched_ids" type="checkbox" value="<%= asm.card_no %>"></td>
+                  <td><%= asm.card_no %></td>
+                  <td><%= Enum.join([asm.first_name, asm.middle_name, asm.last_name], " ") %></td>
+                  <td><%= asm.gender %></td>
+                  <td><%= asm.birthdate %></td>
+                  <td><%= member_age(asm.birthdate) %></td>
+                  <td><%= asm.status %></td>
+                  <td>
+                    <a class="clickable-row" href="#" asm_id="<%= asm.id %>" id="asm_update_status"><i class="red trash icon"></i></a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="sixteen wide column">
+          <div class="ui divider"></div>
+          <br>
+          <h4 class="ui left aligned header">Packages</h4>
+        </div>
+        <div class="sixteen wide column">
+        <div class="ui divider"></div>
+        </div>
+      </div>
+
+      <div class="ui vertical segment mb-2">
+        <div class="text-right">
+            <button class="ui primary button large"  id="main_submitGeneral">
+              Finalize <i class="caret right icon white"></i>
+            </button>
+            <%# <a href="#!" class="ui primary button large" id="submitGeneral">Next</a> %>
+          </div>
+        </div><!-- .vertical.segment -->
+      </div>
+    </div>
+  </div><!-- row ends here -->
+</div><!-- grid ends here -->
+    </div><!-- .white-bg -->
+  </div>
+</div>

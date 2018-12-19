@@ -1,0 +1,207 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Account</h1>
+          <div class="ui breadcrumb">
+              <a href="/accounts" class="section">Account</a>
+              <div class="divider"> / </div>
+              <a href="/accounts" class="section">Search</a>
+              <div class="divider"> / </div>
+              <div class="active section">
+                <%= if @account.step == 6 do %>
+                  Edit v<%= Enum.join([
+                     @account.major_version,
+                     @account.minor_version,
+                     @account.build_version], ".") %>
+                <% else %>
+                  Add Account
+                <% end %>
+              </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui stackable grid" id="dateFormPicker", role="contact">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui six steps form-step">
+                      <%= if @account.step == 7 do %>
+                        <%= render "link_steps.html", account: @account, step: 3 %>
+                      <% else %>
+                        <div class=" step">
+                            <i class="info circle icon"></i>
+                            <div class="content">
+                                <div class="title">General</div>
+                                <div class="description">Account name, type, etc.</div>
+                            </div>
+                        </div>
+                        <div class="  step">
+                            <i class="home icon"></i>
+                            <div class="content">
+                                <div class="title">Address</div>
+                                <div class="description">Address info</div>
+                            </div>
+                        </div>
+                        <div class="active  step">
+                            <i class="mail icon"></i>
+                            <div class="content">
+                                <div class="title">Contact</div>
+                                <div class="description">Contact info</div>
+                            </div>
+                        </div>
+                        <%# <div class="  step"> %>
+                        <%#     <i class="money icon"></i> %>
+                        <%#     <div class="content"> %>
+                        <%#         <div class="title">Financial</div> %>
+                        <%#         <div class="description">Funding arrangement</div> %>
+                        <%#     </div> %>
+                        <%# </div> %>
+                        <div class="step">
+                          <i class="ordered list icon"></i>
+                          <div class="content">
+                            <div class="title">HOED</div>
+                            <div class="description">Hierarchy Of Eligible Dependents</div>
+                          </div>
+                        </div>
+                        <div class="  step">
+                            <i class="file text outline icon"></i>
+                            <div class="content">
+                                <div class="title">Summary</div>
+                                <div class="description">Confirm your information</div>
+                            </div>
+                        </div>
+                        <% end %>
+                    </div>
+                    <div class="ui header form-header">
+                        <i class="user icon"></i>
+                        <div class="content">
+                            Contact
+                            <div class="sub header">Contact info</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <h3 class="ui center aligned primary header">
+                        <%= @account.account_group.code %> - <%= @account.account_group.name %>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+              <div class="sixteen wide column">
+                  <button class="ui primary basic right floated button" name="modal_contact"><i class="plus icon"></i> Contact</button>
+                  <table class="ui very basic striped selectable table" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Type</th>
+                          <th>Department</th>
+                          <th>Designation</th>
+                          <th>Telephone Number</th>
+                          <th>Mobile Number</th>
+                          <th>Email Address</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%= if Enum.empty?(@contacts) do %>
+                          <tr class="center aligned">
+                             <td colspan="11">No Records Found!</td>
+                          </tr>
+                        <% else %>
+                          <%= for contact <- @contacts do %>
+                            <tr>
+                              <td><%= contact.last_name %></td>
+                              <td><%= contact.type %></td>
+                              <td><%= contact.department %></td>
+                              <td><%= contact.designation %></td>
+                              <td>
+                                <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                                  <p>No Record Found</p>
+                                <% else %>
+                                  <%= for phone <- contact.phones do %>
+                                    <%= if phone.type == "telephone" do %>
+                                      <%= if is_nil(phone.country_code) do %>
+                                          <%= phone.number %>
+                                      <%= else %>
+                                        <p><%= "(" <> phone.country_code <> ") " <> area_code(phone.area_code) <> " " <> phone.number <> " " <> local(phone.local) %></p>
+                                      <% end %>
+                                    <% end %>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                              <td>
+                                <%= if contact.phones == nil || Enum.empty?(contact.phones) do %>
+                                  <p>No Record Found</p>
+                                <% else %>
+                                  <%= for phone <- contact.phones do %>
+                                    <%= if phone.type == "mobile" do %>
+                                      <%= if is_nil(phone.country_code) do %>
+                                          <%= phone.number %>
+                                      <%= else %>
+                                        <p><%= Enum.join(["(", phone.country_code, ")", phone.number]) %></p>
+                                      <% end %>
+                                    <% end %>
+                                  <% end %>
+                                <% end %>
+                              </td>
+                              <td><%= contact.email %></td>
+                              <td>
+                                <a name="edit_modal_contact" contactID="<%= contact.id %>" accountID="<%= @account.id %>">
+                                  <i class="blue large edit link icon"></i>
+                                </a>
+                                <%= link to: account_path(@conn, :delete_account_contact, contact.id, account_id: @account), method: :delete, data: [confirm: "Are you sure?"] do %> <i class="red large trash link icon"></i>
+                                <% end %>
+                              </td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="eight wide column">
+                <%= if @account.step <= 5 do %>
+                  <%= render "modal_draft.html", account: @account %>
+                  <a class="ui basic button" id="cancel_button">Delete</a>
+                <% end %>
+              </div>
+              <div class="eight wide right aligned column">
+                <%= if @account.step == 7 do %>
+                  <!-- <a href="/accounts/<%= @account.id%>/edit?step=2" class="ui button">Previous</a> -->
+                  <%=# render "modal_cancel.html", account: @account %>
+                  <!-- <a id="cancel_button" class="ui button">
+                    <i class="remove left icon"></i> Cancel
+                    </a> -->
+                <% else %>
+                  <a href="/accounts/<%= @account.id%>/setup?step=2" class="ui basic button">Back to Previous Step</a>
+                  <a href="/accounts/<%= @account.id%>/next_contact" class="ui primary button">Continue to Next Step</a>
+                <% end %>
+              </div>
+            </div>
+            <%=
+              render "form_edit_contact.html",
+              changeset: @changeset,
+              contacts: @contacts,
+              account: @account,
+              conn: @conn,
+              action: account_path(@conn, :update_setup, @account, step: 3) %>
+
+            <%=
+              render "form_contact.html",
+              changeset: @changeset,
+              contacts: @contacts,
+              account: @account,
+              conn: @conn,
+              action: account_path(@conn, :create_contact, @account.account_group.id) %>
+          </div><!--grid-->
+      </div>
+  </div>
+</div>
+
+<%= if @conn.assigns[:account] && @account.step <= 6 do %>
+  <%= form_for @conn, account_path(@conn, :delete, @account.account_group_id), [id: "delete-draft", multipart: true, as: :account, method: :delete], fn _f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <% end %>
+<% end %>
+

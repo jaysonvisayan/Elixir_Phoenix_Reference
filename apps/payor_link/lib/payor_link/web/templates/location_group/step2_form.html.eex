@@ -1,0 +1,178 @@
+<%= form_for @changeset, @action, [as: :location_group, id: "step2_form", multipart: true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <br/><br/>
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">
+          <div class="ui checkbox <%= check_region_state(@lcr_list, "luzon") %>">
+            <input type="checkbox" class="islands" value="luzon" id="island_luzon" <%= check_region_state(@lcr_list, "luzon") %>>
+            <label>Luzon</label>
+          </div>
+        </h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="four fields">
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "Region I - Ilocos Region") %>">
+          <input type="checkbox" value="Region I - Ilocos Region:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region I - Ilocos Region") %>>
+          <label>Region I - Ilocos Region</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "Region III - Central Luzon") %>">
+          <input type="checkbox" value="Region III - Central Luzon:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region III - Central Luzon") %>>
+          <label>Region III - Central Luzon</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "Region IV-B MIMAROPA - Southwestern Tagalog Region") %>">
+          <input type="checkbox" value="Region IV-B MIMAROPA - Southwestern Tagalog Region:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region IV-B MIMAROPA - Southwestern Tagalog Region") %>>
+          <label>Region IV-B MIMAROPA - Southwestern Tagalog Region</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "CAR - Cordillera Administrative Region") %>">
+          <input type="checkbox" value="CAR - Cordillera Administrative Region:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "CAR - Cordillera Administrative Region") %>>
+          <label>CAR - Cordillera Administrative Region</label>
+        </div>
+      </div>
+    </div>
+    <div class="four fields">
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "Region II - Cagayan Valley") %>">
+          <input type="checkbox" value="Region II - Cagayan Valley:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region II - Cagayan Valley") %>>
+          <label>Region II - Cagayan Valley</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "Region IV-A - CALABARZON") %>">
+          <input type="checkbox" value="Region IV-A - CALABARZON:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region IV-A - CALABARZON") %>>
+          <label>Region IV-A - CALABARZON</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "Region V - Bicol Region") %>">
+          <input type="checkbox" value="Region V - Bicol Region:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region V - Bicol Region") %>>
+          <label>Region V - Bicol Region</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox luzon <%= check_state(@lcr_list, "NCR - National Capital Region") %>">
+          <input type="checkbox" value="NCR - National Capital Region:Luzon" name="location_group[region_name][]" <%= check_state(@lcr_list, "NCR - National Capital Region") %>>
+          <label>NCR - National Capital Region</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# ----  Start Visayas  ---- %>
+  <br/><br/>
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">
+          <div class="ui checkbox visayas  <%= check_region_state(@lcr_list, "visayas") %>">
+            <input type="checkbox" class="islands" value="visayas" id="island_visayas" <%= check_region_state(@lcr_list, "visayas") %>>
+            <label>Visayas</label>
+          </div>
+        </h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="four fields">
+      <div class="field">
+        <div class="ui checkbox visayas <%= check_state(@lcr_list, "Region VI - Western Visayas") %>">
+          <input type="checkbox" value="Region VI - Western Visayas:Visayas" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region VI - Western Visayas") %>>
+          <label>Region VI - Western Visayas</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox visayas <%= check_state(@lcr_list, "Region VII - Central Visayas") %>">
+          <input type="checkbox" value="Region VII - Central Visayas:Visayas" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region VII - Central Visayas") %>>
+          <label>Region VII - Central Visayas</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox visayas <%= check_state(@lcr_list, "Region VIII - Eastern Visayas") %>">
+          <input type="checkbox" value="Region VIII - Eastern Visayas:Visayas" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region VIII - Eastern Visayas") %>>
+          <label>Region VIII - Eastern Visayas</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# ----  Start Mindanao  ---- %>
+  <br/><br/>
+  <div class="row">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">
+          <div class="ui checkbox mindanao <%= check_region_state(@lcr_list, "mindanao") %>">
+            <input type="checkbox" class="islands" value="mindanao" id="island_mindanao" <%= check_region_state(@lcr_list, "mindanao") %>>
+            <label>Mindanao</label>
+          </div>
+        </h4>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="four fields">
+      <div class="field">
+        <div class="ui checkbox mindanao <%= check_state(@lcr_list, "Region IX - Zamboanga Peninsula") %>">
+          <input type="checkbox" value="Region IX - Zamboanga Peninsula:Mindanao" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region IX - Zamboanga Peninsula") %>>
+          <label>Region IX - Zamboanga Peninsula</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox mindanao <%= check_state(@lcr_list, "Region XI - Davao Region") %>">
+          <input type="checkbox" value="Region XI - Davao Region:Mindanao" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region XI - Davao Region") %>>
+          <label>Region XI - Davao Region</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox mindanao <%= check_state(@lcr_list, "Region XIII - Caraga Region") %>">
+          <input type="checkbox" value="Region XIII - Caraga Region:Mindanao" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region XIII - Caraga Region") %>>
+          <label>Region XIII - Caraga Region</label>
+        </div>
+      </div>
+    </div>
+    <div class="four fields">
+      <div class="field">
+        <div class="ui checkbox mindanao <%= check_state(@lcr_list, "Region X - Northern Mindanao") %>">
+          <input type="checkbox" value="Region X - Northern Mindanao:Mindanao" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region X - Northern Mindanao") %>>
+          <label>Region X - Northern Mindanao</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox mindanao <%= check_state(@lcr_list, "Region XII - SOCCSKSARGEN") %>">
+          <input type="checkbox" value="Region XII - SOCCSKSARGEN:Mindanao" name="location_group[region_name][]" <%= check_state(@lcr_list, "Region XII - SOCCSKSARGEN") %>>
+          <label>Region XII - SOCCSKSARGEN</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox mindanao <%= check_state(@lcr_list, "ARMM - Autonomous Region in Muslim Mindanao") %>">
+          <input type="checkbox" value="ARMM - Autonomous Region in Muslim Mindanao:Mindanao" name="location_group[region_name][]" <%= check_state(@lcr_list, "ARMM - Autonomous Region in Muslim Mindanao") %>>
+          <label>ARMM - Autonomous Region in Muslim Mindanao</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="location_group[step]" value="3" >
+
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui negative button mrg1T" id="deleteLG" lg_ID="<%= @location_group.id %>" type="button">
+      <i class="trash left icon"></i>Delete Draft
+    </button>
+  </div>
+  <div class="column eight wide">
+    <a href="/location_groups/<%= @location_group.id %>/setup?step=1" class="ui button">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <button type="submit" class="ui blue button">Submit <i class="chevron right icon"></i></button>
+  </div>
+</div>
+
+<% end %>

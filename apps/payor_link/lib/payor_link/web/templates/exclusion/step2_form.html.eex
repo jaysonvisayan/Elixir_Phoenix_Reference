@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="column">
+    <p role ="append_disease_form"></p>
+    <div class="ui middle aligned right aligned grid">
+      <div class="left floated left aligned six wide column">
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small add button"><i class="plus icon"></i>Disease</a>
+      </div>
+    </div>
+    <table role="datatable" id="disease_table" class="ui striped table">
+      <thead>
+        <tr>
+          <th>Disease Code</th>
+          <th>Disease Description</th>
+          <th>Disease Type</th>
+          <th>Disease Chapter</th>
+          <th>Disease Group</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for exclusion_disease <- Enum.sort_by(@exclusion.exclusion_diseases, &(&1.disease.code)) do %>
+          <tr>
+            <td field="exclusion_code"><%= exclusion_disease.disease.code %></td>
+            <td field="exclusion_description"><%= exclusion_disease.disease.description %></td>
+            <td><%= exclusion_disease.disease.type %></td>
+            <td><%= #exclusion_disease.disease.chapter %></td>
+            <td><%= #exclusion_disease.disease.group %></td>
+            <td>
+            <a style="cursor: pointer" class="delete" exclusion_id="<%= @exclusion.id %>"" disease_id="<%= exclusion_disease.id %>" coverage="<%= @exclusion.coverage %>" >
+                <i class="trash icon"></i>
+            </a>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div><br />
+
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui red button mrg1T" id="deleteExclusion" exclusionID="<%= @exclusion.id %>" type="button">
+      <i class="trash left icon"></i>Delete Draft
+    </button>
+  </div>
+  <div class="column eight wide">
+    <%= if @exclusion.coverage == "General Exclusion" do %>
+      <a href="/exclusions/<%= @exclusion.id %>/setup?step=1" class="ui button mrg1T">
+    <% else %>
+      <a href="/exclusions/<%= @exclusion.id %>/setup?step=2" class="ui button mrg1T">
+    <% end %>
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <%= if Enum.empty?(@exclusion.exclusion_diseases) and @exclusion.coverage == "Pre-existing Condition" do %>
+      <button class="ui right floated primary button mrg1T" type="button" id="empty_disease">
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+    <% else %>
+      <%= if @exclusion.coverage == "General Exclusion" do %>
+        <a href="/exclusions/<%= @exclusion.id %>/setup?step=3" class="ui primary button mrg1T">
+      <% else %>
+        <a href="/exclusions/<%= @exclusion.id %>/setup?step=4" class="ui primary button mrg1T">
+       <% end %>
+        Next
+        <i class="chevron right icon"></i>
+      </a>
+    <% end %>
+  </div>
+</div>
+
+<div class="ui modal" id="DeleteModal">
+  <i class="close icon"></i>
+  <div class="header">
+      Remove Disease?
+  </div>
+  <div class="actions">
+    <%= if @exclusion.coverage == "General Exclusion" do %>
+      <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "2.2"), method: :delete, id: "delete_disease" do %>
+        <button type="button" class="ui right floated primary button">Yes, Remove Disease</button>
+      <% end %>
+    <% else %>
+      <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "3.2"), method: :delete, id: "delete_disease" do %>
+        <button type="button" class="ui right floated primary button">Yes, Remove Disease</button>
+      <% end %>
+    <% end %>
+    <button type="button" class="ui cancel right floated button">No, Keep Disease</button>
+  </div>
+</div>

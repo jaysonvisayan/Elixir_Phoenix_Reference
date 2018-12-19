@@ -1,0 +1,61 @@
+<div class="ui main container">
+  <div class="ui centered grid" name="ForgotPassword">
+    <div class="sixteen wide mobile twelve wide tablet six wide computer column">
+      <div class="raised very padded center aligned ui segment">
+        <div class="content">
+          <%= form_for @changeset, @action, [as: :session, class: "ui form"], fn f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <%
+                info = get_flash(@conn, :info)
+                error = get_flash(@conn, :error)
+                %>
+              <h1 class="ui primary header mrg3B"><%= gettext "Forgot Password" %></h1>
+              <p class="mrg1T"><%= gettext "Please enter your username" %></p>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="user icon"></i>
+                  <%= text_input f, :username, value: @user.username, disabled: "disabled"  %>
+                  <%= hidden_input f, :username, value: @user.username %>
+                </div>
+              </div>
+              <p><%= gettext "Please choose where to send your verification code." %></p>
+              <div class="two fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :channel, "Email", id: "channelEmail", checked: "") %>
+                    <label for="channelEmail"><%= gettext "Email" %></label>
+                  </div>
+                </div>
+                <div class="field mrg2halfB">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :channel, "SMS", id: "channelSMS") %>
+                    <label for="channelSMS"><%= gettext "SMS" %></label>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <%= text_input f, :text, placeholder: gettext "Registered Email Address" %>
+              </div>
+                <p role="append"></p>
+                <%= if is_nil(error) == false do %>
+                  <div id="message" class="ui negative message">
+                    <%= error %>
+                  </div>
+                <% else %>
+                  <%= info %>
+                <% end %>
+              <div class="two fields">
+                <div class="field">
+                  <span><a href="/<%= @locale %>/sign_in" class="ui basic fluid button"><%= gettext "Cancel" %></a></span>
+                </div>
+                <div class="field">
+                  <button id="send" type="submit" class="ui fluid primary button"><%= gettext "Send" %></button>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

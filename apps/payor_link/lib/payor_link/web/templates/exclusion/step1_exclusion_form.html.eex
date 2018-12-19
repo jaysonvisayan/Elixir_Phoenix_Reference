@@ -1,0 +1,37 @@
+<div id="exclusion_form">
+<%= form_for @changeset, @action, [class: "ui form", id: "general_exclusion", multipart: :true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= hidden_input(f, :coverage, value: "General Exclusion") %>
+  <div class="two fields">
+    <div class="field">
+      <%= label f, :code, "Exclusion Code" %>
+      <%= text_input f, :code, id: "exclusion_code" %>
+      <font color="red"><%= error_tag f, :code %></font>
+    </div>
+    <div class="field">
+      <%= label f, :name, "Exclusion Name" %>
+        <%= text_input f, :name, id: "exclusion_name" %>
+      <font color="red"><%= error_tag f, :name %></font>
+    </div>
+  </div>
+  <div class="ui one column right aligned grid">
+    <div class="column eight wide left aligned">
+      <%= if @changeset.data.id do %>
+        <button class="ui red button mrg1T" id="deleteExclusion" exclusionID="<%= @changeset.data.id %>" type="button">
+          <i class="trash left icon"></i>Delete Draft
+        </button>
+      <% end %>
+    </div>
+    <div class="column eight wide">
+      <button class="ui right floated primary button" type="submit" id="step1_exclusion_submit" >
+        Next
+        <i class="chevron right icon"></i>
+      </button>
+        <a href="/exclusions" class="ui button">
+          <i class="remove left icon"></i>
+          Cancel
+        </a>
+    </div>
+  </div>
+<% end %>
+</div>

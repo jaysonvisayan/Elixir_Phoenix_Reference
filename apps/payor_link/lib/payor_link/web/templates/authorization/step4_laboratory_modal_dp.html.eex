@@ -1,0 +1,82 @@
+<div class="ui large modal" id="add_dp_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Diagnosis/Procedure
+  </div>
+  <div class="content">
+    <p id="no_procedure"></p>
+    <%= form_for @changeset, @action, [as: :authorization,  multipart: true, class: "ui form", id: "diagnosis_form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= hidden_input f, :coverage, value: "OPL" %>
+      <%= hidden_input f, :admission_datetime, value: transform_date(Ecto.Date.utc()) %>
+      <%= hidden_input f, :discharge_datetime, value: transform_date(Ecto.Date.utc()) %>
+      <%= hidden_input f, :chief_complaint, id: "dp_cc" %>
+      <%= hidden_input f, :chief_complaint_others, id: "dp_cco" %>
+      <%= hidden_input f, :senior_discount, id: "dp_sd" %>
+      <%= hidden_input f, :pwd_discount, id: "dp_pwd" %>
+      <%= hidden_input f, :special_approval_id, id: "dp_sa" %>
+      <%= hidden_input f, :internal_remarks, id: "dp_ir" %>
+      <%= hidden_input f, :place_issued, id: "dp_pi" %>
+      <input type="hidden" id="hidden_amount" >
+      <input type="hidden" id="hidden_procedure" >
+      <%= hidden_input f, :authorization_type, value: "oplab" %>
+      <div class="field" id="diagnosis_field">
+        <%= label f, :diagnosis_id, "Diagnosis", class: "label-title" %>
+        <%= select f, :diagnosis_id, map_diagnoses(@authorization_diagnosis, @diagnoses), prompt: "", id: "diagnosis" %>
+        <%= error_tag f, :diagnosis_id %>
+      </div>
+      <div id="procedure">
+        <div class="procedure field" id="procedure_select">
+          <div class="fields">
+            <div class="six wide field" id="procedure_field">
+              <label class="label-title" id="procedure_label" >Procedure</label>
+            <div class="ui dropdown selection" tabindex="0">
+              <%= select f, :procedure_ids, map_payor_procedures(@authorization_procedures, @procedures), prompt: "Select Payor Procedure", role: "procedures", id: "procedures", category: "procedure", class: "ui dropdown" %>
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Payor Procedure</div>
+              <div class="menu" tabindex="-1">
+                <%= for procedure <- map_payor_procedure(@procedures) do %>
+                  <div class="item procedurea" data-value="<%= procedure.id %>" amount="<%= procedure.amount %>" id="<%= procedure.code %> | <%= procedure.description %>"><%= procedure.code %> | <%= procedure.description %></div>
+                <% end %>
+              </div>
+            </div>
+
+            <%= error_tag f, :procedure_ids %>
+            </div>
+            <div class="two wide field" id="unit_field">
+              <%= label f, :unit, "Unit", class: "label-title index", id: "unit_label" %>
+              <input type="text" name="authorization[unit]" id="unit" role="unit" readonly="true">
+            </div>
+            <div class="two wide field" id="amount_field">
+              <%= label f, :amount, "Amount", class: "label-title index", id: "amount_label"%>
+              <input type="text" name="authorization[amount]" id="amount" role="amount" readonly="true">
+            </div>
+            <div class="five wide field" id="practitioner_field">
+              <label class="label-title">Practitioner</label>
+                <%= select f, :practitioner_id, ["Select Practitioner": ""] ++ map_practitioners(@authorization.authorization_practitioner_specializations), class: "ui dropdown", id: "practitioners", role: "practitioners", category: "practitioner" %>
+                <%= error_tag f, :practitioner_id %>
+            </div>
+            <div class="one wide field " id="add">
+              <label class="label-title" id="add_label" style="visibility:hidden">Add</label>
+              <button class="ui floated green button icon" type="button" id="append_procedure" class="validate_required"><i class="plus icon"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="append"></div>
+      <input type="hidden" id="number" value="0">
+      <input type="hidden" name="authorization[authorization_id]" value="<%= @authorization.id %>">
+
+  </div>
+  <div class="actions">
+      <a class="ui deny button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+      <button class="ui primary button btnAddEmergencyProcedure" type="button" id="submit" >
+        <i class="plus icon"></i>
+        Add
+      </button>
+    </div>
+    <% end %>
+</div>

@@ -1,0 +1,304 @@
+<div class="row">
+  <div class="sixteen wide column" name="pf-contact">
+    <%= form_for @changeset, @action, [as: :practitioner_facility, multipart: true, class: "ui form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <%= if Enum.count(@contacts) == 0 do %>
+        <div class="two fields" role="form-telephone">
+          <div class="field">
+            <label for="practitioner_facility_telephone">Telephone Number</label>
+            <input type="text" name="practitioner_facility[telephone][]" id="practitioner_facility_telephone" placeholder="Enter Telephone Number" role="mask" class="phone">
+            <%= error_tag f, :telephone %>
+          </div>
+          <div class="field">
+            <label class="text-white">Telephone</label>
+            <a class="ui icon primary button" add="telephone">
+              <i class="plus icon"></i>
+            </a>
+          </div>
+        </div>
+        <p role="append-telephone"></p>
+        <div class="ui divider"></div>
+        <div class="two fields" role="form-mobile">
+          <div class="field">
+            <label>Mobile Number</label>
+            <input type="text" name="practitioner_facility[mobile][]" id="practitioner_facility_mobile" placeholder="Enter Mobile Number" role="mask" class="mobile">
+            <%= error_tag f, :mobile %>
+          </div>
+          <div class="field">
+            <label class="text-white">Mobile</label>
+            <a class="ui icon primary button" add="mobile">
+              <i class="plus icon"></i>
+            </a>
+          </div>
+        </div>
+        <p role="append-mobile"></p>
+        <div class="ui divider"></div>
+        <div class="two fields" role="form-fax">
+          <div class="field">
+            <label for="practitioner_facility_fax">Fax Number</label>
+            <input type="text" name="practitioner_facility[fax][]" id="practitioner_facility_fax" placeholder="Enter Fax Number" role="mask" class="phone">
+            <%= error_tag f, :fax %>
+          </div>
+          <div class="field">
+            <label class="text-white">Fax</label>
+            <a class="ui icon primary button" add="fax">
+              <i class="plus icon"></i>
+            </a>
+          </div>
+        </div>
+        <p role="append-fax"></p>
+        <div class="ui divider"></div>
+        <div class="two fields" role="form-email">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" name="practitioner_facility[email][]" id="practitioner_facility_email" placeholder="Enter Email Address">
+            <%= error_tag f, :email %>
+          </div>
+          <div class="field">
+            <label class="text-white">Email</label>
+            <a class="ui icon primary button" add="email">
+              <i class="plus icon"></i>
+            </a>
+          </div>
+        </div>
+        <p role="append-email"></p>
+      <% else %>
+        <%= for contact <- @contacts do %>
+          <%= hidden_input f, :contact_id, value: contact.id %>
+          <%# Start of Telephone %>
+          <% telephones = check_telephone(contact.phones) %>
+          <%= if Enum.count(telephones) == 0 do %>
+            <div class="two fields" role="form-telephone">
+              <div class="field">
+                <label for="practitioner_facility_telephone">Telephone Number</label>
+                <input type="text" name="practitioner_facility[telephone][]" id="practitioner_facility_telephone" placeholder="Enter Telephone Number" role="mask" class="phone">
+                <%= error_tag f, :telephone %>
+              </div>
+              <div class="field">
+                <label class="text-white">Telephone</label>
+                <a class="ui icon primary button" add="telephone">
+                  <i class="plus icon"></i>
+                </a>
+              </div>
+            </div>
+            <p role="append-telephone"></p>
+            <div class="ui divider"></div>
+          <% else %>
+            <%= for {tel, i} <- telephones |> Enum.with_index do %>
+              <%= if i == 0 do %>
+                <div class="two fields" role="form-telephone">
+                  <div class="field">
+                    <label for="practitioner_facility_telephone">Telephone Number</label>
+                    <input type="text" name="practitioner_facility[telephone][]" id="practitioner_facility_telephone" placeholder="Enter Telephone Number" role="mask" class="phone" value="<%= tel.number %>">
+                    <%= error_tag f, :telephone %>
+                  </div>
+                  <div class="field">
+                    <%= label f, :telephone, "Telephone", style: "color:white" %>
+                    <a class="ui icon primary button" add="telephone">
+                      <i class="plus icon"></i>
+                    </a>
+                  </div>
+                </div>
+              <% else %>
+                <div class="two fields" role="form-telephone">
+                  <div class="field">
+                    <input type="text" name="practitioner_facility[telephone][]" id="practitioner_facility_telephone" placeholder="Enter Telephone Number" role="mask" class="phone" value="<%= tel.number %>">
+                    <%= error_tag f, :telephone %>
+                  </div>
+                  <div class="field">
+                    <a class="ui icon basic button" remove="tel">
+                      <i class="trash icon"></i>
+                    </a>
+                  </div>
+                </div>
+              <% end %>
+              <%= if i == (Enum.count(telephones) - 1) do %>
+                <p role="append-telephone"></p>
+                <div class="ui divider"></div>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%# End of Telephone %>
+          <%# Start of Mobile %>
+          <% mobiles = check_mobile(contact.phones) %>
+          <%= if Enum.count(mobiles) == 0 do %>
+            <div class="two fields" role="form-mobile">
+              <div class="field">
+                <label>Mobile Number</label>
+                <input type="text" name="practitioner_facility[mobile][]" id="practitioner_facility_mobile" placeholder="Enter Mobile Number" role="mask" class="mobile">
+                <%= error_tag f, :mobile %>
+              </div>
+              <div class="field">
+                <label class="text-white">Mobile</label>
+                <a class="ui icon primary button" add="mobile">
+                  <i class="plus icon"></i>
+                </a>
+              </div>
+            </div>
+            <p role="append-mobile"></p>
+            <div class="ui divider"></div>
+          <% else %>
+            <%= for {mob, i} <- mobiles |> Enum.with_index do %>
+              <%= if i == 0 do %>
+                <div class="two fields" role="form-mobile">
+                  <div class="field">
+                    <label>Mobile Number</label>
+                    <input type="text" name="practitioner_facility[mobile][]" id="practitioner_facility_mobile" placeholder="Enter Mobile Number" role="mask" class="mobile" value="<%= mob.number %>">
+                    <%= error_tag f, :mobile %>
+                  </div>
+                  <div class="field">
+                    <label class="text-white">Mobile</label>
+                    <a class="ui icon primary button" add="mobile">
+                      <i class="plus icon"></i>
+                    </a>
+                  </div>
+                </div>
+              <% else %>
+                <div class="two fields" role="form-mobile">
+                  <div class="field">
+                    <input type="text" name="practitioner_facility[mobile][]" id="practitioner_facility_mobile" placeholder="Enter Mobile Number" role="mask" class="mobile" value="<%= mob.number %>">
+                    <%= error_tag f, :mobile %>
+                  </div>
+                  <div class="field">
+                    <a class="ui icon basic button" remove="mobile">
+                      <i class="trash icon"></i>
+                    </a>
+                  </div>
+                </div>
+              <% end %>
+              <%= if i == (Enum.count(mobiles) - 1) do %>
+                <p role="append-mobile"></p>
+                <div class="ui divider"></div>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%# End of Mobile %>
+          <%# Start of Fax %>
+          <% faxes = check_fax(contact.phones) %>
+          <%= if Enum.count(faxes) == 0 do %>
+            <div class="two fields" role="form-fax">
+              <div class="field">
+                <label for="practitioner_facility_fax">Fax Number</label>
+                <input type="text" name="practitioner_facility[fax][]" id="practitioner_facility_fax" placeholder="Enter Fax Number" role="mask" class="phone">
+                <%= error_tag f, :fax %>
+              </div>
+              <div class="field">
+                <label class="text-white">Fax</label>
+                <a class="ui icon primary button" add="fax">
+                  <i class="plus icon"></i>
+                </a>
+              </div>
+            </div>
+            <p role="append-fax"></p>
+            <div class="ui divider"></div>
+          <% else %>
+            <%= for {fax, i} <- faxes |> Enum.with_index do %>
+              <%= if i == 0 do %>
+                <div class="two fields" role="form-fax">
+                  <div class="field">
+                    <label for="practitioner_facility_fax">Fax Number</label>
+                    <input type="text" name="practitioner_facility[fax][]" id="practitioner_facility_fax" placeholder="Enter Fax Number" role="mask" class="phone" value="<%= fax.number %>">
+                    <%= error_tag f, :fax %>
+                  </div>
+                  <div class="field">
+                    <label class="text-white">Fax</label>
+                    <a class="ui icon primary button" add="fax">
+                      <i class="plus icon"></i>
+                    </a>
+                  </div>
+                </div>
+              <% else %>
+                <div class="two fields" role="form-fax">
+                  <div class="field">
+                    <input type="text" name="practitioner_facility[fax][]" id="practitioner_facility_fax" placeholder="Enter Fax Number" role="mask" class="phone" value="<%= fax.number %>">
+                    <%= error_tag f, :fax %>
+                  </div>
+                  <div class="field">
+                    <a class="ui icon basic button" remove="fax">
+                      <i class="trash icon"></i>
+                    </a>
+                  </div>
+                </div>
+              <% end %>
+              <%= if i == (Enum.count(faxes) - 1) do %>
+                <p role="append-fax"></p>
+                <div class="ui divider"></div>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%# End of Fax %>
+          <%# Start of Email %>
+          <% emails = check_email(contact.emails) %>
+          <%= if Enum.count(emails) == 0 do %>
+            <div class="two fields" role="form-email">
+              <div class="field">
+                <label>Email Address</label>
+                <input type="email" name="practitioner_facility[email][]" id="practitioner_facility_email" placeholder="Enter Email Address">
+                <%= error_tag f, :email %>
+              </div>
+              <div class="field">
+                <label class="text-white">Email</label>
+                <a class="ui icon primary button" add="email">
+                  <i class="plus icon"></i>
+                </a>
+              </div>
+            </div>
+            <p role="append-email"></p>
+          <% else %>
+            <%= for {email, i} <- emails |> Enum.with_index do %>
+              <%= if i == 0 do %>
+              <div class="two fields" role="form-email">
+                <div class="field">
+                  <label>Email</label>
+                  <input type="email" name="practitioner_facility[email][]" id="practitioner_facility_email" placeholder="Enter Email Address" value="<%= email.address %>">
+                  <%= error_tag f, :email %>
+                </div>
+                <div class="field">
+                  <label class="text-white">Email</label>
+                  <a class="ui icon primary button" add="email">
+                    <i class="plus icon"></i>
+                  </a>
+                </div>
+              </div>
+            <% else %>
+              <div class="two fields" role="form-email">
+                <div class="field">
+                  <input type="email" name="practitioner_facility[email][]" id="practitioner_facility_email" placeholder="Enter Email Address" value="<%= email.address %>">
+                  <%= error_tag f, :email %>
+                </div>
+                <div class="field">
+                  <a class="ui icon basic button" remove="email">
+                    <i class="trash icon"></i>
+                  </a>
+                </div>
+              </div>
+            <% end %>
+              <%= if i == (Enum.count(emails) - 1) do %>
+              <p role="append-email"></p>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%# End of Email %>
+        <% end %>
+      <% end %>
+      <%= hidden_input f, :id %>
+  </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/practitioners/<%=@practitioner.id%>?active=affiliation" class="ui basic button">Cancel</a>
+    <button type="submit" class="ui primary button">Save Changes</button>
+  </div>
+</div>
+<% end %>
+
+

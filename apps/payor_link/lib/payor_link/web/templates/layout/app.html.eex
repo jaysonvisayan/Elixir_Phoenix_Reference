@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+        html {
+            display: none;
+        }
+    </style>
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>PayorLink</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/components.css") %>">
+  </head>
+  <body class="admin">
+    <!--sidebar mobile-->
+    <div class="ui vertical push sidebar menu  thin" id="toc">
+      <div class="item borderless">
+        <b>Transaction</b>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/authorizations" id="authorizations">
+          Authorizations
+          <i class="check square icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/accounts" id="accounts">
+            Accounts
+            <i class="building outline icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/web/products" id="products">
+          Plans
+          <i class="cubes icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/coverages" id="coverages">
+          Coverages
+          <i class="h icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/web/benefits" id="benefits">
+          Benefits
+          <i class="credit card alternative icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/procedures" id="procedures">
+          Procedures
+          <i class="cut icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/diseases" id="diseases">
+          Diseases
+          <i class="eyedropper icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/pharmacies" id="pharmacies">
+          Pharmacies
+          <i class="medkit icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/clusters" id="clusters">
+          Clusters
+          <i class="sitemap icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/exclusions" id="exclusions">
+          Exclusions
+          <i class="ban icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/packages" id="packages">
+          Packages
+          <i class="cube icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/ruvs" id="ruvs">
+          RUVs
+          <i class="heartbeat icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/case_rates" id="case_rates">
+          Case Rates
+          <i class="percent icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item no-border borderless" href="/web/acu_schedules" id="acu_schedules">
+          <i class="calendar alternate icon"></i>
+          ACU Schedules
+        </a>
+      </div>
+       <div class="item borderless">
+          <b>Information</b>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/facilities" id="facilities">
+          Facilities
+          <i class="hospital icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/rooms" id="rooms">
+          Rooms
+          <i class="hotel icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/practitioners" id="practitioners">
+          Practitioners
+          <i class="doctor icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/web/facility_groups" id="facility_groups">
+          Facility Groups
+          <i class="hospital icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/miscellaneous" id="miscellaneous">
+          Miscellaneous
+          <i class="folder open icon"></i>
+        </a>
+      </div>
+      <div class="item borderless">
+          <b>Administration</b>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/web/users" id="users">
+          Users
+          <i class="users icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/members" id="members">
+          Members
+          <i class="user circle icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/web/roles" id="roles">
+          Roles
+          <i class="travel icon"></i>
+        </a>
+      </div>
+      <div class="content pad1L">
+        <a class="item" href="/companies" id="companies">
+          Companies
+          <i class="building icon"></i>
+        </a>
+      </div>
+      <br/><br/><br/><br/><br/>
+    </div>
+    <!--sidebar mobile-->
+    <!--navbar mobile-->
+    <div class="mobilenavbar">
+      <div class="ui fixed main menu push no-border no-radius sidemenu2 borderless">
+        <a class="launch icon item" style="padding-top:23px; padding-bottom:23px">
+            <i class="content icon"></i>
+        </a>
+        <div class="right menu">
+          <div class="right menu">
+            <div id="notifications" class="item"></div>
+            <%# <div id="notification2" class="item"></div> %>
+            <div class="ui simple dropdown item">
+              <%= if @current_user do %>
+              <%# <img class="ui mini circular image" src="../images/avatar/people/Enid.png"> %>
+              <i class="circular user icon"></i>
+              <i class="dropdown icon"></i>
+                <div class="menu">
+                  <%# <a class="item">Menu</a> %>
+                  <div class="item clickable-row">
+                    <a href="#"> <%= @current_user.username %></a>
+                  </div>
+                  <div class="item">
+                    <%= link "Change Password", to: session_path(@conn, :change_password) %>
+                  </div>
+                  <div class="ui divider"></div>
+                    <%= link "Logout", to: session_path(@conn, :delete), method: :delete, class: "item" %>
+                </div>
+                <% else %>
+                  <%= link "Sign in", to: session_path(@conn, :new) %>
+                <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--navbar mobile-->
+    <div class="pusher">
+      <div class="full height">
+        <!--Load Sidebar Menu-->
+        <div class="toc">
+          <div class="ui visible left vertical sidebar menu sidemenu">
+            <%# <a href="#" class="ui medium image borderless">
+                <img src="../images/bg/3.png" />
+            </a> %>
+            <%# <h2 class="ui center aligned icon header mrg1T">
+              <i class="circular huge user icon"></i>
+              Payor
+            </h2>
+            <div class="item border-top">
+              <div class="ui transparent left icon input">
+                <input type="text" placeholder="Search...">
+                <i class="search icon"></i>
+              </div>
+            </div>
+            <div class="item">
+                <b>Main</b>
+            </div>
+            <a class="item" href="#">
+                Dashboard
+                <i class="dashboard icon"></i>
+            </a> %>
+            <div class="item borderless">
+                <b>Transaction</b>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/authorizations" id="authorizations">
+                Authorizations
+                <i class="check square icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/accounts" id="accounts">
+                  Accounts
+                  <i class="building outline icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/web/products" id="products">
+                Plans
+                <i class="cubes icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/coverages" id="coverages">
+                Coverages
+                <i class="h icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/web/benefits" id="benefits">
+                Benefits
+                <i class="credit card alternative icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/procedures" id="procedures">
+                Procedures
+                <i class="cut icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/diseases" id="diseases">
+                Diseases
+                <i class="eyedropper icon"></i>
+              </a>
+              </div>
+              <div class="content pad1L">
+                <a class="item" href="/pharmacies" id="pharmacies">
+                  Pharmacies
+                  <i class="medkit icon"></i>
+                </a>
+              </div>
+            <div class="content pad1L">
+              <a class="item" href="/clusters" id="clusters">
+                Clusters
+                <i class="sitemap icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/exclusions" id="exclusions">
+                Exclusions
+                <i class="ban icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/packages" id="packages">
+                Packages
+                <i class="cube icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/ruvs" id="ruvs">
+                RUVs
+                <i class="heartbeat icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/case_rates" id="case_rates">
+                Case Rates
+                <i class="percent icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item no-border borderless" href="/web/acu_schedules" id="acu_schedules">
+                <i class="calendar alternate icon"></i>
+                ACU Schedules
+              </a>
+            </div>
+            <div class="item borderless">
+                <b>Information</b>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/facilities" id="facilities">
+                Facilities
+                <i class="hospital icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/rooms" id="rooms">
+                Rooms
+                <i class="hotel icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/practitioners" id="practitioners">
+                Practitioners
+                <i class="doctor icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/web/facility_groups" id="facility_groups">
+                Facility Groups
+                <i class="hospital icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/miscellaneous" id="miscellaneous">
+                Miscellaneous
+                <i class="folder open icon"></i>
+              </a>
+            </div>
+            <div class="item borderless">
+                <b>Administration</b>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/web/users" id="users">
+                Users
+                <i class="users icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/members" id="members">
+                Members
+                <i class="user circle icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/web/roles" id="roles">
+                Roles
+                <i class="travel icon"></i>
+              </a>
+            </div>
+            <div class="content pad1L">
+              <a class="item" href="/companies" id="companies">
+                Companies
+                <i class="building icon"></i>
+              </a>
+            </div>
+            <br/><br/><br/><br/><br/>
+          </div>
+        </div>
+        <!--Load Sidebar Menu-->
+
+        <div class="article">
+            <!--Load Navbar Menu-->
+            <div class="navbarmenu">
+              <div class="ui fixed top  menu no-border no-radius borderless navmenu">
+                <a class="item no-padding logo" style="width:300px;" href="/">
+                    <img class="ui image logoImg" src="<%= static_path(@conn, "/images/logo.png") %>" />
+                </a>
+                <a class="item hamburger" data-name="show">
+                    <i class="align justify icon"></i>
+                </a>
+                <div id="datetime" class="item"></div>
+                <div class="right menu">
+                    <div class="ui transparent icon input item">
+                      <input class="prompt" type="text" placeholder="Search...">
+                      <i class="search link icon"></i>
+                    </div>
+                    <div id="notifications" class="item"></div>
+                    <%# <div id="notification2" class="item"></div> %>
+                    <div class="ui simple dropdown item">
+                      <%= if @current_user do %>
+                      <%# <img class="ui mini circular image" src="../images/avatar/people/Enid.png"> %>
+                      <i class="circular user icon"></i>
+                      <a href="#"> <%= @current_user.username %></a> <i class="dropdown icon"></i>
+                        <div class="menu">
+                          <div class="item">
+                            <%= link "Change Password", to: session_path(@conn, :change_password) %>
+                          </div>
+                          <%# <a class="item">Menu</a> %>
+                          <%= link "Logout", to: session_path(@conn, :delete), method: :delete, data: [confirm: "Are you sure?"], class: "item" %>
+                        </div>
+                        <% else %>
+                          <%= link "Sign in", to: session_path(@conn, :new) %>
+                        <% end %>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!--Load /Navbar Menu-->
+
+            <!--Begin Container-->
+            <div class="containerli">
+              <main role="main">
+                <%= render @view_module, @view_template, assigns %>
+              </main>
+            </div>
+            <!--Finish Container-->
+
+        </div>
+        <footer>
+          <div class="ui center aligned basic segment" id="footer">Medilink Network, Inc. &copy; 2017.
+            <%= if Application.get_env(:payor_link, Innerpeace.PayorLink.Web.Endpoint) |> Keyword.get(:env) != "prod" do %>
+                <b>Payor</b>Link v<span><%= version() %></span>
+            <% end %>
+          </div>
+        </footer>
+      </div>
+
+    </div>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+info = get_flash(@conn, :info)
+error = get_flash(@conn, :error)
+warning = get_flash(@conn, :warning)
+%>
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+<%= if error do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+  </script>
+<% end %>
+<%= if warning do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.warning('<i class="close icon"></i><%= warning %>')
+    });
+  </script>
+<% end %>

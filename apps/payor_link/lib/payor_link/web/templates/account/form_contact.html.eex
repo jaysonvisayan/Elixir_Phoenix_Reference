@@ -1,0 +1,183 @@
+<div class="ui small modal" role="add">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Contact
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :account, class: "ui form", id: "AddContact", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <%= hidden_input f, :account_id, value: @account.id %>
+      <div class="field">
+        <label>Contact Type <i class="gray">(For all billings, refer to Corp Signatory.)</i></label>
+        <%= select f, :type,
+              [
+               "Contact Person": "Contact Person",
+               "Corp Signatory": "Corp Signatory",
+               "Account Manager": "Account Manager",
+               "Account Officer": "Account Officer"
+              ],
+            prompt: "Select One",
+            class: "ui dropdown" %>
+        <p style="color:red"><%= error_tag f, :type %>
+      </div>
+      <div class="field">
+        <label>Name</label>
+        <%= text_input f, :last_name, placeholder: "Enter Name" %>
+        <p style="color:red"><%= error_tag f, :last_name%></p>
+      </div>
+      <div class="two fields">
+        <div class="field">
+            <label>Department</label>
+            <%= text_input f, :department, placeholder: "Enter Department" %>
+            <%= error_tag f, :department %>
+        </div>
+        <div class="field">
+            <label>Designation</label>
+            <%= text_input f, :designation, placeholder: "Enter Designation" %>
+            <p style="color:red"><%= error_tag f, :designation %>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <p error="number" style="color:red">Please check for minimum length</p>
+      <div class="field">
+        <label>Telephone Number</label>
+        <div class="fields" role="form-telephone">
+          <div class="three wide field">
+            <input type="text" name="account[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+          </div>
+          <div class="three wide field">
+            <input type="text" name="account[tel_area_code][]" maxlength=5 min="0" class="area_and_local" step="1" placeholder="Area Code">
+          </div>
+          <div class="four wide field">
+            <input type="text" name="account[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999">
+            <p role="validate" style="color:red">Minimum length is 11</p>
+            <%= error_tag f, :telephone %>
+          </div>
+          <div class="three wide field">
+            <input type="text" name="account[tel_local][]" maxlength=5  min="0" class="area_and_local" step="1" placeholder="Local">
+          </div>
+          <div class="field">
+            <a class="ui icon primary button" add="telephone">
+              <i class="plus icon"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p role="append-telephone"></p>
+      <div class="field">
+        <label>Mobile Number</label>
+        <div class="fields" role="form-mobile">
+          <div class="three wide field">
+            <input type="text" name="account[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+          </div>
+          <div class="four field" role="mobile">
+            <input type="text" name="account[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999">
+            <p role="validate" style="color:red">Minimum digits is 10</p>
+            <%= error_tag f, :mobile %>
+          </div>
+          <div class="field">
+            <a class="ui icon primary button" add="mobile">
+              <i class="icon add"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p role="append-mobile" mobc=0></p>
+      <div class="field">
+        <label>Fax Number</label>
+        <div class="fields" role="form-fax">
+          <div class="three wide field">
+            <input type="text" name="account[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+          </div>
+          <div class="three wide field">
+            <input type="text" name="account[fax_area_code][]" maxlength=5 min="0" class="area_and_local" step="1" placeholder="Area Code">
+          </div>
+          <div class="four wide field">
+            <input type="text" role="mask" class="phone" name="account[fax][]" minlength=7 maxlength=11 placeholder="Ex. 999-9999">
+            <%= error_tag f, :fax %>
+          </div>
+          <div class="three wide field">
+            <input type="text" name="account[fax_local][]" maxlength=5 min="0" step="1" class="area_and_local" placeholder="Local">
+          </div>
+          <div class="field">
+            <a class="ui icon primary button" add="fax">
+              <i class="icon add"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p role="append-fax"></p>
+      <div class="field" role="form-email">
+        <label>Email Address</label>
+        <%= email_input f, :email, placeholder: "Enter Email Address", class: "email-address" %>
+        <p style="color:red"><%= error_tag f, :email%></p>
+      </div>
+      <div class="ui divider"></div>
+      <div class="three fields">
+          <div class="field">
+            <label>CTC</label>
+            <%= text_input f, :ctc, placeholder: "Optional"%>
+            <%= error_tag f, :ctc%>
+          </div>
+          <div class="field">
+            <label>Date Issued</label>
+            <div class="ui calendar" id="example13">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :ctc_date_issued, placeholder: "MMM DD YYYY"%>
+                <p style="color:red"><%= error_tag f, :ctc_date_issued%></p>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Place Issued</label>
+            <%= text_input f, :ctc_place_issued, placeholder: "Optional"%>
+            <%= error_tag f, :ctc_place_issued %>
+          </div>
+      </div>
+      <div class="three fields">
+          <div class="field">
+            <label>Passport No.</label>
+            <%= text_input f, :passport_no, placeholder: "Optional"%>
+            <%= error_tag f, :passport_no%>
+          </div>
+          <div class="field">
+            <label>Date Issued</label>
+            <div class="ui calendar" id="example13">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :passport_date_issued, placeholder: "MMM DD YYYY" %>
+              </div>
+            </div>
+            <p style="color:red"><%= error_tag f, :passport_date_issued%></p>
+          </div>
+          <div class="field">
+            <label>Place Issued</label>
+            <%= text_input f, :passport_place_issued, placeholder: "Optional"%>
+            <%= error_tag f, :passport_place_issued %>
+          </div>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <div class="ui deny basic button">
+        Cancel
+      </div>
+      <button type="submit" class="ui blue button" name="add_modal_contact" id="modal_contact">
+        <%= if @account.step == 7 do %>
+          Save Changes
+        <% else %>
+          Add Contact
+        <% end %>
+      </button>
+    </div>
+  </div>
+  <% end %>
+</div>

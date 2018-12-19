@@ -1,0 +1,108 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Plan</div>
+  </div>
+</div>
+<div id="product_coverages" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui six item menu">
+            <a href="#" class="coverage_item_edit item" link="general" productID="<%= @product.id %>" >General</a>
+            <a href="#" class="coverage_item_edit item" link="exclusion" productID="<%= @product.id %>" >Exclusion</a>
+            <a class="active item" id="cov-ben-edittab"><%= product_base_label(@product) %></a>
+            <a href="#" class="coverage_item_edit item" link="facility_access" productID="<%= @product.id %>" >Facility Access</a>
+            <a href="#" class="coverage_item_edit item" link="condition" productID="<%= @product.id %>" >Condition</a>
+            <a href="#" class="coverage_item_edit item" link="risk_share" productID="<%= @product.id %>" >Risk Share</a>
+          </div>
+          <div class="row">
+            <div class="column">
+              <br />
+              <%= form_for @changeset, product_path(@conn, :save, @product, tab: "coverage"), [class: "form2", id: "coverage_form"], fn _f -> %>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                <div class="ui negative message hidden" id="coverageOptionValidation">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    No Coverage selected.
+                  </div>
+                  <p>Atleast one Coverage must be added.</p>
+                </div>
+
+                <div class="ui negative message hidden" id="coverageSaveValidation">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Click save button.
+                  </div>
+                  <p>To update your coverage selected.</p>
+                </div>
+
+                <div class="ui middle aligned  right aligned grid">
+                  <br>
+                  <br>
+                  <br>
+                  <div class="left floated left aligned six wide column">
+                    <h4 class="ui header">Coverage</h4>
+                  </div>
+
+                </div>
+                <div class="ui divider mrg0T mrg1B"></div>
+                <br>
+
+                <div class="ui grid">
+                  <div class="twelve wide column">
+                  </div>
+                </div>
+                <!-- from grid to card type -->
+
+                <div class="ui grid">
+                  <div class="sixteen wide tablet sixteen wide computer column">
+                    <div class="ui grid" id="benefit_cards">
+
+                      <%= for coverage <- Enum.sort_by(@coverages, &(&1.description)) do %>
+                        <%= if coverage.description != "ACU" do %>
+                          <div class="sixteen wide tablet two wide computer column">
+                            <div class="ui card b_card">
+                              <div class="content">
+                                <div class="header">
+                                  <div class="ui checkbox sixteen wide column">
+                                    <input type="checkbox" class="coverages hidden" value="<%= coverage.id %>" name="product[coverages][]" <%= coverage_checkbox_checker(@product, coverage.id) %> productID="<%= @product.id %>" >
+                                    <label for="<%= coverage.id %>" class=""><%= coverage.description %></label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="product[test]" value="4" >
+                <%= for product_coverage <- @product.product_coverages do %>
+                  <input type="hidden" name="product[test]" class="coverages_validate" value="<%= product_coverage.coverage.id %>" id="<% product_coverage.coverage.id %>" >
+                <% end %>
+                <br>
+                <button class="ui blue right floated button mrg1T" type="submit">
+                  <i class="save left icon"></i>
+                  Save
+                </button>
+                <a href="/products/<%= @product.id%>" class="ui button mrg1T">
+                  <i class="chevron left icon"></i>
+                  Cancel
+                </a>
+
+              <% end %>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

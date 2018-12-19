@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="delete_product_confirmation">
+  <div class="header">
+    Delete Plan?
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="dp_product_id">
+    <p>
+      You are about to permanently delete <% @products.code %>. You will not be able to recover its plan or its contents. This operation cannot be undone.
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="dp_cancel">
+      <i class="remove icon"></i>
+      No, Keep Plan
+    </div>
+    <div class="ui red ok button"  id="dp_submit">
+      <i class="trash icon"></i>
+      Yes, Delete Plan
+    </div>
+  </div>
+</div>

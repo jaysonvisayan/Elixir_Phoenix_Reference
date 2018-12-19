@@ -1,0 +1,49 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plan</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/products">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active secton">Add Plan</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" id="step1_general">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step cov-ben">
+              <div class="content">
+                <div class="title">Benefits</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Conditions</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Facility Access</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+        <%= render "step1_peme_form.html", changeset_general: @changeset_general, p_cat: @p_cat, action: product_path(@conn, :create_peme) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

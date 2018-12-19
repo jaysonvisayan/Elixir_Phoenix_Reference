@@ -1,0 +1,24 @@
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Discard Changes?
+  </div>
+  <div class="image content">
+    If you go back now, your changes will be discarded.
+  </div>
+  <div class="actions">
+    <div class="ui negative button" id="close_modal">
+      <i class="close icon"></i>
+    </div>
+
+    <div class="ui close white button close-modal">
+      <i class="close icon"></i>
+      No, Keep Changes
+    </div>
+
+    <div class="ui negative button clickable-row" href="/accounts/<%= @account.id %>?active=profile">
+      <i class="checkmark icon"></i>
+      Yes, Discard Changes
+    </div>
+  </div>
+</div>

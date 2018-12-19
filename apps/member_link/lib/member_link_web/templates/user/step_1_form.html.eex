@@ -1,0 +1,199 @@
+<!-- layout.nunjucks -->
+
+		<!DOCTYPE html>
+<!--<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medilink - Successful Signup</title>
+	<link rel="icon" href="img/favicon.jpg" type="image/x-icon"/>
+  <link rel="shortcut icon" href="img/favicon.jp" type="image/x-icon"/>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  <script src=""></script>
+</head>
+<body>
+	<header class="header">
+  <div class="ui top fixed menu">
+  <div class=" ui container">
+      <div class="item pl-tablet-0">
+        <a href="index.html">
+          <img src="<%= static_url(@conn, "/images/site-logo.png") %>">
+        </a>
+          <a href="#">member<b class="primary ui text">gateway</b></a>
+      </div>
+    </div>
+  </div>
+	</header>
+
+  -->
+
+  	<div class="pusher">
+  	<!-- You write code for this content block in another file -->
+
+
+
+<div class="ui main container">
+
+	<!-- ///////////////////////// header -->
+	<h1 class="ui huge header">Customer Information form</h1>
+	<p class="gray">Please fill out the form to complete your signup process.  We require all the information in order to process your insurance.</p>
+
+	<!-- //////////////////// horizontal line -->
+	<div class="ui divider"></div>
+
+	<!-- ////////////////////// 2steps -->
+	<div class="ui stackable grid">
+		<div class="row">
+			<div class="ten wide computer sixteen wide tablet column">
+
+
+<div class="ui two steps form-step">
+
+	<div class="  active  step">
+		<i class="user icon"></i>
+		<div class="content">
+			<div class="title">Personal Details</div>
+			<div class="description">Your name, birthday, etc.</div>
+		</div>
+	</div>
+
+	<div class="  step">
+		<i class="mail icon"></i>
+		<div class="content">
+			<div class="title">Optional Emergency Info</div>
+			<div class="description">For your safety and convenience</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="ui header form-header">
+	<i class="user icon"></i>
+	<div class="content">
+		Personal Details
+		<div class="sub header">Your name, birthday, etc.</div>
+	</div>
+</div>
+			</div>
+		</div>
+    <div class="row" name="Register">
+      <div class="ten wide column">
+        <h4 class="ui dividing header">Create a new username and password to continue.</h4>
+        <%= form_for @changeset, user_path(@conn, :register_member, @locale, @member.id ), [as: :user, class: "ui form"], fn f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <%= hidden_input f, :member_id, value: @member.id %>
+          <div class="eight wide field">
+            <label>Create your Username</label>
+            <input type="text" name="user[username]" placeholder="username">
+            <%= error_tag f, :username %>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Create a Password</label>
+              <input type="password" name="user[password]" placeholder="Enter your password">
+              <%= error_tag f, :password %>
+            </div>
+            <div class="field">
+              <label>Confirm Password</label>
+              <input type="password" name="user[password_confirmation]" placeholder="Confirm your password">
+              <%= error_tag f, :password_confirmation %>
+            </div>
+          </div>
+
+          <h4 class="ui dividing header">Please enter your email address and phone number so that we can contact you.</h4>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Email Address</label>
+              <input type="text" name="user[email]" placeholder="Enter your Email Address">
+              <%= error_tag f, :email %>
+            </div>
+            <div class="field">
+              <label>Confirm Email Address</label>
+              <input type="text" name="user[email_confirmation]" placeholder="Confirm your Email Address">
+              <%= error_tag f, :email_confirmation %>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Mobile Number</label>
+              <%= number_input f, :mobile, minlength: "11", maxlength: "11", placeholder: "Enter your Mobile Number" %>
+              <%= error_tag f, :phone_no %>
+            </div>
+            <div class="field">
+              <label>Confirm Mobile Number</label>
+              <input type="number" name="user[mobile_confirmation]" placeholder="Confirm your Mobile Number" minlength="11" maxlength="11">
+              <%= error_tag f, :phone_no_confirmation %>
+            </div>
+          </div>
+          <input type="hidden" id="principal_number" value="<%= @principal_number %>">
+
+          <div class="two fields">
+            <div class="field">
+              <a class="ui button" href="/<%= @locale%>/register/card_verification">Cancel</a>
+            </div>
+            <div class="field">
+              <button class="ui right floated primary button">Continue to Next Step</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+
+			<div class="six wide column order-first-mobile">
+				<div class="ui centered grid">
+					<div class="thirteen wide computer sixteen wide mobile right floated column">
+						<div class="secondary ui segment side-card">
+	<div class="secondary description">
+		<!-- <div class="ui hidden divider"></div> -->
+		<div class="ui grid">
+			<div class="sixteen wide tablet five wide mobile column">
+				<div class="image face-image">
+          <%= if is_nil(@member.photo) do %>
+            <img src="/images/no-photo-available.png" class="ui tiny centered circular image">
+          <% else %>
+            <img class="ui tiny centered circular image" src="<%= get_img_url(@member) %>">
+          <% end %>
+				</div>
+			</div>
+
+			<div class="sixteen wide tablet eleven wide mobile column">
+        <h2 class="ui medium header"><%= Enum.join([@member.first_name, @member.last_name, @member.suffix], " ")%></h2>
+        <div><%= @member.account_group.name %></div>
+				<div><%= @member.account_group.type %></div>
+        <div>Card # <%= @member.card_no %></div>
+        <div>Birthday <%= @member.birthdate %></div>
+        <div>
+          Gender
+          <%= if @member.gender == "Male" do %>
+            <i class="male icon blue"></i><span class="ui blue text">Male</span></div>
+          <% else %>
+            <i class="female icon pink"></i><span class="ui pink text">Female</span></div>
+          <% end %>
+				<div class="ui hidden divider"></div>
+				<a href="#">Is this information not correct?</a>
+			</div>
+		</div>
+	</div>
+</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+
+
+</div> <!-- .pusher closed -->
+
+<!--  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/semantic.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</body>
+</html>-->
+

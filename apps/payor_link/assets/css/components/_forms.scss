@@ -1,0 +1,431 @@
+@import '../variables';
+
+/**
+ * Form fields
+ */
+
+.ui.form .field,
+.ui.form .fields {
+    margin-bottom: 1.5rem;
+}
+
+.ui.form .fields .fields {
+    margin-bottom: 0;
+}
+
+h2.ui.form-title {
+    font-size: 1.2rem;
+}
+
+.ui.dividing.header {
+    font-weight: normal;
+    border: 0;
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+    padding-top: 1rem;
+    margin-top: 2.5rem;
+    &:first-child {
+        margin-top: 0.5rem;
+    }
+}
+
+// .ui.selection.active.dropdown {
+//   border-color: #a3c293;
+//   box-shadow: 0px 2px 3px 0px rgba(34, 36, 38, 0.15);
+// }
+.ui.selection.active.dropdown:hover {
+    border-color: #a3c293;
+    box-shadow: 0px 2px 3px 0px rgba(34, 36, 38, 0.15);
+}
+
+
+/* browsers require these rules separate */
+
+input::-webkit-input-placeholder {
+    font-weight: 400;
+}
+
+input::-moz-placeholder {
+    font-weight: 400;
+}
+
+input:-ms-input-placeholder {
+    font-weight: 400;
+}
+
+.ui.form .field.field input:-webkit-autofill:focus {
+    box-shadow: 0px 0px 0px 100px #f8fff0 inset !important;
+    border-color: #3fa044 !important;
+}
+
+.ui.form .field.field input:-webkit-autofill {
+    box-shadow: 0px 0px 0px 100px #f8fff0 inset !important;
+    border-color: #a3c293 !important;
+}
+
+.ui.form .field>label {
+    font-weight: normal;
+}
+
+.disabled.field {
+    opacity: 1 !important;
+}
+
+.disabled.field input[type="text"] {
+    background: #F2F2F2;
+}
+
+.skip_text {
+    margin-left: 1rem;
+}
+
+.upload_txt {
+    padding-right: 3rem;
+}
+
+.download_btn {
+    border: 0;
+    color: #2987CD;
+    font-size: 20px;
+}
+
+.ui.radio.checkbox.checked label {
+    font-weight: bold;
+}
+
+.ui.checkbox.checked label {
+    font-weight: bold;
+}
+
+
+/* ============= MODAL ============= */
+
+.ui.small.modal .header.top_most,
+.ui.small.modal .content {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 2rem;
+}
+
+.ui.small.modal .content {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+}
+
+.ui.small.modal .header p {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.modal_edit {
+    padding-left: 1rem;
+}
+
+
+/* ============= MODAL ============= */
+
+.personal_info {
+    color: #999999;
+}
+
+.center_align {
+    text-align: center;
+}
+
+.center_align button.blue.button {
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+
+/* =============Extra Radio and Checkbox Color============= */
+
+.ui {
+    &.toggle.checkbox input:checked~ {
+        .box:before,
+        .coloring.red:before {
+            background: $red !important;
+            border-color: $red !important;
+        }
+        .box:before,
+        .coloring.orange:before {
+            background: $orange !important;
+            border-color: $orange !important;
+        }
+        .box:before,
+        .coloring.yellow:before {
+            background: $yellow !important;
+            border-color: $yellow !important;
+        }
+        .box:before,
+        .coloring.olive:before {
+            background: $olive !important;
+            border-color: $olive !important;
+        }
+        .box:before,
+        .coloring.green:before {
+            background: $green !important;
+            border-color: $green !important;
+        }
+        .box:before,
+        .coloring.teal:before {
+            background: $teal !important;
+            border-color: $teal !important;
+        }
+        .box:before,
+        .coloring.light_blue:before {
+            background: $light_blue !important;
+            border-color: $light_blue !important;
+        }
+        .box:before,
+        .coloring.blue:before {
+            background: $blue !important;
+            border-color: $blue !important;
+        }
+        .box:before,
+        .coloring.violet:before {
+            background: $violet !important;
+            border-color: $violet !important;
+        }
+        .box:before,
+        .coloring.purple:before {
+            background: $purple !important;
+            border-color: $purple !important;
+        }
+        .box:before,
+        .coloring.pink:before {
+            background: $pink !important;
+            border-color: $pink !important;
+        }
+        .box:before,
+        .coloring.brown:before {
+            background: $brown !important;
+            border-color: $brown !important;
+        }
+        .box:before,
+        .coloring.grey:before {
+            background: $grey !important;
+            border-color: $grey !important;
+        }
+        .box:before,
+        .coloring.black:before {
+            background: $black !important;
+            border-color: $black !important;
+        }
+    }
+    &.slider.checkbox input:checked~ {
+        .box:before,
+        .coloring.red:before {
+            background: $red !important;
+            border-color: $red !important;
+        }
+        .box:before,
+        .coloring.orange:before {
+            background: $orange !important;
+            border-color: $orange !important;
+        }
+        .box:before,
+        .coloring.yellow:before {
+            background: $yellow !important;
+            border-color: $yellow !important;
+        }
+        .box:before,
+        .coloring.olive:before {
+            background: $olive !important;
+            border-color: $olive !important;
+        }
+        .box:before,
+        .coloring.green:before {
+            background: $green !important;
+            border-color: $green !important;
+        }
+        .box:before,
+        .coloring.teal:before {
+            background: $teal !important;
+            border-color: $teal !important;
+        }
+        .box:before,
+        .coloring.light_blue:before {
+            background: $light_blue !important;
+            border-color: $light_blue !important;
+        }
+        .box:before,
+        .coloring.blue:before {
+            background: $blue !important;
+            border-color: $blue !important;
+        }
+        .box:before,
+        .coloring.violet:before {
+            background: $violet !important;
+            border-color: $violet !important;
+        }
+        .box:before,
+        .coloring.purple:before {
+            background: $purple !important;
+            border-color: $purple !important;
+        }
+        .box:before,
+        .coloring.pink:before {
+            background: $pink !important;
+            border-color: $pink !important;
+        }
+        .box:before,
+        .coloring.brown:before {
+            background: $brown !important;
+            border-color: $brown !important;
+        }
+        .box:before,
+        .coloring.grey:before {
+            background: $grey !important;
+            border-color: $grey !important;
+        }
+        .box:before,
+        .coloring.black:before {
+            background: $black !important;
+            border-color: $black !important;
+        }
+    }
+    &.radio.checkbox input:checked~ {
+        .box:after,
+        .coloring.red:after {
+            background: $red !important;
+            border-color: $red !important;
+        }
+        .box:after,
+        .coloring.orange:after {
+            background: $orange !important;
+            border-color: $orange !important;
+        }
+        .box:after,
+        .coloring.yellow:after {
+            background: $yellow !important;
+            border-color: $yellow !important;
+        }
+        .box:after,
+        .coloring.olive:after {
+            background: $olive !important;
+            border-color: $olive !important;
+        }
+        .box:after,
+        .coloring.green:after {
+            background: $green !important;
+            border-color: $green !important;
+        }
+        .box:after,
+        .coloring.teal:after {
+            background: $teal !important;
+            border-color: $teal !important;
+        }
+        .box:after,
+        .coloring.light_blue:after {
+            background: $light_blue !important;
+            border-color: $light_blue !important;
+        }
+        .box:after,
+        .coloring.blue:after {
+            background: $blue !important;
+            border-color: $blue !important;
+        }
+        .box:after,
+        .coloring.violet:after {
+            background: $violet !important;
+            border-color: $violet !important;
+        }
+        .box:after,
+        .coloring.purple:after {
+            background: $purple !important;
+            border-color: $purple !important;
+        }
+        .box:after,
+        .coloring.pink:after {
+            background: $pink !important;
+            border-color: $pink !important;
+        }
+        .box:after,
+        .coloring.brown:after {
+            background: $brown !important;
+            border-color: $brown !important;
+        }
+        .box:after,
+        .coloring.grey:after {
+            background: $grey !important;
+            border-color: $grey !important;
+        }
+        .box:after,
+        .coloring.black:after {
+            background: $black !important;
+            border-color: $black !important;
+        }
+    }
+    &.checkbox input:checked~ {
+        .box:after,
+        .coloring.red:after {
+            color: $red !important;
+        }
+        .box:after,
+        .coloring.orange:after {
+            color: $orange !important;
+        }
+        .box:after,
+        .coloring.yellow:after {
+            color: $yellow !important;
+        }
+        .box:after,
+        .coloring.olive:after {
+            color: $olive !important;
+        }
+        .box:after,
+        .coloring.green:after {
+            color: $green !important;
+        }
+        .box:after,
+        .coloring.teal:after {
+            color: $teal !important;
+        }
+        .box:after,
+        .coloring.light_blue:after {
+            color: $light_blue !important;
+        }
+        .box:after,
+        .coloring.blue:after {
+            color: $blue !important;
+        }
+        .box:after,
+        .coloring.violet:after {
+            color: $violet !important;
+        }
+        .box:after,
+        .coloring.purple:after {
+            color: $purple !important;
+        }
+        .box:after,
+        .coloring.pink:after {
+            color: $pink !important;
+        }
+        .box:after,
+        .coloring.brown:after {
+            color: $brown !important;
+        }
+        .box:after,
+        .coloring.grey:after {
+            color: $grey !important;
+        }
+        .box:after,
+        .coloring.black:after {
+            color: $black !important;
+        }
+    }
+}
+
+
+/* =============Extra Radio and Checkbox Color============= */
+
+.ui.feed>.event>.content>.summary .description {
+    font-weight: normal;
+}
+
+.ui.grid>.light_blue.row,
+.ui.grid>.light_blue.column,
+.ui.grid>.row>.light_blue.column {
+    background-color: $light_blue !important;
+    color: #FFFFFF;
+}

@@ -1,0 +1,273 @@
+<div class="row">
+  <div class="sixteen wide column" name="formValidatePractitionerFinancial">
+    <%= form_for @changeset, @action, [class: "ui form", multipart: :true, id: "formPractitionerFinancial", name: "practitionerFinancialFields"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <div class="field">
+        <label>Exclusive</label>
+      </div>
+      <div class="six inline fields">
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox checked" data-tooltip="Philippine College of Surgeon">
+              <input type="checkbox" name="practitioner[exclusive][]" value="PCS" checked="checked">
+              <label class="coloring green">PCS</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox" data-tooltip="Non-Philippine College of Surgeon">
+              <input type="checkbox" name="practitioner[exclusive][]"value="NON-PCS">
+              <label class="coloring green">NON-PCS</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox" data-tooltip="Philippine Society of Anesthesiologist, Inc.">
+              <input type="checkbox" name="practitioner[exclusive][]"value="PSA">
+              <label class="coloring green">PSA</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox" data-tooltip="Philippine Neurological Association">
+              <input type="checkbox" name="practitioner[exclusive][]"value="PNA">
+              <label class="coloring green">PNA</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox" data-tooltip="Philippine College od Physicians/Philippine Pediatric Society, Inc.">
+              <input type="checkbox" name="practitioner[exclusive][]"value="PCP/PPS">
+              <label class="coloring green">PCP/PPS</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui segment">
+            <div class="ui checkbox" data-tooltip="Philippine Obstetrical and Gynecological Society">
+              <input type="checkbox" name="practitioner[exclusive][]"value="POGS">
+              <label class="coloring green">POGS</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="two fields">
+
+
+        <%# <div class="field"> %>
+        <%#   <label for="facility_vat_status_id">VAT Status </label> %>
+        <%#   <div class="ui dropdown selection" tabindex="0"> %>
+        <%#     <%= select f, :vat_status_id, Enum.map(@vat_statuses, &{&1.text, &1.id}), prompt: "VAT Status" %1> %>
+        <%#     <%= error_tag f, :vat_status_id %1> %>
+        <%#     <i class="dropdown icon"></i> %>
+        <%#     <div class="default text">VAT Status</div> %>
+        <%#     <div class="menu" tabindex="-1"> %>
+        <%#       <%= for vat_status <- @vat_statuses do %1> %>
+        <%#         <div class="item" data-value="<%= vat_status.id %1>"><%= vat_status.text %1></div> %>
+        <%#       <% end %1> %>
+        <%#     </div> %>
+        <%#   </div> %>
+        <%# </div> %>
+
+        <div class="field">
+          <label>VAT Status</label>
+          <%= select f, :vat_status_id, Enum.map(@vat_statuses, &{&1.text, &1.id}),
+              prompt: "Select One",
+              class: "ui dropdown"
+            %>
+          <p style="color:red"><%= error_tag f, :vat_status_id %></p>
+        </div>
+        <div class="field">
+          <label>Prescription Period <i class="gray">(Optional)</i></label>
+          <div class="ui right labeled input">
+            <%= number_input f, :prescription_period, name: "practitioner[prescription_period]", minlength: "1", maxlength: "2", placeholder: "Enter Prescription Period" %>
+            <div class="ui basic label">days</div>
+          </div>
+          <p style="color:red"><%= error_tag f, :prescription_period %></p>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>Tax Identification Number</label>
+          <%= number_input f, :tin, name: "practitioner[tin]", minlength: "12", maxlength: "12", placeholder: "Enter Tax Identification Number"  %>
+          <p style="color:red"><%= error_tag f, :practitioner_tin %></p>
+        </div>
+        <div class="field">
+          <label>Withholding Tax <i class="gray">(Optional)</i></label>
+          <%= number_input f, :withholding_tax, name: "practitioner[withholding_tax]", placeholder: "Enter Withholding Tax"  %>
+          <p style="color:red"><%= error_tag f, :withholding_tax %></p>
+        </div>
+      </div>
+      <%# <div class="ui divider"></div> %>
+      <h4 class="ui dividing header">Please choose what type of payment that you want.</h4>
+      <%# <h2 class="ui tiny header"><div class="sub header">Please choose what type of payment that you want.</div></h2> %>
+      <div class="ui cards">
+        <div class="ui fluid card">
+          <div class="ui middle aligned divided items">
+            <div class="item" id="item-bank">
+              <div class="content">
+                <div class="padder">
+                  <div class="header">
+                    <div class="ui radio checkbox checked" id="bank_radio">
+                      <%= radio_button f, :payment_type, "Bank", name: "practitioner[payment_type]", checked: "checked", id: "radio_bank" %>
+                      <label class="coloring green">Bank</label>
+                    </div>
+                  </div>
+                  <div class="meta">
+                    <p class="gray">Receive payment through your Bank account</p>
+                  </div>
+                  <div id="payment_bank" class="display-none">
+                    <div class="ui divider"></div>
+                    <div class="description">
+                      <div class="two fields">
+                        <div class="field" id="bank_field">
+                          <label id="bank_label">Bank Name</label>
+                          <%= if @conn.assigns[:practitioner] && is_nil(@practitioner.bank) == false do %>
+                            <%= select f, :bank_id,
+                              @banks,
+                              prompt: "",
+                              practitioner: @practitioner.bank.account_name,
+                              value: @practitioner.bank.id,
+                              name: "practitioner[bank_id]",
+                              id: "bank"
+                            %>
+                            <%= error_tag f, :bank_id %>
+                          <% else %>
+                            <%= select f, :bank_id,
+                              @banks,
+                              prompt: "",
+                              name: "practitioner[bank_id]",
+                              id: "bank"
+                            %>
+                            <%= error_tag f, :bank_id %>
+                          <% end %>
+                        </div>
+                        <div class="field">
+                          <label id="account_label">Account No</label>
+                          <%= if @conn.assigns[:practitioner] && is_nil(@practitioner.bank) == false do %>
+                            <%= number_input f, :account_no, name: "practitioner[account_no]", id: "account_no", value: @practitioner.account_no, minlength: "16", maxlength: "16", placeholder: "Enter Account Number" %>
+                            <%= error_tag f, :account_no %>
+                          <% else %>
+                            <%= number_input f, :account_no, name: "practitioner[account_no]", id: "account_no", minLength: "16", maxLength: "16", placeholder: "Enter Account Number" %>
+                            <%= error_tag f, :account_no %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="item" id="item-card">
+              <div class="content">
+                <div class="padder">
+                  <div class="header">
+                    <div class="ui radio checkbox" id="card_radio">
+                      <%= radio_button f, :payment_type, "MediLink XP Card", name: "practitioner[payment_type]", id: "radio_card" %>
+                      <label class="coloring green">MediLink XP Card</label>
+                    </div>
+                  </div>
+                  <div class="meta">
+                    <p class="gray">Receive payment through your MediLink XP Card</p>
+                  </div>
+                  <div id="payment_card" class="display-none">
+                    <div class="ui divider"></div>
+                    <div class="description">
+                      <div class="two fields">
+                        <div class="field">
+                          <label id="card_label">XP Card Number</label>
+                          <%= number_input f, :xp_card_no, name: "practitioner[xp_card_no]", id: "card", minlength: "16", maxlength: "16", placeholder: "Enter XP Card Number" %>
+                          <%= error_tag f, :xp_card_no %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="item"  id="item-check">
+              <div class="content">
+                <div class="padder">
+                  <div class="header">
+                    <div class="ui radio checkbox" id="check_radio">
+                      <%= radio_button f, :payment_type, "Check", name: "practitioner[payment_type]", id: "radio_check" %>
+                      <label class="coloring green">Check</label>
+                    </div>
+                  </div>
+                  <div class="meta">
+                    <p class="gray">Receive payment through Check</p>
+                  </div>
+                  <div id="payment_check" class="display-none">
+                    <div class="ui divider"></div>
+                    <div class="description">
+                      <div class="two fields">
+                        <div class="field">
+                          <label id="check_label">Payee Name</label>
+                          <%= text_input f, :payee_name, name: "practitioner[payee_name]", id: "check", placeholder: "Enter Payee Name" %>
+                          <%= error_tag f, :payee_name %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <a id="cancel_button" class="ui basic button">Delete</a>
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/practitioners/<%=@practitioner.id%>/setup?step=2" class="ui basic button" data-content="test">Back to Previous Step</a>
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+  </div>
+</div>
+<% end %>
+
+<% #Modal Alert %>
+<div class="ui small modal" id="modal_cancel">
+  <i class="close icon"></i>
+  <div class="header">
+    Delete Draft?
+  </div>
+  <div class="image content">
+    Deleting this draft will permanently remove it from the system.
+  </div>
+  <div class="actions">
+    <div class="ui white button deny">
+      No, Keep Draft
+    </div>
+    <%= if @conn.assigns[:practitioner] do %>
+      <%= link "Yes, Delete Draft", to: practitioner_path(@conn, :delete, @practitioner.id), method: :delete,  class: "ui red button" %>
+    <% else %>
+      <div class="ui negative button clickable-row" href="/practitioners">
+        <i class="checkmark icon"></i>
+        Yes, Delete Draft
+      </div>
+    <% end %>
+  </div>
+</div>
+<% #Modal end %>
+

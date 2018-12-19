@@ -1,0 +1,213 @@
+<div id="show_pec" code="<%= @code %>" token="<%= Innerpeace.PayorLink.Web.LayoutView.generate_api_token(@conn) %>">
+
+  <div id="view_pec">
+    <div class="page-title">
+      <div class="ui clearing segment">
+        <div class="ui container">
+          <h1 class="ui left floated header">
+            View Pre-existing Condition
+            <div class="clearfix"></div>
+            <div class="ui breadcrumb">
+              <a href="/">Dashboard</a>
+              <i class="right angle icon divider"></i>
+              <a href="/web/exclusions">exclusions and pre-existing condition</a>
+              <i class="right angle icon divider"></i>
+              {{results.code}}
+              <div class="active section dim thin"></div>
+            </div>
+          </h1>
+        </div>
+      </div>
+    </div><!-- .ui.clearing.segment -->
+
+    <div class="ui container" id="main_exclusions_v2">
+      <div class="content-section white-bg">
+        <div class="ui grid">
+          <div class="row">
+            <div class="sixteen wide computer column">
+              <div class="ui grid">
+                <div class="row">
+                  <div class="one wide column">
+                    <div class="mb-2 center aligned">
+                      <div class="mr-2">
+                        <img src="/images/PEC.png" id="imagePreview" class="ui right large image mrg1halfT">
+                        <%# <i class="clipboard icon huge black"></i> %>
+                      </div>
+                      <br>
+                      <div class="mb-2 center aligned">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PEC
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide computer eight wide tablet eight wide mobile column">
+                    <p class="exclusions-name"><h5>{{results.code}}</h5></p>
+                    <div class="section-title mt-2"><div class="title-name">{{results.name}}</div></div>
+                  </div>
+                  <div class="six wide computer eight wide tablet eight wide mobile column">
+                  </div>
+                  <div class="three wide computer sixteen wide mobile column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+                    <div class="ui floating dropdown">
+                      <i class="ellipsis vertical icon"></i>
+                      <div class="menu left floated">
+
+                        <div class="item clickable-row" href="/web/exclusions/id/edit">
+                          <i class="edit outline icon"></i>
+                          Edit
+                        </div>
+                        <div class="item" id="mainExclusionsVersions">
+                          <i class="clone outline icon"></i>
+                          Versions
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sixteen wide computer column">
+              <%# <div class="ui divider"></div> %>
+            </div>
+            <%# <br><br><br> %>
+
+            <div class="sixteen wide computer column">
+              <div class="ui form">
+                <div class="two fields">
+                  <div class="two wide field dim">
+                    <h5>LAST UPDATE</h5>
+                  </div>
+                  <div class="four wide field">
+                    <h5>{{results.updated_at}}</h5>
+                  </div>
+                </div>
+
+                <div class="two fields">
+                  <div class="two wide field dim">
+                    <h5>UPDATED BY</h5>
+                  </div>
+                  <div class="four wide field">
+                    <h5>{{results.updated_by}}</h5>
+                  </div>
+                </div>
+
+                <%# <div class="two fields"> %>
+                  <%#   <div class="two wide field dim"> %>
+                    <%#     Applicability %>
+                    <%#   </div> %>
+                  <%#   <div class="four wide field"> %>
+                    <%#     <h3 v-if='_.isEqual(results.applicability, ["Principal", "Dependent"])'>Principal & Dependent</h3> %>
+                    <%#     <h3 v-else-if='_.isEqual(results.applicability, ["Principal"])'>Principal</h3> %>
+                    <%#     <h3 v-else-if='_.isEqual(results.applicability, ["Dependent"])'>Dependent</h3> %>
+                    <%#     <h3 v-else>N/A</h3> %>
+                    <%#   </div> %>
+                  <%# </div><br><br> %>
+
+                <div class="sixteen wide computer column" id="hide-condition"><div class="ui divider"></div></div>
+                <div class="ui form" id="hide-condition">
+                  <h3 class="ui left floated header" >
+                    Condition
+                  </h3>
+                  <br><br><br>
+
+                  <div class="field" id="principal">
+                    <table class="ui very basic selectable table" cellspacing= "0" width="100%" id="condition_prin_tbl">
+                      <thead>
+                        <div class="ui grid">
+                          <div class="sixteen wide computer eight wide tablet column facility-coverage">
+                            <div class="ui grid dim">
+                              <div class="twelve wide column twelve tablet column">
+                                <h3 style= "font-weight: normal; color: #9b9b9b;">Existing members. Members with effective date same as the account.</h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div
+                        ><br><br>
+                        <tr>
+                          <th style="font-weight: bold; color: #9b9b9b;" width="20%">Member Type</th>
+                          <th style="font-weight: bold; color: #9b9b9b;" width="20%">Disease Category</th>
+                          <th style="font-weight: bold; color: #9b9b9b;" width="20%">Duration</th>
+                          <th style="font-weight: bold; color: #9b9b9b;" width="20%">Inner Limit Type</th>
+                          <th style="font-weight: bold; color: #9b9b9b;" width="20%">Inner Limit Value</th>
+                        </tr>
+                      </thead>
+                      <%# <tbody v-for="condition in results.conditions"> %>
+                        <%# <tr> %>
+                          <%#   <td v-if="condition.within_grace_period">For enrolled dependents (within grace period)</td> %>
+                          <%#   <td v-else>For post enrolled dependents (after grace period)</td> %>
+                          <%#   <td>{{condition.diagnosis_type}}</td> %>
+                          <%#   <td>{{condition.duration}}</td> %>
+                          <%#   <td>{{condition.limit_type}}</td> %>
+                          <%#   <td>{{condition.limit_amount}}</td> %>
+                          <%# </tr> %>
+                        <%# </tbody> %>
+                    </table>
+
+                  </div>
+                    <div class="field" id="dependent">
+                      <table class="ui very basic selectable table" cellspacing= "0" width="100%" id="condition_dep_tbl">
+                        <thead>
+                          <div class="ui grid">
+                            <div class="sixteen wide computer eight wide tablet column facility-coverage">
+                              <div class="ui grid">
+                                <div class="twelve wide column twelve tablet column dim">
+                                  <br><br>
+                                  <h3 style="font-weight: normal; color: #9b9b9b;" >Additional members. Members with effective date after the account's.</h3>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br><br>
+                          <tr>
+                            <th style="font-weight: bold; color: #9b9b9b;" width="20%">Member Type</th>
+                            <th style="font-weight: bold; color: #9b9b9b;" width="20%">Disease Category</th>
+                            <th style="font-weight: bold; color: #9b9b9b;" width="20%">Duration</th>
+                            <th style="font-weight: bold; color: #9b9b9b;" width="20%">Inner Limit Type</th>
+                            <th style="font-weight: bold; color: #9b9b9b;" width="20%">Inner Limit Value</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                </div>
+              </div>
+              <br>
+              <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+              <div class="ui form" id="form_id_2">
+                <h3 class="ui left floated header">
+                  Diagnosis
+                </h3>
+                <div class="field">
+                  <table class="ui very basic selectable table" cellspacing= "0" width="100%" id="diagnosis_tbl">
+                    <thead>
+                      <br>
+                      <tr>
+                        <th style="font-weight: bold; color: #9b9b9b;" width="20%">Code</th>
+                        <th style="font-weight: bold; color: #9b9b9b;" width="80%">Description</th>
+                      </tr>
+                    </thead>
+                    <%# <tbody> %>
+                      <%#   <tr v-for="diagnosis in results.diagnosis"> %>
+                        <%#     <td>{{diagnosis.code}}</td> %>
+                        <%#     <td>{{diagnosis.description}}</td> %>
+                        <%#   </tr> %>
+                      <%# </tbody> %>
+                  </table>
+                </div>
+              </div><br><br>
+
+              <div class="ui right sidebar inverted vertical menu versions-sidebar"></div>
+              <div class="pusher"></div>
+
+              <a href="/web/exclusions"><button id="" class="ui basic button mt-1-small">Back</button></a>
+            </div>
+          </div><!-- row ends here -->
+
+          <div id="overlay2" style="display: none" class="ui active inverted dimmer">
+            <div class="ui text loader">loading</div>
+          </div>
+
+        </div><!-- grid ends here -->
+      </div><!-- .white-bg -->
+    </div><!-- container ends here -->
+  </div>
+</div>
+

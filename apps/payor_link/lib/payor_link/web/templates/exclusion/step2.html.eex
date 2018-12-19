@@ -1,0 +1,59 @@
+<%= render "breadcrumbs.html" %>
+    <div class="active section">Add Disease</div>
+  </div>
+</div>
+<div id="exclusion_diseases" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+          <div></div>
+          <div class="ui ordered five steps" >
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+          <%= if @exclusion.coverage == "General Exclusion" do %>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+            <div class="disabled step">
+            <div class="content">
+                <div class="title">Procedure</div>
+              </div>
+            </div>
+          <% else %>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Duration</div>
+              </div>
+            </div>
+            <div class="active step">
+            <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+          <% end %>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+            <%= render "step2_form.html", exclusion: @exclusion, changeset: @changeset, conn: @conn, action: exclusion_path(@conn, :create_basic) %>
+          <%= if @exclusion.coverage == "General Exclusion" do %>
+            <%= render "step2_modal.html", exclusion: @exclusion, changeset: @changeset, conn: @conn, action: exclusion_path(@conn, :update_setup, @exclusion, step: "2"), diseases: @diseases %>
+          <% else %>
+            <%= render "step2_modal.html", exclusion: @exclusion, changeset: @changeset, conn: @conn, action: exclusion_path(@conn, :update_setup, @exclusion, step: "3"), diseases: @diseases %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_exclusion_disease">
+<% end %>

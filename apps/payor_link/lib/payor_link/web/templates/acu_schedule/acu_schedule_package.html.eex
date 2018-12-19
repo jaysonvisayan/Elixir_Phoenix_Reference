@@ -1,0 +1,110 @@
+<div class="ui main container" id="acu_mobile">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h1 class="ui huge header">ACU Schedule</h1>
+      <div class="ui breadcrumb">
+        <a href="/acu_schedules" class="section">ACU Schedules</a>
+        <div class="divider"> / </div>
+        <a href="/acu_schedules" class="section">Search</a>
+        <div class="divider"> / </div>
+        <div class="active section">Packages</div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui stackable grid">
+        <div class="row">
+          <div class="sixteen wide column">
+            <div class="ui three steps form-step">
+              <div class="step">
+                <i class="user icon"></i>
+                <div class="content">
+                  <div class="title">General</div>
+                  <%#<div class="description">Your name, gender, etc.</div>%>
+                </div>
+              </div>
+              <div class="active step">
+                <i class="travel icon"></i>
+                <div class="content">
+                  <div class="title">Packages</div>
+                  <%# <div class="description">Permission to be applied</div>%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  <input type="hidden" id="acu_schedule_id" value="<%= @acu_schedule.id %>">
+  <table role="datatable" id="acu_schedule_table2" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Plan Code</th>
+        <th>Package Code</th>
+        <th>Package Description</th>
+        <th>Package Rate</th>
+        <th>Action</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for acu_schedule_package <- @acu_schedule.acu_schedule_packages do %>
+        <% orig_rate = get_package_facility(acu_schedule_package.package_id, acu_schedule_package.facility_id).rate %>
+        <tr>
+          <td>
+            <%= if is_nil(acu_schedule_package.acu_schedule_product) do %>
+              Old Data
+            <% else %>
+              <a href="/products/<%= acu_schedule_package.acu_schedule_product.product.id %>/summary" target="_blank"><%= acu_schedule_package.acu_schedule_product.product.code %>
+            <% end %>
+          </td>
+          <td><a href="/packages/<%= acu_schedule_package.package.id %>/summary" target="_blank" ><%= acu_schedule_package.package.code %></a></td>
+          <td><%= acu_schedule_package.package.name %></td>
+          <td id="<%= acu_schedule_package.id %>" role="value">
+            <span role="mask-decimal"><%= acu_schedule_package.rate %></span>
+            <div class="field">
+              <input type="text" role="mask-decimal" class="ui hide" min=0 max=<%= acu_schedule_package.rate %> orig_val=<%= acu_schedule_package.rate %> id="<%= acu_schedule_package.id %>" value=<%= acu_schedule_package.rate %>>
+          </div>
+          </td>
+          <td role="edit" orig_rate="<%= orig_rate %>" asp_id="<%= acu_schedule_package.id %>">
+            <span role="edit-package-rate" asp_id="<%= acu_schedule_package.id %>">
+              <i class="edit icon" style="cursor:pointer;color:green"></i>
+            </span>
+
+            <span class="hide" role="approved-rate" asp_id="<%= acu_schedule_package.id %>">
+              <i class="check icon" style="cursor:pointer;color:green"></i> |
+            </span>
+
+            <span class="hide" role="disapproved-rate" asp_id="<%= acu_schedule_package.id %>">
+              <i class="close icon" style="cursor:pointer;color:red"></i>
+            </span>
+
+            <span role="value" asp_code="<%= acu_schedule_package.package.code %>" asp_description="<%= acu_schedule_package.package.name %>" asp_rate="<%= acu_schedule_package.rate %>" asp_id="<%= acu_schedule_package.id %>" original_package_rate="<%= orig_rate %>">
+            <span>
+          </td>
+          <td>
+            <span id="orig-rate-display" class="<%= hide_orig_rate(acu_schedule_package.rate == orig_rate) %>">
+              <i style="color:gray">Original package rate: <span role="mask-decimal"><%= orig_rate %></span></i>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <div class="sixteen wide column">
+    <%= form_for @changeset, acu_schedule_path(@conn, :create_acu_schedule_loa, @acu_schedule.id), [as: :acu_schedule_package, id: "acu_package_form_submit"], fn f -> %>
+    <% count = count_selected_members(@acu_schedule.acu_schedule_members) %>
+    <input type="hidden" name="acu_schedule[no_of_selected_members]" value="<%= count %>" />
+    <button class="ui right floated primary button" type="submit" id="acu_schedule_package_submit_modal">
+      <i class="save icon"></i>
+      Submit
+    </button>
+  <% end %>
+  <%# <div class="ui button" id="cancel_acu_schedule">
+      Back
+    </div>
+    %>
+    <a class="ui button" href="/acu_schedules/<%= @acu_schedule.id %>/edit">
+      <i class="left arrow icon"></i>
+      Back
+    </a>
+  </div>
+</div>

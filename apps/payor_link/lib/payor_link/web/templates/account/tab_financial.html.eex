@@ -1,0 +1,236 @@
+<!--<h3>ASSIGNED OFFICERS</h3>
+<div class="ui divider"></div>
+<div class="sixteen wide tablet six wide computer column">
+  <div class="six wide column">
+    <div class="ui grid">
+      <div class="eight wide column">
+        <b>Corporate Account Officer:</b>
+      </div>
+      <div class="eight wide column">
+        <b>Agent/Broker/STC:</b>
+      </div>
+    </div>
+    <div class="six wide column">
+      <div class="ui grid">
+        <div class="eight wide column">
+          <b>Manager:</b>
+        </div>
+        <div class="eight wide column">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<h4 class="ui header">Billing Address</h4>
+<div class="ui divider"></div>
+<div class="row">
+  <div class="ui stackable two column grid cards-holder">
+  <%= if Enum.count(@account_group.account_group_address) == 1 do %>
+  <%= for address <- @account_group.account_group_address do %>
+    <div class="column">
+      <table class="ui table summary-table">
+        <tbody>
+          <tr>
+            <td>
+              <table>
+                <tr>
+                    <td><label class="gray">Address 1</label></td>
+                    <td><%= address.line_1 %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Address 2</label></td>
+                    <td><%= address.line_2 %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">City/Municipality</label></td>
+                    <td><%= address.city %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Province</label></td>
+                    <td><%= address.province %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Region</label></td>
+                    <td><%= address.region %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Country</label></td>
+                    <td><%= address.country %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Postal Code</label></td>
+                    <td><%= address.postal_code %></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="column">
+      <img src="/images/file-upload.png" id="imagePreview" class="ui centered medium image mrg1halfT">
+    </div>
+  <% end %>
+  <% else %>
+  <% address  = Enum.at(@account_group.account_group_address, 1)%>
+    <div class="column">
+      <table class="ui table summary-table">
+        <tbody>
+          <tr>
+            <td>
+              <table>
+                <tr>
+                    <td><label class="gray">Address 1</label></td>
+                    <td><%= address.line_1 %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Address 2</label></td>
+                    <td><%= address.line_2 %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">City/Municipality</label></td>
+                    <td><%= address.city %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Province</label></td>
+                    <td><%= address.province %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Region</label></td>
+                    <td><%= address.region %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Country</label></td>
+                    <td><%= address.country %></td>
+                </tr>
+                <tr>
+                    <td><label class="gray">Postal Code</label></td>
+                    <td><%= address.postal_code %></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="column">
+      <img src="/images/file-upload.png" id="imagePreview" class="ui centered medium image mrg1halfT">
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<% payment_account = financial_tab(@account_group.payment_account) %>
+<h4 class="ui header"><%= payment_account.funding_arrangement %></h4>
+<div class="ui divider"></div>
+<div class="row">
+  <div class="ui two column grid cards-holder">
+  <div class="column">
+    <table class="ui table no-border borderless">
+      <tbody>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td><label class="gray">Account TIN</label></td>
+                <td><%= payment_account.account_tin %></td>
+              </tr>
+              <tr>
+                <td><label class="gray">VAT Status</label></td>
+                <td><%= payment_account.vat_status%></td>
+              </tr>
+              <tr>
+                <td><label class="gray">Previous Carrier</label></td>
+                <td><%= payment_account.previous_carrier %></td>
+              </tr>
+              <tr>
+                <td><label class="gray">Attachment Point</label></td>
+                <td><%= payment_account.attached_point %></td>
+              </tr>
+              <tr>
+                <td><label class="gray">Mode of Payment</label></td>
+                  <td><%= payment_account.mode_of_payment %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="column">
+    <table class="ui table no-border borderless">
+      <tbody>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td><label class="gray">Payee Name</label></td>
+                <td>
+                  <%= if payment_account(@account_group.payment_account) do %>
+                    None
+                  <% else %>
+                    <%= @account_group.payment_account.payee_name %>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><label class="gray">Bank Account No.</label></td>
+                <td>
+                  <%= if is_nil(@account_group.bank) do %>
+                    None
+                  <% else %>
+                    <%= @account_group.bank.account_no%>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><label class="gray">Bank Name</label></td>
+                <td>
+                  <%= if is_nil(@account_group.bank) do %>
+                    None</b>
+                  <% else %>
+                    <%= @account_group.bank.account_name%>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><label class="gray">Branch</label></td>
+                <td>
+                  <%= if is_nil(@account_group.bank) do %>
+                    None
+                  <% else %>
+                    <%= @account_group.bank.branch%>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+  <div class="row">
+    <label>Coverage Funds</label>
+    <div class="field">
+      <table class="ui very basic striped selectable table" role="modified_table" id="coverage_funds_tbl" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Coverage</th>
+            <th>Revolving Fund</th>
+            <th>Replenish Threshold</th>
+          </tr>
+        </thead>
+        <tbody id="remove_body">
+          <%= for coverage_fund <- @account_group.account_group_coverage_funds do %>
+            <tr>
+              <td><%= coverage_fund.coverage.name %></td>
+              <td><%= coverage_fund.revolving_fund%></td>
+              <td><%= coverage_fund.replenish_threshold%></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

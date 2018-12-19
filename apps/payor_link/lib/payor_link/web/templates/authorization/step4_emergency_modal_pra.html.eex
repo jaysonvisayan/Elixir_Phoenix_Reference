@@ -1,0 +1,63 @@
+<div class="ui large modal" id="add_practitioner_modal">
+  <i class="close icon"></i>
+  <div class="header" id="practitioner_header">
+    Add Practitioner
+  </div>
+<div class="content">
+  <%= form_for @changeset, @action, [as: :practitioner,  multipart: true, class: "ui form", id: "practitioner_form"], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= hidden_input f, :aps_id %>
+  <%= hidden_input f, :admission_datetime, value: transform_date(Ecto.Date.utc()) %>
+  <%= hidden_input f, :discharge_datetime, value: transform_date(Ecto.Date.utc()) %>
+  <%= hidden_input f, :chief_complaint, id: "pra_cc" %>
+  <%= hidden_input f, :chief_complaint_others, id: "pra_cco" %>
+  <%= hidden_input f, :senior_discount, id: "pra_sd" %>
+  <%= hidden_input f, :pwd_discount, id: "pra_pwd" %>
+  <%= hidden_input f, :special_approval_id, id: "pra_sa" %>
+  <%= hidden_input f, :internal_remarks, id: "pra_ir" %>
+  <%= hidden_input f, :place_issued, id: "pra_pi" %>
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+    <div class="field">
+      <%= label f, :practitioner_id, "Practitioner (Code/Name)", class: "label-title" %>
+      <%= select f, :practitioner_id, @practitioners, class: "ui dropdown", prompt: "Select Practitioner"  %>
+      <%= error_tag f, :practitioner_id %>
+    </div>
+  </div>
+    <div class="two wide column"></div>
+  </div>
+
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+    <div class="field">
+      <%= label f, :specializtion_id, "Specialization", class: "label-title" %>
+      <%= select f, :specialization_id, @specializations, class: "ui dropdown", prompt: "Select Specialization"  %>
+      <%= error_tag f, :specialization_id %>
+    </div>
+  </div>
+    <div class="two wide column"></div>
+  </div>
+
+  <div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+    <div class="field">
+      <%= label f, :role, "Role", class: "label-title" %>
+      <%= select f, :role, ["Select Role": "", "Attending Physician": "Attending Physician", "Surgeon": "Surgeon", "Anesthesiologist": "Anesthesiologist", "Referral": "Referral", "Pathologist": "Pathologist", "Radiologist": "Radiologist", "Others": "Others"], class: "ui dropdown"  %>
+      <input type="text" id="others_pra" style="display: none"%>
+      <%= error_tag f, :role %>
+    </div>
+  </div>
+    <div class="two wide column"></div>
+  </div>
+</div>
+  <div class="actions">
+    <button class="ui primary button" type="submit" id="aps_submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

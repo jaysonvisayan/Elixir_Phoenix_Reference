@@ -1,0 +1,44 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Application</h1>
+  <div class="ui large breadcrumb">
+    <a class="section">Index</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Listing Applications</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <table class="ui stripped table">
+        <thead>
+          <tr>
+            <th colspan="2">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for application <- @applications do %>
+            <tr>
+              <td><%= application.name %></td>
+
+              <td class="ui right aligned">
+                <div class="mini ui buttons">
+                  <%= link "Edit", to: application_path(@conn, :edit, application), class: "small ui button" %>
+                  <%= link "Delete", to: application_path(@conn, :delete, application), method: :delete, data: [confirm: "Are you sure?"], class: "mini negative ui button" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot class="full-width">
+          <tr>
+            <th></th>
+            <th>
+              <span class="ui right aligned"><%= link "New Application", class: "ui right floated mini primary button", to: application_path(@conn, :new) %>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div id="membersIndex" class="ui main container">
+  <% disabled = if String.contains?("access_members", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Members</h1>
+              </div>
+              <div class="right floated right aligned ten wide column">
+                <!-- <a class="ui primary basic button">Skipping Hierarchy</a> -->
+                <a class="ui primary basic button <%= disabled %>" href="/members/reports/generate"><i class="download icon"></i>Reports</a>
+                <a class="ui primary basic button <%= disabled %>" href="/members/skipping/hierarchy">Skipping Hierarchy</a>
+                <a class="ui primary basic button <%= disabled %>" href="/members/enrollment/import"><i class="upload icon"></i> Batch Upload</a>
+                <a class="ui primary basic button" href="/members/new"><i class="plus icon"></i>Members</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+            <a href="/members" class="section">Members</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Member ID</th>
+        <th>Member Name</th>
+        <th>Card No.</th>
+        <th>Account</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for member <- @members do %>
+        <tr>
+          <%= if member.step == 5 || member.step == 4 do %>
+            <td><a href="/members/<%= member.id %>"><%= member.id %></a></td>
+          <% else %>
+            <td><a href="/members/<%= member.id %>/setup?step=<%= member.step %>"><%= member.id %> (Draft)</a></td>
+          <% end %>
+          <td><%= display_full_name(member) %></td>
+          <td><%= member.card_no %></td>
+          <td><%= member.account_group.name %></td>
+          <td><%= if is_nil(member.status) do %>Pending for Activation<% else %><%= member.status %><% end %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

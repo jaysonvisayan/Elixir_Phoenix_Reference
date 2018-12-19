@@ -1,0 +1,97 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/products">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Plan</div>
+  </div>
+</div>
+
+<div id="product_exclusions" class="ui equal width left aligned padded grid stackable gi">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered seven steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Exclusion</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title"><%= product_base_label(@product) %></div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Facility Access</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Conditions</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Risk Share</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+            <%= render "step2_form.html", product: @product, changeset_genex: @changeset_genex, changeset_pre_existing: @changeset_pre_existing %>
+            <%= render "step2_modal_genex.html", product: @product, changeset_genex: @changeset_genex, exclusions: @exclusions, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "2.1") %>
+            <%= render "step2_modal_pre-existing.html", product: @product, changeset_pre_existing: @changeset_pre_existing, exclusions: @exclusions, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "2.2") %>
+            <%= render "step2_modal_view.html", product: @product, conn: @conn %>
+            <%= render "step2_modal_edit_pec_limit.html", product: @product, conn: @conn, changeset: @changeset_pre_existing, action: product_path(@conn, :edit_pec_limit, @product) %>
+            <%= render "product_delete_confirmation.html" %>
+
+
+<div class="ui tiny modal" id="confirmation_exclusion" >
+  <div class="header">
+    Remove Exclusion
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="">
+    <p>
+    Do you really want to remove this exclusion?
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_exclusion">
+      <i class="remove icon"></i>
+      No, Keep Exclusion
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_exclusion">
+      <i class="trash icon"></i>
+      Yes, Remove Exclusion
+    </div>
+  </div>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open_gen] do %>
+  <input type="hidden" id="open_modal_genex">
+<% end %>
+
+<%= if assigns[:modal_open_pre] do %>
+  <input type="hidden" id="open_modal_pre_exist">
+<% end %>
+

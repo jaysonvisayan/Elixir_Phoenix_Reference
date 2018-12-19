@@ -1,0 +1,124 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header">
+        Roles
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Roles</div>
+        </div>
+      </h1>
+      <div class="ui header float-right-medium">
+        <a class="modal-open-main ui primary button mt-1-small" href="/web/roles/new">Add Role</a>
+      </div>
+    </div>
+  </div>
+	<!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+<div class="ui container" id="role_index_page">
+	<div class="ui grid">
+		<div class="row">
+			<div class="sixteen wide computer column">
+
+				<div class="section pb-0">
+					<form class="ui form">
+						<div class="three fields ai-end">
+							<div class="field">
+							</div>
+							<div class="field">
+							</div>
+							<div class="field">
+								<a href="#" class="ui basic primary float-right-medium column button">Export</a>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="content-section white-bg mt-0">
+					<table role="datatable" class="full-width ui celled striped table" width="100%">
+						<thead>
+							<tr>
+								<th>Role Name</th>
+								<th>Application</th>
+								<th>Desription</th>
+								<th>Last Updated</th>
+								<th>Updated by</th>
+								<th>Log</th>
+								<th></th>
+							</tr>
+						</thead>
+            <tbody>
+              <%= for role <- @roles do %>
+                <tr>
+                  <%= if role.status == "Draft" do %>
+                    <td><a href="/web/roles/<%= role.id %>/edit"><%= role.name %>(Draft)</a></td>
+                  <% else %>
+                    <td><a href="/web/roles/<%= role.id %>"><%= role.name %></a></td>
+                  <% end %>
+                  <td>
+                    <% role_application = [] ++ for ra <- role.role_applications, do: ra.application.name  %>
+                    <%= Enum.join(role_application, ", ") %>
+                  </td>
+                  <td><%= role.description %></td>
+                  <td class="date_transform"><%= NaiveDateTime.to_date(role.updated_at) %></td>
+                  <td><%= display_updated_by(role.updated_by) %></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              <% end %>
+            </tbody>
+					</table>
+				</div>
+
+			</div>
+			<!-- column ends here -->
+		</div>
+		<!-- row ends here -->
+	</div>
+	<!-- grid ends here -->
+</div>
+<!-- container ends here -->
+<div>
+<%= if @swal == "true" do %>
+  <input type="hidden" id="show_swal_role">
+<% end %>
+</div>
+<%# <div class=""> %>
+<%# 	<div class="ui tiny modal"> %>
+<%# 		<i class="close icon left"></i> %>
+<%# 		<div class="content"> %>
+
+<%# 			<h2>Choose type of Benefits </h2> %>
+<%# 			<div class="description mb-1">Please select the type of benefit you would like to add</div> %>
+<%# 			<div class="selection-label mb-1">Type of Benefit</div> %>
+<%# 			<%= form_for @changeset, main_benefit_path(@conn, :choose_benefit_type), fn f -> %1> %>
+<%# 				<div class="ui grid"> %>
+<%# 					<div class="eight wide column"> %>
+<%# 						<a href="#!" class="ui fluid basic button no-padding toggle_btn_modal"> %>
+<%# 							<div class="selection-button"> %>
+<%# 								<i class="icon-benefit-card icon dark mb-1 toggle_ico"></i> %>
+<%# 								<div class="option" value="healthplan">Health Plan</div> %>
+<%# 							</div> %>
+<%# 						</a> %>
+<%# 					</div> %>
+<%# 					<div class="eight wide column"> %>
+<%# 						<a href="#!" class="ui fluid basic button no-padding toggle_btn_modal"> %>
+<%# 							<div class="selection-button"> %>
+<%# 								<i class="icon-riders icon dark mb-1 toggle_ico"></i> %>
+<%# 								<div class="option" value="riders">Riders</div> %>
+<%# 							</div> %>
+<%# 						</a> %>
+<%# 					</div> %>
+<%# 					<div class="twelve wide column centered"> %>
+<%# 						<button class="fluid ui primary button large" type="submit">Proceed</button> %>
+<%# 					</div> %>
+<%# 				</div> %>
+<%# 		</div> %>
+<%# 		<%= hidden_input f, :type %1> %>
+<%# 			<% end %1> %>
+<%# 	</div> %>
+<%# </div> %>

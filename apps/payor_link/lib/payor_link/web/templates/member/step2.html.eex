@@ -1,0 +1,19 @@
+<%= render "breadcrumbs_edit.html", member: @member %>
+<div id="memberProducts" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "steps.html", conn: @conn %>
+          <%= render "step2_form.html", conn: @conn, member: @member, action: member_path(@conn, :update_setup, @member, step: "2.1") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "show_product_remove_confirmation.html" %>
+
+<%= if @conn.params["delete"] do %>
+  <input type="hidden" id="deleteMemberProductSuccess">
+<% end %>

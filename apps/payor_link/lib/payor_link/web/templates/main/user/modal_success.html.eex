@@ -1,0 +1,19 @@
+<div class="ui tiny modal complete">
+    <i class="close icon"></i>
+    <div class="header text-centered">
+        <div class="header-icon--container text-centered">
+            <i class="icon-success icon"></i>
+        </div>
+        User Successfully Created.
+        <!-- <div class="description">Health Plan. BN 10 2020, Employee Regular </div> -->
+    </div>
+
+    <div class="content">
+
+        <div class="button-label text-centered mb-1">Do you want to create another user?</div>
+        <div style="text-align: center">
+            <a href="#!" class="ui primary basic button deny">No</a>
+            <a href="#!" class="ui primary button close approve">Yes</a>
+        </div>
+    </div>
+</div>

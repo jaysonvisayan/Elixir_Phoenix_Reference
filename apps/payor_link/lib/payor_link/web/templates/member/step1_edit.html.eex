@@ -1,0 +1,13 @@
+<%= render "breadcrumbs_edit.html", member: @member %>
+<div id="membersGeneral" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "steps.html", conn: @conn %>
+          <%= render "step1_form.html", member: @member, principal_members: @principal_members, accounts: @accounts, changeset: @changeset, conn: @conn, action: member_path(@conn, :update_setup, @member, step: "1") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

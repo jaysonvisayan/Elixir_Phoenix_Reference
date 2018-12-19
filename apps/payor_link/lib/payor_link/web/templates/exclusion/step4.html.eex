@@ -1,0 +1,183 @@
+<%= render "breadcrumbs.html" %>
+    <div class="active section" id="exclusion_summary">Summary</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui ordered four steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+          <%= if @exclusion.coverage == "General Exclusion" do %>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+            <div class="completed step">
+            <div class="content">
+                <div class="title">Procedure</div>
+              </div>
+            </div>
+          <% else %>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Duration</div>
+              </div>
+            </div>
+            <div class="completed step">
+            <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+          <% end %>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+
+        <!-- GENERAL -->
+            <h4 class="ui dividing header">General</h4>
+            <div class="ui grid container">
+              <div class="three wide computer six wide tablet column">
+                <b>Exclusion Coverage</b>
+              </div>
+              <div class="thirteen wide computer ten wide tablet column">
+                <%= @exclusion.coverage %>
+              </div>
+              <div class="three wide computer six wide tablet column">
+                <b>Exclusion Code</b>
+              </div>
+              <div class="thirteen wide computer ten wide tablet column">
+                <%= @exclusion.code %>
+              </div>
+              <div class="three wide computer six wide tablet column">
+                <b>Exclusion Name</b>
+              </div>
+              <div class="thirteen wide computer ten wide tablet column">
+                <%= @exclusion.name %>
+              </div>
+            </div>
+        <!-- END OF GENERAL -->
+
+          <%= if @exclusion.coverage == "Pre-existing Condition" do %>
+          <!-- DURATIONS -->
+          <h4 class="ui dividing header">Durations</h4>
+            <div class="ui grid container">
+              <div class="three wide computer four wide tablet column">
+                <b>Disease Type</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>Duration</b>
+              </div>
+              <div class="nine wide computer six wide tablet column">
+                <b>Covered After Duration</b>
+              </div>
+              <%= for exclusion_duration <- @exclusion.exclusion_durations do %>
+                <div class="three wide computer six wide tablet column">
+                  <%= exclusion_duration.disease_type %>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <%= exclusion_duration.duration %> month
+                </div>
+                <div class="nine wide computer ten wide tablet column">
+
+                  <%= if exclusion_duration.covered_after_duration == "Percentage" do %>
+                    <%= exclusion_duration.cad_percentage %> %
+                  <% else %>
+                    <%= exclusion_duration.cad_amount %> php
+                  <% end %>
+
+                </div>
+              <% end %>
+            </div>
+          <!-- END OF DURATIONS -->
+          <% end %>
+
+          <!-- DISEASE -->
+          <h4 class="ui dividing header">Diseases</h4>
+          <div class="ui grid container">
+            <div class="three wide computer two wide tablet column">
+              <b>Disease Code</b>
+            </div>
+            <div class="four wide computer four wide tablet column">
+              <b>Disease Description</b>
+            </div>
+            <div class="three wide computer two wide tablet column">
+              <b>Disease Type</b>
+            </div>
+             <div class="three wide computer two wide tablet column">
+              <b>Disease Chapter</b>
+            </div>
+             <div class="three wide computer two wide tablet column">
+              <b>Disease Group</b>
+            </div>
+
+
+            <%= for exclusion_disease <- @exclusion.exclusion_diseases do %>
+              <div class="three wide computer two wide tablet column">
+                <%= exclusion_disease.disease.code %>
+              </div>
+              <div class="four wide computer eight wide tablet column">
+                <%= exclusion_disease.disease.description %>
+              </div>
+               <div class="three wide computer two wide tablet column">
+                <%= exclusion_disease.disease.type %>
+              </div>
+               <div class="three wide computer two wide tablet column">
+                <%= #exclusion_disease.disease.chapter %>
+              </div>
+               <div class="three wide computer two wide tablet column">
+                <%= #exclusion_disease.disease.group %>
+              </div>
+            <% end %>
+          </div>
+          <!-- END OF DISEASE -->
+
+          <%= if @exclusion.coverage == "General Exclusion" do %>
+          <!-- PROCEDURES -->
+          <h4 class="ui dividing header">Procedures</h4>
+            <div class="ui grid container">
+              <div class="three wide computer four wide tablet column">
+                <b>Procedure Code</b>
+              </div>
+              <div class="nine wide computer six wide tablet column">
+                <b>Procedure Description</b>
+              </div>
+              <div class="four wide computer six wide tablet column">
+                <b>CPT Categories</b>
+              </div>
+              <%= for exclusion_procedure <- @exclusion.exclusion_procedures do %>
+                <div class="three wide computer six wide tablet column">
+                  <%= exclusion_procedure.procedure.code %>
+                </div>
+                <div class="nine wide computer ten wide tablet column">
+                  <%= exclusion_procedure.procedure.description %>
+                </div>
+                <div class="four wide computer ten wide tablet column">
+                  <%= exclusion_procedure.procedure.procedure.procedure_category.name %>
+                </div>
+              <% end %>
+            </div>
+          <!-- END OF PROCEDURES -->
+          <% end %>
+          <a href="/exclusions/<%= @exclusion.id %>/setup?step=3" class="ui button">
+            <i class="chevron left icon"></i>
+            Back
+          </a>
+          <a href="/exclusions/<%= @exclusion.id %>/submit" class="ui right floated primary button">
+            <i class="save icon"></i>
+            Save
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

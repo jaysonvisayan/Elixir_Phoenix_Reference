@@ -1,0 +1,34 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Fulfillment</h2>
+  <div class="ui small breadcrumb">
+    <a href="/accounts" class="section">Account</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/accounts" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Fulfillment</div>
+  </div>
+</div>
+
+<div id="new_fulfillment_document" class="ui equal width left aligned padded grid stackable">
+  <div class="row" >
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="ui two item menu">
+              <a href="edit_card" class="item">Card Details</a>
+            <a class="active item">Card Documents</a>
+            </div>
+          </div>
+          <%=
+          render "form_fulfillment_document.html",
+          changeset: @changeset,
+          account_id: @account_id,
+          fulfillment: @fulfillment,
+          conn: @conn,
+          action: fulfillment_card_path(@conn, :create_document, @account_id, @fulfillment.id) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

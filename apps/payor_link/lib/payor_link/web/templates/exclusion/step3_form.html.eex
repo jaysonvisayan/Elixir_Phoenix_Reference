@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="column">
+    <p role ="append_procedure_form"></p>
+    <div class="ui middle aligned right aligned grid">
+      <div class="left floated left aligned six wide column">
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small add button"><i class="plus icon"></i>CPT</a>
+      </div>
+    </div>
+    <table role="datatable" id="procedure_table" class="ui striped table">
+      <thead>
+        <tr>
+          <th>CPT Code</th>
+          <th>CPT Description</th>
+          <th>Procedure Section</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+          <%= for exclusion_procedure <- Enum.sort_by(@exclusion.exclusion_procedures, &(&1.procedure.code)) do %>
+          <tr>
+            <td field="exclusion_code"><%= exclusion_procedure.procedure.code %></td>
+            <td field="exclusion_description"><%= exclusion_procedure.procedure.description %></td>
+            <td field="exclusion_status"><%= exclusion_procedure.procedure.procedure.procedure_category.name %></td>
+            <td>
+            <a style="cursor: pointer" class="delete" exclusion_id="<%= @exclusion.id %>"" procedure_id="<%= exclusion_procedure.id %>">
+                <i class="trash icon"></i>
+            </a>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br />
+
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui red button mrg1T" id="deleteExclusion" exclusionID="<%= @exclusion.id %>" type="button">
+      <i class="trash left icon"></i>Delete Draft
+    </button>
+  </div>
+  <div class="column eight wide">
+    <a href="/exclusions/<%= @exclusion.id %>/setup?step=2" class="ui button mrg1T">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+  <%= if Enum.empty?(@exclusion.exclusion_procedures) and @exclusion.exclusion_diseases == [] do %>
+    <button class="ui right floated primary button mrg1T" type="button" id="empty_procedure">
+      Next
+      <i class="chevron right icon"></i>
+    </button>
+  <% else %>
+    <a href="/exclusions/<%= @exclusion.id %>/setup?step=4" class="ui primary button mrg1T">
+      Next
+      <i class="chevron right icon"></i>
+    </a>
+  <% end %>
+  </div>
+</div>
+
+<div class="ui modal" id="DeleteModal">
+  <i class="close icon"></i>
+  <div class="header">
+      Remove CPT?
+  </div>
+  <div class="actions">
+      <%= link to: exclusion_path(@conn, :update_setup, @exclusion, step: "3.1"), method: :delete, id: "delete_procedure" do %>
+        <button type="button" class="ui right floated primary button">Yes, Remove CPT</button>
+      <% end %>
+    <button type="button" class="ui cancel right floated button">No, Keep CPT</button>
+  </div>
+</div>

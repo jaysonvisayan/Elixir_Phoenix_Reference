@@ -1,0 +1,55 @@
+<div class="ui main container" id="ClusterValidation">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+              <div class="left floated left aligned eight wide column">
+                  <h1 class="ui huge header with-button">Clusters</h1>
+              </div>
+              <div class="right floated right aligned eight wide column">
+                  <a class="ui primary basic button" href="/clusters/new"><i class="plus icon"></i>Clusters</a>
+              </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+              <a href="/clusters" class="section">Clusters</a>
+              <div class="divider"> / </div>
+              <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+      </div>
+  </div>
+  <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>No. of Accounts</th>
+        <th>Created By</th>
+        <th>Date Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for cluster <- @clusters do %>
+        <tr>
+          <td>
+           <%= if cluster.step != 0 && cluster.step != 4 do %>
+            <a href="/clusters/<%= cluster.id %>/setup?step=<%= cluster.step %>"><%= cluster.code %> (Draft)</a>
+          <% else %>
+            <a href="/clusters/<%= cluster.id %>"><%= cluster.code %></a>
+          <% end %>
+          </td>
+          <td><%= cluster.name %></td>
+          <td><%= count_accounts(cluster.id) %></td>
+          <td>
+            <%= if is_nil(cluster.created_by) do %>
+              <%= @conn.assigns.current_user.username %>
+            <% else %>
+              <%= get_user_by_id(cluster.created_by) %>
+            <% end %>
+          </td>
+          <td><%= Ecto.Date.cast!(cluster.inserted_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

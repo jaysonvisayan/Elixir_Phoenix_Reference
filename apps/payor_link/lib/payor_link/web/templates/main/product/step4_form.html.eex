@@ -1,0 +1,45 @@
+<div class="sixteen wide computer column" id="product_coverage_step">
+  <div class="section-title mt-2">
+    <div class="title-name">Coverage Settings</div>
+  </div>
+
+  <div class="sixteen wide computer column">
+    <%= form_for @changeset, main_product_path(@conn, :update_setup, @product, step: "4"), [class: "general-form", id: "product_coverage_form"], fn f -> %>
+      <div class="ui top attached tabular menu coverage-menu mt-2">
+        <%= for {product_coverage, index} <- Enum.with_index(Enum.sort_by(@product.product_coverages, &(&1.coverage.name)), 1) do %>
+          <a class="item <%= if index == 1, do: 'active' %>" data-tab="<%= product_coverage.coverage.id %>">
+            <%= product_coverage.coverage.name %>
+          </a>
+        <% end %>
+      </div>
+
+      <%= for {product_coverage, index} <- Enum.with_index(Enum.sort_by(@product.product_coverages, &(&1.coverage.name)), 1) do %>
+        <div class="ui bottom attached tab segment <%= if index == 1, do: 'active' %>" data-tab="<%= product_coverage.coverage.id %>">
+          <%= if product_coverage.coverage.name == "ACU" do %>
+            <% provider_access = get_provider_access(@product.product_benefits) %>
+            <%= render "step4_tab_form_acu.html", product_coverage: product_coverage, f: f, provider_access: provider_access %>
+          <% else %>
+            <%= render "step4_tab_form.html", product_coverage: product_coverage, f: f %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="ui vertical segment mb-2">
+      <div class="text-right">
+        <a href="/web/products/<%= @product.id %>/setup?step=3" class="ui basic button large">
+          <i class="caret left icon"></i>Back
+        </a>
+        <button type="submit" class="ui primary button large btn_submit">
+          Complete
+        </button>
+      </div>
+    </div>
+
+    <%= render "modal_limit_threshold.html" %>
+    <%= render "modal_risk_share.html" %>
+    <%= render "modal_complete.html" %>
+    <%= render "modal_rs_sf.html" %>
+    <%= render "modal_rs_af.html" %>
+  </div>
+</div>
+

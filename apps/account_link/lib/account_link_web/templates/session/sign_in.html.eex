@@ -1,0 +1,65 @@
+<head>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script type="text/javascript">
+      function callback() {
+          $('#append').remove()
+          let captcha = $("#g-recaptcha-response").val()
+          $('#captcha').val(captcha)
+      }
+  </script>
+</head>
+
+<div class="maxicare-logo"><img src="/images/logo.png"></div>
+<div name="Login" class="ui form mt-3" id="accountlink_signin">
+  <%# form_for @conn, session_path(@conn, :login, @locale), [as: :session, id: "sign_in"], fn f -> %>
+  <%= form_for @conn, session_path(@conn, :login, @locale, "x-csrft-token": Map.get(@conn.req_cookies, "_csrf_token")), [as: :session, id: "sign_in"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%
+      info = get_flash(@conn, :info)
+      error = get_flash(@conn, :error)
+    %>
+
+    <div id="username" class="field">
+      <label class="label-title"><%= gettext "Username" %></label>
+      <%= text_input f, :username, autofocus: "", placeholder: gettext "Enter username", autocomplete: "off" %>
+    </div>
+    <div id="password" class="field">
+      <label class="label-title"><%= gettext "Password" %>
+        <span class="float-right"><a href="/<%= @locale %>/forgot_password" class="dim"><%= gettext "Forgot Password?" %></a></span>
+      </label>
+      <%= password_input f, :password, placeholder: gettext "Enter password", autocomplete: "off" %>
+    </div>
+    <div class="ui fluid selection dropdown mt-4">
+      <i class="dropdown icon"></i>
+      <div class="default text"><%= gettext "Select Language" %></div>
+      <div class="menu">
+        <div class="item"><%= gettext "English" %></div>
+        <div class="item"><%= gettext "Chinese" %></div>
+      </div>
+    </div>
+    <%= hidden_input f, :captcha, id: "captcha"%>
+    <%= if @attempts >= 3 and not is_nil(@attempts) do %>
+      <div class="ui grid" style="margin-top: 25px">
+        <div class="five wide column"></div>
+        <div class="five wide column">
+          <div class="g-recaptcha" data-sitekey="6LcRNmYUAAAAAN89_GhA2Sd5FnCpR_34pRzZ3Cg6" data-callback="callback"></div>
+          <%# <div class="g-recaptcha" data-sitekey="6LczdG4UAAAAAJGMnQnDEQxTYb7-jq_qPXhzFFk5" data-callback="callback"></div> %>
+        </div>
+        <div class="five wide column"></div>
+        <div class="five wide column" id="append">
+        </div>
+      </div>
+    <% end %>
+
+    <%# <p role="append"></p> %>
+    <%# if is_nil(error) == false do %>
+      <%# <div id="message" class="ui negative message"> %>
+        <%# error %>
+      <%# </div> %>
+    <%# else %>
+      <%# info %>
+    <%# end %>
+
+    <button class="big ui button fluid mt-4" type="submit"><%= gettext "Login" %></button>
+  <% end %>
+</div>

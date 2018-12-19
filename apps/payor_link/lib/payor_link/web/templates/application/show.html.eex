@@ -1,0 +1,36 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Application</h1>
+  <div class="ui large breadcrumb">
+    <a class="section">Index</a>
+    <i class="right chevron icon divider"></i>
+    <span class="section">Show</span>
+    <i class="right chevron icon divider"></i>
+    <div class="active section"><%=  @application.name %></div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="ui cards">
+    <div class="card">
+      <div class="content">
+        <div class="header">
+          <%=  @application.name %>
+        </div>
+        <div class="meta">
+          Application
+        </div>
+        <div class="description">
+        </div>
+      </div>
+      <div class="extra content">
+        <div class="center aligned">
+          <div class="ui buttons">
+            <span><%= link "Edit", class: "ui blue button", to: application_path(@conn, :edit, @application) %></span>
+            <div class="or"></div>
+            <span><%= link "Back", class: "ui button", to: application_path(@conn, :index) %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

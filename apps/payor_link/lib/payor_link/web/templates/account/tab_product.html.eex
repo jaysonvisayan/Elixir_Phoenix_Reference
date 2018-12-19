@@ -1,0 +1,239 @@
+<style>
+
+  .highlight-placeholder {
+    height: 163.04px;
+    width: 1097.01px;
+    border: thin black dashed;
+    border-radius: 8px 8px 8px 8px;
+    background: #e2e2e2;
+  }
+
+  .card-border {
+    border: thick black solid !important;
+  }
+
+  .width-expand-max {
+    width: 100% !important;
+  }
+
+  .no-margin {
+    margin: 0px !important;
+  }
+
+  .left-container-style {
+    vertical-align: middle;
+    text-align: right;
+  }
+
+  .ap_container {
+    min-width: 800px;
+    overflow-x: auto !important;
+  }
+
+</style>
+<% status? = @account.status == "Active" || @account.status == "Lapsed" || @account.status == "Pending" %>
+<% renewal? = @account.status == "For Activation" %>
+<div class="row">
+  <div class="ui one column right aligned grid">
+    <div class="sixteen wide column">
+      <%= if status? || renewal? do %>
+        <div class="ui simple primary basic dropdown right floated button">
+        <i class="icon add"></i>
+        Plan
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" name="modal_product_standard" accountID="<%= @account.id %>">Standard</div>
+          <div class="item" name="modal_product_custom" accountID="<%= @account.id %>">Custom</div>
+        </div>
+      </div>
+    <% end %>
+   </div>
+</div>
+</div>
+<div class="ui warning message" id="ap_warning">
+  <i class="close icon"></i>
+  <div class="header">
+    Tier changed!
+  </div>
+  Please click Save button to save the current ranking of this Account Plan.
+</div>
+<div class="ui grid ap_container" name="AccountProduct">
+  <div class="one wide tablet one wide computer column">
+    <div class="ui grid left_container">
+    </div>
+  </div>
+    <div class="fifteen wide tablet fifteen wide computer column">
+    <%= if Enum.empty?(@account_products) do %>
+      <%= else %>
+      <div class="ui grid ui-sortable" id="sortable_product">
+        <%= for account_product <- @account_products do %>
+          <div class="sixteen wide tablet sixteen wide computer column right_column">
+            <input type="hidden" class="account_product_id" value="<%= account_product.id %>">
+            <div class="ui card width-expand-max no-margin">
+              <div class="content">
+                <div class="header">
+   <%= account_product.name%>
+                <%= if status? || renewal? do %>
+                  <div class="ui icon top right floated pointing dropdown basic button">
+                    <i class="list icon"></i>
+                    <div class="left menu">
+                      <%= if account_product.standard_product == "No" do %>
+                        <%= if Enum.empty?(account_product.member_products) do %>
+                          <div class="item" AccountProductID="<%= account_product.id %>" accountID="<%= @account.id %>" name="edit_modal_acc_product">
+                            <i class="pencil icon"></i>
+                            Edit
+                          </div>
+                          <div class="item new tab" href="/web/products/<%= account_product.product_id %>/show">
+                            <i class="unhide icon"></i>
+                            View
+                          </div>
+                          <div class="ui divider"></div>
+                          <div class="item clickable-row" href="#" role="delete-product">
+                            <%= form_for @conn,
+                                account_path(@conn, :delete_account_product, @account.id),
+                                [method: :delete, id: "account_product", as: "product"], fn _f -> %>
+                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                                <input type="hidden" name="ap_remove[product_tier_ranking]" class="product_tier_ranking" />
+                                <input type="hidden" name="ap_remove[account_id]" value="<%= @account.id %>" />
+                                <input type="hidden" name="ap_remove[account_product_id]" value="<%= account_product.id %>" />
+
+                                <i class="trash icon"></i>
+                                Remove
+                            <% end %>
+                          </div>
+                          <% else %>
+                            <div class="item new tab" href="/web/products/<%= account_product.product_id %>/show">
+                              <i class="unhide icon"></i>
+                              View
+                            </div>
+                        <% end %>
+                        <% else %>
+                          <div class="item new tab" href="/web/products/<%= account_product.product_id %>/show">
+                            <i class="unhide icon"></i>
+                            View
+                          </div>
+                        <%= if Enum.empty?(account_product.member_products) do %>
+                          <div class="ui divider"></div>
+                          <div class="item clickable-row" href="#" role="delete-product">
+                            <%= form_for @conn,
+                                account_path(@conn, :delete_account_product, @account.id),
+                                [method: :delete, id: "account_product", as: "product"], fn _f -> %>
+                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                                <input type="hidden" name="ap_remove[product_tier_ranking]" class="product_tier_ranking" />
+                                <input type="hidden" name="ap_remove[account_id]" value="<%= @account.id %>" />
+                                <input type="hidden" name="ap_remove[account_product_id]" value="<%= account_product.id %>" />
+                                <i class="trash icon"></i>
+Remove
+                            <% end %>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+                </div>
+              </div>
+              <div class="content">
+                <div class="ui grid">
+                  <div class="five wide tablet five wide computer column">
+                    <div class="ui grid">
+                      <div class="eight wide tablet eight wide computer column" id="asd">
+                              Plan Code
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                        <strong> <%= account_product.product.code %></strong>
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                              Plan Type
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                        <strong>
+                          <%= if account_product.standard_product == "Yes" do %>
+                                Standard
+                              <% else %>
+                                Custom
+                              <% end %>
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="five wide tablet five wide computer column">
+                    <div class="ui grid">
+                      <div class="eight wide tablet eight wide computer column">
+                              No of Benefits
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                            <strong>  <%= Enum.count(account_product.product.benefits)%></strong>
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                              Limit Type
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                            <strong>  <%= account_product.limit_type %></strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="five wide tablet five wide computer column">
+                    <div class="ui grid">
+                      <div class="eight wide tablet eight wide computer column">
+                              Limit Amount
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                          <strong>    Php <%= account_product.limit_amount%></strong>
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                              No of Members
+                      </div>
+                      <div class="eight wide tablet eight wide computer column">
+                           <strong>   <%= Enum.count(account_product.member_products) %></strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <%#  <div class="extra content">
+                                <button class="ui button">View</button>
+                </div> %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <span class="hidden" id="ap_checker"><%= ap_checker(@account_products) %></span>
+      <%= form_for @conn, account_path(@conn, :save_product_tier, @account.id), [method: :put, id: "account_product", as: "product_tier"], fn _f -> %>
+        <br />
+        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+        <input type="hidden" name="product_tier[product_tier_ranking]" class="product_tier_ranking" id="ap_checker_generated" />
+        <input type="hidden" name="product_tier[account_id]" value="<%= @account.id %>" />
+        <%= submit "Save", class: "ui right floated blue submit button" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+
+<%=
+render "modal_edit_account_product.html",
+changeset: @changeset_account_product,
+products: @products,
+account_products: @account_products,
+account: @account,
+conn: @conn,
+action: account_path(@conn, :update_product, @account) %>
+
+<%=
+render "modal_product_standard.html",
+changeset: @changeset_account_product,
+products: @products,
+account_products: @account_products,
+account: @account,
+conn: @conn,
+action: account_path(@conn, :create_product, @account) %>
+
+<%=
+render "modal_product_custom.html",
+changeset: @changeset_account_product,
+products: @products,
+account_products: @account_products,
+account: @account,
+conn: @conn,
+action: account_path(@conn, :create_product, @account) %>

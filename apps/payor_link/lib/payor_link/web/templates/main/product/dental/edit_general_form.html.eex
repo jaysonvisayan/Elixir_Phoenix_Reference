@@ -1,0 +1,193 @@
+<div id="overlay" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div>
+<div class="sixteen wide computer column" id="main_step1_general_dental">
+  <%= form_for @changeset_general_dental_edit, @action, [method: "PUT", class: "ui form sixteen wide computer column", multipart: :true, id: "dental_edit_form"], fn f -> %>
+    <%= hidden_input f, :product_category, value: @product.product_category %>
+    <%= hidden_input f, :is_draft, value: false %>
+    <%= hidden_input f, :is_new, value: false %>
+    <%= hidden_input f, :add_benefit, value: false %>
+    <%= hidden_input f, :product_base, value: @product.product_base %>
+    <div class="ui form" id="product_edit_dental_plan">
+      <div class="bottom-border pb-2 mb-2" >
+
+        <div class="section-title mt-2">
+          <div class="title-name" >Plan Information</div>
+          <%# <div class="ui header float-right-medium" id="benefit_header_btn"> %>
+          <%#   <button id="btnDiscard" class="ui basic button mt-1-small">Discard</button> %>
+          <%#   <button id="btnDraft" class="ui primary button mt-1-small">Save as Draft</button> %>
+          </div>
+
+        </div>
+
+        <%# <div class="two fields"> %>
+
+        <%#   <div class="field"> %>
+        <%#     <%= label f, :code, "Plan Code (required)", class: "label-title" %1> %>
+        <%#     <%= text_input f, :code, class: "form-control", placeholder: "Add Plan Code", disabled: true %1> %>
+        <%#     <%= error_tag f, :code %1> %>
+        <%#   </div> %>
+        <%# </div> %>
+        <div class="two fields">
+
+          <div class="field">
+            <%= label f, :name, "Plan Name (required)", class: "label-title" %>
+            <%= text_input f, :name, class: "form-control", placeholder: "Add Plan Name", maxlength: "80" %>
+            <%= error_tag f, :name %>
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <%= label f, :description, "Plan Description(required)", class: "label-title" %>
+            <%= text_input f, :description, class: "form-control", placeholder: "Add Plan Category", maxlength: "150" %>
+            <%= error_tag f, :description %>
+          </div>
+        </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="section-title mt-2">
+          <div class="title-name">Setup</div>
+        </div>
+        <div class="field">
+          <label class="label-title">Classification</label>
+          <%= error_tag f, :standard_product %>
+          <div class="field">
+            <div class="ui radio checkbox full-width">
+              <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+              <label for="abl" class="">Standard</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox full-width">
+              <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+              <label for="mbl">Custom</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="two fields">
+          <div class="field">
+            <%= label f, :limit_amount, "Dental Plan Limit", class: "label-title" %>
+            <%= text_input f, :limit_amount, class: "form-control", id: "product_limit_amt" %>
+            <%= error_tag f, :limit_amount %>
+          </div>
+        </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="section-title mt-2">
+          <div class="title-name">Plan Applicability</div>
+        </div>
+        <div>
+          <div class="two fields">
+            <div class="field">
+              <%= label f, :limit_applicability, "", class: "label-title" %>
+              <%= error_tag f, :limit_applicability%>
+              <div class="two fields mt-1">
+                <div class="field">
+                  <div class="ui checkbox" style="width: 100%">
+                    <input type="checkbox" class="hidden" value="Principal" name="product[limit_applicability][]" id="limit_principal">
+                    <label for="principal" class="">Principal</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui checkbox"  style="width: 100%">
+                    <input type="checkbox" class="hidden" value="Dependent" name="product[limit_applicability][]" id="limit_dependent">
+                    <label for="dependent" class="">Dependent</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <%= hidden_input f, :limit_applicability_value, id: "limit_applicability_value", value: @product.limit_applicability, class: "disabled" %>
+
+      <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+      <div class="two fields">
+      <div class="section-title mt-2">
+        <div class="title-name">Benefits</div>
+      </div>
+      <div class="field" style="text-align: right;padding-top: 1.4rem">
+      <a class="ui primary button" id="btn_add_edit_benefit">
+        <i class="white plus icon"></i>
+        Benefits
+      </a>
+      </div>
+      </div>
+
+      <div class="field" id="benefit_field">
+        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+        <input type="hidden" name="product[benefit_ids][]">
+        <input type="hidden" name="product[benefit_limit_datas][]">
+      </div>
+        <div class="ui grid">
+      <table class="full-width ui celled striped table" id="tbl_benefit_dt_table_edit">
+        <thead>
+          <tr>
+            <th width="20%">Code</th>
+            <th width="20%">Name</th>
+            <th width="20%">No. of CDT</th>
+            <th width="20%">Limit Type</th>
+            <th width="20%">Limit Value</th>
+            <th width="20%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for product_benefit <- @product.product_benefits do %>
+            <tr>
+              <td>
+                <span class="<%= product_benefit.benefit.code %>"> <%= product_benefit.benefit.code %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= product_benefit.benefit.name %>">
+                <%= product_benefit.benefit.name %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= count_procedure(product_benefit.benefit.benefit_procedures) %>">
+                <%= count_procedure(product_benefit.benefit.benefit_procedures) %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= get_benefit_limit_type2(product_benefit) %>">
+                <%= get_benefit_limit_type2(product_benefit) %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= get_benefit_limit_amount2(product_benefit) %>">
+                <%= get_benefit_limit_amount2(product_benefit) %> </span>
+              </td>
+              <td class="table-icon--holder">
+                <div class="ui dropdown" tabindex="0">
+                   <i class="ellipsis vertical icon"></i>
+                    <div class="menu transition hidden">
+                   <div class="item clickable-row edit_limit" data-href="#"
+                      style="color:#00B24F"
+                      benefit_id="<%= product_benefit.benefit_id %>"
+                      code="<%= product_benefit.benefit.code %>"
+                      name="<%= product_benefit.benefit.name %>"
+                      limit_type="<%= get_benefit_limit_type2(product_benefit) %>"
+                      limit_amount="<%= get_benefit_limit_amount2(product_benefit) %>"
+                      >Edit limit</a>
+                      <span class="selected_procedure_id hidden"><%= product_benefit.benefit_id %></span>
+                      <span class="<%= product_benefit.benefit.code %>_ben_rows selected_ben_rows hidden"><%= product_benefit.benefit_id %>,<%= get_benefit_limit_type2(product_benefit) %>,<%= get_benefit_limit_amount2(product_benefit) %></span>
+                    </div>
+                      <div class="item">
+                        <a class="remove_package" product_id="<%= product_benefit.product_id %>" product_benefit_id="<%= product_benefit.id %>"> Remove </a>
+                        <span class="selected_procedure_id hidden"><%= product_benefit.benefit_id %></span>
+                      </div>
+                    </div>
+                </div>
+              </td>
+            </tr>
+    <% end %>
+        </tbody>
+      </table>
+  </div>
+
+        <div class="ui vertical segment mb-2">
+      <div class="text-right">
+        <button type="button" id="create_dental" class="ui primary button large">Update</button>
+      </div>
+    </div>
+    </div>
+    <%# <%= render "dental/edit_dental_benefit_modal.html", benefit: @benefit, product: @product %1> %>
+    <%= render "modal_benefit_form.html", benefit: @benefit%>
+    <% end %>
+      </div>
+

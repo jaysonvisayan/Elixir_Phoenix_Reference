@@ -1,0 +1,67 @@
+<div class="ui large modal" id="view_facility_procedure" name="formValidate" >
+  <i class="close icon"></i>
+  <div class="header">
+    View Procedure
+  </div>
+  <div class="content" id="dateFormPicker" style="overflow:auto !important; max-height: 500px">
+  <%= form_for @changeset_facility_payor_procedure, @action, [as: :facility_procedure,  class: "form2", id: "updateProcedure", facilityID: @facility_id ], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset_facility_payor_procedure.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <%= hidden_input f, :facility_payor_procedure_id, class: "form-control", id: "facility_procedure_id"%>
+    <%= hidden_input f, :facility_payor_procedure_room_id, class: "form-control"%>
+
+    <div class="field">
+      <label><b>Payor CPT Code</b></label>
+      <br>
+      <br>
+      <label id="payor_cpt_code"></label>
+      <br>
+      <br>
+    </div>
+
+    <div class="field">
+      <label><b>Facility CPT Code</b></label>
+      <br>
+      <br>
+      <label id="facility_cpt_code"></label>
+      <br>
+      <br>
+    </div>
+
+    <div class="field">
+      <label><b>Facility CPT Name</b></label>
+      <br>
+      <br>
+      <label id="facility_cpt_name"></label>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+        <!-- Facility Procedure Room -->
+
+        <table role="datatable" id="facility_procedure_table" class="ui striped table" width="100%">
+          <thead>
+            <tr>
+              <th>Room Code</th>
+              <th>Amount</th>
+              <th>Discount(%)</th>
+              <th>Effectivity Date</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <!-- END OF Facility Procedure Room -->
+  </div>
+  <div class="actions">
+   <a href="/facilities/<%=@facility_id%>" class="ui right floated blue button", role="update" id="update_facility_procedure_room"><i class="write icon"></i> edit</a>
+  </div>
+  <% end %>
+</div>
+
+</div>

@@ -1,0 +1,63 @@
+<div class="ui tiny modal" id="new_view_modal_package">
+  <div class="header">
+    Append Rate
+  </div>
+  <div class="content">
+    <%= form_for @changeset, main_acu_schedule_path(@conn, :update_acu_package_rate), [as: :acu_schedule,  multipart: true, class: "ui form", id: "acu_package_form", style: "margin-top: 2rem !important;"], fn f -> %>
+      <input type="hidden" name="acu_schedule_package[id]" id="acu_package_id" value="">
+      <input type="hidden" name="acu_schedule_package[acu_schedule_id]" value="<%= @acu_schedule.id %>">
+      <div class="ui three column grid">
+        <div class="column">
+          <div class="field">
+            <label style="margin-bottom: -1.5rem !important;">Package Code</label>
+            <h3 id="acu_package_code" style="display: inline-block;"></h3>
+          </div>
+          <div class="field">
+            <label style="margin-bottom: -1.5rem !important;">Package Name</label>
+            <h3 id="acu_package_description" style="display: inline-block;"></h3>
+          </div>
+        </div>
+        <div class="column">
+        </div>
+        <div class="column">
+          <div class="field">
+            <label style="margin-bottom: -1.5rem !important;">Package rate</label>
+            <h3 id="acu_package_rate_display"></h3>
+          </div>
+        </div>
+      </div>
+      <div class="ui one column grid">
+        <div class="column">
+          <div class="field">
+            <label>Package Rate Adjustment</label>
+          </div>
+          <div class="two fields">
+            <div class="field" style="margin-right: -1.1rem !important;">
+              <select name="acu_schedule_package[adjustment_type]" style="width: 15rem;"  class="ui dropdown" id="dropdown_adjustment">
+                <option value="">Select Package Rate Adjustment</option>
+                <option value="Add">Add</option>
+                <option value="Deduct">Deduct</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="ui input">
+                <input type="text" name="acu_schedule_package[adjustment_rate]" value="" id="acu_package_adjustment" style="margin-right: -.25rem;">
+                <div class="ui basic label">
+                  php
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="ui deny left floated button">
+        Cancel
+      </button>
+      <button type="submit" class="ui blue button">
+        Update
+      </button>
+    </div>
+  <% end %>
+</div>

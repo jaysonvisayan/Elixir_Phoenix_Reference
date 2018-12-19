@@ -1,0 +1,160 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Facilities</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/facilities">Search</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/facilities/<%= @facility.id%>?active=procedure">View <%= @facility.name %></a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Update Procedure</div>
+  </div>
+</div>
+<div id="facility_procedure" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <%= form_for @changeset_facility_payor_procedure, @action, [as: :facility_procedure,  class: "ui form", id: "addProcedure"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <%= if @changeset_facility_payor_procedure.action do %>
+              <div class="alert alert-danger">
+                <p>Oops, something went wrong! Please check the errors below.</p>
+              </div>
+            <% end %>
+            <div class="field">
+              <input type="hidden" name="facility_procedure[room_params][]" id="room_params">
+              <input type="hidden" name="facility_procedure[facility_payor_procedure_id]" value="<%= @facility_payor_procedure.id %>">
+              <label><b>Payor CPT Code/Name</b></label>
+              <label id="fpp_code_name" fpp_id="<%= @facility_payor_procedure.id %>"><%= @facility_payor_procedure.payor_procedure.code%>/<%= @facility_payor_procedure.payor_procedure.description%></label>
+            </div>
+
+            <div class="field">
+              <label><b>Facility CPT Code</b></label>
+              <label><%= @facility_payor_procedure.code%></label>
+            </div>
+
+            <div class="field">
+              <label><b>Facility CPT Name</b></label>
+              <%= text_input f, :name, class: "form-control" %>
+              <%= error_tag f, :name %>
+            </div>
+
+            <div class="ui grid">
+              <div class="sixteen wide tablet sixteen wide computer column">
+                <div class="ui fields grid" style="margin-bottom: -30px;">
+                  <div class="sixteen wide tablet four wide computer column">
+                    <label><b>Room Code/Type</b></label>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <label><b>Amount</b></label>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <label><b>Discount(%)</b></label>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <label><b>Effective Date</b></label>
+                  </div>
+                </div>
+              </div>
+              <!--
+                <div class="sixteen wide tablet sixteen wide computer column" style="display: none;">
+                <div class="ui grid" id="fields_append">
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <%= #select f, :room_ids, filter_facility_room_rate(@facility_room_rate), class: "ui dropdown code_type", prompt: "Room Code/Type", id: "room_code_type"%>
+                      <%= #error_tag f, :room_id %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <input type="number" name="facility_procedure[amounts][]" id="room_amount">
+                      <%= #error_tag f, :amount %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <div class="ui right labeled input">
+                        <input type="text" name="facility_procedure[discounts][]" id="discount_percent">
+                        <div class="ui basic label" id="facility_value_label">
+                          %
+                        </div>
+                      </div>
+                      <%= #error_tag f, :discount %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <div class="ui calendar" id="rangestart">
+                        <div class="ui input right icon">
+                          <i class="calendar icon"></i>
+                          <%= #text_input f, :start_dates, class: "form-control", placeholder: "YYYY-MM-DD", id: "start_date"%>
+                        </div>
+                      </div>
+                    </div>          </div>
+                    <div class="sixteen wide tablet one wide computer column">
+                      <button class="ui right floated red button", type="button" id="room_procedure_button_remove" role="remove-procedure"><i class="trash icon"></i></button>
+                    </div>
+                </div>
+              </div>
+              -->
+
+              <%= for room_rate <- @facility_room_rate do %>
+                <div class="sixteen wide tablet sixteen wide computer column room_procedure" id="room_procedure_fields" room_rate_id="<%= room_rate.id %>">
+                <div class="ui grid" style="margin-bottom: -30px;">
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <label id="room_rate_code_type"><%= room_rate.room.code %>/<%= room_rate.room.type%></label>
+                    </div>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+
+                      <input type="number" name="facility_procedure[amount][]" id="room_amount" class= "amount">
+                      <%= error_tag f, :amount %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <div class="ui right labeled input">
+                        <input type="text" name="facility_procedure[discount][]" id="discount_percent" >
+                        <div class="ui basic label" id="facility_value_label">
+                          %
+                        </div>
+                      </div>
+                      <%= error_tag f, :discount %>
+                    </div>
+                  </div>
+                  <div class="sixteen wide tablet four wide computer column">
+                    <div class="field">
+                      <div class="ui calendar" id="rangestart">
+                        <div class="ui input right icon">
+                          <i class="calendar icon"></i>
+                          <%= text_input f, :start_date, class: "form-control", placeholder: "YYYY-MM-DD", id: "start_date"%>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                   <!-- <div class="sixteen wide tablet one wide computer column">
+                      <button class="ui right floated blue button", type="button" id="room_procedure_button" role="add-procedure"><i class="add icon"></i></button>
+                      </div>
+                      -->
+                </div>
+              </div>
+            <% end %>
+            </div>
+            <div style="margin-top: 40px;">
+            <button class="ui right floated blue button", type="button" id="add-procedure" facilityID=<%= @facility.id %>><i class="write icon"></i> Update</button>
+            <a href="/facilities/<%= @facility.id%>?active=procedure" class="ui right floated deny button">
+              <i class="remove icon"></i>
+              Cancel
+            </a>
+            <a id="remove_procedure" class="ui red button mrg1T" facility_id="<%=@facility.id%>" fpp_id="<%=@facility_payor_procedure.id%>">
+              <i class="trash left icon"></i>
+              Remove
+            </a>
+            </div>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>

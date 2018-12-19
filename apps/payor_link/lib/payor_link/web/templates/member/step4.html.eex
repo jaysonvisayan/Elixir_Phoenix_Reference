@@ -1,0 +1,447 @@
+<%= render "breadcrumbs_edit.html", member: @member %>
+<div id="memberFormSummary" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <%= render "steps.html", conn: @conn %>
+          <h3 class="ui dividing header">General</h3>
+          <div class="ui grid">
+
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Account Code</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.account_group.code %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Member Type</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.type %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Principal ID</b>
+                  </div>
+                  <div class="eight wide column">
+                    n/a
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Coverage Start Date</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.effectivity_date %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>First Name</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.first_name %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Last Name</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.last_name %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Gender</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.gender %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Birthdate</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.birthdate %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Date Hired</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.date_hired || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>TIN</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.tin || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b><%= gettext "Senior Citizen" %></b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= if @member.senior, do: "Yes", else: "No" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b><%= gettext "Senior Citizen ID No." %></b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.senior_id || "n/a" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Plan Codes</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= display_product_codes(@member.products) %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>VIP Member</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= if @member.vip do %>
+                      Yes
+                    <% else %>
+                      No
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <%# <div class="six wide column"> %>
+              <%#   <div class="ui grid"> %>
+              <%#     <div class="eight wide column"> %>
+              <%#     </div> %>
+              <%#     <div class="eight wide column"> %>
+              <%#     </div> %>
+              <%#   </div> %>
+              <%# </div> %>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Member ID</b>
+                  </div>
+                  <div class="eight wide column">
+                    test123
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Coverage End Date</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.expiry_date %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Middle Name</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.middle_name %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Suffix</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.suffix || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Civil Status</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.civil_status %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Employee No</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.employee_no %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Regularization Date</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.regularization_date || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>PhilHealth No.</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.philhealth || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b><%= gettext "PWD" %></b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= if @member.pwd, do: "Yes", else: "No" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b><%= gettext "PWD ID No." %></b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.pwd_id || "n/a" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="ui dividing header">Contact Information</h3>
+          <div class="ui grid">
+            <div class="sixteen wide tablet six wide computer column">
+              <h3 class="ui header">Contact</h3>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Email Address</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.email %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Mobile Phone 1</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%=  "(#{@member.mcc}) #{@member.mobile}" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Home Phone</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= "#{if @member.tcc, do: "(#{@member.tcc})",else: nil} #{if @member.tac, do: "(#{@member.tac})",else: nil} #{@member.telephone || "n/a"} #{if @member.tlc, do: "(#{@member.tlc})", else: nil}" || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <h3 class="ui header">Address</h3>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Unit No. / Flr</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.unit_no || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Street Name</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.street_name || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Province</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.province || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Country</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.country || "n/a" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="sixteen wide tablet six wide computer column">
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                  </div>
+                  <div class="eight wide column">
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Email Address 2</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.email2 || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Mobile Phone 2</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= "#{ if @member.mcc2, do: "(#{@member.mcc2})", else: nil} #{@member.mobile2 || "n/a"}" || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Fax number</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= "#{if @member.fcc, do: "(#{@member.fcc})",else: nil} #{if @member.fac, do: "(#{@member.fac})",else: nil} #{@member.fax || "n/a"} #{if @member.flc, do: "(#{@member.flc})", else: nil}" || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Building Name</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.building_name || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>City / Municipality</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.city || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Region</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.region || "n/a" %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Postal</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @member.postal || "n/a" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%= form_for @conn, member_path(@conn, :update_setup, @member, step: "4"), [as: :member, class: "form2"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <%= hidden_input(f, :member_id, value: @member.id) %>
+            <button type="submit" class="ui blue right right floated button mrg1T">
+              Enroll
+              <i class="chevron right icon"></i>
+            </button>
+            <a href="/members/<%= @member.id %>/setup?step=3" class="ui button mrg1T">
+              <i class="chevron left icon"></i>
+              Back
+            </a>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

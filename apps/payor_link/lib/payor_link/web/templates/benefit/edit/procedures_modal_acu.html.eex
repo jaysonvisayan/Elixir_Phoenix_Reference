@@ -1,0 +1,59 @@
+<div class="ui large modal" id="modalAddProcedure">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Package
+  </div>
+  <div class="content">
+    <%= form_for @conn, @action, [as: :benefit, class: "ui form", id: "formAddPackage"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="field">
+      <div class="field">
+        <%= label f, :package_id, "Package" %>
+        <%= select f, :package_id, map_packages(@packages), class: "ui fluid search selection dropdown", prompt: "Select Package", id: "benefitPackage", "data-validate": "package" %>
+        <%= error_tag f, :package_id %>
+      </div>
+    </div>
+    <table role="datatable" class="ui striped table" id="tblPackage">
+      <thead>
+        <tr>
+          <th>Standard CPT Code</th>
+          <th>Standard CPT Description</th>
+          <th>Payor CPT Code</th>
+          <th>Payor CPT Description</th>
+          <th>Gender</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody id="packageBody">
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>
+
+<%= for package <- @packages do %>
+  <div id="<%= package.id %>" class="hidden">
+    <table>
+      <%= for package_payor_procedure <- package.package_payor_procedure do %>
+        <tr>
+          <td><%= package_payor_procedure.payor_procedure.procedure.code %></td>
+          <td><%= package_payor_procedure.payor_procedure.procedure.description %></td>
+          <td><%= package_payor_procedure.payor_procedure.code %></td>
+          <td><%= package_payor_procedure.payor_procedure.code %></td>
+          <td><%= if package_payor_procedure.male, do: "M" %> <%= if package_payor_procedure.female, do: "F" %></td>
+          <td><%= package_payor_procedure.age_from %> - <%= package_payor_procedure.age_to %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>

@@ -1,0 +1,536 @@
+<div class="row" role="add-practitioner-contact">
+  <div class="sixteen wide column" name="formValidateGeneral">
+    <%= form_for @changeset, @action, [class: "ui form", multipart: :true, id: "formPractitionerFacilityContact"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <%= if Enum.empty?(@contacts) == false do %>
+        <%= hidden_input f, :contact_id, value: List.first(@contacts).id %>
+        <%  contact = List.first(@contacts) %>
+          <%= if Enum.count(contact = check_telephone(contact.phones)) == 1 do %>
+          <div class="field">
+            <label>Telephone Number <i class="gray">(Optional)</i></label>
+            <div class="fields">
+              <div class="three wide field">
+                <input type="text" name="practitioner_facility[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+              </div>
+              <div class="three wide field">
+                <input type="number" name="practitioner_facility[tel_area_code][]" maxlength=5 placeholder="Area Code" value="<%= Enum.at(contact, 0).area_code %>" class="number">
+              </div>
+              <div class="four wide field">
+                <input type="text" name="practitioner_facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" value="<%= Enum.at(contact, 0).number %>" >
+                <%= error_tag f, :telephone %>
+              </div>
+              <div class="three wide field">
+                <input type="number" name="practitioner_facility[tel_local][]" maxlength=5 placeholder="Local" value="<%= Enum.at(contact, 0).local %>" class="number">
+              </div>
+              <div class="field">
+                <a class="ui icon primary button" add="telephone">
+                  <i class="plus icon"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <% else %>
+            <%  contact = List.first(@contacts) %>
+            <% index1 =  Enum.at(check_telephone(contact.phones), 0)%>
+            <% index2 = check_telephone(contact.phones) -- [index1] %>
+            <%= if is_nil(index1) == false do %>
+              <div class="field">
+                <label>Telephone Number <i class="gray">(Optional)</i></label>
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[tel_area_code][]" maxlength=5 placeholder="Area Code" value="<%= index1.area_code %>" class="number">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" name="practitioner_facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" value="<%= index1.number %>" >
+                    <%= error_tag f, :telephone %>
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[tel_local][]" maxlength=5 placeholder="Local" value="<%= index1.local %>" class="number">
+                  </div>
+                  <div class="field">
+                    <a class="ui icon primary button" add="telephone">
+                      <i class="plus icon"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <%= for contact <- index2 do %>
+              <div class="field" role="form-telephone">
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[tel_area_code][]" maxlength=5 placeholder="Area Code" value="<%= contact.area_code %>" class="number">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" name="practitioner_facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" value="<%= contact.number %>" >
+                    <%= error_tag f, :telephone %>
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[tel_local][]" maxlength=5 placeholder="Local" value="<%= contact.local %>" class="number">
+                  </div>
+                  <div class="field">
+                    <a class="ui icon red button" remove="tel"><i class="icon trash"></i></a>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            <% else %>
+              <div class="field">
+                <label>Telephone Number <i class="gray">(Optional)</i></label>
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[tel_area_code][]" maxlength=5 placeholder="Area Code" class="number">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" name="practitioner_facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" >
+                    <%= error_tag f, :telephone %>
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[tel_local][]" maxlength=5 placeholder="Local" class="number">
+                  </div>
+                  <div class="field">
+                    <a class="ui icon primary button" add="telephone">
+                      <i class="plus icon"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+      <% else %>
+        <div class="field">
+          <label>Telephone Number <i class="gray">(Optional)</i></label>
+          <div class="fields">
+            <div class="three wide field">
+              <input type="text" name="practitioner_facility[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+            </div>
+            <div class="three wide field">
+              <input type="number" name="practitioner_facility[tel_area_code][]" maxlength=5 placeholder="Area Code" class="number">
+            </div>
+            <div class="four wide field">
+              <input type="text" name="practitioner_facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" >
+              <%= error_tag f, :telephone %>
+            </div>
+            <div class="three wide field">
+              <input type="number" name="practitioner_facility[tel_local][]" maxlength=5 placeholder="Local" class="number">
+            </div>
+            <div class="field">
+              <a class="ui icon primary button" add="telephone">
+                <i class="plus icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <p role="append-telephone"></p>
+      <div class="ui divider"></div>
+      <%= if Enum.empty?(@contacts) == false do %>
+        <%  contact = List.first(@contacts) %>
+          <%= if Enum.count(contact = check_mobile(contact.phones)) == 1 do %>
+            <div class="field">
+              <label>Mobile Number <i class="gray">(Optional)</i></label>
+              <div class="fields">
+                <div class="three wide field">
+                  <input type="text" name="practitioner_facility[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                </div>
+                <div class="ten wide field" role="mobile">
+                  <input type="text" name="practitioner_facility[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999" value=<%= Enum.at(contact, 0).number %> >
+                  <%= error_tag f, :mobile%>
+                </div>
+                <div class="field">
+                  <a class="ui icon primary button" add="mobile">
+                    <i class="icon add"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <% contact = List.first(@contacts) %>
+            <% index1 =  Enum.at(check_mobile(contact.phones), 0)%>
+            <% index2 = check_mobile(contact.phones) -- [index1] %>
+            <%= if is_nil(index1) == false do %>
+                <div class="field">
+                  <label>Mobile Number <i class="gray">(Optional)</i></label>
+                  <div class="fields">
+                    <div class="three wide field">
+                      <input type="text" name="practitioner_facility[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                    </div>
+                    <div class="ten wide field" role="mobile">
+                      <input type="text" name="practitioner_facility[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999" value=<%= index1.number %> >
+                      <%= error_tag f, :mobile%>
+                    </div>
+                    <div class="field">
+                      <a class="ui icon primary button" add="mobile">
+                        <i class="icon add"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              <%= for contact <- index2 do %>
+                <div class="field" role="form-mobile">
+                  <div class="fields">
+                    <div class="three wide field">
+                      <input type="text" name="practitioner_facility[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                    </div>
+                    <div class="ten wide field" role="mobile">
+                      <input type="text" name="practitioner_facility[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999" value=<%= contact.number %> >
+                      <%= error_tag f, :mobile%>
+                    </div>
+                    <div class="field">
+                      <a class="ui icon red button" remove="mobile"><i class="icon trash"></i></a>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="field">
+                <label>Mobile Number <i class="gray">(Optional)</i></label>
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="ten wide field" role="mobile">
+                    <input type="text" name="practitioner_facility[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999" >
+                    <%= error_tag f, :mobile%>
+                  </div>
+                  <div class="field">
+                    <a class="ui icon primary button" add="mobile">
+                      <i class="icon add"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+      <% else %>
+        <div class="field">
+          <label>Mobile Number <i class="gray">(Optional)</i></label>
+          <div class="fields">
+            <div class="three wide field">
+              <input type="text" name="practitioner_facility[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+            </div>
+            <div class="ten wide field" role="mobile">
+              <input type="text" name="practitioner_facility[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999" >
+              <%= error_tag f, :mobile%>
+            </div>
+            <div class="field">
+              <a class="ui icon primary button" add="mobile">
+                <i class="icon add"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <p role="append-mobile"></p>
+      <div class="ui divider"></div>
+      <%= if Enum.empty?(@contacts) == false do %>
+          <% contact = List.first(@contacts) %>
+          <%= if Enum.count(contact = check_fax(contact.phones)) == 1 do %>
+            <div class="field">
+              <label>Fax Number <i class="gray">(Optional)</i></label>
+              <div class="fields">
+                <div class="three wide field">
+                  <input type="text" name="practitioner_facility[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                </div>
+                <div class="three wide field">
+                  <input type="number" name="practitioner_facility[fax_area_code][]" maxlength=5 placeholder="Area Code" value="<%= Enum.at(contact, 0).area_code %>" class="number">
+                </div>
+                <div class="four wide field">
+                  <input type="text" role="mask" class="phone" name="practitioner_facility[fax][]" minlength=11 maxlength=14 placeholder="Ex. 999-9999" value="<%= Enum.at(contact, 0).number %>" >
+                  <%= error_tag f, :fax %>
+                </div>
+                <div class="three wide field">
+                  <input type="number" name="practitioner_facility[fax_local][]" maxlength=5 placeholder="Local" value="<%= Enum.at(contact, 0).local %>" class="number">
+                </div>
+                <div class="field">
+                  <a class="ui icon primary button" add="fax">
+                    <i class="icon add"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <% contact = List.first(@contacts) %>
+            <% index1 =  Enum.at(check_fax(contact.phones), 0)%>
+            <% index2 = check_fax(contact.phones) -- [index1] %>
+            <%= if is_nil(index1) == false do %>
+              <div class="field">
+                <label>Fax Number <i class="gray">(Optional)</i></label>
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[fax_area_code][]" maxlength=5 placeholder="Area Code" value="<%= index1.area_code %>" class="number">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" role="mask" class="phone" name="practitioner_facility[fax][]" minlength=11 maxlength=14 placeholder="Ex. 999-9999" value="<%= index1.number %>" >
+                    <%= error_tag f, :fax %>
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[fax_local][]" maxlength=5 placeholder="Local" value="<%= index1.local %>" class="number">
+                  </div>
+                  <div class="field">
+                    <a class="ui icon primary button" add="fax">
+                      <i class="icon add"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <%= for contact <- index2 do %>
+              <div class="field" role="form-fax">
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[fax_area_code][]" maxlength=5 placeholder="Area Code" value="<%= contact.area_code %>" class="number">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" role="mask" class="phone" name="practitioner_facility[fax][]" minlength=11 maxlength=14 placeholder="Ex. 999-9999" value="<%= contact.number %>" >
+                    <%= error_tag f, :fax %>
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[fax_local][]" maxlength=5 placeholder="Local" value="<%= contact.local %>" class="number">
+                  </div>
+                  <div class="field">
+                    <a class="ui icon red button" remove="fax"><i class="icon trash"></i></a>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            <% else %>
+              <div class="field">
+                <label>Fax Number <i class="gray">(Optional)</i></label>
+                <div class="fields">
+                  <div class="three wide field">
+                    <input type="text" name="practitioner_facility[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[fax_area_code][]" maxlength=5 placeholder="Area Code" class="number">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" role="mask" class="phone" name="practitioner_facility[fax][]" minlength=11 maxlength=14 placeholder="Ex. 999-9999" >
+                    <%= error_tag f, :fax %>
+                  </div>
+                  <div class="three wide field">
+                    <input type="number" name="practitioner_facility[fax_local][]" maxlength=5 placeholder="Local" class="number">
+                  </div>
+                  <div class="field">
+                    <a class="ui icon primary button" add="fax">
+                      <i class="icon add"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+      <% else %>
+        <div class="field">
+          <label>Fax Number <i class="gray">(Optional)</i></label>
+          <div class="fields">
+            <div class="three wide field">
+              <input type="text" name="practitioner_facility[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+            </div>
+            <div class="three wide field">
+              <input type="number" name="practitioner_facility[fax_area_code][]" maxlength=5 placeholder="Area Code" class="number">
+            </div>
+            <div class="four wide field">
+              <input type="text" role="mask" class="phone" name="practitioner_facility[fax][]" minlength=11 maxlength=14 placeholder="Ex. 999-9999" >
+              <%= error_tag f, :fax %>
+            </div>
+            <div class="three wide field">
+              <input type="number" name="practitioner_facility[fax_local][]" maxlength=5 placeholder="Local" class="number">
+            </div>
+            <div class="field">
+              <a class="ui icon primary button" add="fax">
+                <i class="icon add"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <p role="append-fax"></p>
+      <div class="ui divider"></div>
+      <%= if Enum.empty?(@contacts) == false do %>
+          <% contact = List.first(@contacts) %>
+          <%= if Enum.count(contact = check_email(contact.emails)) == 1 do %>
+            <div class="field">
+              <label>Email Address <i class="gray">(Optional)</i></label>
+              <div class="fields">
+                <div class="thirteen wide field">
+                  <input type="text" name="practitioner_facility[email][]" placeholder="Enter Email Address" class="email" value="<%= Enum.at(contact, 0).address %>" >
+                </div>
+                <div class="field">
+                  <a class="ui icon primary button" add="email">
+                    <i class="icon add"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <% contact = List.first(@contacts) %>
+            <% index1 =  Enum.at(check_email(contact.emails), 0)%>
+            <% index2 = check_email(contact.emails) -- [index1] %>
+            <%= if is_nil(index1) == false do %>
+              <div class="field">
+                <label>Email Address <i class="gray">(Optional)</i></label>
+                <div class="fields">
+                  <div class="thirteen wide field">
+                    <input type="text" name="practitioner_facility[email][]" placeholder="Enter Email Address" class="email" value="<%= index1.address %>" >
+                  </div>
+                  <div class="field">
+                    <a class="ui icon primary button" add="email">
+                      <i class="icon add"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <%= for contact <- index2 do %>
+                <div class="field" role="form-email">
+                  <div class="fields">
+                    <div class="thirteen wide field">
+                      <input type="text" name="practitioner_facility[email][]" placeholder="Enter Email Address" class="email" value="<%= contact.address %>" >
+                    </div>
+                    <div class="field">
+                      <a class="ui icon red button" remove="email"><i class="icon trash"></i></a>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% else %>
+            <div class="field">
+              <label>Email Address <i class="gray">(Optional)</i></label>
+              <div class="fields">
+                <div class="thirteen wide field">
+                  <input type="text" name="practitioner_facility[email][]" placeholder="Enter Email Address" class="email" >
+                </div>
+                <div class="field">
+                  <a class="ui icon primary button" add="email">
+                    <i class="icon add"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <% end %>
+          <% end %>
+      <% else %>
+        <div class="field">
+          <label>Email Address <i class="gray">(Optional)</i></label>
+          <div class="fields">
+            <div class="thirteen wide field">
+              <input type="text" name="practitioner_facility[email][]" placeholder="Enter Email Address" class="email" >
+            </div>
+            <div class="field">
+              <a class="ui icon primary button" add="email">
+                <i class="icon add"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <p role="append-email"></p>
+      <%= hidden_input f, :id %>
+  </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <a class="ui basic button" role="delete-pf" pfId="<%= @practitioner_facility.id %>">Delete</a>
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/practitioners/<%= @practitioner_facility.id %>/pf/create?step=1" class="ui basic button">Back to Previous Step</a>
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+  </div>
+</div>
+<% end %>
+<div class="hide">
+    <div class="fields" role="append-form-telephone">
+      <div class="three wide field">
+        <input type="text" name="practitioner_facility[tel_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+      </div>
+      <div class="three wide field">
+        <input type="number" name="practitioner_facility[tel_area_code][]" maxlength=5 placeholder="Area Code" class="number">
+      </div>
+      <div class="four wide field">
+        <input type="text" name="practitioner_facility[telephone][]" minlength=7 maxlength=11 class="phone" role="mask" placeholder="Ex. 999-9999" >
+      </div>
+      <div class="three wide field">
+        <input type="number" name="practitioner_facility[tel_local][]" maxlength=5 placeholder="Local" class="number">
+      </div>
+      <div class="field">
+        <a class="ui icon primary button" add="telephone">
+          <i class="plus icon"></i>
+        </a>
+      </div>
+    </div>
+</div>
+
+<div class="hide">
+  <div class="field">
+    <div class="fields" role="append-form-mobile">
+      <div class="three wide field">
+        <input type="text" name="practitioner_facility[mobile_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+      </div>
+      <div class="ten wide field" role="mobile">
+        <input type="text" name="practitioner_facility[mobile][]" minlength=11 maxlength=14 class="mobile" role="mask" placeholder="Ex. 999-999-9999" >
+      </div>
+      <div class="field">
+        <a class="ui icon primary button" add="mobile">
+          <i class="icon add"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hide">
+  <div class="fields" role="append-form-fax">
+    <div class="three wide field">
+      <input type="text" name="practitioner_facility[fax_country_code][]" maxlength=4 placeholder="Country Code" value="+63" readonly="true">
+    </div>
+    <div class="three wide field">
+      <input type="number" name="practitioner_facility[fax_area_code][]" maxlength=5 placeholder="Area Code" class="number">
+    </div>
+    <div class="four wide field">
+      <input type="text" role="mask" class="phone" name="practitioner_facility[fax][]" minlength=11 maxlength=14 placeholder="Ex. 999-9999" >
+    </div>
+    <div class="three wide field">
+      <input type="number" name="practitioner_facility[fax_local][]" maxlength=5 placeholder="Local" class="number">
+    </div>
+    <div class="field">
+      <a class="ui icon primary button" add="fax">
+        <i class="icon add"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="hide">
+  <div class="fields" role="append-form-email" >
+    <div class="thirteen wide field">
+      <input type="text" name="practitioner_facility[email][]" placeholder="Enter Email Address" class="email">
+    </div>
+    <div class="field">
+      <a class="ui icon primary button" add="email">
+        <i class="icon add"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+

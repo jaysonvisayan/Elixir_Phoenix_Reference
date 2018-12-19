@@ -1,0 +1,54 @@
+<div id="member_conforme" class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Subject: 	Member Conforme
+  </div>
+  <div class="scrolling content">
+    <div class="description">
+      <p align="justify"><b>Addressed to:</b><br/>
+      <b>Maxicare Healthcare Corporation (</b>hereinafter referred to as <b>“the COMPANY”)</b><br/>
+      Maxicare Tower<br/>
+      203 Salcedo Street, Legaspi Village<br/>
+      Makati City</p>
+    <p align="justify">In reference to my healthcare plan procured by the Company, I hereby certify that I and my dependent/s have read and understood the Summary of Coverage and Benefits of the Service Agreement executed by Maxicare Healthcare Corporation (“Maxicare”) and the Company including all procedures, benefits, exclusions, limitations and conditions contained therein, and agree to be bound thereby.  Furthermore, by availing the services of Maxicare, which include access to this health coach app and health coaching program, I acknowledge and agree to abide by all the membership terms and conditions published via Maxicare website at <a href="https://maxicare.ph/member-terms">https://maxicare.ph/member-terms</a>.</p>
+    <p align="justify">In executing this document and in affixing my signature hereto, I confirm that:</p>
+      <ol type="1|a">
+        <li>
+          <p align="justify">I agree and understand that in the course of providing service/s to me, Maxicare shall engage the services of, and/or interact with, other third parties, such as, but not limited to its parent company, affiliated companies, subsidiaries, financial advisors, affiliated third parties or independent/non-affiliated third parties and service providers, whether local or foreign (collectively referred to as "<b>Representatives</b>").</p>
+        </li>
+        <br/>
+        <li>
+          <p align="justify">I have freely, knowingly and voluntarily given my consent for Maxicare and its Representatives to:</p>
+          <ol>
+            <br/>
+            <li>
+              <p align="justify">Obtain, collect, examine, process, and store copies of my and/or my dependents’ personal information, including sensitive personal information, privileged information, medical records or any other information relative to my (and/or my dependents’) hospitalization, consultation, treatment or any medical advice in connection with the benefit/claim availed under the Agreement as may be deemed necessary by Maxicare.  Except as otherwise stated hereon, any information obtained relative to the authority herein given shall be strictly confidential. The extent of the collection and processing shall be necessary and incidental to the performance of the services contemplated in the Agreement.</p>
+            </li>
+            <br/>
+            <li>
+              <p align="justify">Disclose such information to the Company, its representatives, agents and brokers, Maxicare and its Representatives, including the service providers which will perform the services contemplated in the Agreement, for any legitimate business purpose as Maxicare may deem appropriate, including but not limited to outsourced processing of Maxicare transactions, profiling or historical statistical analysis, providing advice or information which Maxicare and its Representatives believe may be of interest to me or the Company, to effectively administer or manage my account, enhance customer services, or to communicate with me or the Company for any purpose.</p>
+            </li>
+          </ol>
+          <br/>
+          <p align="justify">Processing is hereby understood to include any operation or any set of operations performed upon personal information including, but not limited to, the collection, recording, organization, storage, updating or modification, retrieval, consultation, use, consolidation, blocking, erasure or destruction of data. Processing would include both manual and automated handling of personal information and storage and data transfers using various means including but not limited to physical methods as well as electronic via information and communications systems employed by Maxicare and its Representatives.</p>
+        </li>
+        <br/>
+        <li>
+         <p align="justify">I hereby warrant that I understand my rights and obligations pursuant to the Data Privacy Act and its implementing rules and regulations. I understand that I retain the right to be informed, to object, to access, to complain, to rectify, to request for filtering of certain information and to corresponding damages in case of violation of our rights within the corresponding limitations as set forth in the pertinent laws.</p>
+        </li>
+        <br/>
+        <li>
+          <p align="justify">I hereby represent that, in order to provide the services contemplated in the Agreement, the authorities herein provided shall be valid and existing during the term of the Agreement, including any extensions thereof, and until necessary for the establishment, exercise or defense of any claims arising from the said Agreement.</p>
+        </li>
+        <br/>
+        <li>
+          <p align="justify">I hereby agree to hold Maxicare and its Representatives free and harmless from and against any and all suits or claims, actions, or proceedings, damages, costs and expenses, including attorney’s fees, which may be filed, charged or adjudged against Maxicare or any of its directors, stockholders, officers, employees, agents, or Representatives in connection with or arising from the use, processing and disclosure by Maxicare or its Representatives of the aforementioned information pursuant to Maxicare’s reliance on my and my dependent’s representation and warranty that Maxicare, the Company, and their representatives have the authority to examine, use, process, store, share, or disclose, as the case may be, said information for the above-mentioned purposes.</p>
+        </li>
+        <br/>
+        <li>
+          <p align="justify">Maxicare reserves the right to amend the Membership Terms and Conditions at any time without need of prior notice or approval, and any queries related thereto may be addressed to <a href="DPO@maxicare.com.ph">DPO@maxicare.com.ph</a>.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>

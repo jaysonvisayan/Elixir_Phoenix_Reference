@@ -1,0 +1,317 @@
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formValidate">
+        <div class="ui form segment" id="form">
+          <h3>General</h3>
+          <div class="ui divider"></div>
+
+          <div class="ui grid">
+            <div class="sixteen wide tablet two wide computer column"></div>
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>First Name:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner.first_name %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Last Name:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner.last_name %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Birthdate:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner.birth_date %>
+                  </div>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>PRC:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner.prc_no %>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Effective Date:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.effectivity_from %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Specialization:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= for ps <- @practitioner.practitioner_specializations do %>
+                        <%= if ps.type == "Primary" do %>
+                          <%= ps.specialization.name %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sixteen wide tablet four wide computer column">
+              <div class="six wide column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Middle Name:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= @practitioner.middle_name %>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Suffix:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.suffix %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Gender:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.gender %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Affiliated:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.affiliated %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Expiry Date:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.effectivity_to %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Sub Specialization:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= for ps <- @practitioner.practitioner_specializations do %>
+                        <%= if ps.type == "Secondary" do %>
+                          <%= Enum.join([ps.specialization.name, ""], ", ") %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Contact</h3>
+          <div class="ui divider"></div>
+
+          <% contacts = @practitioner.practitioner_contact.contact %>
+            <div class="ui grid">
+            <div class="sixteen wide tablet two wide computer column"></div>
+              <div class="sixteen wide tablet six wide computer column">
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Telephone:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= for telephone <- contacts.phones do %>
+                        <%= if telephone.type == "telephone" do %>
+                          <p><%= telephone.number %></p>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="sixteen wide tablet five wide computer column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Fax Number:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= for fax <- contacts.phones do %>
+                        <%= if fax.type == "fax" do %>
+                          <p><%= fax.number %></p>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sixteen wide tablet six wide computer column">
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Mobile Number:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= for mobile <- contacts.phones do %>
+                        <%= if mobile.type == "mobile" do %>
+                          <p><%= mobile.number %></p>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="sixteen wide tablet five wide computer column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Email:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= for email <- contacts.emails do %>
+                        <p><%= email.address %></p>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3>Financial</h3>
+            <div class="ui divider"></div>
+            <div class="ui grid">
+
+            <div class="sixteen wide tablet two wide computer column"></div>
+              <div class="sixteen wide tablet six wide computer column">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <b>Exclusive:</b>
+                  </div>
+                  <div class="eight wide column">
+                    <%= Enum.join(@practitioner.exclusive, ", ") %>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>TIN:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.tin %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <b>Payment Type:</b>
+                    </div>
+                    <div class="eight wide column">
+                      <%= @practitioner.payment_type %>
+                    </div>
+                  </div>
+                </div>
+                <div class="six wide column">
+                  <div class="ui grid">
+                    <div class="eight wide column">
+                      <%= cond do %>
+                        <%= @practitioner.payment_type == "MediLink XP Card" -> %>
+                          <b>XP Card No:</b>
+                          <% @practitioner.payment_type == "Check" -> %>
+                            <b>Payee Name:</b>
+                            <% true -> %>
+                              <b>Account Name: </b>
+                            <% end %>
+                    </div>
+                    <div class="eight wide column">
+                      <%= cond do %>
+                        <%= @practitioner.payment_type == "MediLink XP Card" -> %>
+                            <%= @practitioner.xp_card_no %>
+                        <% @practitioner.payment_type == "Check" -> %>
+                            <%= @practitioner.payee_name %>
+                        <% true -> %>
+                              <%= Enum.join([@practitioner.bank.account_name, @practitioner.account_no], " : ") %>
+                        <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sixteen wide tablet six wide computer column">
+                <div class="field">
+                  <div class="six wide column">
+                    <div class="ui grid">
+                      <div class="eight wide column">
+                        <b>VAT Status:</b>
+                      </div>
+                      <div class="eight wide column">
+                        <%= @practitioner.vat_status %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide column">
+                    <div class="ui grid">
+                      <div class="eight wide column">
+                        <b>Withholding Tax:</b>
+                      </div>
+                      <div class="eight wide column">
+                        <%= @practitioner.withholding_tax || "N/A"%>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="six wide column">
+                    <div class="ui grid">
+                      <div class="eight wide column">
+                        <b>Prescription Period:</b>
+                      </div>
+                      <div class="eight wide column">
+                        <%= if is_nil(@practitioner.prescription_period) == false do %>
+                          <%= Enum.join([@practitioner.prescription_period, "days"], "  ") %>
+                        <% else %>
+                            N/A
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

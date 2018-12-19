@@ -1,0 +1,35 @@
+<div class="ui large modal facilities <%= @coverage %>">
+  <i class="close icon"></i>
+  <div class="header" id="<%= @coverage %>_header">Add Facilities</div>
+  <div class="description small dim" id="<%= @coverage %>_description" style="padding-left: 21px">Add at least one or more facilities from the list</div>
+
+  <div class="content pt-0">
+
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+
+        <table role="datatable" class="full-width ui celled striped table" id="<%= @coverage %>_fa_modal_tbl">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" style="width:20px; height:20px" id="facility_select" value="false"/>
+              </th>
+              <th>Code</th>
+							<th>Name</th>
+							<th>Address</th>
+							<th>Group</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+    <div class="ten wide coumputer sixteen wide mobile column centered mt-2">
+      <button class=" ui primary basic button cancel">Cancel</button>
+      <button class=" send-rtp ui primary button right floated submit_fa" id="btnSubmit" coverage="<%= @coverage %>">Add</button>
+    </div>
+  </div>
+</div>

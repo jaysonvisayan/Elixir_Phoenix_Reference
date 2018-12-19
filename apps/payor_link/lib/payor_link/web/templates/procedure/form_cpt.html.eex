@@ -1,0 +1,43 @@
+<div id="form_procedures">
+  <%= if @changeset.action do %>
+    <div class="ui negative message">
+      <i class="close icon"></i>
+      <%= get_flash(@conn, :error) %>
+    </div>
+  <% end %>
+  <%= form_for @changeset, @action, [class: "form2", id: "procedure"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="two fields">
+      <div class="field required">
+        <%= label f, :procedure_id, "Standard CPT Code / Description" %>
+        <%= select f, :procedure_id, filter_payor_procedures(@payor.payor_procedures, @standard_procedures), prompt: "", "data-validate": "procedure_id" %>
+        <%= error_tag f, :procedure_id %>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="field required">
+        <%= label f, :code, "Payor CPT Code" %>
+        <%= text_input f, :code, "data-validate": "code" %>
+        <%= error_tag f, :code %>
+      </div>
+      <div class="field required">
+        <%= label f, :description, "Payor CPT Description"%>
+        <%= text_input f, :description, "data-validate": "description"  %>
+        <%= error_tag f, :description %>
+      </div>
+    </div>
+
+    <button type="button" class="ui blue right floated button submit">
+      <i class="send left icon"></i>
+      Submit
+    </button>
+    <button id="cancelBtn" class="ui button" redirect-to="/procedures" type="button">
+      <i class="remove icon"></i>
+      Cancel
+    </button>
+  <% end %>
+</div>
+<%= for procedure_code <- payor_procedure_codes_to_list(@active_payor_procedures) do %>
+  <input type="hidden" class="active-codes" value="<%= procedure_code %>">
+<% end %>

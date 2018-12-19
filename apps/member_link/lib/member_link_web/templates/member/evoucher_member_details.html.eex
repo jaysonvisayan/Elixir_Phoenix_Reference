@@ -1,0 +1,201 @@
+<div class="pusher" id="evoucherMemberDetails">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+
+        <br><br><br>
+
+        <h2 class="ui header centered">Personal Information</h2>
+
+        <%= form_for @changeset, member_path(@conn, :evoucher_member_details_update, @locale, @peme.id), [method: "PUT", multipart: true, class: "ui form", as: :member, id: "evoucherMemberDetailsForm"], fn f -> %>
+         
+          <% is_edit = if not is_nil(@changeset.data.last_name), do: true, else: false %>
+          <input type="hidden" name="member[is_edit]" value="<%= is_edit %>">
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <input type="hidden" id="maleAge" min="<%= @m_min_age %>" max="<%= @m_max_age %>">
+          <input type="hidden" id="femaleAge" min="<%= @f_min_age %>" max="<%= @f_max_age %>">
+          <input type="hidden" id="femaleGender" value="<%= @f_gender %>">
+          <input type="hidden" id="maleGender" value="<%= @m_gender %>">
+          <input type="hidden" id="mobiles" value="<%= @mobiles %>">
+          <% primary_id = if is_nil(@changeset.data.primary_id), do: "", else: @changeset.data.primary_id.file_name %>
+          <%= hidden_input f, :primary_id_data, value: primary_id %>
+          <div class="two fields">
+            <div class="field">
+              <label>First name</label>
+              <%= text_input f, :first_name, placeholder: "Enter your first name", "data-validate": "first_name", class: "person name", maxlength: "150" %>
+            </div>
+            <div class="field">
+              <label>Middle name <i>(optional)</i></label>
+              <%= text_input f, :middle_name, placeholder: "Enter your middle name", class: "person name", maxlength: "150" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Last name</label>
+              <%= text_input f, :last_name, placeholder: "Enter your last name", "data-validate": "last_name", class: "person name", maxlength: "150" %>
+            </div>
+            <div class="field">
+              <label>Suffix <i>(optional)</i></label>
+              <%= text_input f, :suffix, placeholder: "Suffix", class: "person name", maxlength: "10" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <%= label f, :birthdate, "Birthdate", class: "control-label" %>
+              <div class="ui calendar" id="birthdate">
+                <div class="ui input right icon">
+                  <i class="calendar icon"></i>
+                  <%= text_input f, :birthdate, placeholder: "YYYY-MM-DD", "data-validate": "birthdate" %>
+                </div>
+              </div>
+              <%= error_tag f, :birthdate %>
+            </div>
+            <div class="field">
+              <div class="field">
+                <label>Gender</label>
+              </div>
+              <div class="inline fields">
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :gender, "Male") %>
+                    <label>Male <i class="male icon large teal"></i></label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <%= radio_button(f, :gender, "Female") %>
+                    <label>Female <i class="female icon large pink"></i></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="two fields" id="file">
+            <div class="field">
+              <label>Mobile number</label>
+              <% mobile = if not is_nil(@changeset.data.mobile) do
+                [head | tails] = @changeset.data.mobile |> String.split("") |> List.delete("")
+                tails |> Enum.join()
+              else 
+                ""
+              end
+              %>
+              <%= text_input f, :mobile, placeholder: "Enter your Mobile number", class: "mobile", "data-validate": "mobile", value: mobile %>
+            </div>
+            <div class="field">
+              <label>Email address <i>(optional)</i></label>
+              <%= text_input f, :email, placeholder: "Enter your Email address", "data-validate": "email" %>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <%= label f, :civil_status, "Civil Status", class: "control-label" %>
+              <%= select f, :civil_status, ["Married", "Widowed", "Separated", "Annulled", "Single Parent", "Single"], class: "ui selection dropdown", prompt: "Select Civil Status", "data-validate": "civil_status" %>
+              <%= error_tag f, :civil_status %>
+            </div>
+          </div>
+
+          <div class="field">
+            <input accept="image/*" class="ui hide" id="primary-photo-cam" name="member[primary_photo]" type="hidden">
+            <%= file_input f, :primary_id,  id: "primary_id", class: "hide" %>
+            <label>Primary ID</label>
+            <div class="ui basic icon small buttons upload-order fluid">
+
+              <%# UPLOAD PRIMARY PHOTO %>
+              <a id="upload_primary" for="primary_id" class="ui button" style="width: 50%;">
+                <span class="upload_txt_primary" name="primary_id">
+                  <%= if not is_nil(@changeset.data.primary_id) do %>
+                    <%= @changeset.data.primary_id.file_name %>
+                    </span><i id="iconlink1" class="cloud upload icon"></i>
+                    <a id="remove_primary" class="ui button"><i class="close icon"></i></a>
+                  <% else %>
+                    Upload Primary ID
+                    </span><i id="iconlink1" class="cloud upload icon"></i>
+                    <a style="display: none" id="remove_primary" class="ui button"><i class="close icon"></i></a>
+                  <% end %>
+              </a>
+
+              <%# TAKE PRIMARY PHOTO %>
+              <%= if not is_nil(@changeset.data.primary_id) do %>
+                  <a id="capture_primary" for="primary_id" class="ui button" style="width: 50%; display: none;" >
+                    <span class="upload_txt_primary_capture" name="capture_primary_id">
+                      Capture Photo
+                      </span><i id="iconlink1" class="camera icon"></i>
+                      <a style="display: none" id="remove_primary_capture" class="ui button"><i class="close icon"></i></a>
+                  </a>
+              <% else %>
+                  <a id="capture_primary" for="primary_id" class="ui button" style="width: 50%;">
+                  <span class="upload_txt_primary_capture" name="capture_primary_id">
+                    Capture Photo
+                    </span><i id="iconlink1" class="camera icon"></i>
+                    <a style="display: none" id="remove_primary_capture" class="ui button"><i class="close icon"></i></a>
+                  </a>
+              <% end %>
+              
+            </div>
+          </div>
+
+          <div class="field">
+            <input accept="image/*" class="ui hide" id="secondary-photo-cam" name="member[secondary_photo]" type="hidden">
+            <%= file_input f, :secondary_id,  id: "secondary_id", class: "hide", value: "" %>
+            <label>Secondary ID <i>(optional)</i></label>
+            <div class="ui basic icon small buttons upload-order fluid">
+
+              <%# UPLOAD SECONDARY PHOTO %>
+              <a id="upload_secondary" for="secondary_id" class="ui button" style="width: 50%;">
+                <span class="upload_txt_secondary" name="secondary_id">
+                  <%= if not is_nil(@changeset.data.secondary_id) do %>
+                    <%= @changeset.data.secondary_id.file_name %>
+                    </span><i id="iconlink1" class="cloud upload icon"></i>
+                    <a id="remove_secondary" class="ui button"><i class="close icon"></i></a>
+                  <% else %>
+                    Upload Secondary ID
+                    </span><i id="iconlink1" class="cloud upload icon"></i>
+                    <a style="display: none" id="remove_secondary" class="ui button"><i class="close icon"></i></a>
+                  <% end %>
+              </a>
+
+              <%# TAKE SECONDARY PHOTO %>
+              <%= if not is_nil(@changeset.data.secondary_id) do %>
+                  <a id="capture_secondary" for="secondary_id" class="ui button" style="width: 50%; display: none;">
+                    <span class="upload_txt_secondary_capture" name="capture_secondary_id">
+                        Capture Photo
+                        </span><i id="iconlink1" class="camera icon"></i>
+                        <a style="display: none" id="remove_secondary_capture" class="ui button"><i class="close icon"></i></a>
+                  </a>
+              <% else %>
+                  <a id="capture_secondary" for="secondary_id" class="ui button" style="width: 50%;">
+                    <span class="upload_txt_secondary_capture" name="capture_secondary_id">
+                        Capture Photo
+                        </span><i id="iconlink1" class="camera icon"></i>
+                        <a style="display: none" id="remove_secondary_capture" class="ui button"><i class="close icon"></i></a>
+                  </a>
+              <% end %>
+            </div>
+          </div>
+
+          <%# <div class="two fields"> %>
+            <div class="field">
+              <button type="submit" class="fluid ui blue button">Proceed</button>
+            </div>
+          <%# </div> %>
+
+       <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if @conn.assigns[:peme] do %>
+  <%= form_for @conn, member_path(@conn, :remove_primary_id, @locale, @peme.id), [id: "delete-primary-id", multipart: true, as: :member, method: :delete], fn _f -> %>
+    <%# <input type="hidden" name="member_id" value="<%= @member.id %1>" /> %>
+  <% end %>
+
+  <%= form_for @conn, member_path(@conn, :remove_secondary_id, @locale, @peme.id), [id: "delete-secondary-id", multipart: true, as: :member, method: :delete], fn _f -> %>
+    <%# <input type="hidden" name="member_id" value="<%= @member.id %1>" /> %>
+  <% end %>
+<% end %>
+
+<%= render "evoucher_member_modal_capture.html", conn: @conn, locale: @locale, changeset: @changeset %>

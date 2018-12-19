@@ -1,0 +1,74 @@
+.modal_large_buttons {
+  height: 9.5rem;
+}
+.ui.celled.table tr th {
+  color: #000000;
+  font-weight: 900;
+}
+
+.ui.text.menu .item, .selection-label {
+  color: #000000;
+}
+
+table.full-width .data-label {
+  color: #444444;
+  font-weight: 900;
+}
+
+.section-wrapper {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.23);
+}
+
+.add_loa_section_wrapper {
+  padding: 1.5rem;
+  margin: 1rem;
+}
+
+.overflow-small {
+  overflow-y: auto;
+  max-height: 115px;
+  min-height: 115px;
+}
+
+.overflow-med {
+  overflow-y: auto;
+  max-height: 410px;
+}
+
+.add_loa_gap {
+  width: 5% !important;
+}
+
+.add_loa_message_header {
+  width: 100%;
+}
+
+.add_loa_message_table {
+  width: 100%;
+  tr {
+    margin-bottom: 5rem;
+    .data-label {
+      font-weight: 900;
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.add_loa_margin_top {
+  margin-top: 2rem !important;
+}
+
+.bolder {
+  font-weight: 800;
+}
+
+.sub.header {
+  color: #000 !important;
+}
+
+.blacken {
+  color: #000 !important;
+}

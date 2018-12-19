@@ -1,0 +1,71 @@
+<div class="ui small modal" role="edit-pf-schedule">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Edit Schedule
+  </div>
+  <div class="content" id="formScheduleValidateEdit">
+    <%= form_for @changeset, @action, [as: :practitioner_facility, multipart: true, class: "ui form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <%= hidden_input f, :dummy_val%>
+      <table class="ui very basic striped table" id="table_add_schedule">
+        <% _days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Room</th>
+            <th>Time From</th>
+            <th>Time To</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div id="dateFormPicker">
+            <tr>
+              <%= hidden_input f, :day %>
+              <td>
+                <div class="field" role="day">
+                </div>
+              </td>
+              <td>
+                <div class="seven wide field">
+                  <%= text_input f, :room %>
+                </div>
+              </td>
+                <td>
+                  <div class="seven wide field">
+                    <div class="ui calendar" id="edit_time_from">
+                      <%= text_input f, :time_from, placeholder: "00:00" %>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="seven wide field">
+                    <div class="ui calendar" id="edit_time_to">
+                      <%= text_input f, :time_to, placeholder: "00:00" %>
+                    </div>
+                  </div>
+                </td>
+                <%= hidden_input f, :schedule_id %>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <button class="ui deny basic button">
+        Cancel
+      </button>
+      <button type="submit" class="ui primary button" id="edit_sched">
+        Save Changes
+      </button>
+    </div>
+  </div>
+  <% end %>
+</div>

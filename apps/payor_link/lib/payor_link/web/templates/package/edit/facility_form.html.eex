@@ -1,0 +1,51 @@
+ <div id="edit_package_facility" >
+           <div class="row">
+              <div class="column">
+                <div class="ui right floated add button" id="btnPackageFacility">
+                  <i class="plus icon"></i>
+                  Facility
+                </div>
+                <table id="tblpackage_payor_procedure" class="ui stripped table">
+                  <thead>
+                    <tr>
+                      <th width="10%" style="text-align: center;">Facility Code</th>
+                      <th width="10%" style="text-align: center;">Facility Name</th> 
+                      <th width="15%" style="text-align: center;">Facility Rate</th> 
+                      <th width="5%" style="text-align: center;">Action</th> 
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if @package_facilities == [] do %>
+                      <tr>
+                        <td colspan="7" class="center aligned">
+                          NO RECORD FOUND!
+                        </td>
+                      </tr>
+                    <% else %>
+                      <%= for package_facility <-  Enum.sort_by(@package_facilities, &(&1.facility.code)) do %>
+                        <tr>
+                          <td width="10%" style="text-align: center;"> 
+                            <a style="cursor: pointer;" class="facility_rate" facility_name="<%= package_facility.facility.name %>" facility_code="<%= package_facility.facility.code %>" facility_id="<%= package_facility.facility.id %>" package_id="<%= package_facility.package.id %>" package_facility_id="<%= package_facility.id %>" package_facility_rate="<%= package_facility.rate %>" >
+                            <%= package_facility.facility.code %>
+                            </a>
+                          </td>
+                          <td width="25%" style="text-align: center;"> <%= package_facility.facility.name %></td>
+                          <td width="10%" style="text-align: center;"> <%= package_facility.rate %></td>
+                          <td width="5%" style="text-align: center;" class="ui center aligned">
+                            <div class="mini ui buttons trash">
+                            <button type="button" class="mini negative ui button btnRemove" package_facility_id="<%= package_facility.id %>" > <i class="trash icon" ></i>
+                            </button>
+                          </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+           <%= render "edit_facility_modal.html", 
+           changeset: @changeset, 
+           conn: @conn,
+           action: package_path(@conn, :update_package_facilities, @package) %>

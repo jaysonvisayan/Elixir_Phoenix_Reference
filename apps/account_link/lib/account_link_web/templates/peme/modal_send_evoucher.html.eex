@@ -1,0 +1,88 @@
+<div class= "ui large modal" id= "send_evoucher_modal">
+
+  <div class="header">
+    <div class="content">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <div class="field">
+            <button class="tiny circular grey basic right floated ui icon button close_button" id="modal_close_button">
+              <i class="close icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    Share e-vouchers
+  </div>
+
+  <div class="content">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <%= form_for @changeset, peme_path(@conn, :peme_send_voucher, @locale), [as: :peme, class: "ui form", id: "modal_evoucher_form"], fn f -> %>
+
+          <form id="evoucher_form">
+            <div class="ui form">
+              <%= hidden_input f, :package_id, id: "package_ID" %>
+              <%= hidden_input f, :facility_id, id: "facility_ID" %>
+              <%= hidden_input f, :date_from, id: "peme_date_from" %>
+              <%= hidden_input f, :date_to, id: "peme_date_to" %>
+              <%= hidden_input f, :member_count, id: "peme_member_count" %>
+              <input type="hidden" name="" value="false" id="is_form_arrays">
+              <input type="hidden" value="<%= Plug.CSRFProtection.get_csrf_token() %>" name="_csrf_token">
+
+              <div class="ui form" id="form_id">
+                <div class="ui form" id="email_mobile_form">
+                  <div class="three fields main-field">
+                    <div class="fourteen wide field">
+                      <div class = "field main-field-email">
+                        <label class="label-title">Email Address</label>
+                        <input type="text" name="peme[email_address][]" id="email_peme_evoucher" class= "prompt email-array email_peme field-primary" placeholder= "(e.g. myemail@gmail.com)" >
+                        <div class="error-msg email-end"></div>
+                      </div>
+                    </div>
+                    <div class="sixteen wide field">
+                      <div class="two fields">
+                        <div class="three wide field disabled">
+                          <label class="label-title">Code</label>
+                          <input type="text" name="peme[mobile_code][]" id="mobile_code" class="mobile-code " placeholder= "+63" value= "63">
+                        </div>
+                        <div class="twelve wide field main-field-mobile">
+                          <label class="label-title">Mobile Number</label>
+                          <input type="text" name="peme[mobile_number][]" id="mobile_peme_evoucher" class="prompt mobile-array mobile_peme field-primary" placeholder= "(e.g. 09123456789)" maxlength= "11">
+                          <div class="error-msg  mobile-end"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="four wide field" id="button_container">
+                      <div class="field remove-body" id="remove_button">
+                        <br>
+                        <a class="circular ui icon button add-row" id="Add_Email_and_Mobile_Field">
+                          <i class="icon plus"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <br>
+            <% end %>
+
+            <div class="content">
+              <div class="actions">
+                <button class="large right floated ui button" id="send_evoucher">
+                  Submit
+                </button>
+              </div>
+              <div class="actions">
+                <a class=" ui cancel right floated blue basic button"  id="skip_evoucher">
+                  Skip
+                </a>
+              </div>
+              <br>
+              <br>
+            </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>

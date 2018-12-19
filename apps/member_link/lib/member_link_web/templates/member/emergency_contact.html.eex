@@ -1,0 +1,25 @@
+<div class="pusher">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+
+        <br><br>
+
+        <h2 class="ui header">Emergency Contact Card</h2>
+        <div class="sub header">1. Print the page</div>
+        <div class="sub header">2. Cut out the outline</div>
+        <div class="sub header">3. Fold along dotted line</div>
+        <div class="sub header">4. Sign and date where dotted</div>
+        <div class="sub header">5. Place card in your wallet</div>
+
+        <br><br>
+
+        <div class="ui stackable grid">
+          <div class="right floated right aligned three wide column"><a href="/en/emergency_contact/edit"><b>Edit this Information</b></a></div>
+          <%= render("emergency_contact_card.html", user: @user) %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

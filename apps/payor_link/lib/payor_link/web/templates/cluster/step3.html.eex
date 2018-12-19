@@ -1,0 +1,105 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Clusters</h2>
+  <div class="ui small breadcrumb">
+    <a href="/clusters" class="section">Clusters</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/clusters" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Summary</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable" id="Step3Validation">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Account</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+
+           <!-- GENERAL -->
+          <h4 class="ui dividing header">General</h4>
+          <div class="ui grid centered container">
+            <div class="six wide computer six wide tablet column">
+              Cluster Code
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @cluster.code %></b>
+            </div>
+            <div class="six wide computer six wide tablet column">
+              Cluster Name
+            </div>
+            <div class="six wide computer ten wide tablet column">
+              <b><%= @cluster.name %></b>
+            </div>
+          </div>
+          <!-- END OF GENERAL -->
+
+          <!-- ACCOUNTS -->
+          <h4 class="ui dividing header">Accounts</h4>
+          <!-- ACCOUNT LOOP -->
+          <table class="ui table">
+              <thead>
+                <tr>
+                  <th>Account Code</th>
+                  <th>Account Name</th>
+                  <th>Funding Arrangement</th>
+                  <th>Account Type</th>
+                </tr>
+              </thead>
+              </tbody>
+              <%= for account_group_cluster <- Enum.sort_by(@account_group_clusters, &(&1.account_group_id)) do %>
+                <tr>
+                  <td>
+                    <%= account_group_cluster.account_group.code %>
+                  </td>
+                  <td>
+                  <%= account_group_cluster.account_group.name %>
+                  </td>
+                  <td>
+                    <%= if is_nil(account_group_cluster.account_group.payment_account) == false do %>
+                    <%= account_group_cluster.account_group.payment_account.funding_arrangement %>
+                    <% else %>
+                    <%= "None" %>
+                  <% end %>
+                  </td>
+                  <td>
+                  <%= account_group_cluster.account_group.type %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+         <!-- END OF ACCOUNTS -->
+         <div>
+          <a href="/clusters/<%= @cluster.id %>/setup?step=2" class="ui button">
+            <i class="chevron left icon"></i>
+            Previous
+          </a>
+          <a href="/clusters/<%= @cluster.id %>/submit" class="ui right floated button blue">
+            <i class="send icon"></i>
+            Submit
+          </a>
+          <a class="ui right floated button green print-account"  clusterID="<%= @cluster.id %>" >
+            <i class="print icon "></i>
+            Print
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

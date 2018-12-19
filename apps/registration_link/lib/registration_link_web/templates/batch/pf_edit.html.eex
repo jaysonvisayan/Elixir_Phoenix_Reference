@@ -1,0 +1,684 @@
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container ">
+      <div class="ui right floated header">
+        <a class="ui primary basic button" href="/batch_processing">Cancel</a>
+      </div>
+      <h1 class="ui left floated header">
+        Update PF Batch
+        <div class="sub header"><a href="/batch_processing" class="mr-1">Dashboard ></a> Update PF Batch</div>
+      </h1>
+    </div>
+  </div><!-- .ui.clearing.segment -->
+</div><!-- .page-title -->
+
+<div class="ui container" id="pf_batch">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide computer column">
+        <div class="content-section white-bg">
+          <%= form_for @changeset, batch_path(@conn, :update_pf_batch, @batch), [multipart: true, id: "pf_batch_form"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <input type="hidden" id="userID" userID="<%= @conn.assigns.current_user.id %>">
+            <input type="hidden" id="batchID" batchID="<%= @batch.id %>">
+            <%= hidden_input f, :id %>
+            <p>Please fill in the batch information.</p>
+            <div class="ui grid">
+              <div class="row">
+                <div class="nine wide computer eight wide tablet sixteen wide mobile column">
+                  <div class="ui form">
+                    <div class="field">
+
+                      <%# --------------------------------------------------------------------------------- %>
+
+
+                      <%= if @batch.batch_authorizations == [] do %>
+                        <div class="field" id="search_facility">
+                          <%= label f, :facility_id, "Facility (Code/Name):" %>
+                          <div class="ui search">
+                            <div class="ui icon input">
+                              <%=  if Enum.count(@data) >= 1 do %>
+                                <%= text_input f, :description, placeholder: "Select Facility", class: "prompt", value: List.first(@data).description %>
+                              <% else %>
+                                <%= text_input f, :description, placeholder: "Select Facility", class: "prompt" %>
+                              <% end %>
+                            </div>
+                            <div class="results"></div>
+                          </div>
+                        </div>
+                        <%=  if Enum.count(@data) >= 1 do %>
+                          <input type="hidden" name="batch[facility_id]" id="batch_facility_id" value="<%= List.first(@data).facility_id %>" >
+                        <% else %>
+                          <input type="hidden" name="batch[facility_id]" id="batch_facility_id">
+                        <% end %>
+                        <input type="hidden" value="<%= Poison.encode!(@facility) %>" id="facility">
+                      </div>
+                      <div class="field" id="practitioner_id">
+                        <label>Practitioner</label>
+
+                        <input type="hidden" name="batch[practitioner_onload]" id="practitioner_onload" value="<%= @batch.practitioner_id %>">
+                        <%= select f, :practitioner_id, [], class: "ui fluid search selection dropdown", prompt: "Select Practitioner" %>
+                      </div>
+                    <% else %>
+                      <div class="field" id="search_facility">
+                        <%= label f, :facility_id, "Facility (Code/Name):" %>
+                        <div class="ui search">
+                          <div class="ui icon input">
+                            <%=  if Enum.count(@data) >= 1 do %>
+                              <%= text_input f, :description, placeholder: "Select Facility", disabled: true, class: "prompt", value: List.first(@data).description %>
+                            <% else %>
+                              <%= text_input f, :description, placeholder: "Select Facility", class: "prompt" %>
+                            <% end %>
+                          </div>
+                          <div class="results"></div>
+                        </div>
+                      </div>
+                      <%=  if Enum.count(@data) >= 1 do %>
+                        <input type="hidden" name="batch[facility_id]" id="batch_facility_id" value="<%= List.first(@data).facility_id %>" >
+                      <% else %>
+                        <input type="hidden" name="batch[facility_id]" id="batch_facility_id">
+                      <% end %>
+                      <input type="hidden" value="<%= Poison.encode!(@facility) %>" id="facility">
+                    </div>
+                    <div class="field" id="practitioner_id">
+                      <label>Practitioner</label>
+                      <input type="hidden" name="batch[practitioner_onload]" id="practitioner_onload" value="<%= @batch.practitioner_id  %>">
+                      <%= select f, :practitioner_id, [], class: "ui fluid search selection dropdown", prompt: "Select Practitioner", disabled: true %>
+                    </div>
+                  <% end %>
+                  <%# --------------------------------------------------------------------------------- %>
+                  <div class="field">
+                    <label>Coverage</label>
+                    <%= select f, :coverage, ["Inpatient", "Outpatient"], class: "ui fluid dropdown", prompt: "Select Coverage" %>
+                  </div>
+                  <div class="field">
+                    <label>SOA Reference No.</label>
+                    <%= text_input f, :soa_ref_no, class: "alphanumeric", placeholder: "Enter SOA Reference No." %>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label>SOA Amount</label>
+                      <%= number_input f, :soa_amount, placeholder: "SOA number" %>
+                    </div>
+                    <div class="field">
+                      <label>Est. No. of Claims</label>
+                      <%= number_input f, :estimate_no_of_claims, placeholder: "Est. No. of Claims" %>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Date Received</label>
+                    <div class="field">
+                      <div class="ui calendar" id="date_received">
+                        <div class="ui input left icon">
+                          <i class="calendar icon"></i>
+                          <%= text_input f, :date_received, placeholder: "enter date received"#, value: if Enum.count(@data) == 1, do: List.first(@data).date_received %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Date Due</label>
+                    <div class="field">
+                      <div class="ui calendar" id="date_due">
+                        <div class="ui input left icon">
+                          <i class="calendar icon"></i>
+                          <%= text_input f, :date_due, placeholder: "enter date due"#, value: if Enum.count(@data) == 0, do: List.first(@data).date_due %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Mode of Receiving</label>
+                    <%= select f, :mode_of_receiving, ["mode1": "mode1", "mode2": "mode2"], class: "ui fluid dropdown", prompt: "Select Mode of Receiving" %>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :add_soa_document, "Add SOA Document" %>
+                      <div class="field">
+                        <input type="file" name="upload_soa_document" id="upload_soa_document" class="hide">
+                        <div class="ui grid">
+                          <div class="sixteen wide column">
+                            <div class="ui basic icon buttons fluid">
+                              <label class="ui button" id="addFile">
+                                Upload Document
+                                <i class="upload icon"></i>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="sixteen wide column hide">
+                            <div class="field overflow-small">
+                              <%= hidden_input f, :file_delete_ids, id: "deleteIDs", value: "" %>
+                              <div class="field">
+                                <div class="ui middle aligned list" id="filePreviewContainer">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field mt-2">
+                        <a class="ui primary button fluid">Add Documents</a>
+                      </div>
+                      <div class="field mt-2">
+                        <a class="ui primary button fluid" id="scan_document">Scan Documents</a>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <%= label f, :added_documents, "Added Documents" %>
+                      <table class="ui celled striped table">
+                        <thead>
+                          <tr>
+                            <th>Document Type</th>
+                            <th>File Name</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= for batch_file <- @batch_files do %>
+                            <tr docs="test" >
+                              <td><%= batch_file.document_type %></td>
+                              <td><a><%= batch_file.file.type.file_name %></a></td>
+                              <td><div class="ui small basic icon buttons right floated">
+                                  <a class="ui button" href="<%= RegistrationLinkWeb.LayoutView.file_url_for(Innerpeace.FileUploader, batch_file.file.type, batch_file.file) %>" download>
+                                    <i class="download icon"></i>
+                                  </a>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="ui basic top right pointing dropdown">
+                                  <i class="ellipsis vertical icon"></i>
+                                  <div class="menu">
+                                    <a class="item btnViewDocument" source="<%= RegistrationLinkWeb.LayoutView.image_url_for(Innerpeace.FileUploader, batch_file.file.type, batch_file.file) %>">
+                                      <i class="eye icon"></i> View
+                                    </a>
+                                    <a class="item btnRemoveDocument" batch_file_id="<%= batch_file.id %>">
+                                      <i class="minus circle icon"></i> Remove
+                                    </a>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  </br>
+                  <button type="submit" class="fluid ui primary button" id="submit-batch">
+                    Update Batch
+                  </button>
+                </div>
+              </div>
+
+              <div class="five wide computer eight wide tablet sixteen wide mobile right floated column row">
+                <div class="ui cards facility-card">
+                  <div class="card info-card">
+                    <div class="content">
+                      <div class="header">
+                        <span class="icon-hospital"></span>
+                        <span class="name" facility="name"></span>
+                        <br/>
+                        <span class="code" facility="code"></span>
+                      </div>
+                      <div class="description">
+                        <table>
+                          <tr>
+                            <td><span class="icon-location mr-1"></span></td>
+                            <td><span class="line1" facility="line_1"></span></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>
+                              <span class="line2" facility="line_2"></span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td>
+                              <span class="line3" facility="city"></span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span class="icon-telephone mr-1"></span>
+                            </td>
+                            <td>
+                              <span class="phone">09123456789</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui cards facility-card-empty">
+                  <div class="card info-card">
+                    <div class="content">
+                      <div class="header">
+                      </div>
+                      <div class="description text-center">
+                        Facility Information
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui cards practitioner-card">
+                  <div class="card info-card">
+                    <div class="content">
+                      <div class="header">
+                        <span class="icon-doctor mr-1"></span>
+                        <span practitioner="name"></span>
+                      </div>
+                      <div class="description">
+                        <p practitioner="details">
+                          <span practitioner="specializations"></span><br />
+                          <span practitioner="contact"></span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui cards practitioner-card-empty">
+                  <div class="card info-card">
+                    <div class="content">
+                      <div class="header">
+                      </div>
+                      <div class="description text-center">
+                        Practitioner Information
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="comments-section mt-1">
+                  <div class="ui form">
+                    <div class="field" id="comment_field">
+                      <label>Add Comment</label>
+                      <%= textarea f, :pf_comment, placeholder: "Add Comments", id: "pf_comment" %>
+                      <%= error_tag f, :pf_comment %>
+                    </div>
+                    <button type="button" class="ui primary basic button" id="comment">
+                      Comment
+                    </button>
+                  </div>
+                  <div class="title mt-2">Recent Comments</div>
+                  <div class="comment mt-2" id="maincomment">
+                    <div class="comment mt-2" id="append_comment">
+                    </div>
+                    <%= for comment <- @batch.comments do %>
+                      <div class="comment-views mb-1">
+                        <div>
+                          <p class="mb-0 blacken"><%= comment.comment %></p>
+                          <p class="blacken"><i class="user icon mr-1"></i><%= actual_user(comment) %></p>
+                        </div>
+                        <div class="small blacken commentDateTime"><%= comment.inserted_at %></div>
+                      </div>
+                      <hr/>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div><!-- row ends here -->
+</div><!-- grid ends here -->
+<%# <!--div class="ui tiny modal"> %>
+<%#   <i class="close icon"></i> %>
+<%#   <div class="header text-centered"> %>
+  <%#     <div class="header-icon(twodash)container text-centered"> %>
+    <%#       <i class="icon-success icon"></i> %>
+    <%#     </div> %>
+  <%#     Batch Successfully Created %>
+  <%#     <div class="description">Batch No. 017-R23459, Makati Medical Center</div> %>
+  <%#   </div> %>
+<%#   <div class="content"> %>
+  <%#     <div class="button-label text-centered mb-1">Do you want to create another PF batch?</div> %>
+  <%#     <div class="ui grid"> %>
+    <%#       <div class="eight wide column"> %>
+      <%#         <button class="fluid ui primary basic button" type="submit">No</button> %>
+      <%#       </div> %>
+    <%#       <div class="eight wide column"> %>
+      <%#         <button class="fluid ui primary button" type="submit">Yes</button> %>
+      <%#       </div> %>
+    <%#     </div> %>
+  <%#   </div> %>
+<%# </div--> %>
+  <%# </div><!-- container ends here --> %>
+
+  <%= if @open && Enum.count(@data) >= 1 do %>
+    <div id="edit-pf-batch-alert"></div>
+    <% [facility] = Enum.filter(@facility, fn(facility) -> List.first(@data).facility_id == facility["id"] end) %>
+    <input type="hidden" name="swal-facility-name" value="<%= facility["name"] %>">
+    <input type="hidden" name="swal-batch-no" value="<%= List.first(@data).batch_no %>">
+  <% end %>
+
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <!-- TODO: Insert anything here  -->
+    </div>
+  </div>
+
+  <div class="ui small modal" id="modal_scan">
+    <i class="close icon"></i>
+    <div class="header">
+      Scan Documents
+    </div>
+    <div class="content">
+      <div class="ui grid">
+        <div class="thirteen wide column">
+          <select id="source" class="ui selection fluid dropdown"></select>
+        </div>
+        <div class="three wide column">
+          <input type="button" value="Scan" class="ui primary fluid button" onclick="AcquireImage();" />
+        </div>
+      </div>
+      <br />
+      <div style="display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;">
+        <div style="width: 350px" id="dwtcontrolContainer"></div>
+      </div>
+      <br />
+      <div style="text-align: center">
+        <div class="ui compact icon menu" style="max-height: 1rem">
+          <a onclick="btnFirstImage_onclick()" class="item">
+            <i class='step backward icon'></i>
+          </a>
+          <a onclick="btnPreImage_onclick()" class="item">
+            <i class='chevron left icon'></i>
+          </a>
+          <div style="font-size: 1.8rem;border: 1px solid rgba(34, 36, 38, 0.15)">
+            &nbsp;&nbsp;
+            <span id="DW_CurrentImage" style="text-align: right">0</span>
+            <span>/</span>
+            <span id="DW_TotalImage">0</span>
+            &nbsp;&nbsp;
+          </div>
+          <a onclick="btnNextImage_onclick()" class="item">
+            <i class='chevron right icon'></i>
+          </a>
+          <a onclick="btnLastImage_onclick()" class="item">
+            <i class='step forward icon'></i>
+          </a>
+        </div>
+        <br /><br />
+        Preview Mode:
+        <select id="DW_PreviewMode" class="ui dropdown" onchange="setlPreviewMode();">
+          <option value="0">1X1</option>
+          <option value="1">2X2</option>
+          <option value="2">3X3</option>
+          <option value="3">4X4</option>
+          <option value="4">5X5</option>
+        </select>
+        <br />
+      </div>
+      <br/>
+      <div class="ui fluid buttons">
+        <button onclick="btnRemoveSelectedImages_onclick()" class="ui button">Remove Selected Images</button>
+        <button onclick="btnRemoveAllImages_onclick()" class="ui button">Remove All Images</button>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">Cancel</div>
+      <div class="ui primary approve button" onclick="UploadImage();">Save</div>
+    </div>
+  </div>
+
+  <div class="ui small modal" id="modal_view_document">
+    <i class="close icon"></i>
+    <div class="header">
+      View Document
+    </div>
+    <div class="content">
+      <%# <div class="ui grid"> %>
+        <img class="ui centered image" id="image_source">
+      <%# </div> %>
+    </div>
+  </div>
+
+  <!-- Dynamic Twain -->
+  <script src="<%= static_path(@conn, "/resources/dynamsoft.webtwain.initiate.js") %>"></script>
+  <script src="<%= static_path(@conn, "/resources/dynamsoft.webtwain.config.js") %>"></script>
+  <script type="text/javascript">
+    Dynamsoft.WebTwainEnv.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady);
+    var DWObject;
+
+    function Dynamsoft_OnReady() {
+      DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer');
+      if (DWObject) {
+        var twainsource = document.getElementById("source");
+        var count = DWObject.SourceCount;
+        if (count == 0) {
+          twainsource.options.length = 0;
+          twainsource.options.add(new Option("Looking for devices. Please wait.", 0));
+        }
+        else {
+          for (var i = 0; i < count; i++) {
+            twainsource.options.add(new Option(DWObject.GetSourceNameItems(i), i));
+          }
+        }
+
+        // The event OnPostTransfer fires after each image is scanned and transferred
+        DWObject.RegisterEvent("OnPostTransfer", function () {
+          updatePageInfo();
+        });
+
+        // The event OnPostLoad fires after the images from a local directory have been loaded into the control
+        DWObject.RegisterEvent("OnPostLoad", function () {
+          updatePageInfo();
+        });
+
+        // The event OnMouseClick fires when the mouse clicks on an image on Dynamic Web TWAIN viewer
+        DWObject.RegisterEvent("OnMouseClick", function () {
+          updatePageInfo();
+        });
+
+        // The event OnTopImageInTheViewChanged fires when the top image currently displayed in the viewer changes
+        DWObject.RegisterEvent("OnTopImageInTheViewChanged", function (index) {
+          DWObject.CurrentImageIndexInBuffer = index;
+          updatePageInfo();
+        });
+      }
+    }
+
+    function AcquireImage() {
+      if (DWObject) {
+        var OnAcquireImageSuccess, OnAcquireImageFailure;
+        OnAcquireImageSuccess = OnAcquireImageFailure = function () {
+          DWObject.CloseSource();
+        };
+
+        DWObject.SelectSourceByIndex(document.getElementById("source").selectedIndex);
+        DWObject.OpenSource();
+
+        if (DWObject.ErrorCode != 0) {
+          alert(DWObject.ErrorString);
+        }
+        else {
+          // DWObject.PixelType = EnumDWT_PixelType.TWPT_RGB;
+          DWObject.IfFeederEnabled = true;
+
+          if (DWObject.IfFeederEnabled == true) {
+            if (DWObject.IfPaperDetectable != true) {
+              DWObject.IfAutoFeed = true;
+              DWObject.IfDisableSourceAfterAcquire = true;
+              DWObject.XferCount = -1;
+              DWObject.AcquireImage();
+            }
+            else {
+              if (DWObject.IfFeederLoaded == true) {
+
+                DWObject.IfAutoFeed = true;
+                DWObject.IfDisableSourceAfterAcquire = true;
+                DWObject.XferCount = -1;
+                DWObject.AcquireImage();
+
+
+              }
+              else {
+                alert("There is no paper loaded in ADF.");
+                DWObject.CloseSource();
+              }
+            }
+          }
+          else {
+            DWObject.IfAutoFeed = true;
+            DWObject.IfDisableSourceAfterAcquire = true;
+            DWObject.XferCount = -1;
+            DWObject.AcquireImage();
+          }
+        }
+      }
+    }
+
+    function btnPreImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer > 0) {
+          DWObject.CurrentImageIndexInBuffer = DWObject.CurrentImageIndexInBuffer - 1;
+          updatePageInfo();
+        }
+      }
+    }
+
+    function btnNextImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer > 0) {
+          DWObject.CurrentImageIndexInBuffer = DWObject.CurrentImageIndexInBuffer + 1;
+          updatePageInfo();
+        }
+      }
+    }
+
+    function btnFirstImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer != 0 &&
+            DWObject.CurrentImageIndexInBuffer != 0) {
+          DWObject.CurrentImageIndexInBuffer = 0;
+        updatePageInfo();
+        }
+      }
+    }
+
+    function btnLastImage_onclick() {
+      if (DWObject) {
+        if (DWObject.HowManyImagesInBuffer > 0) {
+          DWObject.CurrentImageIndexInBuffer = DWObject.HowManyImagesInBuffer - 1;
+          updatePageInfo();
+        }
+      }
+    }
+
+    function setlPreviewMode() {
+      if (DWObject) {
+        var o = parseInt(document.getElementById("DW_PreviewMode").selectedIndex + 1);
+        DWObject.SetViewMode(o, o);
+      }
+    }
+
+    function btnRemoveSelectedImages_onclick() {
+      if (DWObject) {
+        DWObject.RemoveAllSelectedImages();
+        if (DWObject.HowManyImagesInBuffer == 0) {
+          document.getElementById("DW_CurrentImage").innerHTML = "0";
+          document.getElementById("DW_TotalImage").innerHTML = "0";
+        }
+        else {
+          updatePageInfo();
+        }
+      }
+    }
+
+    function btnRemoveAllImages_onclick() {
+      if (DWObject) {
+        DWObject.RemoveAllImages();
+        document.getElementById("DW_TotalImage").innerHTML = "0";
+        document.getElementById("DW_CurrentImage").innerHTML = "0";
+      }
+    }
+
+    function updatePageInfo() {
+      if (DWObject) {
+        document.getElementById("DW_TotalImage").innerHTML = DWObject.HowManyImagesInBuffer;
+        document.getElementById("DW_CurrentImage").innerHTML
+        = DWObject.CurrentImageIndexInBuffer + 1;
+      }
+    }
+
+    function SaveImage() {
+      if (DWObject) {
+        DWObject.IfShowFileDialog = true;
+        DWObject.SaveAllAsMultiPageTIFF("DynamicWebTWAIN.tiff", OnSuccess, OnFailure);
+      }
+    }
+
+    function OnSuccess() {
+      console.log('successful');
+    }
+
+    function OnFailure(errorCode, errorString) {
+      alert(errorString);
+    }
+
+    function UploadImage() {
+      const csrf = $('input[name="_csrf_token"]').val();
+      var params = $('#pf_batch_form').serializeArray();
+
+      if (DWObject) {
+        // If no image in buffer, return the function
+        if (DWObject.HowManyImagesInBuffer == 0) {
+          alertify.error('<i class="close icon"></i>Please scan documents first.');
+        }
+        else {
+          $.ajax({
+            url: `/batch_processing/pf_batch/save_edit`,
+            headers: {"X-CSRF-TOKEN": csrf},
+            type: 'get',
+            data: params,
+            success: function(response){
+              let obj = JSON.parse(response)
+              if(obj.valid == true){
+                let batch_id = obj.batch_id
+                $('#batch_id').val(batch_id)
+
+                var strHTTPServer = location.hostname;
+                var CurrentPathName = unescape(location.pathname);
+                var CurrentPath = CurrentPathName.substring(0, CurrentPathName.lastIndexOf("/") + 1);
+                var strActionPage = "api/save_scan_doc/" + batch_id;
+
+                DWObject.IfSSL = Dynamsoft.Lib.detect.ssl;
+                var _strPort = location.port == "" ? 80 : location.port;
+                if (Dynamsoft.Lib.detect.ssl == true)
+                  _strPort = location.port == "" ? 443 : location.port;
+                DWObject.HTTPPort = _strPort;
+
+                var Digital = new Date();
+                var uploadfilename = Digital.getMilliseconds();
+
+                for (i = 0; i < DWObject.HowManyImagesInBuffer; i++) {
+                  DWObject.ConvertToGrayScale(i);
+                  DWObject.HTTPUploadThroughPost(
+                    strHTTPServer, i, strActionPage,
+                    uploadfilename + "_" + i + ".jpg"
+                  );
+                };
+
+                window.location.replace(`/batch_processing/${batch_id}/pf_batch`);
+              }
+              else {
+                alertify.error('<i class="close icon"></i>Error in Saving PF Batch.');
+              }
+            },
+            error: function(error){
+              alertify.error('<i class="close icon"></i>Error in Saving PF Batch.');
+            }
+          });
+        }
+      }
+    }
+  </script>
+  <!-- End of Dynamic Twain -->

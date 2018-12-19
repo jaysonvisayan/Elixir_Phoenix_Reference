@@ -1,0 +1,361 @@
+
+<div class="pusher">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <h1 class="ui huge header">Bank KYC Requirements</h1>
+        <div class="ui breadcrumb">
+          <a href="/<%= @locale %>/kyc/new" class="section">Please fill out the form, we require all the information in order to process your insurance.</a>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui stackable grid">
+          <div class="row">
+            <div class="sixteen wide column">
+              <div class="ui four steps form-step">
+                <div class="step">
+                  <i class="user icon"></i>
+                  <div class="content">
+                    <div class="title">Bank KYC Requirements</div>
+                    <div class="description">To safeguard  your account</div>
+                  </div>
+                </div>
+                <div class="step">
+                  <i class="mail icon"></i>
+                  <div class="content">
+                    <div class="title">Update Contact Info</div>
+                    <div class="description">Confirm that we have your updated contact info</div>
+                  </div>
+                </div>
+                <div class="step">
+                  <i class="mail icon"></i>
+                  <div class="content">
+                    <div class="title">Submit Requirements to bank</div>
+                    <div class="description">Required to process reimbursements</div>
+                  </div>
+                </div>
+                <div class="active step">
+                  <i class="money icon"></i>
+                  <div class="content">
+                    <div class="title">Summary</div>
+                    <div class="description">Funding arrangement</div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui header form-header">
+                <i class="user icon"></i>
+                <div class="content">
+                  General
+                  <div class="sub header">Account name, type, etc.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<div class="row">
+  <div class="sixteen wide column">
+      <h3> Personal Information </h3>
+      <div class="ui divider"></div>
+      <div class="ui two fields grid container">
+        <div class="two wide field two wide column">
+          <label><b>Place of Birth</b></label>
+        </div>
+        <div class="six wide field two wide column">
+          <label><%= @kyc.city <> ", " <> @kyc.country %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Citizenship</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.citizenship %></label>
+        </div>
+
+        <div class="two wide field two wide column">
+          <label><b>Civil Status</b></label>
+        </div>
+        <div class="six wide field two wide column">
+          <label><%= @kyc.civil_status %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Mother's Maiden Name</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.mm_last_name <> ", " <> @kyc.mm_first_name <> " " <> @kyc.mm_middle_name %></label>
+        </div>
+
+
+      </div>
+      <br><br>
+      <h3> Educational and Work Information </h3>
+      <div class="ui divider"></div>
+      <div class="ui two fields grid container">
+        <div class="three wide field two wide column">
+          <label><b>Educational Attainment</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.educational_attainment %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Company</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.company_name %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Company Branch</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.company_branch %></label>
+        </div>
+
+
+        <div class="three wide field two wide column">
+          <label><b>Position Title</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.position_title %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Occupation</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.occupation %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Nature of Work</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.nature_of_work %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Source of Fund</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.source_of_fund %></label>
+        </div>
+      </div>
+
+      <br><br>
+      <h3> Contact Information </h3>
+      <div class="ui divider"></div>
+      <div class="ui two fields grid container">
+        <div class="three wide field two wide column">
+          <label><b>Address</b></label>
+        </div>
+        <div class="thirteen wide field two wide column">
+          <label><%= @kyc.street_no <> ", " <> @kyc.subd_dist_town <> ", " <> @kyc.city <> ", " <> @kyc.country %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Mobile Number</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <%= if not is_nil(@kyc.mobile1) do %>
+            <label><%= @kyc.mobile1 %></label>
+          <% else %>
+            <label>N/A</label>
+          <% end %>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Secondary Mobile Number</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <%= if not is_nil(@kyc.mobile2) do %>
+            <label><%= @kyc.mobile2 %></label>
+          <% else %>
+            <label>N/A</label>
+          <% end %>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Email Address</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <%= if not is_nil(@kyc.email1) do %>
+            <label><%= @kyc.email1 %></label>
+          <% else %>
+            <label>N/A</label>
+          <% end %>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Secondary Email Address</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <%= if not is_nil(@kyc.email2) do %>
+            <label><%= @kyc.email2 %></label>
+          <% else %>
+            <label>N/A</label>
+          <% end %>
+        </div>
+      </div>
+
+      <%# <h3> Emergency Contact Information </h3> %>
+      <%# <div class="ui divider"></div> %>
+      <%# <div class="ui two fields grid container"> %>
+        <%# <div class="three wide field two wide column"> %>
+          <%# <label><b>Blood Type</b></label> %>
+        <%# </div> %>
+        <%# <div class="five wide field two wide column"> %>
+          <%# <label><%= @kyc.blood_type %>
+
+          <%# </label> %>
+        <%# </div> %>
+
+        <%# <div class="three wide field two wide column"> %>
+          <%# <label><b>Allergies</b></label> %>
+        <%# </div> %>
+        <%# <div class="five wide field two wide column"> %>
+          <%# <label><%= #@kyc.allergies %>
+            <%# </label> %>
+        <%# </div> %>
+
+        <%# <div class="three wide field two wide column"> %>
+          <%# <label><b>Medication</b></label> %>
+        <%# </div> %>
+        <%# <div class="five wide field two wide column"> %>
+          <%# <label><%= #@kyc.medication %>
+          <%# </label> %>
+        <%# </div> %>
+
+
+        <%# <div class="three wide field two wide column"> %>
+          <%# <label><b>Emergency Contact Person</b></label> %>
+        <%# </div> %>
+        <%# <div class="five wide field two wide column"> %>
+          <%# <label>Junnie Mindanaon</label> %>
+        <%# </div> %>
+
+        <%# <div class="three wide field two wide column"> %>
+          <%# <label><b>Phone Number</b></label> %>
+        <%# </div> %>
+        <%# <div class="five wide field two wide column"> %>
+          <%# <label>09222222222</label> %>
+        <%# </div> %>
+
+        <%# <div class="three wide field two wide column"> %>
+          <%# <label><b>Second Phone Number</b></label> %>
+        <%# </div> %>
+        <%# <div class="five wide field two wide column"> %>
+          <%# <label>09222222222</label> %>
+        <%# </div> %>
+      <%# </div> %>
+    <br><br>
+      <h3> Submitted Requirements </h3>
+      <div class="ui divider"></div>
+      <div class="ui two fields grid container">
+        <div class="three wide field two wide column">
+          <label><b>Tin No.</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.tin %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>SSS No.</b></label>
+        </div>
+        <div class="five wide field two wide column">
+          <label><%= @kyc.sss_number %></label>
+        </div>
+
+        <div class="three wide field two wide column">
+          <label><b>Unified ID No.</b></label>
+        </div>
+        <div class="thirteen wide field two wide column">
+          <label><%= @kyc.unified_id_number %></label>
+        </div>
+
+
+        <div class="sixteen wide field two wide column">
+          <label><b>Identification Card</b></label>
+        </div>
+        <div class="two wide field two wide column">
+        </div>
+        <div class="three wide field two wide column">
+          <label><b>Front</b></label>
+        </div>
+        <div class="eleven wide field two wide column">
+          <%= for file <- @kyc.file do %>
+            <%= if file.name == "front-side" do %>
+              <%= if not is_nil(file.image_type) do %>
+                <%= file.image_type.file_name %>
+              <% else %>
+                Invalid Image File
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="two wide field two wide column">
+        </div>
+        <div class="three wide field two wide column">
+          <label><b>Back</b></label>
+        </div>
+        <div class="eleven wide field two wide column">
+          <%= for file <- @kyc.file do %>
+            <%= if file.name == "back-side" do %>
+              <%= if not is_nil(file.image_type) do %>
+                <%= file.image_type.file_name %>
+              <% else %>
+                Invalid Image File
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="sixteen wide field two wide column">
+          <label><b>CIR Form</b></label>
+        </div>
+        <div class="two wide field two wide column">
+        </div>
+        <div class="three wide field two wide column">
+          <label><b>Form</b></label>
+        </div>
+        <div class="eleven wide field two wide column">
+          <%= for file <- @kyc.file do %>
+            <%= if file.name == "cir-form" do %>
+              <%= file.type.file_name %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="two wide field two wide column">
+        </div>
+        <div class="three wide field two wide column">
+          <label><b>Terms and Conditions</b></label>
+        </div>
+        <div class="eleven wide field two wide column">
+          <%= for file <- @kyc.file do %>
+            <%= if file.name == "terms-form" do %>
+              <%= file.type.file_name %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+    </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+  </div>
+  <div class="eight wide right aligned column">
+      <a href="/en/kyc/<%= @kyc.id %>/setup?step=3" class="ui button">
+        <i class="chevron left icon"></i>
+        Back
+      </a>
+      <a href="/en/kyc/<%= @kyc.id %>/submit" class="ui right floated primary button">
+        <i class="send icon"></i>
+        Submit
+      </a>
+  </div>
+</div>
+        </div><!--grid-->
+      </div>
+    </div>
+  </div>
+</div>

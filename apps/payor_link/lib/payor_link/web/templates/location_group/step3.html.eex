@@ -1,0 +1,32 @@
+<%= render "breadcrumbs.html" %>
+<div name="location_group_step1" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Region</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+
+          <%= render "step3_form.html", changeset: @changeset, location_group: @location_group, luzon_island: @luzon_island, visayas_island: @visayas_island, mindanao_island: @mindanao_island, conn: @conn, action: location_group_path(@conn, :submit_location_group, @location_group) %>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

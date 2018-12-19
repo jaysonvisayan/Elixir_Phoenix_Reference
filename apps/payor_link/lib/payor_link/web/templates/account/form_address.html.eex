@@ -1,0 +1,154 @@
+<div class="row" id="role">
+  <div class="eight wide computer sixteen wide tablet column" role="address-form">
+    <%= form_for @changeset, @action, [as: :account, class: "ui form", id: "AccountAddress"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <h4 class="ui no-dividing header">Account Address</h4>
+        <div class="field">
+          <label>Address Line 1 <i>(Building Number, Building Name, Street Name)</i></label>
+            <%= text_input f, :line_1, placeholder: "Enter Address 1", minlength: 3%>
+            <%= error_tag f, :line_1%>
+        </div>
+        <div class="field">
+          <label>Address Line 2 <i>(Unit Number, Floor Number, Room Number)</i></label>
+            <%= text_input f, :line_2, placeholder: "Enter Address 2", minlength: 3%>
+            <%= error_tag f, :line_2%>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>City/Municipality</label>
+                <%= text_input f, :city, class: "key-up-address", placeholder: "Enter City/Municipality" %>
+                <%= error_tag f, :city%>
+            </div>
+            <div class="field">
+              <label>Province</label>
+              <%= text_input f, :province, class: "key-up-address", placeholder: "Enter Province" %>
+              <%= error_tag f, :province %>
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Region</label>
+                <%= text_input f, :region, placeholder: "Enter Region"  %>
+                <%= error_tag f, :region%>
+            </div>
+            <div class="field">
+                <label>Country</label>
+                <%= text_input f, :country, readonly: true, value: "Philippines" %>
+                <%= error_tag f, :country %>
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+              <label>Postal Code</label>
+              <%= text_input f, :postal_code, placeholder: "Enter Postal Code"  %>
+              <%= error_tag f, :postal_code %>
+            </div>
+        </div>
+        <h4 class="ui dividing header">Billing Address</h4>
+        <div class="field">
+            <div class="ui checkbox">
+                <%= checkbox f, :is_check%>
+                <label for="checkboxBillingAddress">Check if Billing Address is the same as Account Address</label>
+            </div>
+        </div>
+        <div role="hidden-form">
+            <div class="field">
+              <label>Address 1</label>
+              <%= text_input f, :line_1_v2, minlength: "3", value: @billing.line_1 %>
+              <%= error_tag f, :line_1_v2 %>
+            </div>
+            <div class="field">
+              <label>Address 2</label>
+              <%= text_input f, :line_2_v2, value: @billing.line_2 , minlength: 3%>
+              <%= error_tag f, :line_2_v2 %>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                  <label>City/Municipality</label>
+                  <%= text_input f, :city_v2, class: "key-up-haddress" , value: @billing.city, minlength: 3 %>
+                  <%= error_tag f, :city%>
+                </div>
+                <div class="field">
+                  <label>Province</label>
+                  <%= text_input f, :province_v2, class: "key-up-haddress" , value: @billing.province, minlength: 3 %>
+                  <%= error_tag f, :province %>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                  <label>Region</label>
+                  <%= text_input f, :region_v2, value: @billing.region, minlength: 3 %>
+                  <%= error_tag f, :region%>
+                </div>
+                <div class="field">
+                  <label>Country</label>
+                  <%= text_input f, :country_v2, readonly: true, value: "Philippines"%>
+                  <%= error_tag f, :country %>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                  <label>Postal Code</label>
+                  <%= text_input f, :postal_code_v2, value: @billing.postal_code, minlength: 2 %>
+                  <%= error_tag f, :postal_code %>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class="eight wide computer sixteen wide tablet column">
+      <div class="ui container">
+          <div id="map">
+            <%= hidden_input f, :longitude, disabled: "disabled" %>
+            <%= hidden_input f, :latitude, disabled: "disabled" %>
+          </div>
+      </div>
+      <p class="ui tiny center aligned header">
+        <span class="sub header">
+          You can use this Map to find your location.
+        </span>
+      </p>
+  </div>
+  <div class="eight wide computer sixteen wide tablet column" role="hide-map">
+      <div class="ui container">
+          <div id="map">
+            <%= hidden_input f, :longitude, disabled: "disabled" %>
+            <%= hidden_input f, :latitude, disabled: "disabled" %>
+          </div>
+      </div>
+  </div>
+</div><!--row-->
+<div class="row">
+  <div class="eight wide column">
+    <%= if @account.step <= 5 do %>
+      <%= render "modal_draft.html", account: @account %>
+      <a class="ui basic button" id="cancel_button">Delete</a>
+    <% end %>
+  </div>
+  <div class="eight wide right aligned column">
+
+    <%= if @account.step == 7 do %>
+      <%=# render "modal_cancel.html", account: @account %>
+      <!--<a id="cancel_button" class="ui button">
+        <i class="remove left icon"></i> Cancel
+      </a> -->
+      <button type="submit" class="ui primary button">Save Changes</button>
+    <% else %>
+      <a href="/accounts/<%= @account.id%>/setup?step=1" class="ui basic button">Back to Previous Step</a>
+      <button type="submit" class="ui primary button">Continue to Next Step</button>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<%= if @conn.assigns[:account] && @account.step <= 6 do %>
+  <%= form_for @conn, account_path(@conn, :delete, @account.account_group_id), [id: "delete-draft", multipart: true, as: :account, method: :delete], fn _f -> %>
+  <% end %>
+<% end %>
+

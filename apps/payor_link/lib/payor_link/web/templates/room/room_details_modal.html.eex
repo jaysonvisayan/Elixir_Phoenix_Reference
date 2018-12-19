@@ -1,0 +1,80 @@
+<div class="ui large modal" id="edit_room_modal">
+  <% disabled = if String.contains?("access_rooms", @permission) && Enum.count(@permission) == 1, do: "disabled" %>
+  <i class="close icon"></i>
+  <div class="header">
+    Room Details
+  </div>
+
+  <!-- GENERAL -->
+  <div class="content" style="overflow:auto !important; max-height: 500px">
+    <%= form_for @conn, room_path(@conn, :index), [as: :room_details, class: "ui form", id: "room_details_form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= hidden_input f, :room_id, field: "room_id" %>
+
+    <div class="ui two column centered grid">
+      <div class="four column centered row">
+        <div class="column">Room Code</div>
+        <div class="column"><b id="room_code"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">Room Type</div>
+        <div class="column"><b id="room_type"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">Room Hierarchy</div>
+        <div class="column"><b id="room_hierarchy"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">RUV Rate</div>
+        <div class="column"><b id="room_ruv_rate"></b></div>
+      </div>
+      <div class="four column centered row">
+        <div class="column" > <a style="cursor: pointer;" id="facilities_room" >Click to see linked facilities...</a>
+        <a style="cursor: pointer;" id="facilities_room_less" class="hidden">View Less...</a> </div>
+        <div class="column"></div>
+      </div>
+    </div>
+<br>
+    <div class="hidden" id="room_div">
+        <div class="column">
+
+        <!-- Facility Room -->
+
+      <table id="room_facilities_table" class="ui striped table">
+                   <thead>
+              <tr>
+                <th>Facility Code</th>
+                <th>Facility Name</th>
+                <th>Facility Room Type</th>
+                <th>Facility Room Rate</th>
+              </tr>
+            </thead>
+                  <tbody></tbody>
+                  </table>
+        <!-- END OF Facility Room -->
+
+        </div>
+        <div class="column"></div>
+      </div>
+
+  </div>
+  <div class="actions">
+    <a id="room_logs" class="ui left floated button">
+      <i class="list icon"></i>
+        Logs
+    </a>
+    <%= if disabled == "disabled" do %>
+      <a id="" class="ui right floated blue button disabled ">
+        <i class="edit icon"></i>
+        Edit
+      </a>
+    <% else %>
+      <a id="rooms_edit" class="ui right floated blue button">
+        <i class="edit icon"></i>
+        Edit
+      </a>
+    <% end %>
+    <br><br><br>
+  </div>
+  <% end %>
+</div>

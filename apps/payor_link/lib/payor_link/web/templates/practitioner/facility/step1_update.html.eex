@@ -1,0 +1,74 @@
+<div class="ui main container">
+  <div class="ui grid">
+      <div class="sixteen wide column">
+          <h1 class="ui huge header">Practitioner</h1>
+          <div class="ui breadcrumb">
+              <a href="/practitioners" class="section">Practitioner</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners" class="section">Search</a>
+              <div class="divider"> / </div>
+              <a href="/practitioners/<%= @practitioner.id %>?active=profile" class="section">View <%= Enum.join([@practitioner.first_name, @practitioner.middle_name, @practitioner.last_name], "  ") %></a>
+              <div class="divider"> / </div>
+              <div class="active section">Add Practitioner Facility</div>
+          </div>  
+          <div class="ui divider"></div>
+          <div class="ui stackable grid">
+              <div class="row">
+                  <div class="sixteen wide column">
+                      <div class="ui five steps form-step">
+                          <div class="  active  step">
+                              <i class="info circle icon"></i>
+                              <div class="content">
+                                  <div class="title">General</div>
+                                  <div class="description">Practitioner type, facility, etc.</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="mail icon"></i>
+                              <div class="content">
+                                  <div class="title">Contact</div>
+                                  <div class="description">Contact info</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="percent icon"></i>
+                              <div class="content">
+                                  <div class="title">Rates</div>
+                                  <div class="description">Pay rate for services</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="calendar icon"></i>
+                              <div class="content">
+                                  <div class="title">Schedules</div>
+                                  <div class="description">Set your availability</div>
+                              </div>
+                          </div>
+                          <div class="  step">
+                              <i class="file text outline icon"></i>
+                              <div class="content">
+                                  <div class="title">Summary</div>
+                                  <div class="description">Confirm your information</div>
+                              </div>
+                          </div>     
+                      </div>
+                      <div class="ui header form-header">
+                          <i class="user icon"></i>
+                          <div class="content">
+                              General
+                              <div class="sub header">Practitioner type, facility, etc.</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <%= 
+                render "facility/step1_form.html", 
+                changeset: @changeset, 
+                facilities: @facilities, 
+                statuses: @statuses, 
+                action: practitioner_path(@conn, :update_pf_setup, @practitioner_facility, step: "1"), 
+                practitioner: @practitioner, conn: @conn, practitioner_facility: @practitioner_facility %>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="ui large modal" id="limit_threshold_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Facility
+  </div>
+  <div class="content">
+    <input type="hidden" name="product[pclt_id]">
+    <input type="hidden" name="product[pcltf_id]">
+    <input type="hidden" name="product[product_id]">
+    <input type="hidden" name="prev_lt">
+    <div class="field pclt_facility">
+      <label class="control-label">Facility (Code/Name)</label>
+      <div class="ui fluid search selection dropdown facility" id="facility" name="product[facility_id]" data-validate="facility">
+        <input type="hidden" name="facility">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select Facility</div>
+        <div class="menu" id="facility_rows">
+        </div>
+      </div>
+      <div class="ui basic pointing prompt label hidden lt_validation_message">
+        Please enter a Facility.
+      </div>
+    </div>
+    <br />
+
+    <div class="field pclt_lt limit_threshold_field" >
+      <label class="control-label">Limit Threshold</label>
+      <div class="ui fluid icon input limit_threshold_field">
+        <input type="text" id="limit_threshold" name="product[limit_threshold]" data-validate="limit_threshold">
+      </div>
+      <div class="ui basic pointing prompt label hidden lt_validation_message">
+        Please enter a limit threshold.
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div style="text-align: right">
+      <a class="ui small button" role="edit">
+        <i class="pencil icon"></i>
+        Edit
+      </a>
+      <button class="ui blue button" role="add">
+        <i class="plus icon"></i>
+        Add
+      </button>
+      <a class="ui red button" role="delete">
+        <i class="trash icon"></i>
+        Remove
+      </a>
+    </div>
+  </div>
+</div>

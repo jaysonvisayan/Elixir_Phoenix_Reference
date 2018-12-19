@@ -1,0 +1,66 @@
+<div class="pusher banner" id="evoucherLogin">
+  <div class="ui vertical stripe segment">
+    <div class="ui bottom aligned grid container">
+
+      <div class="six wide computer sixteen wide tablet column centered">
+        <div class="ui middle aligned grid">
+
+          <div class="sixteen wide mobile stwelve wide tablet centered column" name="Login">
+            <%= form_for @conn, member_path(@conn, :verify_evoucher, @locale), [class: "ui form", as: :member, id: "evoucherLoginForm"], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <%
+                info = get_flash(@conn, :info)
+                error = get_flash(@conn, :error)
+                %>
+              <div class="ui very padded raised segment">
+                <h2 class="ui center aligned header" id="name-color"><%= gettext "Maxicare"%></h2>
+                <div class="ui raised segment">
+                  <img class="ui fluid image" src='<%= static_path(@conn, "/images/voucher.png") %>'>
+                </div>
+                <div class="field">
+                  <label><%= gettext "Evoucher" %></label>
+                  <div class="ui left icon input">
+                    <%= text_input f, :evoucher_number, placeholder: "Enter your e-voucher number (e.g. XXX-XXX-XXX)", autofocus: "", "data-validate": "evoucher_number" %>
+                    <i class="keyboard icon"></i>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>
+                      <%= gettext "Company Name" %> <span class="ui float-right">
+                  </label>
+                  <div class="ui left icon input">
+                    <%= text_input f, :company_name, placeholder: "Enter company name", "data-validate": "company_name" %>
+                    <i class="building icon"></i>
+                  </div>
+                </div>
+
+                <%# <p role="append"></p> %>
+                <%# <%= if is_nil(error) == false do %> 
+                  <%# <div id="message" class="ui negative message"> %>
+                    <%# <%= error %> 
+                  <%# </div> %>
+                <%# <% else %> 
+                  <%#= info %>
+                <%# <% end %> 
+
+                <p class="text-center"><%= gettext "By clicking Proceed, you agree to our"%>
+                  <br>
+                  <a href="/evoucher_tac.pdf" target="_blank"><%= gettext "Terms and Condition" %></a>
+                </p>
+                <div class="ui hidden divider"></div>
+                <button class="ui fluid large primary submit button" type="submit"><%= gettext "Proceed" %></button>
+                <div class="ui hidden divider"></div>
+                <br>
+                <p class="text-center"><%= gettext "Lost LOA?"%> <a href="/en/evoucher/reprint"><%= gettext "Reprint" %></a></p>
+
+              </div>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+      <!-- form -->
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Facility</h1>
+  <div class="ui large breadcrumb">
+    <a class="section" href="/facilities">Facility</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Facility</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="facility-formValidate">
+        <div class="ui form segment" id="formStep2Facility">
+          <div class="ui four item menu">
+            <a href="/facilities/<%= @facility.id %>/edit?tab=general" class="item">General</a>
+            <a class="active item">Address</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=contact_details" class="item">Contact Details</a>
+            <a href="/facilities/<%= @facility.id %>/edit?tab=financial" class="item">Financial</a>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+
+          <div class="ui bottom attached segment">
+
+            <%= form_for @changeset, facility_path(@conn, :update_edit_setup, @facility, tab: "address"), fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <div class="ui grid" role="address-form-facility">
+                <%# 1st column start %>
+                <%# fields %>
+                <div class="eight wide computer eight wide tablet column">
+                  <div class="field">
+                    <label>Address Line 1 <i>(Building Number, Building Name, Street Name)</i></label>
+                    <%= text_input f, :line_1, placeholder: "Address Line 1", disabled: true %>
+                    <%= error_tag f, :line_1 %>
+                  </div>
+                  <div class="field">
+                    <label>Address Line 2 <i>(Unit Number, Floor Number, Room Number)</i></label>
+                    <%= text_input f, :line_2, placeholder: "Address Line 2", disabled: true %>
+                    <%= error_tag f, :line_2 %>
+                  </div>
+                  <div class="field">
+                    <%= label f, :city, "City / Municipal" %>
+                    <%= text_input f, :city, placeholder: "City / Municipal", disabled: true %>
+                    <%= error_tag f, :city %>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :province, "Province" %>
+                      <%= text_input f, :province, placeholder: "Province", disabled: true %>
+                      <%= error_tag f, :province %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :region, "Region" %>
+                      <%= text_input f, :region, placeholder: "Region", disabled: true %>
+                      <%= error_tag f, :region %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :country, "Country" %>
+                      <%= text_input f, :country, placeholder: "Country", disabled: true %>
+                      <%= error_tag f, :country %>
+                    </div>
+                    <div class="field" role="facility-numeric">
+                      <%= label f, :postal_code, "Postal Code" %>
+                      <%= text_input f, :postal_code, placeholder: "Postal Code", disabled: true %>
+                      <%= error_tag f, :postal_code %>
+                    </div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <%= label f, :longitude, "Longitude" %>
+                      <%= text_input f, :longitude, placeholder: "Longitude", disabled: true %>
+                      <%= error_tag f, :longitude %>
+                    </div>
+                    <div class="field">
+                      <%= label f, :latitude, "Latitude" %>
+                      <%= text_input f, :latitude, placeholder: "Latitude", disabled: true %>
+                      <%= error_tag f, :latitude %>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <%= label f, :location_group_ids, "Location Group", class: "control-label" %>
+                    <div class="ui disabled dropdown multiple selection" tabindex="0">
+                      <%= multiple_select f, :location_group_ids, Enum.map(@location_groups, &{&1.name, &1.id}), prompt: "Select Location Group" %>
+                      <i class="dropdown icon"></i>
+                      <div id="drpTitle" class="default text">Location Group</div>
+                      <div id="drpItem" class="menu" tabindex="-1">
+                        <%= for location_group <- @location_groups do %>
+                          <div class="item" data-value="<%= location_group.id %>"><%= location_group.name %></div>
+                        <% end %>
+                      </div>
+                      <%= if is_nil(f.data.facility_location_groups) do %>
+                        <%= hidden_input f, :location_group, value: '' %>
+                      <% else %>
+                        <%= hidden_input f, :location_group, value: @facility_location_groups %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <%# 1st column end %>
+
+                <%# 2nd column start %>
+                <%# Map %>
+                <div class="eight wide computer eight wide tablet column">
+                  <div class="field">
+                    <div class="ui container" id="map-edit" style="height: 500px;">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui centered grid">
+                      <i><u><b>You can use this Map to find your location.</b></u></i>
+                    </div>
+                  </div>
+                </div>
+                <%# 2nd column end %>
+              </div>
+
+              <%# Navigation buttons start %>
+              <div class = "ui one column right aligned grid">
+                <div class="column eight wide left aligned">
+                  <a href="/facilities/<%= @facility.id %>?active=profile" class="ui button">
+                    <i class="chevron left icon"></i>
+                    Cancel
+                  </a>
+                </div>
+                <div class="column eight wide">
+                  <button class="ui disabled blue right floated button" type="submit">
+                    <i class="save icon"></i>
+                    Save
+                  </button>
+                </div>
+                <%# Navigation buttons end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

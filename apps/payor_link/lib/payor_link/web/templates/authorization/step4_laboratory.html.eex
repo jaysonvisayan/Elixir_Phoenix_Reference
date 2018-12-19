@@ -1,0 +1,99 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formValidateStep4Laboratory">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Validate Member</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Facility</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Coverage</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Details</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step4_laboratory_form.html",
+          conn: @conn,
+          changeset: @changeset,
+          special_approval: @special_approval,
+          authorization_procedures: @authorization_procedures,
+          authorization_diagnosis: @authorization_diagnosis,
+          procedures: @procedures,
+          diagnoses: @diagnoses,
+          authorization: @authorization,
+          practitioners: @practitioners,
+          member: @member,
+          facility_contacts: @facility_contacts,
+          apds: @apds,
+          user: @user,
+          action: authorization_path(@conn, :update_setup, @authorization, step: "4") %>
+
+          <%= render "step4_laboratory_modal_dp.html",
+          conn: @conn,
+          changeset: @changeset,
+          special_approval: @special_approval,
+          authorization_procedures: @authorization_procedures,
+          authorization_diagnosis: @authorization_diagnosis,
+          procedures: @procedures,
+          diagnoses: @diagnoses,
+          authorization: @authorization,
+          practitioners: @practitioners,
+          member: @member,
+          action: authorization_path(@conn, :create_disease_procedure, @authorization) %>
+
+          <%= render "step4_laboratory_modal_update_dp.html",
+          conn: @conn,
+          changeset: @changeset,
+          special_approval: @special_approval,
+          authorization_procedures: @authorization_procedures,
+          authorization_diagnosis: @authorization_diagnosis,
+          procedures: @procedures,
+          diagnoses: @diagnoses,
+          authorization: @authorization,
+          practitioners: @practitioners,
+          member: @member,
+          ruvs: @ruvs,
+          action: authorization_path(@conn, :update_disease_procedure, @authorization) %>
+
+          <%= render "step4_laboratory_modal_pra.html",
+          conn: @conn,
+          changeset: @changeset,
+          special_approval: @special_approval,
+          authorization_procedures: @authorization_procedures,
+          authorization_diagnosis: @authorization_diagnosis,
+          procedures: @procedures,
+          diagnoses: @diagnoses,
+          authorization: @authorization,
+          practitioners: @practitioners,
+          member: @member,
+          specializations: @specializations,
+          action: authorization_path(@conn, :create_practitioner_specialization, @authorization) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

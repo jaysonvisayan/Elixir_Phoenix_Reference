@@ -1,0 +1,46 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Role</h2>
+  <div class="ui small breadcrumb">
+    <a class="section">Role</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Role</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment">
+          <div class="ui ordered three steps">
+            <div class="completed step">
+              <%# <i class="truck icon"></i> %>
+              <div class="content">
+                <div class="title">Basic</div>
+              </div>
+            </div>
+            <div class="active step">
+              <%# <i class="payment icon"></i> %>
+              <div class="content">
+                <div class="title">Permission</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Review</div>
+              </div>
+            </div>
+          </div>
+          <%=
+              render "form-permission.html",
+              changeset: @changeset,
+              role: @role,
+              permissions: @permissions,
+              pc: @permission_checker,
+              action: role_path(@conn, :update_setup, @role.id, step: "2")
+           %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

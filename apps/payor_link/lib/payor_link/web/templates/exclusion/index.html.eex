@@ -1,0 +1,122 @@
+<div class="ui main container" id="exclusionIndex">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+        <div class="left floated left aligned eight wide column">
+          <h1 class="ui huge header with-button">Exclusion and Pre-existing Condition</h1>
+        </div>
+        <div class="right floated right aligned eight wide column">
+          <div class="ui simple primary basic dropdown right floated button">
+            <i class="icon add"></i>
+            Exclusion
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item clickable-row" href="/exclusions/new" >
+                Custom
+              </div>
+                <div class="item clickable-row" href="/exclusions/batch_upload/files" >
+                  General
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--<h1 class="ui huge header">Account</h1>-->
+      <div class="ui breadcrumb">
+        <a href="/exclusions" class="section">Exclusion and Pre-existing Condition</a>
+        <div class="divider"> / </div>
+        <div class="active section">Search</div>
+      </div>
+      <div class="ui divider"></div>
+    </div>
+  </div>
+
+  <div class="ui pointing secondary menu">
+    <a class="item active" id="main_custom_tab" data-tab="custom">Custom</a>
+    <a class="item" id="main_general_tab" data-tab="general">General</a>
+  </div>
+
+  <div class="ui tab segment active" id="rendered_custom" data-tab="custom">
+    <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for exclusion <- @exclusions do %>
+          <tr>
+            <td>
+              <%= if exclusion.step != 0 do %>
+                <a href="/exclusions/<%= exclusion.id %>/setup?step=<%= exclusion.step || 1 %>"><%= exclusion.code %> (Draft)</a>
+              <% else %>
+                <a href="/exclusions/<%= exclusion.id %>"><%= exclusion.code %></a>
+              <% end %>
+            </td>
+            <td><%= exclusion.name %></td>
+            <td><%= exclusion.coverage %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ui tab segment" data-tab="general">
+    <div class="ui top attached tabular menu">
+      <a class="item active" id="general_disease_tab" data-tab="diseases">Disease</a>
+      <a class="item" id="general_payor_procedure_tab" data-tab="payor_procedures">Procedure</a>
+    </div>
+
+    <div class="ui bottom attached tab segment active" id="render_disease" data-tab="diseases">
+
+      <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for diagnosis <- @diagnoses do %>
+            <tr>
+              <td><%= diagnosis.code %></td>
+              <td><%= diagnosis.description %></td>
+              <td>
+                <%= link to: exclusion_path(@conn, :icd_delete_tag, diagnosis), method: :put, data: [confirm: "Are you sure?"] do %> <i class="red large trash link icon"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="ui bottom attached tab segment" id="render_payor_procedure" data-tab="payor_procedures">
+
+      <table role="datatable" class="ui very basic striped selectable table" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for payor_procedure <- @payor_procedures do %>
+            <tr>
+              <td><%= payor_procedure.code %></td>
+              <td><%= payor_procedure.description %></td>
+              <td>
+                <%= link to: exclusion_path(@conn, :cpt_delete_tag, payor_procedure), method: :put, data: [confirm: "Are you sure?"] do %> <i class="red large trash link icon"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

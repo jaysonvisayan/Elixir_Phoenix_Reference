@@ -1,0 +1,10 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Location Group</h2>
+  <div class="ui small breadcrumb">
+    <a href="/location_groups" class="section">Location Group</a>
+    <i class="right chevron icon divider"></i>
+    <a href="" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Location Group</div>
+  </div>
+</div>

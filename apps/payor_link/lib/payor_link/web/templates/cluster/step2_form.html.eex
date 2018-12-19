@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="column">
+    <div class="ui right floated add button">
+      <i class="plus icon"></i>
+      Account
+    </div>
+    <table id="" class="ui stripped table">
+      <thead>
+        <tr>
+          <th>Account Code</th>
+          <th>Account Name</th>
+          <th>Funding Arrangement</th>
+          <th>Account Type</th>
+          <th style="text-align: center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if @account_group_clusters == [] do %>
+          <tr>
+            <td colspan="7" class="center aligned">
+              NO RECORD FOUND!
+            </td>
+          </tr>
+        <% else %>
+          <%= for account_group_cluster <- Enum.sort_by(@account_group_clusters, &(&1.account_group_id)) do %>
+            <tr>
+              <td><%= account_group_cluster.account_group.code %></td>
+              <td><%= account_group_cluster.account_group.name %></td>
+              <td>
+                <%= if  is_nil(account_group_cluster.account_group.payment_account) == false do %>
+                <%= account_group_cluster.account_group.payment_account.funding_arrangement %>
+                <% else %>
+                <%= "None" %>
+              <% end %>
+                  </td>
+              <td><%= account_group_cluster.account_group.type %></td>
+              <td class="ui right aligned" style="text-align: center">
+                <div class="mini ui buttons trash">
+                   <button type="button" class="mini negative ui button btnAccountGroup" account_group_cluster_id="<%= account_group_cluster.id %>">
+                      <i class="trash icon" ></i>
+                    </button>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui red button mrg1T" id="deleteCluster" clusterID="<%= @cluster.id %>" type="button">
+      <i class="trash left icon"></i>Delete
+    </button>
+  </div>
+  <div class="column eight wide">
+    <a href="/clusters/<%= @cluster.id %>/next_step3" class="ui blue right floated button mrg1T">
+      Next
+      <i class="chevron right icon"></i>
+    </a>
+    <a href="/clusters/<%= @cluster.id %>/setup?step=1" class="ui button mrg1T">
+      <i class="chevron left icon"></i>
+      Previous
+    </a>
+  </div>
+</div>

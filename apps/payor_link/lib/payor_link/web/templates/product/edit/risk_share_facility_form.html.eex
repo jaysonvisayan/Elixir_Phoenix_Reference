@@ -1,0 +1,320 @@
+<%# Risk Share %>
+<h4 class="ui dividing header">
+  Risk Share
+</h4>
+
+<div id="product_risk_shares" class="ui styled fluid accordion">
+  <%= for product_coverage <- Enum.sort_by(@product_coverages, &(&1.coverage.name)) do %>
+    <%= for product_risk_share <- @product_risk_share do %>
+      <%= form_for coverage_changeset(product_risk_share), product_path(@conn, :save, @product, tab: "risk_share"), [class: "ui form rs_validation", as: :product], fn f -> %>
+        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+        <%= if product_risk_share.product_coverage_id == product_coverage.id do  %>
+          <input type="hidden" id="last_coverage_id" value="<%= @product.prsf_cov_id %>" />
+          <div class="title facility_accordion <%= check_active_coverage(@product.prsf_cov_id, product_coverage.coverage_id)%>" coverageID="<%= product_coverage.coverage_id %>" productID="<%= @product.id %>">
+            <%= load_coverages_id(product_coverage.coverage_id) %>
+            <i class="dropdown icon" style="float: right"></i>
+          </div>
+          <div class="content <%= check_active_coverage(@product.prsf_cov_id, product_coverage.coverage_id)%>" id="content_<%= product_coverage.coverage_id %>">
+            <input type="hidden" value="<%= product_risk_share.id %>" name="product[risk_share_id]">
+
+            <input type="hidden" value="<%= product_risk_share.af_type %>" id="at_<%= product_coverage.coverage_id%>">
+            <input type="hidden" value="<%= product_risk_share.naf_type %>" id="nat_<%= product_coverage.coverage_id%>">
+
+            <input type="hidden" value="<%= product_risk_share.af_covered_amount %>" id="aca_<%= product_coverage.coverage_id%>">
+            <input type="hidden" value="<%= product_risk_share.af_covered_percentage %>" id="acp_<%= product_coverage.coverage_id%>">
+            <input type="hidden" value="<%= product_risk_share.naf_covered_amount %>" id="naca_<%= product_coverage.coverage_id%>">
+            <input type="hidden" value="<%= product_risk_share.naf_covered_percentage %>" id="nacp_<%= product_coverage.coverage_id%>">
+
+            <h4 class="ui dividing header">Accredited Facilities</h4>
+            <div class="ui grid">
+              <div class="sixteen wide column">
+                <div class="three fields">
+                  <div class="field">
+                    <%= label f, :af_type, "Risk Share", class: "control-label"  %>
+                    <%= select f, :af_type, ["": "N/A", "Copayment": "Copayment", "CoInsurance": "CoInsurance"], class: "af_select", coverage: product_coverage.coverage_id, id: "af_select_" <> product_coverage.coverage_id %>
+                    <%= error_tag f, :af_type %>
+                  </div>
+
+                  <div class="field">
+                    <%= if product_risk_share.af_value != nil do %>
+
+                      <%= label f, :af_value, "Value", class: "control-label" %>
+                      <div class="ui right labeled input" id="af_value_<%= product_coverage.coverage_id %>">
+                        <%= text_input f, :af_value, class: "form-control", "data-validate": "af_value", id: "af_value_rs_" <> product_coverage.coverage_id %>
+                        <div class="ui basic label" id="af_value_label_<%= product_coverage.coverage_id %>">
+                          %
+                        </div>
+                        <%= error_tag f, :af_value %>
+                      </div>
+
+                    <% else %>
+                      <%= if product_risk_share.af_type == "Copayment" do %>
+
+                        <%= label f, :af_value, "Value", class: "control-label" %>
+                        <div class="ui right labeled input" id="af_value_<%= product_coverage.coverage_id %>">
+                          <%= text_input f, :af_value, class: "form-control", "data-validate": "af_value", id: "af_value_rs_" <> product_coverage.coverage_id, value: product_risk_share.af_value_amount %>
+                          <div class="ui basic label" id="af_value_label_<%= product_coverage.coverage_id %>">
+                            %
+                          </div>
+                          <%= error_tag f, :af_value %>
+                        </div>
+
+                      <% else %>
+                        <%= label f, :af_value, "Value", class: "control-label" %>
+                        <div class="ui right labeled input" id="af_value_<%= product_coverage.coverage_id %>">
+                          <%= text_input f, :af_value, class: "form-control", "data-validate": "af_value", id: "af_value_rs_" <> product_coverage.coverage_id, value: product_risk_share.af_value_percentage %>
+                          <div class="ui basic label" id="af_value_label_<%= product_coverage.coverage_id %>">
+                            %
+                          </div>
+                          <%= error_tag f, :af_value %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+
+                  <div class="field">
+                    <%= label f, :af_covered, "Covered After Risk Share", class: "control-label"  %>
+                      <div class="ui right labeled input">
+                        <%= number_input f, :af_covered_percentage, class: "form-control", placeholder: "Enter a percentage", min: "1", "data-validate": "af_covered", id: "ac_" <> product_coverage.coverage_id  %>
+                        <div class="ui basic label" id="af_covered_label_<%= product_coverage.coverage_id %>">
+                          %
+                        </div>
+                    </div>
+                  </div>
+                  <%= error_tag f, :af_value %>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="ui dividing header">Non-Accredited Facilities</h4>
+            <div class="ui grid">
+              <div class="sixteen wide column">
+                <div class="field">
+                  <%= label f, :naf_reimbursable, "Reimbursable", class: "control-label"  %>
+                  <%= select f, :naf_reimbursable, ["": "", "Yes": "Yes", "No": "No"], "data-validate": "naf_reimbursible", class: "ui selection dropdown" %>
+                  <%= error_tag f, :naf_reimbursable %>
+                </div>
+                <div class="three fields">
+
+                  <div class="field">
+                    <%= label f, :naf_type, "Risk Share", class: "control-label"  %>
+                    <%= select f, :naf_type, ["": "N/A", "Copayment": "Copayment", "CoInsurance": "CoInsurance"], class: "naf_select", coverage: product_coverage.coverage_id, id: "naf_select_" <> product_coverage.coverage_id %>
+                    <%= error_tag f, :naf_type %>
+                  </div>
+
+                  <div class="field">
+                    <%= if product_risk_share.naf_value != nil do %>
+
+                      <%= label f, :naf_value, "Value", class: "control-label" %>
+                      <div class="ui right labeled input" id="naf_value_<%= product_coverage.coverage_id %>">
+                        <%= text_input f, :naf_value, class: "form-control", "data-validate": "naf_value", id: "naf_value_rs_" <> product_coverage.coverage_id %>
+                        <div class="ui basic label" id="naf_value_label_<%= product_coverage.coverage_id %>">
+                          %
+                        </div>
+                        <%= error_tag f, :naf_value %>
+                      </div>
+
+                    <% else %>
+                      <%= if product_risk_share.naf_type == "Copayment" do %>
+
+                        <%= label f, :naf_value, "Value", class: "control-label" %>
+                        <div class="ui right labeled input" id="naf_value_<%= product_coverage.coverage_id %>">
+                          <%= text_input f, :naf_value, class: "form-control", "data-validate": "naf_value", id: "naf_value_rs_" <> product_coverage.coverage_id, value: product_risk_share.naf_value_amount %>
+                          <div class="ui basic label" id="naf_value_label_<%= product_coverage.coverage_id %>">
+                            %
+                          </div>
+                          <%= error_tag f, :naf_value %>
+                        </div>
+
+                      <% else %>
+                        <%= label f, :naf_value, "Value", class: "control-label" %>
+                        <div class="ui right labeled input" id="naf_value_<%= product_coverage.coverage_id %>">
+                          <%= text_input f, :naf_value, class: "form-control", "data-validate": "naf_value", id: "naf_value_rs_" <> product_coverage.coverage_id, value: product_risk_share.naf_value_percentage %>
+                          <div class="ui basic label" id="naf_value_label_<%= product_coverage.coverage_id %>">
+                            %
+                          </div>
+                          <%= error_tag f, :naf_value %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+
+                  <div class="field">
+                    <%= label f, :naf_covered, "Covered After Risk Share", class: "control-label"  %>
+                    <div class="ui right labeled input">
+                      <%= number_input f, :naf_covered_percentage, class: "form-control", placeholder: "Enter a percentage", min: "1", "data-validate": "naf_covered", id: "nac_" <> product_coverage.coverage_id %>
+                      <div class="ui basic label" id="naf_covered_label_<%= product_coverage.coverage_id %>">
+                        %
+                      </div>
+                    </div>
+                  </div>
+                  <%= error_tag f, :af_value %>
+                </div>
+                <%= submit "Save", class: "ui right floated blue submit button submit_rs" %>
+              </div>
+            </div>
+
+              <div class="ui middle aligned  right aligned grid">
+                <div class="left floated left aligned six wide column">
+                  <h4 class="ui header">Exempted Facilities</h4>
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <a href="#" class="ui small button btnFacility" id="" risk_share="<%= product_risk_share.id  %>" facility="" prsf_id="" productID="<%= @product.id %>" coverageID="<%= product_coverage.coverage_id %>" productCoverageID="<%= product_coverage.id %>">
+                    <i class="add icon" >
+                    </i>Facility
+                  </a>
+                </div>
+              </div>
+              <div class="ui divider mrg0T mrg0B"></div>
+              <%= for facility <- product_risk_share.product_coverage_risk_share_facilities do %>
+                <h5 class="ui top attached header"><%= facility.facility.name %></h5>
+
+                <div class="ui attached segment">
+                  <div class="ui grid">
+                    <div class="four wide column">
+                      Facility Code: <%= facility.facility.code %>
+                    </div>
+                    <div class="four wide column">
+                      Risk Share:  <%= facility.type %>
+                    </div>
+                    <div class="four wide column">
+
+                      <%= if facility.value != nil do %>
+                        Value:  <%= facility.value %>
+                      <% else %>
+                        <%= if facility.type == "Copayment" do %>
+                          Value: ₱ <span class="card_mask_value"> <%= facility.value_amount %> </span>
+                        <% else %>
+                          Value:  <%= facility.value_percentage %> %
+                        <% end %>
+                      <% end %>
+
+                    </div>
+                    <div class="four wide column">
+                      Covered after Risk Share:  <%= facility.covered %> %
+                    </div>
+                  </div>
+                  <div class="ui middle aligned  right aligned grid">
+                    <div class="left floated left aligned six wide column">
+                      <h4 class="ui header">Exempted Procedures</h4>
+                    </div>
+                    <div class="right floated right aligned six wide column">
+                      <a href="#" class="ui small button btnProcedure" id="" risk_share_facility="<%= facility.id %>" procedure="" productID="<%= @product.id %>" ><i class="add icon" productID="<%= @product.id %>" >
+                        </i>Procedures</a>
+                    </div>
+                  </div>
+                  <div class="ui divider mrg0t mrg0b"></div>
+                  <div class="ui grid">
+                    <%= for procedures <- facility.product_coverage_risk_share_facility_payor_procedures do %>
+                      <div class="four wide column" >
+                        <div class="ui card">
+                          <div class="content">
+                            <div class="header"><%= procedures.facility_payor_procedure.name %></div>
+                            <div class="ui small feed">
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Procedure code
+                                        </div>
+                                        <div class="column">
+                                         <%= procedures.facility_payor_procedure.code %>
+                                        </div>
+                                      </div>
+                                   </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Risk Share
+                                        </div>
+                                        <div class="column">
+                                          <%= procedures.type %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Value
+                                        </div>
+                                        <div class="column">
+                                          <%= if procedures.value != nil do %>
+                                             <%= procedures.value %> PHP
+                                          <% else %>
+                                            <%= if procedures.type == "Copayment" do %>
+                                              ₱ <span class="card_mask_value"> <%= procedures.value_amount %> </span>
+                                            <% else %>
+                                              <%= procedures.value_percentage %> %
+                                            <% end %>
+                                          <% end %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <div class="summary">
+                                    <div class="ui grid">
+                                      <div class="doubling two column row">
+                                        <div class="column description">
+                                          Covered after Risk Share
+                                        </div>
+                                        <div class="column">
+                                          <%= procedures.covered %>%
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <a href="#" class="editBtnProcedure" id="" risk_share_facility="<%= facility.id %>" procedure="<%= procedures.facility_payor_procedure.id %>" productID="<%= @product.id %>">
+                            <div class="ui bottom attached button">
+                              <i class="unhide icon"></i>
+                              View
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <a href="#" class="btnFacility_edit" id="" risk_share="<%= product_risk_share.id  %>" facility="<%= facility.facility.id %>" productID="<%= @product.id %>" coverageID="<%= product_coverage.coverage_id %>" productCoverageID="<%= product_coverage.id %>">
+                  <div class="ui bottom attached button">
+                    <i class="unhide icon">
+                    </i>View
+                  </div>
+                </a>
+            <% end %>
+          </div>
+
+
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+</div>
+  <br/>
+
+  <a href="/products/<%= @product.id %>" class="ui button mrg1T">
+    <i class="chevron left icon"></i>
+    Cancel
+  </a>

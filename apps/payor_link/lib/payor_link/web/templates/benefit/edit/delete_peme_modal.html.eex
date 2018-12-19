@@ -1,0 +1,74 @@
+<div class="ui tiny modal" id="modalDeletePeme">
+  <div class="header">
+    <b> Delete Benefit</b>
+    <br>
+    <div class="ui grid">
+      <div class="four wide column">
+        <h2 class="ui icon header" style="style="text-align: "center" ; width:"100%">
+          <i class="add square icon"></i>
+          <div class="content">
+            <b> Riders</b>
+          </div>
+        </h2>
+      </div>
+      <div class="four wide column">
+        <p style="color:MediumSeaGreen;">
+          <%= @benefit.code %></p><%= @benefit.name%>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <%= form_for @changeset_delete_benefit, benefit_path(@conn, :delete_peme_benefit), [as: :benefit, class: "ui form", id: "delete_benefit_form"], fn f -> %>
+      <%= hidden_input f, :id, value: @benefit.id %>
+      <div class="field" id="dateFormPicker">
+        <label><b>Delete Benefit:</b></label>
+        <div class="ui calendar" id="deleteDate">
+          <div class="ui input right icon">
+            <i class="calendar icon"></i>
+            <%= text_input f, :delete_date, placeholder: "MM-DD-YYYY", id: "delete_date_picker" %>
+            <%# <input type="text" id="b_id"> %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label><b>Remarks:</b></label>
+        <%= textarea f, :remarks, rows: "5", cols: "30", class: "semantic-textarea", id: "delete_remarks" %>
+      </div>
+      <div class="actions">
+      <a class="ui cancel left floated green basic button" id="CancelDelete">
+        <%# <i class="remove icon"></i> %>
+        Cancel
+      </a>
+      </div>
+      <a href="#!" class="ui right floated negative button"  id="confirmDeleteBenefitID">
+        <%# <i class="trash icon"></i> %>
+        Delete Benefit
+      </a>
+
+      <br><br>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="ui tiny modal" id="modalDeletePemeConfirmation">
+  <div class="header"><b>
+      Delete Benefit?
+    </b> </div>
+
+    <div>
+     Deleting this benefit shall permanently remove it from the system on entered Delete Date<span id="dbdeletedate"> </span>.
+    </div>
+
+    <div class="actions">
+      <button class="ui left floated button" id="NoDL">
+        <i class="remove icon"></i><b>
+          No, keep benefit
+        </b> </button>
+        <button class="ui red ok button"  id="confirmDeleteBenefit">
+          <i class="trash icon"></i><b>
+          Yes, delete benefit
+        </b> </button>
+    </div>
+</div>
+

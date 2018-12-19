@@ -1,0 +1,140 @@
+<%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="ui grid">
+
+    <%# 1st column %>
+
+    <div class="sixteen wide tablet sixteen wide computer column">
+      <div class="field">
+        <div class="two fields">
+          <div class="field required">
+            <label>Account TIN</label>
+            <%= text_input f, :account_tin, class: "form-control", required: "required" %>
+            <%= error_tag f, :account_tin %>
+          </div>
+          <div class="field required">
+            <label>VAT Status</label>
+            <%= select f, :vat_status, [
+                "20% VAT-able": "20% VAT-able",
+                "Full VAT-able": "Full VAT-able",
+                "Others": "Others",
+                "VAT Exempt": "VAT Exempt",
+                "VAT-able": "VAT-able",
+                "Zero-Rated": "Zero-Rated"
+                ],
+                prompt: "Select One",
+                class: "ui dropdown" %>
+            <%= error_tag f, :vat_status%>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field required">
+            <label>Principal Mode of Payment</label>
+            <%= select f, :p_mode_of_payment, [
+                "ANNUAL": "ANNUAL",
+                "DAILY": "DAILY",
+                "HOURLY": "HOURLY",
+                "MONTHLY": "MONTHLY",
+                "QUARTERLY": "QUARTERLY",
+                "SEMI ANNUAL": "SEMI ANNUAL",
+                "WEEKLY": "WEEKLY"
+                ],
+                prompt: "Select One",
+                class: "ui dropdown" %>
+            <%= error_tag f, :p_mode_of_payment%>
+          </div>
+          <div class="field required">
+            <label>Dependent Mode of Payment</label>
+            <%= select f, :d_mode_of_payment, [
+                "ANNUAL": "ANNUAL",
+                "DAILY": "DAILY",
+                "HOURLY": "HOURLY",
+                "MONTHLY": "MONTHLY",
+                "QUARTERLY": "QUARTERLY",
+                "SEMI ANNUAL": "SEMI ANNUAL",
+                "WEEKLY": "WEEKLY"
+                ],
+                prompt: "Select One",
+                class: "ui dropdown" %>
+            <%= error_tag f, :d_mode_of_payment%>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field required">
+            <%= label f, :previous_carrier, class: "control-label" %>
+            <%= text_input f, :previous_carrier, class: "form-control", required: "required" %>
+            <%= error_tag f, :previous_carrier %>
+          </div>
+
+          <div class="field required">
+            <%= label f, :attached_point, class: "control-label" %>
+            <%= text_input f, :attached_point, class: "form-control", required: "required" %>
+            <%= error_tag f, :attached_point %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field required">
+            <%= label f, :revolving_fund, class: "control-label" %>
+            <%= text_input f, :revolving_fund, class: "form-control", required: "required" %>
+            <%= error_tag f, :revolving_fund%>
+          </div>
+
+          <div class="field required">
+            <%= label f, :threshold_limit, class: "control-label" %>
+            <%= text_input f, :threshold_limit, class: "form-control", required: "required" %>
+            <%= error_tag f, :threshold_limit%>
+          </div>
+        </div>
+      </div>
+
+      <div class="field required">
+        <label>Agent/Broker/STC</label>
+        <%= text_input f, :country, class: "form-control"%>
+        <%= error_tag f, :country %>
+      </div>
+
+      <div class="field required">
+        <label>CAO</label>
+        <%= text_input f, :postal_code, class: "form-control" %>
+        <%= error_tag f, :postal_code %>
+      </div>
+
+    </div>
+
+    <div class="field required">
+      <label>Manager</label>
+      <%= select f, :manager, [
+          "Manager": "Manager",
+          "Manager1": "Manager1"
+          ],
+          prompt: "Select One",
+          class: "ui dropdown" %>
+      <%= error_tag f, :manager%>
+    </div>
+
+    <%# End of 1st column %>
+  </div>
+
+  <div class="ui one column right aligned grid">
+    <div class="column sixteen wide">
+      <a href="/accounts/<%= @account.id%>/setup?step=5" class="small ui button">Previous</a>
+      <%= submit "Next", class: "small ui primary button" %>
+    </div>
+  </div>
+
+<% end %>

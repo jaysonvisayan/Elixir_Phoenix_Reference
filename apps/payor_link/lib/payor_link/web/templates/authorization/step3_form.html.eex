@@ -1,0 +1,263 @@
+<%= form_for @changeset, @action, [as: :authorization, multipart: true], fn f -> %>
+  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+  <div class="ui grid">
+    <div class="eleven wide computer eleven wide tablet column">
+      <h3>List of Coverage</h3>
+      <div class="ui segments" name="formValidateAuthorization">
+        <div class="ui segment" id="formStep3_list_coverage">
+          <div class="ui grid">
+            <%= for coverage <- Enum.uniq(@coverage) do %>
+              <%= cond do %>
+                <%= coverage.name == "ACU" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="heartbeat icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "Cancer" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="treatment icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "OP Consult" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="doctor icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "Medicine" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="eyedropper icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "Emergency" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="emergency icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "OP Laboratory" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="lab icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "Inpatient" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="hotel icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "Maternity" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="female icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "RUV" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="cut icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% coverage.name == "Optical" -> %>
+                <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="unhide icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+                <% true -> %>
+                  <div class="sixteen wide tablet four wide computer column">
+                  <%= hidden_input f, :hdn_coverage_id, value: coverage.id %>
+                  <%= hidden_input f, :hdn_coverage_name, value: coverage.name %>
+                  <%= hidden_input f, :hdn_coverage_description, value: coverage.description %>
+                  <button class="fluid ui button" type="button" text="<%= coverage.description %>"  id="btn_authorization_coverage_id" name="<%= coverage.name %>" value="<%= coverage.id%>" >
+                    <h2 class="ui icon header">
+                      <i class="first aid icon"></i>
+                      <div class="content">
+                        <%= coverage.name %>
+                      </div>
+                    </h2>
+                  </button>
+                </div>
+
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="five wide computer eleven wide tablet column">
+      <h3>Selected Facility</h3>
+      <div class="ui segments" >
+        <div class="ui segment" id="formStep3_selected_facility">
+          <div class="ui grid">
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Code</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_code"> <%= @facility.code %></label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Name</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_name"> <%= @facility.name %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Type</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_type"> <%= @facility.type.text %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Facility Category</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_category"> <%= @facility.category.text %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Address</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_address">
+                <%= @facility.line_1 %>  <%= @facility.line_2 %>
+                <%= @facility.city %>  <%= @facility.province %>
+                <%= @facility.postal_code %>  <%= @facility.country %>
+              </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Contact Number</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="facility_contact_number">  <%= @facility.phone_no %> </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Selected Coverage</h3>
+      <div class="ui segments">
+        <div class="ui segment" id="formStep3_selected_coverage">
+          <div class="ui grid">
+            <%= hidden_input f, :coverage_id %>
+            <div class="eight wide computer eight wide computer column">
+              <label>Coverage Name</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="coverage_name"> <%= if is_nil(@authorization.coverage_id), do: nil, else: @authorization.coverage.name %> </label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label>Coverage Description</label>
+            </div>
+            <div class="eight wide computer eight wide computer column">
+              <label id="coverage_description"> <%= if is_nil(@authorization.coverage_id), do: nil, else: @authorization.coverage.description %> </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/authorizations/<%= @authorization.id %>/setup?step=2" class="ui button mrg1T">
+    <i class="chevron left icon"></i>
+    Back
+  </a>
+  <button id="submit" class="ui green right floated button mrg1T">
+    Next
+    <i class="chevron right icon"></i>
+  </button>
+<% end %>

@@ -1,0 +1,90 @@
+<div class="ui small modal" role="edit">
+  <i class="close icon"></i>
+  <div class="header">
+    Benefit Limit
+  </div>
+  <div class="content" edit="modal">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">Can't be blank
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+
+
+    <%= form_for @changeset, @action, [as: :product, class: "ui form form2", id: "limit_modal_form"],fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="one field">
+        <div class="field">
+
+          <div class="ui sub header">Coverages</div>
+          <div class="ui fluid multiple search selection dropdown disabled" id="product_coverage" >
+            <%# <input name="product[coverages]" type="hidden", data-validate="coverages" disabled="" > %>
+            <%= hidden_input f, :coverages, class: "form-control", "data-validate": "coverages" %>
+            <i class="dropdown icon"></i>
+            <div class="default text">Coverages</div>
+            <div class="menu">
+
+
+              <%= for benefit_coverage <- @product_benefit.benefit.benefit_coverages do %>
+                <div class="item" data-value="<%= benefit_coverage.coverage.code %>"> <%= benefit_coverage.coverage.code %></div>
+                <% end %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="one field">
+        <div class="field">
+          <%= label f, :type, "Type", class: "control-label" %>
+          <%= select f, :limit_type, Enum.sort(["Plan Limit Percentage", "Peso", "Sessions"]), class: "ui dropdown", id: "limit_type_onchange" %>
+          <%= error_tag f, :type %>
+        </div>
+      </div>
+      <div class="one field">
+        <div class="field">
+          <%= label f, :amount, "Value", class: "control-label" %>
+          <%= text_input f, :amount, class: "form-control", id: "amt_value", "data-validate": "amount" %>
+          <%= error_tag f, :amount %>
+        </div>
+      </div>
+      <br>
+      <div class="three fields">
+        <div class="field">
+          <%= label f, :limit_classification, "Limit Classification", class: "control-label" %>
+          <%= error_tag f, :limit_classification %>
+        </div>
+
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button f, :limit_classification, "Per Transaction", id: "pt", class: "" %>
+            <label for="pt" class="">Per Transaction</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui radio checkbox">
+            <%= radio_button f, :limit_classification, "Per Coverage Period", id: "pcp", class: "" %>
+            <label for="pcp">Per Coverage Period</label>
+          </div>
+        </div>
+
+      </div>
+       <input type="hidden" name="product[product_benefit_limit_id]" id="pblID">
+       <input type="hidden" name="product[product_benefit_id]" id="pbID">
+       <input type="hidden" name="product[product_limit_amount]" id="product_limit_amount">
+       <input type="hidden" name="product[original_amount]" id="original_amount">
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="save icon"></i>
+      Update
+    </button>
+
+    <% end %>
+  </div>
+</div>

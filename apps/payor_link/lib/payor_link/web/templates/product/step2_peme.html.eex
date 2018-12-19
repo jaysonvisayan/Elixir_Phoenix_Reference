@@ -1,0 +1,66 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plans</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/products">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Plan</div>
+  </div>
+</div>
+
+<div id="product_benefits" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered five steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <%# <div class="disabled step"> %>
+            <%#   <div class="content"> %>
+            <%#     <div class="title">Exclusion</div> %>
+            <%#   </div> %>
+            <%# </div> %>
+            <div class="active step cov-ben">
+              <div class="content">
+                <div class="title">Benefits</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Conditions</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Facility Access</div>
+              </div>
+            </div>
+            <%# <div class="disabled step"> %>
+            <%#   <div class="content"> %>
+            <%#     <div class="title">Risk Share</div> %>
+            <%#   </div> %>
+            <%# </div> %>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+            <%= render "step2_peme_form.html", product: @product, changeset: @changeset, conn: @conn %>
+            <%= render "step2_peme_modal.html", product: @product, changeset: @changeset, benefits: @benefits, conn: @conn, action: product_path(@conn, :update_setup, @product, step: "2") %>
+          <%= render "step2_peme_remove_confirmation.html" %>
+          <%= render "product_delete_confirmation.html" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_pb">
+<% end %>
+

@@ -1,0 +1,62 @@
+<head>
+  <style>
+        html {
+            display: none;
+        }
+    </style>
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+</head>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h1 class="ui image header">
+      <div class="content">
+        Forgot Password
+      </div>
+    </h1>
+    <%= form_for @changeset, @action, [class: "ui large form"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="ui stacked segment">
+        <p class="mrg1T">Please enter your username to resend verification code.</p>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <%= text_input f, :username, value: @user.username, disabled: "" %>
+            <%= hidden_input f, :username, value: @user.username %>
+          </div>
+        </div>
+        <div class="ui divider hidden"></div>
+        <p>Please choose where to send your verification code.</p>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :channel, "Email", id: "channelEmail", checked: "") %>
+              <label for="channelEmail">Email</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <%= radio_button(f, :channel, "SMS", id: "channelSMS") %>
+              <label for="channelSMS">SMS</label>
+            </div>
+          </div>
+        </div>
+        <div class="ui divider hidden"></div>
+        <div class="two fields">
+          <div class="field">
+            <span><a href="/sign_in" class="ui fluid button">Cancel</a></span>
+          </div>
+          <div class="field">
+              <button type="submit" class="ui fluid primary button">Resend Code</button>
+          </div>
+        </div>
+      </div>
+      <div class="ui error message"></div>
+    <% end %>
+  </div>

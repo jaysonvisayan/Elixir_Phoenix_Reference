@@ -1,0 +1,69 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Plan</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plan</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Benefit</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div id="open_pb_modal">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui segment">
+            <br>
+            <div class="ui grid centered container">
+              <div class="two wide computer ten wide tablet column">
+                <h2 class="ui header">Benefit: </h2>
+              </div>
+              <div class="two wide computer ten wide tablet column">
+                <h3><%= @product_benefit.benefit.code %></h3>
+              </div>
+              <div class="six wide computer ten wide tablet column">
+                <h3><%= @product_benefit.benefit.name %></h3>
+              </div>
+            </div>
+            <table role="datatable" class="ui striped table">
+              <thead>
+                <tr>
+                  <th>Coverage</th>
+                  <th>Type</th>
+                  <th>Value</th>
+                  <th>Limit Classification</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for product_benefit_limit <- @product_benefit.product_benefit_limits do %>
+                  <tr>
+                    <td>
+                      <a href="#" id="" class="add button" name="edit_modal_benefit_limit" productID="<%= @product.id %>" productBenefitLimitID="<%= product_benefit_limit.id %>" productBenfitID="<%= @product_benefit.id %>" >
+                          <%= product_benefit_limit.coverages %>
+                      </a>
+                    </td>
+                    <td> <%= product_benefit_limit.limit_type %></td>
+                    <td class="pb_index_amt_value"><%= display_limit_amount(product_benefit_limit) %></td>
+                    <td> <%= product_benefit_limit.limit_classification %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <input type="hidden" name="product[total_product_benefit_limit]" id="total_product_benefit_limit" value="<%= get_all_benefit_limit_peso(@product_benefit) %>">
+
+            <%= render "edit/product_benefit_modal.html", conn: @conn, changeset: @changeset, product_benefit: @product_benefit , action: product_path(@conn, :save, @product, tab: "benefit-limit") %>
+            <a href="/products/<%= @product.id %>/edit?tab=benefit" class="ui button">
+              <i class="chevron left icon"></i>
+              Back
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

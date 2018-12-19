@@ -1,0 +1,87 @@
+<div class="ui large modal" role="rb_inpatient_modal" id="add_rb">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Room
+  </div>
+  <div class="content">
+    <div class="ui two column centered grid">
+      <div class="column">
+        <p id="no_procedure"></p>
+        <%= form_for @changeset, @action, [as: :authorization,  multipart: true, class: "ui form", id: "diagnosis_form"], fn f -> %>
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+          <%= hidden_input f, :prev_authorization_room_id, id: "prev_authorization_room_id" %>
+          <%= hidden_input f, :authorization_room_id, id: "authorization_room_id" %>
+          <%= hidden_input f, :authorization_type, value: "inpatient" %>
+          <div class="field" id="dateFormPicker">
+            <%= label f, :admission_date, "Admission Date" %>
+            <div class="ui calendar" id="room_admission_date">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :admission_date %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <%= label f, :admission_time, "Admission Time" %>
+            <div class="ui calendar time_from" id="room_admission_time">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :admission_time %>
+              </div>
+            </div>
+          </div>
+          <div class="field" id="dateFormPicker" name="transfer_date">
+            <%= label f, :transfer_date, "Transfer Date" %>
+            <div class="ui calendar" id="room_transfer_date">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :transfer_date %>
+              </div>
+            </div>
+          </div>
+          <div class="field" name="transfer_time">
+            <%= label f, :transfer_time, "Transfer Time" %>
+            <div class="ui calendar time_from" id="room_transfer_time">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :transfer_time %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <%= label f, :room_number, "Room Number" %>
+            <%= text_input f, :room_number %>
+          </div>
+          <div class="field">
+            <%= label f, :room_category, "Room Category" %>
+            <%= text_input f, :room_category, readonly: true %>
+          </div>
+          <div class="field">
+            <%= label f, :room_rate, "Room Rate" %>
+            <%= text_input f, :room_rate, readonly: true %>
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="authorization[for_isolation]" value=true>
+              <label>For Isolation</label>
+            </div>
+          </div>
+          <div id="append"></div>
+          <input type="hidden" id="number" value="0">
+          <input type="hidden" name="authorization[authorization_id]" value="<%= @authorization.id %>">
+
+          <div class="actions">
+            <button class="ui right floated primary button btnSubmitRoomAndBoard" type="submit" id="room_and_board_submit" >
+              <i class="plus icon"></i>
+              Add
+            </button>
+            <a class="ui right floated deny button">
+              <i class="remove icon"></i>
+              Cancel
+            </a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/png" href="<%= static_path(@conn, "/images/favicon.png") %>">
+
+    <title>PayorLink</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/main.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/components.css") %>">
+  </head>
+  <body>
+    <header class="header">
+        <div class="ui container">
+          <div class="ui text menu">
+            <div class="item">
+              <a href="#" class="mr-2 fs-20 hamburger-trigger"><i class="sidebar icon"></i></a><a href="/" class="site-logo"><span class="sr-only">PayorLink</span></a>
+            </div>
+            <div class="ui right item">
+
+              <span class="timestamp mr-1 medium only" id="datetime_web"></span>
+              <div class="ui dropdown">
+                <span class="icon-bell mr-3"></span>
+                <div class="menu">
+                  <div class="item">
+                    <p class="mb-0"><a href="#" class="user">Elliot Fu</a> updated the pricing</p>
+                         <div class="small dim">5 min ago</div>
+                  </div>
+
+                  <div class="item">
+                    <p class="mb-0"><a href="#" class="user">Elliot Fu</a> updated the pricing</p>
+                         <div class="small dim">5 min ago</div>
+                  </div>
+
+                  <div class="item">
+                    <p class="mb-0"><a href="#" class="user">Elliot Fu</a> updated the pricing</p>
+                         <div class="small dim">5 min ago</div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui dropdown">
+                <span class="icon-profile mr-1"></span><span class="medium only"><%= @current_user.username %></span>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <div class="item clickable-row">
+                        <%= link "Change Password", to: session_path(@conn, :change_password) %>
+                   </div>
+                  <div class="item"><%= link "Logout", to: session_path(@conn, :delete), method: :delete, class: "item" %></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <div class="ui left vertical visible sidebar labeled icon menu">
+        <!-- <a class=" item" href="/">
+            <p><span class="icon-dashboard menu-icon"></span><small class="menu-link">Dashboard</small></p>
+        </a> -->
+        <!-- <a class=" item" href="/">
+            <p><span class="icon-claims menu-icon"></span><small class="menu-link">Claims</small></p>
+        </a> -->
+        <a class=" item" href="/authorizations" id="authorizations">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Authorizations</small></p>
+        </a>
+        <a class=" item" href="/accounts" id="accounts">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Account</small></p>
+        </a>
+        <a class="  item" href="/web/products/" id="products">
+            <p><span class="icon-product menu-icon"></span><small class="menu-link">Plans</small></p>
+        </a>
+        <a class=" item" href="/coverages" id="coverages">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Coverage</small></p>
+        </a>
+        <a class=" item" href="/web/benefits" id="benefits">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Benefits</small></p>
+        </a>
+        <a class=" item" href="/procedures" id="procedures">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Procedures</small></p>
+        </a>
+        <a class=" item" href="/diseases"  id="diseases">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Diseases</small></p>
+        </a>
+        <a class=" item" href="/pharmacies"  id="pharmacies">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Pharmacies</small></p>
+        </a>
+        <a class=" item" href="/clusters" id="clusters">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Clusters</small></p>
+        </a>
+        <a class=" item" href="/exclusions"  id="exclusions">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Exclusions</small></p>
+        </a>
+        <a class=" item" href="/packages"  id="packages">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Packages</small></p>
+        </a>
+        <a class=" item" href="/case_rates"  id="case_rates">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Case Rates</small></p>
+        </a>
+        <a class=" item" href="/web/acu_schedules"  id="acu_schedules">
+            <p><span class="icon-profile menu-icon"></span><small class="menu-link">Acu Schedules</small></p>
+        </a>
+        <div class="ui fitted divider"></div>
+            <a class=" item" href="/facilities"  id="facilities">
+            <p><span class="icon-menu-hospital menu-icon"></span><small class="menu-link">Facilities</small></p>
+        </a>
+        <a class=" item" href="/rooms"  id="rooms">
+            <p><span class="icon-doctors menu-icon"></span><small class="menu-link">Rooms</small></p>
+        </a>
+        <a class=" item" href="/practitioners" id="practitioners">
+          <p><span class="icon-doctors menu-icon"></span><small class="menu-link">Practitioner</small></p>
+        </a>
+        <a class="item" href="/web/facility_groups" id="facility_groups">
+            <p><span class="icon-doctors menu-icon"></span><small class="menu-link">Facility Groups</small></p>
+        </a>
+        <a class=" item" href="/miscellaneous"  id="miscellaneous">
+            <p><span class="icon-doctors menu-icon"></span><small class="menu-link">Miscellaneous</small></p>
+        </a>
+        <div class="ui fitted divider"></div>
+        <a class=" item" href="/web/users"  id="users">
+            <p><span class="icon-doctors menu-icon"></span><small class="menu-link">Users</small></p>
+        </a>
+        <a class=" item" href="/members"  id="memebrs">
+            <p><span class="icon-doctors menu-icon"></span><small class="menu-link">Members</small></p>
+        </a>
+        <a class=" item" href="/web/roles" id="roles">
+          <p><span class="icon-setting menu-icon"></span><small class="menu-link">Roles</small></p>
+        </a>
+        <a class=" item" href="/companies" id="companies">
+          <p><span class="icon-menu-hospital menu-icon"></span><small class="menu-link">Companies</small></p>
+        </a>
+
+      </div>
+
+    <div class="containerli main-wrapper">
+      <main role="main">
+          <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>
+
+<%
+info = get_flash(@conn, :info)
+error = get_flash(@conn, :error)
+warning = get_flash(@conn, :warning)
+%>
+<%= if info do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.success('<i class="close icon"></i><%= info %>')
+    });
+  </script>
+<% end %>
+<%= if error do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.error('<i class="close icon"></i><%= error %>')
+    });
+  </script>
+<% end %>
+<%= if warning do %>
+  <script type="text/javascript">
+    $(function() {
+      alertify.warning('<i class="close icon"></i><%= warning %>')
+    });
+  </script>
+<% end %>

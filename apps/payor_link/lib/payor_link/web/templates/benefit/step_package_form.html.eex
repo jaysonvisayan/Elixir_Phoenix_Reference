@@ -1,0 +1,69 @@
+<div class="row" id="benefitACUprocedures">
+  <div class="column">
+    <div class="ui middle aligned  right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h4 class="ui header">Package</h4>
+      </div>
+      <div class="right floated right aligned six wide column">
+        <a class="ui small add button" id="add_package"><i class="plus icon"></i>Package</a>
+      </div>
+    </div>
+    <div class="ui divider mrg0T mrg0B"></div><br />
+      <table role="datatable" id="benefit_package_index" class="ui stripped table">
+      <thead>
+        <tr>
+          <th>Package Code</th>
+          <th>Package Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for benefit_package <- Enum.sort_by(@benefit.benefit_packages, &(&1.package.code)) do %>
+          <tr>
+            <td><a href="/packages/<%= benefit_package.package.id %>/summary" target="_blank"><%= benefit_package.package.code %></a></td>
+            <td><%= benefit_package.package.name %></td>
+            <td class="center aligned">
+              <a style="cursor: pointer;" class="delete-benefit-package" benefitPackageID="<%= benefit_package.id %>" benefitPayorProcedure="<%= benefit_package.payor_procedure_code %>">
+                <i class="trash icon"></i>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <button class="ui negative button mrg1T" id="deleteBenefit" benefitID="<%= @benefit.id %>">
+      <i class="trash left icon"></i>Delete Draft
+    </button>
+  </div>
+  <div class="column eight wide">
+    <%= if @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) do %>
+    <a href="/benefits/<%= @benefit.id %>/setup?step=4" class="ui button mrg1T">
+    <% else %>
+    <a href="/benefits/<%= @benefit.id %>/setup?step=3" class="ui button mrg1T">
+    <% end %>
+
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+      <%= if Enum.empty?(@benefit.benefit_packages) and acu_coverage?(@benefit.benefit_coverages) do %>
+        <button class="ui blue  button mrg1T" type="button" id="preventNext" message="Please enter at least one Package">
+          Next
+          <i class="chevron right icon"></i>
+        </button>
+      <% else %>
+        <%= if @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) do %>
+        <a href="/benefits/<%= @benefit.id %>/setup?step=6" class="ui blue button mrg1T">
+        <% else %>
+        <a href="/benefits/<%= @benefit.id %>/setup?step=5" class="ui blue button mrg1T">
+        <% end %>
+          Next
+          <i class="chevron right icon"></i>
+        </a>
+      <% end %>
+  </div>
+</div>

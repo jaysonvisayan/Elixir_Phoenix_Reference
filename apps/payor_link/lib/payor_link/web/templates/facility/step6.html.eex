@@ -1,0 +1,44 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" >
+        <div class="ui form segment" >
+          <div class="ui ordered six steps">
+            <div class="completed step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Address</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Contact Details</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Financial</div>
+              </div>
+            </div>
+            <div class="completed step">
+              <div class="content">
+                <div class="title">Service Fee</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= render "step6_form.html", facility: @facility, contacts: @contacts, conn: @conn, action: facility_path(@conn, :update_setup, @facility, step: "6") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

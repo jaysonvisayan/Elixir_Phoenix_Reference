@@ -1,0 +1,123 @@
+<div class="ui small modal" id="modal_cancel_account">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Cancel Account
+  </div>
+  <div class="content">
+    <%= form_for @changeset, @action, [as: :cancel_account, class: "ui form", id: "form_cancel_account", multipart: :true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <%= hidden_input f, :account_id, value: @account.id %>
+      <%= hidden_input f, :account_group_id,  value: @account.account_group_id %>
+      <div class="description">
+        <div class="ui grid">
+          <div class="row">
+            <div class="four wide column"></div>
+            <div class="eight wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Version</label>
+                </div>
+                <div class="field">
+                  <b>
+                    <%= Enum.join([
+                      @account.major_version,
+                      @account.minor_version,
+                      @account.build_version], ".") %>
+                  </b>
+                </div>
+              </div>
+            </div>
+            <div class="four wide column"></div>
+            <div class="eight wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Account Code</label>
+                </div>
+                <div class="field">
+                  <b><%= @account_group.code %></b>
+                </div>
+              </div>
+            </div>
+            <div class="eight wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Account Name</label>
+                </div>
+                <div class="field">
+                  <b><%= @account_group.name %></b>
+                </div>
+              </div>
+            </div>
+            <div class="eight wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Effectivity Date</label>
+                </div>
+                <div class="field">
+                  <b role="account_effectivity"><%= @account.start_date %></b>
+                </div>
+              </div>
+            </div>
+            <div class="eight wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Expiry Date</label>
+                </div>
+                <div class="field">
+                  <b role="account_expiry"><%= @account.end_date %></b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui divider"></div>
+          <div class="row">
+
+            <div class="sixteen wide column">
+              <div class="two fields">
+                <div class="field" id="date_end">
+                  <label>Cancellation Date</label>
+                  <div class="ui calendar" id="cancelDatePicker" >
+                    <div class="ui input right icon">
+                      <i class="calendar icon"></i>
+                      <%= text_input f, :cancel_date, readonly: true %>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Reason</label>
+                  <%= select f, :cancel_reason, ["Others1": "others1", "Others2": "others2"], prompt: "Select one", class: "ui selection dropdown"%>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide column">
+              <div class="fluid field">
+                <label>Remarks</label>
+                <%= textarea f, :cancel_remarks %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="center_align">
+      <button type="button" class="ui deny button">
+        Cancel
+      </button>
+      <button type="button" class="ui blue button" id="confirm_cancel_account">
+        Cancel Account
+      </button>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+
+

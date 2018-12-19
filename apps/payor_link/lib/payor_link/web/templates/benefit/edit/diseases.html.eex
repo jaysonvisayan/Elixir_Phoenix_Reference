@@ -1,0 +1,165 @@
+<%= render "edit/breadcrumbs.html", benefit: @benefit %>
+<div id="benefit_diagnosis" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment ">
+
+          <%= cond do %>
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui eight item menu">
+                <%= if disease_required?(@benefit) and Enum.empty?(@benefit.benefit_diagnoses) do %>
+                  <a class="prevent-next item" message="Please enter at least one disease">General</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Procedures</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">RUV</a>
+                  <a class="active item">Diagnosis</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Packages</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Limits</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Pharmacy</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Miscellaneous</a>
+                <% else %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                  <a class="active item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=pharmacy" class="item">Pharmacy</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+                <% end %>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+              <div class="ui six item menu">
+                <%= if disease_required?(@benefit) and Enum.empty?(@benefit.benefit_diagnoses) do %>
+                  <a class="prevent-next item" message="Please enter at least one disease">General</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Procedures</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">RUV</a>
+                  <a class="active item">Diagnosis</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Packages</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Limits</a>
+                <% else %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=ruvs" class="item">RUV</a>
+                  <a class="active item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <% end %>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) -> %>
+              <div class="ui seven item menu">
+                <%= if disease_required?(@benefit) and Enum.empty?(@benefit.benefit_diagnoses) do %>
+                  <a class="prevent-next item" message="Please enter at least one disease">General</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Procedures</a>
+                  <a class="active item">Diagnosis</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Limits</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Pharmacy</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Miscellaneous</a>
+                <% else %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a class="active item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=pharmacy" class="item">Pharmacy</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=miscellaneous" class="item">Miscellaneous</a>
+                <% end %>
+              </div>
+
+            <%= @benefit.category == "Health" and ruv_coverage?(@benefit.benefit_coverages) == false and atleast_one_of_them?(@benefit.benefit_coverages) == false -> %>
+              <div class="ui five item menu">
+                <%= if disease_required?(@benefit) and Enum.empty?(@benefit.benefit_diagnoses) do %>
+                  <a class="prevent-next item" message="Please enter at least one disease">General</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Procedures</a>
+                  <a class="active item">Diagnosis</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Packages</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Limits</a>
+                <% else %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a class="active item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <% end %>
+              </div>
+
+            <%= true -> %>
+              <div class="ui seven item menu">
+                <%= if disease_required?(@benefit) and Enum.empty?(@benefit.benefit_diagnoses) do %>
+                  <a class="prevent-next item" message="Please enter at least one disease">General</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Procedures</a>
+                  <a class="active item">Diagnosis</a>
+                  <a class="prevent-next item" message="Please enter at least one disease">Limits</a>
+                <% else %>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="item">General</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=procedures" class="item">Procedures</a>
+                  <a class="active item">Diagnosis</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=packages" class="item">Packages</a>
+                  <a href="/benefits/<%= @benefit.id %>/edit?tab=limits" class="item">Limits</a>
+                <% end %>
+              </div>
+
+          <%= end %>
+
+
+
+
+
+
+          <div class="row">
+            <div class="column">
+              <div class="ui middle aligned  right aligned grid">
+                <div class="left floated left aligned six wide column">
+                  <h4 class="ui header">Diagnosis</h4>
+                </div>
+                <div class="right floated right aligned six wide column">
+                  <a class="ui small add button"><i class="plus icon"></i>Diagnosis</a>
+                </div>
+              </div>
+              <div class="ui divider mrg0T mrg0B"></div><br />
+              <table role="datatable" id="" class="ui stripped table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>ICD Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for benefit_disease <- Enum.sort_by(@benefit.benefit_diagnoses, &(&1.diagnosis.code)) do %>
+                    <tr>
+                      <td><%= benefit_disease.diagnosis.code %></td>
+                      <td><%= benefit_disease.diagnosis.description %></td>
+                      <td><%= benefit_disease.diagnosis.type %></td>
+                      <td class="center aligned">
+                        <a style="cursor: pointer;" class="delete-benefit-disease" benefitDiseaseID="<%= benefit_disease.id %>">
+                          <i class="trash icon"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="ui middle aligned  right aligned grid mrg1T">
+            <div class="left floated left aligned six wide column">
+              <a href="/benefits/<%= @benefit.id %>" class="ui button">
+                <i class="remove left icon"></i> Cancel
+              </a>
+            </div>
+          </div>
+          <%= render "edit/diseases_modal.html", benefit: @benefit, changeset: @changeset, conn: @conn, action: benefit_path(@conn, :save, @benefit, tab: "diseases"), diagnoses: @diagnoses %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal_benefit_disease">
+<% end %>
+
+<%= render "delete_disease_modal.html" %>

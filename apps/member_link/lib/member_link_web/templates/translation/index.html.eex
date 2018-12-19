@@ -1,0 +1,50 @@
+<div class="pusher">
+  <div class="content-holder">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <div class="ui right aligned grid">
+            <div class="left floated left aligned eight wide column">
+              <h1 class="ui huge header with-button">Translations</h1>
+            </div>
+            <div class="right floated right aligned eight wide column">
+              <a class="ui primary basic button" href="/<%= @locale %>/translations/new"><i class="plus icon"></i>Translation</a>
+            </div>
+          </div>
+          <!--<h1 class="ui huge header">Account</h1>-->
+          <div class="ui breadcrumb">
+            <a href="<%= @locale %>/translations" class="section">Translation</a>
+            <div class="divider"> / </div>
+            <div class="active section">Search</div>
+          </div>
+          <div class="ui divider"></div>
+        </div>
+      </div>
+      <table class="ui very basic striped selectable table" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Base</th>
+            <th>Translated</th>
+            <th>language</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for translation <- @translations do %>
+            <tr>
+              <td><%=translation.base_value%></td>
+              <td><%=translation.translated_value%></td>
+              <td><%=translation.language%></td>
+              <td>
+                <%= link to: translation_path(@conn, :edit, @locale, translation) do %> <i class="blue large edit link icon"></i>
+                <% end %>
+                <%= link to: translation_path(@conn, :delete, @locale, translation), method: :delete, data: [confirm: "Are you sure?"] do %> <i class="red large trash link icon"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

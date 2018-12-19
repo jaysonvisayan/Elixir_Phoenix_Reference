@@ -1,0 +1,39 @@
+<div class="ui large modal" id="ruv_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add RUV
+  </div>
+  <div class="content">
+  <input type="hidden" id="hidden_date">
+  <%= form_for @changeset, @action, [as: :facility_ruv,  class: "ui form", id: "addruv" ], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+    <div class="field">
+      <%= label f, :ruv_id, "RUV(Code/Description)" %>
+      <%= if filter_ruv(@ruv, @facility_ruv) == ["No RUV Records Found"] do %>
+      <%= select f, :ruv_id, filter_ruv(@ruv, @facility_ruv), class: "ui dropdown", facilityID: @facility_id, disabled: true %>
+      <% else %>
+      <%= select f, :ruv_id, ["" , ""] ++ filter_ruv(@ruv, @facility_ruv), id: "code_description", facilityID: @facility_id, placeholder: "Select RUV" %>
+      <% end %>
+      <%= error_tag f, :ruv_id %>
+    </div>
+  </div>
+    <div class="actions">
+      <%= if filter_ruv(@ruv, @facility_ruv) == ["No RUV Records Found"] do %>
+        <button class="ui right floated primary button" type="submit" disabled="disabled"><i class="add icon"></i> Add</button>
+      <% else %>
+          <button class="ui right floated primary button" type="button" id="ruv_submit"><i class="add icon"></i> Add</button>
+      <% end %>
+      <a class="ui right floated cancel button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+    </div>
+  <% end %>
+  </div>
+</div>
+

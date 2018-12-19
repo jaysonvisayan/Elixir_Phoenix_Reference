@@ -1,0 +1,46 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Practitioner</h2>
+  <div class="ui small breadcrumb">
+    <a href="/practitioners" class="section">Practitioner</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/practitioners" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="section">Edit Practitioner</div>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Corporate Retainer</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" >
+        <div class="ui form segment" id="formStep1PractitionerAccount">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Schedule</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "account_group/step1_form.html", conn: @conn, practitioner_account: @practitioner_account, changeset: @changeset, accounts: @accounts, action: practitioner_path(@conn, :update_pa_setup, @practitioner_account, step: "1"), practitioner: @practitioner %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

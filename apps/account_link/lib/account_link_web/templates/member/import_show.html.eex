@@ -1,0 +1,87 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li>Home</li><li><i class="chevron right icon"></i></li>
+      <li>Batch Processing</li><li><i class="chevron right icon"></i></li>
+      <li class="active">Batch Detail</li>
+    </ul>
+  </div>
+
+  <div class="sections-wrapper">
+    <div class="ui container batch-detail">
+      <div class="ui grid">
+
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <div class="section-title mt-4">Batch Information</div>
+          </div>
+
+          <div class="eight wide computer sixteen wide mobile column">
+            <table class="full-width ui celled table">
+              <tbody>
+                <tr>
+                  <td class="data-label">Name</td>
+                  <td>Juan Dela Cruz</td>
+                </tr>
+                <tr>
+                  <td class="data-label">Faculty</td>
+                  <td>Makati Medical</td>
+                </tr>
+                <tr>
+                  <td class="data-label">Candidate</td>
+                  <td>Test_Member</td>
+                </tr>
+                <tr>
+                  <td class="data-label">Card No.</td>
+                  <td>010029987</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="eight wide computer sixteen wide mobile column">
+            <table class="full-width ui celled table">
+              <tbody>
+                <tr>
+                  <td class="data-label">Birth Date</td>
+                  <td>11 August 1990</td>
+                </tr>
+                <tr>
+                  <td class="data-label">Age</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td class="data-label">Gender</td>
+                  <td>Female</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sixteen wide computer column">
+            <section class="mt-3">
+              <div class="ui grid">
+                <div class="row">
+                  <div class="five wide computer five wide tablet sixteen wide mobile column text-center">
+                    <div class="pie"><img src="./image/uploaded.png"></div>
+                    <div class="bold mt-2"><span class="green mr-1">50%</span>Uploaded</div>
+                  </div>
+                  <div class="five wide computer five wide tablet sixteen wide mobile column rt-border mobile-border-none text-center mobile-mt-2">
+                    <div class="pie"><img src="./image/downloaded.png"></div>
+                    <div class="bold mt-2"><span class="red mr-1">50%</span>Uploaded</div>
+                  </div>
+                  <div class="six wide computer six wide tablet sixteen wide mobile column mobile-mt-2">
+                    <div class="ml-2">
+                      <div class="bold">Total <span class="ml-1 mr-1 blue">120 downloads</span>out of which:</div>
+                      <div class="mt-2"><span class="round round-green mr-2"></span>60 Downloaded</div>
+                      <div class="mt-1"><span class="round round-red mr-2"></span>60 Not Downloaded</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="ui main container">
+  <div class="ui centered grid">
+    <div class="sixteen wide mobile twelve wide tablet six wide computer column">
+      <div class="raised very padded center aligned ui segment">
+        <div class="content">
+          <i class="big blue lock icon"></i>
+          <div class="huge ui header"><%= gettext "Account Verification" %></div>
+          <div class="description" name="LoginVerifyCode">
+            <p><%= gettext "Your verification code was sent to [63]" %> <%= @mobile %>.</p>
+            <div class="ui hidden divider"></div>
+            <p><%= gettext "Please check your mobile and enter your verification code here" %>.</p>
+            <%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+              <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+              <%= hidden_input f, :email, value: @user.email %>
+
+              <%= if @changeset.action do %>
+                <div class="ui negative message">
+                  <i class="close icon"></i>
+                  <%= get_flash(@conn, :error) %>
+                </div>
+              <% end %>
+
+              <div class="field">
+                <input type="text" placeholder=<%= gettext "Enter Security Code" %> name="user[verification_code]" maxlength="4">
+              </div>
+              <div  class="field">
+                <button class="ui button large fluid primary" type="submit" id="verifyButton" disabled="disabled"><%= gettext "Verify" %></button>
+              </div>
+              <div class="field">
+                <p><%= gettext "Didn’t receive any code?"%> <a href="/<%= @locale %>/new_code/<%=@user.id%>"><%= gettext "Resend code now" %></a></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

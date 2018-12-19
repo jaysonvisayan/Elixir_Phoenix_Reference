@@ -1,0 +1,30 @@
+<div class="ui large modal facility_group">
+  <i class="close icon"></i>
+  <div class="header">Add Facility</div>
+  <div class="content pt-0">
+ 
+
+    <div class="ui grid form">
+      <div class="sixteen wide column">
+        <table class="full-width ui celled striped table display select" id="tbl_add_facility">
+          <thead>
+            <tr>
+              <th><input name="select_all" value="1" type="checkbox" style="width:20px; height:20px"></th>
+              <th class="small">Facility Code</th>
+              <th class="small">Facility Name</th>
+              <th class="small">Region</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ten wide computer sixteen wide mobile column centered mt-2">
+      <button class=" send-rtp ui primary button close" type="submit" id="btn_submit_facilityv2">
+        Add
+      </button>
+    </div>
+
+  </div>
+</div>

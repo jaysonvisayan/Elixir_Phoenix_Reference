@@ -1,0 +1,50 @@
+<div class="ui large modal" id="modalAddPackage">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Package
+  </div>
+  <div class="content">
+    <%= if @changeset.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        At least one Package must be added!
+      </div>
+    <% end %>
+    <%= form_for @changeset, @action, [as: :benefit, class: "form2"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="benefit[package_ids_main]">
+    <table role="datatable" class="ui stripped table" id="package_table_modal">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" style="width:20px; height:20px" id="checkAllPackages">
+          </th>
+          <th>Package Code</th>
+          <th>Package Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for package <- filter_benefit_packages(@benefit.benefit_packages, @packages) do %>
+          <tr>
+            <td>
+              <input type="checkbox" style="width:20px; height:20px" name="benefit[package_ids][]" value="<%= package.id %>" class="selection" />
+            </td>
+            <td><a href="/packages/<%= package.id %>/summary" target="_blank"><%= package.code %></a></td>
+            <td><%= package.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit" id="addBtn">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

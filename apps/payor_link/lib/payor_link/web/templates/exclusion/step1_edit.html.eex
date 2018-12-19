@@ -1,0 +1,68 @@
+<%= render "breadcrumbs.html" %>
+    <div class="active section"><p id="exclusion_section"><%= section(@tab_checker) %></p></div>
+    </div>
+  </div>
+</div>
+<div id="exclusions_step1" class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div></div>
+           <div id="step_pre_existing" class="ui ordered four steps" style="<%= pre_existing(@tab_checker) %>">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Duration</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="step_exclusion" class="ui ordered four steps" style="<%= exclusion(@tab_checker) %>">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Disease</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Procedure</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset_exclusion.action || @changeset_pre_existing.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step1_form.html", exclusion: @exclusion, changeset_pre_existing: @changeset_pre_existing, changeset_exclusion: @changeset_exclusion, conn: @conn, action: exclusion_path(@conn, :update_setup, @exclusion, step: "1"), tab_checker: @tab_checker %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

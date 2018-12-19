@@ -1,0 +1,54 @@
+<div class="ui main container grid">
+  <div class="sixteen wide column">
+      <div class="ui right aligned grid">
+          <div class="left floated left aligned eight wide column">
+              <h1 class="ui huge header with-button">Company Details</h1>
+          </div>
+      </div>
+      <div class="ui breadcrumb">
+          <a href="/companies" class="section">Companies</a>
+          <div class="divider"> / </div>
+           <a href="/companies" class="section">Search</a>
+          <div class="divider"> / </div>
+          <div class="active section">View <%= @companies.code %></div>
+      </div> 
+      <div class="ui divider"></div>
+  </div>
+</div>
+
+<div class="ui equal container width grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+
+          <div class="ui one column centered grid">
+            <div class="two column center aligned row">
+              <div class="center aligned column">
+                <div class="ui statistic">
+                  <div class="">
+                    Code
+                  </div>
+                  <div style="font-size: 2rem !important; font-weight: 900;">
+                    <%= @companies.code %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="centered aligned column">
+             <div class="ui statistic">
+                <div class="">
+                  Name
+                </div>
+                <div style="font-size: 2rem !important; font-weight: 900;">
+                  <%= @companies.name %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>    
+    </div>
+  </div>
+</div> 

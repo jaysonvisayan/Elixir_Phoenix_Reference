@@ -1,0 +1,228 @@
+/* =============Extra Segment and Tooltip Color============= */
+.nightli {
+  background: #2e3e4e;
+  color: #fff;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.nightli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #2e3e4e !important;
+  }
+}
+
+.whiteli {
+  background: #fff !important;
+  color: #2e3e4e !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.whiteli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #fff;
+  }
+}
+
+.redli {
+  background: #F25F5C !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.redli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #F25F5C;
+  }
+}
+
+.blueli {
+  background: #247BA0 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.blueli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #247BA0;
+  }
+}
+
+.yellowli {
+  background: #FFE066 !important;
+  color: #50514F !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.yellowli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #FFE066;
+  }
+}
+
+.greyli {
+  background: #50514F !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.greyli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #50514F;
+  }
+}
+
+.greenli {
+  background: #32936F !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.greenli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #32936F;
+  }
+}
+
+.darkpurpleli {
+  background: #2A1A1F !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.darkpurpleli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #2A1A1F;
+  }
+}
+
+.darkorangeli {
+  background: #764134 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.darkorangeli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #764134;
+  }
+}
+
+.greenli2 {
+  background: #307473 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.greenli2 {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #307473;
+  }
+}
+
+.pinkli {
+  background: #E76D83 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.pinkli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #E76D83;
+  }
+}
+
+.lightyellowli {
+  background: #EFD28D !important;
+  color: #001011 !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.lightyellowli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #EFD28D;
+  }
+}
+
+.darkli {
+  background: #001011 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.darkli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #001011;
+  }
+}
+
+.pinkli2 {
+  background: #C1839F !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.pinkli2 {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #C1839F;
+  }
+}
+
+.lightbrownli {
+  background: #E1B07E !important;
+  color: #fff !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+.ui.inverted.lightbrownli {
+  &.bottom.popup:before, &.left.center.popup:before, &.right.center.popup:before, &.top.popup:before {
+    background: #E1B07E;
+  }
+}
+/* =============Extra Segment and Tooltip Color============= */
+
+/* =============Horizontal Segmnets Border-Radius============ */
+.ui.horizontal.segments > .segment:first-child {
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.ui.horizontal.segments > .segment:last-child {
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+/* =============Horizontal Segmnets Border-Radius============ */
+
+/* =============Segmnets Breadcrumbs============ */
+.segment-breadcrumbs{
+    position: relative;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+    margin: 1rem 0em;
+    padding: 1em 1em;
+    border-radius: 0.28571429rem;
+    border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+}
+/* =============Segmnets Breadcrumbs============ */

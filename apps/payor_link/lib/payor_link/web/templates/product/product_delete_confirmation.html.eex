@@ -1,0 +1,21 @@
+<div class="ui tiny modal" id="delete_product_confirmation">
+  <div class="header">
+    Delete Plan?
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="dp_product_id">
+    <p>
+    Deleting this plan will permanently remove it from the system.
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="dp_cancel">
+      <i class="remove icon"></i>
+      No, Keep Plan
+    </div>
+    <div class="ui red ok button"  id="dp_submit">
+      <i class="trash icon"></i>
+      Yes, Delete Plan
+    </div>
+  </div>
+</div>

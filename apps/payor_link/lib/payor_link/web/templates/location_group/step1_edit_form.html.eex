@@ -1,0 +1,37 @@
+<div class="row" id="location_group_step1">
+  <%= form_for @changeset, @action, [as: :location_group, id: "step1_form", multipart: true], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <div class="two fields">
+      <div class="field">
+        <%= label f, :name, "Location Group Name", class: "control-label" %>
+        <%= text_input f, :name, class: "form-control" %>
+        <%= error_tag f, :name %>
+      </div>
+
+      <div class="field">
+        <%= label f, :description, "Location Group Description", class: "control-label" %>
+        <%= text_input f, :description, class: "form-control" %>
+        <%= error_tag f, :description %>
+      </div>
+    </div>
+
+    <div class="ui middle aligned  right aligned grid mrg1T">
+      <div class="right floated right aligned six wide column">
+      </div>
+    </div>
+
+    <div class="ui one column right aligned grid">
+      <div class="column eight wide left aligned">
+        <button class="ui negative button mrg1T" id="deleteLG" lg_ID="<%= @location_group.id %>" type="button">
+          <i class="trash left icon"></i>Delete Draft
+        </button>
+      </div>
+      <div class="column eight wide">
+        <a href="/location_groups" class="ui button">
+          <i class="close left icon"></i> Cancel
+        </a>
+        <button type="submit" class="ui blue button">Next <i class="chevron right icon"></i></button>
+      </div>
+    </div>
+  <% end %>
+</div>

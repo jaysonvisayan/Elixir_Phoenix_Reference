@@ -1,0 +1,46 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Clusters</h2>
+  <div class="ui small breadcrumb">
+    <a href="/clusters" class="section">Clusters</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/clusters" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Cluster</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" name="ClusterValidation">
+  <div class="row" >
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment" id="Cluster">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <%# <i class="truck icon"></i> %>
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="payment icon"></i> %>
+              <div class="content">
+                <div class="title">Account</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%=
+          render "form.html",
+          changeset: @changeset,
+          conn: @conn,
+          action: cluster_path(@conn, :create) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h1 class="ui header">Plan</h1>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/products">Plans</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/products">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add Plan</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" id="step1_general">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment ">
+          <div class="ui ordered seven steps">
+            <div class="active step">
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Exclusion</div>
+              </div>
+            </div>
+            <div class="disabled step cov-ben">
+              <div class="content">
+                <div class="title">Coverage/Benefit</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Facility Access</div>
+             </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Conditions</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Risk Share</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+        <%= render "step1_form.html", changeset_general: @changeset_general, p_cat: @p_cat, action: product_path(@conn, :create) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

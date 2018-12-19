@@ -1,0 +1,22 @@
+<div class="ui tiny modal" id="product_base_confirmation">
+  <div class="header">
+    Change Plan Base?
+  </div>
+  <div class="content">
+    <input type="hidden" value="" id="confirmation_p_id">
+    <input type="hidden" value="" id="confirmation_pb_id">
+    <p>
+    Changing of plan base to <span class="notChecked"> </span> will permanently delete all entered details from Exclusion-step to RiskShare-step
+    </p>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button" id="confirmation_cancel_b">
+      <i class="remove icon"></i>
+      No, Keep <span class="radioChecked"> </span>
+    </div>
+    <div class="ui red ok button"  id="confirmation_submit_b">
+      <i class="trash icon"></i>
+      Yes, Change <span class="radioChecked"> </span>
+    </div>
+  </div>
+</div>

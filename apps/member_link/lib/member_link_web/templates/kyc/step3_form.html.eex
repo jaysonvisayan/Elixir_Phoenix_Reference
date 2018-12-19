@@ -1,0 +1,262 @@
+<div class="row" id="kyc-step-3">
+  <div class="ten wide column" id="file">
+    <%= form_for @changeset, @action, [as: :kyc, class: "ui form", id: "kyc-step3", multipart: :true], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <div class="two fields">
+        <div class="field">
+          <label>Tin No.</label>
+          <%= text_input f, :tin, placeholder: "Enter Tin no.", role: "mask", class: "tin2"%>
+          <%= error_tag f, :tin %>
+        </div>
+        <div class="field">
+          <label>SSS No.</label>
+          <%=  text_input f, :sss_number, placeholder: "Enter SSS no.", role: "mask", class: "sss_no" %>
+          <%= error_tag f, :sss_number %>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Unified ID No.</label>
+        <%=  text_input f, :unified_id_number, placeholder: "Enter Unified ID no.", role: "mask", class: "unified_no" %>
+          <%= error_tag f, :unified_id_number %>
+      </div>
+
+      <h4 class="ui dividing header">Please upload Scanned ID Card.</h4>
+
+      <div class="field">
+        <label>Identification Card</label>
+        <%= select f, :id_card,
+            ["Driver's Licensed": "Driver's Licensed",
+             "PRC ID": "PRC ID",
+             "NBI Clearance": "NBI Clearance",
+             "Police Clearance": "Police Clearance",
+             "Voter's ID": "Voter's ID",
+             "Postal ID": "Postal ID",
+             "GSIS E-Card": "GSIS E-Card",
+             "SSS Card": "SSS Card",
+             "Senior Citizen Card": "Senior Citizen Card",
+             "OWWA ID": "OWWA ID",
+             "OFW ID": "OFW ID",
+             "Seaman's Book": "Seaman's Book",
+             "Passport - Local and Foreign Issued": "Passport - Local and Foreign Issued",
+             "Company IDs (Issued by private entities registered and regulated by SEC, BSP or IC)":
+             "Company IDs (Issued by private entities registered and regulated by SEC, BSP or IC)",
+             "Government Office or GOCC ID": "Government Office or GOCC ID",
+             "Alien Certificate of Registration/Immigrant Certificate of Registration":
+             "Alien Certificate of Registration/Immigrant Certificate of Registration",
+             "Student's ID (signed by head of school or principal)":
+             "Student's ID (signed by head of school or principal)",
+             "Integrated Bar of the Philippines": "Integrated Bar of the Philippines",
+             "Marriage Certificate - NSO Copy": "Marriage Certificate - NSO Copy",
+             "Birth Certificate - NSO Copy": "Birth Certificate - NSO Copy",
+             "Barangay Clearance": "Barangay Clearance",
+             "Certification from NCWDP": "Certification from NCWDP",
+             "DSWD Certification": "DSWD Certification",
+             "Philhealth Insurance Card ng Bayan": "Philhealth Insurance Card ng Bayan",
+             "NBI Clearance with Signature": "NBI Clearance with Signature",
+             "TIN ID": "TIN ID"
+             ],
+            class: "ui dropdown",
+            prompt: "Select ID card" %>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <% front = get_file(@kyc.file, "front-side") # Get file name %>
+          <%= if is_nil(front) do %>
+              <%= file_input f, :front_side,  id: "kyc_front_side", class: "hide", value: "" %>
+            <% else %>
+              <%= file_input f, :front_side, id: "file_upload", class: "hide", value: image_url_for(front.image_type, front.id)%>
+          <% end %>
+          <div class="ui fluid basic icon buttons">
+            <%= if is_nil(front) do %>
+              <a class="ui button">
+                <span class="upload_txt" name="front_side">
+                  Upload Front Side
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% else %>
+              <%= if is_nil(front.image_type) do %>
+                <a class="ui button">
+                  <span class="upload_txt" name="front_side">
+                    Upload Front Side
+                  </span><i class="cloud upload icon"></i>
+                </a>
+              <% else %>
+                <a class="ui button" href="<%= image_url_for(front.image_type, front.id) %>">
+                  <span class="upload_txt" name="front_side">
+                    <%= if not is_nil(front.image_type) do %>
+                      <%= to_ellipsis(front.image_type.file_name) %>
+                    <% else %>
+                      Invalid Image File
+                    <% end %>
+                  </span><i class="cloud upload icon"></i>
+                </a>
+              <% end %>
+            <% end %>
+            </button>
+            <button type="button" class="ui button" file="front_side" id="upload"><i class="photo icon"></i></button>
+          </div>
+        </div>
+        <div class="field">
+          <% back = get_file(@kyc.file, "back-side") # Get file name %>
+          <%= if is_nil(back) do %>
+              <%= file_input f, :back_side, id: "kyc_back_side", class: "hide" %>
+            <% else %>
+              <%= file_input f, :back_side, id: "file_upload", class: "hide", value: image_url_for(back.image_type, back.id)%>
+          <% end %>
+          <div class="ui fluid basic icon buttons">
+            <%= if is_nil(back) do %>
+              <a class="ui button">
+                <span class="upload_txt" name="back_side">
+                  Upload Back Side
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% else %>
+              <%= if is_nil(back.image_type) do %>
+                <a class="ui button">
+                  <span class="upload_txt" name="back_side">
+                    Upload Back Side
+                  </span><i class="cloud upload icon"></i>
+                </a>
+              <% else %>
+                <a class="ui button" href="<%= image_url_for(back.image_type, back.id) %>">
+                  <span class="upload_txt" name="back_side">
+                    <%= if not is_nil(back.image_type) do %>
+                      <%= to_ellipsis(back.image_type.file_name) %>
+                    <% else %>
+                      Invalid Image File
+                    <% end %>
+                  </span><i class="cloud upload icon"></i>
+                </a>
+              <% end %>
+            <% end %>
+            <button type="button" class="ui button" file="back_side" id="upload"><i class="photo icon"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <p class="ui tiny header"><span class="sub header">Please rename the scanned file according to the type of ID before you upload (eg. sss_id, driver_license, etc.)
+            Maximum file size is 5 MB. Acceptable file types are jpg, jpeg and png.</span></p>
+      </div>
+
+      <h4 class="ui dividing header">Please download the CIR Form to sign it and upload.</h4>
+
+      <div class="field">
+        <a href="#"><span><i class="file outline icon"></i></span><b>Download CIR Form</b></a>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <label>After you have signed the form, please upload it here.</label>
+          <% cir = get_file(@kyc.file, "cir-form") # Get file name %>
+          <%= if is_nil(cir) do %>
+              <%= file_input f, :cir_form, id: "kyc_cir_form", class: "hide" %>
+            <% else %>
+              <%= file_input f, :cir_form, id: "file_upload", class: "hide", value: file_url_for(cir.type, cir.id)%>
+          <% end %>
+          <div class="ui fluid basic icon buttons">
+            <%= if is_nil(cir) do %>
+              <a class="ui button">
+                <span class="upload_txt" name="cir_form">
+                  Upload CIR Form
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% else %>
+              <%= if is_nil(cir.type) do %>
+              <a class="ui button">
+                <span class="upload_txt" name="cir_form">
+                  Upload CIR Form
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% else %>
+              <a class="ui button" href="<%= file_url_for(cir.type, cir.id) %>">
+                <span class="upload_txt" name="cir_form">
+                <%= to_ellipsis(cir.type.file_name) %>
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% end %>
+          <% end %>
+            <button type="button" class="ui button" file="cir_form" id="upload"><i class="photo icon"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+          <label>Please upload the Terms and Conditions form.</label>
+          <% terms = get_file(@kyc.file, "terms-form") # Get file name %>
+          <%= if is_nil(terms) do %>
+              <%= file_input f, :terms_form, id: "kyc_terms_form", class: "hide", value: "" %>
+            <% else %>
+              <%= file_input f, :terms_form, id: "file_upload", class: "hide", value: file_url_for(terms.type, terms.id)%>
+          <% end %>
+          <div class="ui fluid basic icon buttons">
+            <%= if is_nil(terms) do %>
+              <a class="ui button">
+                <span class="upload_txt" name="terms_form">
+                  Upload Terms and Condition Form
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% else %>
+              <%= if is_nil(terms.type) do %>
+                <a class="ui button">
+                  <span class="upload_txt" name="terms_form">
+                    Upload Terms and Condition Form
+                  </span><i class="cloud upload icon"></i>
+                </a>
+              <% else %>
+              <a class="ui button" href="<%= file_url_for(terms.type, terms.id) %>">
+                <span class="upload_txt" name="terms_form">
+                <%= to_ellipsis(terms.type.file_name) %>
+                </span><i class="cloud upload icon"></i>
+              </a>
+            <% end %>
+          <% end %>
+            <button type="button" class="ui button" file="terms_form" id="upload"><i class="photo icon"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <button id="finish" type="submit" class="ui primary button">Finish</button>
+        <a id="skipDeleteKYC" class="skip_text" style="cursor: pointer;"><b>Skip this for now</b></a>
+      </div>
+    <% end %>
+  </div>
+
+  <input type="hidden" id="kycID" value="<%= @kyc.id %>">
+
+  <div class="five wide column">
+    <br>
+    <br>
+    <div class="ui card">
+      <div class="image">
+        <img id="photo" src="<%= get_img_url(@member) %>">
+      </div>
+      <div class="content">
+        <a class="header"><%= @member.first_name %>  <%= @member.middle_name %> <%= @member.last_name %> </a>
+        <div class="meta">
+          <span class="date">Metalab Trading Company Ltd. </span> <br>
+          <span class="date">Quezon Branch </span>
+        </div>
+        <div class="description">
+          Card #: <%= @member.card_no %>
+        </div>
+        <div class="description">
+          Birthday: <%= @member.birthdate %>
+        </div>
+        <div class="description">
+          Gender: <%= @member.gender %>
+        </div>
+        <br>
+      </div>
+      <div class="extra content">
+        <center>
+          <a>Is this information not correct?</a>
+        </center>
+      </div>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,111 @@
+<div class="sixteen wide computer column">
+  <form action="" class="general-form">
+    <div class="ui form">
+
+      <div class="ui negative message hidden" id="optionValidation">
+        <i class="close icon"></i>
+        <div class="header">
+          No Benefit selected.
+        </div>
+        <p>Atleast one benefit must be added.</p>
+      </div>
+
+      <div class="ui left floated header">
+        <div class="section-title mt-2">
+          <div class="title-name">Benefit</div>
+        </div>
+      </div>
+
+      <div class="ui right floated header mt-2">
+
+        <%= case @product.product_category do %>
+          <%= "PEME Plan" -> %>
+            <%= if Enum.count(@product.product_benefits) < 1 do %>
+              <a class="modal-open-benefit ui primary button btn_add_benefit">+ Add Benefit</a>
+            <% else %>
+              <a class="modal-open-benefit ui primary button btn_add_benefit disabled">+ Add Benefit</a>
+            <% end %>
+
+            <%= "Regular Plan" -> %>
+              <a class="modal-open-benefit ui primary button btn_add_benefit">+ Add Benefit</a>
+            <% end %>
+
+      </div>
+      <table class="full-width ui celled striped table" id="pb_index">
+        <thead>
+          <tr>
+            <th>Benefit Code</th>
+            <th>Benefit Name</th>
+            <th>Benefit Type</th>
+            <th>Coverage</th>
+            <th>Packages</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for product_benefit <- Enum.sort_by(@product.product_benefits, &(&1.benefit.code)) do %>
+            <tr>
+              <td>
+                <a href="#" onclick="window.open('/web/benefits/<%= product_benefit.benefit.id %>');" ><%= product_benefit.benefit.code %></a>
+              </td>
+              <td> <%= product_benefit.benefit.name %></td>
+              <td>
+                <strong><%= product_benefit.benefit.category %></strong>
+              </td>
+              <td><%= display_coverages_index(product_benefit.benefit.benefit_coverages) %></td>
+              <td>
+                <a class="modal-open-package view_packages" BenefitID="<%= product_benefit.benefit.id %>">View Packages</a>
+              </td>
+
+              <%= if @product.product_category == "Regular Plan" do %>
+                <td class="table-icon--holder">
+                  <div class="ui dropdown">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                      <div class="item" onclick="window.open('/web/benefits/<%= product_benefit.benefit.id %>');">
+                        View
+                      </div>
+                      <div class="item clickable-row" href="/web/products/<%= @product.id %>/edit?tab=product_benefit&pb=<%= product_benefit.id %>" >
+                        Edit Limit
+                      </div>
+                      <div class="item clickable-row delete_benefit"  href="#" productID="<%= @product.id%>"  productBenefitID="<%= product_benefit.id %>" >
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              <% else %>
+                <td class="table-icon--holder">
+                  <div class="ui dropdown">
+                    <i class="ellipsis vertical icon"></i>
+                    <div class="menu">
+                      <div class="item" onclick="window.open('/web/benefits/<%= product_benefit.benefit.id %>');">
+                        View
+                      </div>
+                      <div class="item clickable-row delete_benefit"  href="#" productID="<%= @product.id%>"  productBenefitID="<%= product_benefit.id %>" >
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              <% end %>
+              <input type="hidden" id="tbl-data" value="<%= product_benefit.benefit.name %>">
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="ui vertical segment mb-2" id="cancel_submit">
+        <div class="text-left">
+          <a href="/web/products/<%= @product.id %>/show" class="ui basic button medium" id="cancel-btn">
+            <i class="caret left icon"></i>Cancel
+            </a>
+            <!-- <a href="#" id="step3_next" productID="<%= @product.id %>" class="ui primary button medium"> Submit <i class="send icon white"></i></a> -->
+        </div>
+      </div>
+      <!-- .vertical.segment -->
+    </div>
+  </form>
+</div>
+
+<%= render "modal_view_packages.html" %>

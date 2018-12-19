@@ -1,0 +1,333 @@
+<div class="ui main container">
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="ui stackable grid">
+        <div class="row">
+          <div class="sixteen wide column">
+            <%# GENERAL %>
+            <h3 class="ui primary header">General</h3>
+            <div class="ui divider"></div>
+            <div class="row">
+              <div class="ui two column grid cards-holder">
+                <div class="column">
+                  <table class="ui table no-border borderless">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><b>Practitioner Types</b></td>
+                              <td>
+                                <%= for pf_type <- @practitioner_facility.practitioner_facility_practitioner_types do %>
+                                  <%= pf_type.type %>
+                                <% end %>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><b>Facility</b></td>
+                              <td><%= @practitioner_facility.facility.name %></td>
+                            </tr>
+                            <tr>
+                              <td><b>Affiliation Date</b></td>
+                              <td><%= @practitioner_facility.affiliation_date %></td>
+                            </tr>
+                            <tr>
+                              <td><b>Mode of Payment</b></td>
+                              <td><%= @practitioner_facility.payment_mode %></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="column">
+                  <table class="ui table no-border borderless">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td class="text-white"><b>Account Name</b></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td><b>Status</b></td>
+                              <td><%= @practitioner_facility.practitioner_status.text %></td>
+                            </tr>
+                            <tr>
+                              <td><b>Disaffiliation Date</b></td>
+                              <td><%= @practitioner_facility.disaffiliation_date %></td>
+                            </tr>
+                            <tr>
+                              <td><b>Credit Term</b></td>
+                              <td><%= if not is_nil(@practitioner_facility.credit_term) do Enum.join([@practitioner_facility.credit_term, "day/s"], "  ") end %></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <%# END OF GENERAL %>
+            <%# CONTACT %>
+            <h3 class="ui primary header">Contacts</h3>
+            <div class="ui divider"></div>
+            <table class="ui very basic striped table">
+              <thead>
+                <tr>
+                  <th>Telephone Number</th>
+                  <th>Mobile Number</th>
+                  <th>Fax Number</th>
+                  <th>Email Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= if check_pf_contacts(@practitioner_facility) do %>
+                <%= else %>
+                  <tr>
+                    <td>
+                      <%= for phone <- @practitioner_facility.practitioner_facility_contacts.contact.phones do %>
+                        <%= if phone.type == "telephone" do %>
+                            <%= phone.number %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= for phone <- @practitioner_facility.practitioner_facility_contacts.contact.phones do %>
+                        <%= if phone.type == "mobile" do %>
+                          <%= phone.number %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= for phone <- @practitioner_facility.practitioner_facility_contacts.contact.phones do %>
+                        <%= if phone.type == "fax" do %>
+                          <%= phone.number %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= for email <- @practitioner_facility.practitioner_facility_contacts.contact.emails do %>
+                        <%= email.address %>
+                      <% end %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%# END OF CONTACT %>
+            <%# RATE %>
+            <h3 class="ui primary header">Rates</h3>
+            <div class="ui divider"></div>
+            <div class="row">
+              <h4 class="ui header">Inpatient</h4>
+              <div class="ui two column grid cards-holder">
+                <div class="column">
+                  <table class="ui table no-border borderless mrg0B">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><b>Coordinator</b></td>
+                              <td>
+                                <%= case @practitioner_facility.coordinator do %>
+                                  <%= true -> %>
+                                    <%= "Yes" %>
+                                  <% _ -> %>
+                                    <%= "No" %>
+                                <% end %>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="column">
+                  <table class="ui table no-border borderless mrg0B">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><b>Coordinator Fee</b></td>
+                              <td>
+                                <%= if @practitioner_facility.fixed == true do %>
+                                  <%= @practitioner_facility.fixed_fee %>
+                                <% else %>
+                                    <table class="ui celled table">
+                                      <thead>
+                                        <tr>
+                                          <th>Room Type</th>
+                                          <th>Rate</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                      <%= for pf_room <- @practitioner_facility.practitioner_facility_rooms do %>
+                                          <tr>
+                                            <td>
+                                              <%= pf_room.facility_room.facility_room_type %>
+                                            </td>
+                                            <td>
+                                              <%= pf_room.rate %>
+                                            </td>
+                                          </tr>
+                                        <% end %>
+                                      </tbody>
+                                    </table>
+                                <% end %>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <h4 class="ui header">Consultation</h4>
+              <div class="ui two column grid cards-holder">
+                <div class="column">
+                  <table class="ui table no-border borderless mrg0B">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr colspan="2">
+                              <td><b>Consultation Fee</b></td>
+                            </tr>
+                            <tr colspan="2">
+                              <td>
+                                <table class="ui very basic striped selectable table practitioner_cf_table">
+                                  <thead>
+                                    <tr>
+                                      <th>Specialization</th>
+                                      <th>Fees</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <%= for ps <- Enum.sort_by(@practitioner.practitioner_specializations, &(&1.specialization.name)) do %>
+                                      <tr>
+                                        <td>
+                                          <%= ps.specialization.name %>
+                                        </td>
+                                        <td>
+                                          <span class="cf_specialization"><%= check_cf_fee(@practitioner_facility, ps.id) %></span>
+                                        </td>
+                                      </tr>
+                                    <% end %>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="column">
+                  <table class="ui table no-border borderless mrg0B">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><b>Coordinator Fee</b></td>
+                              <td><%= @practitioner_facility.coordinator_fee %></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <h4 class="ui header">CP Clearance</h4>
+              <div class="ui two column grid cards-holder">
+                <div class="column">
+                  <table class="ui table no-border borderless mrg0B">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><b>CP Clearance</b></td>
+                              <td><%= if not is_nil(@practitioner_facility.cp_clearance) do @practitioner_facility.cp_clearance.text end %></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="column">
+                  <table class="ui table no-border borderless mrg0B">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td><b>CP Clearance Rate</b></td>
+                              <td><%= @practitioner_facility.cp_clearance_rate %></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <%# END OF RATES %>
+            <%# SCHEDULE %>
+            <h3 class="ui primary header">Schedule</h3>
+            <div class="ui divider"></div>
+            <table class="ui very basic striped table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Room</th>
+                  <th>Time From</th>
+                  <th>Time To</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for schedule <- @practitioner_facility.practitioner_schedules do %>
+                  <tr>
+                    <td>
+                      <%= schedule.day %>
+                    </td>
+                    <td>
+                      <%= schedule.room %>
+                    </td>
+                    <td>
+                      <%= schedule.time_from %>
+                    </td>
+                    <td>
+                      <%= schedule.time_to %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <%# END OF SCHEDULE %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="eight wide column">
+          </div>
+          <div class="eight wide right aligned column">
+            <button role="print_pf" pfID="<%= @practitioner_facility.id %>" class="ui basic button">Print</button>
+            <a href="/practitioners/<%= @practitioner.id %>?active=affiliation" class="ui primary button">Go to Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

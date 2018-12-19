@@ -1,0 +1,77 @@
+<div class="ui large modal"  id="memberComment" role="add-comment">
+  <i class="close icon"></i>
+  <div class="content">
+    <%= form_for @changeset, member_path(@conn, :create_member_comment, @member, @locale), [class: "ui form", id: "addcomments", multipart: :true], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+      <div class="ui form">
+      <p role="app"></p>
+        <div class="field" id="comment_text_area">
+          <%= textarea f, :comment, class: "form-control", placeholder: "Write a comment . . .", maxlength: 250 %>
+          <%= error_tag f, :comment%>
+        </div>
+
+        <input type="hidden" value="<%= @member.id %>" id="member_id">
+
+        <div class="ui segment-breadcrumbs no-shadow no-radius">
+          <div class="ui right aligned grid">
+            <div class="left floated left aligned six wide column">
+              <h2 class="ui header">Comments</h2>
+            </div>
+            <div class="right floated right aligned six wide column">
+             <a class="title" id="message_count">0/250</a> <a>&emsp;</a>
+              <button type="button" class="ui blue button" id="btnComment" >
+              <i class="icon edit"> </i>
+                COMMENT
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="scrolling image content" style="overflow: auto; max-height: 300px">
+          <div class="description">
+
+                <div class="comment mt-2 comment-time">
+                  <div class="ui relaxed divided list" id="commentContainer">
+                    <%= for member_comment <- @member.member_comments do %>
+                      <div class="item">
+                        <div class="mt-1 mb-1"><%= member_comment.comment %></div>
+                        <i class="large github middle aligned icon"></i>
+                        <div class="content">
+                          <a class="header"><%= "#{member_comment.created_by.first_name} #{member_comment.created_by.last_name}" %></a>
+                          <div class="description timefromnow" timestamp="<%= member_comment.inserted_at %>"><%= member_comment.inserted_at %></div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="ui vertically divided grid">
+        <div class="one column row">
+          <div class="column floated">
+          <p role="append_loader"></p>
+
+            <a class="reply">
+              <p align="right" style="display: none" id ="LoadMore">
+              <u>
+                <span id="load_counter" style="display: none"></span>
+                <span style="cursor: pointer;">Load More</span><br>
+              </u>
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+  </div>
+   <div id="overlay2" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">Loading</div> </div> <p></p> </div>
+<% end %>
+</div>

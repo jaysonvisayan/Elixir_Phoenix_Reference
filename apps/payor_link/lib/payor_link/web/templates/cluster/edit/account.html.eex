@@ -1,0 +1,45 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Clusters</h2>
+  <div class="ui small breadcrumb">
+    <a href="/clusters" class="section">Clusters</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/clusters" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/clusters/<%= @cluster.id %>" class="section">View Cluster</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit <%= @cluster.code %> - <%= @cluster.name %></div>
+  </div>
+</div>
+
+
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" id="account_group_cluster">
+        <div class="ui form segment ">
+          <div class="ui two item menu">
+            <a href="/clusters/<%= @cluster.id %>/edit?tab=general" class="item">General</a>
+            <a class="active item">Account</a>
+          </div>
+          <%= render "edit/account_form.html", cluster: @cluster, changeset: @changeset, account_group_clusters: @account_group_clusters, conn: @conn, action: cluster_path(@conn, :create) %>
+          <%= render "edit/account_modal.html", cluster: @cluster, account_group_clusters: @account_group_clusters, 
+              account_groups: @account_groups, 
+              changeset: @changeset, 
+              conn: @conn,
+              all_account_group_clusters: @all_account_group_clusters, 
+              action: cluster_path(@conn, :update_edit_setup, @cluster, tab: "account") %>
+             <br>
+              <a href="/clusters/<%= @cluster.id %>" class="ui button">
+
+                <i class="chevron left icon"></i>
+                  Cancel
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= if assigns[:modal_open] do %>
+  <input type="hidden" id="open_modal">
+<% end %>

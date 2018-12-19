@@ -1,0 +1,22 @@
+<div class="ui ordered four steps">
+  <div class="<%= check_active_step(@conn, 1) %> step">
+    <div class="content">
+      <div class="title">General</div>
+    </div>
+  </div>
+  <div class="<%= check_active_step(@conn, 2) %> step">
+    <div class="content">
+      <div class="title">Plans</div>
+    </div>
+  </div>
+  <div class="<%= check_active_step(@conn, 3) %> step">
+    <div class="content">
+      <div class="title">Contact Information</div>
+    </div>
+  </div>
+  <div class="<%= check_active_step(@conn, 4) %> step">
+    <div class="content">
+      <div class="title">Summary</div>
+    </div>
+  </div>
+</div>

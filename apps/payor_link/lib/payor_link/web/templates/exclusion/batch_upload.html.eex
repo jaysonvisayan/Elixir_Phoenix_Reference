@@ -1,0 +1,152 @@
+<div id="main_file_upladed_procedure">
+  <div class="ui segment-breadcrumbs no-shadow no-radius">
+    <div class="ui right aligned grid">
+      <div class="left floated left aligned six wide column">
+        <h2 class="ui header">Exclusions</h2>
+      </div>
+        <div class="right floated right aligned ten wide column">
+          <a href="/exclusions/download/template" id="download_template_button" class="ui primary button">
+          <i class="download icon"></i>Download Template</a>
+        </div>
+    </div>
+
+    <div class="ui small breadcrumb">
+      <a class="section" href="/exclusions">Search</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Batch Upload</div>
+    </div>
+  </div>
+
+  <div id="exclusion_batch_upload" name ="name_procedure_import" class="ui equal width left aligned padded grid stackable">
+    <div class="row">
+      <div class="column">
+        <div class="ui segments">
+          <div class="ui segment ">
+
+            <%= form_for @conn, exclusion_path(@conn, :submit_batch_upload), [id: "delete-draft", multipart: true, as: :exclusion, method: :post], fn f -> %>
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+             <div class="ui two column centered grid">
+               <div class="eight wide computer seven wide tablet column">
+                 <div class="ui segment" name="form_import_procedure">
+
+                   <div class="ui grid">
+                     <div class="sixteen wide column">
+                       <div class="field" id="form_import_cpt">
+                         <%= label f, :filename, class: "control-label" %>
+                       </div>
+
+                     </div>
+
+                     <div class="eleven wide column">
+                       <div class="field sixteen wide column">
+                         <%= file_input f, :file, id: "file_upload" %>
+                       </div>
+                     </div>
+
+                     <div class="five wide column">
+                       <div class="five wide computer column" id="form_import_cpt">
+                         <button type="submit" class="ui primary right floated button submit">
+                           <i class="send left icon"></i>
+                           Upload
+                         </button>
+                       </div>
+                     </div>
+                   </div>
+
+                 </div>
+               </div>
+             </div>
+
+        <div class="ui grid">
+          <div class="sixteen wide computer eleven wide tablet column">
+            <table role="datatable" id="disease_table" class="ui striped table">
+              <thead>
+                <tr>
+                  <th>Batch No.</th>
+                  <th>Gen Exclusion File</th>
+                  <th class="center aligned" style="color: green">Total CPT</th>
+                  <th class="center aligned" style="color: green">Successful</th>
+                  <th class="center aligned" style="color: green">Failed</th>
+                  <th class="center aligned" style="color: #0086b3">Total Diagnosis</th>
+                  <th class="center aligned" style="color: #0086b3">Successful</th>
+                  <th class="center aligned" style="color: #0086b3">Failed</th>
+                  <th>Date Uploaded</th>
+                  <th>Date Finished</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for uploaded_file <- @uploaded_files do %>
+                  <tr>
+                    <td> <%= uploaded_file.batch_no %> </td>
+                    <td> <%= uploaded_file.filename %> </td>
+                    <td class="center aligned"> <%= batch_cpt_count(uploaded_file) %></td>
+
+                    <td class="center aligned">
+                      <%= if cpt_success_checker(uploaded_file) == 0 do %>
+                      <%= cpt_success_checker(uploaded_file) %>
+                      <br>
+                      <a id="success" style="color:#7f8187">Download</a>
+                      <% else %>
+                      <%= cpt_success_checker(uploaded_file) %>
+                      <br>
+                      <u><a id="cpt_success" style="cursor: pointer" class="download_success_button" file_id="<%= uploaded_file.id %>" status="success" >Download</a></u>
+                      <% end %>
+                    </td>
+
+                    <td class="center aligned">
+                      <%= if cpt_failed_checker(uploaded_file) == 0 do %>
+                        <%= cpt_failed_checker(uploaded_file) %>
+                        <br>
+                        <a id="failed" style="color:#7f8187">Download</a>
+                      <% else %>
+                        <%= cpt_failed_checker(uploaded_file) %>
+                        <br>
+                        <u><a id="cpt_failed" style="cursor: pointer" class="download_success_button" file_id="<%= uploaded_file.id %>" status="failed" >Download</a></u>
+                      <% end %>
+                    </td>
+
+                    <td class="center aligned"> <%= batch_icd_count(uploaded_file) %> </td>
+                    <td class="center aligned">
+                      <%= if icd_success_checker(uploaded_file) == 0 do %>
+                        <%= icd_success_checker(uploaded_file) %>
+                        <br>
+                        <a id="success" style="color:#7f8187">Download</a>
+                      <% else %>
+                        <%= icd_success_checker(uploaded_file) %>
+                        <br>
+                        <u><a id="diagnosis_success" style="cursor: pointer" class="download_success_button" file_id="<%= uploaded_file.id %>" status="success" >Download</a></u>
+                      <% end %>
+                    </td>
+                    <td class="center aligned">
+                      <%= if icd_failed_checker(uploaded_file) == 0 do %>
+                        <%= icd_failed_checker(uploaded_file) %><br>
+                        <a id="success" style="color:#7f8187">Download</a>
+                      <% else %>
+                        <%= icd_failed_checker(uploaded_file) %>
+                        <br>
+                        <u><a id="diagnosis_failed" style="cursor: pointer" class="download_success_button" file_id="<%= uploaded_file.id %>" status="failed" >Download</a></u>
+                      <% end %>
+                    </td>
+                    <td class="date_transform"> <%= uploaded_file.inserted_at %> </td>
+                    <td class="date_transform"> <%= uploaded_file.inserted_at %> </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ui one column aligned grid">
+          <div class="column eight wide">
+          <a id="cancelBtn" class="ui button clickable-row" href="/exclusions" type="button">
+            <i class="remove icon"></i>
+            Cancel
+          </a>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

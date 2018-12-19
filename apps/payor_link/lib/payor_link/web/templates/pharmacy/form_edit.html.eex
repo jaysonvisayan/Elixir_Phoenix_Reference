@@ -1,0 +1,60 @@
+<div class="row" id="pharmacies_update">
+  <div class="sixteen wide column">
+    <%= form_for @changeset, @action, [as: :pharmacy, class: "ui form", id: "pharmacy_edit"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            Oops, something went wrong! Please check the errors below.
+          </div>
+        </div>
+      <% end %>
+      <div class="two fields">
+        <div class="field disabled">
+          <label>Drug Code</label>
+          <%= text_input f, :drug_code, id: "drug_code", placeholder: "Enter Drug Code" %>
+          <%= error_tag f, :drug_code %>
+        </div>
+        <div class="field">
+          <label>Generic Name</label>
+          <%= text_input f, :generic_name, id: "name", placeholder: "Enter Generic Name" %>
+          <%= error_tag f, :generic_name %>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>Brand</label>
+          <%= text_input f, :brand, id: "name", placeholder: "Enter Brand Name" %>
+          <%= error_tag f, :brand %>
+        </div>
+        <div class="field">
+          <label>Strength</label>
+          <%= text_input f, :strength, placeholder: "Enter Strength", class: "amount_fld", maxLength: 10 %>
+          <%= error_tag f, :strength %>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <label>Form</label>
+          <%= select f, :form, ["Capsule", "Drops", "Inhalers", "Injections", "Syrup", "Tablet"], class: "ui dropdown", prompt: "Select One" %>
+          <%= error_tag f, :form %>
+        </div>
+        <div class="field">
+          <label>Maximum Price</label>
+          <%= text_input f, :maximum_price, id: "price", class: "amount_fld", placeholder: "00.0", min: 1, maxLength: 10 %>
+          <%= error_tag f, :maximum_price %>
+        </div>
+      </div>
+
+      <button type="submit" class="ui blue right floated button submit">
+        <i class="send left icon"></i>
+        Submit
+      </button>
+      <a href="/pharmacies" class="ui button">
+        <i class="remove icon"></i>
+        Cancel
+      </a>
+    </div>
+  </div>
+<% end %>
+

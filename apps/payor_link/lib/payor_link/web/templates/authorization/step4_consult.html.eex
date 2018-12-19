@@ -1,0 +1,48 @@
+<%= render "breadcrumbs_new.html" %>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" name="formValidateStep4Consult">
+        <div class="ui form segment">
+          <div class="ui ordered five steps">
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Validate Member</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Facility</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <div class="content">
+                <div class="title">Select Coverage</div>
+              </div>
+            </div>
+            <div class="active step">
+              <div class="content">
+                <div class="title">Details</div>
+              </div>
+            </div>
+          </div>
+          <%= if @changeset.action do %>
+            <div class="ui negative message">
+              <i class="close icon"></i>
+              <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+          <%= render "step4_consult_form.html",
+conn: @conn,
+changeset: @changeset,
+special_approval: @special_approval,
+diagnoses: @diagnoses,
+authorization: @authorization,
+practitioners: @practitioners,
+member: @member,
+action: authorization_path(@conn, :update_setup, @authorization, step: "4") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

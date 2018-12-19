@@ -1,0 +1,54 @@
+<div class="ui one column right aligned grid" role="facility-modal">
+  <div class="column sixteen wide">
+    <button class="small ui blue button" name="modal_service_charge">
+      <i class="icon add"></i>
+      Service Fee
+    </button>
+  </div>
+</div>
+<div class="ui grid">
+  <div class="sixteen wide tablet sixteen wide computer column">
+    <table class="ui stripped table" role="datatable">
+      <thead>
+        <tr>
+          <th>Coverage</th>
+          <th>Mode of Payment</th>
+          <th>Service Fee</th>
+          <th>Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for facility_service_fee <- @facility.facility_service_fees do %>
+          <tr>
+            <td><%= facility_service_fee.coverage.name %></td>
+            <td><%= facility_service_fee.payment_mode %></td>
+            <td><%= facility_service_fee.service_type.text %></td>
+            <td><%= display_service_fee_rate(facility_service_fee) %></td>
+          </tr>        
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>
+<%# Navigation buttons start %>
+<div class = "ui one column right aligned grid">
+  <div class="column eight wide left aligned">
+    <div class="ui red button" role="delete-facility" facilityId="<%= @facility.id %>">
+      <i class="trash icon"></i>
+      Delete Draft
+    </div>
+  </div>
+  <div class="column eight wide">
+    <a href="/facilities/<%= @facility.id %>/setup?step=4" class="ui button">
+      <i class="chevron left icon"></i>
+      Back
+    </a>
+    <a href="/facilities/<%= @facility.id %>/setup?step=6" class="ui blue button">
+      Next
+      <i class="chevron right icon"></i>
+    </a>
+  </div>
+</div>
+<%# Navigation buttons end %>
+<%= render "step5_form.html", facility: @facility, service_fee_types: @service_fee_types, coverages: @coverages, conn: @conn, action: facility_path(@conn, :update_setup, @facility, step: "5") %>

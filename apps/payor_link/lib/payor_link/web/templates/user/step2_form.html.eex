@@ -1,0 +1,78 @@
+<div class="row" id="user_roles">
+  <div class="sixteen wide column">
+    <%= form_for @changeset, @action, [as: :user, class: "ui form form2"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <%= if @changeset.action do %>
+        <div class="ui error message">
+          <div class="header">
+            <%= get_flash(@conn, :error) %>
+          </div>
+        </div>
+      <% end %>
+      <div class="two fields">
+        <div class="field">
+          <label>Application</label>
+          <%= select f, :application, map_applications(@applications), class: "ui fluid dropdown select_application" %>
+          <%= error_tag f, :application %>
+        </div>
+      </div>
+      <% user_roles = user_roles_list_ids(@user) %>
+        <%= for application <- Enum.sort_by(@applications, &(&1.name)) do %>
+          <%= if Enum.empty?(application.roles) do %>
+            <table id="<%= application.name %>" class="ui very basic striped selectable table roles_table" style="display: none;">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Role</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="center_align">
+                  <td colspan="3">No Records Found!</td>
+                </tr>
+              </tbody>
+            </table>
+            <% else %>
+            <table id="<%= application.name %>" class="ui very basic striped selectable table roles_table" style="display: none;">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Role</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for role <- Enum.sort_by(application.roles, &(&1.name)) do %>
+                  <tr>
+                    <td>
+                      <div class="ui checkbox">
+                        <%= if Enum.member?(user_roles, role.id) do %>
+                          <input type="checkbox" name="user[roles][]" value="<%= role.id %>" checked/>
+                          <% else %>
+                          <input type="checkbox" name="user[roles][]" value="<%= role.id %>" />
+                        <% end %>
+                        <label></label>
+                      </div>
+                    </td>
+                    <td><%= role.name %></td>
+                    <td><%= role.description %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% end %>
+        <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="eight wide column">
+  </div>
+  <div class="eight wide right aligned column">
+    <a href="/users/<%= @user.id %>/setup?step=1" class="ui basic button">Back to Previous Step</a>
+    <button type="submit" class="ui primary button">Continue to Next Step</button>
+  </div>
+</div>
+<% end %>
+
+

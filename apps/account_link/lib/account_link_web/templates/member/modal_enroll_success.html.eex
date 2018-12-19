@@ -1,0 +1,25 @@
+<div class="ui mini modal" id="enroll_success">
+  <div class="scrolling content">
+    <div class="text-center"><?xml version="1.0" encoding="UTF-8"?>
+      <svg width="84px" height="84px" viewBox="0 0 84 84" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+        <title>success</title>
+        <desc>Created with Sketch.</desc>
+        <defs></defs>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LOA-Request-Successful" transform="translate(-567.000000, -152.000000)" fill-rule="nonzero" fill="#60DD3C">
+        <g id="success" transform="translate(567.000000, 152.000000)">
+        <path d="M42,0 C18.8418462,0 0,18.8402308 0,42 C0,65.1597692 18.8418462,84 42,84 C65.1581538,84 84,65.1597692 84,42 C84,18.8402308 65.1581538,0 42,0 Z M42,80.7692308 C20.6236154,80.7692308 3.23076923,63.3763846 3.23076923,42 C3.23076923,20.6236154 20.6236154,3.23076923 42,3.23076923 C63.3763846,3.23076923 80.7692308,20.6236154 80.7692308,42 C80.7692308,63.3763846 63.3763846,80.7692308 42,80.7692308 Z" id="Shape"></path>
+        <path d="M61.7916923,24.7735385 L36.9648462,52.7035385 L22.008,40.7383846 C21.3133846,40.1810769 20.2940769,40.2957692 19.7383846,40.9903846 C19.1810769,41.6882308 19.2941538,42.7043077 19.9903846,43.2616154 L36.1442308,56.1846923 C36.4414615,56.4221538 36.7984615,56.5384615 37.1538462,56.5384615 C37.5996923,56.5384615 38.0439231,56.3543077 38.3621538,55.9956923 L64.2083077,26.9187692 C64.8011538,26.2532308 64.7413846,25.2306923 64.0742308,24.6394615 C63.4054615,24.045 62.3861538,24.1047692 61.7916923,24.7735385 Z" id="Shape"></path>
+        </g>
+        </g>
+        </g>
+      </svg></div>
+      <div class="success-message success-message--title mt-2 text-center"><%= gettext "Enrollment Successful!" %>
+</div>
+      <div class="mt-2 text-center"><%= member_full_name(@member) %> <%= gettext "has been successfully added to the member list." %></div>
+  </div>
+  <div class="actions">
+    <a href="/<%= @locale %>/members/<%= @member.id %>/show" class="ui button"><i class="check icon"></i><%= gettext "Ok" %></a>
+  </div>
+</div>

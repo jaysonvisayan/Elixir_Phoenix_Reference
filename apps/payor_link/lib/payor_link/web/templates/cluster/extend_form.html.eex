@@ -1,0 +1,88 @@
+<div class="ui modal" role="extend" id="modal_extend">
+  <i class="close icon"></i>
+  <div class="header">
+    Account
+  </div>
+
+  <p role="append"></p>
+
+  <div class="content">
+    <%= form_for @changeset, @action, [class: "ui form", multipart: :true, id: "extend_form"], fn f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p style="color:red">Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+    <div class="ui grid">
+      <div class="sixteen wide tablet sixteen wide computer column">
+        <%= hidden_input f, :account_id, class: "form-control", required: "required" %>
+        <%= hidden_input f, :cluster_id, class: "form-control" %>
+        <%= hidden_input f, :account_group_id, class: "form-control" %>
+        <div class="two fields">
+          <div class="field">
+            <!--<%= label f, "Account Code / Name", class: "control-label" %>-->
+            <label class="control-label">Account Code / Name</label>
+            <input type="text" id="account_code_name" readonly>
+            <p style="color:red"><%= error_tag f, :name %></p>
+          </div>
+          <div class="field">
+            <!--<%= label f, "Status", class: "control-label" %>-->
+            <label class="control-label">Status</label>
+            <div class="ui large green label">
+              <%= hidden_input f, :status, class: "form-control" %>
+              <span id="account_status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="disabled field">
+            <!--<%= label f, "Current Effective Date", class: "control-label" %>-->
+            <label class="control-label">Current Effective Date</label>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <input type="text" id="account_start_date" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="disabled field">
+            <!--<%= label f, "Current Expiry Date", class: "control-label" %>-->
+            <label class="control-label">Current Expiry Date</label>
+            <div class="ui calendar">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <input type="text" id="account_end_date" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field" id="expiry_date">
+            <label>New Expiry Date</label>
+            <div class="ui calendar" id="new_end_date">
+              <div class="ui input right icon">
+                <i class="calendar icon"></i>
+                <%= text_input f, :end_date, class: "form-control", placeholder: "YYYY-MM-DD", readonly: true %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <a href="" class="ui button">
+      <i class="close left icon"></i>
+      Cancel
+    </a>
+    <span>
+      <div class="small ui blue button" id="extend_button">
+        <i class="icon refresh"></i>
+        Extend Account
+      </div>
+    </span>
+  </div>
+<% end %>
+</div>
+

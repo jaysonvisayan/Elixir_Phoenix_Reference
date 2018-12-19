@@ -1,0 +1,58 @@
+<div class="ui genex large modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Add Exclusions
+  </div>
+  <div class="content">
+    <%= if @changeset_genex.action do %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <%= get_flash(@conn, :error) %>
+      </div>
+    <% end %>
+    <%= form_for @changeset_genex, @action, [as: :product, class: "ui form"], fn _f -> %>
+    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+    <input type="hidden" value="" name="product[gen_exclusion_ids_main]">
+    <table role="datatable" class="ui stripped table" id="genex">
+      <thead>
+        <tr>
+          <th>
+            <div class="ui checkbox">
+              <input type="checkbox" id="select_genex" value="false"/>
+            </div>
+          </th>
+          <th>Exclusion Code</th>
+          <th>Exclusion Name</th>
+          <th>No. of Diseases</th>
+          <th>No. of Procedures</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for exclusion <- filter_genex(@product.product_exclusions, @exclusions) do %>
+          <tr>
+            <td>
+              <div class="ui checkbox">
+                  <input type="checkbox" class="input_genex" name="product[exclusion_ids][]" value="<%= exclusion.id %>" />
+              </div>
+            </td>
+            <td> <%= exclusion.code %> </td>
+            <td> <%= exclusion.name %> </td>
+            <td> <%= exclusion.exclusion_diseases %> </td>
+            <td> <%= exclusion.exclusion_procedures %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <a href="#" class="ui deny button">
+      <i class="remove icon"></i>
+      Cancel
+    </a>
+    <button class="ui blue button" type="submit">
+      <i class="plus icon"></i>
+      Add
+    </button>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,527 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Benefits</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/benefits">Benefits</a>
+    <i class="right chevron icon divider"></i>
+    <a class="section" href="/benefits">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">View <%= @benefit.code %> - <%= @benefit.name %></div>
+  </div>
+</div>
+
+<div  class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui segment">
+          <% coverage = @benefit.benefit_coverages |> Enum.map(&(&1.coverage.name)) |> Enum.join("") %>
+          <%= if coverage =~ "PEME" do %>
+            <div class="ui icon top right floated pointing dropdown basic button" id="benefit_modals">
+              <input type="hidden" value= <%= @benefit.id%> id="benefit_id_disabler">
+              <i class="list icon"></i>
+              <div class="left menu">
+                <% status = if @benefit.status == "Disabling" || @benefit.status == "For Deletion" || @benefit.status == "Disabled" || @benefit.status == "Discontinued" || @benefit.status == "Discontinuing", do: "disabled" %>
+                <div class="item <%= status %>" id="DiscontinueBenefitID">
+                  <i class="hand paper icon" ></i>
+                  Discontinue Benefit
+                </div>
+                <div class="item <%= status %>" id="DisableBenefitID">
+                  <i class="ban icon" ></i>
+                  Disable Benefit
+                </div>
+                <%= if is_benefit_already_used?(@benefit) do %>
+                <% else %>
+                  <div class="item <%= status %>" id="DeleteBenefitID">
+                    <i class="trash alternate icon" ></i>
+                    Delete Benefit
+                  </div>
+                <% end %>
+                <div class="item" >
+                  <i class="print icon"></i>
+                  Print
+                </div>
+                <div class="item" id="benefit_logs">
+                  <i class="file text outline icon"></i>
+                  Logs
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%= render "edit/discontinue_peme_modal.html", benefit: @benefit, conn: @conn, changeset_discontinue_benefit: @changeset_discontinue_benefit %>
+          <%= render "edit/disabling_peme_modal.html", benefit: @benefit, conn: @conn, changeset_disabling_benefit: @changeset_disabling_benefit %>
+          <%= render "edit/delete_peme_modal.html", benefit: @benefit, conn: @conn, changeset_delete_benefit: @changeset_delete_benefit %>
+
+          <!-- GENERAL -->
+          <div class="ui grid centered container">
+            <div class="four wide computer six wide tablet column">
+              Coverage
+            </div>
+            <div class="four wide computer ten wide tablet column">
+              <b><%= display_coverages(@benefit) %></b>
+            </div>
+            <div class="one wide computer six wide tablet column">
+            </div>
+            <%# <div class="ui grid centered container"> %>
+
+              <%# </div> %>
+            <%= if display_coverages(@benefit) == "Maternity" do %>
+              <div class="two wide computer six wide tablet column">
+                Maternity Type
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b><%= @benefit.maternity_type %></b>
+              </div>
+              <div class="one wide computer six wide tablet column">
+              </div>
+            <% end %>
+            <%= if display_coverages(@benefit) == "ACU" do %>
+              <div class="two wide computer six wide tablet column">
+                ACU Type
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b><%= @benefit.acu_type %></b>
+              </div>
+              <div class="one wide computer six wide tablet column">
+              </div>
+            <% end %>
+          </div>
+
+          <div class="ui grid centered container">
+            <div class="four wide computer six wide tablet column">
+              Code
+            </div>
+            <div class="four wide computer ten wide tablet column">
+              <b><%= @benefit.code %></b>
+            </div>
+            <div class="one wide computer six wide tablet column">
+            </div>
+            <%= if display_coverages(@benefit) == "Maternity" do %>
+              <div class="two wide computer six wide tablet column">
+                Waiting Period
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b><%= @benefit.waiting_period %></b>
+              </div>
+              <div class="one wide computer six wide tablet column">
+              </div>
+            <% end %>
+            <%= if display_coverages(@benefit) == "ACU" do %>
+              <div class="two wide computer six wide tablet column">
+                Availment Type
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b><%= @benefit.acu_coverage %></b>
+              </div>
+              <div class="one wide computer six wide tablet column">
+              </div>
+            <% end %>
+          </div>
+
+          <div class="ui grid centered container">
+            <div class="four wide computer six wide tablet column">
+              Name
+            </div>
+            <div class="four wide computer ten wide tablet column">
+              <b><%= @benefit.name %></b>
+            </div>
+            <div class="one wide computer six wide tablet column">
+            </div>
+            <%= if display_coverages(@benefit) == "Maternity" do %>
+              <div class="two wide computer six wide tablet column">
+                Covered Enrollees
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b><%= @benefit.covered_enrollees %></b>
+              </div>
+              <div class="one wide computer six wide tablet column">
+              </div>
+            <% end %>
+            <%= if display_coverages(@benefit) == "ACU" do %>
+              <div class="two wide computer six wide tablet column">
+                Facility Access
+              </div>
+              <div class="four wide computer ten wide tablet column">
+                <b><%= @benefit.provider_access %></b>
+              </div>
+              <div class="one wide computer six wide tablet column">
+              </div>
+            <% end %>
+          </div>
+          <!-- END OF GENERAL -->
+
+          <% #TODO %>
+          <% {package_tab, procedure_tab} = acu_tab_checker(@benefit.benefit_coverages) %>
+          <% {package_tab, procedure_tab} = peme_tab_checker(@benefit.benefit_coverages) %>
+
+          <!-- TABS -->
+          <div class="ui top attached tabular menu" role="benefits">
+            <%= if acu_coverage?(@benefit.benefit_coverages) == false && peme_coverage?(@benefit.benefit_coverages) == false do %>
+              <a class="item active" data-tab="procedures">Procedures</a>
+            <% end %>
+            <%# <%= if peme_coverage?(@benefit.benefit_coverages) == false do %1> %>
+            <%#   <a class="disabled item" data-tab="procedures">Procedures</a> %>
+            <%# <% end %1> %>
+            <%= if ruv_coverage?(@benefit.benefit_coverages) do %>
+              <a class="item" data-tab="RUV">RUVs</a>
+            <% end %>
+            <%= if acu_coverage?(@benefit.benefit_coverages) == false && peme_coverage?(@benefit.benefit_coverages) == false do %>
+              <a class="item" data-tab="disease">Diagnosis</a>
+            <% end %>
+            <a class="item <%= package_tab %>" data-tab="package">Packages</a>
+            <a class="item" data-tab="limits">Limits</a>
+          </div>
+
+          <!-- PROCEDURES TAB -->
+          <div class="ui bottom attached tab segment <%= procedure_tab %>" data-tab="procedures">
+            <%= if acu_coverage?(@benefit.benefit_coverages) && peme_coverage?(@benefit.benefit_coverages)do %>
+              <table id="" class="ui striped table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= if @benefit.benefit_procedures == [] do %>
+                    <tr>
+                      <td colspan="7" class="center aligned">
+                        NO RECORD FOUND!
+                      </td>
+                    </tr>
+                  <% else %>
+                    <%= for benefit_procedure <- Enum.sort_by(@benefit.benefit_procedures, &(&1.procedure.code)) do %>
+                      <tr>
+                        <td><%= benefit_procedure.procedure.code %></td>
+                        <td><%= benefit_procedure.procedure.description %></td>
+                        <td><%= benefit_procedure.gender %></td>
+                        <td><%= benefit_procedure.age_from %> - <%= benefit_procedure.age_to %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            <% else %>
+              <table id="" class="ui striped table">
+                <thead>
+                  <tr>
+                    <th>Standard CPT Code</th>
+                    <th>Standard CPT Description</th>
+                    <th>Payor CPT Code</th>
+                    <th>Payor CPT Description</th>
+                    <th>Procedure Section</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= if @benefit.benefit_procedures == [] do %>
+                    <tr>
+                      <td colspan="7" class="center aligned">
+                        NO RECORD FOUND!
+                      </td>
+                    </tr>
+                  <% else %>
+                    <%= for benefit_procedure <- Enum.sort_by(@benefit.benefit_procedures, &(&1.procedure.code)) do %>
+                      <tr>
+                        <td><%= benefit_procedure.procedure.procedure.code %></td>
+                        <td><%= benefit_procedure.procedure.procedure.description %></td>
+                        <td><%= benefit_procedure.procedure.code %></td>
+                        <td><%= benefit_procedure.procedure.code %></td>
+                        <td><%= benefit_procedure.procedure.procedure.procedure_category.name %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          </div>
+          <!-- END OF PROCEDURES TAB -->
+
+          <%= if ruv_coverage?(@benefit.benefit_coverages) do %>
+            <!-- RUV TAB -->
+            <div class="ui bottom attached tab segment" data-tab="RUV">
+              <table id="" class="ui striped table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Effectivity Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= if @benefit.benefit_ruvs == [] do %>
+                    <tr>
+                      <td colspan="7" class="center aligned">
+                        NO RECORD FOUND!
+                      </td>
+                    </tr>
+                  <% else %>
+                    <%= for benefit_ruv <- Enum.sort_by(@benefit.benefit_ruvs, &(&1.ruv.code)) do %>
+                      <tr>
+                        <td><%= benefit_ruv.ruv.code %></td>
+                        <td><%= benefit_ruv.ruv.description %></td>
+                        <td><%= benefit_ruv.ruv.type %></td>
+                        <td><%= benefit_ruv.ruv.value %></td>
+                        <td><%= benefit_ruv.ruv.effectivity_date %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <!-- END OF RUV TAB -->
+          <% end %>
+
+          <!-- DISEASE TAB -->
+          <div class="ui bottom attached tab segment" data-tab="disease">
+            <table id="" class="ui striped table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Description</th>
+                  <th>ICD Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= if @benefit.benefit_diagnoses == [] do %>
+                  <tr>
+                    <td colspan="7" class="center aligned">
+                      NO RECORD FOUND!
+                    </td>
+                  </tr>
+                <% else %>
+                  <%= for benefit_procedure <- Enum.sort_by(@benefit.benefit_diagnoses, &(&1.diagnosis.code)) do %>
+                    <tr>
+                      <td><%= benefit_procedure.diagnosis.code %></td>
+                      <td><%= benefit_procedure.diagnosis.description %></td>
+                      <td><%= benefit_procedure.diagnosis.type %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <!-- END OF DISEASE TAB -->
+
+          <!-- PACKAGE TAB -->
+          <%= if acu_coverage?(@benefit.benefit_coverages) do %>
+            <%# <div class="ui bottom attached tab segment <%= package_tab %1>" data-tab="package"> %>
+              <%#   <table id="" class="ui striped table"> %>
+                <%#     <thead> %>
+                  <%#       <tr> %>
+                    <%#         <th>Package Name</th> %>
+                    <%#         <th>Standard CPT Code</th> %>
+                    <%#         <th>Standard CPT Description</th> %>
+                    <%#         <th>Gender</th> %>
+                    <%#         <th>Age</th> %>
+                    <%#         <th>Procedure Section</th> %>
+                    <%#       </tr> %>
+                  <%#     </thead> %>
+                <%#     <tbody> %>
+                  <%#       <%= if @benefit.benefit_procedures == [] do %1> %>
+                  <%#         <tr> %>
+                    <%#           <td colspan="7" class="center aligned"> %>
+                      <%#             NO RECORD FOUND! %>
+                      <%#           </td> %>
+                    <%#         </tr> %>
+                  <%#       <% else %1> %>
+                    <%#         <%= for benefit_procedure <- Enum.sort_by(@benefit.benefit_procedures, &(&1.procedure.code)) do %1> %>
+                    <%#           <tr> %>
+                      <%#             <td><%= display_package_name(benefit_procedure) %1></td> %>
+                      <%#             <td><%= benefit_procedure.procedure.code %1></td> %>
+                      <%#             <td><%= benefit_procedure.procedure.description %1></td> %>
+                      <%#             <td><%= benefit_procedure.gender %1></td> %>
+                      <%#             <td><%= benefit_procedure.age_from %1> - <%= benefit_procedure.age_to %1></td> %>
+                      <%#             <td><%= benefit_procedure.procedure.procedure.procedure_category.name %1></td> %>
+                      <%#           </tr> %>
+                    <%#         <% end %1> %>
+                    <%#       <% end %1> %>
+                    <%#     </tbody> %>
+                  <%#   </table> %>
+                <%# </div> %>
+
+              <div class="ui bottom attached tab segment <%= package_tab %>" data-tab="package">
+                <table id="" class="ui striped table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if @benefit.benefit_packages == [] do %>
+                      <tr>
+                        <td colspan="7" class="center aligned">
+                          NO RECORD FOUND!
+                        </td>
+                      </tr>
+                    <% else %>
+                      <%= for benefit_package <- Enum.sort_by(@benefit.benefit_packages, &(&1.package.code)) do %>
+                        <tr>
+                          <td><a href="/packages/<%= benefit_package.package.id %>/summary" target="_blank"><%= benefit_package.package.code %></a></td>
+                          <td><%= benefit_package.package.name %></td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+
+            <% else %>
+              <div class="ui bottom attached tab segment <%= package_tab %>" data-tab="package">
+                <table id="" class="ui striped table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= if @benefit.benefit_packages == [] do %>
+                      <tr>
+                        <td colspan="7" class="center aligned">
+                          NO RECORD FOUND!
+                        </td>
+                      </tr>
+                    <% else %>
+                      <%= for benefit_package <- Enum.sort_by(@benefit.benefit_packages, &(&1.package.code)) do %>
+                        <tr>
+                          <td><a href="/packages/<%= benefit_package.package.id %>/summary" target="_blank"><%= benefit_package.package.code %></a></td>
+                          <td><%= benefit_package.package.name %></td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+            <!-- END OF PACKAGE TAB -->
+
+            <!-- LIMITS TAB -->
+            <div class="ui bottom attached tab segment" data-tab="limits">
+              <table id="" class="ui striped table">
+                <thead>
+                  <tr>
+                    <th>Coverage</th>
+                    <th>Limit Type</th>
+                    <th>Limit Amount</th>
+                    <th>Limit Classification</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= if Enum.empty?(@benefit.benefit_limits) do %>
+                    <tr>
+                      <td colspan="7" class="center aligned">
+                        NO RECORD FOUND!
+                      </td>
+                    </tr>
+                  <% else %>
+                    <%= for benefit_limit <- Enum.sort_by(@benefit.benefit_limits, &(&1.coverages)) do %>
+                      <tr>
+                        <td><%= benefit_limit.coverages %></td>
+                        <td><%= benefit_limit.limit_type %></td>
+                        <td><%= display_limit_amount(benefit_limit) %></td>
+                        <td><%= benefit_limit.limit_classification %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <!-- END OF LIMITS TAB -->
+            <a href="/benefits" class="ui button">
+              <i class="chevron left icon"></i>
+              Back
+            </a>
+            <%= if is_acu?(@benefit.benefit_coverages) || is_peme?(@benefit.benefit_coverages) do %>
+
+              <%= if is_benefit_already_used?(@benefit) do %>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="ui right floated button blue disabled">
+                  <i class="edit icon"></i>
+                  Edit
+                </a>
+              <% else %>
+                <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="ui right floated button blue">
+                  <i class="edit icon"></i>
+                  Edit
+                </a>
+              <% end %>
+
+
+            <% else %>
+              <a href="/benefits/<%= @benefit.id %>/edit?tab=general" class="ui right floated button blue">
+                <i class="edit icon"></i>
+                Edit
+              </a>
+            <% end %>
+
+            <%# <a  class="ui right floated negative button mrgIT" id="DeleteBenefitID"> %>
+              <%#   <i class="trash left icon"></i> %>
+              <%#   Delete %>
+              <%# </a> %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="benefitlogsModal">
+  <i class="close icon"></i>
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="ui right aligned grid">
+      <div class="right floated right aligned six wide column">
+        <div class="ui action input">
+          <div class="field error">
+            <div class="ui action input">
+              <input type="text" class="email" placeholder="Search..." name="benefit[search]" id="benefit_search">
+              <div class="ui basic icon buttons">
+                <button class="ui button" id="btnSearchBenefitLogs">
+                  <i class="search icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="overflow: auto; max-height: 350px">
+        <div class="column">
+          <%= if @benefit.benefit_logs == [] do %>
+            <p>NO LOGS FOUND</p>
+          <% else %>
+            <div class="ui feed timeline" id="timeline">
+              <input type="hidden" name="benefit_id" value="<%= @benefit.id %>" >
+              <%= for log <- Enum.reverse(@benefit.benefit_logs) do %>
+                <div class="event row_logs">
+                  <div class="label">
+                    <i class="blue circle icon"></i>
+                  </div>
+                  <div class="content">
+                    <div class="summary">
+                      <a>
+                        <p class="log-date" ><%= log.inserted_at %></p>
+                      </a>
+                    </div>
+                    <div class="extra text" id="log_message">
+                      <%= log.message %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <p role="append_benefit_logs" style="text-align: center"> </p>
+  </div>
+</div>
+
+<!-- END LOGS MODAL -->

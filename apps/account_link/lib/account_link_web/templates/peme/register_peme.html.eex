@@ -1,0 +1,181 @@
+<div class="main-wrapper evoucher-container">
+  <div class="sections-wrapper">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <%= form_for @changeset, peme_path(@conn, :create_peme_member, @locale, @id), [as: :evoucher, class: "ui form", multipart: true, id: "validateEvoucher", method: "put"], fn f -> %>
+
+              <%# <input type="hidden" id="mobiles" value="<%= @mobiles %1>"> %>
+              <input type="hidden" id="account_code" value="<%= @account_code %>">
+
+              <% primary_id = if is_nil(@changeset.data.primary_id), do: "", else: @changeset.data.primary_id.file_name %>
+              <%= hidden_input f, :primary_id_data, value: primary_id %>
+              <%= hidden_input f, :age_from, value: @package_payor_procedure.age_from %>
+              <%= hidden_input f, :age_to, value: @package_payor_procedure.age_to %>
+              <%= hidden_input f, :male, value: @package_payor_procedure.male %>
+              <%= hidden_input f, :female, value: @package_payor_procedure.female %>
+
+              <p class="large-sublabel align-center">Personal Information</p><br>
+
+              <div class="two fields">
+                <div class="field">
+                  <label>First Name</label>
+                  <%= text_input f, :first_name, class: "person name", autocomplete: "off", placeholder: "Enter First name", id: "peme_fname", maxlength: 150, value: "" %>
+                </div>
+                <div class="field">
+                  <label>Middle Name <i>(optional)</i></label>
+                  <%= text_input f, :middle_name, class: "person name", autocomplete: "off", placeholder: "Enter Middle name", id: "peme_mname", maxlength: 150 %>
+                </div>
+              </div>
+
+              <div class="two fields">
+                <div class="field">
+                  <label>Last Name</label>
+                  <%= text_input f, :last_name, class: "person name", autocomplete: "off", placeholder: "Enter Last name", id: "peme_lname", maxlength: 150, value: "" %>
+                </div>
+                <div class="field">
+                  <label>Suffix <i>(optional)</i></label>
+                  <%= text_input f, :suffix, class: "person name", autocomplete: "off", placeholder: "Enter Suffix", id: "peme_suffix", maxlength: 10 %>
+                </div>
+              </div>
+
+              <div class="two fields">
+                <div class="field" id="dateFormPicker">
+                  <label>Birthdate</label>
+                  <div class="ui calendar" id="evouch_dob">
+                    <div class="ui input right icon">
+                      <i class="calendar icon"></i>
+                      <%= text_input f, :birthdate, autocomplete: "off", placeholder: "MM-DD-YYYY", "data-validate": "birthdate", value: ""  %>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Gender:</label>
+                  <div class="inline fields">
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <%= radio_button(f, :gender, "Male") %>
+                        <label class="coloring blue"><i class="large male teal icon"></i>Male</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <%= radio_button(f, :gender, "Female") %>
+                        <label class="coloring blue"><i class="large female pink icon"></i>Female</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="two fields">
+                <div class="field">
+                  <label>Mobile Number</label>
+                  <div class="fields">
+                    <div class="two wide field">
+                      <%= text_input f, :mcc, value: "+63", maxlength: 3, readonly: true %>
+                    </div>
+                    <div class="fourteen wide field">
+                      <%= text_input f, :mobile, role: "mask", autocomplete: "off", class: "mobile", placeholder: gettext "Enter mobile number", id: "peme_mobile" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Email Address <i>(optional)</i></label>
+                  <%= text_input f, :email, placeholder: "Enter Email address", class: "email-address", id: "peme_address" %>
+                </div>
+              </div>
+
+              <div class="two fields">
+                <div class="field">
+                  <label>Civil Status</label>
+                  <%= select f, :civil_status, ["Single", "Married", "Single Parent","Widowed","Separated","Annulled"], class: "form-control ui dropdown", prompt: "Select Civil Status", "data-validate": "civil_status", value: "" %>
+                </div>
+              </div>
+
+              <div class="field">
+                <input accept="image/*" class="ui hide" id="primary-photo-cam" name="evoucher[primary_photo]" type="hidden">
+                <%= file_input f, :primary_id,  id: "primary_id", class: "hide" %>
+                <label>Primary ID</label>
+                <div class="ui basic icon small buttons upload-order fluid">
+
+                  <%# UPLOAD PRIMARY PHOTO %>
+                  <a id="upload_primary" for="primary_id" class="ui button" style="width: 50%;">
+                    <span class="upload_txt_primary" name="primary_id">
+                      <%= if not is_nil(@changeset.data.primary_id) do %>
+                        <%= @changeset.data.primary_id.file_name %>
+                        </span><i id="iconlink1" class="cloud upload icon"></i>
+                        <a id="remove_primary" class="ui button"><i class="close icon"></i></a>
+                      <% else %>
+                        Upload Primary ID
+                        </span><i id="iconlink1" class="cloud upload icon"></i>
+                        <a style="display: none" id="remove_primary" class="ui button"><i class="close icon"></i></a>
+                      <% end %>
+                  </a>
+
+                  <%# TAKE PRIMARY PHOTO %>
+                  <a id="capture_primary" for="primary_id" class="ui button" style="width: 50%;">
+                    <span class="upload_txt_primary_capture" name="capture_primary_id">
+                      Capture Photo
+                      </span><i id="iconlink1" class="camera icon"></i>
+                      <a style="display: none" id="remove_primary_capture" class="ui button"><i class="close icon"></i></a>
+                  </a>
+                </div>
+              </div>
+
+              <div class="field">
+                <input accept="image/*" class="ui hide" id="secondary-photo-cam" name="evoucher[secondary_photo]" type="hidden">
+                <%= file_input f, :secondary_id,  id: "secondary_id", class: "hide", value: "" %>
+                <label>Secondary ID <i>(optional)</i></label>
+                <div class="ui basic icon small buttons upload-order fluid">
+
+                  <%# UPLOAD SECONDARY PHOTO %>
+                  <a id="upload_secondary" for="secondary_id" class="ui button" style="width: 50%;">
+                    <span class="upload_txt_secondary" name="secondary_id">
+                      <%= if not is_nil(@changeset.data.secondary_id) do %>
+                        <%= @changeset.data.secondary_id.file_name %>
+                        </span><i id="iconlink1" class="cloud upload icon"></i>
+                        <a id="remove_secondary" class="ui button"><i class="close icon"></i></a>
+                      <% else %>
+                        Upload Secondary ID
+                        </span><i id="iconlink1" class="cloud upload icon"></i>
+                        <a style="display: none" id="remove_secondary" class="ui button"><i class="close icon"></i></a>
+                      <% end %>
+                  </a>
+
+                  <%# TAKE PRIMARY PHOTO %>
+                  <a id="capture_secondary" for="secondary_id" class="ui button" style="width: 50%;">
+                    <span class="upload_txt_secondary_capture" name="capture_secondary_id">
+                        Capture Photo
+                        </span><i id="iconlink1" class="camera icon"></i>
+                        <a style="display: none" id="remove_secondary_capture" class="ui button"><i class="close icon"></i></a>
+                  </a>
+                </div>
+              </div>
+
+              <br><br>
+
+              <div class="two fields">
+                <div class="field">
+                  <a href="/<%= @locale %>/peme/<%= @id %>/show" class="fluid ui button">Back</a>
+                </div>
+                <div class="field">
+                  <button type="submit" class="ui fluid button">Next</button>
+                </div>
+              </div>
+              <input type="hidden" id="checker">
+              
+              <% end %> <!--form ends here -->
+            </div>
+          </section>
+        </div><!--column ends here -->
+      </div><!--row ends here -->
+    </div><!-- grid ends here -->
+  </div><!-- container ends here -->
+</div>
+</div>
+<%= render "modal_capture_image.html", conn: @conn, locale: @locale, changeset: @changeset %>
+
+

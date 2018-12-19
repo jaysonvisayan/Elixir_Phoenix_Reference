@@ -1,0 +1,46 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">Packages</h2>
+  <div class="ui small breadcrumb">
+    <a href="/packages" class="section">Packages</a>
+    <i class="right chevron icon divider"></i>
+    <a href="/packages" class="section">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Edit Package</div>
+  </div>
+</div>
+
+<div class="ui equal width left aligned padded grid stackable" name="PackageValidations">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments">
+        <div class="ui form segment" id="Package">
+          <div class="ui ordered five steps">
+            <div class="active step">
+              <%# <i class="truck icon"></i> %>
+              <div class="content">
+                <div class="title">General</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Procedure</div>
+              </div>
+            </div>
+            <div class="disabled step">
+              <%# <i class="info icon"></i> %>
+              <div class="content">
+                <div class="title">Summary</div>
+              </div>
+            </div>
+          </div>
+          <%=
+          render "form_step1.html",
+          changeset: @changeset,
+          conn: @conn,
+          action: package_path(@conn, :update_setup, @package, step: "1") %>
+        </div>
+      </div>
+    </div>
+  </div>
+

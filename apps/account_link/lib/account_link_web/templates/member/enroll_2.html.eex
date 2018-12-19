@@ -1,0 +1,176 @@
+<div class="main-wrapper">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= gettext "Home" %></li><li><i class="chevron right icon"></i></li>
+      <li><%= gettext "Member" %></li><li><i class="chevron right icon"></i></li>
+      <li class="active"><%= gettext "Enroll New Member" %> (<%= @member.id %> - <%= @member.first_name %> <%= @member.middle_name %> <%= @member.last_name %>)</li>
+    </ul>
+  </div>
+  <div class="sections-wrapper product">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="row">
+          <div class="sixteen wide computer column">
+            <section>
+              <div class="ui small steps fluid mobile-steps">
+                <%= render "link_steps.html", locale: @locale, member: @member, step: @member.step, type: "Products" %>
+              </div>
+
+              <div name="MemberProducts">
+                <%= form_for @conn, member_path(@conn, :update_setup, @locale, @member, step: "2.1"), [as: :member, class: "ui form mb-2", id: "productTierForm"], fn f -> %>
+                  <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                  <div class="d-flex jc-sb ai-center mobile-flex-change">
+                    <p class="mb-0"><%= gettext "Please select the products." %></p>
+
+                    <a class="ui small add button"><i class="plus icon"></i><%= gettext "Products" %></a>
+                  </div>
+
+                  <%= hidden_input(f, :product_tier, id: "productTier") %>
+
+                  <div class="ui divider"></div>
+
+                  <%# <div class="row"> %>
+                    <div class="sixteen wide computer column">
+                      <table role="" class="ui striped table" id="memberProductsTbl">
+                        <thead>
+                          <tr>
+                            <th class="center aligned"><%= gettext "Tier" %></th>
+                            <th><%= gettext "Code" %></th>
+                            <th><%= gettext "Name" %></th>
+                            <th><%= gettext "No. of Benefits" %></th>
+                            <th><%= gettext "Limit Type" %></th>
+                            <th><%= gettext "Limit Amount" %></th>
+                            <th class="center aligned"><%= gettext "Delete" %></th>
+                          </tr>
+                        </thead>
+                        <tbody class="padded-rows" id="sortableProducts">
+                          <%= if Enum.empty?(@member.products) do %>
+                            <tr>
+                              <td colspan="7" class="center aligned">
+                                NO RECORD FOUND!
+                              </td>
+                            </tr>
+                            <% else %>
+                            <% used_products = list_used_products(@member.authorizations) %>
+                            <%= for member_product <- @member.products do %>
+                              <tr mpID="<%= member_product.id %>">
+                                <td class="center aligned"><b><%= member_product.tier %></b></td>
+                                <td><%= member_product.account_product.product.code %></td>
+                                <td><%= member_product.account_product.product.name %></td>
+                                <td><%= Enum.count(member_product.account_product.product.product_benefits) %></td>
+                                <td><%= member_product.account_product.product.limit_type %></td>
+                                <td><%= member_product.account_product.product.limit_amount %></td>
+                                <td class="center aligned">
+                                  <a style="cursor: pointer;" class="<%= product_used?(used_products, member_product.id) %>" memberID="<%= @member.id%>"  memberProductID="<%= member_product.id %>">
+                                    <i class="trash icon"></i>
+                                  </a>
+                                </td>
+                              </tr>
+                            <% end %>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  <%# </div> %>
+
+                  <div class="ui divider"></div>
+
+                  <%= if @member.step <= 4 do %>
+                    <div class="sixteen wide computer column mt-4 text-right">
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/setup?step=1"><i class="caret left icon"></i><%= gettext "Previous" %></a>
+                      <%= if Enum.empty?(@member.products) do %>
+                        <button class="ui button" type="button" id="preventNext" message="Please select at least one product!">
+                          <%= gettext "Next" %>
+                          <i class="caret right icon"></i>
+                        </button>
+                      <% else %>
+                        <button class="ui button" type="submit">
+                          <%= gettext "Next" %>
+                          <i class="caret right icon"></i>
+                        </button>
+                      <% end %>
+                    </div>
+                  <%= else %>
+                    <div class="sixteen wide computer column mt-4 text-right">
+                      <a class="ui small primary basic button" href="/<%= @locale %>/members/<%= @member.id %>/show"><i class="remove icon"></i><%= gettext "Cancel" %></a>
+                  </div>
+                  <% end %>
+                <% end %>
+
+                <!-- ADD PRODUCT MODAL -->
+                <div class="ui large modal" id="modal_products">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    <%= gettext "Add Products" %>
+                  </div>
+                  <div class="content">
+                    <%= form_for @conn, member_path(@conn, :update_setup, @locale, @member, step: "2"), [as: :product], fn _f -> %>
+                      <input type="hidden" value="" name="member[account_product_ids_main]">
+                      <table role="datatable" class="ui striped table" id="productsModalTable">
+                        <thead>
+                          <tr>
+                            <th>
+                              <div class="ui checkbox">
+                                <input type="checkbox" id="product_select">
+                              </div>
+                            </th>
+                            <th><%= gettext "Code" %></th>
+                            <th><%= gettext "Name" %></th>
+                            <th><%= gettext "No. of Benefits" %></th>
+                            <th><%= gettext "Limit Type" %></th>
+                            <th><%= gettext "Limit Amount" %></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%= for product <- filter_account_group_products(@member) do %>
+                            <tr class='<%= if check_product_age_eligibility(@member, product) == false, do: "disabled" %>'>
+                              <td>
+                                <div class="ui checkbox">
+                                  <%= if check_product_age_eligibility(@member, product) do %>
+                                    <input type="checkbox" class="selection" value="<%= product.id %>" eligible="true" />
+                                    <% else %>
+                                    <input type="checkbox" class="selection" value="<%= product.id %>" eligible="false" />
+                                  <% end %>
+                                </div>
+                              </td>
+                              <%= if check_product_age_eligibility(@member, product) do %>
+                                <td><%= product.code %></td>
+                                <% else %>
+                                <td><%= product.code %> (Not eligible for member’s age)</td>
+                              <% end %>
+                              <td><%= product.name %></td>
+                              <td><%= product.number_of_benefits %></td>
+                              <td><%= product.limit_type %></td>
+                              <td><%= product.limit_amount %></td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                  </div>
+                  <div class="actions">
+                    <a class="ui basic primary deny button">
+                      <i class="remove icon"></i>
+                      <%= gettext "Cancel" %>
+                    </a>
+                    <button class="ui button" type="submit">
+                      <i class="plus icon"></i>
+                      <%= gettext "Add" %>
+                    </button>
+                  </div>
+                <% end %>
+                </div>
+                <!-- END OF ADD PRODUCT MODAL -->
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "modal_product_remove.html" %>
+
+<%= if @conn.params["delete"] do %>
+  <input type="hidden" id="deleteMemberProductSuccess">
+<% end %>

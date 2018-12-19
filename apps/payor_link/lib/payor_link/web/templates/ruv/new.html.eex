@@ -1,0 +1,19 @@
+<div class="ui segment-breadcrumbs no-shadow no-radius">
+  <h2 class="ui header">RUVs</h2>
+  <div class="ui small breadcrumb">
+    <a class="section" href="/ruvs">Search</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add RUV</div>
+  </div>
+</div>
+<div class="ui equal width left aligned padded grid stackable">
+  <div class="row">
+    <div class="column">
+      <div class="ui segments" role="manage-ruv">
+        <div class="ui form segment" id="formValidate">
+          <%= render "new_form.html", conn: @conn, changeset: @changeset, action: ruv_path(@conn, :create), ruv_codes: @ruv_codes %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

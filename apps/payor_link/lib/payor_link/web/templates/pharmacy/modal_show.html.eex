@@ -1,0 +1,74 @@
+<div class="ui small modal" role="show-details" id="delete_pharmacy_modal">
+  <i class="close icon"></i>
+  <div class="header top_most">
+    Medicine Details
+  </div>
+  <div class="content">
+    <div class="ui two column centered grid">
+      <div class="four column centered row">
+        <div class="column">
+          <b>Drug Code</b>
+        </div>
+        <div class="column">
+          <label id="drug_code"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Generic Name</b>
+        </div>
+        <div class="column">
+          <label id="generic_name"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Brand</b>
+        </div>
+        <div class="column">
+          <label id="brand"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Strength</b>
+        </div>
+        <div class="column">
+          <label id="strength"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Form</b>
+        </div>
+        <div class="column">
+          <label id="form"></label>
+        </div>
+      </div>
+      <div class="four column centered row">
+        <div class="column">
+          <b>Maximum Price</b>
+        </div>
+        <div class="column">
+          <span class="amount_fld"><label id="maximum_price"></label></span>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="actions">
+      <input type="hidden" id="ph_id">
+      <a id="edit_link">
+      <button type="submit" class="ui blue right floated button submit">
+       <i class="pencil icon"></i>
+        Edit
+    </button></a>
+    <%= form_for @changeset, pharmacy_path(@conn, :delete_pharmacy, @pharmacy), [as: :pharmacy, class: "ui form", method: "delete"], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+      <a href="#!" id="delete_pharmacy" class="ui left floated button submit">
+        <i class="remove icon"></i>
+        Remove
+      </a>
+    <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="ui grid" id="create_hb_summary">
+  <div class="sixteen wide column">
+
+    <div class="breadcrumbs">
+      <ul>
+        <li>Batch Processing</li><li><i class="chevron right icon"></i></li>
+        <li class="active">Create HB Batch</li>
+      </ul>
+    </div>
+
+    <div class="ui equal width left aligned padded grid stackable">
+      <div class="row">
+        <div class="column">
+          <div class="ui segments">
+            <div class="ui form segment ">
+              <div class="ui ordered two steps">
+                <div class="completed step">
+                  <div class="content">
+                    <div class="title">General</div>
+                  </div>
+                </div>
+                <div class="active step">
+                  <div class="content">
+                    <div class="title">Summary</div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="space_from_header"></p>
+              <form class="ui form">
+                <div class="ui grid">
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>FACILITY</strong>
+                      </div>
+                      <div class="field">
+                        Makati Medical Center
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>SOA REF NO</strong>
+                      </div>
+                      <div class="field">
+                        00102111
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>SOA AMOUNT</strong>
+                      </div>
+                      <div class="field">
+                        15.00
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>ESTIMATED NO. OF CLAIMS</strong>
+                      </div>
+                      <div class="field">
+                        12
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DATE RECEIVED</strong>
+                      </div>
+                      <div class="field">
+                        10/24/2017
+                      </div>
+                    </div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>DATE DUE</strong>
+                      </div>
+                      <div class="field">
+                        11/24/2017
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eight wide column">
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>MODE OF RECEIVING</strong>
+                      </div>
+                      <div class="field">
+                        Mode 1
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br/><br/>
+
+                <!--button class="ui blue right floated button" type="submit">
+                  Submit&nbsp;&nbsp;&nbsp;<i class="save icon"></i>
+                </button-->
+                <a class="ui blue right floated button" href="/batch_processing">
+                  Submit&nbsp;&nbsp;&nbsp;<i class="save icon"></i>
+                </a>
+                <a class="ui right floated button" href="/batch_processing/hb_batch/new">
+                  <i class="chevron left icon"></i> Back
+                </a>
+
+                <br/><br/>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

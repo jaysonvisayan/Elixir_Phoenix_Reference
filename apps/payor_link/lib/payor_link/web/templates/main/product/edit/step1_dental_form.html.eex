@@ -1,0 +1,417 @@
+<div id="overlay" style="display: none" class="ui active inverted dimmer"> <div class="ui text loader">loading</div> </div>
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container" >
+      <h1 class="ui left floated header">
+        Add <%= @product.product_category %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/">Dashboard</a>
+          <i class="right angle icon divider"></i>
+          <a href="/web/products">Plans</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin">Add Plan</div>
+        </div>
+      </h1>
+       <div class="ui header float-right-medium" id="product_header_btn">
+         <button id="btnCancelDraft" class="ui basic button mt-1-small">Cancel</button>
+
+        <button id="btn_Dental_Draft" class="ui primary button mt-1-small btnDraft_dental">Save as Draft</button>
+        <input type="hidden" name="plan[is_draft]" >
+       </div>
+    </div>
+  </div>
+  <!-- .ui.clearing.segment -->
+</div>
+<!-- .page-title -->
+
+<div class="ui container">
+
+  <div class="content-section white-bg" style="margin-left: 1em;" >
+
+    <div class="ui grid">
+      <div class="row">
+
+        <div class="sixteen wide computer column">
+          <div class="ui four steps mobile-also">
+            <div class="active step">
+              <i class="icon small icon-general"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">General</div>
+              </div>
+            </div>
+
+            <%= if @product.product_category != "Dental Plan" do %>
+            <a href="#!" class="step disabled">
+              <i class="icon-benefit-card icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Facilities</div>
+              </div>
+            </a>
+          <% end %>
+
+            <%= if @product.product_category == "Dental Plan" do %>
+            <a href="#!" class="step disabled">
+              <i class="hospital icon icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Facilities</div>
+              </div>
+            </a>
+          <% end %>
+
+            <a href="#!" class="step disabled">
+              <i class="icon-condition icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Conditions</div>
+              </div>
+            </a>
+            <%= if @product.product_category != "PEME Plan" && @product.product_category != "Dental Plan" do %>
+              <a href="#!" class="step disabled">
+                <i class="icon-coverage icon small"></i>
+                <div class="content">
+                  <div class="title hide-for-mobile">Coverage</div>
+                </div>
+              </a>
+            <% end %>
+
+            <%= if @product.product_category == "Dental Plan" do %>
+            <a href="#!" class="step disabled">
+              <i class="file alternate icon icon small"></i>
+              <div class="content">
+                <div class="title hide-for-mobile">Summary</div>
+              </div>
+            </a>
+          <% end %>
+
+          </div>
+        </div>
+<%= render "modal_confirmation.html" %>
+<div class="sixteen wide computer column" id="main_step1_general_dental">
+  <%= form_for @changeset_general, main_product_path(@conn, :update_setup, @product, step: "1"), [class: "form2", id: "dental_edit_form"], fn f -> %>
+    <%= hidden_input f, :product_category, value: @product.product_category %>
+    <%= hidden_input f, :is_draft, value: false %>
+    <%= hidden_input f, :is_new, value: false %>
+    <%= hidden_input f, :add_benefit, value: false %>
+    <%= hidden_input f, :product_base, value: @product.product_base %>
+    <%= hidden_input f, :product_id, value: @product.id %>
+    <input type="hidden" class="hidden-product-code" value="<%= @changeset_general.data.code %>">
+    <%# <%= hidden_input f, :product_benefit_id, value: @product_benefit.id %1> %>
+    <div class="ui form" id="product_edit_dental_plan">
+      <div class="bottom-border pb-2 mb-2" >
+
+        <div class="section-title mt-2">
+          <div class="title-name" >Plan Information</div>
+          <%# <div class="ui header float-right-medium" id="benefit_header_btn"> %>
+          <%#   <button id="btnDiscard" class="ui basic button mt-1-small">Discard</button> %>
+          <%#   <button id="btnDraft" class="ui primary button mt-1-small">Save as Draft</button> %>
+          </div>
+
+        </div>
+
+        <%# <div class="two fields"> %>
+
+        <%#   <div class="field"> %>
+        <%#     <%= label f, :code, "Plan Code (required)", class: "label-title" %1> %>
+        <%#       <%= text_input f, :code, class: "form-control", placeholder: "Add Plan Code", maxlength: "50" %1> %>
+        <%#     <%= error_tag f, :code %1> %>
+        <%#   </div> %>
+        <%# </div> %>
+        <div class="three fields">
+
+          <div class="field">
+            <%= label f, :name, "Plan Name (required)", class: "label-title" %>
+            <%= text_input f, :name, class: "form-control", placeholder: "Add Plan Name", maxlength: "80" %>
+            <%= error_tag f, :name %>
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <%= label f, :description, "Plan Description", class: "label-title" %>
+            <%= text_input f, :description, class: "form-control", placeholder: "Add Plan Category", maxlength: "150" %>
+            <%= error_tag f, :description %>
+          </div>
+        </div>
+
+        <%# <div class="two fields"> %>
+        <%#   <div class="field"> %>
+        <%#     <%= label f, :type, "Plan Type", class: "label-title"  %1> %>
+        <%#     <%= select f, :type, ["Select Plan Type": "", "Platinum": "Platinum", "Gold": "Gold", "Silver": "Silver", "Bronze": "Bronze", "Platinum Plus": "Platinum Plus"], class: "ui fluid dropdown" %1> %>
+        <%#     <%= error_tag f, :type %1> %>
+        <%#   </div> %>
+        <%# </div> %>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="section-title mt-2">
+          <div class="title-name">Setup</div>
+        </div>
+        <div class="field">
+          <label class="label-title">Classification</label>
+          <%= error_tag f, :standard_product %>
+          <div class="field">
+            <div class="ui radio checkbox full-width">
+              <%= radio_button f, :standard_product, "Yes", id: "abl", class: "" %>
+              <label for="abl" class="">Standard</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox full-width">
+              <%= radio_button f, :standard_product, "No", id: "mbl", class: "" %>
+              <label for="mbl">Custom</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <%= label f, :limit_amount, "Dental Plan Limit", class: "label-title" %>
+            <%= text_input f, :limit_amount, class: "form-control", id: "product_limit_amt", max_length: "10" %>
+            <%= error_tag f, :limit_amount %>
+          </div>
+        </div>
+
+        <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+        <div class="section-title mt-2">
+          <div class="title-name">Plan Applicability</div>
+        </div>
+        <div>
+          <div class="two fields">
+            <div class="field">
+              <%= label f, :limit_applicability, "", class: "label-title" %>
+              <%= error_tag f, :limit_applicability%>
+              <div class="two fields mt-1">
+                <div class="field">
+                  <div class="ui checkbox" style="width: 100%">
+                    <input type="checkbox" class="hidden" value="Principal" name="product[limit_applicability][]" id="limit_principal">
+                    <label for="principal" class="">Principal</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui checkbox" style="width: 100%">
+                    <input type="checkbox" class="hidden" value="Dependent" name="product[limit_applicability][]" id="limit_dependent">
+                    <label for="dependent" class="">Dependent</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%= hidden_input f, :limit_applicability_value, id: "limit_applicability_value", value: "#{@product.limit_applicability}", class: "disabled" %>
+
+        <%# <div class="sixteen wide computer column"><div class="ui divider"></div></div> %>
+        <%# <div class="section-title mt-2"> %>
+        <%#   <div class="title-name">Limit Applicability</div> %>
+        <%# </div> %>
+        <%# <div> %>
+        <%#   <div class="field"> %>
+        <%#     <%= hidden_input f, :limit_applicability %1> %>
+        <%#   </div> %>
+
+        <%#   <div class="ui grid"> %>
+        <%#     <div class="two wide column"> %>
+        <%#       <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal"> %>
+        <%#         <%= if @product.limit_applicability == "Principal Only" do %1> %>
+        <%#           <div class="selection-button active_modal" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Principal_Only.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Principal only">Principal Only</div> %>
+        <%#           </div> %>
+        <%#         <%  else %1> %>
+        <%#           <div class="selection-button" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Principal_Only.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Principal Only">Principal Only</div> %>
+        <%#           </div> %>
+        <%#         <% end %1> %>
+        <%#       </a> %>
+        <%#     </div> %>
+
+        <%#     <div class="two wide column"> %>
+        <%#       <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal"> %>
+        <%#         <%= if @product.limit_applicability == "Dependents Only" do %1> %>
+        <%#           <div class="selection-button active_modal" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Dependent_Only.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Dependents Only">Dependents Only</div> %>
+        <%#           </div> %>
+        <%#         <%  else %1> %>
+        <%#           <div class="selection-button" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Dependent_Only.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Dependents Only">Dependents Only</div> %>
+        <%#           </div> %>
+        <%#         <% end %1> %>
+        <%#       </a> %>
+        <%#     </div> %>
+
+        <%#     <div class="two wide column"> %>
+        <%#       <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" > %>
+        <%#         <%= if @product.limit_applicability == "Principal & Dependents" do %1> %>
+        <%#           <div class="selection-button active_modal" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Principal_dependents.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Principal & Dependents">Principal & Dependents</div> %>
+        <%#           </div> %>
+        <%#         <%  else %1> %>
+        <%#           <div class="selection-button" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Principal_dependents.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Principal & Dependents">Principal & Dependents</div> %>
+        <%#           </div> %>
+        <%#         <% end %1> %>
+        <%#       </a> %>
+        <%#     </div> %>
+        <%#   </div> %>
+
+        <%#   <div class="ui grid"> %>
+        <%#     <div class="two wide column"> %>
+        <%#       <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" > %>
+        <%#         <%= if @product.limit_applicability == "Dependents Sharing" do %1> %>
+        <%#           <div class="selection-button active_modal" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Dependent_sharing.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Dependents Sharing">Depdendents Sharing</div> %>
+        <%#           </div> %>
+        <%#         <%  else %1> %>
+        <%#           <div class="selection-button" style="max-height: 241.938px"> %>
+        <%#             <img src="/images/Dependent_sharing.png" class="ui fluid image"> %>
+        <%#             <div class="option" value="Dependents Sharing">Dependents Sharing</div> %>
+        <%#           </div> %>
+        <%#         <% end %1> %>
+        <%#       </a> %>
+        <%#     </div> %>
+
+        <%#   <div class="two wide column"> %>
+        <%#     <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" > %>
+        <%#       <%= if @product.limit_applicability == "Principal shared with Dependents" do %1> %>
+        <%#         <div class="selection-button active_modal" style="max-height: 241.938px"> %>
+        <%#           <img src="/images/Principal_shared_with_dependents.png" class="ui fluid image"> %>
+        <%#           <div class="option" value="Principal shared with Dependents">Principal shared with Dependents</div> %>
+        <%#         </div> %>
+        <%#       <%  else %1> %>
+        <%#         <div class="selection-button" style="max-height: 241.938px"> %>
+        <%#           <img src="/images/Principal_shared_with_dependents.png" class="ui fluid image"> %>
+        <%#           <div class="option" value="Principal shared with Dependents">Principal shared with Dependents</div> %>
+        <%#         </div> %>
+        <%#       <% end %1> %>
+        <%#     </a> %>
+        <%#   </div> %>
+
+        <%#   <div class="two wide column"> %>
+        <%#     <a href="#!" class="ui fluid basic button no-padding toggle_btn_modal" > %>
+        <%#       <%= if @product.limit_applicability == "Principal & Dependents sharing" do %1> %>
+        <%#         <div class="selection-button active_modal" style="max-height: 241.938px"> %>
+        <%#           <img src="/images/Principal_and_dependent_sharing.png" class="ui fluid image"> %>
+        <%#           <div class="option" value="Principal & Dependents sharing">Principal & Dependent sharing</div> %>
+        <%#         </div> %>
+        <%#       <%  else %1> %>
+        <%#         <div class="selection-button" style="max-height: 241.938px"> %>
+        <%#           <img src="/images/Principal_and_dependent_sharing.png" class="ui fluid image"> %>
+        <%#           <div class="option" value="Principal & Dependents sharing">Principal & Dependent sharing</div> %>
+        <%#         </div> %>
+        <%#       <% end %1> %>
+        <%#     </a> %>
+        <%#   </div> %>
+        <%# </div> %>
+
+      <div class="sixteen wide computer column"><div class="ui divider"></div></div>
+      <div class="two fields">
+      <div class="section-title mt-2">
+        <div class="title-name">Benefits</div>
+      </div>
+      <div class="field" style="text-align: right;padding-top: 1.4rem">
+      <a class="ui primary button" id="btn_add_edit_benefit">
+        <i class="white plus icon"></i>
+        Benefits
+      </a>
+      </div>
+      </div>
+
+			<div class="field" id="benefit_field">
+        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+        <input type="hidden" name="product[benefit_ids][]">
+        <input type="hidden" name="product[benefit_limit_datas][]">
+      </div>
+        <div class="ui grid">
+      <table class="full-width ui celled striped table" id="tbl_benefit_dt_table_edit" role="datatable">
+        <thead>
+          <tr>
+            <th width="20%">Code</th>
+            <th width="20%">Name</th>
+            <th width="20%">No. of CDT</th>
+            <th width="20%">Limit Type</th>
+            <th width="20%">Limit Value</th>
+            <th width="20%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for product_benefit <- @product.product_benefits do %>
+            <tr>
+              <td>
+                <span class="<%= product_benefit.benefit.code %>"> <%= product_benefit.benefit.code %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= product_benefit.benefit.name %>">
+                <%= product_benefit.benefit.name %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= count_procedure(product_benefit.benefit.benefit_procedures) %>">
+                <%= count_procedure(product_benefit.benefit.benefit_procedures) %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= get_benefit_limit_type2(product_benefit) %>">
+                <%= get_benefit_limit_type2(product_benefit) %> </span>
+              </td>
+              <td>
+                <span class="<%= product_benefit.benefit.code %><%= get_benefit_limit_amount2(product_benefit) %>">
+                <%= get_benefit_limit_amount2(product_benefit) %> </span>
+              </td>
+              <td class="table-icon--holder">
+                <div class="ui dropdown" tabindex="0">
+                   <i class="ellipsis vertical icon"></i>
+                    <div class="menu transition hidden">
+                   <div class="item clickable-row edit_limit" href="#"
+                      style="color:#00B24F"
+                      benefit_id="<%= product_benefit.benefit_id %>"
+                      code="<%= product_benefit.benefit.code %>"
+                      name="<%= product_benefit.benefit.name %>"
+                      limit_type="<%= get_benefit_limit_type2(product_benefit) %>"
+                      limit_amount="<%= get_benefit_limit_amount2(product_benefit) %>"
+                      >Edit limit
+                      <span class="selected_procedure_id hidden"><%= product_benefit.benefit_id %></span>
+                      <span class="<%= product_benefit.benefit.code %>_ben_rows selected_ben_rows hidden"><%= product_benefit.benefit_id %>|<%= get_benefit_limit_type2(product_benefit) %>|<%= get_benefit_limit_amount2(product_benefit) %></span>
+                    </div>
+                      <div class="item">
+                        <a class="remove_package" product_id="<%= product_benefit.product_id %>" product_benefit_id="<%= product_benefit.id %>"> Remove </a>
+                        <span class="selected_procedure_id hidden"><%= product_benefit.benefit_id %></span>
+                      </div>
+                    </div>
+                </div>
+              </td>
+            </tr>
+    <% end %>
+        </tbody>
+      </table>
+  </div>
+
+        <div class="ui vertical segment mb-2">
+          <div class="text-right">
+            <a class="ui basic button large" href="/web/products" >
+              <i class="caret left icon"></i>Back
+            </a>
+            <button type="button" id="create_dental" class="ui primary button large">
+              Continue
+              <i class="caret right icon white"></i>
+            </button>
+          </div>
+        </div>
+    </div>
+
+      <%= render "modal_benefit_form.html", benefit: @benefit%>
+    <% end %>
+    </div>
+     </div>
+    </div>
+  </div>
+    </div>
+
+<%= render "modal_cancel.html" %>
+<%= render "modal_edit_limit.html" %>
+
+<input type="hidden" id="option">
+<input type="hidden" id="page">
+<input type="hidden" id="option2">
+<input type="hidden" id="page2">

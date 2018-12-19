@@ -1,0 +1,482 @@
+<!-- HEADER -->
+<div class="page-title">
+  <div class="ui clearing segment">
+    <div class="ui container">
+      <h1 class="ui left floated header" style="margin-left: -5%">
+        <h2><td class="data-label">Plan</td></h2>
+        <%# <%= @product.name %1> %>
+        <div class="clearfix"></div>
+        <div class="ui breadcrumb">
+          <a href="/web/products/">Plan</a>
+          <i class="right angle icon divider"></i>
+          <div class="active section dim thin"><%= @product.name %>
+          </div>
+        </div>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<!-- GENERAL INFORMATION -->
+<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+<div class="ui container" id="new_product_show">
+  <div class="content-section white-bg">
+    <div class="ui grid">
+
+      <div class="one wide computer column"></div>
+      <h2> <td class="data-label"><%= @product.code %></td></h2> <h2><td class="data-label"> <%= @product.name %></td></h2>
+      <div class="row">
+        <div class="one wide computer column"></div>
+        <div class="five wide computer eight wide tablet sixteen wide mobile column">
+          <table class="full-width" style="table-layout: fixed;" >
+            <tbody>
+              <tr>
+                <td style="width:180px;margin-right:0px;padding-bottom:20px;color:#9B9B9B">Plan Classification</td>
+                <td><%= if @product.standard_product == "Yes", do: "Standard Plan", else: "Custom Plan" %></td>
+              </tr>
+              <tr>
+                <td style="width:180px;margin-right:0px;padding-bottom:20px;color:#9B9B9B">Dental Plan Limit</td>
+                <%= if not is_nil(@product.limit_amount) do %>
+                  <td>
+                    <span>
+                      PHP
+                      <span class="limit_amount"><%= @product.limit_amount %></span>
+                    </span>
+                  </td>
+                <% end %>
+                <%# <td><%= @product.limit_amount %1></td> %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="five wide computer eight wide tablet sixteen wide mobile column">
+          <table class="full-width" style="table-layout: fixed;" >
+            <tbody>
+              <tr>
+                <td style="width:160px;margin-right:0px;padding-bottom:20px;color:#9B9B9B">Plan Description</td>
+                <%# <td class="data-label">Plan Description</td> %>
+                <td><%= @product.description %></td>
+              </tr>
+              <tr>
+                <%# <td class="data-label">PLan Applicability</td> %>
+                <td style="width:160px;margin-right:0px;padding-bottom:20px;color:#9B9B9B">Plan Applicability</td>
+                <td><%= get_plan_applicability(@product.limit_applicability) %></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="five wide computer column" style="text-align: right; font-size: 2rem; padding-top: 1rem;">
+        <div class="ui dropdown">
+            <i class="ellipsis vertical icon"></i>
+            <div class="menu">
+              <%= if Enum.count(@product.account_products) < 1 do %>
+              <div class="item clickable-row" href="/web/products/<%= @product.id %>/edit?tab=general">
+                <i class="edit icon"></i>
+                Edit
+              </div>
+              <%= if @product.product_category == "Dental Plan" do %>
+                <div class="item" id="delete_dental"  productID="<%= @product.id %>">
+                  <i class="delete icon"></i>
+                  Delete
+                </div>
+              <% end %>
+            <% end %>
+
+            <%= if is_nil(@product.name) and is_nil(@product.description) do %>
+            <% else %>
+            <div class="item clickable-row" data-csrf="<%= Plug.CSRFProtection.get_csrf_token() %>" data-method="post" data-to="<%= main_product_path(@conn, :copy_product, @product) %>" role="new_product_logs" >
+              <i class="print icon"></i>
+              Copy
+            </div>
+          <% end %>
+
+            <div class="item" id="logs">
+              <i class="bar chart icon"></i>
+              Logs
+            </div>
+            <div class="item clickable-row" href="#" onclick="window.open('/products/<%= @product.id %>/print_summary')" >
+              <i class="print icon"></i>
+              Print
+            </div>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<%= if @product.product_category == "Regular Plan" do %>
+  <div class="ui top attached tabular menu">
+    <a class="item active" data-tab="benefit">Benefit</a>
+    <a class="item" data-tab="condition">Condition</a>
+    <a class="item" data-tab="coverage_tab">Coverage</a>
+  </div>
+<% else %>
+  <%= if @product.product_category == "Dental Plan" do %>
+    <div class="ui top attached tabular menu">
+      <a class="item active" data-tab="benefit" style="color: #00B24F">Benefit</a>
+      <a class="item" data-tab="facility_access" style="color: #00B24F">Facility</a>
+      <%= if !check_dental_risk_share_v1(@product) or !check_dental_risk_share_v2(@product) do %>
+        <a class="item" data-tab="risk_share" style="color: #00B24F">Risk Share</a>
+      <% end %>
+      <a class="item" data-tab="condition" style="color: #00B24F">Condition</a>
+    </div>
+  <% else %>
+    <div class="ui top attached tabular menu">
+      <a class="item active" data-tab="benefit">Benefit</a>
+      <%# <a class="item" data-tab="facility_access">Facility Access</a> %>
+      <a class="item" data-tab="condition">Condition</a>
+      <%# <a class="item" data-tab="risk_share">Risk Share</a> %>
+    </div>
+  <% end %>
+<% end %>
+
+<!-- FACILITY ACCESS TAB -->
+<div class="ui bottom attached tab segment" data-tab="facility_access">
+  <%= if Enum.empty?(List.first(@product.product_coverages).product_coverage_facilities) do %>
+    <div class="ui grid">
+      <div class="eleven wide computer three wide tablet column">
+        <span>
+          <strong style="margin-right:145px">Type</strong>
+          <%= case List.first(@product.product_coverages).type  do %>
+            <% "inclusion" -> %>
+              <%= "Specific Dental Facilities" %>
+            <% "exception" -> %>
+              <%= "Specific Dental Group" %>
+            <% _ -> %>
+              <%= "Plan Coverage Type is null" %>
+          <% end %>
+        </span>
+      </div>
+    </div>
+    <%= if List.first(@product.product_coverages).type == "exception" do %>
+      <div class="ui grid">
+        <div class="eleven wide computer three wide tablet column">
+          <span>
+            <strong style="margin-right:50px">Dental Group Name</strong>
+            <%= get_dental_location_group(List.first(@product.product_coverages), nil) %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <table class="full-width ui celled striped table" id="product_dental_facility_index">
+      <thead>
+        <div class="ui grid">
+          <%= for product_coverage <- Enum.sort(@product.product_coverages) do %>
+            <div class="twelve wide column twelve tablet column">
+              <h3><%= get_product_coverage_type(product_coverage.type) %></h3>
+            </div>
+          <% end %>
+        </div>
+        <br>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Address</th>
+          <%= if Enum.at(@product.product_coverages, 0).type == "exception" do %>
+            <th>Location Group</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  <% end %>
+  </div>
+
+  <!-- RISK SHARE TAB -->
+  <div class="ui bottom attached tab segment" data-tab="risk_share">
+    <div class="sixteen wide computer tablet column"></div>
+    <%= if !check_dental_risk_share_v1(@product) do %>
+      <div class="sixteen wide computer tablet column dental-risk-share-facility-div">
+        <div class="ui grid">
+          <div class="sixteen wide computer tablet column">
+            <h3>Risk Share for all selected facilities</h3>
+          </div>
+          <div class="sixteen wide computer tablet column dental-risk-share" drsType="<%= get_dental_risk_share_type(Enum.at(@product.product_coverages, 0).product_coverage_dental_risk_share) %>">
+            <div class="ui grid">
+              <div class="two wide computer tablet column"></div>
+              <div class="ten wide computer tablet column">
+                <span>
+                  <strong style="padding-right:20px">Risk Share Type: </strong>
+                  <%= get_dental_risk_share_type(Enum.at(@product.product_coverages, 0).product_coverage_dental_risk_share) %>
+                </span>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class="two wide computer tablet column"></div>
+              <div class="ten wide computer tablet column">
+                <span>
+                  <strong style="padding-right:14px">Risk Share Value:</strong>
+                  <span role="mask-decimal"><%= get_dental_risk_share_value(Enum.at(@product.product_coverages, 0).product_coverage_dental_risk_share) %>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class="two wide computer tablet column"></div>
+              <div class="ten wide computer tablet column">
+                <span>
+                  <strong style="padding-right:14px">Special Handling:</strong>
+                  <%= get_dental_risk_share_sh(Enum.at(@product.product_coverages, 0).product_coverage_dental_risk_share) %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="ui dividing header"></div>
+
+    <%= if !check_dental_risk_share_v2(@product) do %>
+      <div class="ui grid">
+        <%= for product_coverage <- Enum.sort(@product.product_coverages) do %>
+          <div class="sixteen wide computer eight wide tablet column facility-coverage">
+            <div class="ui grid">
+              <div class="twelve wide column twelve tablet column">
+                <h3>Risk Share for specific facilities</h3>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <br><br>
+      <table class="full-width ui celled striped table" id="product_dental_risk_share_index">
+        <thead>
+            <th>Facility Code</th>
+            <th>Facility Name</th>
+            <th>Risk Share Type</th>
+            <th>Risk Share Amount</th>
+            <th>Special Handling</th>
+          </tr>
+        </thead>
+      </table>
+    <% end %>
+  </div>
+
+<!-- BENEFIT TAB -->
+<div class="ui bottom attached tab segment active" data-tab="benefit">
+  <table class="full-width ui celled striped table" id="product_dental_benefit_index">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>No. of CDT</th>
+        <th>Limit Type</th>
+        <th>Limit Value</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+<!-- CONDITION TAB -->
+<div class="ui bottom attached tab segment" data-tab="condition">
+  <div class="sixteen wide computer eight wide tablet column">
+    <div class="row">
+      <div class="ui grid">
+        <div class="one wide computer column">
+        </div>
+        <div class="fifteen wide computer tablet column">
+          <h5 class="ui dividing header">AUTHORIZATION</h5>
+          <br>
+        </div>
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="one wide computer column">
+      </div>
+      <div class="fifteen wide computer wide tablet column">
+        <div class="ui grid">
+          <div class="ten wide computer six wide tablet column">
+            <span>
+              <strong style="padding-right:44px">Mode of Payment</strong>
+              <%= get_mode_of_payment(@product) %>
+            </span>
+          </div>
+        </div>
+        <%= if @product.mode_of_payment == "capitation" do %>
+          <div class="ui grid">
+            <div class="ten wide computer six wide tablet column">
+              <span>
+                <strong style="padding-right:64px">Capitation Fee</strong>
+                PHP <span class="capitationFee"><%= @product.capitation_fee %></span>
+              </span>
+            </div>
+          </div>
+        <% end %>
+          <div class="ui grid">
+            <div class="ten wide computer six wide tablet column">
+              <span>
+                <strong style="padding-right:76px"> LOA Validity</strong>
+                <%= get_loa_validity(@product) %>
+              </span>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="ten wide computer six wide tablet column">
+              <span>
+                <strong style="padding-right:52px">Special Handling</strong>
+                <%= @product.special_handling_type %>
+              </span>
+            </div>
+          </div>
+      </div>
+    </div>
+  <!-- Start of payment funding arrangement -->
+  <div class="row">
+    <div class="ui grid">
+      <div class="one wide computer column">
+      </div>
+      <div class="fifteen wide computer wide tablet column">
+        <br><h5 class="ui dividing header">PAYMENT</h5><br>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="one wide computer column">
+    </div>
+    <div class="fifteen wide computer wide tablet column">
+      <div class="ui grid">
+        <div class="ten wide computer six wide tablet column">
+          <span>
+            <strong style="padding-right:20px">Funding Arrangement</strong>
+            <%= @product.dental_funding_arrangement %>
+          </span>
+        </div>
+      </div>
+      <div class="ui grid">
+        <div class="ten wide computer six wide tablet column">
+          <span>
+          <strong style="padding-right:52px">Type of Payment</strong>
+          <%= @product.type_of_payment_type %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End of Condition -->
+
+        <div class="ui bottom attached tab segment" data-tab="coverage_tab">
+          <div class="ui top attached tabular menu">
+            <%= for {product_coverage, index} <- Enum.with_index(Enum.sort_by(@product.product_coverages, &(&1.coverage.name)), 1) do %>
+              <div class="item <%= if index == 1, do: 'active' %>" data-tab="<%= product_coverage.coverage.id %>">
+                <%= product_coverage.coverage.name %>
+              </div>
+            <% end %>
+          </div>
+          <%= for {product_coverage, index} <- Enum.with_index(Enum.sort_by(@product.product_coverages, &(&1.coverage.name)), 1) do %>
+            <div class="ui bottom attached tab <%= if index == 1, do: 'active' %> segment" data-tab="<%= product_coverage.coverage.id %>">
+              <div class="ui form">
+                <div class="bottom-border pb-2 mb-2">
+                  <div class="section-title mt-2">
+                    <div class="title-name">Facilities</div>
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <strong>Facility Type:</strong>
+                      <br>
+                      <span><%= if product_coverage.type == "exception", do: "All Affiliated Facility", else: "Specific Facility" %></span>
+                    </div>
+                  </div>
+                  <br>
+                  <br>
+                  <table role="datatable" class="full-width ui celled striped table">
+                    <thead>
+                      <tr>
+                        <th>Facility Code</th>
+                        <th>Facility Name</th>
+                        <th>Address</th>
+                        <th>Facility Type</th>
+                        <th>Category</th>
+                        <th>Region</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%= for pcf <- product_coverage.product_coverage_facilities do %>
+                        <tr>
+                          <td>
+                            <a href="/facilities/<%= pcf.facility.id %>?active=profile" ><%= pcf.facility.code %> </a></td>
+                          <td><%= pcf.facility.name %></td>
+                          <td>
+                              <%= case pcf.facility.type == nil do %>
+                                <%= true -> %>
+                                  <%= "" %>
+                                <% false -> %>
+                                  <%= pcf.facility.type.text %>
+                              <% end %>
+                          </td>
+                          <td></td>
+                          <td>
+                              <%= case pcf.facility.category == nil do %>
+                                <%= true -> %>
+                                  <%= %>
+                                <% false -> %>
+                                  <%= pcf.facility.category.text %>
+                              <% end %>
+                          </td>
+                          <td><%= pcf.facility.region %></td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="bottom-border pb-2 mb-2">
+                    <div class="section-title mt-2">
+                      <div class="title-name">Funding Arrangement</div>
+                    </div>
+                    <div class="two fields">
+                      <div class="field">
+                        <strong>Funding arrangement:</strong>
+                        <br>
+                        <span><%= product_coverage.funding_arrangement %></span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="logsModal">
+  <i class="close icon"></i>
+  <div class="header">
+    Logs
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="column">
+        <%= if @product.logs == [] do %>
+          <p>NO LOGS FOUND</p>
+        <% else %>
+          <div class="ui feed timeline">
+            <%= for log <- Enum.reverse(@product.logs) do %>
+              <div class="event">
+                <div class="label">
+                  <i class="blue circle icon"></i>
+                </div>
+                <div class="content">
+                  <div class="summary">
+                    <p class="log-date"><%= log.inserted_at %></p>
+                  </div>
+                  <div class="extra text">
+                    <%= log.message %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render "product_delete_confirmation.html" , products: @product%>
+<input type="hidden" value="<%= @product.id %>" id="product_id">
